@@ -379,7 +379,7 @@ static int help_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return help_action(gui_token(active), gui_value(active));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return help_action(HELP_BACK, 0);
     }
     return 1;
@@ -417,7 +417,7 @@ static int help_demo_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_help);
     }
     return 1;

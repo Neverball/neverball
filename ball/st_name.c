@@ -198,7 +198,7 @@ static int name_buttn(int b, int d)
                                      gui_keyboard_char(val) :
                                      val));
         }
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             name_action(NAME_CANCEL, 0);
     }
     return 1;

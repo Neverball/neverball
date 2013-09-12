@@ -69,7 +69,7 @@ static int over_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
-            config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+            config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_exit);
     }
     return 1;

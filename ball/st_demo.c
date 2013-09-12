@@ -384,7 +384,7 @@ static int demo_buttn(int b, int d)
                 return demo_action(GUI_BACK, 0);
         }
 
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return demo_action(GUI_BACK, 0);
     }
     return 1;
@@ -539,7 +539,7 @@ static int demo_play_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
         {
             if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
                 demo_paused = 1;
@@ -658,7 +658,7 @@ static int demo_end_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_end_action(gui_token(active), gui_value(active));
 
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
         {
             if (demo_paused)
                 return demo_end_action(DEMO_CONTINUE, 0);
@@ -714,7 +714,7 @@ static int demo_del_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return demo_del_action(gui_token(active), gui_value(active));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return demo_del_action(DEMO_KEEP, 0);
     }
     return 1;
@@ -760,7 +760,7 @@ static int demo_compat_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_demo_play);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_demo_end);
     }
     return 1;

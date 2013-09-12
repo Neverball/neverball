@@ -149,7 +149,10 @@ static int loop(void)
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                 break;
             case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+                if (video_get_grab())
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 1);
+                else
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
                 break;
 
             default:
@@ -176,7 +179,10 @@ static int loop(void)
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
                 break;
             case SDLK_ESCAPE:
-                d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
+                if (video_get_grab())
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 0);
+                else
+                    d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 0);
                 break;
 
             default:

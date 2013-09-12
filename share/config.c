@@ -62,20 +62,21 @@ int CONFIG_JOYSTICK_AXIS_U;
 int CONFIG_JOYSTICK_AXIS_X_INVERT;
 int CONFIG_JOYSTICK_AXIS_Y_INVERT;
 int CONFIG_JOYSTICK_AXIS_U_INVERT;
+
 int CONFIG_JOYSTICK_BUTTON_A;
 int CONFIG_JOYSTICK_BUTTON_B;
-int CONFIG_JOYSTICK_BUTTON_R;
-int CONFIG_JOYSTICK_BUTTON_L;
-int CONFIG_JOYSTICK_BUTTON_EXIT;
-int CONFIG_JOYSTICK_CAMERA_1;
-int CONFIG_JOYSTICK_CAMERA_2;
-int CONFIG_JOYSTICK_CAMERA_3;
+int CONFIG_JOYSTICK_BUTTON_X;
+int CONFIG_JOYSTICK_BUTTON_Y;
+int CONFIG_JOYSTICK_BUTTON_L1;
+int CONFIG_JOYSTICK_BUTTON_R1;
+int CONFIG_JOYSTICK_BUTTON_L2;
+int CONFIG_JOYSTICK_BUTTON_R2;
+int CONFIG_JOYSTICK_BUTTON_START;
 int CONFIG_JOYSTICK_DPAD_L;
 int CONFIG_JOYSTICK_DPAD_R;
 int CONFIG_JOYSTICK_DPAD_U;
 int CONFIG_JOYSTICK_DPAD_D;
-int CONFIG_JOYSTICK_CAMERA_TOGGLE;
-int CONFIG_JOYSTICK_ROTATE_FAST;
+
 int CONFIG_KEY_CAMERA_1;
 int CONFIG_KEY_CAMERA_2;
 int CONFIG_KEY_CAMERA_3;
@@ -160,20 +161,20 @@ static struct
     { &CONFIG_JOYSTICK_AXIS_X_INVERT, "joystick_axis_x_invert", 0 },
     { &CONFIG_JOYSTICK_AXIS_Y_INVERT, "joystick_axis_y_invert", 0 },
     { &CONFIG_JOYSTICK_AXIS_U_INVERT, "joystick_axis_u_invert", 0 },
+
     { &CONFIG_JOYSTICK_BUTTON_A,      "joystick_button_a",      0 },
     { &CONFIG_JOYSTICK_BUTTON_B,      "joystick_button_b",      1 },
-    { &CONFIG_JOYSTICK_BUTTON_R,      "joystick_button_r",      2 },
-    { &CONFIG_JOYSTICK_BUTTON_L,      "joystick_button_l",      3 },
-    { &CONFIG_JOYSTICK_BUTTON_EXIT,   "joystick_button_exit",   4 },
-    { &CONFIG_JOYSTICK_CAMERA_1,      "joystick_camera_1",      5 },
-    { &CONFIG_JOYSTICK_CAMERA_2,      "joystick_camera_2",      6 },
-    { &CONFIG_JOYSTICK_CAMERA_3,      "joystick_camera_3",      7 },
-    { &CONFIG_JOYSTICK_DPAD_L,        "joystick_dpad_l",        8 },
-    { &CONFIG_JOYSTICK_DPAD_R,        "joystick_dpad_r",        9 },
-    { &CONFIG_JOYSTICK_DPAD_U,        "joystick_dpad_u",        10 },
-    { &CONFIG_JOYSTICK_DPAD_D,        "joystick_dpad_d",        11 },
-    { &CONFIG_JOYSTICK_CAMERA_TOGGLE, "joystick_camera_toggle", 12 },
-    { &CONFIG_JOYSTICK_ROTATE_FAST,   "joystick_rotate_fast",   13 },
+    { &CONFIG_JOYSTICK_BUTTON_X,      "joystick_button_x",      2 },
+    { &CONFIG_JOYSTICK_BUTTON_Y,      "joystick_button_y",      3 },
+    { &CONFIG_JOYSTICK_BUTTON_L1,     "joystick_button_l1",     4 },
+    { &CONFIG_JOYSTICK_BUTTON_R1,     "joystick_button_r1",     5 },
+    { &CONFIG_JOYSTICK_BUTTON_L2,     "joystick_button_l2",     6 },
+    { &CONFIG_JOYSTICK_BUTTON_R2,     "joystick_button_r2",     7 },
+    { &CONFIG_JOYSTICK_BUTTON_START,  "joystick_button_start",  8 },
+    { &CONFIG_JOYSTICK_DPAD_L,        "joystick_dpad_l",       -1 },
+    { &CONFIG_JOYSTICK_DPAD_R,        "joystick_dpad_r",       -1 },
+    { &CONFIG_JOYSTICK_DPAD_U,        "joystick_dpad_u",       -1 },
+    { &CONFIG_JOYSTICK_DPAD_D,        "joystick_dpad_d",       -1 },
 
     { &CONFIG_KEY_CAMERA_1,      "key_camera_1",      SDLK_1 },
     { &CONFIG_KEY_CAMERA_2,      "key_camera_2",      SDLK_2 },

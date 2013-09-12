@@ -68,6 +68,16 @@ static void toggle_camera(void)
     set_camera(cam);
 }
 
+static void next_camera(void)
+{
+    int cam = config_get_d(CONFIG_CAMERA) + 1;
+
+    if (cam <= CAM_NONE || cam >= CAM_MAX)
+        cam = CAM_1;
+
+    set_camera(cam);
+}
+
 static void keybd_camera(int c)
 {
     if (config_tst_d(CONFIG_KEY_CAMERA_1, c))
@@ -96,15 +106,8 @@ static void click_camera(int b)
 
 static void buttn_camera(int b)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_CAMERA_1, b))
-        set_camera(CAM_1);
-    if (config_tst_d(CONFIG_JOYSTICK_CAMERA_2, b))
-        set_camera(CAM_2);
-    if (config_tst_d(CONFIG_JOYSTICK_CAMERA_3, b))
-        set_camera(CAM_3);
-
-    if (config_tst_d(CONFIG_JOYSTICK_CAMERA_TOGGLE, b))
-        toggle_camera();
+    if (config_tst_d(CONFIG_JOYSTICK_BUTTON_X, b))
+        next_camera();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -185,7 +188,7 @@ static int play_ready_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
             return pause_or_exit();
     }
     return 1;
@@ -266,7 +269,7 @@ static int play_set_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
             return pause_or_exit();
     }
     return 1;
@@ -477,25 +480,25 @@ static int play_loop_buttn(int b, int d)
 {
     if (d == 1)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
             pause_or_exit();
 
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
             VIEWR_SET_R(+1);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b))
             VIEWR_SET_L(-1);
-        if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L2, b))
             fast_rotate = 1;
 
         buttn_camera(b);
     }
     else
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
             VIEWR_SET_R(0);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b))
             VIEWR_SET_L(0);
-        if (config_tst_d(CONFIG_JOYSTICK_ROTATE_FAST, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L2, b))
             fast_rotate = 0;
     }
     return 1;
@@ -546,7 +549,7 @@ static int look_keybd(int c, int d)
 
 static int look_buttn(int b, int d)
 {
-    if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+    if (d && (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b)))
         return goto_state(&st_play_loop);
 
     return 1;

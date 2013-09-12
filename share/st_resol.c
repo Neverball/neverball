@@ -198,8 +198,6 @@ static int resol_buttn(int b, int d)
             return resol_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return resol_action(RESOL_BACK, 0);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return resol_action(RESOL_BACK, 0);
     }
     return 1;
 }

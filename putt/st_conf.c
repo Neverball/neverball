@@ -297,8 +297,6 @@ static int conf_buttn(int b, int d)
             return conf_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_title);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
-            return goto_state(&st_title);
     }
     return 1;
 }

@@ -126,7 +126,11 @@ static int handle_key_dn(SDL_Event *e)
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
         break;
     case SDLK_ESCAPE:
-        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 1);
+        /* FIXME This is weird, should handle as a key press instead.  */
+        if (video_get_grab())
+            d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 1);
+        else
+            d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
         break;
 
     default:
@@ -159,7 +163,10 @@ static int handle_key_up(SDL_Event *e)
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
         break;
     case SDLK_ESCAPE:
-        d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT), 0);
+        if (video_get_grab())
+            d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 0);
+        else
+            d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 0);
         break;
 
     default:

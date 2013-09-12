@@ -125,7 +125,7 @@ static int level_buttn(int b, int d)
         {
             return goto_state(&st_play_ready);
         }
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
         {
             progress_stop();
             return goto_state(&st_exit);
@@ -143,7 +143,7 @@ static void poser_paint(int id, float t)
 
 static int poser_buttn(int c, int d)
 {
-    if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, c))
+    if (d && config_tst_d(CONFIG_JOYSTICK_BUTTON_B, c))
         return goto_state(&st_level);
 
     return 1;
@@ -188,7 +188,7 @@ static int nodemo_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_level);
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_EXIT, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return goto_state(&st_level);
     }
     return 1;
