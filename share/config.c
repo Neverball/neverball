@@ -40,6 +40,7 @@ int CONFIG_BACKGROUND;
 int CONFIG_SHADOW;
 int CONFIG_AUDIO_BUFF;
 int CONFIG_MOUSE_SENSE;
+int CONFIG_MOUSE_RESPONSE;
 int CONFIG_MOUSE_INVERT;
 int CONFIG_VSYNC;
 int CONFIG_MOUSE_CAMERA_1;
@@ -54,6 +55,7 @@ int CONFIG_SOUND_VOLUME;
 int CONFIG_MUSIC_VOLUME;
 int CONFIG_JOYSTICK;
 int CONFIG_JOYSTICK_DEVICE;
+int CONFIG_JOYSTICK_RESPONSE;
 int CONFIG_JOYSTICK_AXIS_X;
 int CONFIG_JOYSTICK_AXIS_Y;
 int CONFIG_JOYSTICK_AXIS_U;
@@ -133,6 +135,7 @@ static struct
     { &CONFIG_SHADOW,       "shadow",       1 },
     { &CONFIG_AUDIO_BUFF,   "audio_buff",   AUDIO_BUFF_HI },
     { &CONFIG_MOUSE_SENSE,  "mouse_sense",  300 },
+    { &CONFIG_MOUSE_RESPONSE, "mouse_response", 50 },
     { &CONFIG_MOUSE_INVERT, "mouse_invert", 0 },
     { &CONFIG_VSYNC,        "vsync",        1 },
 
@@ -150,6 +153,7 @@ static struct
 
     { &CONFIG_JOYSTICK,               "joystick",               1 },
     { &CONFIG_JOYSTICK_DEVICE,        "joystick_device",        0 },
+    { &CONFIG_JOYSTICK_RESPONSE,      "joystick_response",      250 },
     { &CONFIG_JOYSTICK_AXIS_X,        "joystick_axis_x",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y,        "joystick_axis_y",        1 },
     { &CONFIG_JOYSTICK_AXIS_U,        "joystick_axis_u",        2 },

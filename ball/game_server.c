@@ -71,6 +71,7 @@ static float jump_p[3];                 /* Jump destination                  */
 
 struct input
 {
+    float s;
     float x;
     float z;
     float r;
@@ -81,10 +82,16 @@ static struct input input_current;
 
 static void input_init(void)
 {
+    input_current.s = RESPONSE;
     input_current.x = 0;
     input_current.z = 0;
     input_current.r = 0;
     input_current.c = 0;
+}
+
+static void input_set_s(float s)
+{
+    input_current.s = s;
 }
 
 static void input_set_x(float x)
@@ -114,6 +121,11 @@ static void input_set_r(float r)
 static void input_set_c(int c)
 {
     input_current.c = c;
+}
+
+static float input_get_s(void)
+{
+    return input_current.s;
 }
 
 static float input_get_x(void)
@@ -755,8 +767,8 @@ static int game_step(const float g[3], float dt, int bt)
 
         /* Smooth jittery or discontinuous input. */
 
-        tilt.rx += (input_get_x() - tilt.rx) * dt / RESPONSE;
-        tilt.rz += (input_get_z() - tilt.rz) * dt / RESPONSE;
+        tilt.rx += (input_get_x() - tilt.rx) * dt / input_get_s();
+        tilt.rz += (input_get_z() - tilt.rz) * dt / input_get_s();
 
         game_tilt_axes(&tilt, view.e);
 
@@ -870,11 +882,15 @@ void game_set_goal(void)
 void game_set_x(float k)
 {
     input_set_x(-ANGLE_BOUND * k);
+
+    input_set_s(config_get_d(CONFIG_JOYSTICK_RESPONSE) * 0.001f);
 }
 
 void game_set_z(float k)
 {
     input_set_z(+ANGLE_BOUND * k);
+
+    input_set_s(config_get_d(CONFIG_JOYSTICK_RESPONSE) * 0.001f);
 }
 
 void game_set_ang(float x, float z)
@@ -889,6 +905,8 @@ void game_set_pos(int x, int y)
 
     input_set_x(input_get_x() + range * y / config_get_d(CONFIG_MOUSE_SENSE));
     input_set_z(input_get_z() + range * x / config_get_d(CONFIG_MOUSE_SENSE));
+
+    input_set_s(config_get_d(CONFIG_MOUSE_RESPONSE) * 0.001f);
 }
 
 void game_set_cam(int c)
