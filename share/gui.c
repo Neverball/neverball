@@ -98,7 +98,8 @@ struct widget
 
 static struct widget widget[WIDGET_MAX];
 static int           active;
-static int           sticky;
+static int           hovered;
+static int           clicked;
 static int           padding;
 static int           borders[4];
 static TTF_Font     *font[3] = { NULL, NULL, NULL };
@@ -1861,6 +1862,10 @@ int gui_point(int id, int x, int y)
     if (jd == 0)
         jd = gui_search(id, x, y);
 
+    /* Note hovered widget. */
+
+    hovered = jd;
+
     /* If the active widget has changed, return the new active id. */
 
     if (jd == 0 || jd == active)
@@ -2148,13 +2153,13 @@ int gui_click(int b, int d)
     {
         if (d)
         {
-            sticky = active;
+            clicked = hovered;
             return 0;
         }
         else
         {
-            int c = (sticky && sticky == active);
-            sticky = 0;
+            int c = (clicked && clicked == hovered);
+            clicked = 0;
             return c;
         }
     }
