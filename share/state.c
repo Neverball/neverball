@@ -17,6 +17,64 @@
 #include "config.h"
 #include "video.h"
 #include "common.h"
+#include "vec3.h"
+
+/*---------------------------------------------------------------------------*/
+
+#define STICK_MAX 32
+#define STICK_HOLD_TIME 0.5f
+#define STICK_REPEAT_TIME 0.2f
+
+struct stick_cache
+{
+    int a;                              /* Axis index */
+    float v;                            /* Axis value */
+    float t;                            /* Repeat time */
+};
+
+static struct stick_cache stick_cache[STICK_MAX];
+static int                stick_count;
+
+static void cache_stick(int a, float v, float t)
+{
+    int i;
+
+    /* Cache new values. */
+
+    for (i = 0; i < stick_count; i++)
+    {
+        struct stick_cache *sc = &stick_cache[i];
+
+        if (sc->a == a)
+        {
+            sc->v = v;
+
+            if (fabsf(v) >= 0.5f && sc->t == 0.0f)
+                sc->t = t;
+            else if (fabsf(v) < 0.5f)
+                sc->t = 0.0f;
+
+            return;
+        }
+    }
+
+    /* Cache new axis. */
+
+    if (stick_count < STICK_MAX)
+    {
+        struct stick_cache *sc = &stick_cache[stick_count];
+
+        sc->a = a;
+        sc->v = v;
+
+        if (fabsf(v) >= 0.5f)
+            sc->t = t;
+        else if (fabsf(v) < 0.5f)
+            sc->t = 0.0f;
+
+        stick_count++;
+    }
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,6 +107,9 @@ int goto_state(struct state *st)
     state       = st;
     state_time  = 0;
     state_drawn = 0;
+
+    memset(&stick_cache, 0, sizeof (stick_cache));
+    stick_count = 0;
 
     if (state && state->enter)
         state->gui_id = state->enter(state, prev);
@@ -87,6 +148,8 @@ void st_paint(float t)
 
 void st_timer(float dt)
 {
+    int i;
+
     if (!state_drawn)
         return;
 
@@ -94,6 +157,17 @@ void st_timer(float dt)
 
     if (state && state->timer)
         state->timer(state->gui_id, dt);
+
+    for (i = 0; i < stick_count; i++)
+    {
+        struct stick_cache *sc = &stick_cache[i];
+
+        if (sc->t > 0.0f && state_time >= sc->t)
+        {
+            state->stick(state->gui_id, sc->a, sc->v, 1);
+            sc->t = state_time + STICK_REPEAT_TIME;
+        }
+    }
 }
 
 void st_point(int x, int y, int dx, int dy)
@@ -137,7 +211,11 @@ void st_stick(int a, float v)
         }
 
     if (state && state->stick)
+    {
+        cache_stick(a, v, state_time + STICK_HOLD_TIME);
+
         state->stick(state->gui_id, a, v, bump);
+    }
 }
 
 void st_angle(float x, float z)
