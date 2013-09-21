@@ -66,7 +66,7 @@ static void cache_stick(int a, float v, float t)
         struct stick_cache *sc = &stick_cache[stick_count];
 
         sc->a = a;
-        sc->p = v;
+        sc->p = 0.0f;
         sc->v = v;
 
         if (fabsf(v) >= 0.5f)
