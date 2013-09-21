@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "config.h"
 #include "video.h"
@@ -1920,26 +1921,73 @@ static int gui_horz_offset(int id, int jd)
     return  widget[id].x - (widget[jd].x + widget[jd].w);
 }
 
-static int gui_vert_dist(int id, int jd)
+static int gui_vert_overlap(int id, int jd)
 {
-    /* Vertical distance between the tops of id and jd */
+    /* Extent of vertical intersection of id and jd. */
 
-    return abs((widget[id].y + widget[id].h) - (widget[jd].y + widget[jd].h));
+    const int a0 = widget[id].y;
+    const int a1 = widget[id].y + widget[id].h;
+    const int aw = widget[id].h;
+    const int b0 = widget[jd].y;
+    const int b1 = widget[jd].y + widget[jd].h;
+    /* const int bw = widget[jd].h; */
+
+    return aw + MIN(b1 - a1, 0) - MAX(b0 - a0, 0);
 }
 
-static int gui_horz_dist(int id, int jd)
+static int gui_horz_overlap(int id, int jd)
 {
-    /* Horizontal distance between the left sides of id and jd */
+    /* Extent of horizontal intersection of id and jd. */
 
-    return abs(widget[id].x - widget[jd].x);
+    const int a0 = widget[id].x;
+    const int a1 = widget[id].x + widget[id].w;
+    const int aw = widget[id].w;
+    const int b0 = widget[jd].x;
+    const int b1 = widget[jd].x + widget[jd].w;
+    /* const int bw = widget[jd].w; */
+
+    return aw + MIN(b1 - a1, 0) - MAX(b0 - a0, 0);
 }
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Widget navigation heuristics.
+ *
+ * People generally read left-to-right and top-to-bottom, and have
+ * expectations on how navigation should behave. Thus, we hand-craft a
+ * bunch of rules rather than devise a generic algorithm.
+ *
+ * Horizontal navigation only picks overlapping widgets. Closer is
+ * better. Out of multiple closest widgets pick the topmost widget.
+ *
+ * Vertical navigation picks both overlapping and non-overlapping
+ * widgets. Closer is better. Out of multiple closest widgets: if
+ * overlapping, pick the leftmost widget; if not overlapping, pick the
+ * one with the least negative overlap.
+ */
+
+/*
+ * Leftmost/topmost is decided by the operator used to test
+ * distance. A less-than will pick the first of a group of
+ * equal-distance widgets, while a less-or-equal will pick the last
+ * one.
+ */
+
+/* FIXME This isn't how you factor out reusable code. */
+
+#define CHECK_HORIZONTAL \
+    (o > 0 && (omin > 0 ? d <= dmin : 1))
+
+#define CHECK_VERTICAL                                                  \
+    (omin > 0 ?                                                         \
+     d < dmin :                                                         \
+     (o > 0 ? d <= dmin : (d < dmin || (d == dmin && o > omin))))
+
 static int gui_stick_L(int id, int dd)
 {
     int jd, kd, hd;
-    int o, omin, d, dmin;
+    int d, dmin, o, omin;
 
     /* Find the closest "hot" widget to the left of dd (and inside id) */
 
@@ -1947,8 +1995,8 @@ static int gui_stick_L(int id, int dd)
         return id;
 
     hd = 0;
-    omin = widget[dd].x - widget[id].x + 1;
-    dmin = widget[dd].y + widget[dd].h + widget[id].y + widget[id].h;
+    dmin = widget[dd].x - widget[id].x + 1;
+    omin = INT_MIN;
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
@@ -1956,14 +2004,14 @@ static int gui_stick_L(int id, int dd)
 
         if (kd && kd != dd)
         {
-            o = gui_horz_offset(dd, kd);
-            d = gui_vert_dist(dd, kd);
+            d = gui_horz_offset(dd, kd);
+            o = gui_vert_overlap(dd, kd);
 
-            if (0 <= o && o <= omin && d <= dmin)
+            if (d >= 0 && CHECK_HORIZONTAL)
             {
                 hd = kd;
-                omin = o;
                 dmin = d;
+                omin = o;
             }
         }
     }
@@ -1974,7 +2022,7 @@ static int gui_stick_L(int id, int dd)
 static int gui_stick_R(int id, int dd)
 {
     int jd, kd, hd;
-    int o, omin, d, dmin;
+    int d, dmin, o, omin;
 
     /* Find the closest "hot" widget to the right of dd (and inside id) */
 
@@ -1982,8 +2030,8 @@ static int gui_stick_R(int id, int dd)
         return id;
 
     hd = 0;
-    omin = (widget[id].x + widget[id].w) - (widget[dd].x + widget[dd].w) + 1;
-    dmin = (widget[dd].y + widget[dd].h) + (widget[id].y + widget[id].h);
+    dmin = (widget[id].x + widget[id].w) - (widget[dd].x + widget[dd].w) + 1;
+    omin = INT_MIN;
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
@@ -1991,14 +2039,14 @@ static int gui_stick_R(int id, int dd)
 
         if (kd && kd != dd)
         {
-            o = gui_horz_offset(kd, dd);
-            d = gui_vert_dist(dd, kd);
+            d = gui_horz_offset(kd, dd);
+            o = gui_vert_overlap(dd, kd);
 
-            if (0 <= o && o <= omin && d <= dmin)
+            if (d >= 0 && CHECK_HORIZONTAL)
             {
                 hd = kd;
-                omin = o;
                 dmin = d;
+                omin = o;
             }
         }
     }
@@ -2009,7 +2057,7 @@ static int gui_stick_R(int id, int dd)
 static int gui_stick_D(int id, int dd)
 {
     int jd, kd, hd;
-    int o, omin, d, dmin;
+    int d, dmin, o, omin;
 
     /* Find the closest "hot" widget below dd (and inside id) */
 
@@ -2017,8 +2065,8 @@ static int gui_stick_D(int id, int dd)
         return id;
 
     hd = 0;
-    omin = widget[dd].y - widget[id].y + 1;
-    dmin = widget[dd].x + widget[dd].w + widget[id].x + widget[id].w;
+    dmin = widget[dd].y - widget[id].y + 1;
+    omin = INT_MIN;
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
@@ -2026,14 +2074,14 @@ static int gui_stick_D(int id, int dd)
 
         if (kd && kd != dd)
         {
-            o = gui_vert_offset(dd, kd);
-            d = gui_horz_dist(dd, kd);
+            d = gui_vert_offset(dd, kd);
+            o = gui_horz_overlap(dd, kd);
 
-            if (0 <= o && o <= omin && d <= dmin)
+            if (d >= 0 && CHECK_VERTICAL)
             {
                 hd = kd;
-                omin = o;
                 dmin = d;
+                omin = o;
             }
         }
     }
@@ -2044,7 +2092,7 @@ static int gui_stick_D(int id, int dd)
 static int gui_stick_U(int id, int dd)
 {
     int jd, kd, hd;
-    int o, omin, d, dmin;
+    int d, dmin, o, omin;
 
     /* Find the closest "hot" widget above dd (and inside id) */
 
@@ -2052,8 +2100,8 @@ static int gui_stick_U(int id, int dd)
         return id;
 
     hd = 0;
-    omin = (widget[id].y + widget[id].h) - (widget[dd].y + widget[dd].h) + 1;
-    dmin = (widget[dd].x + widget[dd].w) + (widget[id].x + widget[id].w);
+    dmin = (widget[id].y + widget[id].h) - (widget[dd].y + widget[dd].h) + 1;
+    omin = INT_MIN;
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
@@ -2061,14 +2109,14 @@ static int gui_stick_U(int id, int dd)
 
         if (kd && kd != dd)
         {
-            o = gui_vert_offset(kd, dd);
-            d = gui_horz_dist(dd, kd);
+            d = gui_vert_offset(kd, dd);
+            o = gui_horz_overlap(dd, kd);
 
-            if (0 <= o && o <= omin && d <= dmin)
+            if (d >= 0 && CHECK_VERTICAL)
             {
                 hd = kd;
-                omin = o;
                 dmin = d;
+                omin = o;
             }
         }
     }
