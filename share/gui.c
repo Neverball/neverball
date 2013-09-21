@@ -1495,6 +1495,11 @@ int gui_delete(int id)
         widget[id].image = 0;
         widget[id].cdr   = 0;
         widget[id].car   = 0;
+
+        /* Clear focus from this widget. */
+
+        if (active == id)
+            active = 0;
     }
     return 0;
 }
