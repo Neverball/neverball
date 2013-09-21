@@ -28,7 +28,7 @@
 struct stick_cache
 {
     int a;                              /* Axis index */
-    float v;                            /* Axis value */
+    float v, p;                         /* Axis value */
     float t;                            /* Repeat time */
 };
 
@@ -47,6 +47,7 @@ static void cache_stick(int a, float v, float t)
 
         if (sc->a == a)
         {
+            sc->p = sc->v;
             sc->v = v;
 
             if (fabsf(v) >= 0.5f && sc->t == 0.0f)
@@ -65,6 +66,7 @@ static void cache_stick(int a, float v, float t)
         struct stick_cache *sc = &stick_cache[stick_count];
 
         sc->a = a;
+        sc->p = v;
         sc->v = v;
 
         if (fabsf(v) >= 0.5f)
@@ -74,6 +76,26 @@ static void cache_stick(int a, float v, float t)
 
         stick_count++;
     }
+}
+
+static int bump_stick(int a)
+{
+    int i;
+
+    for (i = 0; i < stick_count; i++)
+    {
+        struct stick_cache *sc = &stick_cache[i];
+
+        if (sc->a == a)
+        {
+            /* Note the transition from centered to leaned position. */
+
+            return ((-0.5f <= sc->p && sc->p <= +0.5f) &&
+                    (sc->v < -0.5f || +0.5f < sc->v));
+        }
+    }
+
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -182,31 +204,18 @@ void st_stick(int a, float v)
     {
         const int *num;
         const int *inv;
-
-        float prev;
     } axes[] = {
         { &CONFIG_JOYSTICK_AXIS_X, &CONFIG_JOYSTICK_AXIS_X_INVERT },
         { &CONFIG_JOYSTICK_AXIS_Y, &CONFIG_JOYSTICK_AXIS_Y_INVERT },
         { &CONFIG_JOYSTICK_AXIS_U, &CONFIG_JOYSTICK_AXIS_U_INVERT }
     };
 
-    int i, bump = 0;
+    int i;
 
     for (i = 0; i < ARRAYSIZE(axes); i++)
-        if (config_tst_d(*axes[i].num, a))
+        if (config_tst_d(*axes[i].num, a) && config_get_d(*axes[i].inv))
         {
-            float p = axes[i].prev;
-
-            /* Note the transition from centered to leaned position. */
-
-            bump = ((-0.5f <= p && p <= +0.5f) &&
-                    (v < -0.5f || +0.5f < v));
-
-            axes[i].prev = v;
-
-            if (config_get_d(*axes[i].inv))
-                v = -v;
-
+            v = -v;
             break;
         }
 
@@ -214,7 +223,7 @@ void st_stick(int a, float v)
     {
         cache_stick(a, v, state_time + STICK_HOLD_TIME);
 
-        state->stick(state->gui_id, a, v, bump);
+        state->stick(state->gui_id, a, v, bump_stick(a));
     }
 }
 
