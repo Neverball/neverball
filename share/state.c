@@ -12,12 +12,12 @@
  * General Public License for more details.
  */
 
+#include "vec3.h"
 #include "glext.h"
 #include "state.h"
 #include "config.h"
 #include "video.h"
 #include "common.h"
-#include "vec3.h"
 
 /*---------------------------------------------------------------------------*/
 
