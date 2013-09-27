@@ -30,8 +30,7 @@
 
 enum
 {
-    HELP_BACK = GUI_LAST,
-    HELP_PAGE,
+    HELP_PAGE = GUI_LAST,
     HELP_DEMO
 };
 
@@ -58,7 +57,7 @@ static int help_action(int tok, int val)
 
     switch (tok)
     {
-    case HELP_BACK:
+    case GUI_BACK:
         page = PAGE_RULES;
         return goto_state(&st_title);
 
@@ -104,7 +103,7 @@ static int help_menu(int id)
         help_button(jd, _("Modes"),    HELP_PAGE, PAGE_MODES);
         help_button(jd, _("Controls"), HELP_PAGE, PAGE_CONTROLS);
         help_button(jd, _("Rules"),    HELP_PAGE, PAGE_RULES);
-        help_button(jd, _("Back"),     HELP_BACK, 0);
+        help_button(jd, _("Back"),     GUI_BACK, 0);
     }
     return jd;
 }
@@ -373,7 +372,7 @@ static int help_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return help_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return help_action(HELP_BACK, 0);
+            return help_action(GUI_BACK, 0);
     }
     return 1;
 }

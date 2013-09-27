@@ -32,8 +32,7 @@
 
 enum
 {
-    START_BACK = GUI_LAST,
-    START_CHALLENGE,
+    START_CHALLENGE = GUI_LAST,
     START_LOCK_GOALS,
     START_LEVEL
 };
@@ -102,7 +101,7 @@ static void start_over(int id, int pulse)
 
     tok = gui_token(id);
 
-    if (tok == START_CHALLENGE || tok == START_BACK)
+    if (tok == START_CHALLENGE || tok == GUI_BACK)
     {
         gui_set_image(shot_id, set_shot(curr_set()));
 
@@ -123,7 +122,7 @@ static int start_action(int tok, int val)
 
     switch (tok)
     {
-    case START_BACK:
+    case GUI_BACK:
         return goto_state(&st_set);
 
     case START_CHALLENGE:
@@ -175,7 +174,7 @@ static int start_gui(void)
 
             gui_label(jd, set_name(curr_set()), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
-            gui_start(jd, _("Back"),  GUI_SML, START_BACK, 0);
+            gui_start(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
         }
 
         gui_space(id);
@@ -322,7 +321,7 @@ static int start_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return start_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return start_action(START_BACK, 0);
+            return start_action(GUI_BACK, 0);
     }
     return 1;
 }

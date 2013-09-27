@@ -84,8 +84,7 @@ enum
     TITLE_PLAY = GUI_LAST,
     TITLE_HELP,
     TITLE_DEMO,
-    TITLE_CONF,
-    TITLE_EXIT
+    TITLE_CONF
 };
 
 static int title_action(int tok, int val)
@@ -99,6 +98,10 @@ static int title_action(int tok, int val)
 
     switch (tok)
     {
+    case GUI_BACK:
+        return 0;
+        break;
+
     case TITLE_PLAY:
         if (strlen(config_get_s(CONFIG_PLAYER)) == 0)
             return goto_name(&st_set, &st_title, 0);
@@ -109,7 +112,6 @@ static int title_action(int tok, int val)
     case TITLE_HELP: return goto_state(&st_help); break;
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
-    case TITLE_EXIT: return 0;                    break;
     case GUI_CHAR:
 
         /* Let the queue fill up. */
@@ -179,7 +181,7 @@ static int title_gui(void)
                 gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
                 gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, sgettext("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+                gui_state(kd, sgettext("menu^Exit"),    GUI_MED, GUI_BACK, 0);
 
                 /* Hilight the start button. */
 
@@ -321,7 +323,7 @@ static int title_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return title_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return 0;
+            return title_action(GUI_BACK, 0);
     }
     return 1;
 }

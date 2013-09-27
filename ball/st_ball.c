@@ -35,13 +35,6 @@
 #include "st_conf.h"
 #include "st_shared.h"
 
-enum
-{
-    BALL_NEXT = GUI_LAST,
-    BALL_PREV,
-    BALL_BACK
-};
-
 static Array balls;
 static int   curr_ball;
 static char  ball_file[64];
@@ -133,7 +126,7 @@ static int ball_action(int tok, int val)
 
     switch (tok)
     {
-    case BALL_NEXT:
+    case GUI_NEXT:
         if (++curr_ball == array_len(balls))
             curr_ball = 0;
 
@@ -141,7 +134,7 @@ static int ball_action(int tok, int val)
 
         break;
 
-    case BALL_PREV:
+    case GUI_PREV:
         if (--curr_ball == -1)
             curr_ball = array_len(balls) - 1;
 
@@ -149,7 +142,7 @@ static int ball_action(int tok, int val)
 
         break;
 
-    case BALL_BACK:
+    case GUI_BACK:
         goto_state(&st_conf);
         break;
     }
@@ -165,7 +158,7 @@ static void load_ball_demo(void)
 
     if (!demo_replay_init("gui/ball.nbr", &g, NULL, NULL, NULL, NULL))
     {
-        ball_action(BALL_BACK, 0);
+        ball_action(GUI_BACK, 0);
         return;
     }
 
@@ -186,14 +179,14 @@ static int ball_gui(void)
         {
             gui_label(jd, _("Ball Model"), GUI_SML, 0, 0);
             gui_space(jd);
-            gui_start(jd, _("Back"), GUI_SML, BALL_BACK, 0);
+            gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
         }
 
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
         {
-            gui_state(jd, " > ", GUI_SML, BALL_NEXT, 0);
+            gui_state(jd, " > ", GUI_SML, GUI_NEXT, 0);
 
             name_id = gui_label(jd, "very-long-ball-name", GUI_SML,
                                 gui_wht, gui_wht);
@@ -201,7 +194,7 @@ static int ball_gui(void)
             gui_set_trunc(name_id, TRUNC_TAIL);
             gui_set_fill(name_id);
 
-            gui_state(jd, " < ", GUI_SML, BALL_PREV, 0);
+            gui_state(jd, " < ", GUI_SML, GUI_PREV, 0);
         }
 
         for (i = 0; i < 12; i++)
@@ -266,7 +259,7 @@ static int ball_buttn(int b, int d)
             return ball_action(gui_token(active), gui_value(active));
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return ball_action(BALL_BACK, 0);
+            return ball_action(GUI_BACK, 0);
     }
     return 1;
 }

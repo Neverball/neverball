@@ -135,11 +135,6 @@ static void conf_select(int id, const char *text, int token, int value,
 
 /*---------------------------------------------------------------------------*/
 
-enum
-{
-    CONF_SHARED_BACK = GUI_LAST         /* Shared GUI token.                 */
-};
-
 static int (*conf_shared_action)(int tok, int val);
 
 static void conf_shared_init(int (*action_fn)(int, int))
@@ -176,7 +171,7 @@ static int conf_shared_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return conf_shared_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return conf_shared_action(CONF_SHARED_BACK, 0);
+            return conf_shared_action(GUI_BACK, 0);
     }
     return 1;
 }
@@ -185,8 +180,7 @@ static int conf_shared_buttn(int b, int d)
 
 enum
 {
-    CONF_BACK = CONF_SHARED_BACK,
-    CONF_VIDEO,
+    CONF_VIDEO = GUI_LAST,
     CONF_MOUSE_SENSE,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
@@ -231,7 +225,7 @@ static int conf_action(int tok, int val)
 
     switch (tok)
     {
-    case CONF_BACK:
+    case GUI_BACK:
         goto_state(&st_title);
         break;
 
@@ -294,7 +288,7 @@ static int conf_gui(void)
 
         int name_id = 0, ball_id = 0;
 
-        conf_header(id, _("Options"), CONF_BACK);
+        conf_header(id, _("Options"), GUI_BACK);
 
         conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
 
@@ -337,8 +331,7 @@ static int conf_enter(struct state *st, struct state *prev)
 
 enum
 {
-    CONF_VIDEO_BACK = CONF_SHARED_BACK,
-    CONF_VIDEO_FULLSCREEN,
+    CONF_VIDEO_FULLSCREEN = GUI_LAST,
     CONF_VIDEO_RESOLUTION,
     CONF_VIDEO_REFLECTION,
     CONF_VIDEO_BACKGROUND,
@@ -357,6 +350,10 @@ static int conf_video_action(int tok, int val)
 
     switch (tok)
     {
+    case GUI_BACK:
+        goto_state(&st_conf);
+        break;
+
     case CONF_VIDEO_FULLSCREEN:
         goto_state(&st_null);
         r = video_mode(val, w, h);
@@ -386,10 +383,6 @@ static int conf_video_action(int tok, int val)
         goto_state(&st_null);
         config_set_d(CONFIG_SHADOW, val);
         goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_BACK:
-        goto_state(&st_conf);
         break;
 
     case CONF_VIDEO_RESOLUTION:
@@ -440,7 +433,7 @@ static int conf_video_gui(void)
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
-        conf_header(id, _("Graphics"), CONF_VIDEO_BACK);
+        conf_header(id, _("Graphics"), GUI_BACK);
 
         conf_state(id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
 

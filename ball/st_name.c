@@ -57,8 +57,7 @@ int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 
 enum
 {
-    NAME_OK = GUI_LAST,
-    NAME_CANCEL
+    NAME_OK = GUI_LAST
 };
 
 static int name_id;
@@ -69,6 +68,9 @@ static int name_action(int tok, int val)
 
     switch (tok)
     {
+    case GUI_BACK:
+        return goto_state(cancel_state);
+
     case NAME_OK:
         if (strlen(player) == 0)
            return 1;
@@ -76,9 +78,6 @@ static int name_action(int tok, int val)
         config_set_s(CONFIG_PLAYER, player);
 
         return goto_state(ok_state);
-
-    case NAME_CANCEL:
-        return goto_state(cancel_state);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -117,7 +116,7 @@ static int name_gui(void)
         {
             enter_id = gui_start(jd, _("OK"), GUI_SML, NAME_OK, 0);
             gui_space(jd);
-            gui_state(jd, _("Cancel"), GUI_SML, NAME_CANCEL, 0);
+            gui_state(jd, _("Cancel"), GUI_SML, GUI_BACK, 0);
         }
 
         gui_layout(id, 0, 0);
@@ -199,7 +198,7 @@ static int name_buttn(int b, int d)
                                      val));
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            name_action(NAME_CANCEL, 0);
+            name_action(GUI_BACK, 0);
     }
     return 1;
 }

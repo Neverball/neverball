@@ -58,8 +58,7 @@ static int file_id;
 
 enum
 {
-    SAVE_SAVE = GUI_LAST,
-    SAVE_CANCEL
+    SAVE_SAVE = GUI_LAST
 };
 
 static int save_action(int tok, int val)
@@ -68,6 +67,9 @@ static int save_action(int tok, int val)
 
     switch (tok)
     {
+    case GUI_BACK:
+        return goto_state(cancel_state);
+
     case SAVE_SAVE:
         if (strlen(filename) == 0)
             return 1;
@@ -81,9 +83,6 @@ static int save_action(int tok, int val)
             demo_rename(filename);
             return goto_state(ok_state);
         }
-
-    case SAVE_CANCEL:
-        return goto_state(cancel_state);
 
     case GUI_CL:
         gui_keyboard_lock();
@@ -123,7 +122,7 @@ static int save_gui(void)
         {
             enter_id = gui_start(jd, _("Save"), GUI_SML, SAVE_SAVE, 0);
             gui_space(jd);
-            gui_state(jd, _("Cancel"), GUI_SML, SAVE_CANCEL, 0);
+            gui_state(jd, _("Cancel"), GUI_SML, GUI_BACK, 0);
         }
 
         gui_layout(id, 0, 0);
@@ -180,7 +179,7 @@ static int save_buttn(int b, int d)
                                      val));
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return save_action(SAVE_CANCEL, 0);
+            return save_action(GUI_BACK, 0);
     }
     return 1;
 }
@@ -212,7 +211,7 @@ static int clobber_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_start(jd, _("Cancel"),    GUI_SML, SAVE_CANCEL, 0);
+            gui_start(jd, _("Cancel"),    GUI_SML, GUI_BACK, 0);
             gui_state(jd, _("Overwrite"), GUI_SML, SAVE_SAVE,   0);
         }
 
@@ -240,7 +239,7 @@ static int clobber_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return clobber_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return clobber_action(SAVE_CANCEL, 0);
+            return clobber_action(GUI_BACK, 0);
     }
     return 1;
 }

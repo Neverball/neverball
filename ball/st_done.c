@@ -31,11 +31,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-enum
-{
-    DONE_OK = GUI_LAST
-};
-
 static int resume;
 
 static int done_action(int tok, int val)
@@ -44,7 +39,7 @@ static int done_action(int tok, int val)
 
     switch (tok)
     {
-    case DONE_OK:
+    case GUI_BACK:
         return goto_state(&st_exit);
 
     case GUI_NAME:
@@ -79,7 +74,7 @@ static int done_gui(void)
         gui_score_board(id, GUI_SCORE_COIN | GUI_SCORE_TIME, 1, high);
         gui_space(id);
 
-        gui_start(id, _("Select Level"), GUI_SML, DONE_OK, 0);
+        gui_start(id, _("Select Level"), GUI_SML, GUI_BACK, 0);
 
         if (!resume)
             gui_pulse(gid, 1.2f);
@@ -121,7 +116,7 @@ static int done_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return done_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return done_action(DONE_OK, 0);
+            return done_action(GUI_BACK, 0);
     }
     return 1;
 }

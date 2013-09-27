@@ -39,7 +39,6 @@ enum
     GOAL_NEXT = GUI_LAST,
     GOAL_SAME,
     GOAL_SAVE,
-    GOAL_BACK,
     GOAL_DONE,
     GOAL_OVER,
     GOAL_LAST
@@ -57,7 +56,7 @@ static int goal_action(int tok, int val)
 
     switch (tok)
     {
-    case GOAL_BACK:
+    case GUI_BACK:
     case GOAL_OVER:
         progress_stop();
         return goto_state(&st_exit);
@@ -317,7 +316,7 @@ static int goal_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goal_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goal_action(GOAL_BACK, 0);
+            return goal_action(GUI_BACK, 0);
     }
     return 1;
 }
