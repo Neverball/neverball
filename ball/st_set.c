@@ -169,6 +169,16 @@ static void set_stick(int id, int a, float v, int bump)
         set_over(gui_value(jd));
 }
 
+static int set_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return set_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int set_buttn(int b, int d)
 {
     if (d)
@@ -194,6 +204,6 @@ struct state st_set = {
     set_stick,
     shared_angle,
     shared_click,
-    NULL,
+    set_keybd,
     set_buttn
 };

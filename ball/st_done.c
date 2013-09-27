@@ -101,9 +101,14 @@ static int done_enter(struct state *st, struct state *prev)
 
 static int done_keybd(int c, int d)
 {
-    if (d && config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
-        return done_action(GUI_SCORE, GUI_SCORE_NEXT(gui_score_get()));
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return done_action(GUI_BACK, 0);
 
+        if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
+            return done_action(GUI_SCORE, GUI_SCORE_NEXT(gui_score_get()));
+    }
     return 1;
 }
 

@@ -151,6 +151,9 @@ static int save_keybd(int c, int d)
 {
     if (d)
     {
+        if (c == KEY_EXIT)
+            return save_action(GUI_BACK, 0);
+
         if (c == '\b' || c == 0x7F)
         {
             gui_focus(enter_id);
@@ -230,6 +233,16 @@ static int clobber_enter(struct state *st, struct state *prev)
     return clobber_gui();
 }
 
+static int clobber_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return clobber_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int clobber_buttn(int b, int d)
 {
     if (d)
@@ -268,6 +281,6 @@ struct state st_clobber = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    clobber_keybd,
     clobber_buttn
 };

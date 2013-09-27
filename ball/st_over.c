@@ -64,6 +64,16 @@ static int over_click(int b, int d)
     return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_exit) : 1;
 }
 
+static int over_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return goto_state(&st_exit);
+    }
+    return 1;
+}
+
 static int over_buttn(int b, int d)
 {
     if (d)
@@ -86,6 +96,6 @@ struct state st_over = {
     NULL,
     NULL,
     over_click,
-    NULL,
+    over_keybd,
     over_buttn
 };

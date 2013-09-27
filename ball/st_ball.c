@@ -249,6 +249,16 @@ static void ball_timer(int id, float dt)
     game_client_blend(demo_replay_blend());
 }
 
+static int ball_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return ball_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int ball_buttn(int b, int d)
 {
     if (d)
@@ -273,6 +283,6 @@ struct state st_ball = {
     shared_stick,
     NULL,
     shared_click,
-    NULL,
+    ball_keybd,
     ball_buttn
 };

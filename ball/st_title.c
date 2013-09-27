@@ -308,6 +308,8 @@ static int title_keybd(int c, int d)
 {
     if (d)
     {
+        if (c == KEY_EXIT)
+            return title_action(GUI_BACK, 0);
         if (c >= ' ')
             return title_action(GUI_CHAR, c);
     }

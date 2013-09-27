@@ -162,6 +162,16 @@ static void conf_shared_paint(int id, float t)
     gui_paint(id);
 }
 
+static int conf_shared_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return conf_shared_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int conf_shared_buttn(int b, int d)
 {
     if (d)
@@ -499,7 +509,7 @@ static void null_leave(struct state *st, struct state *next, int id)
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_conf = {
+ struct state st_conf = {
     conf_enter,
     conf_shared_leave,
     conf_shared_paint,
@@ -508,7 +518,7 @@ struct state st_conf = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    conf_shared_keybd,
     conf_shared_buttn
 };
 
@@ -521,7 +531,7 @@ struct state st_conf_video = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    conf_shared_keybd,
     conf_shared_buttn
 };
 

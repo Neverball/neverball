@@ -363,6 +363,16 @@ static int help_enter(struct state *st, struct state *prev)
     return help_gui();
 }
 
+static int help_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return help_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int help_buttn(int b, int d)
 {
     if (d)
@@ -405,6 +415,16 @@ static void help_demo_timer(int id, float dt)
     game_client_blend(demo_replay_blend());
 }
 
+static int help_demo_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return goto_state(&st_help);
+    }
+    return 1;
+}
+
 static int help_demo_buttn(int b, int d)
 {
     if (d)
@@ -425,7 +445,7 @@ struct state st_help = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    help_keybd,
     help_buttn
 };
 
@@ -438,6 +458,6 @@ struct state st_help_demo = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    help_demo_keybd,
     help_demo_buttn
 };

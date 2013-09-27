@@ -170,6 +170,9 @@ static int name_keybd(int c, int d)
 {
     if (d)
     {
+        if (c == KEY_EXIT)
+            return name_action(GUI_BACK, 0);
+
         if (c == '\b' || c == 0x7F)
         {
             gui_focus(enter_id);

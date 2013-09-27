@@ -185,7 +185,7 @@ static int resol_click(int b, int d)
 
 static int resol_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? resol_action(RESOL_BACK, 0) : 1;
+    return (d && c == KEY_EXIT) ? resol_action(RESOL_BACK, 0) : 1;
 }
 
 static int resol_buttn(int b, int d)

@@ -149,6 +149,9 @@ static int fail_keybd(int c, int d)
 {
     if (d)
     {
+        if (c == KEY_EXIT)
+            return fail_action(GUI_BACK, 0);
+
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
         {
             if (progress_same())

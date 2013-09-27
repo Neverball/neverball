@@ -370,6 +370,16 @@ static void demo_stick(int id, int a, float v, int bump)
         gui_demo_update_status(gui_value(jd));
 }
 
+static int demo_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return demo_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int demo_buttn(int b, int d)
 {
     if (d)
@@ -704,6 +714,16 @@ static int demo_del_enter(struct state *st, struct state *prev)
     return demo_del_gui();
 }
 
+static int demo_del_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return demo_del_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
 static int demo_del_buttn(int b, int d)
 {
     if (d)
@@ -752,6 +772,16 @@ static void demo_compat_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
+static int demo_compat_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return goto_state(&st_demo_end);
+    }
+    return 1;
+}
+
 static int demo_compat_buttn(int b, int d)
 {
     if (d)
@@ -775,7 +805,7 @@ struct state st_demo = {
     demo_stick,
     shared_angle,
     shared_click,
-    NULL,
+    demo_keybd,
     demo_buttn
 };
 
@@ -814,7 +844,7 @@ struct state st_demo_del = {
     shared_stick,
     shared_angle,
     shared_click,
-    NULL,
+    demo_del_keybd,
     demo_del_buttn
 };
 
@@ -827,6 +857,6 @@ struct state st_demo_compat = {
     shared_stick,
     shared_angle,
     shared_click_basic,
-    NULL,
+    demo_compat_keybd,
     demo_compat_buttn
 };

@@ -112,8 +112,16 @@ static int level_click(int b, int d)
 
 static int level_keybd(int c, int d)
 {
-    if (d && c == KEY_POSE)
-        return goto_state(&st_poser);
+    if (d)
+    {
+        if (c == KEY_EXIT)
+        {
+            progress_stop();
+            return goto_state(&st_exit);
+        }
+        if (c == KEY_POSE)
+            return goto_state(&st_poser);
+    }
     return 1;
 }
 
@@ -139,6 +147,16 @@ static int level_buttn(int b, int d)
 static void poser_paint(int id, float t)
 {
     game_client_draw(POSE_LEVEL, t);
+}
+
+static int poser_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT || c == KEY_POSE)
+            return goto_state(&st_level);
+    }
+    return 1;
 }
 
 static int poser_buttn(int c, int d)
@@ -180,6 +198,16 @@ static void nodemo_timer(int id, float dt)
 {
     game_step_fade(dt);
     gui_timer(id, dt);
+}
+
+static int nodemo_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return goto_state(&st_level);
+    }
+    return 1;
 }
 
 static int nodemo_buttn(int b, int d)
@@ -251,7 +279,7 @@ struct state st_poser = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    poser_keybd,
     poser_buttn
 };
 
@@ -264,7 +292,7 @@ struct state st_nodemo = {
     shared_stick,
     shared_angle,
     shared_click_basic,
-    NULL,
+    nodemo_keybd,
     nodemo_buttn
 };
 

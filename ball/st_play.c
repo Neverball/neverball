@@ -522,8 +522,11 @@ static void look_point(int id, int x, int y, int dx, int dy)
 
 static int look_keybd(int c, int d)
 {
-    if (d && c == KEY_LOOKAROUND)
-        return goto_state(&st_play_loop);
+    if (d)
+    {
+        if (c == KEY_EXIT || c == KEY_LOOKAROUND)
+            return goto_state(&st_play_loop);
+    }
 
     return 1;
 }
