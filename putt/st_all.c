@@ -595,13 +595,10 @@ static struct state *st_quit;
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
 
-int goto_pause(struct state *s, int e)
+int goto_pause(struct state *s)
 {
     if (curr_state() == &st_pause)
         return 1;
-
-    if (e && !config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
-        return goto_state(s);
 
     st_continue = curr_state();
     st_quit = s;
@@ -681,7 +678,7 @@ static int pause_click(int b, int d)
 
 static int pause_keybd(int c, int d)
 {
-    if (d && config_tst_d(CONFIG_KEY_PAUSE, c))
+    if (d && c == KEY_EXIT)
         return pause_action(PAUSE_CONTINUE);
     return 1;
 }
@@ -705,8 +702,8 @@ static int shared_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            return goto_pause(&st_over, 0);
+        if (c == KEY_EXIT)
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -799,8 +796,8 @@ static int next_keybd(int c, int d)
     {
         if (c == KEY_POSE)
             return goto_state(&st_poser);
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
-            return goto_pause(&st_over, 0);
+        if (c == KEY_EXIT)
+            return goto_pause(&st_over);
         if ('0' <= c && c <= '9')
             num = num * 10 + c - '0';
     }
@@ -821,7 +818,7 @@ static int next_buttn(int b, int d)
             return goto_state(&st_flyby);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -907,7 +904,7 @@ static int flyby_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -989,7 +986,7 @@ static int stroke_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_roll);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1037,7 +1034,7 @@ static int roll_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1109,7 +1106,7 @@ static int goal_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1180,7 +1177,7 @@ static int stop_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1255,7 +1252,7 @@ static int fall_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1312,7 +1309,7 @@ static int score_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over, 1);
+            return goto_pause(&st_over);
     }
     return 1;
 }

@@ -35,25 +35,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int pause_or_exit(void)
-{
-    if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
-    {
-        return goto_state(&st_pause);
-    }
-    else
-    {
-        progress_stat(GAME_NONE);
-        progress_stop();
-
-        video_clr_grab();
-
-        return goto_state(&st_exit);
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void set_camera(int c)
 {
     config_set_d(CONFIG_CAMERA, c);
@@ -174,7 +155,7 @@ static int play_ready_keybd(int c, int d)
     {
         keybd_camera(c);
 
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (c == KEY_EXIT)
             goto_state(&st_pause);
     }
     return 1;
@@ -189,7 +170,7 @@ static int play_ready_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return pause_or_exit();
+            return goto_state(&st_pause);
     }
     return 1;
 }
@@ -255,7 +236,7 @@ static int play_set_keybd(int c, int d)
     {
         keybd_camera(c);
 
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (c == KEY_EXIT)
             goto_state(&st_pause);
     }
     return 1;
@@ -270,7 +251,7 @@ static int play_set_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_play_loop);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return pause_or_exit();
+            return goto_state(&st_pause);
     }
     return 1;
 }
@@ -449,7 +430,7 @@ static int play_loop_keybd(int c, int d)
             if (progress_same())
                 goto_state(&st_play_ready);
         }
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (c == KEY_EXIT)
             goto_state(&st_pause);
     }
     else
@@ -481,7 +462,7 @@ static int play_loop_buttn(int b, int d)
     if (d == 1)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            pause_or_exit();
+            goto_state(&st_pause);
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
             VIEWR_SET_R(+1);

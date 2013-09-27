@@ -178,15 +178,13 @@ static int page_controls(int id)
 {
     const char *s_rotate  = _("Left and right mouse buttons rotate the view.\\"
                               "Hold Shift for faster view rotation.");
-    const char *s_pause   = _("Pause / Release Pointer");
-    const char *s_exit    = _("Exit / Cancel Menu");
+    const char *s_exit    = _("Exit / Pause");
     const char *s_camera1 = _("Chase Camera");
     const char *s_camera2 = _("Lazy Camera");
     const char *s_camera3 = _("Manual Camera");
     const char *s_shot    = _("Screenshot");
 
-    const char *k_pause   = pretty_keyname(config_get_d(CONFIG_KEY_PAUSE));
-    const char *k_escape  = pretty_keyname((int) SDLK_ESCAPE);
+    const char *k_exit    = pretty_keyname((int) KEY_EXIT);
     const char *k_camera1 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_1));
     const char *k_camera2 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_2));
     const char *k_camera3 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_3));
@@ -200,13 +198,8 @@ static int page_controls(int id)
     {
         if ((kd = gui_harray(jd)))
         {
-            gui_label(kd, s_pause, GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_pause, GUI_SML, gui_yel, gui_yel);
-        }
-        if ((kd = gui_harray(jd)))
-        {
             gui_label(kd, s_exit,   GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_escape, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, k_exit, GUI_SML, gui_yel, gui_yel);
         }
         if ((kd = gui_harray(jd)))
         {

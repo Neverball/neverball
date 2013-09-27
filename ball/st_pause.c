@@ -128,7 +128,7 @@ static int pause_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (c == KEY_EXIT)
             return pause_action(PAUSE_CONTINUE, 0);
 
         if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())

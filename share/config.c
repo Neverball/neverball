@@ -87,7 +87,6 @@ int CONFIG_KEY_FORWARD;
 int CONFIG_KEY_BACKWARD;
 int CONFIG_KEY_LEFT;
 int CONFIG_KEY_RIGHT;
-int CONFIG_KEY_PAUSE;
 int CONFIG_KEY_RESTART;
 int CONFIG_KEY_SCORE_NEXT;
 int CONFIG_KEY_ROTATE_FAST;
@@ -186,7 +185,6 @@ static struct
     { &CONFIG_KEY_BACKWARD,      "key_backward",      SDLK_DOWN },
     { &CONFIG_KEY_LEFT,          "key_left",          SDLK_LEFT },
     { &CONFIG_KEY_RIGHT,         "key_right",         SDLK_RIGHT },
-    { &CONFIG_KEY_PAUSE,         "key_pause",         SDLK_ESCAPE },
     { &CONFIG_KEY_RESTART,       "key_restart",       SDLK_r },
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
@@ -376,7 +374,6 @@ void config_load(void)
                                  i == CONFIG_KEY_CAMERA_TOGGLE ||
                                  i == CONFIG_KEY_CAMERA_R      ||
                                  i == CONFIG_KEY_CAMERA_L      ||
-                                 i == CONFIG_KEY_PAUSE         ||
                                  i == CONFIG_KEY_RESTART       ||
                                  i == CONFIG_KEY_SCORE_NEXT    ||
                                  i == CONFIG_KEY_ROTATE_FAST)
@@ -446,7 +443,6 @@ void config_save(void)
                      i == CONFIG_KEY_CAMERA_TOGGLE ||
                      i == CONFIG_KEY_CAMERA_R      ||
                      i == CONFIG_KEY_CAMERA_L      ||
-                     i == CONFIG_KEY_PAUSE         ||
                      i == CONFIG_KEY_RESTART       ||
                      i == CONFIG_KEY_SCORE_NEXT    ||
                      i == CONFIG_KEY_ROTATE_FAST)

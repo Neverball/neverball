@@ -20,6 +20,6 @@ extern struct state st_pause;
 
 void set_joystick(SDL_Joystick *);
 
-int goto_pause(struct state *, int);
+int goto_pause(struct state *);
 
 #endif

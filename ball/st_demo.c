@@ -523,7 +523,7 @@ static int demo_play_keybd(int c, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (c == KEY_EXIT)
         {
             demo_paused = 1;
             return goto_state(&st_demo_end);
@@ -541,9 +541,7 @@ static int demo_play_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
         {
-            if (config_tst_d(CONFIG_KEY_PAUSE, SDLK_ESCAPE))
-                demo_paused = 1;
-
+            demo_paused = 1;
             return goto_state(&st_demo_end);
         }
     }
@@ -643,7 +641,7 @@ static int demo_end_keybd(int c, int d)
 {
     if (d)
     {
-        if (demo_paused && config_tst_d(CONFIG_KEY_PAUSE, c))
+        if (demo_paused && c == KEY_EXIT)
             return demo_end_action(DEMO_CONTINUE, 0);
     }
     return 1;

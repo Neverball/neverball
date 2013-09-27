@@ -85,7 +85,6 @@ extern int CONFIG_KEY_FORWARD;
 extern int CONFIG_KEY_BACKWARD;
 extern int CONFIG_KEY_LEFT;
 extern int CONFIG_KEY_RIGHT;
-extern int CONFIG_KEY_PAUSE;
 extern int CONFIG_KEY_RESTART;
 extern int CONFIG_KEY_SCORE_NEXT;
 extern int CONFIG_KEY_ROTATE_FAST;
@@ -139,6 +138,8 @@ int config_screenshot(void);
 /*---------------------------------------------------------------------------*/
 
 /* Names for some hard-coded keys. */
+
+#define KEY_EXIT       SDLK_ESCAPE
 
 #define KEY_LOOKAROUND SDLK_F5
 #define KEY_WIREFRAME  SDLK_F6
