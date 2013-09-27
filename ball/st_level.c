@@ -129,7 +129,8 @@ static int level_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
+            config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
         {
             return goto_state(&st_play_ready);
         }
