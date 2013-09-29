@@ -91,27 +91,24 @@ static void start_over_level(int i)
 
 static void start_over(int id, int pulse)
 {
-    int tok;
-
-    if (id == 0)
-        return;
-
-    if (pulse)
-        gui_pulse(id, 1.2f);
-
-    tok = gui_token(id);
-
-    if (tok == START_CHALLENGE || tok == GUI_BACK)
+    if (id)
     {
-        gui_set_image(shot_id, set_shot(curr_set()));
+        if (pulse)
+            gui_pulse(id, 1.2f);
 
-        set_score_board(set_score(curr_set(), SCORE_COIN), -1,
-                        set_score(curr_set(), SCORE_TIME), -1,
-                        NULL, -1);
+        if (gui_token(id) == START_LEVEL)
+        {
+            start_over_level(gui_value(id));
+        }
+        else
+        {
+            gui_set_image(shot_id, set_shot(curr_set()));
+
+            set_score_board(set_score(curr_set(), SCORE_COIN), -1,
+                            set_score(curr_set(), SCORE_TIME), -1,
+                            NULL, -1);
+        }
     }
-
-    if (tok == START_LEVEL)
-        start_over_level(gui_value(id));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -141,9 +138,9 @@ static int start_action(int tok, int val)
         break;
 
     case GUI_SCORE:
-        /* FIXME, there's no need to rebuild the entire screen. */
         gui_score_set(val);
-        return goto_state(&st_start);
+        start_over(gui_active(), 0);
+        return 1;
 
     case START_LOCK_GOALS:
         config_set_d(CONFIG_LOCK_GOALS, val);
@@ -275,9 +272,7 @@ static int start_score(int d)
              GUI_SCORE_PREV(gui_score_get()) :
              GUI_SCORE_NEXT(gui_score_get()));
 
-    gui_score_set(s);
-    start_over(gui_active(), 0.0f);
-    return 1;
+    return start_action(GUI_SCORE, s);
 }
 
 static int start_keybd(int c, int d)
