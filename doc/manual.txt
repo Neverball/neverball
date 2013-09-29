@@ -147,6 +147,20 @@ values follow.
         any reason  the resolution you're looking  for isn't available
         in the in-game settings, you can modify these values instead.
 
+    fullscreen 0
+
+        This key determines whether or not the application starts full
+        screen. The SDL environment variable SDL_VIDEO_FULLSCREEN_HEAD
+        selects which connected head is used for full screen display.
+
+        For primary:
+
+            export SDL_VIDEO_FULLSCREEN_HEAD=0
+
+        For secondary:
+
+            export SDL_VIDEO_FULLSCREEN_HEAD=1
+
     mouse_sense 300
 
         This  key controls  mouse  sensitivity.  The  value gives  the

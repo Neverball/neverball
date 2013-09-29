@@ -22,6 +22,7 @@
 #include "ball.h"
 #include "hole.h"
 #include "hud.h"
+#include "hmd.h"
 #include "image.h"
 #include "audio.h"
 #include "config.h"
@@ -314,16 +315,23 @@ void game_draw(int pose, float t)
     video_push_persp(fov, 0.1f, FAR_DIST);
     glPushMatrix();
     {
-        float T[16], M[16], v[3];
+        float T[16], M[16], v[3], c[3];
 
-        m_view(T, view_c, view_p, view_e[1]);
+        /* In VR, move the view center up to keep the viewer level. */
+
+        v_cpy(c, view_c);
+
+        if (hmd_stat())
+            c[1] += view_dy;
+
+        video_calc_view(T, c, view_p, view_e[1]);
         m_xps(M, T);
 
-        v_sub(v, view_c, view_p);
+        v_sub(v, c, view_p);
 
         glTranslatef(0.f, 0.f, -v_len(v));
         glMultMatrixf(M);
-        glTranslatef(-view_c[0], -view_c[1], -view_c[2]);
+        glTranslatef(-c[0], -c[1], -c[2]);
 
         /* Center the skybox about the position of the camera. */
 

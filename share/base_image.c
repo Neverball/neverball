@@ -103,7 +103,7 @@ static void *image_load_png(const char *filename, int *width,
         default: longjmp(png_jmpbuf(readp), -1);
         }
 
-        if (!(bytep = png_malloc(readp, h * png_sizeof(png_bytep))))
+        if (!(bytep = png_malloc(readp, h * sizeof (png_bytep))))
             longjmp(png_jmpbuf(readp), -1);
 
         /* Allocate the final pixel buffer and read pixels there. */

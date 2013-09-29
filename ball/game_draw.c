@@ -470,8 +470,8 @@ void game_draw(struct game_draw *gd, int pose, float t)
             v[1] = -view->p[1];
             v[2] = +view->p[2];
 
-            m_view(T, view->c, view->p, view->e[1]);
-            m_view(U, view->c, v,       view->e[1]);
+            video_calc_view(T, view->c, view->p, view->e[1]);
+            video_calc_view(U, view->c, v,       view->e[1]);
 
             m_xps(M, T);
 

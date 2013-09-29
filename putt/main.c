@@ -32,6 +32,7 @@
 #include "hole.h"
 #include "game.h"
 #include "gui.h"
+#include "hmd.h"
 #include "fs.h"
 
 #include "st_conf.h"
@@ -42,23 +43,11 @@ const char ICON[] = "icon/neverputt.png";
 
 /*---------------------------------------------------------------------------*/
 
-static int shot_pending;
-
-static void shot_prep(void)
-{
-    shot_pending = 1;
-}
-
-static void shot_take(void)
+static void shot(void)
 {
     static char filename[MAXSTR];
-
-    if (shot_pending)
-    {
-        sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
-        image_snap(filename);
-        shot_pending = 0;
-    }
+    sprintf(filename, "Screenshots/screen%05d.png", config_screenshot());
+    video_snap(filename);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -137,7 +126,7 @@ static int loop(void)
             switch (c)
             {
             case KEY_SCREENSHOT:
-                shot_prep();
+                shot();
                 break;
             case KEY_FPS:
                 config_tgl_d(CONFIG_FPS);
@@ -347,9 +336,9 @@ int main(int argc, char *argv[])
                 if ((t1 = SDL_GetTicks()) > t0)
                 {
                     st_timer((t1 - t0) / 1000.f);
+                    hmd_step();
                     st_paint(0.001f * t1);
-                    shot_take();
-                    SDL_GL_SwapBuffers();
+                    video_swap();
 
                     t0 = t1;
 

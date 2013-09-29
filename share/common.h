@@ -49,7 +49,10 @@ int rand_between(int low, int high);
 
 /* Arrays and strings. */
 
+#ifndef ARRAYSIZE
 #define ARRAYSIZE(a) (sizeof (a) / sizeof ((a)[0]))
+#endif
+
 #define MAXSTRLEN(a) (sizeof (a) - 1)
 
 #define SAFECPY(dst, src) \
@@ -69,7 +72,7 @@ char *concat_string(const char *first, ...) NULL_TERMINATED;
 #define strdup dupe_string
 
 #define str_starts_with(s, h) (strncmp((s), (h), strlen(h)) == 0)
-#define str_ends_with(s, t) (strcmp((s) + strlen(s) - strlen(t), (t)) == 0)
+#define str_ends_with(s, t) ((strlen(s) >= strlen(t)) && strcmp((s) + strlen(s) - strlen(t), (t)) == 0)
 
 /* Time. */
 

@@ -14,7 +14,7 @@ $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 # Recognized PLATFORM values: darwin, mingw.
 
 ifeq ($(shell uname), Darwin)
-    PLATFORM := darwin
+	PLATFORM := darwin
 endif
 
 #------------------------------------------------------------------------------
@@ -25,22 +25,24 @@ DATADIR   := ./data
 LOCALEDIR := ./locale
 
 ifeq ($(PLATFORM),mingw)
-    USERDIR := Neverball
+	USERDIR := Neverball
 endif
 
 ifneq ($(BUILD),release)
-    USERDIR := $(USERDIR)-dev
+	USERDIR := $(USERDIR)-dev
 endif
 
 #------------------------------------------------------------------------------
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(DEBUG),1)
-    CFLAGS   := -g
-    CPPFLAGS :=
+	CFLAGS   := -g
+	CXXFLAGS := -g
+	CPPFLAGS :=
 else
-    CFLAGS   := -O2
-    CPPFLAGS := -DNDEBUG
+	CFLAGS   := -O2
+	CXXFLAGS := -O2
+	CPPFLAGS := -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
@@ -49,14 +51,16 @@ endif
 # Compiler...
 
 ifeq ($(ENABLE_TILT),wii)
-    # -std=c99 because we need isnormal and -fms-extensions because
-    # libwiimote headers make heavy use of the "unnamed fields" GCC
-    # extension.
+	# -std=c99 because we need isnormal and -fms-extensions because
+	# libwiimote headers make heavy use of the "unnamed fields" GCC
+	# extension.
 
-    ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
+	ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
-    ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
+	ALL_CFLAGS := -Wall -ansi -pedantic $(CFLAGS)
 endif
+
+ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 
 # Preprocessor...
 
@@ -66,27 +70,59 @@ PNG_CPPFLAGS := $(shell libpng-config --cflags)
 ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare
 
 ALL_CPPFLAGS += \
-    -DCONFIG_USER=\"$(USERDIR)\" \
-    -DCONFIG_DATA=\"$(DATADIR)\" \
-    -DCONFIG_LOCALE=\"$(LOCALEDIR)\"
+	-DCONFIG_USER=\"$(USERDIR)\" \
+	-DCONFIG_DATA=\"$(DATADIR)\" \
+	-DCONFIG_LOCALE=\"$(LOCALEDIR)\"
 
 ifeq ($(ENABLE_NLS),0)
-    ALL_CPPFLAGS += -DENABLE_NLS=0
+	ALL_CPPFLAGS += -DENABLE_NLS=0
 else
-    ALL_CPPFLAGS += -DENABLE_NLS=1
+	ALL_CPPFLAGS += -DENABLE_NLS=1
+endif
+
+ifeq ($(ENABLE_HMD),openhmd)
+	ALL_CPPFLAGS += -DENABLE_HMD -DOHMD_STATIC=1
+endif
+ifeq ($(ENABLE_HMD),libovr)
+	ALL_CPPFLAGS += -DENABLE_HMD
 endif
 
 ifeq ($(PLATFORM),darwin)
-    ALL_CPPFLAGS += -I/opt/local/include
+	ALL_CPPFLAGS += -I/opt/local/include
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
 
 #------------------------------------------------------------------------------
+# HMD handling is a complicated with 6 platform-backend combinations.
+
+ifeq ($(ENABLE_HMD),openhmd)
+	ifeq ($(PLATFORM),mingw)
+		HMD_LIBS := -lopenhmd -lhidapi -lSetupapi
+	else
+		HMD_LIBS := -lopenhmd
+	endif
+endif
+
+ifeq ($(ENABLE_HMD),libovr)
+	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -ludev
+	ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+
+	ifeq ($(PLATFORM),mingw)
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MinGW/Release/w32 -lovr -lsetupapi
+		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+	endif
+	ifeq ($(PLATFORM),darwin)
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit
+		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+	endif
+endif
+
+#------------------------------------------------------------------------------
 # Libraries
 
 SDL_LIBS := $(shell sdl-config --libs)
-PNG_LIBS := $(shell libpng-config --libs)
+PNG_LIBS := $(shell libpng-config --libs) -lz
 
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
@@ -95,7 +131,7 @@ FS_LIBS := -lphysfs
 endif
 
 # On some systems we need to link this directly.
-X11_LIBS := -lX11
+X11_LIBS := -lX11 -lXinerama
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -105,48 +141,52 @@ X11_LIBS := -lX11
 INTL_LIBS :=
 
 ifeq ($(ENABLE_TILT),wii)
-    TILT_LIBS := -lcwiimote -lbluetooth
+	TILT_LIBS := -lcwiimote -lbluetooth
 else
 ifeq ($(ENABLE_TILT),loop)
-    TILT_LIBS := -lusb-1.0 -lfreespace
+	TILT_LIBS := -lusb-1.0 -lfreespace
 endif
 endif
 
 OGL_LIBS := -lGL
 
 ifeq ($(PLATFORM),mingw)
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl
-    endif
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl -liconv
+	endif
 
-    TILT_LIBS :=
-    OGL_LIBS  := -lopengl32
-    X11_LIBS :=
+	TILT_LIBS :=
+	OGL_LIBS  := -lopengl32
+	X11_LIBS  :=
+	SDL_LIBS  := $(shell sdl-config --static-libs)
 endif
 
 ifeq ($(PLATFORM),darwin)
-    ifneq ($(ENABLE_NLS),0)
-        INTL_LIBS := -lintl
-    endif
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
 
-    TILT_LIBS :=
-    OGL_LIBS  := -framework OpenGL
-    X11_LIBS  :=
+	TILT_LIBS :=
+	OGL_LIBS  := -framework OpenGL
+	X11_LIBS  :=
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
-    BASE_LIBS += -L/opt/local/lib
+	BASE_LIBS += -L/opt/local/lib
 endif
 
-ALL_LIBS := $(SDL_LIBS) $(X11_LIBS) $(BASE_LIBS) $(TILT_LIBS) $(INTL_LIBS) -lSDL_ttf \
-    -lvorbisfile $(OGL_LIBS)
+OGG_LIBS := -lvorbisfile -lvorbisenc -lvorbis -logg
+TTF_LIBS := -lSDL_ttf -lfreetype
+
+ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
+	$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
 
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)
-    EXT := .exe
+	EXT := .exe
 endif
 
 MAPC_TARG := mapc$(EXT)
@@ -154,11 +194,10 @@ BALL_TARG := neverball$(EXT)
 PUTT_TARG := neverputt$(EXT)
 
 ifeq ($(PLATFORM),mingw)
-    MAPC := $(WINE) ./$(MAPC_TARG)
+	MAPC := $(WINE) ./$(MAPC_TARG)
 else
-    MAPC := ./$(MAPC_TARG)
+	MAPC := ./$(MAPC_TARG)
 endif
-
 
 #------------------------------------------------------------------------------
 
@@ -208,6 +247,8 @@ BALL_OBJS := \
 	share/cmd.o         \
 	share/array.o       \
 	share/dir.o         \
+	share/fbo.o         \
+	share/glsl.o        \
 	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
@@ -277,6 +318,8 @@ PUTT_OBJS := \
 	share/fs_rwops.o    \
 	share/fs_ov.o       \
 	share/dir.o         \
+	share/fbo.o         \
+	share/glsl.o        \
 	share/array.o       \
 	share/sync.o        \
 	putt/hud.o          \
@@ -310,6 +353,19 @@ BALL_OBJS += share/tilt_null.o
 endif
 endif
 
+ifeq ($(ENABLE_HMD),openhmd)
+BALL_OBJS += share/hmd_openhmd.o share/hmd_common.o
+PUTT_OBJS += share/hmd_openhmd.o share/hmd_common.o
+else
+ifeq ($(ENABLE_HMD),libovr)
+BALL_OBJS += share/hmd_libovr.o share/hmd_common.o
+PUTT_OBJS += share/hmd_libovr.o share/hmd_common.o
+else
+BALL_OBJS += share/hmd_null.o share/hmd_common.o
+PUTT_OBJS += share/hmd_null.o share/hmd_common.o
+endif
+endif
+
 ifeq ($(PLATFORM),mingw)
 BALL_OBJS += neverball.ico.o
 PUTT_OBJS += neverputt.ico.o
@@ -324,11 +380,19 @@ SOLS := $(MAPS:%.map=%.sol)
 
 DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
+# The build environment defines this (or should).
+# This is a fallback that likely only works on a Windows host.
+WINDRES ?= windres
+
 #------------------------------------------------------------------------------
 
 %.o : %.c
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+
+%.o : %.cpp
+	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
@@ -343,11 +407,17 @@ DESKTOPS := $(basename $(wildcard dist/*.desktop.in))
 
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
+ifeq ($(ENABLE_HMD),libovr)
+LINK := $(CXX) $(ALL_CXXFLAGS)
+else
+LINK := $(CC) $(ALL_CFLAGS)
+endif
+
 $(BALL_TARG) : $(BALL_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	$(LINK) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	$(LINK) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
 	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
@@ -368,9 +438,8 @@ endif
 desktops : $(DESKTOPS)
 
 clean-src :
-	$(RM) $(BALL_TARG) $(BALL_OBJS) $(BALL_DEPS)
-	$(RM) $(PUTT_TARG) $(PUTT_OBJS) $(PUTT_DEPS)
-	$(RM) $(MAPC_TARG) $(MAPC_OBJS) $(MAPC_DEPS)
+	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
+	find \( -name '*.o' -o -name '*.d' \) -delete
 
 clean : clean-src
 	$(RM) $(SOLS)

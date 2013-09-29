@@ -23,19 +23,44 @@ struct gl_info gli;
 
 #if !ENABLE_OPENGLES
 
-PFNGLCLIENTACTIVETEXTURE_PROC glClientActiveTexture_;
-PFNGLACTIVETEXTURE_PROC       glActiveTexture_;
+PFNGLCLIENTACTIVETEXTURE_PROC    glClientActiveTexture_;
+PFNGLACTIVETEXTURE_PROC          glActiveTexture_;
 
-PFNGLGENBUFFERS_PROC          glGenBuffers_;
-PFNGLBINDBUFFER_PROC          glBindBuffer_;
-PFNGLBUFFERDATA_PROC          glBufferData_;
-PFNGLBUFFERSUBDATA_PROC       glBufferSubData_;
-PFNGLDELETEBUFFERS_PROC       glDeleteBuffers_;
-PFNGLISBUFFER_PROC            glIsBuffer_;
+PFNGLGENBUFFERS_PROC             glGenBuffers_;
+PFNGLBINDBUFFER_PROC             glBindBuffer_;
+PFNGLBUFFERDATA_PROC             glBufferData_;
+PFNGLBUFFERSUBDATA_PROC          glBufferSubData_;
+PFNGLDELETEBUFFERS_PROC          glDeleteBuffers_;
+PFNGLISBUFFER_PROC               glIsBuffer_;
 
-PFNGLPOINTPARAMETERFV_PROC    glPointParameterfv_;
+PFNGLPOINTPARAMETERFV_PROC       glPointParameterfv_;
 
-PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
+PFNGLGETSHADERIV_PROC            glGetShaderiv_;
+PFNGLGETSHADERINFOLOG_PROC       glGetShaderInfoLog_;
+PFNGLGETPROGRAMIV_PROC           glGetProgramiv_;
+PFNGLGETPROGRAMINFOLOG_PROC      glGetProgramInfoLog_;
+PFNGLCREATESHADER_PROC           glCreateShader_;
+PFNGLCREATEPROGRAM_PROC          glCreateProgram_;
+PFNGLSHADERSOURCE_PROC           glShaderSource_;
+PFNGLCOMPILESHADER_PROC          glCompileShader_;
+PFNGLDELETESHADER_PROC           glDeleteShader_;
+PFNGLDELETEPROGRAM_PROC          glDeleteProgram_;
+PFNGLATTACHSHADER_PROC           glAttachShader_;
+PFNGLLINKPROGRAM_PROC            glLinkProgram_;
+PFNGLUSEPROGRAM_PROC             glUseProgram_;
+PFNGLGETUNIFORMLOCATION_PROC     glGetUniformLocation_;
+PFNGLUNIFORM1F_PROC              glUniform1f_;
+PFNGLUNIFORM2F_PROC              glUniform2f_;
+PFNGLUNIFORM3F_PROC              glUniform3f_;
+PFNGLUNIFORM4F_PROC              glUniform4f_;
+
+PFNGLBINDFRAMEBUFFER_PROC        glBindFramebuffer_;
+PFNGLDELETEFRAMEBUFFERS_PROC     glDeleteFramebuffers_;
+PFNGLGENFRAMEBUFFERS_PROC        glGenFramebuffers_;
+PFNGLFRAMEBUFFERTEXTURE2D_PROC   glFramebufferTexture2D_;
+PFNGLCHECKFRAMEBUFFERSTATUS_PROC glCheckFramebufferStatus_;
+
+PFNGLSTRINGMARKERGREMEDY_PROC    glStringMarkerGREMEDY_;
 
 #endif
 
@@ -122,6 +147,41 @@ int glext_init(void)
         gli.point_parameters = 1;
     }
 
+    if (glext_assert("ARB_shader_objects"))
+    {
+        SDL_GL_GFPA(glGetShaderiv_,        "glGetShaderiv");
+        SDL_GL_GFPA(glGetShaderInfoLog_,   "glGetShaderInfoLog");
+        SDL_GL_GFPA(glGetProgramiv_,       "glGetProgramiv");
+        SDL_GL_GFPA(glGetProgramInfoLog_,  "glGetProgramInfoLog");
+        SDL_GL_GFPA(glCreateShader_,       "glCreateShader");
+        SDL_GL_GFPA(glCreateProgram_,      "glCreateProgram");
+        SDL_GL_GFPA(glShaderSource_,       "glShaderSource");
+        SDL_GL_GFPA(glCompileShader_,      "glCompileShader");
+        SDL_GL_GFPA(glDeleteShader_,       "glDeleteShader");
+        SDL_GL_GFPA(glDeleteProgram_,      "glDeleteProgram");
+        SDL_GL_GFPA(glAttachShader_,       "glAttachShader");
+        SDL_GL_GFPA(glLinkProgram_,        "glLinkProgram");
+        SDL_GL_GFPA(glUseProgram_,         "glUseProgram");
+        SDL_GL_GFPA(glGetUniformLocation_, "glGetUniformLocation");
+        SDL_GL_GFPA(glUniform1f_,          "glUniform1f");
+        SDL_GL_GFPA(glUniform2f_,          "glUniform2f");
+        SDL_GL_GFPA(glUniform3f_,          "glUniform3f");
+        SDL_GL_GFPA(glUniform4f_,          "glUniform4f");
+
+        gli.shader_objects = 1;
+    }
+
+    if (glext_assert("ARB_framebuffer_object"))
+    {
+        SDL_GL_GFPA(glBindFramebuffer_,        "glBindFramebuffer");
+        SDL_GL_GFPA(glDeleteFramebuffers_,     "glDeleteFramebuffers");
+        SDL_GL_GFPA(glGenFramebuffers_,        "glGenFramebuffers");
+        SDL_GL_GFPA(glFramebufferTexture2D_,   "glFramebufferTexture2D");
+        SDL_GL_GFPA(glCheckFramebufferStatus_, "glCheckFramebufferStatus");
+
+        gli.framebuffer_object = 1;
+    }
+
     if (glext_check("GREMEDY_string_marker"))
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
@@ -136,6 +196,8 @@ int glext_init(void)
     gli.multitexture = 1;
     gli.vertex_buffer_object = 1;
     gli.point_parameters = 1;
+    gli.shader_objects = 1;
+    gli.framebuffer_object = 1;
 
     return 1;
 #endif

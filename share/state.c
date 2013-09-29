@@ -18,6 +18,7 @@
 #include "config.h"
 #include "video.h"
 #include "common.h"
+#include "hmd.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -147,24 +148,20 @@ void st_paint(float t)
 
     if (state && state->paint)
     {
-        /* TODO: reimplement stereo using LR instead of quad-buffer.
+        video_clear();
 
-        if (config_get_d(CONFIG_STEREO))
+        if (hmd_stat())
         {
-            glDrawBuffer(GL_BACK_LEFT);
+            hmd_prep_left();
             video_clear();
             state->paint(state->gui_id, t);
 
-            glDrawBuffer(GL_BACK_RIGHT);
+            hmd_prep_right();
             video_clear();
             state->paint(state->gui_id, t);
         }
         else
-        */
-        {
-            video_clear();
             state->paint(state->gui_id, t);
-        }
     }
 }
 
@@ -195,7 +192,12 @@ void st_timer(float dt)
 void st_point(int x, int y, int dx, int dy)
 {
     if (state && state->point)
-        state->point(state->gui_id, x, y, dx, dy);
+    {
+        if (hmd_stat())
+            state->point(state->gui_id, x * 2, y, dx, dy);
+        else
+            state->point(state->gui_id, x,     y, dx, dy);
+    }
 }
 
 void st_stick(int a, float v)

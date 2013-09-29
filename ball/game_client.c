@@ -71,7 +71,7 @@ static void game_run_cmd(const union cmd *cmd)
         struct s_vary *vary = &gd.vary;
         struct v_item *hp;
 
-        float v[3];
+        float v[4];
         float dt;
 
         int idx;

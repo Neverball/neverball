@@ -109,6 +109,11 @@ static TTF_Font     *font[3] = { NULL, NULL, NULL };
 
 static int digit_id[3][11];
 
+/* Cursor image. */
+
+static int cursor_id = 0;
+static int cursor_st = 0;
+
 /* Font data access. */
 
 static void      *fontdata;
@@ -644,6 +649,12 @@ void gui_init(void)
         for (j = 0; j < 11; ++j)
             gui_layout(digit_id[i][j], 0, 0);
 
+    /* Cache an image for the cursor. Scale it to the same size as a digit. */
+
+    if ((cursor_id = gui_image(0, "gui/cursor.png", widget[digit_id[1][0]].w,
+                                                    widget[digit_id[1][0]].h)))
+        gui_layout(cursor_id, 0, 0);
+
     active = 0;
 }
 
@@ -964,6 +975,11 @@ void gui_set_rect(int id, int rect)
 {
     widget[id].rect   = rect;
     widget[id].flags |= GUI_RECT;
+}
+
+void gui_set_cursor(int st)
+{
+    cursor_st = st;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1779,6 +1795,9 @@ void gui_paint(int id)
                 draw_enable(GL_TRUE, GL_TRUE, GL_TRUE);
                 gui_paint_text(id);
 
+                if (cursor_st && cursor_id)
+                    gui_paint_image(cursor_id);
+
                 draw_disable();
                 glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
             }
@@ -1858,6 +1877,14 @@ int gui_point(int id, int x, int y)
 
     x_cache = x;
     y_cache = y;
+
+    /* Move the cursor, if any. */
+
+    if (cursor_id)
+    {
+        widget[cursor_id].x = x - widget[cursor_id].w / 2;
+        widget[cursor_id].y = y - widget[cursor_id].h / 2;
+    }
 
     /* Short-circuit check the current active widget. */
 

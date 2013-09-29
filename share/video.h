@@ -23,6 +23,7 @@ int video_init(const char *, const char *);
 
 int  video_mode(int, int, int);
 
+void video_snap(const char *);
 int  video_perf(void);
 void video_swap(void);
 
@@ -31,6 +32,10 @@ void video_clr_grab(void);
 int  video_get_grab(void);
 
 /*---------------------------------------------------------------------------*/
+
+void video_calc_view(float *, const float *,
+                              const float *,
+                              const float *);
 
 void video_push_persp(float, float, float);
 void video_push_ortho(void);
