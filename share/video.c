@@ -368,7 +368,6 @@ void video_push_persp(float fov, float n, float f)
 
         glMatrixMode(GL_PROJECTION);
         {
-            glPushMatrix();
             glLoadIdentity();
 
             m[0][0] = c / a;
@@ -408,7 +407,6 @@ void video_push_ortho(void)
 
         glMatrixMode(GL_PROJECTION);
         {
-            glPushMatrix();
             glLoadIdentity();
             glOrtho_(0.0, w, 0.0, h, -1.0, +1.0);
         }
@@ -421,11 +419,6 @@ void video_push_ortho(void)
 
 void video_pop_matrix(void)
 {
-    glMatrixMode(GL_PROJECTION);
-    {
-        glPopMatrix();
-    }
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void video_clear(void)
