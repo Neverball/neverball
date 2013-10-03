@@ -50,12 +50,17 @@ GLboolean fbo_create(fbo *F, GLsizei w, GLsizei h)
                             GL_TEXTURE_2D, F->depth_texture, 0);
     glFramebufferTexture2D_(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
                             GL_TEXTURE_2D, F->depth_texture, 0);
-    glBindFramebuffer_     (GL_FRAMEBUFFER, 0);
 
-    if (glCheckFramebufferStatus_(F->framebuffer) == GL_FRAMEBUFFER_COMPLETE)
+    if (glCheckFramebufferStatus_(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+    {
+        glBindFramebuffer_ (GL_FRAMEBUFFER, 0);
         return GL_TRUE;
+    }
     else
+    {
+        glBindFramebuffer_ (GL_FRAMEBUFFER, 0);
         return GL_FALSE;
+    }
 }
 
 void fbo_delete(fbo *F)
