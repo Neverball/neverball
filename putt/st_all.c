@@ -254,6 +254,15 @@ static int title_enter(struct state *st, struct state *prev)
 static void title_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
+
+    if (next == &st_conf)
+    {
+        /*
+         * This is ugly, but better than stupidly deleting stuff using
+         * object names from a previous GL context.
+         */
+        course_free();
+    }
 }
 
 static void title_paint(int id, float t)
