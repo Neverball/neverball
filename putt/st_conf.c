@@ -281,6 +281,7 @@ static int conf_enter(struct state *st, struct state *prev)
 
 static void conf_leave(struct state *st, struct state *next, int id)
 {
+    back_free();
     gui_delete(id);
 }
 
