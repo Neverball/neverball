@@ -5,6 +5,6 @@
 }
 {
 "classname" "misc_model"
-"material" "ball/rift/basic-ball"
-"model" "ball/rift/basic-ball.obj"
+"material" "ball/basic-ball/basic-ball"
+"model" "ball/basic-ball/basic-ball.obj"
 }
