@@ -671,7 +671,8 @@ void gui_free(void)
 
     for (id = 1; id < WIDGET_MAX; id++)
     {
-        glDeleteTextures(1, &widget[id].image);
+        if (widget[id].image)
+            glDeleteTextures(1, &widget[id].image);
 
         widget[id].type  = GUI_FREE;
         widget[id].flags = 0;
