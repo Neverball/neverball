@@ -1503,7 +1503,8 @@ int gui_delete(int id)
 
         /* Release any GL resources held by this widget. */
 
-        glDeleteTextures(1, &widget[id].image);
+        if (widget[id].image)
+            glDeleteTextures(1, &widget[id].image);
 
         /* Mark this widget unused. */
 
