@@ -289,8 +289,15 @@ SDL_Surface *load_surface(const char *filename)
         void *q;
 
         if ((q = image_flip(p, w, h, b, 0, 1)))
+        {
             srf = SDL_CreateRGBSurfaceFrom(q, w, h, b * 8, w * b,
                                            RMASK, GMASK, BMASK, AMASK);
+
+            if (!srf)
+                fprintf(stderr,
+                        "Failure to create SDL surface from %s (%s).\n",
+                        filename, SDL_GetError());
+        }
         free(p);
     }
     return srf;
