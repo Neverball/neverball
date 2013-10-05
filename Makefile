@@ -106,17 +106,19 @@ endif
 
 ifeq ($(ENABLE_HMD),libovr)
 	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -ludev
-	ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+	HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 
 	ifeq ($(PLATFORM),mingw)
 		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MinGW/Release/w32 -lovr -lsetupapi
-		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+		HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 	ifeq ($(PLATFORM),darwin)
 		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit
-		ALL_CPPFLAGS += -I/usr/local/OculusSDK/LibOVR/Include
+		HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 endif
+
+ALL_CPPFLAGS += $(HMD_CPPFLAGS)
 
 #------------------------------------------------------------------------------
 # Libraries
