@@ -98,7 +98,7 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 
 ifeq ($(ENABLE_HMD),openhmd)
 	ifeq ($(PLATFORM),mingw)
-		HMD_LIBS := -lopenhmd -lhidapi -lSetupapi
+		HMD_LIBS := -lopenhmd -lhidapi -lsetupapi
 	else
 		HMD_LIBS := -lopenhmd
 	endif
