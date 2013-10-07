@@ -219,7 +219,7 @@ MAPC_OBJS := \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
-	share/st_resol.o    \
+	share/st_common.o   \
 	share/vec3.o        \
 	share/base_image.o  \
 	share/image.o       \
@@ -287,7 +287,7 @@ BALL_OBJS := \
 	ball/main.o
 PUTT_OBJS := \
 	share/lang.o        \
-	share/st_resol.o    \
+	share/st_common.o   \
 	share/vec3.o        \
 	share/base_image.o  \
 	share/image.o       \

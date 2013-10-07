@@ -29,162 +29,13 @@
 
 #include "st_conf.h"
 #include "st_title.h"
-#include "st_resol.h"
+#include "st_common.h"
 #include "st_name.h"
 #include "st_ball.h"
 #include "st_shared.h"
 
 extern const char TITLE[];
 extern const char ICON[];
-
-/*---------------------------------------------------------------------------*/
-
-static void conf_slider(int id, const char *text,
-                        int token, int value,
-                        int *ids, int num)
-{
-    int jd, kd, i;
-
-    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
-    {
-        /* A series of empty buttons forms a "slider". */
-
-        for (i = num - 1; i >= 0; i--)
-        {
-            ids[i] = gui_state(kd, NULL, GUI_SML, token, i);
-
-            gui_set_hilite(ids[i], (i == value));
-        }
-
-        gui_label(jd, text, GUI_SML, 0, 0);
-    }
-}
-
-static int conf_state(int id, const char *label, const char *text, int token)
-{
-    int jd, kd, rd = 0;
-
-    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
-    {
-        rd = gui_state(kd, text, GUI_SML, token, 0);
-        gui_label(jd, label, GUI_SML, 0, 0);
-    }
-
-    return rd;
-}
-
-static void conf_toggle(int id, const char *label, int token, int value,
-                        const char *text1, int value1,
-                        const char *text0, int value0)
-{
-    int jd, kd;
-
-    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
-    {
-        int btn0, btn1;
-
-        btn0 = gui_state(kd, text0, GUI_SML, token, value0);
-        btn1 = gui_state(kd, text1, GUI_SML, token, value1);
-
-        gui_set_hilite(btn0, (value == value0));
-        gui_set_hilite(btn1, (value == value1));
-
-        gui_label(jd, label, GUI_SML, 0, 0);
-    }
-}
-
-static void conf_header(int id, const char *text, int token)
-{
-    int jd;
-
-    if ((jd = gui_harray(id)))
-    {
-        gui_label(jd, text, GUI_SML, 0, 0);
-        gui_space(jd);
-        gui_start(jd, _("Back"), GUI_SML, token, 0);
-    }
-
-    gui_space(id);
-}
-
-struct option
-{
-    char text[8];
-    int  value;
-};
-
-static void conf_select(int id, const char *text, int token, int value,
-                        const struct option *opts, int num)
-{
-    int jd, kd, ld;
-    int i;
-
-    if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
-    {
-        for (i = 0; i < num; i++)
-        {
-            ld = gui_state(kd, _(opts[i].text), GUI_SML,
-                           token, opts[i].value);
-
-            gui_set_hilite(ld, (opts[i].value == value));
-        }
-
-        gui_label(jd, text, GUI_SML, 0, 0);
-    }
-}
-
-/*---------------------------------------------------------------------------*/
-
-static int (*conf_shared_action)(int tok, int val);
-
-static void conf_shared_init(int (*action_fn)(int, int))
-{
-    conf_shared_action = action_fn;
-
-    game_client_free(NULL);
-    back_init("back/gui.png");
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
-}
-
-static void conf_shared_leave(struct state *st, struct state *next, int id)
-{
-    back_free();
-    gui_delete(id);
-}
-
-static void conf_shared_paint(int id, float t)
-{
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw_easy();
-    }
-    video_pop_matrix();
-    gui_paint(id);
-}
-
-static int conf_shared_keybd(int c, int d)
-{
-    if (d)
-    {
-        if (c == KEY_EXIT)
-            return conf_shared_action(GUI_BACK, 0);
-    }
-    return 1;
-}
-
-static int conf_shared_buttn(int b, int d)
-{
-    if (d)
-    {
-        int active = gui_active();
-
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return conf_shared_action(gui_token(active), gui_value(active));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return conf_shared_action(GUI_BACK, 0);
-    }
-    return 1;
-}
 
 /*---------------------------------------------------------------------------*/
 
@@ -333,7 +184,8 @@ static int conf_gui(void)
 
 static int conf_enter(struct state *st, struct state *prev)
 {
-    conf_shared_init(conf_action);
+    game_client_free(NULL);
+    conf_common_init(conf_action);
     return conf_gui();
 }
 
@@ -374,7 +226,7 @@ static int conf_video_action(int tok, int val)
         break;
 
     case CONF_VIDEO_DISPLAY:
-        goto_state(&st_conf_display);
+        goto_state(&st_display);
         break;
 
     case CONF_VIDEO_REFLECTION:
@@ -427,7 +279,7 @@ static int conf_video_action(int tok, int val)
 
 static int conf_video_gui(void)
 {
-    static const struct option multisample_opts[] = {
+    static const struct conf_option multisample_opts[] = {
         { N_("Off"), 0 },
         { N_("2x"), 2 },
         { N_("4x"), 4 },
@@ -505,73 +357,8 @@ static int conf_video_gui(void)
 
 static int conf_video_enter(struct state *st, struct state *prev)
 {
-    conf_shared_init(conf_video_action);
+    conf_common_init(conf_video_action);
     return conf_video_gui();
-}
-
-/*---------------------------------------------------------------------------*/
-
-enum
-{
-    CONF_DISPLAY_SELECT = GUI_LAST
-};
-
-static int conf_display_action(int tok, int val)
-{
-    int r = 1;
-
-    audio_play(AUD_MENU, 1.0f);
-
-    switch (tok)
-    {
-    case GUI_BACK:
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_DISPLAY_SELECT:
-        if (val != config_get_d(CONFIG_DISPLAY))
-        {
-            goto_state(&st_null);
-            config_set_d(CONFIG_DISPLAY, val);
-            r = video_mode(config_get_d(CONFIG_FULLSCREEN),
-                           config_get_d(CONFIG_WIDTH),
-                           config_get_d(CONFIG_HEIGHT));
-            goto_state(&st_conf_display);
-        }
-        break;
-    }
-
-    return r;
-}
-
-static int conf_display_gui(void)
-{
-    int id, jd;
-
-    int i, n = SDL_GetNumVideoDisplays();
-
-    if ((id = gui_vstack(0)))
-    {
-        conf_header(id, _("Display"), GUI_BACK);
-
-        for (i = 0; i < n; i++)
-        {
-            const char *name = SDL_GetDisplayName(i);
-
-            jd = gui_state(id, name, GUI_SML, CONF_DISPLAY_SELECT, i);
-            gui_set_hilite(jd, (i == config_get_d(CONFIG_DISPLAY)));
-        }
-
-        gui_layout(id, 0, 0);
-    }
-
-    return id;
-}
-
-static int conf_display_enter(struct state *st, struct state *prev)
-{
-    conf_shared_init(conf_display_action);
-    return conf_display_gui();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -604,41 +391,28 @@ static void null_leave(struct state *st, struct state *next, int id)
 
  struct state st_conf = {
     conf_enter,
-    conf_shared_leave,
-    conf_shared_paint,
-    shared_timer,
-    shared_point,
-    shared_stick,
-    shared_angle,
-    shared_click,
-    conf_shared_keybd,
-    conf_shared_buttn
+    conf_common_leave,
+    conf_common_paint,
+    common_timer,
+    common_point,
+    common_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    common_buttn
 };
 
 struct state st_conf_video = {
     conf_video_enter,
-    conf_shared_leave,
-    conf_shared_paint,
-    shared_timer,
-    shared_point,
-    shared_stick,
-    shared_angle,
-    shared_click,
-    conf_shared_keybd,
-    conf_shared_buttn
-};
-
-struct state st_conf_display = {
-    conf_display_enter,
-    conf_shared_leave,
-    conf_shared_paint,
-    shared_timer,
-    shared_point,
-    shared_stick,
-    shared_angle,
-    shared_click,
-    conf_shared_keybd,
-    conf_shared_buttn
+    conf_common_leave,
+    conf_common_paint,
+    common_timer,
+    common_point,
+    common_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    common_buttn
 };
 
 struct state st_null = {

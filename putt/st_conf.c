@@ -24,7 +24,7 @@
 
 #include "st_conf.h"
 #include "st_all.h"
-#include "st_resol.h"
+#include "st_common.h"
 
 /*---------------------------------------------------------------------------*/
 
