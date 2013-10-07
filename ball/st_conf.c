@@ -342,6 +342,7 @@ static int conf_enter(struct state *st, struct state *prev)
 enum
 {
     CONF_VIDEO_FULLSCREEN = GUI_LAST,
+    CONF_VIDEO_DISPLAY,
     CONF_VIDEO_RESOLUTION,
     CONF_VIDEO_REFLECTION,
     CONF_VIDEO_BACKGROUND,
@@ -370,6 +371,10 @@ static int conf_video_action(int tok, int val)
         goto_state(&st_null);
         r = video_mode(val, w, h);
         goto_state(&st_conf_video);
+        break;
+
+    case CONF_VIDEO_DISPLAY:
+        goto_state(&st_conf_display);
         break;
 
     case CONF_VIDEO_REFLECTION:
@@ -429,21 +434,47 @@ static int conf_video_gui(void)
         { N_("8x"), 8 },
     };
 
-    int id;
+    int id, jd;
 
     if ((id = gui_vstack(0)))
     {
         char resolution[sizeof ("12345678 x 12345678")];
+        const char *display;
+        int dpy = config_get_d(CONFIG_DISPLAY);
 
         sprintf(resolution, "%d x %d",
                 config_get_d(CONFIG_WIDTH),
                 config_get_d(CONFIG_HEIGHT));
 
+        if (!(display = SDL_GetDisplayName(dpy)))
+            display = _("Unknown Display");
+
         conf_header(id, _("Graphics"), GUI_BACK);
-        conf_state (id, _("Resolution"), resolution, CONF_VIDEO_RESOLUTION);
+
+        if ((jd = conf_state(id, _("Display"), "Longest Name",
+                 CONF_VIDEO_DISPLAY)))
+        {
+            gui_set_trunc(jd, TRUNC_TAIL);
+            gui_set_label(jd, display);
+        }
 
         conf_toggle(id, _("Fullscreen"),   CONF_VIDEO_FULLSCREEN,
                     config_get_d(CONFIG_FULLSCREEN), _("On"), 1, _("Off"), 0);
+
+        if ((jd = conf_state (id, _("Resolution"), resolution,
+                              CONF_VIDEO_RESOLUTION)))
+        {
+            /*
+             * Because we always use the desktop display mode, disable
+             * display mode switching in fullscreen.
+             */
+
+            if (config_get_d(CONFIG_FULLSCREEN))
+            {
+                gui_set_state(jd, GUI_NONE, 0);
+                gui_set_color(jd, gui_gry, gui_gry);
+            }
+        }
 #ifdef ENABLE_HMD
         conf_toggle(id, _("HMD"),          CONF_VIDEO_HMD,
                     config_get_d(CONFIG_HMD),        _("On"), 1, _("Off"), 0);
@@ -476,6 +507,71 @@ static int conf_video_enter(struct state *st, struct state *prev)
 {
     conf_shared_init(conf_video_action);
     return conf_video_gui();
+}
+
+/*---------------------------------------------------------------------------*/
+
+enum
+{
+    CONF_DISPLAY_SELECT = GUI_LAST
+};
+
+static int conf_display_action(int tok, int val)
+{
+    int r = 1;
+
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (tok)
+    {
+    case GUI_BACK:
+        goto_state(&st_conf_video);
+        break;
+
+    case CONF_DISPLAY_SELECT:
+        if (val != config_get_d(CONFIG_DISPLAY))
+        {
+            goto_state(&st_null);
+            config_set_d(CONFIG_DISPLAY, val);
+            r = video_mode(config_get_d(CONFIG_FULLSCREEN),
+                           config_get_d(CONFIG_WIDTH),
+                           config_get_d(CONFIG_HEIGHT));
+            goto_state(&st_conf_display);
+        }
+        break;
+    }
+
+    return r;
+}
+
+static int conf_display_gui(void)
+{
+    int id, jd;
+
+    int i, n = SDL_GetNumVideoDisplays();
+
+    if ((id = gui_vstack(0)))
+    {
+        conf_header(id, _("Display"), GUI_BACK);
+
+        for (i = 0; i < n; i++)
+        {
+            const char *name = SDL_GetDisplayName(i);
+
+            jd = gui_state(id, name, GUI_SML, CONF_DISPLAY_SELECT, i);
+            gui_set_hilite(jd, (i == config_get_d(CONFIG_DISPLAY)));
+        }
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int conf_display_enter(struct state *st, struct state *prev)
+{
+    conf_shared_init(conf_display_action);
+    return conf_display_gui();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -521,6 +617,19 @@ static void null_leave(struct state *st, struct state *next, int id)
 
 struct state st_conf_video = {
     conf_video_enter,
+    conf_shared_leave,
+    conf_shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_angle,
+    shared_click,
+    conf_shared_keybd,
+    conf_shared_buttn
+};
+
+struct state st_conf_display = {
+    conf_display_enter,
     conf_shared_leave,
     conf_shared_paint,
     shared_timer,

@@ -31,6 +31,8 @@ void video_set_grab(int w);
 void video_clr_grab(void);
 int  video_get_grab(void);
 
+int  video_display();
+
 /*---------------------------------------------------------------------------*/
 
 void video_calc_view(float *, const float *,

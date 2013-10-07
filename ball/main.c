@@ -203,9 +203,18 @@ static int loop(void)
             break;
 
         case SDL_WINDOWEVENT:
-            if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST &&
-                video_get_grab())
-                goto_state(&st_pause);
+            switch (e.window.event)
+            {
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+                if (video_get_grab())
+                    goto_state(&st_pause);
+                break;
+
+            case SDL_WINDOWEVENT_MOVED:
+                if (config_get_d(CONFIG_DISPLAY) != video_display())
+                    config_set_d(CONFIG_DISPLAY, video_display());
+                break;
+            }
             break;
 
         case SDL_TEXTINPUT:

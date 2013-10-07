@@ -108,6 +108,14 @@ static void set_window_icon(const char *filename)
     return;
 }
 
+int video_display(void)
+{
+    if (window)
+        return SDL_GetWindowDisplayIndex(window);
+    else
+        return -1;
+}
+
 int video_init(void)
 {
     if (!video_mode(config_get_d(CONFIG_FULLSCREEN),
@@ -130,8 +138,10 @@ int video_mode(int f, int w, int h)
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
     int hmd     = config_get_d(CONFIG_HMD)         ? 1 : 0;
 
-    int X = SDL_WINDOWPOS_UNDEFINED;
-    int Y = SDL_WINDOWPOS_UNDEFINED;
+    int dpy = config_get_d(CONFIG_DISPLAY);
+
+    int X = SDL_WINDOWPOS_CENTERED_DISPLAY(dpy);
+    int Y = SDL_WINDOWPOS_CENTERED_DISPLAY(dpy);
 
     hmd_free();
 
@@ -158,13 +168,16 @@ int video_mode(int f, int w, int h)
 
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
-                              (f ? SDL_WINDOW_FULLSCREEN : 0));
+                              (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 
     if (window)
     {
         set_window_title(TITLE);
         set_window_icon(ICON);
 
+        SDL_GetWindowSize(window, &w, &h);
+
+        config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);
         config_set_d(CONFIG_WIDTH,      w);
         config_set_d(CONFIG_HEIGHT,     h);

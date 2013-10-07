@@ -25,6 +25,7 @@
 /* Integer options. */
 
 extern int CONFIG_FULLSCREEN;
+extern int CONFIG_DISPLAY;
 extern int CONFIG_WIDTH;
 extern int CONFIG_HEIGHT;
 extern int CONFIG_STEREO;

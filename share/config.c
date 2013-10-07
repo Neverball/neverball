@@ -27,6 +27,7 @@
 /* Integer options. */
 
 int CONFIG_FULLSCREEN;
+int CONFIG_DISPLAY;
 int CONFIG_WIDTH;
 int CONFIG_HEIGHT;
 int CONFIG_STEREO;
@@ -123,6 +124,7 @@ static struct
     int         cur;
 } option_d[] = {
     { &CONFIG_FULLSCREEN,   "fullscreen",   0 },
+    { &CONFIG_DISPLAY,      "display",      0 },
     { &CONFIG_WIDTH,        "width",        800 },
     { &CONFIG_HEIGHT,       "height",       600 },
     { &CONFIG_STEREO,       "stereo",       0 },
