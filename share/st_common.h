@@ -52,8 +52,9 @@ extern struct state st_null;
 /*
  * These are actually implemented by this module.
  */
-extern struct state st_resol;
+extern struct state st_video;
 extern struct state st_display;
+extern struct state st_resol;
 
 /*---------------------------------------------------------------------------*/
 

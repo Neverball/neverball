@@ -91,7 +91,7 @@ static int conf_action(int tok, int val)
         break;
 
     case CONF_VIDEO:
-        goto_state(&st_conf_video);
+        goto_state(&st_video);
         break;
 
     case CONF_PLAYER:
@@ -191,178 +191,6 @@ static int conf_enter(struct state *st, struct state *prev)
 
 /*---------------------------------------------------------------------------*/
 
-enum
-{
-    CONF_VIDEO_FULLSCREEN = GUI_LAST,
-    CONF_VIDEO_DISPLAY,
-    CONF_VIDEO_RESOLUTION,
-    CONF_VIDEO_REFLECTION,
-    CONF_VIDEO_BACKGROUND,
-    CONF_VIDEO_SHADOW,
-    CONF_VIDEO_VSYNC,
-    CONF_VIDEO_HMD,
-    CONF_VIDEO_MULTISAMPLE
-};
-
-static int conf_video_action(int tok, int val)
-{
-    int f = config_get_d(CONFIG_FULLSCREEN);
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
-    int r = 1;
-
-    audio_play(AUD_MENU, 1.0f);
-
-    switch (tok)
-    {
-    case GUI_BACK:
-        goto_state(&st_conf);
-        break;
-
-    case CONF_VIDEO_FULLSCREEN:
-        goto_state(&st_null);
-        r = video_mode(val, w, h);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_DISPLAY:
-        goto_state(&st_display);
-        break;
-
-    case CONF_VIDEO_REFLECTION:
-        goto_state(&st_null);
-        config_set_d(CONFIG_REFLECTION, val);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_BACKGROUND:
-        goto_state(&st_null);
-        config_set_d(CONFIG_BACKGROUND, val);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_SHADOW:
-        goto_state(&st_null);
-        config_set_d(CONFIG_SHADOW, val);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_RESOLUTION:
-        goto_state(&st_resol);
-        break;
-
-    case CONF_VIDEO_VSYNC:
-        goto_state(&st_null);
-        config_set_d(CONFIG_VSYNC, val);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_HMD:
-        goto_state(&st_null);
-        config_set_d(CONFIG_HMD, val);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf_video);
-        break;
-
-    case CONF_VIDEO_MULTISAMPLE:
-        goto_state(&st_null);
-        config_set_d(CONFIG_MULTISAMPLE, val);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf_video);
-        break;
-    }
-
-    return r;
-}
-
-static int conf_video_gui(void)
-{
-    static const struct conf_option multisample_opts[] = {
-        { N_("Off"), 0 },
-        { N_("2x"), 2 },
-        { N_("4x"), 4 },
-        { N_("8x"), 8 },
-    };
-
-    int id, jd;
-
-    if ((id = gui_vstack(0)))
-    {
-        char resolution[sizeof ("12345678 x 12345678")];
-        const char *display;
-        int dpy = config_get_d(CONFIG_DISPLAY);
-
-        sprintf(resolution, "%d x %d",
-                config_get_d(CONFIG_WIDTH),
-                config_get_d(CONFIG_HEIGHT));
-
-        if (!(display = SDL_GetDisplayName(dpy)))
-            display = _("Unknown Display");
-
-        conf_header(id, _("Graphics"), GUI_BACK);
-
-        if ((jd = conf_state(id, _("Display"), "Longest Name",
-                 CONF_VIDEO_DISPLAY)))
-        {
-            gui_set_trunc(jd, TRUNC_TAIL);
-            gui_set_label(jd, display);
-        }
-
-        conf_toggle(id, _("Fullscreen"),   CONF_VIDEO_FULLSCREEN,
-                    config_get_d(CONFIG_FULLSCREEN), _("On"), 1, _("Off"), 0);
-
-        if ((jd = conf_state (id, _("Resolution"), resolution,
-                              CONF_VIDEO_RESOLUTION)))
-        {
-            /*
-             * Because we always use the desktop display mode, disable
-             * display mode switching in fullscreen.
-             */
-
-            if (config_get_d(CONFIG_FULLSCREEN))
-            {
-                gui_set_state(jd, GUI_NONE, 0);
-                gui_set_color(jd, gui_gry, gui_gry);
-            }
-        }
-#ifdef ENABLE_HMD
-        conf_toggle(id, _("HMD"),          CONF_VIDEO_HMD,
-                    config_get_d(CONFIG_HMD),        _("On"), 1, _("Off"), 0);
-#endif
-
-        gui_space(id);
-
-        conf_toggle(id, _("V-Sync"),       CONF_VIDEO_VSYNC,
-                    config_get_d(CONFIG_VSYNC),      _("On"), 1, _("Off"), 0);
-        conf_select(id, _("Antialiasing"), CONF_VIDEO_MULTISAMPLE,
-                    config_get_d(CONFIG_MULTISAMPLE),
-                    multisample_opts, ARRAYSIZE(multisample_opts));
-
-        gui_space(id);
-
-        conf_toggle(id, _("Reflection"),   CONF_VIDEO_REFLECTION,
-                    config_get_d(CONFIG_REFLECTION), _("On"), 1, _("Off"), 0);
-        conf_toggle(id, _("Background"),   CONF_VIDEO_BACKGROUND,
-                    config_get_d(CONFIG_BACKGROUND), _("On"), 1, _("Off"), 0);
-        conf_toggle(id, _("Shadow"),       CONF_VIDEO_SHADOW,
-                    config_get_d(CONFIG_SHADOW),     _("On"), 1, _("Off"), 0);
-
-        gui_layout(id, 0, 0);
-    }
-
-    return id;
-}
-
-static int conf_video_enter(struct state *st, struct state *prev)
-{
-    conf_common_init(conf_video_action);
-    return conf_video_gui();
-}
-
-/*---------------------------------------------------------------------------*/
-
 static int null_enter(struct state *st, struct state *prev)
 {
     hud_free();
@@ -391,19 +219,6 @@ static void null_leave(struct state *st, struct state *next, int id)
 
  struct state st_conf = {
     conf_enter,
-    conf_common_leave,
-    conf_common_paint,
-    common_timer,
-    common_point,
-    common_stick,
-    NULL,
-    common_click,
-    common_keybd,
-    common_buttn
-};
-
-struct state st_conf_video = {
-    conf_video_enter,
     conf_common_leave,
     conf_common_paint,
     common_timer,
