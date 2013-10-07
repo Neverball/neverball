@@ -30,16 +30,8 @@
 
 enum
 {
-    CONF_FULL = 1,
-    CONF_WIN,
-    CONF_HMDON,
-    CONF_HMDOF,
-    CONF_TEXHI,
-    CONF_TEXLO,
-    CONF_SHDON,
-    CONF_SHDOF,
-    CONF_BACK,
-    CONF_RESOL
+    CONF_VIDEO = 1,
+    CONF_BACK
 };
 
 static int music_id[11];
@@ -47,9 +39,6 @@ static int sound_id[11];
 
 static int conf_action(int i)
 {
-    int f = config_get_d(CONFIG_FULLSCREEN);
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
     int s = config_get_d(CONFIG_SOUND_VOLUME);
     int m = config_get_d(CONFIG_MUSIC_VOLUME);
     int r = 1;
@@ -58,62 +47,12 @@ static int conf_action(int i)
 
     switch (i)
     {
-    case CONF_FULL:
-        goto_state(&st_null);
-        r = video_mode(1, w, h);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_WIN:
-        goto_state(&st_null);
-        r = video_mode(0, w, h);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_HMDON:
-        goto_state(&st_null);
-        config_set_d(CONFIG_HMD, 1);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_HMDOF:
-        goto_state(&st_null);
-        config_set_d(CONFIG_HMD, 0);
-        r = video_mode(f, w, h);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_TEXHI:
-        goto_state(&st_null);
-        config_set_d(CONFIG_TEXTURES, 1);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_TEXLO:
-        goto_state(&st_null);
-        config_set_d(CONFIG_TEXTURES, 2);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_SHDON:
-        goto_state(&st_null);
-        config_set_d(CONFIG_SHADOW, 1);
-        goto_state(&st_conf);
-        break;
-
-    case CONF_SHDOF:
-        goto_state(&st_null);
-        config_set_d(CONFIG_SHADOW, 0);
-        goto_state(&st_conf);
-        break;
-
     case CONF_BACK:
         goto_state(&st_title);
         break;
 
-    case CONF_RESOL:
-        goto_state(&st_resol);
+    case CONF_VIDEO:
+        goto_state(&st_video);
         break;
 
     default:
@@ -147,7 +86,6 @@ static int conf_action(int i)
 static int conf_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
-    int btn0, btn1;
     int i;
 
     back_init("back/gui.png");
@@ -156,12 +94,6 @@ static int conf_enter(struct state *st, struct state *prev)
 
     if ((id = gui_vstack(0)))
     {
-        char resolution[20];
-
-        sprintf(resolution, "%d x %d",
-                config_get_d(CONFIG_WIDTH),
-                config_get_d(CONFIG_HEIGHT));
-
         if ((jd = gui_harray(id)))
         {
             gui_label(jd, _("Options"), GUI_SML, 0, 0);
@@ -174,67 +106,9 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_WIN,  0);
-            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_FULL, 0);
+            gui_state(kd, _("Configure"), GUI_SML, CONF_VIDEO, 0);
 
-            if (config_get_d(CONFIG_FULLSCREEN))
-                gui_set_hilite(btn1, 1);
-            else
-                gui_set_hilite(btn0, 1);
-
-            gui_label(jd, _("Fullscreen"), GUI_SML, 0, 0);
-        }
-
-#ifdef ENABLE_HMD
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_HMDOF, 0);
-            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_HMDON, 0);
-
-            if (config_get_d(CONFIG_HMD))
-                gui_set_hilite(btn1, 1);
-            else
-                gui_set_hilite(btn0, 1);
-
-            gui_label(jd, _("HMD"), GUI_SML, 0, 0);
-        }
-#endif
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, resolution, GUI_SML, CONF_RESOL, 0);
-
-            gui_label(jd, _("Resolution"), GUI_SML, 0, 0);
-        }
-
-        gui_space(id);
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            btn0 = gui_state(kd, _("Low"),  GUI_SML, CONF_TEXLO, 0);
-            btn1 = gui_state(kd, _("High"), GUI_SML, CONF_TEXHI, 0);
-
-            gui_set_hilite(btn0, (config_get_d(CONFIG_TEXTURES) == 2));
-            gui_set_hilite(btn1, (config_get_d(CONFIG_TEXTURES) == 1));
-
-            gui_label(jd, _("Textures"), GUI_SML, 0, 0);
-        }
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            btn0 = gui_state(kd, _("Off"),  GUI_SML, CONF_SHDOF, 0);
-            btn1 = gui_state(kd, _("On"),   GUI_SML, CONF_SHDON, 0);
-
-            if (config_get_d(CONFIG_SHADOW))
-                gui_set_hilite(btn1, 1);
-            else
-                gui_set_hilite(btn0, 1);
-
-            gui_label(jd, _("Shadow"), GUI_SML, 0, 0);
+            gui_label(jd, _("Graphics"),  GUI_SML, 0, 0);
         }
 
         gui_space(id);
