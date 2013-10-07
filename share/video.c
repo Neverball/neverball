@@ -229,6 +229,11 @@ int video_mode(int f, int w, int h)
 
         video_show_cursor();
 
+        /* Grab input immediately in HMD mode. */
+
+        if (hmd_stat())
+            SDL_SetWindowGrab(window, SDL_TRUE);
+
         return 1;
     }
 
@@ -352,7 +357,12 @@ void video_clr_grab(void)
 {
 #ifdef NDEBUG
     SDL_SetRelativeMouseMode(SDL_FALSE);
-    SDL_SetWindowGrab(window, SDL_FALSE);
+
+    /* Never release the grab in HMD mode. */
+
+    if (!hmd_stat())
+        SDL_SetWindowGrab(window, SDL_FALSE);
+
     video_show_cursor();
 #endif
     grabbed = 0;
