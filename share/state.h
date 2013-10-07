@@ -15,6 +15,7 @@ struct state
     int  (*click)(int b,  int d);
     int  (*keybd)(int c,  int d);
     int  (*buttn)(int b,  int d);
+    void (*wheel)(int x,  int y);
 
     int gui_id;
 };
@@ -30,6 +31,7 @@ void st_timer(float);
 void st_point(int, int, int, int);
 void st_stick(int, float);
 void st_angle(float, float);
+void st_wheel(int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);
 int  st_buttn(int, int);

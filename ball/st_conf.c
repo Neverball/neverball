@@ -353,6 +353,7 @@ enum
 
 static int conf_video_action(int tok, int val)
 {
+    int f = config_get_d(CONFIG_FULLSCREEN);
     int w = config_get_d(CONFIG_WIDTH);
     int h = config_get_d(CONFIG_HEIGHT);
     int r = 1;
@@ -374,13 +375,7 @@ static int conf_video_action(int tok, int val)
     case CONF_VIDEO_REFLECTION:
         goto_state(&st_null);
         config_set_d(CONFIG_REFLECTION, val);
-
-        if (val)
-        {
-            /* Ensure we have a stencil buffer. */
-            r = video_init(TITLE, ICON);
-        }
-
+        r = video_mode(f, w, h);
         goto_state(&st_conf_video);
         break;
 
@@ -403,21 +398,21 @@ static int conf_video_action(int tok, int val)
     case CONF_VIDEO_VSYNC:
         goto_state(&st_null);
         config_set_d(CONFIG_VSYNC, val);
-        r = video_init(TITLE, ICON);
+        r = video_mode(f, w, h);
         goto_state(&st_conf_video);
         break;
 
     case CONF_VIDEO_HMD:
         goto_state(&st_null);
         config_set_d(CONFIG_HMD, val);
-        r = video_init(TITLE, ICON);
+        r = video_mode(f, w, h);
         goto_state(&st_conf_video);
         break;
 
     case CONF_VIDEO_MULTISAMPLE:
         goto_state(&st_null);
         config_set_d(CONFIG_MULTISAMPLE, val);
-        r = video_init(TITLE, ICON);
+        r = video_mode(f, w, h);
         goto_state(&st_conf_video);
         break;
     }

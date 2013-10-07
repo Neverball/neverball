@@ -235,6 +235,13 @@ void st_angle(float x, float z)
         state->angle(state->gui_id, x, z);
 }
 
+
+void st_wheel(int x, int y)
+{
+    if (state && state->wheel)
+        state->wheel(x, y);
+}
+
 /*---------------------------------------------------------------------------*/
 
 int st_click(int b, int d)

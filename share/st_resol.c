@@ -28,14 +28,39 @@
 extern struct state  st_null;
 static struct state *st_back;
 
-static SDL_Rect **modes;
+/*---------------------------------------------------------------------------*/
+
+struct mode
+{
+    int w;
+    int h;
+};
+
+static const struct mode modes[] = {
+    { 2560, 1440 },
+    { 1920, 1200 },
+    { 1920, 1080 },
+    { 1680, 1050 },
+    { 1600, 1200 },
+    { 1600, 900 },
+    { 1440, 900 },
+    { 1366, 768 },
+    { 1280, 1024 },
+    { 1280, 800 },
+    { 1280, 720 },
+    { 1024, 768 },
+    { 800, 600 },
+    { 640, 480 },
+    { 480, 320 },
+    { 320, 240 }
+};
 
 /*---------------------------------------------------------------------------*/
 
 enum
 {
     RESOL_BACK = 1,
-    RESOL_SELECT
+    RESOL_MODE
 };
 
 static int resol_action(int tok, int val)
@@ -51,10 +76,11 @@ static int resol_action(int tok, int val)
         st_back = NULL;
         break;
 
-    case RESOL_SELECT:
+    case RESOL_MODE:
         goto_state(&st_null);
         r = video_mode(config_get_d(CONFIG_FULLSCREEN),
-                       modes[val]->w, modes[val]->h);
+                       modes[val].w,
+                       modes[val].h);
         goto_state(&st_resol);
         break;
     }
@@ -62,39 +88,9 @@ static int resol_action(int tok, int val)
     return r;
 }
 
-static int fill_row(int id, SDL_Rect **modes, int i, int n)
-{
-    int complete;
-
-    if (n == 0)
-        return 1;
-
-    if (modes[i])
-    {
-        char label[20];
-        int btn;
-
-        sprintf(label, "%d x %d", modes[i]->w, modes[i]->h);
-
-        complete = fill_row(id, modes, i + 1, n - 1);
-
-        btn = gui_state(id, label, GUI_SML, RESOL_SELECT, i);
-
-        gui_set_hilite(btn, (config_get_d(CONFIG_WIDTH)  == modes[i]->w &&
-                             config_get_d(CONFIG_HEIGHT) == modes[i]->h));
-    }
-    else
-    {
-        for (; n; gui_space(id), n--);
-        complete = 0;
-    }
-
-    return complete;
-}
-
 static int resol_gui(void)
 {
-    int id, jd;
+    int id, jd, kd;
 
     if ((id = gui_vstack(0)))
     {
@@ -107,11 +103,36 @@ static int resol_gui(void)
 
         gui_space(id);
 
-        if (modes)
         {
-            int i;
+            const int W = config_get_d(CONFIG_WIDTH);
+            const int H = config_get_d(CONFIG_HEIGHT);
 
-            for (i = 0; fill_row(gui_harray(id), modes, i, 4); i += 4);
+            int i, j, n = ARRAYSIZE(modes);
+
+            char buff[sizeof ("1234567890 x 1234567890")] = "";
+
+            for (i = 0; i < n; i += 4)
+            {
+                if ((jd = gui_harray(id)))
+                {
+                    for (j = 3; j >= 0; j--)
+                    {
+                        int m = i + j;
+
+                        if (m < n)
+                        {
+                            sprintf(buff, "%d x %d", modes[m].w, modes[m].h);
+                            kd = gui_state(jd, buff, GUI_SML, RESOL_MODE, m);
+                            gui_set_hilite(kd, (modes[m].w == W &&
+                                                modes[m].h == H));
+                        }
+                        else
+                        {
+                            gui_space(jd);
+                        }
+                    }
+                }
+            }
         }
 
         gui_layout(id, 0, 0);
@@ -130,11 +151,6 @@ static int resol_enter(struct state *st, struct state *prev)
     }
 
     back_init("back/gui.png");
-
-    modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
-
-    if (modes == (SDL_Rect **) -1)
-        modes = NULL;
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 

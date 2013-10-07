@@ -16,7 +16,6 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
-#include "keyboard.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -183,11 +182,16 @@ static int page_controls(int id)
     const char *s_camera3 = _("Manual Camera");
     const char *s_shot    = _("Screenshot");
 
-    const char *k_exit    = pretty_keyname((int) KEY_EXIT);
-    const char *k_camera1 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_1));
-    const char *k_camera2 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_2));
-    const char *k_camera3 = pretty_keyname(config_get_d(CONFIG_KEY_CAMERA_3));
-    const char *k_shot    = pretty_keyname((int) KEY_SCREENSHOT);
+    /*
+     * SDL_GetKeyName overwrites some of its results, that's why we
+     * don't cache the pointers anymore.
+     */
+
+    const SDL_Keycode k_exit = KEY_EXIT;
+    const SDL_Keycode k_cam1 = config_get_d(CONFIG_KEY_CAMERA_1);
+    const SDL_Keycode k_cam2 = config_get_d(CONFIG_KEY_CAMERA_2);
+    const SDL_Keycode k_cam3 = config_get_d(CONFIG_KEY_CAMERA_3);
+    const SDL_Keycode k_shot = KEY_SCREENSHOT;
 
     int jd, kd;
 
@@ -198,27 +202,27 @@ static int page_controls(int id)
         if ((kd = gui_harray(jd)))
         {
             gui_label(kd, s_exit,   GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_exit, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, SDL_GetKeyName(k_exit), GUI_SML, gui_yel, gui_yel);
         }
         if ((kd = gui_harray(jd)))
         {
             gui_label(kd, s_camera1, GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_camera1, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, SDL_GetKeyName(k_cam1), GUI_SML, gui_yel, gui_yel);
         }
         if ((kd = gui_harray(jd)))
         {
             gui_label(kd, s_camera2, GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_camera2, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, SDL_GetKeyName(k_cam2), GUI_SML, gui_yel, gui_yel);
         }
         if ((kd = gui_harray(jd)))
         {
             gui_label(kd, s_camera3, GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_camera3, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, SDL_GetKeyName(k_cam3), GUI_SML, gui_yel, gui_yel);
         }
         if ((kd = gui_harray(jd)))
         {
             gui_label(kd, s_shot, GUI_SML, gui_wht, gui_wht);
-            gui_label(kd, k_shot, GUI_SML, gui_yel, gui_yel);
+            gui_label(kd, SDL_GetKeyName(k_shot), GUI_SML, gui_yel, gui_yel);
         }
 
         gui_set_rect(jd, GUI_ALL);

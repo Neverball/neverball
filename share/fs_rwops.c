@@ -14,18 +14,18 @@
 
 #include "fs_rwops.h"
 
-static int rwops_seek(SDL_RWops *ctx, int offset, int whence)
+static Sint64 rwops_seek(SDL_RWops *ctx, Sint64 offset, int whence)
 {
     fs_file fh = ctx->hidden.unknown.data1;
     return fs_seek(fh, offset, whence) ? fs_tell(fh) : -1;
 }
 
-static int rwops_read(SDL_RWops *ctx, void *ptr, int size, int maxnum)
+static size_t rwops_read(SDL_RWops *ctx, void *ptr, size_t size, size_t maxnum)
 {
     return fs_read(ptr, size, maxnum, ctx->hidden.unknown.data1);
 }
 
-static int rwops_write(SDL_RWops *ctx, const void *ptr, int size, int num)
+static size_t rwops_write(SDL_RWops *ctx, const void *ptr, size_t size, size_t num)
 {
     return fs_write(ptr, size, num, ctx->hidden.unknown.data1);
 }

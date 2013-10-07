@@ -226,16 +226,12 @@ static int dirty = 0;
 
 static void config_key(const char *s, int i)
 {
-    int c;
+    SDL_Keycode c = SDL_GetKeyFromName(s);
 
-    config_set_d(i, option_d[i].def);
-
-    for (c = 0; c < SDLK_LAST; c++)
-        if (strcmp(s, SDL_GetKeyName((SDLKey) c)) == 0)
-        {
-            config_set_d(i, c);
-            break;
-        }
+    if (c == SDLK_UNKNOWN)
+        config_set_d(i, option_d[i].def);
+    else
+        config_set_d(i, c);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -248,12 +244,8 @@ static void config_mouse(const char *s, int i)
         config_set_d(i, SDL_BUTTON_LEFT);
     else if (strcmp(s, "right") == 0)
         config_set_d(i, SDL_BUTTON_RIGHT);
-    else if (strcmp(s, "wheelup") == 0)
-        config_set_d(i, SDL_BUTTON_WHEELUP);
     else if (strcmp(s, "middle") == 0)
         config_set_d(i, SDL_BUTTON_MIDDLE);
-    else if (strcmp(s, "wheeldown") == 0)
-        config_set_d(i, SDL_BUTTON_WHEELDOWN);
     else
         config_set_d(i, atoi(s));
 }
@@ -269,9 +261,7 @@ static const char *config_mouse_name(int b)
     case 0:                    return "none";      break;
     case SDL_BUTTON_LEFT:      return "left";      break;
     case SDL_BUTTON_RIGHT:     return "right";     break;
-    case SDL_BUTTON_WHEELUP:   return "wheelup";   break;
     case SDL_BUTTON_MIDDLE:    return "middle";    break;
-    case SDL_BUTTON_WHEELDOWN: return "wheeldown"; break;
     default:                   return buff;        break;
     }
 }
@@ -449,7 +439,7 @@ void config_save(void)
                      i == CONFIG_KEY_SCORE_NEXT    ||
                      i == CONFIG_KEY_ROTATE_FAST)
             {
-                s = SDL_GetKeyName((SDLKey) option_d[i].cur);
+                s = SDL_GetKeyName((SDL_Keycode) option_d[i].cur);
             }
             else if (i == CONFIG_CHEAT)
             {

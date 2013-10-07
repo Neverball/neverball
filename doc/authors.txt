@@ -54,6 +54,9 @@ D: Mac OS X port
 N: Max Gilead
 D: Debian packaging
 
+N: Clément Guérin (GeeckoDev)
+D: Initial SDL2 port
+
 N: François Guillet (shino)
 D: Neverball Hall of Fame development and hosting
 D: Neverforum and Neverwiki installation and hosting

@@ -33,10 +33,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static char player[MAXNAM];
-
-/*---------------------------------------------------------------------------*/
-
 static struct state *ok_state;
 static struct state *cancel_state;
 
@@ -44,8 +40,6 @@ static unsigned int draw_back;
 
 int goto_name(struct state *ok, struct state *cancel, unsigned int back)
 {
-    SAFECPY(player, config_get_s(CONFIG_PLAYER));
-
     ok_state     = ok;
     cancel_state = cancel;
     draw_back    = back;
@@ -72,10 +66,10 @@ static int name_action(int tok, int val)
         return goto_state(cancel_state);
 
     case NAME_OK:
-        if (strlen(player) == 0)
+        if (strlen(text_input) == 0)
            return 1;
 
-        config_set_s(CONFIG_PLAYER, player);
+        config_set_s(CONFIG_PLAYER, text_input);
 
         return goto_state(ok_state);
 
@@ -84,13 +78,12 @@ static int name_action(int tok, int val)
         break;
 
     case GUI_BS:
-        if (text_del_char(player))
-            gui_set_label(name_id, player);
+        text_input_del();
         break;
 
     case GUI_CHAR:
-        if (text_add_char(val, player, sizeof (player)))
-            gui_set_label(name_id, player);
+        text_input_char(val);
+        break;
     }
     return 1;
 }
@@ -122,10 +115,16 @@ static int name_gui(void)
         gui_layout(id, 0, 0);
 
         gui_set_trunc(name_id, TRUNC_HEAD);
-        gui_set_label(name_id, player);
+        gui_set_label(name_id, text_input);
     }
 
     return id;
+}
+
+static void on_text_input(void)
+{
+    if (name_id)
+        gui_set_label(name_id, text_input);
 }
 
 static int name_enter(struct state *st, struct state *prev)
@@ -136,7 +135,8 @@ static int name_enter(struct state *st, struct state *prev)
         back_init("back/gui.png");
     }
 
-    SDL_EnableUNICODE(1);
+    text_input_start(on_text_input);
+    text_input_str(config_get_s(CONFIG_PLAYER));
 
     return name_gui();
 }
@@ -146,7 +146,8 @@ static void name_leave(struct state *st, struct state *next, int id)
     if (draw_back)
         back_free();
 
-    SDL_EnableUNICODE(0);
+    text_input_stop();
+
     gui_delete(id);
 }
 
@@ -178,10 +179,10 @@ static int name_keybd(int c, int d)
             gui_focus(enter_id);
             return name_action(GUI_BS, 0);
         }
-        if (c >= ' ')
+        else
         {
             gui_focus(enter_id);
-            return name_action(GUI_CHAR, c);
+            return 1;
         }
     }
     return 1;

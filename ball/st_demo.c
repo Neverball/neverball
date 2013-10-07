@@ -518,15 +518,10 @@ static void demo_play_stick(int id, int a, float v, int bump)
     }
 }
 
-static int demo_play_click(int b, int d)
+static void demo_play_wheel(int x, int y)
 {
-    if (d)
-    {
-        if (b == SDL_BUTTON_WHEELUP)   set_speed(+1);
-        if (b == SDL_BUTTON_WHEELDOWN) set_speed(-1);
-    }
-
-    return 1;
+    if (y > 0) set_speed(+1);
+    if (y < 0) set_speed(-1);
 }
 
 static int demo_play_keybd(int c, int d)
@@ -822,9 +817,10 @@ struct state st_demo_play = {
     NULL,
     demo_play_stick,
     NULL,
-    demo_play_click,
+    NULL,
     demo_play_keybd,
-    demo_play_buttn
+    demo_play_buttn,
+    demo_play_wheel
 };
 
 struct state st_demo_end = {

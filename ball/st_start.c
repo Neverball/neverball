@@ -275,6 +275,12 @@ static int start_score(int d)
     return start_action(GUI_SCORE, s);
 }
 
+static void start_wheel(int x, int y)
+{
+    if (y > 0) start_score(-1);
+    if (y < 0) start_score(+1);
+}
+
 static int start_keybd(int c, int d)
 {
     if (d)
@@ -330,13 +336,6 @@ static int start_click(int b, int d)
     {
         return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
     }
-
-    if (d)
-    {
-        if (b == SDL_BUTTON_WHEELUP)   start_score(-1);
-        if (b == SDL_BUTTON_WHEELDOWN) start_score(+1);
-    }
-
     return 1;
 }
 
@@ -352,5 +351,6 @@ struct state st_start = {
     shared_angle,
     start_click,
     start_keybd,
-    start_buttn
+    start_buttn,
+    start_wheel
 };

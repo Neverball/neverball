@@ -32,6 +32,7 @@
 #include "hmd.h"
 #include "fs.h"
 #include "common.h"
+#include "text.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -128,10 +129,7 @@ static int handle_key_dn(SDL_Event *e)
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
 
-        if (SDL_EnableUNICODE(-1))
-            d = st_keybd(e->key.keysym.unicode, 1);
-        else
-            d = st_keybd(e->key.keysym.sym, 1);
+        d = st_keybd(e->key.keysym.sym, 1);
     }
 
     return d;
@@ -204,10 +202,14 @@ static int loop(void)
             d = handle_key_up(&e);
             break;
 
-        case SDL_ACTIVEEVENT:
-            if (e.active.state == SDL_APPINPUTFOCUS)
-                if (e.active.gain == 0 && video_get_grab())
-                    goto_state(&st_pause);
+        case SDL_WINDOWEVENT:
+            if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST &&
+                video_get_grab())
+                goto_state(&st_pause);
+            break;
+
+        case SDL_TEXTINPUT:
+            text_input_str(e.text.text);
             break;
 
         case SDL_JOYAXISMOTION:
@@ -220,6 +222,10 @@ static int loop(void)
 
         case SDL_JOYBUTTONUP:
             d = st_buttn(e.jbutton.button, 0);
+            break;
+
+        case SDL_MOUSEWHEEL:
+            st_wheel(e.wheel.x, e.wheel.y);
             break;
         }
     }
@@ -483,7 +489,7 @@ int main(int argc, char *argv[])
 
     /* Initialize video. */
 
-    if (!video_init(TITLE, ICON))
+    if (!video_init())
         return 1;
 
     init_state(&st_null);

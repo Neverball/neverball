@@ -29,8 +29,6 @@
 #include "st_save.h"
 #include "st_shared.h"
 
-static char filename[MAXSTR];
-
 /*---------------------------------------------------------------------------*/
 
 static struct state *ok_state;
@@ -38,14 +36,6 @@ static struct state *cancel_state;
 
 int goto_save(struct state *ok, struct state *cancel)
 {
-    const char *name;
-
-    name = demo_format_name(config_get_s(CONFIG_REPLAY_NAME),
-                            set_id(curr_set()),
-                            level_name(curr_level()));
-
-    SAFECPY(filename, name);
-
     ok_state     = ok;
     cancel_state = cancel;
 
@@ -71,16 +61,16 @@ static int save_action(int tok, int val)
         return goto_state(cancel_state);
 
     case SAVE_SAVE:
-        if (strlen(filename) == 0)
+        if (strlen(text_input) == 0)
             return 1;
 
-        if (demo_exists(filename))
+        if (demo_exists(text_input))
         {
             return goto_state(&st_clobber);
         }
         else
         {
-            demo_rename(filename);
+            demo_rename(text_input);
             return goto_state(ok_state);
         }
 
@@ -89,14 +79,12 @@ static int save_action(int tok, int val)
         break;
 
     case GUI_BS:
-        if (text_del_char(filename))
-            gui_set_label(file_id, filename);
+        text_input_del();
         break;
 
     case GUI_CHAR:
-        if (!path_is_sep(val) &&
-            text_add_char(val, filename, sizeof (filename)))
-            gui_set_label(file_id, filename);
+        text_input_char(val);
+        break;
     }
     return 1;
 }
@@ -128,22 +116,36 @@ static int save_gui(void)
         gui_layout(id, 0, 0);
 
         gui_set_trunc(file_id, TRUNC_HEAD);
-        gui_set_label(file_id, filename);
+        gui_set_label(file_id, text_input);
     }
 
     return id;
 }
 
+static void on_text_input(void)
+{
+    if (file_id)
+        gui_set_label(file_id, text_input);
+}
+
 static int save_enter(struct state *st, struct state *prev)
 {
-    SDL_EnableUNICODE(1);
+    const char *name;
+
+    name = demo_format_name(config_get_s(CONFIG_REPLAY_NAME),
+                            set_id(curr_set()),
+                            level_name(curr_level()));
+
+    text_input_start(on_text_input);
+    text_input_str(name);
 
     return save_gui();
 }
 
 static void save_leave(struct state *st, struct state *next, int id)
 {
-    SDL_EnableUNICODE(0);
+    text_input_stop();
+
     gui_delete(id);
 }
 
@@ -159,10 +161,10 @@ static int save_keybd(int c, int d)
             gui_focus(enter_id);
             return save_action(GUI_BS, 0);
         }
-        if (c >= ' ')
+        else
         {
             gui_focus(enter_id);
-            return save_action(GUI_CHAR, c);
+            return 1;
         }
     }
     return 1;
@@ -195,7 +197,7 @@ static int clobber_action(int tok, int val)
 
     if (tok == SAVE_SAVE)
     {
-        demo_rename(filename);
+        demo_rename(text_input);
         return goto_state(ok_state);
     }
     return goto_state(&st_save);
@@ -222,7 +224,7 @@ static int clobber_gui(void)
         gui_layout(id, 0, 0);
 
         gui_set_trunc(file_id, TRUNC_TAIL);
-        gui_set_label(file_id, filename);
+        gui_set_label(file_id, text_input);
     }
 
     return id;

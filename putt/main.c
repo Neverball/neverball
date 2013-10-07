@@ -188,10 +188,10 @@ static int loop(void)
             }
             break;
 
-        case SDL_ACTIVEEVENT:
-            if (e.active.state == SDL_APPINPUTFOCUS)
-                if (e.active.gain == 0 && video_get_grab())
-                    goto_pause(&st_over);
+        case SDL_WINDOWEVENT:
+            if (e.window.event == SDL_WINDOWEVENT_FOCUS_LOST &&
+                video_get_grab())
+                goto_pause(&st_over);
             break;
 
         case SDL_JOYAXISMOTION:
@@ -300,7 +300,7 @@ int main(int argc, char *argv[])
 
         /* Initialize the video. */
 
-        if (video_init(TITLE, ICON))
+        if (video_init())
         {
             int t1, t0 = SDL_GetTicks();
 

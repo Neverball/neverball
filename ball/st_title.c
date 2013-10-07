@@ -211,8 +211,6 @@ static int title_enter(struct state *st, struct state *prev)
 
     real_time = 0.0f;
 
-    SDL_EnableUNICODE(1);
-
     return title_gui();
 }
 
@@ -224,7 +222,6 @@ static void title_leave(struct state *st, struct state *next, int id)
         items = NULL;
     }
 
-    SDL_EnableUNICODE(0);
     demo_replay_stop(0);
     gui_delete(id);
 }
