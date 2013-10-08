@@ -81,7 +81,7 @@ else
 endif
 
 ifeq ($(ENABLE_HMD),openhmd)
-	ALL_CPPFLAGS += -DENABLE_HMD -DOHMD_STATIC=1
+	ALL_CPPFLAGS += -DENABLE_HMD
 endif
 ifeq ($(ENABLE_HMD),libovr)
 	ALL_CPPFLAGS += -DENABLE_HMD
@@ -97,19 +97,15 @@ ALL_CPPFLAGS += $(CPPFLAGS)
 # HMD handling is a complicated with 6 platform-backend combinations.
 
 ifeq ($(ENABLE_HMD),openhmd)
-	ifeq ($(PLATFORM),mingw)
-		HMD_LIBS := -lopenhmd -lhidapi -lsetupapi
-	else
-		HMD_LIBS := -lopenhmd
-	endif
+	HMD_LIBS := -lopenhmd
 endif
 
 ifeq ($(ENABLE_HMD),libovr)
-	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -ludev
+	HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/Linux/Release/x86_64 -lovr -ludev -lX11 -lXinerama
 	HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 
 	ifeq ($(PLATFORM),mingw)
-		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MinGW/Release/w32 -lovr -lsetupapi
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MinGW/Release/w32 -lovr -lsetupapi -lwinmm
 		HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 	ifeq ($(PLATFORM),darwin)
@@ -124,16 +120,13 @@ ALL_CPPFLAGS += $(HMD_CPPFLAGS)
 # Libraries
 
 SDL_LIBS := $(shell sdl2-config --libs)
-PNG_LIBS := $(shell libpng-config --libs) -lz
+PNG_LIBS := $(shell libpng-config --libs)
 
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
 else
 FS_LIBS := -lphysfs
 endif
-
-# On some systems we need to link this directly.
-X11_LIBS := -lX11 -lXinerama
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -154,13 +147,11 @@ OGL_LIBS := -lGL
 
 ifeq ($(PLATFORM),mingw)
 	ifneq ($(ENABLE_NLS),0)
-		INTL_LIBS := -lintl -liconv
+		INTL_LIBS := -lintl
 	endif
 
 	TILT_LIBS :=
 	OGL_LIBS  := -lopengl32
-	X11_LIBS  :=
-	SDL_LIBS  := $(shell sdl2-config --static-libs)
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -170,7 +161,6 @@ ifeq ($(PLATFORM),darwin)
 
 	TILT_LIBS :=
 	OGL_LIBS  := -framework OpenGL
-	X11_LIBS  :=
 endif
 
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
@@ -179,11 +169,11 @@ ifeq ($(PLATFORM),darwin)
 	BASE_LIBS += -L/opt/local/lib
 endif
 
-OGG_LIBS := -lvorbisfile -lvorbisenc -lvorbis -logg
-TTF_LIBS := -lSDL2_ttf -lfreetype
+OGG_LIBS := -lvorbisfile
+TTF_LIBS := -lSDL2_ttf
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-	$(OGG_LIBS) $(SDL_LIBS) $(X11_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
 
 #------------------------------------------------------------------------------
 
