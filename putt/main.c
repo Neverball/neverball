@@ -115,7 +115,7 @@ static int loop(void)
                 break;
             }
 #endif
-#ifdef WIN32
+#ifdef _WIN32
             if (c == SDLK_F4 && e.key.keysym.mod & KMOD_ALT)
             {
                 d = 0;

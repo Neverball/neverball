@@ -91,7 +91,7 @@ static int handle_key_dn(SDL_Event *e)
     if (c == SDLK_q && e->key.keysym.mod & KMOD_META)
         return 0;
 #endif
-#ifdef WIN32
+#ifdef _WIN32
     if (c == SDLK_F4 && e->key.keysym.mod & KMOD_ALT)
         return 0;
 #endif
