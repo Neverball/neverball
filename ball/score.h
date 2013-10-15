@@ -19,7 +19,7 @@ enum
 
 struct score
 {
-    char player[RANK_MAX][MAXNAM];
+    char player[RANK_MAX][MAXSTR];
 
     int  timer[RANK_MAX];               /* Time elapsed                      */
     int  coins[RANK_MAX];               /* Coins collected                   */

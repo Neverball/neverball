@@ -42,7 +42,7 @@ static int score_coin_comp(const struct score *S, int i, int j)
 
 static void score_swap(struct score *S, int i, int j)
 {
-    char player[MAXNAM];
+    char player[MAXSTR];
     int  tmp;
 
     SAFECPY(player,       S->player[i]);
