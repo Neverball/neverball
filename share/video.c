@@ -95,7 +95,7 @@ static void set_window_title(const char *title)
 
 static void set_window_icon(const char *filename)
 {
-#if !defined(__APPLE__) && !defined(_WIN32)
+#if !defined(__APPLE__)
     SDL_Surface *icon;
 
     if ((icon = load_surface(filename)))
