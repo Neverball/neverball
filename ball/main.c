@@ -86,6 +86,16 @@ static int handle_key_dn(SDL_Event *e)
     int d = 1;
     int c = e->key.keysym.sym;
 
+    /* SDL made me do it. */
+#ifdef __APPLE__
+    if (c == SDLK_q && e->key.keysym.mod & KMOD_META)
+        return 0;
+#endif
+#ifdef WIN32
+    if (c == SDLK_F4 && e->key.keysym.mod & KMOD_ALT)
+        return 0;
+#endif
+
     switch (c)
     {
     case KEY_SCREENSHOT:
@@ -195,9 +205,6 @@ static int loop(void)
         case SDL_WINDOWEVENT:
             switch (e.window.event)
             {
-            case SDL_WINDOWEVENT_CLOSE:
-                return 0;
-
             case SDL_WINDOWEVENT_FOCUS_LOST:
                 if (video_get_grab())
                     goto_state(&st_pause);

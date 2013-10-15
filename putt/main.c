@@ -108,6 +108,21 @@ static int loop(void)
 
             c = e.key.keysym.sym;
 
+#ifdef __APPLE__
+            if (c == SDLK_q && e.key.keysym.mod & KMOD_META)
+            {
+                d = 0;
+                break;
+            }
+#endif
+#ifdef WIN32
+            if (c == SDLK_F4 && e.key.keysym.mod & KMOD_ALT)
+            {
+                d = 0;
+                break;
+            }
+#endif
+
             switch (c)
             {
             case KEY_SCREENSHOT:
@@ -176,9 +191,6 @@ static int loop(void)
         case SDL_WINDOWEVENT:
             switch (e.window.event)
             {
-            case SDL_WINDOWEVENT_CLOSE:
-                return 0;
-
             case SDL_WINDOWEVENT_FOCUS_LOST:
                 if (video_get_grab())
                     goto_pause(&st_over);
