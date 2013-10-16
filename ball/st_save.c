@@ -125,7 +125,11 @@ static int save_gui(void)
 static void on_text_input(void)
 {
     if (file_id)
+    {
         gui_set_label(file_id, text_input);
+
+        audio_play(AUD_MENU, 1.0f);
+    }
 }
 
 static int save_enter(struct state *st, struct state *prev)

@@ -124,7 +124,11 @@ static int name_gui(void)
 static void on_text_input(void)
 {
     if (name_id)
+    {
         gui_set_label(name_id, text_input);
+
+        audio_play(AUD_MENU, 1.0f);
+    }
 }
 
 static int name_enter(struct state *st, struct state *prev)
