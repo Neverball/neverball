@@ -312,6 +312,8 @@ static int shot_id;
 
 static int course_action(int i)
 {
+    audio_play(AUD_MENU, 1.0f);
+
     if (course_exists(i))
     {
         course_goto(i);
