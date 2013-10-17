@@ -258,27 +258,62 @@ static int play_set_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-struct
+enum
 {
-    float R;
-    float L;
+    ROT_NONE = 0,
+    ROT_ROTATE,
+    ROT_HOLD
+};
 
-    enum
+#define DIR_R 0x1
+#define DIR_L 0x2
+
+static int   rot_dir;
+static float rot_val;
+
+static void rot_init(void)
+{
+    rot_val = 0.0f;
+    rot_dir = 0;
+}
+
+static void rot_set(int dir, float value, int exclusive)
+{
+    rot_val = value;
+
+    if (exclusive)
+        rot_dir  = dir;
+    else
+        rot_dir |= dir;
+}
+
+static void rot_clr(int dir)
+{
+    rot_dir &= ~dir;
+}
+
+static int rot_get(float *v)
+{
+    *v = 0.0f;
+
+    if ((rot_dir & DIR_R) && (rot_dir & DIR_L))
     {
-        DIR_R = 1,
-        DIR_L
-    } d;
-} view_rotate;
+        return ROT_HOLD;
+    }
+    else if (rot_dir & DIR_R)
+    {
+        *v = +rot_val;
+        return ROT_ROTATE;
+    }
+    else if (rot_dir & DIR_L)
+    {
+        *v = -rot_val;
+        return ROT_ROTATE;
+    }
+    return ROT_NONE;
+}
 
-#define VIEWR_SET_R(v) do {                                    \
-    view_rotate.R = (v);                                       \
-    view_rotate.d = (v) ? DIR_R : (view_rotate.L ? DIR_L : 0); \
-} while (0)
-
-#define VIEWR_SET_L(v) do {                                    \
-    view_rotate.L = (v);                                       \
-    view_rotate.d = (v) ? DIR_L : (view_rotate.R ? DIR_R : 0); \
-} while (0)
+/*---------------------------------------------------------------------------*/
 
 static int fast_rotate;
 static int show_hud;
@@ -298,8 +333,7 @@ static int play_loop_gui(void)
 
 static int play_loop_enter(struct state *st, struct state *prev)
 {
-    VIEWR_SET_R(0);
-    VIEWR_SET_L(0);
+    rot_init();
     fast_rotate = 0;
 
     if (prev == &st_pause)
@@ -332,12 +366,29 @@ static void play_loop_timer(int id, float dt)
                (float) config_get_d(CONFIG_ROTATE_FAST) / 100.0f :
                (float) config_get_d(CONFIG_ROTATE_SLOW) / 100.0f);
 
+    float r = 0.0f;
+
     gui_timer(id, dt);
     hud_timer(dt);
-    game_set_rot(view_rotate.d == DIR_R ?
-                 view_rotate.R * k :
-                 view_rotate.L * k);
-    game_set_cam(config_get_d(CONFIG_CAMERA));
+
+    switch (rot_get(&r))
+    {
+    case ROT_HOLD:
+        /*
+         * Cam 3 could be anything. But let's assume it's a manual cam
+         * and holding down both rotation buttons freezes the camera
+         * rotation.
+         */
+        game_set_rot(0.0f);
+        game_set_cam(CAM_3);
+        break;
+
+    case ROT_ROTATE:
+    case ROT_NONE:
+        game_set_rot(r * k);
+        game_set_cam(config_get_d(CONFIG_CAMERA));
+        break;
+    }
 
     game_step_fade(dt);
 
@@ -381,11 +432,12 @@ static void play_loop_stick(int id, int a, float v, int bump)
         game_set_x(v);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_U, a))
     {
-        VIEWR_SET_R(0);
-        VIEWR_SET_L(0);
-
-        if (v > 0) VIEWR_SET_R(v);
-        if (v < 0) VIEWR_SET_L(v);
+        if      (v > 0.0f)
+            rot_set(DIR_R, +v, 1);
+        else if (v < 0.0f)
+            rot_set(DIR_L, -v, 1);
+        else
+            rot_clr(DIR_R | DIR_L);
     }
 }
 
@@ -394,18 +446,18 @@ static int play_loop_click(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            VIEWR_SET_R(+1);
+            rot_set(DIR_R, 1.0f, 0);
         if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
-            VIEWR_SET_L(-1);
+            rot_set(DIR_L, 1.0f, 0);
 
         click_camera(b);
     }
     else
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            VIEWR_SET_R(0);
+            rot_clr(DIR_R);
         if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
-            VIEWR_SET_L(0);
+            rot_clr(DIR_L);
     }
 
     return 1;
@@ -416,9 +468,9 @@ static int play_loop_keybd(int c, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
-            VIEWR_SET_R(+1);
+            rot_set(DIR_R, 1.0f, 0);
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
-            VIEWR_SET_L(-1);
+            rot_set(DIR_L, 1.0f, 0);
         if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
             fast_rotate = 1;
 
@@ -436,9 +488,9 @@ static int play_loop_keybd(int c, int d)
     else
     {
         if (config_tst_d(CONFIG_KEY_CAMERA_R, c))
-            VIEWR_SET_R(0);
+            rot_clr(DIR_R);
         if (config_tst_d(CONFIG_KEY_CAMERA_L, c))
-            VIEWR_SET_L(0);
+            rot_clr(DIR_L);
         if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
             fast_rotate = 0;
     }
@@ -465,9 +517,9 @@ static int play_loop_buttn(int b, int d)
             goto_state(&st_pause);
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
-            VIEWR_SET_R(+1);
+            rot_set(DIR_R, 1.0f, 0);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b))
-            VIEWR_SET_L(-1);
+            rot_set(DIR_L, 1.0f, 0);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L2, b))
             fast_rotate = 1;
 
@@ -476,9 +528,9 @@ static int play_loop_buttn(int b, int d)
     else
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
-            VIEWR_SET_R(0);
+            rot_clr(DIR_R);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b))
-            VIEWR_SET_L(0);
+            rot_clr(DIR_L);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L2, b))
             fast_rotate = 0;
     }
