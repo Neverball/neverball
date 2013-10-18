@@ -1,0 +1,18 @@
+# Attempt to handle extensionless mtrl files
+/data/textures/mtrl/* text=auto
+/data/mtrl/*          text=auto
+/data/png/*           text=auto
+/data/ball/*/*        text=auto
+/data/geom/*/*        text=auto
+/data/item/*/*        text=auto
+
+# Be paranoid about text=auto ambiguity
+*.jpg   -text
+*.png   -text
+*.wings -text
+
+# This is absolutely always text
+*.txt text
+*.map text
+*.obj text
+*.mtl text
