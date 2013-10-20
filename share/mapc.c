@@ -48,9 +48,6 @@ static int         debug_output = 0;
 static int           csv_output = 0;
 static int         verbose;
 
-struct timeval t0;
-struct timeval t1;
-
 /*---------------------------------------------------------------------------*/
 
 /* Ohhhh... arbitrary! */
@@ -1548,9 +1545,9 @@ static void clip_vert(struct s_base *fp,
 
         for (i = 0; i < lp->sc; i++)
         {
-            int si = fp->iv[lp->s0 + i];
+            int sl = fp->iv[lp->s0 + i];
 
-            if (fore_side(p, fp->sv + si))
+            if (fore_side(p, fp->sv + sl))
                 return;
         }
 
@@ -2415,7 +2412,7 @@ static int test_lump_side(const struct s_base *fp,
 
     for (vi = 0; vi < lp->vc; vi++)
     {
-        float d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
+        d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
 
         if (d > 0) f++;
         if (d < 0) b++;
@@ -2519,7 +2516,6 @@ static int node_node(struct s_base *fp, int l0, int lc, float bsphere[][4])
                 {
                     struct b_lump l;
                     float f;
-                    int i;
 
                     for (i = 0; i < 4; i++)
                     {
@@ -2672,6 +2668,9 @@ int main(int argc, char *argv[])
     struct s_base f;
     fs_file fin;
 
+    struct timeval time0;
+    struct timeval time1;
+
     if (!fs_init(argv[0]))
     {
         fprintf(stderr, "Failure to initialize virtual file system: %s\n",
@@ -2714,7 +2713,7 @@ int main(int argc, char *argv[])
                 return 1;
             }
 
-            gettimeofday(&t0, 0);
+            gettimeofday(&time0, 0);
             {
                 init_file(&f);
                 read_map(&f, fin);
@@ -2731,10 +2730,10 @@ int main(int argc, char *argv[])
 
                 sol_stor_base(&f, base_name(dst));
             }
-            gettimeofday(&t1, 0);
+            gettimeofday(&time1, 0);
 
-            dump_file(&f, dst, (t1.tv_sec  - t0.tv_sec) +
-                               (t1.tv_usec - t0.tv_usec) / 1000000.0);
+            dump_file(&f, dst, (time1.tv_sec  - time0.tv_sec) +
+                               (time1.tv_usec - time0.tv_usec) / 1000000.0);
 
             fs_close(fin);
 

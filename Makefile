@@ -55,9 +55,9 @@ ifeq ($(ENABLE_TILT),wii)
 	# libwiimote headers make heavy use of the "unnamed fields" GCC
 	# extension.
 
-	ALL_CFLAGS := -Wall -std=c99 -pedantic -fms-extensions $(CFLAGS)
+	ALL_CFLAGS := -Wall -Wshadow -std=c99 -pedantic -fms-extensions $(CFLAGS)
 else
-	ALL_CFLAGS := -Wall -std=c99 -pedantic $(CFLAGS)
+	ALL_CFLAGS := -Wall -Wshadow -std=c99 -pedantic $(CFLAGS)
 endif
 
 ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)

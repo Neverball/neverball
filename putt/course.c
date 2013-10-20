@@ -41,22 +41,22 @@ static struct course course_v[MAXCRS];
 
 /*---------------------------------------------------------------------------*/
 
-static int course_load(struct course *course, const char *filename)
+static int course_load(struct course *crs, const char *filename)
 {
     fs_file fin;
     int rc = 0;
 
-    memset(course, 0, sizeof (*course));
+    memset(crs, 0, sizeof (*crs));
 
-    strncpy(course->holes, filename, MAXSTR - 1);
+    strncpy(crs->holes, filename, MAXSTR - 1);
 
     if ((fin = fs_open(filename, "r")))
     {
-        if (fs_gets(course->shot, sizeof (course->shot), fin) &&
-            fs_gets(course->desc, sizeof (course->desc), fin))
+        if (fs_gets(crs->shot, sizeof (crs->shot), fin) &&
+            fs_gets(crs->desc, sizeof (crs->desc), fin))
         {
-            strip_newline(course->shot);
-            strip_newline(course->desc);
+            strip_newline(crs->shot);
+            strip_newline(crs->desc);
 
             rc = 1;
         }

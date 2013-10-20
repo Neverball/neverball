@@ -209,26 +209,24 @@ static int clobber_action(int tok, int val)
 
 static int clobber_gui(void)
 {
-    int id, jd, kd;
-    int file_id;
+    int id, jd, kd, ld;
 
     if ((id = gui_vstack(0)))
     {
         kd = gui_label(id, _("Overwrite?"), GUI_MED, gui_red, gui_red);
-
-        file_id = gui_label(id, "MMMMMMMM", GUI_MED, gui_yel, gui_yel);
+        ld = gui_label(id, "MMMMMMMM", GUI_MED, gui_yel, gui_yel);
 
         if ((jd = gui_harray(id)))
         {
             gui_start(jd, _("Cancel"),    GUI_SML, GUI_BACK, 0);
-            gui_state(jd, _("Overwrite"), GUI_SML, SAVE_SAVE,   0);
+            gui_state(jd, _("Overwrite"), GUI_SML, SAVE_SAVE, 0);
         }
 
         gui_pulse(kd, 1.2f);
         gui_layout(id, 0, 0);
 
-        gui_set_trunc(file_id, TRUNC_TAIL);
-        gui_set_label(file_id, text_input);
+        gui_set_trunc(ld, TRUNC_TAIL);
+        gui_set_label(ld, text_input);
     }
 
     return id;

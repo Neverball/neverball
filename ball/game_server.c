@@ -338,11 +338,11 @@ static int   got_orig = 0;              /* Do we know original ball size?    */
 
 static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
-static void grow_init(const struct s_vary *vary, int type)
+static void grow_init(int type)
 {
     if (!got_orig)
     {
-        grow_orig  = vary->uv->r;
+        grow_orig  = vary.uv->r;
         grow_goal  = grow_orig;
         grow_strt  = grow_orig;
 
@@ -399,11 +399,11 @@ static void grow_init(const struct s_vary *vary, int type)
     if (grow)
     {
         grow_t = 0.0;
-        grow_strt = vary->uv->r;
+        grow_strt = vary.uv->r;
     }
 }
 
-static void grow_step(const struct s_vary *vary, float dt)
+static void grow_step(float dt)
 {
     float dr;
 
@@ -424,8 +424,8 @@ static void grow_step(const struct s_vary *vary, float dt)
 
     /* No sinking through the floor! Keeps ball's bottom constant. */
 
-    vary->uv->p[1] += (dr - vary->uv->r);
-    vary->uv->r     =  dr;
+    vary.uv->p[1] += (dr - vary.uv->r);
+    vary.uv->r     =  dr;
 
     game_cmd_ballradius();
 }
@@ -692,7 +692,7 @@ static int game_update_state(int bt)
 
         game_cmd_pkitem(hi);
 
-        grow_init(&vary, hp->t);
+        grow_init(hp->t);
 
         if (hp->t == ITEM_COIN)
         {
@@ -775,7 +775,7 @@ static int game_step(const float g[3], float dt, int bt)
         game_cmd_tiltaxes();
         game_cmd_tiltangles();
 
-        grow_step(&vary, dt);
+        grow_step(dt);
 
         game_tilt_grav(h, g, &tilt);
 

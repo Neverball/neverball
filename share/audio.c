@@ -62,10 +62,10 @@ static ov_callbacks callbacks = {
 /*---------------------------------------------------------------------------*/
 
 #define MIX(d, s) {                           \
-        int n = (int) (d) + (int) (s);        \
-        if      (n >  32767) (d) =  32767;    \
-        else if (n < -32768) (d) = -32768;    \
-        else                 (d) = (short) n; \
+        int T = (int) (d) + (int) (s);        \
+        if      (T >  32767) (d) =  32767;    \
+        else if (T < -32768) (d) = -32768;    \
+        else                 (d) = (short) T; \
     }
 
 static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)

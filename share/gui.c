@@ -103,7 +103,7 @@ static int           hovered;
 static int           clicked;
 static int           padding;
 static int           borders[4];
-static TTF_Font     *font[3] = { NULL, NULL, NULL };
+static TTF_Font     *fonts[3] = { NULL, NULL, NULL };
 
 /* Digit widgets for the HUD. */
 
@@ -458,13 +458,13 @@ static int gui_font_init(const char *path)
 
             /* Load small, medium, and large typefaces. */
 
-            font[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
+            fonts[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
 
             SDL_RWseek(fontrwops, 0, SEEK_SET);
-            font[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
+            fonts[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
 
             SDL_RWseek(fontrwops, 0, SEEK_SET);
-            font[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
+            fonts[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
 
             /* fontrwops remains open. */
         }
@@ -472,9 +472,9 @@ static int gui_font_init(const char *path)
         {
             fontrwops = NULL;
 
-            font[GUI_SML] = NULL;
-            font[GUI_MED] = NULL;
-            font[GUI_LRG] = NULL;
+            fonts[GUI_SML] = NULL;
+            fonts[GUI_MED] = NULL;
+            fonts[GUI_LRG] = NULL;
 
             fprintf(stderr, L_("Could not load font '%s'.\n"), path);
         }
@@ -488,9 +488,9 @@ static int gui_font_init(const char *path)
 
 static void gui_font_quit(void)
 {
-    if (font[GUI_LRG]) TTF_CloseFont(font[GUI_LRG]);
-    if (font[GUI_MED]) TTF_CloseFont(font[GUI_MED]);
-    if (font[GUI_SML]) TTF_CloseFont(font[GUI_SML]);
+    if (fonts[GUI_LRG]) TTF_CloseFont(fonts[GUI_LRG]);
+    if (fonts[GUI_MED]) TTF_CloseFont(fonts[GUI_MED]);
+    if (fonts[GUI_SML]) TTF_CloseFont(fonts[GUI_SML]);
 
     if (fontrwops) SDL_RWclose(fontrwops);
     if (fontdata)  free(fontdata);
@@ -863,13 +863,13 @@ void gui_set_label(int id, const char *text)
     glDeleteTextures(1, &widget[id].image);
 
     str = gui_truncate(text, widget[id].w - padding,
-                       font[widget[id].size],
+                       fonts[widget[id].size],
                        widget[id].trunc);
 
     widget[id].image = make_image_from_font(NULL, NULL,
                                             &widget[id].text_w,
                                             &widget[id].text_h,
-                                            str, font[widget[id].size], 0);
+                                            str, fonts[widget[id].size], 0);
     w = widget[id].text_w;
     h = widget[id].text_h;
 
@@ -1020,7 +1020,7 @@ int gui_state(int pd, const char *text, int size, int token, int value)
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
-                                                text, font[size], 0);
+                                                text, fonts[size], 0);
         widget[id].w     = widget[id].text_w;
         widget[id].h     = widget[id].text_h;
         widget[id].size  = size;
@@ -1040,7 +1040,7 @@ int gui_label(int pd, const char *text, int size, const GLubyte *c0,
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
-                                                text, font[size], 0);
+                                                text, fonts[size], 0);
         widget[id].w      = widget[id].text_w;
         widget[id].h      = widget[id].text_h;
         widget[id].size   = size;
@@ -1646,11 +1646,11 @@ static void gui_paint_count(int id)
 
             for (j = widget[id].value; j; j /= 10)
             {
-                int id = digit_id[i][j % 10];
+                int jd = digit_id[i][j % 10];
 
-                glBindTexture(GL_TEXTURE_2D, widget[id].image);
-                draw_text(id);
-                glTranslatef((GLfloat) -widget[id].text_w, 0.0f, 0.0f);
+                glBindTexture(GL_TEXTURE_2D, widget[jd].image);
+                draw_text(jd);
+                glTranslatef((GLfloat) -widget[jd].text_w, 0.0f, 0.0f);
             }
         }
         else if (widget[id].value == 0)
