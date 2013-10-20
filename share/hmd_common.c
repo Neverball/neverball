@@ -210,12 +210,12 @@ void hmd_common_swap(float center,
                                                     chroma_correction[3]);
         /* Draw the left eye. */
 
-        glsl_uniform2f(&distortion, "LensCenter", 0.5 + 0.5f * center, 0.5);
+        glsl_uniform2f(&distortion, "LensCenter", 0.5f + 0.5f * center, 0.5f);
         hmd_common_draw(L_fbo.color_texture, L_vbo);
 
         /* Draw the right eye.*/
 
-        glsl_uniform2f(&distortion, "LensCenter", 0.5 - 0.5f * center, 0.5);
+        glsl_uniform2f(&distortion, "LensCenter", 0.5f - 0.5f * center, 0.5f);
         hmd_common_draw(R_fbo.color_texture, R_vbo);
     }
     glUseProgram_(0);

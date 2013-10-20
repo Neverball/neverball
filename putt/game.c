@@ -544,7 +544,7 @@ int game_step(const float g[3], float dt)
 
         /* Handle a jump. */
 
-        if (0.5 < jump_dt)
+        if (0.5f < jump_dt)
         {
             fp->uv[ball].p[0] = jump_p[0];
             fp->uv[ball].p[1] = jump_p[1];
@@ -575,8 +575,8 @@ int game_step(const float g[3], float dt)
 
         /* Mix the sound of a ball bounce. */
 
-        if (b > 0.5)
-            audio_play(AUD_BUMP, (float) (b - 0.5) * 2.0f);
+        if (b > 0.5f)
+            audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
     }
 
     game_update_view(dt);
@@ -614,8 +614,8 @@ void game_set_mag(int d)
 {
     view_m -= (float) (1.f * d) / config_get_d(CONFIG_MOUSE_SENSE);
 
-    if (view_m < 0.25)
-        view_m = 0.25;
+    if (view_m < 0.25f)
+        view_m = 0.25f;
 }
 
 void game_set_fly(float k)

@@ -1754,27 +1754,27 @@ static void clip_file(struct s_base *fp)
 
 static int comp_mtrl(const struct b_mtrl *mp, const struct b_mtrl *mq)
 {
-    if (fabs(mp->d[0] - mq->d[0]) > SMALL) return 0;
-    if (fabs(mp->d[1] - mq->d[1]) > SMALL) return 0;
-    if (fabs(mp->d[2] - mq->d[2]) > SMALL) return 0;
-    if (fabs(mp->d[3] - mq->d[3]) > SMALL) return 0;
+    if (fabsf(mp->d[0] - mq->d[0]) > SMALL) return 0;
+    if (fabsf(mp->d[1] - mq->d[1]) > SMALL) return 0;
+    if (fabsf(mp->d[2] - mq->d[2]) > SMALL) return 0;
+    if (fabsf(mp->d[3] - mq->d[3]) > SMALL) return 0;
 
-    if (fabs(mp->a[0] - mq->a[0]) > SMALL) return 0;
-    if (fabs(mp->a[1] - mq->a[1]) > SMALL) return 0;
-    if (fabs(mp->a[2] - mq->a[2]) > SMALL) return 0;
-    if (fabs(mp->a[3] - mq->a[3]) > SMALL) return 0;
+    if (fabsf(mp->a[0] - mq->a[0]) > SMALL) return 0;
+    if (fabsf(mp->a[1] - mq->a[1]) > SMALL) return 0;
+    if (fabsf(mp->a[2] - mq->a[2]) > SMALL) return 0;
+    if (fabsf(mp->a[3] - mq->a[3]) > SMALL) return 0;
 
-    if (fabs(mp->s[0] - mq->s[0]) > SMALL) return 0;
-    if (fabs(mp->s[1] - mq->s[1]) > SMALL) return 0;
-    if (fabs(mp->s[2] - mq->s[2]) > SMALL) return 0;
-    if (fabs(mp->s[3] - mq->s[3]) > SMALL) return 0;
+    if (fabsf(mp->s[0] - mq->s[0]) > SMALL) return 0;
+    if (fabsf(mp->s[1] - mq->s[1]) > SMALL) return 0;
+    if (fabsf(mp->s[2] - mq->s[2]) > SMALL) return 0;
+    if (fabsf(mp->s[3] - mq->s[3]) > SMALL) return 0;
 
-    if (fabs(mp->e[0] - mq->e[0]) > SMALL) return 0;
-    if (fabs(mp->e[1] - mq->e[1]) > SMALL) return 0;
-    if (fabs(mp->e[2] - mq->e[2]) > SMALL) return 0;
-    if (fabs(mp->e[3] - mq->e[3]) > SMALL) return 0;
+    if (fabsf(mp->e[0] - mq->e[0]) > SMALL) return 0;
+    if (fabsf(mp->e[1] - mq->e[1]) > SMALL) return 0;
+    if (fabsf(mp->e[2] - mq->e[2]) > SMALL) return 0;
+    if (fabsf(mp->e[3] - mq->e[3]) > SMALL) return 0;
 
-    if (fabs(mp->h[0] - mq->h[0]) > SMALL) return 0;
+    if (fabsf(mp->h[0] - mq->h[0]) > SMALL) return 0;
 
     if (strncmp(mp->f, mq->f, PATHMAX)) return 0;
 
@@ -1783,9 +1783,9 @@ static int comp_mtrl(const struct b_mtrl *mp, const struct b_mtrl *mq)
 
 static int comp_vert(const struct b_vert *vp, const struct b_vert *vq)
 {
-    if (fabs(vp->p[0] - vq->p[0]) > SMALL) return 0;
-    if (fabs(vp->p[1] - vq->p[1]) > SMALL) return 0;
-    if (fabs(vp->p[2] - vq->p[2]) > SMALL) return 0;
+    if (fabsf(vp->p[0] - vq->p[0]) > SMALL) return 0;
+    if (fabsf(vp->p[1] - vq->p[1]) > SMALL) return 0;
+    if (fabsf(vp->p[2] - vq->p[2]) > SMALL) return 0;
 
     return 1;
 }
@@ -1800,7 +1800,7 @@ static int comp_edge(const struct b_edge *ep, const struct b_edge *eq)
 
 static int comp_side(const struct b_side *sp, const struct b_side *sq)
 {
-    if  (fabs(sp->d - sq->d) > SMALL)  return 0;
+    if (fabsf(sp->d - sq->d) > SMALL)  return 0;
     if (v_dot(sp->n,  sq->n) < 0.9999) return 0;
 
     return 1;
@@ -1808,8 +1808,8 @@ static int comp_side(const struct b_side *sp, const struct b_side *sq)
 
 static int comp_texc(const struct b_texc *tp, const struct b_texc *tq)
 {
-    if (fabs(tp->u[0] - tq->u[0]) > SMALL) return 0;
-    if (fabs(tp->u[1] - tq->u[1]) > SMALL) return 0;
+    if (fabsf(tp->u[0] - tq->u[0]) > SMALL) return 0;
+    if (fabsf(tp->u[1] - tq->u[1]) > SMALL) return 0;
 
     return 1;
 }
@@ -2402,7 +2402,7 @@ static int test_lump_side(const struct s_base *fp,
 
     d = v_dot(bsphere, sp->n) - sp->d;
 
-    if (fabs(d) > bsphere[3])
+    if (fabsf(d) > bsphere[3])
         return d > 0 ? 1 : -1;
 
     /* If the given side is part of the given lump, then the lump is behind. */

@@ -578,7 +578,7 @@ static void gui_rect_init(void)
     rect_s[3] =  1.0f;
 
     rect_t[0] =  1.0f;
-    rect_t[1] = (1.0 - s[2]);
+    rect_t[1] = (1.0f - s[2]);
     rect_t[2] =  s[3];
     rect_t[3] =  0.0f;
 
@@ -1581,7 +1581,7 @@ static void gui_paint_array(int id)
         GLfloat cy = widget[id].y + widget[id].h / 2.0f;
         GLfloat ck = widget[id].scale;
 
-        if (1.0 < ck || ck < 1.0)
+        if (1.0f < ck || ck < 1.0f)
         {
             glTranslatef(+cx, +cy, 0.0f);
             glScalef(ck, ck, ck);

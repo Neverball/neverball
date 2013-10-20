@@ -398,7 +398,7 @@ void q_slerp(float q[4], const float a[4], const float b[4], float t)
 
     /* Fall back to normalized lerp for very similar orientations. */
 
-    if (1.0f - c < TINY)
+    if (1.0f - c < (float) TINY)
     {
         u = 1.0f - t;
         v = t;

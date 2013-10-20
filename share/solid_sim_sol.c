@@ -273,7 +273,7 @@ static float sol_bounce(struct v_ball *up,
     vn = v_dot(v, n);
     wn = v_dot(w, n);
 
-    v_mad(v, v, n, 1.7 * (wn - vn));
+    v_mad(v, v, n, 1.7f * (wn - vn));
 
     v_mad(p, q, n, up->r);
 

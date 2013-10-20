@@ -640,7 +640,7 @@ static void game_update_view(float dt)
 
     view_k = view_k + (k - view_k) * dt;
 
-    if (view_k < 0.5) view_k = 0.5;
+    if (view_k < 0.5f) view_k = 0.5;
 
     v_scl(v,    view.e[1], view.dp * view_k);
     v_mad(v, v, view.e[2], view.dz * view_k);

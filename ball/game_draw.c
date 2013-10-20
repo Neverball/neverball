@@ -447,7 +447,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
 
-    if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5);
+    if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5f);
 
     if (gd->state)
     {

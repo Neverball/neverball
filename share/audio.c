@@ -106,8 +106,8 @@ static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
 
                     V->amp += V->damp;
 
-                    if (V->amp < 0.0) V->amp = 0.0;
-                    if (V->amp > 1.0) V->amp = 1.0;
+                    if (V->amp < 0.0f) V->amp = 0.0;
+                    if (V->amp > 1.0f) V->amp = 1.0;
                 }
 
             /* Mix stereo audio. */
@@ -123,8 +123,8 @@ static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
 
                     V->amp += V->damp;
 
-                    if (V->amp < 0.0) V->amp = 0.0;
-                    if (V->amp > 1.0) V->amp = 1.0;
+                    if (V->amp < 0.0f) V->amp = 0.0;
+                    if (V->amp > 1.0f) V->amp = 1.0;
                 }
 
             r -= n;
@@ -173,8 +173,8 @@ static struct voice *voice_init(const char *filename, float a)
                 V->play = 1;
                 V->loop = 0;
 
-                if (V->amp > 1.0) V->amp = 1.0;
-                if (V->amp < 0.0) V->amp = 0.0;
+                if (V->amp > 1.0f) V->amp = 1.0;
+                if (V->amp < 0.0f) V->amp = 0.0;
 
                 /* The file will be closed when the Ogg is cleared. */
             }
@@ -312,8 +312,8 @@ void audio_play(const char *filename, float a)
 
                     V->amp = a;
 
-                    if (V->amp > 1.0) V->amp = 1.0;
-                    if (V->amp < 0.0) V->amp = 0.0;
+                    if (V->amp > 1.0f) V->amp = 1.0;
+                    if (V->amp < 0.0f) V->amp = 0.0;
 
                     SDL_UnlockAudio();
                     return;

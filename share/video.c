@@ -323,7 +323,7 @@ void video_swap(void)
         /* Output statistics if configured. */
 
         if (config_get_d(CONFIG_STATS))
-            fprintf(stdout, "%4d %8.4f\n", fps, ms);
+            fprintf(stdout, "%4d %8.4f\n", fps, (double) ms);
     }
 }
 
@@ -403,8 +403,8 @@ void video_push_persp(float fov, float n, float f)
         GLfloat m[4][4];
 
         GLfloat r = fov / 2 * V_PI / 180;
-        GLfloat s = sin(r);
-        GLfloat c = cos(r) / s;
+        GLfloat s = fsinf(r);
+        GLfloat c = fcosf(r) / s;
 
         GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
                      (GLfloat) config_get_d(CONFIG_HEIGHT));
