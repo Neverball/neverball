@@ -1797,8 +1797,8 @@ static int comp_edge(const struct b_edge *ep, const struct b_edge *eq)
 
 static int comp_side(const struct b_side *sp, const struct b_side *sq)
 {
-    if (fabsf(sp->d - sq->d) > SMALL)  return 0;
-    if (v_dot(sp->n,  sq->n) < 0.9999) return 0;
+    if (fabsf(sp->d - sq->d) > SMALL) return 0;
+    if (v_dot(sp->n,  sq->n) < 1.0f)  return 0;
 
     return 1;
 }
