@@ -9,3 +9,6 @@
 
 .version
 share/version.h
+
+*.bak
+*.autosave.map
