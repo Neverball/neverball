@@ -128,8 +128,8 @@ static int handle_key_dn(SDL_Event *e)
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
-
-        d = st_keybd(e->key.keysym.sym, 1);
+        else
+            d = st_keybd(e->key.keysym.sym, 1);
     }
 
     return d;
@@ -157,8 +157,8 @@ static int handle_key_up(SDL_Event *e)
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
             st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
-
-        d = st_keybd(e->key.keysym.sym, 0);
+        else
+            d = st_keybd(e->key.keysym.sym, 0);
     }
 
     return d;

@@ -153,8 +153,8 @@ static int loop(void)
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
                 else if (config_tst_d(CONFIG_KEY_RIGHT, c))
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
-
-                d = st_keybd(e.key.keysym.sym, 1);
+                else
+                    d = st_keybd(e.key.keysym.sym, 1);
             }
             break;
 
@@ -183,8 +183,8 @@ static int loop(void)
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
                 else if (config_tst_d(CONFIG_KEY_RIGHT, c))
                     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
-
-                d = st_keybd(e.key.keysym.sym, 0);
+                else
+                    d = st_keybd(e.key.keysym.sym, 0);
             }
             break;
 
