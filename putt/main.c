@@ -109,7 +109,7 @@ static int loop(void)
             c = e.key.keysym.sym;
 
 #ifdef __APPLE__
-            if (c == SDLK_q && e.key.keysym.mod & KMOD_META)
+            if (c == SDLK_q && e.key.keysym.mod & KMOD_GUI)
             {
                 d = 0;
                 break;

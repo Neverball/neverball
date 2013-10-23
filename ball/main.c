@@ -88,7 +88,7 @@ static int handle_key_dn(SDL_Event *e)
 
     /* SDL made me do it. */
 #ifdef __APPLE__
-    if (c == SDLK_q && e->key.keysym.mod & KMOD_META)
+    if (c == SDLK_q && e->key.keysym.mod & KMOD_GUI)
         return 0;
 #endif
 #ifdef _WIN32
