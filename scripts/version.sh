@@ -18,8 +18,15 @@ svn_version()
     esac
 }
 
+git_version()
+{
+    if git_desc="$(git describe --dirty=+)"; then
+	echo "$git_desc" | sed -e 's/^neverball-//' -e 's/-g/-/g'
+    fi
+}
+
 if [ "$BUILD" != "release" ]; then
-    VERSION="$(svn_version || date -u +"%Y-%m-%d" || echo "$VERSION-dev")"
+    VERSION="$(git_version || date -u +"%Y-%m-%d" || echo "$VERSION-dev")"
 fi
 
 if [ "$VERSION" != "$(cat "$CACHE_FILE" 2> /dev/null)" ]; then
