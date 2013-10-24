@@ -32,14 +32,28 @@
 #include "game_proxy.h"
 #include "game_common.h"
 
-/*---------------------------------------------------------------------------*/
-
 #define DEMO_MAGIC (0xAF | 'N' << 8 | 'B' << 16 | 'R' << 24)
 #define DEMO_VERSION 9
 
 #define DATELEN sizeof ("YYYY-MM-DDTHH:MM:SS")
 
 fs_file demo_fp;
+
+/*---------------------------------------------------------------------------*/
+
+static const char *demo_path(const char *name)
+{
+    static char path[MAXSTR];
+    sprintf(path, "Replays/%s.nbr", name);
+    return path;
+}
+
+static const char *demo_name(const char *path)
+{
+    static char name[MAXSTR];
+    SAFECPY(name, base_name_sans(path, ".nbr"));
+    return name;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -141,7 +155,7 @@ struct demo *demo_load(const char *path)
         if (demo_header_read(fp, d))
         {
             SAFECPY(d->filename, path);
-            SAFECPY(d->name, base_name_sans(d->filename, ".nbr"));
+            SAFECPY(d->name, demo_name(path));
         }
         else
         {
@@ -158,15 +172,6 @@ struct demo *demo_load(const char *path)
 void demo_free(struct demo *d)
 {
     free(d);
-}
-
-/*---------------------------------------------------------------------------*/
-
-static const char *demo_path(const char *name)
-{
-    static char path[MAXSTR];
-    sprintf(path, "Replays/%s.nbr", name);
-    return path;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -404,8 +409,7 @@ int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
             struct level level;
 
             SAFECPY(demo_replay.filename, name);
-            SAFECPY(demo_replay.name,
-                    base_name_sans(demo_replay.filename, ".nbr"));
+            SAFECPY(demo_replay.name, demo_name(name));
 
             if (level_load(demo_replay.file, &level))
             {
