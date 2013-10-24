@@ -65,7 +65,7 @@ float demo_replay_blend(void);
 
 const char *curr_demo(void);
 
-void demo_speed_set(int);
+void demo_replay_speed(int);
 
 /*---------------------------------------------------------------------------*/
 

@@ -469,7 +469,7 @@ void demo_replay_stop(int d)
     }
 }
 
-void demo_speed_set(int speed)
+void demo_replay_speed(int speed)
 {
     if (SPEED_NONE <= speed && speed < SPEED_MAX)
         lockstep_scl(&update_step, SPEED_FACTORS[speed]);

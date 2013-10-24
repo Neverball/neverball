@@ -455,7 +455,7 @@ static int demo_play_enter(struct state *st, struct state *prev)
     prelude = 1.0f;
 
     speed = SPEED_NORMAL;
-    demo_speed_set(speed);
+    demo_replay_speed(speed);
 
     show_hud = 1;
     hud_update(0);
@@ -502,7 +502,7 @@ static void set_speed(int d)
     if (d > 0) speed = SPEED_UP(speed);
     if (d < 0) speed = SPEED_DN(speed);
 
-    demo_speed_set(speed);
+    demo_replay_speed(speed);
     hud_speed_pulse(speed);
 }
 
