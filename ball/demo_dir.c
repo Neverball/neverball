@@ -29,6 +29,8 @@ static void free_item(struct dir_item *item)
     if (item->data)
     {
         demo_free(item->data);
+
+        free(item->data);
         item->data = NULL;
     }
 }
@@ -36,7 +38,17 @@ static void free_item(struct dir_item *item)
 static void load_item(struct dir_item *item)
 {
     if (!item->data)
-        item->data = demo_load(item->path);
+    {
+        struct demo *d;
+
+        if ((d = malloc(sizeof (*d))))
+        {
+            if (demo_load(d, item->path))
+                item->data = d;
+            else
+                free(d);
+        }
+    }
 }
 
 static int scan_item(struct dir_item *item)

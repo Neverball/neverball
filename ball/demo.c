@@ -141,37 +141,33 @@ static void demo_header_write(fs_file fp, struct demo *d)
 
 /*---------------------------------------------------------------------------*/
 
-struct demo *demo_load(const char *path)
+int demo_load(struct demo *d, const char *path)
 {
-    fs_file fp;
-    struct demo *d;
+    int rc = 0;
 
-    d = NULL;
-
-    if ((fp = fs_open(path, "r")))
+    if (d)
     {
-        d = calloc(1, sizeof (struct demo));
+        fs_file fp;
 
-        if (demo_header_read(fp, d))
+        memset(d, 0, sizeof (*d));
+
+        if ((fp = fs_open(path, "r")))
         {
             SAFECPY(d->path, path);
             SAFECPY(d->name, demo_name(path));
-        }
-        else
-        {
-            free(d);
-            d = NULL;
-        }
 
-        fs_close(fp);
+            if (demo_header_read(fp, d))
+                rc = 1;
+
+            fs_close(fp);
+        }
     }
 
-    return d;
+    return rc;
 }
 
 void demo_free(struct demo *d)
 {
-    free(d);
 }
 
 /*---------------------------------------------------------------------------*/

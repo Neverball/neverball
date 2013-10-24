@@ -35,8 +35,8 @@ struct demo
 
 /*---------------------------------------------------------------------------*/
 
-struct demo *demo_load(const char *);
-void         demo_free(struct demo *);
+int  demo_load(struct demo *, const char *);
+void demo_free(struct demo *);
 
 int demo_exists(const char *);
 
