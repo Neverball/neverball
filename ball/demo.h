@@ -11,8 +11,8 @@
 
 struct demo
 {
+    char   path[MAXSTR];                /* Demo path                         */
     char   name[PATHMAX];               /* Demo basename                     */
-    char   filename[MAXSTR];            /* Demo path                         */
 
     char   player[MAXSTR];
     time_t date;

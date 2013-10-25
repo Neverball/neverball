@@ -154,7 +154,7 @@ struct demo *demo_load(const char *path)
 
         if (demo_header_read(fp, d))
         {
-            SAFECPY(d->filename, path);
+            SAFECPY(d->path, path);
             SAFECPY(d->name, demo_name(path));
         }
         else
@@ -273,17 +273,18 @@ const char *demo_format_name(const char *fmt,
 
 static struct demo demo_play;
 
-int demo_play_init(const char *name, const struct level *level,
+int demo_play_init(const char *path, const struct level *level,
                    int mode, int scores, int balls, int times)
 {
     struct demo *d = &demo_play;
 
     memset(d, 0, sizeof (*d));
 
-    SAFECPY(d->filename, demo_path(USER_REPLAY_FILE));
+    SAFECPY(d->path,   path);
+    SAFECPY(d->name,   demo_name(path));
     SAFECPY(d->player, config_get_s(CONFIG_PLAYER));
-    SAFECPY(d->shot, level_shot(level));
-    SAFECPY(d->file, level_file(level));
+    SAFECPY(d->shot,   level_shot(level));
+    SAFECPY(d->file,   level_file(level));
 
     d->mode  = mode;
     d->date  = time(NULL);
@@ -293,7 +294,7 @@ int demo_play_init(const char *name, const struct level *level,
     d->balls = balls;
     d->times = times;
 
-    if ((demo_fp = fs_open(d->filename, "w")))
+    if ((demo_fp = fs_open(d->path, "w")))
     {
         demo_header_write(demo_fp, d);
         return 1;
@@ -324,28 +325,25 @@ void demo_play_stop(int d)
         fs_close(demo_fp);
         demo_fp = NULL;
 
-        if (d) fs_remove(demo_play.filename);
+        if (d) fs_remove(demo_play.path);
     }
 }
 
 int demo_saved(void)
 {
-    return demo_exists(USER_REPLAY_FILE);
+    return fs_exists(demo_play.path);
 }
 
 void demo_rename(const char *name)
 {
-    char src[MAXSTR];
-    char dst[MAXSTR];
+    char path[MAXSTR];
 
-    if (name &&
-        demo_exists(USER_REPLAY_FILE) &&
-        strcmp(name, USER_REPLAY_FILE) != 0)
+    if (name && *name)
     {
-        SAFECPY(src, demo_path(USER_REPLAY_FILE));
-        SAFECPY(dst, demo_path(name));
+        SAFECPY(path, demo_path(name));
 
-        fs_rename(src, dst);
+        if (strcmp(demo_play.name, name) != 0 && fs_exists(demo_play.path))
+            fs_rename(demo_play.path, path);
     }
 }
 
@@ -395,21 +393,21 @@ static struct demo demo_replay;
 
 const char *curr_demo(void)
 {
-    return demo_replay.filename;
+    return demo_replay.path;
 }
 
-int demo_replay_init(const char *name, int *g, int *m, int *b, int *s, int *tt)
+int demo_replay_init(const char *path, int *g, int *m, int *b, int *s, int *tt)
 {
     lockstep_clr(&update_step);
 
-    if ((demo_fp = fs_open(name, "r")))
+    if ((demo_fp = fs_open(path, "r")))
     {
         if (demo_header_read(demo_fp, &demo_replay))
         {
             struct level level;
 
-            SAFECPY(demo_replay.filename, name);
-            SAFECPY(demo_replay.name, demo_name(name));
+            SAFECPY(demo_replay.path, path);
+            SAFECPY(demo_replay.name, demo_name(path));
 
             if (level_load(demo_replay.file, &level))
             {
@@ -469,7 +467,7 @@ void demo_replay_stop(int d)
         fs_close(demo_fp);
         demo_fp = NULL;
 
-        if (d) fs_remove(demo_replay.filename);
+        if (d) fs_remove(demo_replay.path);
     }
 }
 
