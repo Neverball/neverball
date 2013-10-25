@@ -81,10 +81,10 @@ else
 endif
 
 ifeq ($(ENABLE_HMD),openhmd)
-	ALL_CPPFLAGS += -DENABLE_HMD
+	ALL_CPPFLAGS += -DENABLE_HMD=1
 endif
 ifeq ($(ENABLE_HMD),libovr)
-	ALL_CPPFLAGS += -DENABLE_HMD
+	ALL_CPPFLAGS += -DENABLE_HMD=1
 endif
 
 ifeq ($(PLATFORM),darwin)

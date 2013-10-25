@@ -375,7 +375,7 @@ static int video_gui(void)
                 gui_set_color(jd, gui_gry, gui_gry);
             }
         }
-#ifdef ENABLE_HMD
+#if ENABLE_HMD
         conf_toggle(id, _("HMD"),          VIDEO_HMD,
                     config_get_d(CONFIG_HMD),        _("On"), 1, _("Off"), 0);
 #endif
