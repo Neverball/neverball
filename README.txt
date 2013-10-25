@@ -28,11 +28,11 @@ doc/authors.txt
 
                                 * * *
 
-Official web site
+Web site
     http://neverball.org/
 
-Development web site
-    https://s.snth.net/projects/neverball/
+Development
+    http://github.com/Neverball
 
 Neverforum (community discussion forum)
     http://www.nevercorner.net/forum/
@@ -43,5 +43,5 @@ Nevertable (high-score and replay database)
 Neverwiki (documentation and level design tips)
     http://www.nevercorner.net/wiki/doku.php
 
-Official IRC channel
+IRC channel
     #neverball on chat.freenode.net
