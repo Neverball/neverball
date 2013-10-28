@@ -2619,11 +2619,56 @@ static void node_file(struct s_base *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void dump_file(struct s_base *p, const char *name, double t)
+struct dump_stats
+{
+    size_t off;
+    char name[5];
+    char desc[32];
+    int *ptr;
+};
+
+/*
+ * This initializer looked a lot better in the C99 version.
+ */
+static struct dump_stats stats[] = {
+    { offsetof (struct s_base, mc), "mtrl", "materials" },
+    { offsetof (struct s_base, vc), "vert", "vertices" },
+    { offsetof (struct s_base, ec), "edge", "edges" },
+    { offsetof (struct s_base, sc), "side", "sides" },
+    { offsetof (struct s_base, tc), "texc", "texcoords" },
+    { offsetof (struct s_base, oc), "offs", "offsets" },
+    { offsetof (struct s_base, gc), "geom", "geoms" },
+    { offsetof (struct s_base, lc), "lump", "lumps" },
+    { offsetof (struct s_base, pc), "path", "paths" },
+    { offsetof (struct s_base, nc), "node", "nodes" },
+    { offsetof (struct s_base, bc), "body", "bodies" },
+    { offsetof (struct s_base, hc), "item", "items" },
+    { offsetof (struct s_base, zc), "goal", "goals" },
+    { offsetof (struct s_base, wc), "view", "viewpoints" },
+    { offsetof (struct s_base, jc), "jump", "teleports" },
+    { offsetof (struct s_base, xc), "swch", "switches" },
+    { offsetof (struct s_base, rc), "bill", "billboards" },
+    { offsetof (struct s_base, uc), "ball", "balls" },
+    { offsetof (struct s_base, ac), "char", "chars" },
+    { offsetof (struct s_base, dc), "dict", "dicts" },
+    { offsetof (struct s_base, ic), "indx", "indices" }
+};
+
+static void dump_init(struct s_base *fp)
 {
     int i;
+
+    for (i = 0; i < ARRAYSIZE(stats); i++)
+        stats[i].ptr = (int *) &((unsigned char *) fp)[stats[i].off];
+}
+
+static void dump_file(struct s_base *p, const char *name, double t)
+{
+    int i, j;
     int c = 0;
     int n = 0;
+
+    dump_init(p);
 
     /* Count the number of solid lumps. */
 
@@ -2638,27 +2683,39 @@ static void dump_file(struct s_base *p, const char *name, double t)
             c += p->hv[i].n;
 
     if (csv_output)
-        printf("%s,%d,%d,%.3f,"
-               "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
-               "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",
-               name, n, c, t,
-               p->mc, p->vc, p->ec, p->sc, p->tc,
-               p->oc, p->gc, p->lc, p->pc, p->nc, p->bc,
-               p->hc, p->zc, p->wc, p->jc, p->xc,
-               p->rc, p->uc, p->ac, p->dc, p->ic);
+    {
+        printf("name,n,c,t,");
+
+        for (i = 0; i < ARRAYSIZE(stats); i++)
+            printf("%s%s", stats[i].name, (i + 1 < ARRAYSIZE(stats) ?
+                                           "," : "\n"));
+        printf("%s,%d,%d,%.3f,", name, n, c, t);
+
+        for (i = 0; i < ARRAYSIZE(stats); i++)
+            printf("%d%s", *stats[i].ptr, (i + 1 < ARRAYSIZE(stats) ?
+                                           "," : "\n"));
+    }
     else
-        printf("%s (%d/$%d) %.3f\n"
-               "  mtrl  vert  edge  side  texc"
-               "  offs  geom  lump  path  node  body\n"
-               "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n"
-               "  item  goal  view  jump  swch"
-               "  bill  ball  char  dict  indx\n"
-               "%6d%6d%6d%6d%6d%6d%6d%6d%6d%6d\n",
-               name, n, c, t,
-               p->mc, p->vc, p->ec, p->sc, p->tc,
-               p->oc, p->gc, p->lc, p->pc, p->nc, p->bc,
-               p->hc, p->zc, p->wc, p->jc, p->xc,
-               p->rc, p->uc, p->ac, p->dc, p->ic);
+    {
+        const int COLS = 11;
+
+        printf("%s (%d/$%d) %.3f\n", name, n, c, t);
+
+        for (i = 0, j = 0; i < ARRAYSIZE(stats); i++)
+        {
+            printf("%6.6s", stats[i].name);
+
+            if ((i + 1) % COLS == 0 || i + 1 == ARRAYSIZE(stats))
+            {
+                printf("\n");
+
+                for (; j <= i; j++)
+                    printf("%6d", *stats[j].ptr);
+
+                printf("\n");
+            }
+        }
+    }
 }
 
 int main(int argc, char *argv[])
