@@ -12,13 +12,13 @@
  * General Public License for more details.
  */
 
-#include <SDL.h>
 #include <math.h>
 
 #include "gui.h"
 #include "hud.h"
 #include "hole.h"
 #include "config.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -71,24 +71,11 @@ void hud_free(void)
 
 void hud_paint(void)
 {
-    static int fps   = 0;
-    static int then  = 0;
-    static int count = 0;
-
-    int now = SDL_GetTicks();
-
-    if (now - then > 250)
-    {
-        fps   = count * 1000 / (now - then);
-        then  = now;
-        count = 0;
-
-        gui_set_count(fps_id, fps);
-    }
-    else count++;
-
     if (config_get_d(CONFIG_FPS))
+    {
+        gui_set_count(fps_id, video_perf());
         gui_paint(fps_id);
+    }
 
     gui_paint(Rhud_id);
     gui_paint(Lhud_id);
