@@ -2638,7 +2638,7 @@ static void dump_file(struct s_base *p, const char *name, double t)
             c += p->hv[i].n;
 
     if (csv_output)
-        printf("%s,%d,%d,%.3f"
+        printf("%s,%d,%d,%.3f,"
                "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
                "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n",
                name, n, c, t,
