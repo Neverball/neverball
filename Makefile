@@ -87,6 +87,10 @@ ifeq ($(ENABLE_HMD),libovr)
 	ALL_CPPFLAGS += -DENABLE_HMD=1
 endif
 
+ifeq ($(ENABLE_RADIANT_CONSOLE),1)
+	ALL_CPPFLAGS += -DENABLE_RADIANT_CONSOLE=1
+endif
+
 ifeq ($(PLATFORM),darwin)
 	ALL_CPPFLAGS += -I/opt/local/include
 endif
@@ -174,6 +178,12 @@ TTF_LIBS := -lSDL2_ttf
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
 	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+
+MAPC_LIBS := $(BASE_LIBS)
+
+ifeq ($(ENABLE_RADIANT_CONSOLE),1)
+	MAPC_LIBS += -lSDL2_net
+endif
 
 #------------------------------------------------------------------------------
 
@@ -407,7 +417,7 @@ $(PUTT_TARG) : $(PUTT_OBJS)
 	$(LINK) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(BASE_LIBS)
+	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(MAPC_LIBS)
 
 # Work around some extremely helpful sdl-config scripts.
 

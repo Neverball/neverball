@@ -23,5 +23,4 @@
   entities="quake3"
   brushtypes="quake3"
   patchtypes="quake3"
-  no_bsp_monitor="1"
 />

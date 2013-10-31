@@ -10,21 +10,22 @@ build commands
 <var name="neverball">"[EnginePath]neverball"</var>
 <var name="neverputt">"[EnginePath]neverputt"</var>
 <var name="data">"[EnginePath][GameName]"</var>
+<var name="opts">--bcast</var>
 <build name="Compile">
-<command>[mapc] "[MapFile]" [data]</command>
+<command>[mapc] "[MapFile]" [data] [opts]</command>
 </build>
 <build name="Neverball: play">
 <command>[neverball] "[MapFile]"</command>
 </build>
 <build name="Neverball: compile+play">
-<command>[mapc] "[MapFile]" [data]</command>
+<command>[mapc] "[MapFile]" [data] [opts]</command>
 <command>[neverball] "[MapFile]"</command>
 </build>
 <build name="Neverputt: play">
 <command>[neverputt] "[MapFile]"</command>
 </build>
 <build name="Neverputt: compile+play">
-<command>[mapc] "[MapFile]" [data]</command>
+<command>[mapc] "[MapFile]" [data] [opts]</command>
 <command>[neverputt] "[MapFile]"</command>
 </build>
 </project>
