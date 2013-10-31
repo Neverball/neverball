@@ -630,6 +630,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
 {
     static char line[MAXSTR];
     static char word[MAXSTR];
+    static char buf [MAXSTR];
 
     struct b_mtrl *mp;
     fs_file fin;
@@ -723,8 +724,10 @@ static int read_mtrl(struct s_base *fp, const char *name)
             }
             else
             {
-                char buf[64];
-                sprintf(buf, "%s: unknown directive \"%s\"", name, p);
+                SAFECPY(buf, name);
+                SAFECAT(buf, ": unknown directive \"");
+                SAFECAT(buf, p);
+                SAFECAT(buf, "\"");
                 WARNING(buf);
             }
         }
@@ -733,8 +736,10 @@ static int read_mtrl(struct s_base *fp, const char *name)
     }
     else
     {
-        char buf[64];
-        sprintf(buf, "%s: unknown material \"%s\"", input_file, name);
+        SAFECPY(buf, input_file);
+        SAFECAT(buf, ": unknown material \"");
+        SAFECAT(buf, name);
+        SAFECAT(buf, "\"");
         WARNING(buf);
     }
 
