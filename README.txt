@@ -35,13 +35,13 @@ Development
     http://github.com/Neverball
 
 Neverforum (community discussion forum)
-    http://www.nevercorner.net/forum/
+    http://forum.nevercorner.net/
 
 Nevertable (high-score and replay database)
-    http://www.nevercorner.net/table/
+    http://table.nevercorner.net/
 
 Neverwiki (documentation and level design tips)
-    http://www.nevercorner.net/wiki/doku.php
+    http://wiki.nevercorner.net/doku.php
 
 IRC channel
     #neverball on chat.freenode.net
