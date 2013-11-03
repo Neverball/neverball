@@ -99,4 +99,8 @@ const char *base_name(const char *name);
 const char *base_name_sans(const char *name, const char *suffix);
 const char *dir_name(const char *name);
 
+/* Environment */
+
+int set_env_var(const char *, const char *);
+
 #endif

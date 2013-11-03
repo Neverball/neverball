@@ -35,7 +35,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-void lang_init(const char *domain);
+void lang_init(const char *domain, const char *pref);
 
 const char *sgettext(const char *);
 const char *get_local_text(const char *);

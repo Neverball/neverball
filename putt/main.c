@@ -275,8 +275,6 @@ int main(int argc, char *argv[])
 
     srand((int) time(NULL));
 
-    lang_init("neverball");
-
     opt_parse(argc, argv);
 
     config_paths(opt_data);
@@ -286,6 +284,10 @@ int main(int argc, char *argv[])
     {
         config_init();
         config_load();
+
+        /* Initialize localization. */
+
+        lang_init("neverball", config_get_s(CONFIG_LANGUAGE));
 
         /* Cache Neverball's camera setting. */
 

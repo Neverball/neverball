@@ -292,19 +292,17 @@ static char *opt_data;
 static char *opt_replay;
 static char *opt_level;
 
-#define opt_usage \
-    L_(                                                                   \
-        "Usage: %s [options ...]\n"                                       \
-        "Options:\n"                                                      \
-        "  -h, --help                show this usage message.\n"          \
-        "  -v, --version             show version.\n"                     \
-        "  -d, --data <dir>          use 'dir' as game data directory.\n" \
-        "  -r, --replay <file>       play the replay 'file'.\n"           \
-        "  -l, --level <file>        load the level 'file'\n"             \
-    )
+#define opt_usage                                                     \
+    "Usage: %s [options ...]\n"                                       \
+    "Options:\n"                                                      \
+    "  -h, --help                show this usage message.\n"          \
+    "  -v, --version             show version.\n"                     \
+    "  -d, --data <dir>          use 'dir' as game data directory.\n" \
+    "  -r, --replay <file>       play the replay 'file'.\n"           \
+    "  -l, --level <file>        load the level 'file'\n"
 
 #define opt_error(option) \
-    fprintf(stderr, L_("Option '%s' requires an argument.\n"), option)
+    fprintf(stderr, "Option '%s' requires an argument.\n", option)
 
 static void opt_parse(int argc, char **argv)
 {
@@ -462,8 +460,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    lang_init("neverball");
-
     opt_parse(argc, argv);
 
     config_paths(opt_data);
@@ -481,6 +477,10 @@ int main(int argc, char *argv[])
 
     config_init();
     config_load();
+
+    /* Initialize localization. */
+
+    lang_init("neverball", config_get_s(CONFIG_LANGUAGE));
 
     /* Initialize joystick. */
 

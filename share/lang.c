@@ -30,10 +30,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-void lang_init(const char *domain)
+void lang_init(const char *domain, const char *pref)
 {
 #if ENABLE_NLS
     char *dir = strdup(getenv("NEVERBALL_LOCALE"));
+
+    /* Select the location of message catalogs. */
 
     if (!dir)
     {
@@ -42,6 +44,8 @@ void lang_init(const char *domain)
         else
             dir = concat_string(fs_base_dir(), "/", CONFIG_LOCALE, NULL);
     }
+
+    /* Set up locale. */
 
     errno = 0;
 
@@ -54,6 +58,13 @@ void lang_init(const char *domain)
     /* The C locale is guaranteed (sort of) to be available. */
 
     setlocale(LC_NUMERIC, "C");
+
+    /* Tell gettext of our language preference. */
+
+    if (pref && *pref)
+        set_env_var("LANGUAGE", pref);
+
+    /* Set up gettext. */
 
     bindtextdomain(domain, dir);
     bind_textdomain_codeset(domain, DEFAULT_CODESET);

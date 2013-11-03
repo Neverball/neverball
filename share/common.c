@@ -309,3 +309,34 @@ int rand_between(int low, int high)
 }
 
 /*---------------------------------------------------------------------------*/
+
+#ifdef _WIN32
+
+int set_env_var(const char *name, const char *value)
+{
+    if (name)
+        return SetEnvironmentVariable(name, value);
+    else
+        return 0;
+}
+
+#else
+
+extern int setenv(const char *name, const char *value, int overwrite);
+extern int unsetenv(const char *name);
+
+int set_env_var(const char *name, const char *value)
+{
+    if (name)
+    {
+        if (value)
+            return (setenv(name, value, 1) == 0);
+        else
+            return (unsetenv(name) == 0);
+    }
+    return 0;
+}
+
+#endif
+
+/*---------------------------------------------------------------------------*/

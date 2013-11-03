@@ -114,6 +114,7 @@ int CONFIG_PLAYER;
 int CONFIG_BALL_FILE;
 int CONFIG_WIIMOTE_ADDR;
 int CONFIG_REPLAY_NAME;
+int CONFIG_LANGUAGE;
 
 /*---------------------------------------------------------------------------*/
 
@@ -220,7 +221,8 @@ static struct
     { &CONFIG_PLAYER,       "player",       "" },
     { &CONFIG_BALL_FILE,    "ball_file",    "ball/basic-ball/basic-ball" },
     { &CONFIG_WIIMOTE_ADDR, "wiimote_addr", "" },
-    { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l" }
+    { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l" },
+    { &CONFIG_LANGUAGE,     "language",     "" }
 };
 
 static int dirty = 0;
@@ -463,10 +465,7 @@ void config_save(void)
         /* Write out string options. */
 
         for (i = 0; i < ARRAYSIZE(option_s); i++)
-        {
-            if (option_s[i].cur && *option_s[i].cur)
-                fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
-        }
+            fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
 
         fs_close(fh);
     }

@@ -110,6 +110,7 @@ extern int CONFIG_PLAYER;
 extern int CONFIG_BALL_FILE;
 extern int CONFIG_WIIMOTE_ADDR;
 extern int CONFIG_REPLAY_NAME;
+extern int CONFIG_LANGUAGE;
 
 /*---------------------------------------------------------------------------*/
 
