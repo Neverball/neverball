@@ -13,6 +13,7 @@
  */
 
 #include <SDL.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -331,6 +332,8 @@ void config_load(void)
 {
     fs_file fh;
 
+    SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
+
     if ((fh = fs_open(USER_CONFIG_FILE, "r")))
     {
         char *line, *key, *val;
@@ -405,6 +408,8 @@ void config_load(void)
 void config_save(void)
 {
     fs_file fh;
+
+    SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
 
     if (dirty && (fh = fs_open(USER_CONFIG_FILE, "w")))
     {
