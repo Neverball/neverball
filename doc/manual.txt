@@ -150,16 +150,11 @@ values follow.
     fullscreen 0
 
         This key determines whether or not the application starts full
-        screen. The SDL environment variable SDL_VIDEO_FULLSCREEN_HEAD
-        selects which connected head is used for full screen display.
+        screen.
 
-        For primary:
+    display 0
 
-            export SDL_VIDEO_FULLSCREEN_HEAD=0
-
-        For secondary:
-
-            export SDL_VIDEO_FULLSCREEN_HEAD=1
+        Selects on which display the game window is placed.
 
     mouse_sense 300
 
