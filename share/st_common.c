@@ -24,20 +24,6 @@
 
 #include "st_common.h"
 
-/*
- * It's probably best if these values match those in ball/util.h.
- */
-enum
-{
-    GUI_NONE = 0,
-    GUI_BACK = 1,
-    GUI_LAST
-};
-
-/*
- * And ball/game_common.h.
- */
-
 #define AUD_MENU "snd/menu.ogg"
 
 /*---------------------------------------------------------------------------*/
