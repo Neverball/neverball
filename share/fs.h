@@ -1,7 +1,7 @@
 #ifndef FS_H
 #define FS_H
 
-typedef struct fs_file *fs_file;
+typedef struct fs_file_s *fs_file;
 
 int fs_init(const char *argv0);
 int fs_quit(void);
