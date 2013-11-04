@@ -1,2 +1,2 @@
 name1 Scottish Gaelic
-name2
+name2 Gàidhlig

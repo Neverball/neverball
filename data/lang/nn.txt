@@ -1,2 +1,2 @@
 name1 Norwegian Nynorsk
-name2
+name2 Nynorsk
