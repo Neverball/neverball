@@ -42,12 +42,15 @@ extern const char ICON[];
 enum
 {
     CONF_VIDEO = GUI_LAST,
+    CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
     CONF_PLAYER,
     CONF_BALL
 };
+
+static struct lang_desc lang;
 
 static int mouse_id[11];
 static int music_id[11];
@@ -92,6 +95,10 @@ static int conf_action(int tok, int val)
 
     case CONF_VIDEO:
         goto_state(&st_video);
+        break;
+
+    case CONF_LANGUAGE:
+        goto_state(&st_lang);
         break;
 
     case CONF_PLAYER:
@@ -147,7 +154,7 @@ static int conf_gui(void)
         const char *player = config_get_s(CONFIG_PLAYER);
         const char *ball   = config_get_s(CONFIG_BALL_FILE);
 
-        int name_id = 0, ball_id = 0;
+        int name_id, ball_id, lang_id;
 
         conf_header(id, _("Options"), GUI_BACK);
 
@@ -169,14 +176,21 @@ static int conf_gui(void)
 
         name_id = conf_state(id, _("Player Name"), " ", CONF_PLAYER);
         ball_id = conf_state(id, _("Ball Model"), " ", CONF_BALL);
+        lang_id = conf_state(id, _("Language"), " ", CONF_LANGUAGE);
 
         gui_layout(id, 0, 0);
 
+        gui_set_trunc(lang_id, TRUNC_TAIL);
         gui_set_trunc(name_id, TRUNC_TAIL);
         gui_set_trunc(ball_id, TRUNC_TAIL);
 
         gui_set_label(name_id, player);
         gui_set_label(ball_id, base_name(ball));
+
+        if (*lang.code)
+            gui_set_label(lang_id, lang_name(&lang));
+        else
+            gui_set_label(lang_id, _("Default"));
     }
 
     return id;
@@ -185,10 +199,16 @@ static int conf_gui(void)
 static int conf_enter(struct state *st, struct state *prev)
 {
     game_client_free(NULL);
+    lang_load(&lang, lang_path(config_get_s(CONFIG_LANGUAGE)));
     conf_common_init(conf_action);
     return conf_gui();
 }
 
+static void conf_leave(struct state *st, struct state *next, int id)
+{
+    lang_free(&lang);
+    conf_common_leave(st, next, id);
+}
 /*---------------------------------------------------------------------------*/
 
 static int null_enter(struct state *st, struct state *prev)
@@ -219,7 +239,7 @@ static void null_leave(struct state *st, struct state *next, int id)
 
  struct state st_conf = {
     conf_enter,
-    conf_common_leave,
+    conf_leave,
     conf_common_paint,
     common_timer,
     common_point,

@@ -26,6 +26,10 @@
 
 /* Random stuff. */
 
+#ifndef MAXSTR
+#define MAXSTR 256
+#endif
+
 #ifdef __GNUC__
 #define NULL_TERMINATED __attribute__ ((__sentinel__))
 #else
