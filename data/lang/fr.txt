@@ -1,0 +1,2 @@
+name1 French
+name2 Français

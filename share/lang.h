@@ -42,4 +42,31 @@ const char *get_local_text(const char *);
 
 /*---------------------------------------------------------------------------*/
 
+#include "common.h"
+#include "array.h"
+#include "dir.h"
+
+struct lang_desc
+{
+    char code[32];
+
+    char name1[MAXSTR];
+    char name2[MAXSTR];
+};
+
+#define lang_name(desc) (*(desc)->name2 ? (desc)->name2 : (desc)->name1)
+
+const char *lang_path(const char *);
+const char *lang_code(const char *);
+
+int  lang_load(struct lang_desc *, const char *);
+void lang_free(struct lang_desc *);
+
+#define LANG_GET(a, i) ((struct lang_desc *) DIR_ITEM_GET((a), (i))->data)
+
+Array lang_dir_scan(void);
+void  lang_dir_free(Array);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

@@ -2249,3 +2249,53 @@ int gui_click(int b, int d)
 }
 
 /*---------------------------------------------------------------------------*/
+
+int gui_navig(int id, int total, int first, int step)
+{
+    int pages = (int) ceil((double) total / step);
+    int page = first / step + 1;
+
+    int prev = (page > 1);
+    int next = (page < pages);
+
+    int jd, kd;
+
+    if ((jd = gui_hstack(id)))
+    {
+        if (next || prev)
+        {
+            gui_maybe(jd, " > ", GUI_NEXT, GUI_NONE, next);
+
+            if ((kd = gui_label(jd, "999/999", GUI_SML, gui_wht, gui_wht)))
+            {
+                char str[16];
+                sprintf(str, "%d/%d", page, pages);
+                gui_set_label(kd, str);
+            }
+
+            gui_maybe(jd, " < ", GUI_PREV, GUI_NONE, prev);
+        }
+
+        gui_space(jd);
+
+        gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
+    }
+    return jd;
+}
+
+int gui_maybe(int id, const char *label, int etoken, int dtoken, int enabled)
+{
+    int bd;
+
+    if (!enabled)
+    {
+        bd = gui_state(id, label, GUI_SML, dtoken, 0);
+        gui_set_color(bd, gui_gry, gui_gry);
+    }
+    else
+        bd = gui_state(id, label, GUI_SML, etoken, 0);
+
+    return bd;
+}
+
+/*---------------------------------------------------------------------------*/

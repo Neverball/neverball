@@ -1,0 +1,2 @@
+name1 Brazilian Portuguese
+name2 Português do Brasil

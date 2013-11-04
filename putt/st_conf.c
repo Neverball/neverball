@@ -31,6 +31,7 @@
 enum
 {
     CONF_VIDEO = 1,
+    CONF_LANG,
     CONF_BACK
 };
 
@@ -53,6 +54,10 @@ static int conf_action(int i)
 
     case CONF_VIDEO:
         goto_state(&st_video);
+        break;
+
+    case CONF_LANG:
+        goto_state(&st_lang);
         break;
 
     default:
@@ -143,6 +148,16 @@ static int conf_enter(struct state *st, struct state *prev)
             }
 
             gui_label(jd, _("Music Volume"), GUI_SML, 0, 0);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) &&
+            (kd = gui_harray(jd)))
+        {
+            gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
+
+            gui_label(jd, _("Language"),  GUI_SML, 0, 0);
         }
 
         gui_layout(id, 0, 0);

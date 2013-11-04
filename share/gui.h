@@ -124,4 +124,29 @@ void gui_toggle(int);
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Reserved GUI tokens. (Mostly Neverball specific.)
+ */
+
+enum
+{
+    GUI_NONE = 0,
+
+    GUI_BACK,
+    GUI_PREV,
+    GUI_NEXT,
+    GUI_BS,
+    GUI_CL,
+    GUI_CHAR,
+    GUI_NAME,
+    GUI_SCORE,
+
+    GUI_LAST
+};
+
+int gui_navig(int id, int total, int first, int step);
+int gui_maybe(int, const char *, int, int, int);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

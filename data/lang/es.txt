@@ -1,0 +1,2 @@
+name1 Spanish
+name2 Español
