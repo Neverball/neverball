@@ -121,13 +121,14 @@ static int name_gui(void)
     return id;
 }
 
-static void on_text_input(void)
+static void on_text_input(int typing)
 {
     if (name_id)
     {
         gui_set_label(name_id, text_input);
 
-        audio_play(AUD_MENU, 1.0f);
+        if (typing)
+            audio_play(AUD_MENU, 1.0f);
     }
 }
 
@@ -140,7 +141,7 @@ static int name_enter(struct state *st, struct state *prev)
     }
 
     text_input_start(on_text_input);
-    text_input_str(config_get_s(CONFIG_PLAYER));
+    text_input_str(config_get_s(CONFIG_PLAYER), 0);
 
     return name_gui();
 }

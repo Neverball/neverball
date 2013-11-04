@@ -122,13 +122,14 @@ static int save_gui(void)
     return id;
 }
 
-static void on_text_input(void)
+static void on_text_input(int typing)
 {
     if (file_id)
     {
         gui_set_label(file_id, text_input);
 
-        audio_play(AUD_MENU, 1.0f);
+        if (typing)
+            audio_play(AUD_MENU, 1.0f);
     }
 }
 
@@ -141,7 +142,7 @@ static int save_enter(struct state *st, struct state *prev)
                             level_name(curr_level()));
 
     text_input_start(on_text_input);
-    text_input_str(name);
+    text_input_str(name, 0);
 
     return save_gui();
 }

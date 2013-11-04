@@ -218,7 +218,7 @@ static int loop(void)
             break;
 
         case SDL_TEXTINPUT:
-            text_input_str(e.text.text);
+            text_input_str(e.text.text, 1);
             break;
 
         case SDL_JOYAXISMOTION:
