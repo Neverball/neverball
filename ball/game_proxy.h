@@ -3,6 +3,7 @@
 
 #include "cmd.h"
 
+void       game_proxy_filter(int (*fn)(const union cmd *));
 void       game_proxy_enq(const union cmd *);
 union cmd *game_proxy_deq(void);
 void       game_proxy_clr(void);

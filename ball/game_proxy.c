@@ -21,11 +21,27 @@
 static Queue cmd_queue;
 
 /*
+ * Command filtering.
+ */
+
+static int (*filter_fn)(const union cmd *);
+
+#define FILTER(cmd) (filter_fn ? filter_fn(cmd) : 1)
+
+void game_proxy_filter(int (*fn)(const union cmd *))
+{
+    filter_fn = fn;
+}
+
+/*
  * Enqueue SRC in the game's command queue.
  */
 void game_proxy_enq(const union cmd *src)
 {
     union cmd *dst;
+
+    if (!FILTER(src))
+        return;
 
     /*
      * Create the queue.  This is done only once during the life time
