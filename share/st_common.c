@@ -622,6 +622,8 @@ static int lang_action(int tok, int val)
         break;
 
     case LANG_DEFAULT:
+        /* HACK: Reload resources to load the localized font. */
+        goto_state(&st_null);
         config_set_s(CONFIG_LANGUAGE, "");
         lang_init("neverball", "");
         goto_state(&st_lang);
@@ -629,6 +631,7 @@ static int lang_action(int tok, int val)
 
     case LANG_SELECT:
         desc = LANG_GET(langs, val);
+        goto_state(&st_null);
         config_set_s(CONFIG_LANGUAGE, desc->code);
         lang_init("neverball", desc->code);
         goto_state(&st_lang);
@@ -707,7 +710,7 @@ static int lang_enter(struct state *st, struct state *prev)
 
 void lang_leave(struct state *st, struct state *next, int id)
 {
-    if (next != &st_lang)
+    if (!(next == &st_lang || next == &st_null))
     {
         lang_dir_free(langs);
         langs = NULL;
