@@ -315,9 +315,13 @@ int rand_between(int low, int high)
 int set_env_var(const char *name, const char *value)
 {
     if (name)
-        return SetEnvironmentVariable(name, value);
-    else
-        return 0;
+    {
+        if (value)
+            return (_putenv_s(name, value) == 0);
+        else
+            return (_putenv_s(name, "") == 0);
+    }
+    return 0;
 }
 
 #else
