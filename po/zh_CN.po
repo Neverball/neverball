@@ -640,7 +640,7 @@ msgstr ""
 
 #: share/gui.h:23
 msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/wqy-zenhei.ttc"
+msgstr "ttf/wqy-microhei.ttc"
 
 #: share/image.c:229
 #, c-format
