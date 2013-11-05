@@ -4,12 +4,12 @@
 
 * REQUIREMENTS
 
-    SDL               http://www.libsdl.org/download-1.2.php
-    SDL_ttf           http://www.libsdl.org/projects/SDL_ttf/
+    SDL               http://libsdl.org/download-2.0.php
+    SDL_ttf           http://libsdl.org/projects/SDL_ttf/
     PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
-    libpng            http://www.libpng.org/pub/png/libpng.html
-    libjpeg
+    libpng            http://libpng.org/pub/png/libpng.html
+    libjpeg           http://ijg.org/
 
 To build Neverball  with native language support on  systems not using
 the GNU C library, an additional library may have to be installed:
@@ -26,7 +26,7 @@ library must be installed and configured:
 To  build Neverball  with  Hillcrest Labs  Loop  support enabled,  the
 libfreespace and libusb libraries must be installed and configured:
 
-    libusb-1.0        http://www.libusb.org/wiki/Libusb1.0
+    libusb-1.0        http://libusb.org/wiki/Libusb1.0
     libfreespace      http://libfreespace.hillcrestlabs.com/
 
 * FONTS
