@@ -583,7 +583,7 @@ static int resol_enter(struct state *st, struct state *prev)
 
 /*---------------------------------------------------------------------------*/
 
-#define LANG_STEP 9
+#define LANG_STEP 10
 
 static Array langs;
 static int   first;
