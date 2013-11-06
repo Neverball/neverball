@@ -4,44 +4,12 @@
 
 * REQUIREMENTS
 
-    SDL               http://libsdl.org/download-2.0.php
+    SDL 2.0           http://libsdl.org/download-2.0.php
     SDL_ttf           http://libsdl.org/projects/SDL_ttf/
     PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
     libpng            http://libpng.org/pub/png/libpng.html
     libjpeg           http://ijg.org/
-
-To build Neverball  with native language support on  systems not using
-the GNU C library, an additional library may have to be installed:
-
-    libintl           http://www.gnu.org/software/gettext/
-
-To  build Neverball  with Nintendo  Wii Remote  support on  Linux, the
-"official Linux Bluetooth protocol stack"  or BlueZ and the libwiimote
-library must be installed and configured:
-
-    BlueZ             http://www.bluez.org/
-    libwiimote        http://libwiimote.sourceforge.net/
-
-To  build Neverball  with  Hillcrest Labs  Loop  support enabled,  the
-libfreespace and libusb libraries must be installed and configured:
-
-    libusb-1.0        http://libusb.org/wiki/Libusb1.0
-    libfreespace      http://libfreespace.hillcrestlabs.com/
-
-* FONTS
-
-The  Deja  Vu  font  used   by  Neverball  is  not  suitable  for  all
-translations  included with  the  game.  Due  to  file size  concerns,
-another font is not included with Neverball; however, additional fonts
-can be installed in these locations:
-
-    ttf/wqy-zenhei.ttc    Simplified Chinese
-    ttf/wqy-microhei.ttc  Traditional Chinese
-
-The Wen Quan Yi Chinese fonts may be obtained from here:
-
-    Wen Quan Yi       http://wenq.org/en/
 
 
 * COMPILATION
@@ -50,67 +18,73 @@ Under Unix and Linux, simply run
 
     make
 
-Certain features  can be enabled/disabled  at compile time  by passing
-additional arguments to  Make in the form "NAME=VALUE",  where NAME is
-one of those listed below and VALUE is typically 0 for disabled, 1 for
-enabled.
-
-    ENABLE_NLS=1
-
-        Enable  native  language   support.   May  require  additional
-        libraries.
-
-    ENABLE_TILT=wii
-
-        Enable Wii Remote support.   Requires additional libraries and
-        system configuration.
-
-    ENABLE_TILT=loop
-
-        Enable  Hillcrest  Labs  Loop  support.   Requires  additional
-        libraries and system configuration.
-
-    ENABLE_FS=stdio
-
-        Enable alternate  file system  backend that uses  standard I/O
-        instead  of PhysicsFS (thus  making the  dependency optional),
-        but does not provide archive support.
-
-Under Mac OS X, build using the provided Xcode project files.
-
 For  Windows  builds,  the   MinGW  cross-compilation  environment  is
-supported. (Native builds  are theoretically possible using  MinGW and
-MSYS.  Although care is taken  to preserve compatibility with MSYS, no
-support exists and no actual testing is done.)
+supported. Native  builds are  theoretically possible using  MinGW and
+MSYS.
 
-By default, an uninstalled build may be executed in place.
+
+* OPTIONAL FEATURES
+
+Optional features  can be enabled  at compile  time by passing  one or
+more additional  arguments to  make.  Most  of these  features require
+additional libraries to be installed.
+
+make ENABLE_FS=stdio
+    Alternate  file  system  backend   that  replaces  PhysicsFS  with
+    standard I/O, but lacks ZIP archive support.
+
+make ENABLE_NLS=1
+    Native  language  support.  Requires   an  additional  library  on
+    non-GLIBC systems.
+
+    libintl           http://www.gnu.org/software/gettext/
+
+make ENABLE_TILT=wii
+    Nintendo Wii Remote support on Linux.
+
+    BlueZ             http://www.bluez.org/
+    libwiimote        http://libwiimote.sourceforge.net/
+
+make ENABLE_TILT=loop
+    Hillcrest Labs Loop support.
+
+    libusb-1.0        http://libusb.org/wiki/Libusb1.0
+    libfreespace      http://libfreespace.hillcrestlabs.com/
+
+make ENABLE_HMD=openhmd
+    Head-mounted display support (including the Oculus Rift).
+
+    OpenHMD           http://openhmd.net/
+
+make ENABLE_HMD=libovr
+    Oculus Rift support.
+
+    Oculus SDK        https://developer.oculusvr.com/
+
+make ENABLE_RADIANT_CONSOLE=1
+    Map compiler output to Radiant console.
+
+    SDL2_net          http://www.libsdl.org/projects/SDL_net/
 
 
 * INSTALLATION
 
-The game  searches for game assets  in the following three  places, in
-this order.  If the game is to  be installed globally, at least one of
-them must be set.
+By default,  an uninstalled build may  be executed in place.  A system
+wide  installation   on  Linux  would   probably  copy  the   game  to
+/opt/neverball.
 
- 1. The directory  specified as argument to '--data'  (or '-d') option
-    on the command line.
-
- 2. The directory given by the NEVERBALL_DATA environment variable.
-
- 3. The directory given by the CONFIG_DATA macro defined in
-    share/base_config.h (which corresponds to the DATADIR Makefile
-    variable).
-
-A normal Linux installation would probably copy the data directory to
-"/usr/local/share/games/neverball/" and set DATADIR to match.
+To  be able  to use  the NetRadiant  level editor,  the game  data and
+binaries must be  installed in the same  location.  Distributions that
+wish to package Neverball, Neverputt  and their shared data separately
+should take care to use symlinks and launcher scripts to support this.
 
 
 * DISTRIBUTION
 
 The dist subdirectory contains some miscellaneous files:
 
-  * "Desktop entry" or .desktop files.
-  * Icons in PNG, SVG and ICO formats.
+  * .desktop files
+  * high resolution icons in PNG, SVG and ICO formats
 
 
 Web: <http://neverball.org/>
