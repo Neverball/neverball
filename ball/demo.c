@@ -269,15 +269,15 @@ const char *demo_format_name(const char *fmt,
 
 static struct demo demo_play;
 
-int demo_play_init(const char *path, const struct level *level,
+int demo_play_init(const char *name, const struct level *level,
                    int mode, int scores, int balls, int times)
 {
     struct demo *d = &demo_play;
 
     memset(d, 0, sizeof (*d));
 
-    SAFECPY(d->path,   path);
-    SAFECPY(d->name,   demo_name(path));
+    SAFECPY(d->path,   demo_path(name));
+    SAFECPY(d->name,   name);
     SAFECPY(d->player, config_get_s(CONFIG_PLAYER));
     SAFECPY(d->shot,   level_shot(level));
     SAFECPY(d->file,   level_file(level));
