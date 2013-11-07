@@ -654,6 +654,7 @@ static int pause_enter(struct state *st, struct state *prev)
         gui_layout(id, 0, 0);
     }
 
+    video_clr_grab();
     hud_init();
     return id;
 }
@@ -864,9 +865,15 @@ static int poser_buttn(int b, int d)
 static int flyby_enter(struct state *st, struct state *prev)
 {
     if (paused)
+    {
         paused = 0;
+        video_set_grab(1);
+    }
     else
+    {
+        video_set_grab(1);
         hud_init();
+    }
 
     return 0;
 }
@@ -930,10 +937,12 @@ static int stroke_enter(struct state *st, struct state *prev)
     hud_init();
     game_clr_mag();
     config_set_d(CONFIG_CAMERA, 2);
-    video_set_grab(!paused);
 
     if (paused)
+    {
         paused = 0;
+        video_set_grab(1);
+    }
 
     return 0;
 }
@@ -941,7 +950,6 @@ static int stroke_enter(struct state *st, struct state *prev)
 static void stroke_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
-    video_clr_grab();
     config_set_d(CONFIG_CAMERA, 0);
 }
 
@@ -1009,7 +1017,10 @@ static int roll_enter(struct state *st, struct state *prev)
     hud_init();
 
     if (paused)
+    {
         paused = 0;
+        video_set_grab(1);
+    }
     else
         game_putt();
 
@@ -1019,6 +1030,7 @@ static int roll_enter(struct state *st, struct state *prev)
 static void roll_leave(struct state *st, struct state *next, int id)
 {
     hud_free();
+    video_clr_grab();
 }
 
 static void roll_paint(int id, float t)
