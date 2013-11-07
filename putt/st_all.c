@@ -867,11 +867,11 @@ static int flyby_enter(struct state *st, struct state *prev)
     if (paused)
     {
         paused = 0;
-        video_set_grab(!paused);
+        video_set_grab(1);
     }
     else
     {
-        video_set_grab(!paused);
+        video_set_grab(1);
         hud_init();
     }
 
@@ -941,7 +941,7 @@ static int stroke_enter(struct state *st, struct state *prev)
     if (paused)
     {
         paused = 0;
-        video_set_grab(!paused);
+        video_set_grab(1);
     }
 
     return 0;
@@ -1019,7 +1019,7 @@ static int roll_enter(struct state *st, struct state *prev)
     if (paused)
     {
         paused = 0;
-        video_set_grab(!paused);
+        video_set_grab(1);
     }
     else
         game_putt();
