@@ -315,7 +315,7 @@ static int title_keybd(int c, int d)
     {
         if (c == KEY_EXIT)
             return title_action(GUI_BACK, 0);
-        if (c >= ' ')
+        if (c >= SDLK_a && c <= SDLK_z)
             return title_action(GUI_CHAR, c);
     }
     return 1;
