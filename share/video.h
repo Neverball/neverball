@@ -27,6 +27,9 @@ void video_snap(const char *);
 int  video_perf(void);
 void video_swap(void);
 
+void video_show_cursor(void);
+void video_hide_cursor(void);
+
 void video_set_grab(int w);
 void video_clr_grab(void);
 int  video_get_grab(void);

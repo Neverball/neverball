@@ -863,6 +863,8 @@ static int poser_buttn(int b, int d)
 
 static int flyby_enter(struct state *st, struct state *prev)
 {
+    video_hide_cursor();
+
     if (paused)
         paused = 0;
     else
@@ -873,6 +875,7 @@ static int flyby_enter(struct state *st, struct state *prev)
 
 static void flyby_leave(struct state *st, struct state *next, int id)
 {
+    video_show_cursor();
     hud_free();
 }
 
@@ -930,7 +933,7 @@ static int stroke_enter(struct state *st, struct state *prev)
     hud_init();
     game_clr_mag();
     config_set_d(CONFIG_CAMERA, 2);
-    video_set_grab(!paused);
+    video_set_grab(1);
 
     if (paused)
         paused = 0;
@@ -1006,6 +1009,7 @@ static int stroke_buttn(int b, int d)
 
 static int roll_enter(struct state *st, struct state *prev)
 {
+    video_hide_cursor();
     hud_init();
 
     if (paused)
@@ -1018,6 +1022,7 @@ static int roll_enter(struct state *st, struct state *prev)
 
 static void roll_leave(struct state *st, struct state *next, int id)
 {
+    video_show_cursor();
     hud_free();
 }
 

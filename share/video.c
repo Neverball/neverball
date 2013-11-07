@@ -31,7 +31,7 @@ extern const char ICON[];
 /* Normally...... show the system cursor and hide the virtual cursor.        */
 /* In HMD mode... show the virtual cursor and hide the system cursor.        */
 
-static void video_show_cursor()
+void video_show_cursor()
 {
     if (hmd_stat())
     {
@@ -48,7 +48,7 @@ static void video_show_cursor()
 /* When the cursor is to be hidden, make sure neither the virtual cursor     */
 /* nor the system cursor is visible.                                         */
 
-static void video_hide_cursor()
+void video_hide_cursor()
 {
     gui_set_cursor(0);
     SDL_ShowCursor(SDL_DISABLE);
