@@ -19,7 +19,12 @@ Under Unix and Linux, simply run
     make
 
 For  Windows  builds,  the   MinGW  cross-compilation  environment  is
-supported. Native  builds are  theoretically possible using  MinGW and
+supported. On Fedora Linux, run
+
+    make sols clean-src
+    mingw32-make -o sols PLATFORM=mingw
+
+Native  builds are  theoretically possible using  MinGW and
 MSYS.
 
 
