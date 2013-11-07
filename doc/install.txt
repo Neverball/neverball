@@ -38,9 +38,9 @@ make ENABLE_FS=stdio
     Alternate  file  system  backend   that  replaces  PhysicsFS  with
     standard I/O, but lacks ZIP archive support.
 
-make ENABLE_NLS=1
-    Native  language  support.  Requires   an  additional  library  on
-    non-GLIBC systems.
+make ENABLE_NLS=0
+    Native language support.  This is  enabled by default. Requires an
+    additional library on non-GLIBC systems.
 
     libintl           http://www.gnu.org/software/gettext/
 
