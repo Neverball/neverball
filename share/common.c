@@ -312,14 +312,20 @@ int rand_between(int low, int high)
 
 #ifdef _WIN32
 
+extern int _putenv(const char *envstring);
+
 int set_env_var(const char *name, const char *value)
 {
     if (name)
     {
+        char str[MAXSTR];
+
         if (value)
-            return (_putenv_s(name, value) == 0);
+            sprintf(str, "%s=%s", name, value);
         else
-            return (_putenv_s(name, "") == 0);
+            sprintf(str, "%s=", name);
+
+        return (_putenv(str) == 0);
     }
     return 0;
 }
