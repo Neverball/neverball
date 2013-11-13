@@ -1,0 +1,10 @@
+{
+"classname" "worldspawn"
+"drawclip" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/snowglobe/snowglobe-surface"
+"model" "ball/basic-ball/basic-ball.obj"
+}
