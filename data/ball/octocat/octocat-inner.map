@@ -1,0 +1,9 @@
+{
+"classname" "worldspawn"
+"pendulum" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/octocat/octocat"
+"model" "ball/octocat/octocat.obj"
+}
