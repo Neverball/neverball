@@ -54,7 +54,17 @@ static const char *pick_home_path(void)
     static char path[MAX_PATH];
 
     if (SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, path) == S_OK)
+    {
+        static char gamepath[MAX_PATH];
+
+        SAFECPY(gamepath, path);
+        SAFECAT(gamepath, "\\My Games");
+
+        if (dir_exists(gamepath) || dir_make(gamepath) == 0)
+            return gamepath;
+
         return path;
+    }
     else
         return fs_base_dir();
 #else
