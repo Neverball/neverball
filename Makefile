@@ -92,7 +92,8 @@ ifeq ($(ENABLE_RADIANT_CONSOLE),1)
 endif
 
 ifeq ($(PLATFORM),darwin)
-	ALL_CPPFLAGS += -I/opt/local/include
+	ALL_CPPFLAGS += $(patsubst %, -I%, $(wildcard /opt/local/include \
+	                                              /usr/local/include))
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
@@ -170,7 +171,8 @@ endif
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
-	BASE_LIBS += -L/opt/local/lib
+	BASE_LIBS += $(patsubst %, -L%, $(wildcard /opt/local/lib \
+	                                           /usr/local/lib))
 endif
 
 OGG_LIBS := -lvorbisfile
@@ -436,7 +438,7 @@ desktops : $(DESKTOPS)
 
 clean-src :
 	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
-	find \( -name '*.o' -o -name '*.d' \) -delete
+	find . \( -name '*.o' -o -name '*.d' \) -delete
 
 clean : clean-src
 	$(RM) $(SOLS)
