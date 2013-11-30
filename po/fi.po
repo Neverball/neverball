@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball 1.5\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2012-12-06 17:58+0200\n"
+"POT-Creation-Date: 2013-11-30 01:59+0200\n"
 "PO-Revision-Date: 2008-03-17 17:34+0200\n"
 "Last-Translator: Pasi Kallinen <paxed@alt.org>\n"
 "Language-Team: Finnish\n"
@@ -18,57 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ball/demo.c:226
-msgid "Missing format character in replay name\n"
-msgstr "Tallenteen nimestä puuttuu formaattimerkki\n"
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr "Paikoillanne"
 
-#: ball/demo.c:231
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr "Tallenteen nimessä laiton formaattimerkki \"%%%c\"\n"
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr "Valmiit"
 
-#: ball/game_common.c:27
-msgid "Aborted"
-msgstr "Keskeytetty"
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr "HEP!"
 
-#: ball/game_common.c:28
-msgid "Time-out"
-msgstr "Aika loppui"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Tallenteen nimi"
 
-#: ball/game_common.c:29
-msgid "Success"
-msgstr "Onnistui"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Tallenna"
 
-#: ball/game_common.c:30
-msgid "Fall-out"
-msgstr "Putosit kentästä"
+#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
+msgid "Cancel"
+msgstr "Peruuta"
 
-#: ball/game_common.c:31 ball/progress.c:420
-msgid "Unknown"
-msgstr "Tuntematon"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Kirjoita päälle?"
 
-#: ball/game_common.c:43 ball/st_help.c:185
+#: ball/st_save.c:223
 #, fuzzy
-#| msgid "Manual View"
-msgid "Manual Camera"
-msgstr "Manuaalinen"
-
-#: ball/game_common.c:44 ball/st_help.c:184
-#, fuzzy
-#| msgid "Lazy View"
-msgid "Lazy Camera"
-msgstr "Laiska"
-
-#: ball/game_common.c:45 ball/st_help.c:183
-#, fuzzy
-#| msgid "Chase View"
-msgid "Chase Camera"
-msgstr "Jahtaus"
-
-#: ball/game_common.c:47
-#, c-format
-msgid "Camera %d"
-msgstr ""
+#| msgid "Overwrite?"
+msgid "Overwrite"
+msgstr "Kirjoita päälle?"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -102,69 +84,91 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/hud.c:68 ball/st_demo.c:202 ball/st_goal.c:167
-msgid "Coins"
-msgstr "Kolikot"
+#: ball/st_start.c:174 ball/st_demo.c:307 ball/st_help.c:105
+#: ball/st_ball.c:182 share/gui.c:2281 share/st_common.c:97 putt/st_conf.c:106
+#: putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "Takaisin"
 
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Maali"
-
-#: ball/hud.c:89 ball/st_goal.c:155
-msgid "Balls"
-msgstr "Palloja"
-
-#: ball/hud.c:90 ball/st_goal.c:161 putt/hud.c:45
-msgid "Score"
-msgstr "Pisteet"
-
-#: ball/level.c:138
-#, fuzzy, c-format
-#| msgid "Error while loading level file '%s': %s\n"
-msgid "Failure to load level file '%s'\n"
-msgstr "Virhe ladattaessa kenttätiedostoa '%s': %s\n"
-
-#: ball/main.c:294
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [options ...]\n"
-#| "Options:\n"
-#| "  -h, --help                show this usage message.\n"
-#| "  -v, --version             show version.\n"
-#| "  -d, --data <dir>          use 'dir' as game data directory.\n"
-#| "  -r, --replay <file>       play the replay 'file'.\n"
-#| "  -i, --info                display info about a replay.\n"
-msgid ""
-"Usage: %s [options ...]\n"
-"Options:\n"
-"  -h, --help                show this usage message.\n"
-"  -v, --version             show version.\n"
-"  -d, --data <dir>          use 'dir' as game data directory.\n"
-"  -r, --replay <file>       play the replay 'file'.\n"
-"  -l, --level <file>        load the level 'file'\n"
-msgstr ""
-"Käyttö: %s [parametrit ...]\n"
-"Parametrit:\n"
-"  -h, --help                näytä tämä viesti.\n"
-"  -v, --version             näytä ohjelman versionumero.\n"
-"  -d, --data <hakemisto>    etsi pelin datatiedostot hakemistosta.\n"
-"  -r, --replay <tiedosto>   näytä tallennetiedosto.\n"
-"  -i, --info                näytä tallennetiedoston tiedot.\n"
-
-#: ball/main.c:304
-#, c-format
-msgid "Option '%s' requires an argument.\n"
-msgstr "Vipu '%s' vaatii parametrin.\n"
-
-#: ball/progress.c:417 ball/st_help.c:263
-msgid "Challenge Mode"
-msgstr "Haastemoodi"
-
-#: ball/progress.c:417 ball/st_start.c:207
+#: ball/st_start.c:203 ball/progress.c:417
 msgid "Challenge"
 msgstr "Haaste"
 
-#: ball/progress.c:418 ball/st_help.c:250
+#: ball/st_start.c:223
+#, fuzzy
+#| msgid "Unlock Goal"
+msgid "Unlocked"
+msgstr "Avaa maali"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+#, fuzzy
+#| msgid "Lock Goals of Completed Levels?"
+msgid "Goal State in Completed Levels"
+msgstr "Lukitse läpipelattujen kenttien maalit"
+
+#: ball/st_conf.c:159 putt/st_conf.c:104
+msgid "Options"
+msgstr "Asetukset"
+
+#: ball/st_conf.c:161 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr ""
+
+#: ball/st_conf.c:161 putt/st_conf.c:114
+msgid "Configure"
+msgstr ""
+
+#: ball/st_conf.c:165
+msgid "Mouse Sensitivity"
+msgstr ""
+
+#: ball/st_conf.c:170 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Ääniefektit"
+
+#: ball/st_conf.c:172 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Musiikki"
+
+#: ball/st_conf.c:177 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Pelaajan nimi"
+
+#: ball/st_conf.c:178 ball/st_ball.c:180
+#, fuzzy
+#| msgid "Normal Mode"
+msgid "Ball Model"
+msgstr "Normaalimoodi"
+
+#: ball/st_conf.c:179 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:193 share/st_common.c:666
+msgid "Default"
+msgstr ""
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Uusi sarjaennätys"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Sarja on pelattu loppuu"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Valitse kenttä"
+
+#: ball/progress.c:417 ball/st_help.c:259
+msgid "Challenge Mode"
+msgstr "Haastemoodi"
+
+#: ball/progress.c:418 ball/st_help.c:246
 msgid "Normal Mode"
 msgstr "Normaalimoodi"
 
@@ -186,115 +190,70 @@ msgstr ""
 msgid "Unknown Mode"
 msgstr "Tuntematon moodi"
 
+#: ball/progress.c:420 ball/game_common.c:32
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Putosit kentästä!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Aika!"
+
+#: ball/st_fail.c:95
+msgid "Exit"
+msgstr "Poistu"
+
+#: ball/st_fail.c:98 ball/st_goal.c:220
+msgid "Next Level"
+msgstr "Seuraava kenttä"
+
+#: ball/st_fail.c:101 ball/st_goal.c:223
+msgid "Retry Level"
+msgstr "Yritä uudelleen"
+
+#: ball/st_fail.c:104 ball/st_goal.c:226
+msgid "Save Replay"
+msgstr "Tallenna uusinta"
+
+#: ball/demo.c:227
+msgid "Missing format character in replay name\n"
+msgstr "Tallenteen nimestä puuttuu formaattimerkki\n"
+
+#: ball/demo.c:232
+#, c-format
+msgid "Invalid format character in replay name: \"%%%c\"\n"
+msgstr "Tallenteen nimessä laiton formaattimerkki \"%%%c\"\n"
+
 #: ball/set.c:276
 #, fuzzy, c-format
 #| msgid "Cannot load the set file '%s': %s\n"
 msgid "Failure to load set file '%s'\n"
 msgstr "Tiedoston '%s' lataus epäonnistui: %s\n"
 
-#: ball/st_ball.c:187 ball/st_conf.c:316
-#, fuzzy
-#| msgid "Normal Mode"
-msgid "Ball Model"
-msgstr "Normaalimoodi"
-
-#: ball/st_ball.c:189 ball/st_conf.c:104 ball/st_demo.c:307 ball/st_help.c:107
-#: ball/st_start.c:178 ball/util.c:407 share/st_resol.c:105 putt/st_all.c:393
-#: putt/st_all.c:541 putt/st_conf.c:158
-msgid "Back"
-msgstr "Takaisin"
-
-#: ball/st_conf.c:297 putt/st_conf.c:156
-msgid "Options"
-msgstr "Asetukset"
-
-#: ball/st_conf.c:299 ball/st_conf.c:443
-msgid "Graphics"
+#: ball/st_name.c:110
+msgid "OK"
 msgstr ""
-
-#: ball/st_conf.c:299
-msgid "Configure"
-msgstr ""
-
-#: ball/st_conf.c:303
-msgid "Mouse Sensitivity"
-msgstr ""
-
-#: ball/st_conf.c:308 putt/st_conf.c:223
-msgid "Sound Volume"
-msgstr "Ääniefektit"
-
-#: ball/st_conf.c:310 putt/st_conf.c:238
-msgid "Music Volume"
-msgstr "Musiikki"
-
-#: ball/st_conf.c:315 ball/st_name.c:107
-msgid "Player Name"
-msgstr "Pelaajan nimi"
-
-#: ball/st_conf.c:420 ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461
-#: ball/st_conf.c:464 ball/st_conf.c:467 putt/st_conf.c:166 putt/st_conf.c:200
-msgid "Off"
-msgstr "Ei"
-
-#: ball/st_conf.c:421
-msgid "2x"
-msgstr ""
-
-#: ball/st_conf.c:422
-msgid "4x"
-msgstr ""
-
-#: ball/st_conf.c:423
-msgid "8x"
-msgstr ""
-
-#: ball/st_conf.c:445 share/st_resol.c:103 putt/st_conf.c:180
-msgid "Resolution"
-msgstr "Tarkkuus"
-
-#: ball/st_conf.c:447 putt/st_conf.c:172
-msgid "Fullscreen"
-msgstr "Koko ruutu"
-
-#: ball/st_conf.c:448 ball/st_conf.c:453 ball/st_conf.c:461 ball/st_conf.c:464
-#: ball/st_conf.c:467 putt/st_conf.c:167 putt/st_conf.c:201
-msgid "On"
-msgstr "Kyllä"
-
-#: ball/st_conf.c:452
-msgid "V-Sync"
-msgstr ""
-
-#: ball/st_conf.c:455
-msgid "Antialiasing"
-msgstr ""
-
-#: ball/st_conf.c:460
-msgid "Reflection"
-msgstr "Heijastukset"
-
-#: ball/st_conf.c:463
-msgid "Background"
-msgstr "Tausta"
-
-#: ball/st_conf.c:466 putt/st_conf.c:206
-msgid "Shadow"
-msgstr "Varjo"
 
 #: ball/st_demo.c:201
 msgid "Time"
 msgstr "Aika"
 
+#: ball/st_demo.c:202 ball/hud.c:68 ball/st_goal.c:166
+msgid "Coins"
+msgstr "Kolikot"
+
 #: ball/st_demo.c:203
 msgid "Status"
 msgstr "Tila"
 
-#: ball/st_demo.c:234 ball/st_demo.c:415
+#: ball/st_demo.c:234 ball/st_demo.c:425
 msgid "Replay"
 msgstr "Tallenne"
 
-#: ball/st_demo.c:235 putt/st_all.c:731
+#: ball/st_demo.c:235 putt/st_all.c:740
 msgid "Player"
 msgstr "Pelaaja"
 
@@ -310,113 +269,65 @@ msgstr "Valitse tallenne"
 msgid "No Replays"
 msgstr "Ei tallenteita"
 
-#: ball/st_demo.c:597
+#: ball/st_demo.c:601
 msgid "Replay Paused"
 msgstr "Toisto tauotettu"
 
-#: ball/st_demo.c:599
+#: ball/st_demo.c:603
 msgid "Replay Ends"
 msgstr "Tallenne loppui"
 
-#: ball/st_demo.c:605 ball/st_pause.c:88 putt/st_all.c:641
+#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
 msgid "Quit"
 msgstr "Poistu"
 
-#: ball/st_demo.c:609 ball/st_demo.c:691
+#: ball/st_demo.c:613 ball/st_demo.c:699
 msgid "Keep"
 msgstr "Säilytä"
 
-#: ball/st_demo.c:610 ball/st_demo.c:692 share/keyboard.c:40
+#: ball/st_demo.c:614 ball/st_demo.c:700
 msgid "Delete"
 msgstr "Poista"
 
-#: ball/st_demo.c:614 ball/st_pause.c:93 putt/st_all.c:642
+#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
 msgid "Continue"
 msgstr "Jatka"
 
-#: ball/st_demo.c:616
+#: ball/st_demo.c:620
 msgid "Repeat"
 msgstr "Toista"
 
-#: ball/st_demo.c:687
+#: ball/st_demo.c:695
 msgid "Delete Replay?"
 msgstr "Tuhoa tallenne?"
 
-#: ball/st_demo.c:731 ball/st_level.c:160
+#: ball/st_demo.c:749 ball/st_level.c:179
 msgid "Warning!"
 msgstr ""
 
-#: ball/st_demo.c:733
+#: ball/st_demo.c:751
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
 msgstr ""
 
-#: ball/st_done.c:62
-msgid "New Set Record"
-msgstr "Uusi sarjaennätys"
-
-#: ball/st_done.c:63
-msgid "Set Complete"
-msgstr "Sarja on pelattu loppuu"
-
-#: ball/st_done.c:82
-msgid "Select Level"
-msgstr "Valitse kenttä"
-
-#: ball/st_fail.c:83
-msgid "Fall-out!"
-msgstr "Putosit kentästä!"
-
-#: ball/st_fail.c:85
-msgid "Time's Up!"
-msgstr "Aika!"
-
-#: ball/st_fail.c:96
-msgid "Exit"
-msgstr "Poistu"
-
-#: ball/st_fail.c:99 ball/st_goal.c:221
-msgid "Next Level"
-msgstr "Seuraava kenttä"
-
-#: ball/st_fail.c:102 ball/st_goal.c:224
-msgid "Retry Level"
-msgstr "Yritä uudelleen"
-
-#: ball/st_fail.c:105 ball/st_goal.c:227
-msgid "Save Replay"
-msgstr "Tallenna uusinta"
-
-#: ball/st_goal.c:102
-msgid "New Record"
-msgstr "Uusi ennätys"
-
-#: ball/st_goal.c:103
-msgid "GOAL"
-msgstr "MAALI"
-
-#: ball/st_goal.c:216 ball/st_goal.c:218
-msgid "Finish"
-msgstr "Maali"
-
-#: ball/st_help.c:103
+#: ball/st_help.c:101
 msgid "Tricks"
 msgstr ""
 
-#: ball/st_help.c:104
+#: ball/st_help.c:102
 msgid "Modes"
 msgstr "Moodit"
 
-#: ball/st_help.c:105
+#: ball/st_help.c:103
 msgid "Controls"
 msgstr "Ohjaus"
 
-#: ball/st_help.c:106
+#: ball/st_help.c:104
 msgid "Rules"
 msgstr "Säännöt"
 
-#: ball/st_help.c:117
+#: ball/st_help.c:115
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
@@ -424,14 +335,14 @@ msgstr ""
 "Liikuta hiirtä tai joystickiä\\tai käytä nuolinäppäimiä\\kentän "
 "kallistamiseen."
 
-#: ball/st_help.c:122
+#: ball/st_help.c:120
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr ""
 "Kosketa kolikoita kerätäksesi niitä.\\Kerää tarpeeksi avataksesi maali."
 
-#: ball/st_help.c:179
+#: ball/st_help.c:177
 #, fuzzy
 #| msgid "Left and right mouse buttons rotate the view."
 msgid ""
@@ -439,19 +350,35 @@ msgid ""
 "rotation."
 msgstr "Hiiren vasen ja oikea nappi liikuttavat näkökulmaa."
 
-#: ball/st_help.c:181
-msgid "Pause / Release Pointer"
-msgstr "Tauko"
-
-#: ball/st_help.c:182
-msgid "Exit / Cancel Menu"
+#: ball/st_help.c:179
+#, fuzzy
+#| msgid "Exit / Cancel Menu"
+msgid "Exit / Pause"
 msgstr "Poistu"
 
-#: ball/st_help.c:186
+#: ball/st_help.c:180 ball/game_common.c:46
+#, fuzzy
+#| msgid "Chase View"
+msgid "Chase Camera"
+msgstr "Jahtaus"
+
+#: ball/st_help.c:181 ball/game_common.c:45
+#, fuzzy
+#| msgid "Lazy View"
+msgid "Lazy Camera"
+msgstr "Laiska"
+
+#: ball/st_help.c:182 ball/game_common.c:44
+#, fuzzy
+#| msgid "Manual View"
+msgid "Manual Camera"
+msgstr "Manuaalinen"
+
+#: ball/st_help.c:183
 msgid "Screenshot"
 msgstr "Ruutukaappaus"
 
-#: ball/st_help.c:252
+#: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
@@ -459,7 +386,7 @@ msgstr ""
 "Liikuta pallo maaliin ennen ajan loppumista.\\Joudut keräämään kolikoita "
 "avataksesi maalin."
 
-#: ball/st_help.c:265
+#: ball/st_help.c:261
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
@@ -467,7 +394,7 @@ msgstr ""
 "Aloita pelaaminen setin ensimmäisestä kentästä.\\Alussa sinulla on kolme "
 "palloa.\\Saat lisäpallon kerättyäsi 100 kolikkoa."
 
-#: ball/st_help.c:279
+#: ball/st_help.c:275
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
@@ -475,7 +402,7 @@ msgstr ""
 "Nurkkia voi käyttää hyppäämiseen.\\Tähtää kulmaan kun liikut tarpeeksi lujaa,"
 "\\ja saatat päästä uusiin paikkoihin."
 
-#: ball/st_help.c:284
+#: ball/st_help.c:280
 #, fuzzy
 #| msgid ""
 #| "Tilting in 2 directions increases\\the slope. Use the manual view\\and "
@@ -487,9 +414,72 @@ msgstr ""
 "Kahteen suuntaan kallistaminen\\lisää kallistuskulmaa. Käytä\\manuaalista "
 "katselukulmaa\\ja käännä kameraa 45 astetta saadaksesi\\parhaat tulokset."
 
-#: ball/st_help.c:304 ball/st_help.c:314
+#: ball/st_help.c:300 ball/st_help.c:310
 msgid "Watch demo"
 msgstr "Katso demo"
+
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "Keskeytetty"
+
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "Aika loppui"
+
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "Onnistui"
+
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "Putosit kentästä"
+
+#: ball/game_common.c:48
+#, c-format
+msgid "Camera %d"
+msgstr ""
+
+#: ball/st_pause.c:82 putt/st_all.c:644
+msgid "Paused"
+msgstr "Keskeytetty"
+
+#: ball/st_pause.c:91
+msgid "Restart"
+msgstr "Uusi peli"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Maali"
+
+#: ball/hud.c:89 ball/st_goal.c:154
+msgid "Balls"
+msgstr "Palloja"
+
+#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
+msgid "Score"
+msgstr "Pisteet"
+
+#: ball/st_goal.c:101
+msgid "New Record"
+msgstr "Uusi ennätys"
+
+#: ball/st_goal.c:102
+msgid "GOAL"
+msgstr "MAALI"
+
+#: ball/st_goal.c:215 ball/st_goal.c:217
+msgid "Finish"
+msgstr "Maali"
+
+#: ball/st_set.c:108
+msgid "Level Set"
+msgstr "Kenttäsarja"
+
+#: ball/level.c:138
+#, fuzzy, c-format
+#| msgid "Error while loading level file '%s': %s\n"
+msgid "Failure to load level file '%s'\n"
+msgstr "Virhe ladattaessa kenttätiedostoa '%s': %s\n"
 
 #: ball/st_level.c:56
 #, c-format
@@ -506,105 +496,11 @@ msgstr "Kenttä %s"
 msgid "Standalone level"
 msgstr ""
 
-#: ball/st_level.c:162
+#: ball/st_level.c:181
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
 msgstr ""
-
-#: ball/st_name.c:118
-msgid "OK"
-msgstr ""
-
-#: ball/st_name.c:120 ball/st_save.c:126 ball/st_save.c:215
-msgid "Cancel"
-msgstr "Peruuta"
-
-#: ball/st_over.c:35
-msgid "GAME OVER"
-msgstr "Peli loppui"
-
-#: ball/st_pause.c:82 putt/st_all.c:636
-msgid "Paused"
-msgstr "Keskeytetty"
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr "Uusi peli"
-
-#: ball/st_play.c:116
-msgid "Ready?"
-msgstr "Paikoillanne"
-
-#: ball/st_play.c:200
-msgid "Set?"
-msgstr "Valmiit"
-
-#: ball/st_play.c:306
-msgid "GO!"
-msgstr "HEP!"
-
-#: ball/st_save.c:113
-msgid "Replay Name"
-msgstr "Tallenteen nimi"
-
-#: ball/st_save.c:124
-msgid "Save"
-msgstr "Tallenna"
-
-#: ball/st_save.c:209
-msgid "Overwrite?"
-msgstr "Kirjoita päälle?"
-
-#: ball/st_save.c:216
-#, fuzzy
-#| msgid "Overwrite?"
-msgid "Overwrite"
-msgstr "Kirjoita päälle?"
-
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr "Kenttäsarja"
-
-#: ball/st_start.c:227
-#, fuzzy
-#| msgid "Unlock Goal"
-msgid "Unlocked"
-msgstr "Avaa maali"
-
-#: ball/st_start.c:228
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:238
-#, fuzzy
-#| msgid "Lock Goals of Completed Levels?"
-msgid "Goal State in Completed Levels"
-msgstr "Lukitse läpipelattujen kenttien maalit"
-
-#: ball/st_title.c:138 ball/st_title.c:173
-msgid "menu^Cheat"
-msgstr "Huijaus"
-
-#: ball/st_title.c:144 ball/st_title.c:176 putt/st_all.c:238
-msgid "menu^Play"
-msgstr "Pelaa"
-
-#: ball/st_title.c:179
-msgid "menu^Replay"
-msgstr "Tallenne"
-
-#: ball/st_title.c:180
-msgid "menu^Help"
-msgstr "Ohjeita"
-
-#: ball/st_title.c:181 putt/st_all.c:239
-msgid "menu^Options"
-msgstr "Asetukset"
-
-#: ball/st_title.c:182 putt/st_all.c:240
-msgid "menu^Exit"
-msgstr "Poistu"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -642,12 +538,45 @@ msgstr "Vaihda pelaajan nimeä"
 msgid "caps"
 msgstr "vaihto"
 
-#: share/gui.c:425
+#: ball/st_over.c:35
+msgid "GAME OVER"
+msgstr "Peli loppui"
+
+#: ball/st_title.c:140 ball/st_title.c:175
+msgid "menu^Cheat"
+msgstr "Huijaus"
+
+#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
+msgid "menu^Play"
+msgstr "Pelaa"
+
+#: ball/st_title.c:181
+msgid "menu^Replay"
+msgstr "Tallenne"
+
+#: ball/st_title.c:182
+msgid "menu^Help"
+msgstr "Ohjeita"
+
+#: ball/st_title.c:183 putt/st_all.c:239
+msgid "menu^Options"
+msgstr "Asetukset"
+
+#: ball/st_title.c:184 putt/st_all.c:240
+msgid "menu^Exit"
+msgstr "Poistu"
+
+#: share/image.c:229
+#, c-format
+msgid "Failed to convert SDL_ttf surface: %s\n"
+msgstr ""
+
+#: share/gui.c:432
 #, c-format
 msgid "Font '%s' doesn't exist, trying default font.\n"
 msgstr ""
 
-#: share/gui.c:472
+#: share/gui.c:479
 #, c-format
 msgid "Could not load font '%s'.\n"
 msgstr ""
@@ -656,251 +585,80 @@ msgstr ""
 msgid "ttf/DejaVuSans-Bold.ttf"
 msgstr ""
 
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
+#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
+#: share/st_common.c:384
+msgid "Off"
+msgstr "Ei"
+
+#: share/st_common.c:319
+msgid "2x"
 msgstr ""
 
-#. Translators,
-#. *
-#. * This is a mostly-complete list of human-readable SDL key names.  There
-#. * might not be corresponding names for all these keys in your language,
-#. * and that's perfectly fine -- in such cases just copy the source string.
-#.
-#: share/keyboard.c:33
-msgid "Backspace"
+#: share/st_common.c:320
+msgid "4x"
 msgstr ""
 
-#: share/keyboard.c:34
-msgid "Tab"
+#: share/st_common.c:321
+msgid "8x"
 msgstr ""
 
-#: share/keyboard.c:35
-msgid "Clear"
+#: share/st_common.c:337
+#, fuzzy
+#| msgid "Unknown"
+msgid "Unknown Display"
+msgstr "Tuntematon"
+
+#: share/st_common.c:341 share/st_common.c:447
+#, fuzzy
+#| msgid "Replay"
+msgid "Display"
+msgstr "Tallenne"
+
+#: share/st_common.c:347
+msgid "Fullscreen"
+msgstr "Koko ruutu"
+
+#: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
+#: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
+msgid "On"
+msgstr "Kyllä"
+
+#: share/st_common.c:350 share/st_common.c:544
+msgid "Resolution"
+msgstr "Tarkkuus"
+
+#: share/st_common.c:365
+msgid "HMD"
 msgstr ""
 
-#: share/keyboard.c:36
-msgid "Return"
+#: share/st_common.c:371
+msgid "V-Sync"
 msgstr ""
 
-#: share/keyboard.c:37
-msgid "Pause"
-msgstr "Keskeytys"
-
-#: share/keyboard.c:38
-msgid "Escape"
+#: share/st_common.c:373
+msgid "Antialiasing"
 msgstr ""
 
-#: share/keyboard.c:39
-msgid "Space"
-msgstr "Välilyönti"
+#: share/st_common.c:379
+msgid "Reflection"
+msgstr "Heijastukset"
 
-#: share/keyboard.c:41
-msgid "Enter"
-msgstr ""
+#: share/st_common.c:381
+msgid "Background"
+msgstr "Tausta"
 
-#: share/keyboard.c:42
-msgid "Equals"
-msgstr ""
+#: share/st_common.c:383
+msgid "Shadow"
+msgstr "Varjo"
 
-#: share/keyboard.c:43
-msgid "Up"
-msgstr ""
+#: putt/st_conf.c:158
+#, fuzzy
+#| msgid "Select Level"
+msgid "Select"
+msgstr "Valitse kenttä"
 
-#: share/keyboard.c:44 share/keyboard.c:47
-msgid "Down"
-msgstr ""
-
-#: share/keyboard.c:45
-msgid "Right"
-msgstr ""
-
-#: share/keyboard.c:46
-msgid "Left"
-msgstr ""
-
-#: share/keyboard.c:48
-msgid "Insert"
-msgstr ""
-
-#: share/keyboard.c:49
-msgid "Home"
-msgstr ""
-
-#: share/keyboard.c:50
-msgid "End"
-msgstr ""
-
-#: share/keyboard.c:51
-msgid "Page Up"
-msgstr ""
-
-#: share/keyboard.c:52
-msgid "Page Down"
-msgstr ""
-
-#: share/keyboard.c:53
-msgid "F1"
-msgstr ""
-
-#: share/keyboard.c:54
-msgid "F2"
-msgstr ""
-
-#: share/keyboard.c:55
-msgid "F3"
-msgstr ""
-
-#: share/keyboard.c:56
-msgid "F4"
-msgstr ""
-
-#: share/keyboard.c:57
-msgid "F5"
-msgstr ""
-
-#: share/keyboard.c:58
-msgid "F6"
-msgstr ""
-
-#: share/keyboard.c:59
-msgid "F7"
-msgstr ""
-
-#: share/keyboard.c:60
-msgid "F8"
-msgstr ""
-
-#: share/keyboard.c:61
-msgid "F9"
-msgstr ""
-
-#: share/keyboard.c:62
-msgid "F10"
-msgstr ""
-
-#: share/keyboard.c:63
-msgid "F11"
-msgstr ""
-
-#: share/keyboard.c:64
-msgid "F12"
-msgstr ""
-
-#: share/keyboard.c:65
-msgid "F13"
-msgstr ""
-
-#: share/keyboard.c:66
-msgid "F14"
-msgstr ""
-
-#: share/keyboard.c:67
-msgid "F15"
-msgstr ""
-
-#: share/keyboard.c:68
-msgid "Num Lock"
-msgstr ""
-
-#: share/keyboard.c:69
-msgid "Caps Lock"
-msgstr ""
-
-#: share/keyboard.c:70
-msgid "Scroll Lock"
-msgstr ""
-
-#: share/keyboard.c:71
-msgid "Right Shift"
-msgstr ""
-
-#: share/keyboard.c:72
-msgid "Left Shift"
-msgstr ""
-
-#: share/keyboard.c:73
-msgid "Right CTRL"
-msgstr ""
-
-#: share/keyboard.c:74
-msgid "Left CTRL"
-msgstr ""
-
-#: share/keyboard.c:75
-msgid "Right Alt"
-msgstr ""
-
-#: share/keyboard.c:76
-msgid "Left Alt"
-msgstr ""
-
-#: share/keyboard.c:77
-msgid "Right Meta"
-msgstr ""
-
-#: share/keyboard.c:78
-msgid "Left Meta"
-msgstr ""
-
-#: share/keyboard.c:79
-msgid "Left Super"
-msgstr ""
-
-#: share/keyboard.c:80
-msgid "Right Super"
-msgstr ""
-
-#: share/keyboard.c:81
-msgid "Alt Gr"
-msgstr ""
-
-#: share/keyboard.c:82
-msgid "Compose"
-msgstr ""
-
-#: share/keyboard.c:83
-msgid "Help"
-msgstr ""
-
-#: share/keyboard.c:84
-msgid "Print Screen"
-msgstr ""
-
-#: share/keyboard.c:85
-msgid "Sys Req"
-msgstr ""
-
-#: share/keyboard.c:86
-msgid "Break"
-msgstr ""
-
-#: share/keyboard.c:87
-msgid "Menu"
-msgstr ""
-
-#: share/keyboard.c:88
-msgid "Power"
-msgstr ""
-
-#: share/keyboard.c:89
-msgid "Euro"
-msgstr ""
-
-#: share/keyboard.c:90
-msgid "Undo"
-msgstr ""
-
-#: share/syswm.c:58
-#, c-format
-msgid "Failed to get WM info: %s\n"
-msgstr ""
-
-#: share/syswm.c:129
-msgid "Failed to allocate memory for EWMH icon data.\n"
-msgstr ""
-
-#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:107 putt/st_all.c:168
+#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
 msgid "Par"
 msgstr ""
 
@@ -932,46 +690,34 @@ msgstr "Yht"
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:350
+#: putt/st_all.c:361
 msgid "Select Course"
 msgstr "Valitse kenttä"
 
-#: putt/st_all.c:518
+#: putt/st_all.c:529
 msgid "Players?"
 msgstr "Pelaajia?"
 
-#: putt/st_all.c:722
+#: putt/st_all.c:731
 #, c-format
 msgid "Hole %02d"
 msgstr "Reikä %02d"
 
-#: putt/st_all.c:1048
+#: putt/st_all.c:1064
 msgid "It's In!"
 msgstr "Reiässä!"
 
-#: putt/st_all.c:1190
+#: putt/st_all.c:1207
 msgid "1 Stroke Penalty"
 msgstr "1 rangaistuslyönti"
 
-#: putt/st_all.c:1268
+#: putt/st_all.c:1285
 msgid "Scores"
 msgstr "Lyönnit"
 
-#: putt/st_all.c:1321
+#: putt/st_all.c:1338
 msgid "Final Scores"
 msgstr "Tulostaulu"
-
-#: putt/st_conf.c:188
-msgid "Low"
-msgstr "Matala"
-
-#: putt/st_conf.c:189
-msgid "High"
-msgstr "Korkea"
-
-#: putt/st_conf.c:194
-msgid "Textures"
-msgstr "Tekstuurit"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
@@ -1312,6 +1058,10 @@ msgstr ""
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr ""
+
+#: data/map-fwp/inferno.map
+msgid "=Inferno=\\The fire thwomps will try to foil your mission."
 msgstr ""
 
 #: data/map-fwp/ladybirds.map
@@ -2022,6 +1772,53 @@ msgstr ""
 
 msgid "item/coin/coin"
 msgstr ""
+
+#, fuzzy
+#~| msgid ""
+#~| "Usage: %s [options ...]\n"
+#~| "Options:\n"
+#~| "  -h, --help                show this usage message.\n"
+#~| "  -v, --version             show version.\n"
+#~| "  -d, --data <dir>          use 'dir' as game data directory.\n"
+#~| "  -r, --replay <file>       play the replay 'file'.\n"
+#~| "  -i, --info                display info about a replay.\n"
+#~ msgid ""
+#~ "Usage: %s [options ...]\n"
+#~ "Options:\n"
+#~ "  -h, --help                show this usage message.\n"
+#~ "  -v, --version             show version.\n"
+#~ "  -d, --data <dir>          use 'dir' as game data directory.\n"
+#~ "  -r, --replay <file>       play the replay 'file'.\n"
+#~ "  -l, --level <file>        load the level 'file'\n"
+#~ msgstr ""
+#~ "Käyttö: %s [parametrit ...]\n"
+#~ "Parametrit:\n"
+#~ "  -h, --help                näytä tämä viesti.\n"
+#~ "  -v, --version             näytä ohjelman versionumero.\n"
+#~ "  -d, --data <hakemisto>    etsi pelin datatiedostot hakemistosta.\n"
+#~ "  -r, --replay <tiedosto>   näytä tallennetiedosto.\n"
+#~ "  -i, --info                näytä tallennetiedoston tiedot.\n"
+
+#~ msgid "Option '%s' requires an argument.\n"
+#~ msgstr "Vipu '%s' vaatii parametrin.\n"
+
+#~ msgid "Pause / Release Pointer"
+#~ msgstr "Tauko"
+
+#~ msgid "Pause"
+#~ msgstr "Keskeytys"
+
+#~ msgid "Space"
+#~ msgstr "Välilyönti"
+
+#~ msgid "Low"
+#~ msgstr "Matala"
+
+#~ msgid "High"
+#~ msgstr "Korkea"
+
+#~ msgid "Textures"
+#~ msgstr "Tekstuurit"
 
 #~ msgid "No"
 #~ msgstr "Ei"
