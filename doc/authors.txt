@@ -166,6 +166,7 @@ D: Hillcrest Labs Loop support
 
 N: Andrea Del Santo (ht-never)
 D: Italian translation
+D: Korean translation
 
 N: Alexander Schmehl
 D: Debian packaging
