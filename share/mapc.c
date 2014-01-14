@@ -180,31 +180,31 @@ static void bcast_quit(void)
 
 #define MESSAGE(str) do {                       \
         bcast_send_msg(BCAST_STD, (str));       \
-        fprintf(stdout, "%s\n", str);           \
+        fprintf(stdout, "%s", str);             \
     } while (0)
 
 #define WARNING(str) do {                       \
         bcast_send_msg(BCAST_WRN, (str));       \
-        fprintf(stderr, "%s\n", str);           \
+        fprintf(stderr, "%s", str);             \
     } while (0)
 
 #define ERROR(str) do {                         \
         bcast_send_msg(BCAST_ERR, (str));       \
-        fprintf(stderr, "%s\n", str);           \
+        fprintf(stderr, "%s", str);             \
     } while (0)
 
 #else /* ENABLE_RADIANT_CONSOLE */
 
 #define MESSAGE(str) do {                       \
-        fprintf(stdout, "%s\n", str);           \
+        fprintf(stdout, "%s", str);             \
     } while (0)
 
 #define WARNING(str) do {                       \
-        fprintf(stderr, "%s\n", str);           \
+        fprintf(stderr, "%s", str);             \
     } while (0)
 
 #define ERROR(str) do {                         \
-        fprintf(stderr, "%s\n", str);           \
+        fprintf(stderr, "%s", str);             \
     } while (0)
 
 #endif /* ENABLE_RADIANT_CONSOLE */
@@ -238,7 +238,7 @@ static void bcast_quit(void)
 static int overflow(const char *s)
 {
     char buf[64];
-    sprintf(buf, "%s overflow", s);
+    sprintf(buf, "%s overflow\n", s);
     ERROR(buf);
     exit(1);
     return 0;
@@ -727,7 +727,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
                 SAFECPY(buf, name);
                 SAFECAT(buf, ": unknown directive \"");
                 SAFECAT(buf, p);
-                SAFECAT(buf, "\"");
+                SAFECAT(buf, "\"\n");
                 WARNING(buf);
             }
         }
@@ -739,7 +739,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
         SAFECPY(buf, input_file);
         SAFECAT(buf, ": unknown material \"");
         SAFECAT(buf, name);
-        SAFECAT(buf, "\"");
+        SAFECAT(buf, "\"\n");
         WARNING(buf);
     }
 
