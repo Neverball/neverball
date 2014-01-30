@@ -16,12 +16,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h> /* offsetof */
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
 #include <assert.h>
 
 #if ENABLE_RADIANT_CONSOLE
+/*
+ * Mapc is not an SDL app, we just want the SDL_net symbols.
+ */
+#define WITHOUT_SDL 1
 #include <SDL_net.h>
 #endif
 

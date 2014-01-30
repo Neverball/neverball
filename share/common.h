@@ -22,6 +22,8 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "fs.h"
 
 /* Random stuff. */
