@@ -28,14 +28,14 @@
 
 #define DEFAULT_CODESET "UTF-8"
 
-static char default_lang[MAXSTR];
-static int  default_lang_init;
-
 /*---------------------------------------------------------------------------*/
 
 void lang_init(const char *domain, const char *pref)
 {
 #if ENABLE_NLS
+    static char default_lang[MAXSTR];
+    static int  default_lang_init;
+
     char *dir = strdup(getenv("NEVERBALL_LOCALE"));
 
     /* Select the location of message catalogs. */
