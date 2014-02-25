@@ -50,8 +50,6 @@ enum
     CONF_BALL
 };
 
-static struct lang_desc lang;
-
 static int mouse_id[11];
 static int music_id[11];
 static int sound_id[11];
@@ -187,8 +185,8 @@ static int conf_gui(void)
         gui_set_label(name_id, player);
         gui_set_label(ball_id, base_name(ball));
 
-        if (*lang.code)
-            gui_set_label(lang_id, lang_name(&lang));
+        if (*config_get_s(CONFIG_LANGUAGE))
+            gui_set_label(lang_id, lang_name(&curr_lang));
         else
             gui_set_label(lang_id, _("Default"));
     }
@@ -199,14 +197,12 @@ static int conf_gui(void)
 static int conf_enter(struct state *st, struct state *prev)
 {
     game_client_free(NULL);
-    lang_load(&lang, lang_path(config_get_s(CONFIG_LANGUAGE)));
     conf_common_init(conf_action);
     return conf_gui();
 }
 
 static void conf_leave(struct state *st, struct state *next, int id)
 {
-    lang_free(&lang);
     conf_common_leave(st, next, id);
 }
 /*---------------------------------------------------------------------------*/

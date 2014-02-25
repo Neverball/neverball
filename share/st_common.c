@@ -625,7 +625,7 @@ static int lang_action(int tok, int val)
         /* HACK: Reload resources to load the localized font. */
         goto_state(&st_null);
         config_set_s(CONFIG_LANGUAGE, "");
-        gt_init("neverball", "");
+        lang_init();
         goto_state(&st_lang);
         break;
 
@@ -633,7 +633,7 @@ static int lang_action(int tok, int val)
         desc = LANG_GET(langs, val);
         goto_state(&st_null);
         config_set_s(CONFIG_LANGUAGE, desc->code);
-        gt_init("neverball", desc->code);
+        lang_init();
         goto_state(&st_lang);
         break;
     }

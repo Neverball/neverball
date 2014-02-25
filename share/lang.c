@@ -21,6 +21,7 @@
 
 #include "lang.h"
 #include "common.h"
+#include "config.h"
 #include "base_config.h"
 #include "fs.h"
 
@@ -220,6 +221,29 @@ void lang_dir_free(Array items)
         free_item(array_get(items, i));
 
     dir_free(items);
+}
+
+/*---------------------------------------------------------------------------*/
+
+struct lang_desc curr_lang;
+
+static int lang_status;
+
+void lang_init(void)
+{
+    lang_quit();
+    lang_load(&curr_lang, lang_path(config_get_s(CONFIG_LANGUAGE)));
+    gt_init("neverball", curr_lang.code);
+    lang_status = 1;
+}
+
+void lang_quit(void)
+{
+    if (lang_status)
+    {
+        lang_free(&curr_lang);
+        lang_status = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/

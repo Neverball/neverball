@@ -36,9 +36,6 @@
 /* Disambiguate strings with a caret-separated prefix. */
 const char *gt_prefix(const char *);
 
-/* Initialize gettext. */
-void gt_init(const char *domain, const char *pref);
-
 /*---------------------------------------------------------------------------*/
 
 #include "common.h"
@@ -68,6 +65,13 @@ void lang_free(struct lang_desc *);
 
 Array lang_dir_scan(void);
 void  lang_dir_free(Array);
+
+/*---------------------------------------------------------------------------*/
+
+extern struct lang_desc curr_lang;
+
+void lang_init(void);
+void lang_quit(void);
 
 /*---------------------------------------------------------------------------*/
 
