@@ -26,11 +26,9 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define DEFAULT_CODESET "UTF-8"
+#define GT_CODESET "UTF-8"
 
-/*---------------------------------------------------------------------------*/
-
-void lang_init(const char *domain, const char *pref)
+void gt_init(const char *domain, const char *pref)
 {
 #if ENABLE_NLS
     static char default_lang[MAXSTR];
@@ -82,7 +80,7 @@ void lang_init(const char *domain, const char *pref)
     /* Set up gettext. */
 
     bindtextdomain(domain, dir);
-    bind_textdomain_codeset(domain, DEFAULT_CODESET);
+    bind_textdomain_codeset(domain, GT_CODESET);
     textdomain(domain);
 
     free(dir);
@@ -91,7 +89,7 @@ void lang_init(const char *domain, const char *pref)
 #endif
 }
 
-const char *sgettext(const char *msgid)
+const char *gt_prefix(const char *msgid)
 {
 #if ENABLE_NLS
     const char *msgval = gettext(msgid);

@@ -15,27 +15,29 @@
 #ifndef LANG_H
 #define LANG_H
 
-#if ENABLE_NLS
-#include <libintl.h>
+/*---------------------------------------------------------------------------*/
 
-#define _(String)   gettext(String)
+#if ENABLE_NLS
+
+#include <libintl.h>
+#define _(s) gettext(s)
+#define gt_plural(msgid, msgid_plural, n) ngettext(msgid, msgid_plural, n)
 
 #else
 
-#define _(String)   (String)
-
-#define ngettext(msgid, msgid_plural, n) ((n) == 1 ? (msgid) : (msgid_plural))
+#define _(s) (s)
+#define gt_plural(msgid, msgid_plural, n) ((n) == 1 ? (msgid) : (msgid_plural))
 
 #endif /* ENABLE_NLS */
 
 /* No-op, useful for marking up strings for extraction-only. */
-#define N_(String)   String
+#define N_(s) s
 
-/*---------------------------------------------------------------------------*/
+/* Disambiguate strings with a caret-separated prefix. */
+const char *gt_prefix(const char *);
 
-void lang_init(const char *domain, const char *pref);
-
-const char *sgettext(const char *);
+/* Initialize gettext. */
+void gt_init(const char *domain, const char *pref);
 
 /*---------------------------------------------------------------------------*/
 

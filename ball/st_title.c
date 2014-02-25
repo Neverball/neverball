@@ -137,13 +137,13 @@ static int title_action(int tok, int val)
         if (strcmp(queue, keyphrase) == 0)
         {
             config_set_cheat();
-            gui_set_label(play_id, sgettext("menu^Cheat"));
+            gui_set_label(play_id, gt_prefix("menu^Cheat"));
             gui_pulse(play_id, 1.2f);
         }
         else if (config_cheat())
         {
             config_clr_cheat();
-            gui_set_label(play_id, sgettext("menu^Play"));
+            gui_set_label(play_id, gt_prefix("menu^Play"));
             gui_pulse(play_id, 1.2f);
         }
 
@@ -172,16 +172,16 @@ static int title_gui(void)
             if ((kd = gui_varray(jd)))
             {
                 if (config_cheat())
-                    play_id = gui_start(kd, sgettext("menu^Cheat"),
+                    play_id = gui_start(kd, gt_prefix("menu^Cheat"),
                                         GUI_MED, TITLE_PLAY, 0);
                 else
-                    play_id = gui_start(kd, sgettext("menu^Play"),
+                    play_id = gui_start(kd, gt_prefix("menu^Play"),
                                         GUI_MED, TITLE_PLAY, 0);
 
-                gui_state(kd, sgettext("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
-                gui_state(kd, sgettext("menu^Help"),    GUI_MED, TITLE_HELP, 0);
-                gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, sgettext("menu^Exit"),    GUI_MED, GUI_BACK, 0);
+                gui_state(kd, gt_prefix("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
+                gui_state(kd, gt_prefix("menu^Help"),    GUI_MED, TITLE_HELP, 0);
+                gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, GUI_BACK, 0);
 
                 /* Hilight the start button. */
 
