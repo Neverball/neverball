@@ -53,8 +53,8 @@ struct lang_desc
 
 #define lang_name(desc) (*(desc)->name2 ? (desc)->name2 : (desc)->name1)
 
-const char *lang_path(const char *);
-const char *lang_code(const char *);
+const char *lang_path(const char *code);
+const char *lang_code(const char *path);
 
 int  lang_load(struct lang_desc *, const char *);
 void lang_free(struct lang_desc *);
