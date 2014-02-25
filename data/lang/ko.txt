@@ -1,2 +1,3 @@
 name1 Korean
 name2 한국어
+font ttf/wqy-microhei.ttc

@@ -148,6 +148,8 @@ int lang_load(struct lang_desc *desc, const char *path)
                     SAFECPY(desc->name1, buf + 6);
                 else if (str_starts_with(buf, "name2 "))
                     SAFECPY(desc->name2, buf + 6);
+                else if (str_starts_with(buf, "font "))
+                    SAFECPY(desc->font, buf + 5);
             }
 
             fs_close(fp);

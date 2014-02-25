@@ -49,6 +49,7 @@ struct lang_desc
 
     char name1[MAXSTR];
     char name2[MAXSTR];
+    char font[MAXSTR];
 };
 
 #define lang_name(desc) (*(desc)->name2 ? (desc)->name2 : (desc)->name1)
@@ -58,6 +59,8 @@ const char *lang_code(const char *path);
 
 int  lang_load(struct lang_desc *, const char *);
 void lang_free(struct lang_desc *);
+
+/*---------------------------------------------------------------------------*/
 
 #define LANG_GET(a, i) ((struct lang_desc *) DIR_ITEM_GET((a), (i))->data)
 
