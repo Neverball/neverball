@@ -226,7 +226,7 @@ GLuint make_image_from_font(int *W, int *H,
 
             if ((src = SDL_ConvertSurface(orig, &fmt, orig->flags)) == NULL)
             {
-                fprintf(stderr, _("Failed to convert SDL_ttf surface: %s\n"),
+                fprintf(stderr, "Failure to convert SDL_ttf surface (%s)\n",
                         SDL_GetError());
 
                 /* Pretend everything's just fine. */

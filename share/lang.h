@@ -19,12 +19,10 @@
 #include <libintl.h>
 
 #define _(String)   gettext(String)
-#define L_(String)  get_local_text(String)
 
 #else
 
 #define _(String)   (String)
-#define L_(String)  (String)
 
 #define ngettext(msgid, msgid_plural, n) ((n) == 1 ? (msgid) : (msgid_plural))
 
@@ -38,7 +36,6 @@
 void lang_init(const char *domain, const char *pref);
 
 const char *sgettext(const char *);
-const char *get_local_text(const char *);
 
 /*---------------------------------------------------------------------------*/
 

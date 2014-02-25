@@ -429,8 +429,7 @@ static const char *gui_font_path(void)
 
     if (!fs_exists(path))
     {
-        fprintf(stderr, L_("Font '%s' doesn't exist, trying default font.\n"),
-                path);
+        fprintf(stderr, "Font '%s' doesn't exist, trying default font.\n", path);
 
         path = GUI_FACE;
     }
@@ -476,7 +475,7 @@ static int gui_font_init(const char *path)
             fonts[GUI_MED] = NULL;
             fonts[GUI_LRG] = NULL;
 
-            fprintf(stderr, L_("Could not load font '%s'.\n"), path);
+            fprintf(stderr, "Failure to load font '%s'\n", path);
         }
 
         padding = s / 60;

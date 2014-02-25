@@ -108,21 +108,6 @@ const char *sgettext(const char *msgid)
     return msgval;
 }
 
-const char *get_local_text(const char *msgid)
-{
-#if ENABLE_NLS
-    char *msgstr, *domain = textdomain(NULL);
-
-    bind_textdomain_codeset(domain, "");
-    msgstr = gettext(msgid);
-    bind_textdomain_codeset(domain, DEFAULT_CODESET);
-
-    return msgstr;
-#else
-    return msgid;
-#endif
-}
-
 /*---------------------------------------------------------------------------*/
 
 const char *lang_path(const char *code)

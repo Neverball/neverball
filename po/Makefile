@@ -29,8 +29,7 @@ BUGADDR   := robert.kooima@gmail.com
 XGETTEXT := xgettext
 XGETTEXT_FLAGS := \
     --add-comments=Translators --from-code=UTF-8 \
-    --keyword=_ --keyword=N_ --keyword=L_        \
-    --keyword=sgettext                           \
+    --keyword=_ --keyword=N_ --keyword=sgettext  \
     --default-domain="$(DOMAIN)"                 \
     --copyright-holder="$(COPYRIGHT)"            \
     --msgid-bugs-address="$(BUGADDR)"
