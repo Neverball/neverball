@@ -675,11 +675,15 @@ static int lang_gui(void)
 
                 int lang_id;
 
-                lang_id = gui_state(id, lang_name(desc),
-                                    GUI_SML, LANG_SELECT, i);
+                lang_id = gui_state(id, " ", GUI_SML, LANG_SELECT, i);
 
                 gui_set_hilite(lang_id, (strcmp(config_get_s(CONFIG_LANGUAGE),
                                                 desc->code) == 0));
+
+                /* Set font and rebuild texture. */
+
+                gui_set_font(lang_id, desc->font);
+                gui_set_label(lang_id, lang_name(desc));
             }
             else
             {

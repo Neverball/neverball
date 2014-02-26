@@ -16,11 +16,10 @@
 #define GUI_H
 
 #include "glext.h"
-#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define GUI_FACE N_("ttf/DejaVuSans-Bold.ttf")
+#define GUI_FACE "ttf/DejaVuSans-Bold.ttf"
 
 #define GUI_SML  0
 #define GUI_MED  1
@@ -72,6 +71,7 @@ void gui_free(void);
 
 void gui_set_label(int, const char *);
 void gui_set_image(int, const char *);
+void gui_set_font(int, const char *);
 void gui_set_multi(int, const char *);
 void gui_set_count(int, int);
 void gui_set_clock(int, int);
