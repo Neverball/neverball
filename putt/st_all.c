@@ -235,9 +235,9 @@ static int title_enter(struct state *st, struct state *prev)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, sgettext("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, sgettext("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, sgettext("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+                gui_start(kd, gt_prefix("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
+                gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
+                gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
             }
 
             gui_filler(jd);

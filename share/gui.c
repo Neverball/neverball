@@ -24,6 +24,7 @@
 #include "vec3.h"
 #include "gui.h"
 #include "common.h"
+#include "font.h"
 
 #include "fs.h"
 #include "fs_rwops.h"
@@ -73,6 +74,7 @@ struct widget
     int     flags;
     int     token;
     int     value;
+    int     font;
     int     size;
     int     rect;
 
@@ -103,7 +105,6 @@ static int           hovered;
 static int           clicked;
 static int           padding;
 static int           borders[4];
-static TTF_Font     *fonts[3] = { NULL, NULL, NULL };
 
 /* Digit widgets for the HUD. */
 
@@ -114,17 +115,19 @@ static int digit_id[3][11];
 static int cursor_id = 0;
 static int cursor_st = 0;
 
-/* Font data access. */
-
-static void      *fontdata;
-static int        fontdatalen;
-static SDL_RWops *fontrwops;
-
 /*---------------------------------------------------------------------------*/
 
 static int gui_hot(int id)
 {
     return (widget[id].flags & GUI_STATE);
+}
+
+static int gui_size(void)
+{
+    const int w = config_get_d(CONFIG_WIDTH);
+    const int h = config_get_d(CONFIG_HEIGHT);
+
+    return MIN(w, h);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -421,82 +424,72 @@ static void gui_geom_widget(int id, int flags)
 
 /*---------------------------------------------------------------------------*/
 
-static const char *gui_font_path(void)
+#define FONT_MAX 4
+
+static struct font fonts[FONT_MAX];
+static int         fontc;
+
+static int font_sizes[3];
+
+static int gui_font_load(const char *path)
 {
-    const char *path;
+    int i;
 
-    path = _(GUI_FACE);
+    /* Find a previously loaded font. */
 
-    if (!fs_exists(path))
+    for (i = 0; i < fontc; i++)
+        if (strcmp(fonts[i].path, path) == 0)
+            return i;
+
+    /* Load a new font. */
+
+    if (fontc < FONT_MAX)
     {
-        fprintf(stderr, L_("Font '%s' doesn't exist, trying default font.\n"),
-                path);
-
-        path = GUI_FACE;
+        if (font_load(&fonts[fontc], path, font_sizes))
+        {
+            fontc++;
+            return fontc - 1;
+        }
     }
 
-    return path;
+    /* Return index of default font. */
+
+    return 0;
 }
 
-static int gui_font_init(const char *path)
+static void gui_font_quit(void);
+
+static void gui_font_init(void)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
-    int s = (h < w) ? h : w;
+    gui_font_quit();
 
-    if (TTF_Init() == 0)
+    if (font_init())
     {
-        int s0 = s / 26;
-        int s1 = s / 13;
-        int s2 = s /  7;
+        int s = gui_size();
 
-        /* Load the font. */
+        font_sizes[0] = s / 26;
+        font_sizes[1] = s / 13;
+        font_sizes[2] = s /  7;
 
-        if ((fontdata = fs_load(path, &fontdatalen)))
-        {
-            fontrwops = SDL_RWFromConstMem(fontdata, fontdatalen);
+        /* Load the default font at index 0. */
 
-            /* Load small, medium, and large typefaces. */
-
-            fonts[GUI_SML] = TTF_OpenFontRW(fontrwops, 0, s0);
-
-            SDL_RWseek(fontrwops, 0, SEEK_SET);
-            fonts[GUI_MED] = TTF_OpenFontRW(fontrwops, 0, s1);
-
-            SDL_RWseek(fontrwops, 0, SEEK_SET);
-            fonts[GUI_LRG] = TTF_OpenFontRW(fontrwops, 0, s2);
-
-            /* fontrwops remains open. */
-        }
-        else
-        {
-            fontrwops = NULL;
-
-            fonts[GUI_SML] = NULL;
-            fonts[GUI_MED] = NULL;
-            fonts[GUI_LRG] = NULL;
-
-            fprintf(stderr, L_("Could not load font '%s'.\n"), path);
-        }
-
-        padding = s / 60;
-
-        return 1;
+        gui_font_load(*curr_lang.font ? curr_lang.font : GUI_FACE);
     }
-    return 0;
 }
 
 static void gui_font_quit(void)
 {
-    if (fonts[GUI_LRG]) TTF_CloseFont(fonts[GUI_LRG]);
-    if (fonts[GUI_MED]) TTF_CloseFont(fonts[GUI_MED]);
-    if (fonts[GUI_SML]) TTF_CloseFont(fonts[GUI_SML]);
+    int i;
 
-    if (fontrwops) SDL_RWclose(fontrwops);
-    if (fontdata)  free(fontdata);
+    for (i = 0; i < fontc; i++)
+        font_free(&fonts[i]);
 
-    TTF_Quit();
+    fontc = 0;
+
+    font_quit();
 }
+
+/*---------------------------------------------------------------------------*/
 
 static GLuint gui_rect_image(const char *path)
 {
@@ -600,13 +593,19 @@ static void gui_rect_quit(void)
 
 void gui_init(void)
 {
+    const int s = gui_size();
+
     int i, j;
 
     memset(widget, 0, sizeof (struct widget) * WIDGET_MAX);
 
+    /* Compute default widget/text padding. */
+
+    padding = s / 60;
+
     /* Initialize font rendering. */
 
-    gui_font_init(gui_font_path());
+    gui_font_init();
 
     /* Initialize rectangle resources. */
 
@@ -707,6 +706,7 @@ static int gui_widget(int pd, int type)
             widget[id].flags  = 0;
             widget[id].token  = 0;
             widget[id].value  = 0;
+            widget[id].font   = 0;
             widget[id].size   = 0;
             widget[id].rect   = GUI_ALL;
             widget[id].w      = 0;
@@ -855,6 +855,8 @@ void gui_set_image(int id, const char *file)
 
 void gui_set_label(int id, const char *text)
 {
+    TTF_Font *ttf = fonts[widget[id].font].ttf[widget[id].size];
+
     int w = 0;
     int h = 0;
 
@@ -862,14 +864,12 @@ void gui_set_label(int id, const char *text)
 
     glDeleteTextures(1, &widget[id].image);
 
-    str = gui_truncate(text, widget[id].w - padding,
-                       fonts[widget[id].size],
-                       widget[id].trunc);
+    str = gui_truncate(text, widget[id].w - padding, ttf, widget[id].trunc);
 
     widget[id].image = make_image_from_font(NULL, NULL,
                                             &widget[id].text_w,
                                             &widget[id].text_h,
-                                            str, fonts[widget[id].size], 0);
+                                            str, ttf, 0);
     w = widget[id].text_w;
     h = widget[id].text_h;
 
@@ -945,6 +945,11 @@ void gui_set_trunc(int id, enum trunc trunc)
     widget[id].trunc = trunc;
 }
 
+void gui_set_font(int id, const char *path)
+{
+    widget[id].font = gui_font_load(path);
+}
+
 void gui_set_fill(int id)
 {
     widget[id].flags |= GUI_FILL;
@@ -1015,12 +1020,14 @@ int gui_state(int pd, const char *text, int size, int token, int value)
 
     if ((id = gui_widget(pd, GUI_BUTTON)))
     {
+        TTF_Font *ttf = fonts[widget[id].font].ttf[size];
+
         widget[id].flags |= (GUI_STATE | GUI_RECT);
 
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
-                                                text, fonts[size], 0);
+                                                text, ttf, 0);
         widget[id].w     = widget[id].text_w;
         widget[id].h     = widget[id].text_h;
         widget[id].size  = size;
@@ -1037,10 +1044,12 @@ int gui_label(int pd, const char *text, int size, const GLubyte *c0,
 
     if ((id = gui_widget(pd, GUI_LABEL)))
     {
+        TTF_Font *ttf = fonts[widget[id].font].ttf[size];
+
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
-                                                text, fonts[size], 0);
+                                                text, ttf, 0);
         widget[id].w      = widget[id].text_w;
         widget[id].h      = widget[id].text_h;
         widget[id].size   = size;

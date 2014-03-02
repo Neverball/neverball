@@ -15,30 +15,26 @@
 #ifndef LANG_H
 #define LANG_H
 
-#if ENABLE_NLS
-#include <libintl.h>
+/*---------------------------------------------------------------------------*/
 
-#define _(String)   gettext(String)
-#define L_(String)  get_local_text(String)
+#if ENABLE_NLS
+
+#include <libintl.h>
+#define _(s) gettext(s)
+#define gt_plural(msgid, msgid_plural, n) ngettext(msgid, msgid_plural, n)
 
 #else
 
-#define _(String)   (String)
-#define L_(String)  (String)
-
-#define ngettext(msgid, msgid_plural, n) ((n) == 1 ? (msgid) : (msgid_plural))
+#define _(s) (s)
+#define gt_plural(msgid, msgid_plural, n) ((n) == 1 ? (msgid) : (msgid_plural))
 
 #endif /* ENABLE_NLS */
 
 /* No-op, useful for marking up strings for extraction-only. */
-#define N_(String)   String
+#define N_(s) s
 
-/*---------------------------------------------------------------------------*/
-
-void lang_init(const char *domain, const char *pref);
-
-const char *sgettext(const char *);
-const char *get_local_text(const char *);
+/* Disambiguate strings with a caret-separated prefix. */
+const char *gt_prefix(const char *);
 
 /*---------------------------------------------------------------------------*/
 
@@ -52,20 +48,30 @@ struct lang_desc
 
     char name1[MAXSTR];
     char name2[MAXSTR];
+    char font[MAXSTR];
 };
 
 #define lang_name(desc) (*(desc)->name2 ? (desc)->name2 : (desc)->name1)
 
-const char *lang_path(const char *);
-const char *lang_code(const char *);
+const char *lang_path(const char *code);
+const char *lang_code(const char *path);
 
 int  lang_load(struct lang_desc *, const char *);
 void lang_free(struct lang_desc *);
+
+/*---------------------------------------------------------------------------*/
 
 #define LANG_GET(a, i) ((struct lang_desc *) DIR_ITEM_GET((a), (i))->data)
 
 Array lang_dir_scan(void);
 void  lang_dir_free(Array);
+
+/*---------------------------------------------------------------------------*/
+
+extern struct lang_desc curr_lang;
+
+void lang_init(void);
+void lang_quit(void);
 
 /*---------------------------------------------------------------------------*/
 

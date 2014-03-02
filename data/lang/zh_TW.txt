@@ -1,2 +1,3 @@
 name1 Traditional Chinese
 name2 繁體中文
+font ttf/wqy-microhei.ttc

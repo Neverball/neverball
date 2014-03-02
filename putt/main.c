@@ -287,7 +287,7 @@ int main(int argc, char *argv[])
 
         /* Initialize localization. */
 
-        lang_init("neverball", config_get_s(CONFIG_LANGUAGE));
+        lang_init();
 
         /* Cache Neverball's camera setting. */
 

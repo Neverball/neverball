@@ -224,13 +224,12 @@ const char *demo_format_name(const char *fmt,
                 break;
 
             case '\0':
-                fputs(L_("Missing format character in replay name\n"), stderr);
+                /* Missing format. */
                 fmt--;
                 break;
 
             default:
-                fprintf(stderr, L_("Invalid format character in "
-                                   "replay name: \"%%%c\"\n"), *fmt);
+                /* Invalid format. */
                 break;
             }
         }

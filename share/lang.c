@@ -21,16 +21,15 @@
 
 #include "lang.h"
 #include "common.h"
+#include "config.h"
 #include "base_config.h"
 #include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define DEFAULT_CODESET "UTF-8"
+#define GT_CODESET "UTF-8"
 
-/*---------------------------------------------------------------------------*/
-
-void lang_init(const char *domain, const char *pref)
+void gt_init(const char *domain, const char *pref)
 {
 #if ENABLE_NLS
     static char default_lang[MAXSTR];
@@ -82,7 +81,7 @@ void lang_init(const char *domain, const char *pref)
     /* Set up gettext. */
 
     bindtextdomain(domain, dir);
-    bind_textdomain_codeset(domain, DEFAULT_CODESET);
+    bind_textdomain_codeset(domain, GT_CODESET);
     textdomain(domain);
 
     free(dir);
@@ -91,7 +90,7 @@ void lang_init(const char *domain, const char *pref)
 #endif
 }
 
-const char *sgettext(const char *msgid)
+const char *gt_prefix(const char *msgid)
 {
 #if ENABLE_NLS
     const char *msgval = gettext(msgid);
@@ -106,21 +105,6 @@ const char *sgettext(const char *msgid)
         else msgval = msgid;
     }
     return msgval;
-}
-
-const char *get_local_text(const char *msgid)
-{
-#if ENABLE_NLS
-    char *msgstr, *domain = textdomain(NULL);
-
-    bind_textdomain_codeset(domain, "");
-    msgstr = gettext(msgid);
-    bind_textdomain_codeset(domain, DEFAULT_CODESET);
-
-    return msgstr;
-#else
-    return msgid;
-#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -163,6 +147,8 @@ int lang_load(struct lang_desc *desc, const char *path)
                     SAFECPY(desc->name1, buf + 6);
                 else if (str_starts_with(buf, "name2 "))
                     SAFECPY(desc->name2, buf + 6);
+                else if (str_starts_with(buf, "font "))
+                    SAFECPY(desc->font, buf + 5);
             }
 
             fs_close(fp);
@@ -235,6 +221,29 @@ void lang_dir_free(Array items)
         free_item(array_get(items, i));
 
     dir_free(items);
+}
+
+/*---------------------------------------------------------------------------*/
+
+struct lang_desc curr_lang;
+
+static int lang_status;
+
+void lang_init(void)
+{
+    lang_quit();
+    lang_load(&curr_lang, lang_path(config_get_s(CONFIG_LANGUAGE)));
+    gt_init("neverball", curr_lang.code);
+    lang_status = 1;
+}
+
+void lang_quit(void)
+{
+    if (lang_status)
+    {
+        lang_free(&curr_lang);
+        lang_status = 0;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
