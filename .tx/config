@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[neverball.neverball]
+file_filter = po/<lang>.po
+source_file = po/neverball.pot
+source_lang = en
+
