@@ -1,21 +1,21 @@
-#
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Robert Kooima
-# This file is distributed under GPL
-#
-# Gergő Nagy <gegsite@gmail.com>, 2009.
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: v.0.1\n"
+"Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2014-03-03 06:42+0200\n"
-"PO-Revision-Date: 2009-10-31 00:55+0100\n"
-"Last-Translator: Gergő Nagy <gegsite@gmail.com>\n"
-"Language-Team: Hungarian <LL@li.org>\n"
-"Language: hu\n"
+"PO-Revision-Date: 2014-03-03 04:47+0000\n"
+"Last-Translator: parasti <parasti@gmail.com>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/neverball/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ball/st_conf.c:157 putt/st_conf.c:104
 msgid "Options"
@@ -46,10 +46,8 @@ msgid "Player Name"
 msgstr "Játékos neve"
 
 #: ball/st_conf.c:176 ball/st_ball.c:180
-#, fuzzy
-#| msgid "Normal Mode"
 msgid "Ball Model"
-msgstr "Normál mód"
+msgstr ""
 
 #: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
 msgid "Language"
@@ -149,9 +147,7 @@ msgstr "Figyelem!"
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr ""
-"Ez a visszajátszás egy másik (vagy ismeretlen)\\verziójával készült ennek a "
-"pályának.\\Készülj fel grafikai hibákra.\\"
+msgstr "Ez a visszajátszás egy másik (vagy ismeretlen)\\verziójával készült ennek a pályának.\\Készülj fel grafikai hibákra.\\"
 
 #: ball/st_help.c:101
 msgid "Tricks"
@@ -173,49 +169,35 @@ msgstr "Szabályok"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr ""
-"Mozgasd az egeret vagy\\joystickot, vagy használd a\\billentyűzet nyilait, a"
-"\\padló megbillentéséhez,\\hogy a labda guruljon.\\"
+msgstr "Mozgasd az egeret vagy\\joystickot, vagy használd a\\billentyűzet nyilait, a\\padló megbillentéséhez,\\hogy a labda guruljon.\\"
 
 #: ball/st_help.c:120
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr ""
-"Üsd el az érméket a\\begyűjtésükhöz.  Gyűjtsd őket\\a további feladatok,\\és "
-"pályákért.\\"
+msgstr "Üsd el az érméket a\\begyűjtésükhöz.  Gyűjtsd őket\\a további feladatok,\\és pályákért.\\"
 
 #: ball/st_help.c:177
-#, fuzzy
-#| msgid "Left and right mouse buttons rotate the view."
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
-msgstr "Jobb és bal egérgombok a nézetet forgatják."
+msgstr ""
 
 #: ball/st_help.c:179
-#, fuzzy
-#| msgid "Exit / Cancel Menu"
 msgid "Exit / Pause"
-msgstr "Menü elhagyása / Kilépés"
+msgstr ""
 
 #: ball/st_help.c:180 ball/game_common.c:46
-#, fuzzy
-#| msgid "Chase View"
 msgid "Chase Camera"
-msgstr "Követő nézet"
+msgstr ""
 
 #: ball/st_help.c:181 ball/game_common.c:45
-#, fuzzy
-#| msgid "Lazy View"
 msgid "Lazy Camera"
-msgstr "Lusta nézet"
+msgstr ""
 
 #: ball/st_help.c:182 ball/game_common.c:44
-#, fuzzy
-#| msgid "Manual View"
 msgid "Manual Camera"
-msgstr "Kézi nézet"
+msgstr ""
 
 #: ball/st_help.c:183
 msgid "Screenshot"
@@ -227,10 +209,9 @@ msgstr "Normál mód"
 
 #: ball/st_help.c:248
 msgid ""
-"Finish a level before the time runs out.\\You need to collect coins in order "
-"to open the goal."
-msgstr ""
-"Fejezd be a pályát az idő lejárta előtt.\\Gyűjts érméket a cél megnyitásához."
+"Finish a level before the time runs out.\\You need to collect coins in order"
+" to open the goal."
+msgstr "Fejezd be a pályát az idő lejárta előtt.\\Gyűjts érméket a cél megnyitásához."
 
 #: ball/st_help.c:259 ball/progress.c:417
 msgid "Challenge Mode"
@@ -240,30 +221,19 @@ msgstr "Mód váltás"
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr ""
-"Kezd a játékot az első pályával a szettből.\\Csupán három labdával kezdesz, "
-"ne veszítsd el őket.\\Spórolj meg egy extra labdát, 100 érme "
-"összegyűjtésével."
+msgstr "Kezd a játékot az első pályával a szettből.\\Csupán három labdával kezdesz, ne veszítsd el őket.\\Spórolj meg egy extra labdát, 100 érme összegyűjtésével."
 
 #: ball/st_help.c:275
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
-msgstr ""
-"A sarok ugráshoz is használható.\\Kezdj gurulni, s célozd meg\\a jó szöget."
-"\\Új helyekre is eljuthatsz.\\"
+msgstr "A sarok ugráshoz is használható.\\Kezdj gurulni, s célozd meg\\a jó szöget.\\Új helyekre is eljuthatsz.\\"
 
 #: ball/st_help.c:280
-#, fuzzy
-#| msgid ""
-#| "Tilting in 2 directions increases\\the slope. Use the manual view\\and "
-#| "turn the camera by 45\\degrees for best results.\\"
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
 msgstr ""
-"Két irányba döntéssel növelheted\\a lejtést. Használd a kézi\\nézetet, és "
-"tedd 45 fokba\\a legjobb eredményért.\\"
 
 #: ball/st_help.c:300 ball/st_help.c:310
 msgid "Watch demo"
@@ -375,20 +345,16 @@ msgid "Challenge"
 msgstr "Kihívás"
 
 #: ball/st_start.c:223
-#, fuzzy
-#| msgid "Fast Unlock"
 msgid "Unlocked"
-msgstr "Gyors feloldás"
+msgstr ""
 
 #: ball/st_start.c:224
 msgid "Locked"
 msgstr ""
 
 #: ball/st_start.c:234
-#, fuzzy
-#| msgid "Lock Goals of Completed Levels?"
 msgid "Goal State in Completed Levels"
-msgstr "Zárolod a végigvitt pályák céljait?"
+msgstr ""
 
 #: ball/st_done.c:57
 msgid "New Set Record"
@@ -407,10 +373,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: ball/progress.c:419
-#, fuzzy
-#| msgid "Challenge Mode"
 msgid "Standalone Mode"
-msgstr "Mód váltás"
+msgstr ""
 
 #: ball/progress.c:419
 msgid "Standalone"
@@ -542,10 +506,8 @@ msgid "Overwrite?"
 msgstr "Felülírod?"
 
 #: ball/st_save.c:223
-#, fuzzy
-#| msgid "Overwrite?"
 msgid "Overwrite"
-msgstr "Felülírod?"
+msgstr ""
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -566,16 +528,12 @@ msgid "8x"
 msgstr ""
 
 #: share/st_common.c:337
-#, fuzzy
-#| msgid "Unknown"
 msgid "Unknown Display"
-msgstr "Ismeretlen"
+msgstr ""
 
 #: share/st_common.c:341 share/st_common.c:447
-#, fuzzy
-#| msgid "Replay"
 msgid "Display"
-msgstr "Visszajátszás"
+msgstr ""
 
 #: share/st_common.c:347
 msgid "Fullscreen"
@@ -615,10 +573,8 @@ msgid "Shadow"
 msgstr "Árnyék"
 
 #: putt/st_conf.c:158
-#, fuzzy
-#| msgid "Select Level"
 msgid "Select"
-msgstr "Pálya választás"
+msgstr ""
 
 #: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
 msgid "Par"
@@ -689,9 +645,7 @@ msgstr "Neverball Könnyű"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr ""
-"Nehézség: Kezdőtől a középszintig\\\\25 könnyen tanulható pályával.\\Olvasd "
-"el a pálya bevezetőjében lévő játéktippeket.\\.\\"
+msgstr "Nehézség: Kezdőtől a középszintig\\\\25 könnyen tanulható pályával.\\Olvasd el a pálya bevezetőjében lévő játéktippeket.\\.\\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -699,11 +653,10 @@ msgstr "Neverball Közepes"
 
 #: data/set-medium.txt
 msgid ""
-"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
-"\\challenge for players. Try to claim\\some of the records provided.\\"
-msgstr ""
-"Nehézség: Kezdőtől a szakértőig\\\\25 pálya, ami egy kis kihívást biztosít"
-"\\a játékosoknak. Próbálj pár\\ rekordot megdönteni.\\"
+"Difficulty: Beginner through Expert\\\\25 levels which provide a "
+"balanced\\challenge for players. Try to claim\\some of the records "
+"provided.\\"
+msgstr "Nehézség: Kezdőtől a szakértőig\\\\25 pálya, ami egy kis kihívást biztosít\\a játékosoknak. Próbálj pár\\ rekordot megdönteni.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -712,12 +665,9 @@ msgstr "Neverball Nehéz"
 #: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
-"and Fast Unlock records.\\"
-msgstr ""
-"Nehézség: Közepestől a szakértőig\\\\25 pálya, amik a gyakorlott "
-"játékosoknak is\\kihívás. Próbáld megdönteni a legjobb idő,\\legtöbb érme, "
-"és a gyors feloldási rekordokat.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
+" and Fast Unlock records.\\"
+msgstr "Nehézség: Közepestől a szakértőig\\\\25 pálya, amik a gyakorlott játékosoknak is\\kihívás. Próbáld megdönteni a legjobb idő,\\legtöbb érme, és a gyors feloldási rekordokat.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -725,11 +675,9 @@ msgstr "Tour de Force"
 
 #: data/set-mym.txt
 msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
-"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Nehézség: Szakértőtől az őrültig\\\\25 pálya, melyek igazán nagy kihívást "
-"jelentenek.\\Szerző: Medhi Yousfi-Monod (mym)\\ \\"
+"Difficulty: Expert through Insane\\\\25 levels with even greater "
+"challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Nehézség: Szakértőtől az őrültig\\\\25 pálya, melyek igazán nagy kihívást jelentenek.\\Szerző: Medhi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
@@ -739,9 +687,7 @@ msgstr "Retour de Force"
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Nehézség: Egy kicsivel nehezebb mint az előzők.\\\\Nagyobb kihívás, "
-"különösen az érmék felszedése.\\Szerző Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Nehézség: Egy kicsivel nehezebb mint az előzők.\\\\Nagyobb kihívás, különösen az érmék felszedése.\\Szerző Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -754,10 +700,8 @@ msgid ""
 msgstr ""
 
 #: data/set-tones.txt
-#, fuzzy
-#| msgid "Bonus Level %s"
 msgid "Tones Levels"
-msgstr "Bónusz pálya %s"
+msgstr ""
 
 #: data/set-tones.txt
 msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
@@ -775,9 +719,7 @@ msgstr "Besorolatlan pályák\\Kipróbálási céllal\\\\\\\\"
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr ""
-"Az eredeti 18 lyuk.Neverputt kurzus.\\Egy elegáns tanulási folyamat.\\\\"
-"\\Nehézség: Könnyűtől a közepesig\\Szerző: rlk\\"
+msgstr "Az eredeti 18 lyuk.Neverputt kurzus.\\Egy elegáns tanulási folyamat.\\\\\\Nehézség: Könnyűtől a közepesig\\Szerző: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -792,218 +734,160 @@ msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Még több Lyukak\\ \\ \\Nehézség:Közepes\\Szerző:paxed\\"
 
 #: data/holes-abc.txt
-msgid ""
-"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr ""
-"A 26 lyukú kurzus\\követi az ábécét\\\\Nehézség: Nehéz\\Szerző: paxed\\"
+msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr "A 26 lyukú kurzus\\követi az ábécét\\\\Nehézség: Nehéz\\Szerző: paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr ""
-"Őrült Golf\\ \\\\Nehézség: Könnyűtől a közepesig\\Szerző: slippifishi\\"
+msgstr "Őrült Golf\\ \\\\Nehézség: Könnyűtől a közepesig\\Szerző: slippifishi\\"
 
 #: data/holes-kk.txt
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr ""
-"Trükkös Golf\\\\Egy 18 lyukú kurzus sok kihívással\\Nehézség: Szakértőtől az "
-"őrültig\\Szerző: Byron James Johnson"
+msgstr "Trükkös Golf\\\\Egy 18 lyukú kurzus sok kihívással\\Nehézség: Szakértőtől az őrültig\\Szerző: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
-"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
-"\\Author: vidski\\"
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
+"hard.\\Author: vidski\\"
 msgstr ""
 
 #: data/gui/ball.map data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr ""
-"Az egér gombjaival forgathatod a nézetet.\\Nyomj ESC-t a szünethez, vagy a "
-"kilépéshez.\\\\\\\\Kattints a kezdéshez.\\"
+msgstr "Az egér gombjaival forgathatod a nézetet.\\Nyomj ESC-t a szünethez, vagy a kilépéshez.\\\\\\\\Kattints a kezdéshez.\\"
 
 #: data/map-easy/bumper.map
 msgid ""
-"Try to avoid being hit by moving objects.\\One bump can throw the ball"
-"\\completely out of control.\\"
-msgstr ""
-"Próbáld elkerülni a mozgó tárgyakkal való érintkezést.\\Egy lökés teljesen"
-"\\irányíthatatlanná teheti a labdát.\\"
+"Try to avoid being hit by moving objects.\\One bump can throw the "
+"ball\\completely out of control.\\"
+msgstr "Próbáld elkerülni a mozgó tárgyakkal való érintkezést.\\Egy lökés teljesen\\irányíthatatlanná teheti a labdát.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
-"Learn to control a bouncing ball.\\Look at the shadow to know where the"
-"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
-"take a risk\\for a big payoff.\\"
-msgstr ""
-"Tanuld meg irányítani a pattogó labdát.\\Nézd az árnyékot, hogy hova fogsz "
-"érkezni.\\Hogyha már magabiztosnak érzed magad,\\vállald a rizikót, "
-"kifizetődik.\\"
+"Learn to control a bouncing ball.\\Look at the shadow to know where "
+"the\\ball will land.  If you're feeling confident in\\your mastery of "
+"bouncing, take a risk\\for a big payoff.\\"
+msgstr "Tanuld meg irányítani a pattogó labdát.\\Nézd az árnyékot, hogy hova fogsz érkezni.\\Hogyha már magabiztosnak érzed magad,\\vállald a rizikót, kifizetődik.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr ""
-"Most 50 érmét kell felszedni a cél megnyitásához.\\A piros érmék 5, míg a "
-"kék érmék 10-et érnek.\\Juss el a célig mielőtt lejár az idő!\\\\Kattints a "
-"kezdéshez.\\"
+msgstr "Most 50 érmét kell felszedni a cél megnyitásához.\\A piros érmék 5, míg a kék érmék 10-et érnek.\\Juss el a célig mielőtt lejár az idő!\\\\Kattints a kezdéshez.\\"
 
 #: data/map-easy/corners.map
 msgid ""
-"Here are some more opportunities for you to\\fall off into the void. Hit the "
-"bump hard to\\grab some big coins and score a short time.\\"
-msgstr ""
-"Itt van pár új lehetőség, hogy leess a semmibe.\\Jól üssed meg az ütközőt a "
-"nagy érmékért,\\és érj gyorsan célba.\\"
+"Here are some more opportunities for you to\\fall off into the void. Hit the"
+" bump hard to\\grab some big coins and score a short time.\\"
+msgstr "Itt van pár új lehetőség, hogy leess a semmibe.\\Jól üssed meg az ütközőt a nagy érmékért,\\és érj gyorsan célba.\\"
 
 #: data/map-easy/curved.map
 msgid ""
-"As before, but without the training wheels.\\Keep the ball on a level floor"
-"\\and maintain precise control.\\Build some momentum to reach the corners.\\"
-msgstr ""
-"Úgy mint eddig, de a gyakorló kerekek nélkül.\\Tartsad a labdát a padlón,"
-"\\és tartsad meg az irányítást.\\Érd el a sarkokat a lendület erejével.\\"
+"As before, but without the training wheels.\\Keep the ball on a level "
+"floor\\and maintain precise control.\\Build some momentum to reach the "
+"corners.\\"
+msgstr "Úgy mint eddig, de a gyakorló kerekek nélkül.\\Tartsad a labdát a padlón,\\és tartsad meg az irányítást.\\Érd el a sarkokat a lendület erejével.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
-"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
-"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr ""
-"Mozgasd az egeret a padló döntéséhez.\\Gyűjts 10 érmét a cél kinyitásához."
-"\\Vezesd a labdát a célba\\a pálya befejezéséhez.\\\\Kattints a kezdéshez.\\"
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
+"goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr "Mozgasd az egeret a padló döntéséhez.\\Gyűjts 10 érmét a cél kinyitásához.\\Vezesd a labdát a célba\\a pálya befejezéséhez.\\\\Kattints a kezdéshez.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr ""
-"A félcsövek viccesek lehetnek,\\de könnyedén kieshetsz.\\Ne menj gyorsan,\\s "
-"akkor nem veszíted el az irányítást."
+msgstr "A félcsövek viccesek lehetnek,\\de könnyedén kieshetsz.\\Ne menj gyorsan,\\s akkor nem veszíted el az irányítást."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr ""
-"A \"lapos\" relatív \\Tanuld meg a padlót olyan szögben dönteni,\\hogy az "
-"szintbe legyen.\\Így teljesen az irányításod alatt tudod tartani a labdát."
-"\\Használd ki a lendületet a nagyobb érmék eléréséhez.\\"
+msgstr "A \"lapos\" relatív \\Tanuld meg a padlót olyan szögben dönteni,\\hogy az szintbe legyen.\\Így teljesen az irányításod alatt tudod tartani a labdát.\\Használd ki a lendületet a nagyobb érmék eléréséhez.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr ""
-"Itt 100 érme van.\\Ez most nem lehet bonyolult,\\kivéve ha előbb nem mész a "
-"célba véletlenül.\\"
+msgstr "Itt 100 érme van.\\Ez most nem lehet bonyolult,\\kivéve ha előbb nem mész a célba véletlenül.\\"
 
 #: data/map-easy/goslow.map
-#, fuzzy
-#| msgid ""
-#| "Tilt the floor as little as possible.\\Less tilt means lower speed."
-#| "\\Lower speed means better control.\\Watch the clock and use the time "
-#| "wisely.\\\\Click to begin.\\"
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
 msgstr ""
-"Döntsd meg a padlót épp csak egy kicsit.\\Minél kisebb a szög annál kisebb a "
-"sebesség.\\A kisebb sebesség nagyobb irányíthatóságot jelent.\\Figyeld az "
-"órát, és használd az időt ésszerűen.\\\\Kattints a kezdéshez.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr ""
-"Mindegyik híd keskenyebb mint az előző,\\viszont jobban is fizet!\\Neked "
-"kell eldöntened meddig akarsz elmenni.\\"
+msgstr "Mindegyik híd keskenyebb mint az előző,\\viszont jobban is fizet!\\Neked kell eldöntened meddig akarsz elmenni.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr ""
-"A célhoz eljutás\\nem jelenthet problémát,\\de az összes érmét felszedni, egy"
-"\\kis tervezést igényel.\\\\Tipp: sokszor gyorsabb elkerülni\\a lyukakat, "
-"mint beléjük esni."
+msgstr "A célhoz eljutás\\nem jelenthet problémát,\\de az összes érmét felszedni, egy\\kis tervezést igényel.\\\\Tipp: sokszor gyorsabb elkerülni\\a lyukakat, mint beléjük esni."
 
 #: data/map-easy/hole.map
 msgid ""
-"Stay away from the edges!\\When approaching a drop, begin slowing down"
-"\\early. You need just as much room to slow\\down as you did to speed up.\\"
-msgstr ""
-"Tartsd távol magad a szélektől!\\A szakadéknál, korán kezdj\\lassulni. Annyi "
-"útra van szükség\\a megálláshoz mint a gyorsuláshoz.\\"
+"Stay away from the edges!\\When approaching a drop, begin slowing "
+"down\\early. You need just as much room to slow\\down as you did to speed "
+"up.\\"
+msgstr "Tartsd távol magad a szélektől!\\A szakadéknál, korán kezdj\\lassulni. Annyi útra van szükség\\a megálláshoz mint a gyorsuláshoz.\\"
 
 #: data/map-easy/lollipop.map
 msgid ""
-"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
-"\\but with some experimentation and practice,\\you'll be able to collect "
-"them all."
-msgstr ""
-"Kövessed a sárga csúszós utat!\\\\A kék érméket különösen nagy kihívás "
-"felszedni,\\de némi kísérletezés és gyakorlás,\\s képes leszel összegyűjteni "
-"őket."
+"Follow the yellow lick road!\\\\The blue coins are especially "
+"challenging,\\but with some experimentation and practice,\\you'll be able to"
+" collect them all."
+msgstr "Kövessed a sárga csúszós utat!\\\\A kék érméket különösen nagy kihívás felszedni,\\de némi kísérletezés és gyakorlás,\\s képes leszel összegyűjteni őket."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr ""
-"Egy szűk folyosón a labda irányíthatatlanul\\pattan vissza. Menj lassan és"
-"\\tartsad távol a falaktól. Az összes érme\\begyűjthető az adott időben.\\"
+msgstr "Egy szűk folyosón a labda irányíthatatlanul\\pattan vissza. Menj lassan és\\tartsad távol a falaktól. Az összes érme\\begyűjthető az adott időben.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
-"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
-"- it will help you\\to reach the goal."
-msgstr ""
-"Talányos, de nyereséges.\\\\Szánj időt a ütközők mozgásának\\megfigyeléséhez "
-"- ez segít elérni a célt."
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
+" - it will help you\\to reach the goal."
+msgstr "Talányos, de nyereséges.\\\\Szánj időt a ütközők mozgásának\\megfigyeléséhez - ez segít elérni a célt."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr ""
-"Egy mozgó állvány trükkös lehet.\\Pontosan időzíts a felszállásnál,\\és "
-"ügyelj az egyensúlyra is.\\Ne hagyd, hogy kimenjen alólad.\\Maradj az "
-"állványon a nagy érmékért.\\"
+msgstr "Egy mozgó állvány trükkös lehet.\\Pontosan időzíts a felszállásnál,\\és ügyelj az egyensúlyra is.\\Ne hagyd, hogy kimenjen alólad.\\Maradj az állványon a nagy érmékért.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr ""
-"Amikor a liftben vagy,\\apróbb mozdulatokkal tartsad helyben a labdát.\\Sok "
-"érmét szedhetsz fel, ha mozdulatlanul maradsz.\\Túl sok mozgás, és le fogsz "
-"esni."
+msgstr "Amikor a liftben vagy,\\apróbb mozdulatokkal tartsad helyben a labdát.\\Sok érmét szedhetsz fel, ha mozdulatlanul maradsz.\\Túl sok mozgás, és le fogsz esni."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr ""
-"Csak egyetlen út vezet a célhoz,\\de a többi úton sok az érme.\\Légy biztos, "
-"hogy eleget szedtél fel,\\a cél megnyitásához."
+msgstr "Csak egyetlen út vezet a célhoz,\\de a többi úton sok az érme.\\Légy biztos, hogy eleget szedtél fel,\\a cél megnyitásához."
 
 #: data/map-easy/slalom.map
 msgid ""
-"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
-"quickly,\\you will bounce far off course."
-msgstr ""
-"Kövessed az ösvényt a cél eléréséhez.\\Hogyha gyorsan nekimész egy oszlopnak,"
-"\\nagyon eltérhetsz az iránytól."
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving"
+" quickly,\\you will bounce far off course."
+msgstr "Kövessed az ösvényt a cél eléréséhez.\\Hogyha gyorsan nekimész egy oszlopnak,\\nagyon eltérhetsz az iránytól."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
@@ -1014,10 +898,7 @@ msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr ""
-"Amikor a mozgó állványon van a labda,\\azt a mozgás irányába húzza."
-"\\Használd a síneket hogy stabilizáld magad.\\Gyűjtsd össze az érméket\\a "
-"cél megnyitásához."
+msgstr "Amikor a mozgó állványon van a labda,\\azt a mozgás irányába húzza.\\Használd a síneket hogy stabilizáld magad.\\Gyűjtsd össze az érméket\\a cél megnyitásához."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
@@ -1025,11 +906,9 @@ msgstr "Fogd az összes érmét...\\de ne légy terrorizálva!"
 
 #: data/map-easy/wakka.map
 msgid ""
-"Here's another coin grab.\\Perhaps you already know a good route."
-"\\Teleportation might come in handy.\\"
-msgstr ""
-"Itt egy újabb érme gyűjtés.\\Lehet, hogy már tudsz, egy jó útvonalat.\\A "
-"teleportáció jól jöhet.\\"
+"Here's another coin grab.\\Perhaps you already know a good "
+"route.\\Teleportation might come in handy.\\"
+msgstr "Itt egy újabb érme gyűjtés.\\Lehet, hogy már tudsz, egy jó útvonalat.\\A teleportáció jól jöhet.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
@@ -1123,18 +1002,13 @@ msgstr "Itt nincs elegendő padló.\\Szerencsére ez itt nem gond.\\"
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr ""
-"Ahhoz, hogy itt sikerrel járj,\\keményen neki kell menni az éleknek,\\aztán "
-"irányítsad a pattanást.\\Gyakran a legegyszerűbb,\\ha a járdát a sarokban "
-"ütöd meg.\\"
+msgstr "Ahhoz, hogy itt sikerrel járj,\\keményen neki kell menni az éleknek,\\aztán irányítsad a pattanást.\\Gyakran a legegyszerűbb,\\ha a járdát a sarokban ütöd meg.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr ""
-"A Neverball egy kirakós játék?\\Vedd el a pirosat a cél megnyitásához."
-"\\Mindegyik kapcsoló színt cserél."
+msgstr "A Neverball egy kirakós játék?\\Vedd el a pirosat a cél megnyitásához.\\Mindegyik kapcsoló színt cserél."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1142,11 +1016,9 @@ msgstr "Ribbit!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
-"Time the switches carefully to synchronize\\the motion of the platforms."
-"\\Move quickly across the gaps.\\"
-msgstr ""
-"Váltsd át időben a kapcsolókat\\az állványok összehangolásához.\\A réseknél "
-"gyorsan menj."
+"Time the switches carefully to synchronize\\the motion of the "
+"platforms.\\Move quickly across the gaps.\\"
+msgstr "Váltsd át időben a kapcsolókat\\az állványok összehangolásához.\\A réseknél gyorsan menj."
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
@@ -1154,11 +1026,9 @@ msgstr "Bizony, a labda nagyon szépen átfér\\azokon a kis lyukakon.\\"
 
 #: data/map-hard/hallways.map
 msgid ""
-"Control your speed and your bounces.\\Teleporters will always bring you"
-"\\back somewhere in the level."
-msgstr ""
-"Irányítsd a sebességedet, és a pattogásodat.\\A teleportálók mindig valahova"
-"\\visszavisznek a pályán."
+"Control your speed and your bounces.\\Teleporters will always bring "
+"you\\back somewhere in the level."
+msgstr "Irányítsd a sebességedet, és a pattogásodat.\\A teleportálók mindig valahova\\visszavisznek a pályán."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
@@ -1168,9 +1038,7 @@ msgstr "A lendület ellened dolgozhat.\\"
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr ""
-"Hagyd, hogy a kapzsiság vezessen.\\Nagy kihívás az összes érmét felszedni."
-"\\Találgatás nélkül is meg lehet csinálni.\\"
+msgstr "Hagyd, hogy a kapzsiság vezessen.\\Nagy kihívás az összes érmét felszedni.\\Találgatás nélkül is meg lehet csinálni.\\"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
@@ -1179,12 +1047,9 @@ msgstr "Járj egyet.\\"
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
-"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
-"red and blue coins."
-msgstr ""
-"Itt két cél van.\\Teljesítheted a pályát a könnyű\\vagy a nehéz módon."
-"\\Természetesen, a könnyebbet választva\\elfelejtheted az összes kék\\és "
-"piros érmét."
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those"
+" red and blue coins."
+msgstr "Itt két cél van.\\Teljesítheted a pályát a könnyű\\vagy a nehéz módon.\\Természetesen, a könnyebbet választva\\elfelejtheted az összes kék\\és piros érmét."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
@@ -1202,9 +1067,7 @@ msgstr "Lassan és készen.\\"
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr ""
-"15 másodpercet kapsz minden lépcsőn,\\ezért nem várakozz.  Szedd össze az "
-"érméket\\és menj a következő kapcsolóhoz."
+msgstr "15 másodpercet kapsz minden lépcsőn,\\ezért nem várakozz.  Szedd össze az érméket\\és menj a következő kapcsolóhoz."
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1220,10 +1083,9 @@ msgstr "Oly közel, s mégis oly távol.\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
-"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
-"\\"
-msgstr ""
-"Vezesd a lifteket a tetőig.\\Gyorsan mozognak,\\úgyhogy nem tétlenkedj sokat."
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too "
+"long.\\"
+msgstr "Vezesd a lifteket a tetőig.\\Gyorsan mozognak,\\úgyhogy nem tétlenkedj sokat."
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1235,20 +1097,16 @@ msgstr "Ne aggódj.\\A zöld rész nem megy sehova.\\"
 
 #: data/map-hard/sync.map
 msgid ""
-"Use the switches to set the platforms\\in motion.  Time it so they come"
-"\\together in the middle.\\"
-msgstr ""
-"Használd a kapcsolókat az állványok\\ mozgatásához.  Időzítsed őket,\\hogy "
-"középen összeérjenek.\\"
+"Use the switches to set the platforms\\in motion.  Time it so they "
+"come\\together in the middle.\\"
+msgstr "Használd a kapcsolókat az állványok\\ mozgatásához.  Időzítsed őket,\\hogy középen összeérjenek.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
-"The ball must be entirely within a teleporter\\in order to trigger it."
-"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
-"ahead.\\"
-msgstr ""
-"A labdának teljesen bent kell lennie a\\teleportálóban, hogy működésbe hozza."
-"\\Emlékezz a labda magával\\ viszi a lendületét, szóval tervezz előre.\\"
+"The ball must be entirely within a teleporter\\in order to trigger "
+"it.\\Remember that the ball carries its momentum\\through a teleporter, so "
+"plan ahead.\\"
+msgstr "A labdának teljesen bent kell lennie a\\teleportálóban, hogy működésbe hozza.\\Emlékezz a labda magával\\ viszi a lendületét, szóval tervezz előre.\\"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
@@ -1260,11 +1118,9 @@ msgstr "Lépcső a mennyországba"
 
 #: data/map-medium/angle.map
 msgid ""
-"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
-"the easy cash or\\go all the way for a big payoff.\\"
-msgstr ""
-"Ezek a hidak lejtenek.\\Mindegyik szűkebb és meredekebb mint az előző.\\Fogd "
-"a könnyű pénzt,\\vagy menj végig a nagy jutalomért.\\"
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
+" the easy cash or\\go all the way for a big payoff.\\"
+msgstr "Ezek a hidak lejtenek.\\Mindegyik szűkebb és meredekebb mint az előző.\\Fogd a könnyű pénzt,\\vagy menj végig a nagy jutalomért.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
@@ -1272,25 +1128,19 @@ msgstr "Rengeteg érme a begyűjtéshez.\\Feltudod mind szedni?"
 
 #: data/map-medium/cross.map
 msgid ""
-"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
-"\\for safe landing.\\\\The manual view may help here.\\"
-msgstr ""
-"Használd a lendületed,\\hogy elérjed a felső állványokat.\\Tartsd a labdát,"
-"az irányításod alatt\\ a biztonságos landoláshoz.\\\\Itt a kézi nézet "
-"segíthet.\\"
+"Use momentum to reach\\the upper platforms,\\but keep the ball in "
+"control\\for safe landing.\\\\The manual view may help here.\\"
+msgstr "Használd a lendületed,\\hogy elérjed a felső állványokat.\\Tartsd a labdát,az irányításod alatt\\ a biztonságos landoláshoz.\\\\Itt a kézi nézet segíthet.\\"
 
 #: data/map-medium/drops.map
 msgid ""
-"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
-"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr ""
-"Emlékezz figyelni az árnyékot,\\segít irányítani a pattogó labdát.\\És ne "
-"feledd  használni\\az egér gombjait se,hogy\\azt szemmel tartsad.\\"
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
+" don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr "Emlékezz figyelni az árnyékot,\\segít irányítani a pattogó labdát.\\És ne feledd  használni\\az egér gombjait se,hogy\\azt szemmel tartsad.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr ""
-"Használd a teleportálókat,\\így oda is eljutsz ahová amúgy nem tudnál.\\"
+msgstr "Használd a teleportálókat,\\így oda is eljutsz ahová amúgy nem tudnál.\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
@@ -1298,8 +1148,7 @@ msgstr "Mérlegeld a rizikót és a jutalmat.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr ""
-"Menj felfelé az emelkedőn, a célig.\\(Könnyebb mondani, mint megcsinálni)"
+msgstr "Menj felfelé az emelkedőn, a célig.\\(Könnyebb mondani, mint megcsinálni)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1310,10 +1159,7 @@ msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr ""
-"A labda pont belefér ezekbe a kis lyukakba,\\ha csak nem találsz valamit ami "
-"kisebbé teszi.\\Máshol nagyobb labda szükséges.\\Egy dolog biztos - kell egy "
-"terv!"
+msgstr "A labda pont belefér ezekbe a kis lyukakba,\\ha csak nem találsz valamit ami kisebbé teszi.\\Máshol nagyobb labda szükséges.\\Egy dolog biztos - kell egy terv!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
@@ -1323,9 +1169,7 @@ msgstr "Találd el a kapcsolókat az akadályok mozgatásához.\\"
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr ""
-"A kísértés, hogy gyorsan\\bizonyíts a veszted lehet.\\\\Aztán újra, talán "
-"mégsem ..."
+msgstr "A kísértés, hogy gyorsan\\bizonyíts a veszted lehet.\\\\Aztán újra, talán mégsem ..."
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
@@ -1336,72 +1180,51 @@ msgid "You can never go home again..."
 msgstr "Soha többé nem mehetsz vissza..."
 
 #: data/map-medium/rampdn.map
-#, fuzzy
-#| msgid ""
-#| "You'll need to exert some control over your\\view here.  Press F3 to stop "
-#| "the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press "
-#| "F1 to return to the auto-rotating view.\\"
 msgid ""
-"You'll need to exert some control over your\\view here.  Press 3 to stop the "
-"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"You'll need to exert some control over your\\view here.  Press 3 to stop the"
+" auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
 msgstr ""
-"El kell némi gyakorlás a nézet irányítására.\\Nyomd meg az F3-mat az"
-"\\automatikus forgatás leállításához.\\Az egér gombokkal forgatod a nézetet."
-"\\Nyomd meg az F1-et,\\hogy visszatérjen az automatikus forgatás. \\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
 "This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
 "layer."
-msgstr ""
-"Ez az esküvői torta nagyon gazdag,\\de vigyázz ahogy egyre\\lejjebb mész."
+msgstr "Ez az esküvői torta nagyon gazdag,\\de vigyázz ahogy egyre\\lejjebb mész."
 
 #: data/map-medium/sparselines.map
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr ""
-"A sáv váltáshoz verd be a tuskót a sebességeddel.\\Próbálj felmenni a tetőre "
-"egy külön kihívásért!"
+msgstr "A sáv váltáshoz verd be a tuskót a sebességeddel.\\Próbálj felmenni a tetőre egy külön kihívásért!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr ""
-"Lassan menj, és maradj távol a szélektől.\\Vagy, ne.\\Így is, úgy is "
-"működhet.\\"
+msgstr "Lassan menj, és maradj távol a szélektől.\\Vagy, ne.\\Így is, úgy is működhet.\\"
 
 #: data/map-medium/spiralup.map
-msgid ""
-"Just as before, but moving up instead of down.\\No cheating this time.\\"
-msgstr ""
-"Pont mint korábban, csak most nem lefelé hanem felfelé.\\Itt nincs csalás.\\"
+msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgstr "Pont mint korábban, csak most nem lefelé hanem felfelé.\\Itt nincs csalás.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr ""
-"Itt egy újabb próba a\\pattogás irányítására.  A lépcsőkön\\halálos lehet a "
-"nagy sietség.\\"
+msgstr "Itt egy újabb próba a\\pattogás irányítására.  A lépcsőkön\\halálos lehet a nagy sietség.\\"
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr ""
-"Ebben az útvesztőben\\nincsenek falak. De ettől nem lesz\\könnyebb "
-"megtalálni a megoldást.\\"
+msgstr "Ebben az útvesztőben\\nincsenek falak. De ettől nem lesz\\könnyebb megtalálni a megoldást.\\"
 
 #: data/map-medium/timer.map
 msgid ""
-"That one switch controls all five barriers.\\Be quick, because the switch is "
-"on a timer.\\When it expires, the barriers will rise.\\"
-msgstr ""
-"Itt egyetlen kapcsoló irányítja mind az öt akadályt.\\Légy gyors, mert a "
-"kapcsoló időzítve van.\\Amikor lejár, azok felemelkednek.\\"
+"That one switch controls all five barriers.\\Be quick, because the switch is"
+" on a timer.\\When it expires, the barriers will rise.\\"
+msgstr "Itt egyetlen kapcsoló irányítja mind az öt akadályt.\\Légy gyors, mert a kapcsoló időzítve van.\\Amikor lejár, azok felemelkednek.\\"
 
 #: data/map-medium/title.map
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
@@ -1415,17 +1238,13 @@ msgstr "Kövesd az érmék nyomait,\\hogy átjuss a labirintuson."
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
-msgstr ""
-"Oly sok érme van itt, már ha\\hajlandó vagy rászánni az időt, hogy felszedd "
-"őket. \\"
+msgstr "Oly sok érme van itt, már ha\\hajlandó vagy rászánni az időt, hogy felszedd őket. \\"
 
 #: data/map-misc/bigball-old.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr ""
-"Prisonnier de la boule.\\Élet egy gömbben. \\ Igazi kihívás az összes kék "
-"érmét felszedni."
+msgstr "Prisonnier de la boule.\\Élet egy gömbben. \\ Igazi kihívás az összes kék érmét felszedni."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1439,9 +1258,7 @@ msgstr "Tömb az óra körül."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr ""
-"Kövessed a kék érméket...\\és tanuld meg irányítani a pattogásodat!"
-"\\Ajánlatos a 'követő' kamera módot használni."
+msgstr "Kövessed a kék érméket...\\és tanuld meg irányítani a pattogásodat!\\Ajánlatos a 'követő' kamera módot használni."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1451,9 +1268,7 @@ msgstr "Kövesd a nyilakat."
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr ""
-"Ez egy igazi ellenőröző pontos játék, de senki sem nyer...\\Ugrálnod kell, "
-"hogy elérd a kék érméket."
+msgstr "Ez egy igazi ellenőröző pontos játék, de senki sem nyer...\\Ugrálnod kell, hogy elérd a kék érméket."
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -1465,9 +1280,7 @@ msgstr "Savoir chuter.\\Kövesd a kék jelzéseket."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr ""
-"Használd az új érméket a labda\\méretének megváltoztatására!\\Remélem "
-"tetszeni fog!\\-Dave"
+msgstr "Használd az új érméket a labda\\méretének megváltoztatására!\\Remélem tetszeni fog!\\-Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
@@ -1494,10 +1307,8 @@ msgid "Le parcours du combattant.\\Ready for the assault course?"
 msgstr "Le parcours du combattant.\\Készen állsz a roham kurzushoz?"
 
 #: data/map-mym/circuit1.map
-#, fuzzy
-#| msgid "La course effrénée.\\Let's make some laps."
 msgid "La course effrénée.\\Let's run some laps."
-msgstr "La course effrénée.\\Menjünk pár kört."
+msgstr ""
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
@@ -1518,11 +1329,9 @@ msgstr "La ballade tranquille.\\Micsoda egy halk séta."
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal "
-"is reachable."
-msgstr ""
-"La ballade dansante.\\Táncoljunk a mozgó állványon!\\Tipp: Az utolsó állvány "
-"aktiválása után,\\fordulj meg a kőoszlop körül, amíg a cél nem lesz elérhető."
+"activating the last moving platform,\\ turn around the Thwomp until the goal"
+" is reachable."
+msgstr "La ballade dansante.\\Táncoljunk a mozgó állványon!\\Tipp: Az utolsó állvány aktiválása után,\\fordulj meg a kőoszlop körül, amíg a cél nem lesz elérhető."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1532,16 +1341,13 @@ msgstr "La descente infernale.\\Elég könnyű kezdésnek?"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr ""
-"La conduite stressante.\\Figyelem:\\A labda alatti állvány előre mozog."
+msgstr "La conduite stressante.\\Figyelem:\\A labda alatti állvány előre mozog."
 
 #: data/map-mym/drive2.map
 msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly forward."
-"\\You would do well to advance."
-msgstr ""
-"La conduite dangereuse.\\Az állvány a labda alatt gyorsan mozog.\\Jól "
-"tennéd, ha sietnél."
+"La conduite dangereuse.\\The platform under the ball moves quickly "
+"forward.\\You would do well to advance."
+msgstr "La conduite dangereuse.\\Az állvány a labda alatt gyorsan mozog.\\Jól tennéd, ha sietnél."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
@@ -1557,8 +1363,7 @@ msgstr "La tour de verre.\\Keresd az utat a kijárathoz."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-"La maîtrise de Neverball.\\Még mindig úgy gondold, hogy könnyű ez a játék?"
+msgstr "La maîtrise de Neverball.\\Még mindig úgy gondold, hogy könnyű ez a játék?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1568,9 +1373,7 @@ msgstr "Les boucles renversantes.\\Fejjel lefele!"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr ""
-"Le contrôle des courbes.\\Keresd a jó szöget a fordulás,\\az ugrás, és a "
-"landoláshoz..."
+msgstr "Le contrôle des courbes.\\Keresd a jó szöget a fordulás,\\az ugrás, és a landoláshoz..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
@@ -1580,19 +1383,13 @@ msgstr "Le chemin dissimulé.\\Teszteld a memóriád."
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr ""
-"Le labyrinthe fou.\\Tudod az utat, ahogy látod, szóval\\miért mész másfelé?"
+msgstr "Le labyrinthe fou.\\Tudod az utat, ahogy látod, szóval\\miért mész másfelé?"
 
 #: data/map-mym/narrow.map
-#, fuzzy
-#| msgid ""
-#| "Le sentier étroit.\\Patience and timing.\\Tips: maximise speed at the "
-#| "first slope."
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
 msgstr ""
-"Le sentier étroit.\\Türelem, és időzítés.\\Tipp: gyorsíts az első lejtőn."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -1636,10 +1433,8 @@ msgid "Le grand cône.\\Living in a cone."
 msgstr "Le grand cône.\\Egy kúpban élni."
 
 #: data/map-mym2/bombman.map
-#, fuzzy
-#| msgid "Les flammes ardentes.\\Do this remind you of something?"
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr "Les flammes ardentes.\\Emlékeztet valamire?"
+msgstr ""
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
@@ -1649,19 +1444,14 @@ msgstr "Les sauts du célèbre plombier.\\Kövesd az érméket."
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr ""
-"Savoir rebondir pour aller plus haut.\\A Neverball Aréna.\\Használd a két "
-"teleportot a cél megnyitásához."
+msgstr "Savoir rebondir pour aller plus haut.\\A Neverball Aréna.\\Használd a két teleportot a cél megnyitásához."
 
 #: data/map-mym2/freefall.map
 msgid ""
-"This level is full of challenges:\\understand the level's functioning,"
-"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
-"\\find and reach the goal,\\and more..."
-msgstr ""
-"Ez a pálya tele van kihívásokkal:\\értsd meg a pálya működését,\\tanulj meg "
-"repülni és túlélni.\\Szerezd meg legalább az érmék felét\\a cél "
-"megnyitásához.\\Találd meg és juss el a célig, és tovább..."
+"This level is full of challenges:\\understand the level's "
+"functioning,\\learn to fly and to survive,\\grab half of all coins to open "
+"the goal,\\find and reach the goal,\\and more..."
+msgstr "Ez a pálya tele van kihívásokkal:\\értsd meg a pálya működését,\\tanulj meg repülni és túlélni.\\Szerezd meg legalább az érmék felét\\a cél megnyitásához.\\Találd meg és juss el a célig, és tovább..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1675,8 +1465,7 @@ msgstr "Ne pas se laisser emporter dans le néant.\\Nem menj túl lassan."
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr ""
-"Si si, ce tuyau a une fin.\\Csőben élés.\\Tipp: lassan az utolsó ugratónál!"
+msgstr "Si si, ce tuyau a une fin.\\Csőben élés.\\Tipp: lassan az utolsó ugratónál!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1695,10 +1484,8 @@ msgid "Hé, on pousse pas !\\Not too fast, not too slow."
 msgstr "Hé, on pousse pas !\\Nem túl gyors, nem túl lassú."
 
 #: data/map-mym2/rainbow.map
-#, fuzzy
-#| msgid "Rainbow Road.\\Make 3 laps to open the goal."
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
-msgstr "Rainbow Road.\\Menj 3 kört, és mehetsz tovább."
+msgstr ""
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
@@ -1713,22 +1500,16 @@ msgid "Préparez un petit sac.\\The stomach-tester."
 msgstr "Préparez un petit sac.\\A gyomor próbáló."
 
 #: data/map-mym2/sonic.map
-#, fuzzy
-#| msgid "Un petit échauffement.\\Welcome to the new Mehdi's set!"
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement.\\Üdvözöl az új Mehdi csomag!"
+msgstr ""
 
 #: data/map-mym2/speed.map
-#, fuzzy
-#| msgid "Plus vite que la vitesse.\\Speedness definition."
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse.\\Sebességfaló definíció."
+msgstr ""
 
 #: data/map-mym2/speeddance.map
-#, fuzzy
-#| msgid "La danse asiatique\\Trust in the arrows."
 msgid "La danse asiatique\\Trust the arrows."
-msgstr "La danse asiatique\\Bízz a nyilakban."
+msgstr ""
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
@@ -1805,8 +1586,7 @@ msgid "Walk the plank.\\After the teleport, go for speed!"
 msgstr ""
 
 #: data/map-tones/skiball.map
-msgid ""
-"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
 msgstr ""
 
 #: data/map-tones/swish.map
@@ -1842,21 +1622,18 @@ msgid "A 3D mini golf game"
 msgstr "A 3D mini golf játék"
 
 #. Translators,
-#.
 #. Listed here are the Neverball materials (relative to the data directory)
 #. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
 #. texture.  To localise a material, create a localised texture for it (copy
-#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify
+#. it)
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
-#.
 #. Author's comments on the original mtrl/words texture:
-#.
 #. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
 #. For the vertical centering, the x-height is used as the reference. Some
 #. manual corrections were made; for example, the hyphen in 'Fall-out' was
 #. shortened in order to increase the margin on each side of the word."
-#.
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
@@ -1864,296 +1641,3 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr "item/coin/coin"
-
-#~ msgid "Missing format character in replay name\n"
-#~ msgstr "Hiányzik a karakter formátum a visszajátszás fájlnévben\n"
-
-#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
-#~ msgstr "Érvénytelen karakter formátum a visszajátszás nevében: \"%%%c\"\n"
-
-#~ msgid "Failure to load set file '%s'\n"
-#~ msgstr "Sikertelen beállító fájl betöltés '%s'\n"
-
-#~ msgid "Failure to load level file '%s'\n"
-#~ msgstr "Sikertelen pályabetöltés '%s'\n"
-
-#~ msgid "Failed to convert SDL_ttf surface: %s\n"
-#~ msgstr "Nem sikerült az SDL_ttl felületet átkonvertálni: %s\n"
-
-#, fuzzy
-#~| msgid "Font \"%s\" doesn't exist, trying default font.\n"
-#~ msgid "Font '%s' doesn't exist, trying default font.\n"
-#~ msgstr "A \"%s\" font nem létezik, próbáld a gyári fontot.\n"
-
-#, fuzzy
-#~| msgid "Could not load font %s.\n"
-#~ msgid "Could not load font '%s'.\n"
-#~ msgstr "Nem tudom betölteni a %s fontot.\n"
-
-#~ msgid "ttf/DejaVuSans-Bold.ttf"
-#~ msgstr "ttf/DejaVuSans-Bold.ttf"
-
-#, fuzzy
-#~| msgid ""
-#~| "Usage: %s [options ...]\n"
-#~| "Options:\n"
-#~| "  -h, --help                show this usage message.\n"
-#~| "  -v, --version             show version.\n"
-#~| "  -d, --data <dir>          use 'dir' as game data directory.\n"
-#~| "  -r, --replay <file>       play the replay 'file'.\n"
-#~ msgid ""
-#~ "Usage: %s [options ...]\n"
-#~ "Options:\n"
-#~ "  -h, --help                show this usage message.\n"
-#~ "  -v, --version             show version.\n"
-#~ "  -d, --data <dir>          use 'dir' as game data directory.\n"
-#~ "  -r, --replay <file>       play the replay 'file'.\n"
-#~ "  -l, --level <file>        load the level 'file'\n"
-#~ msgstr ""
-#~ "Használat: %s [lehetőségek ...]\n"
-#~ "Lehetőségek:\n"
-#~ "  -h, --help                  ezt a segédet mutatja.\n"
-#~ "  -v,  --version             megmutatja a verziószámot.\n"
-#~ "  -d,  --data <mappa>        a 'mappa' mint a játék adathelye.\n"
-#~ "  -r,  --replay <fájl>            lejátsza a 'fájl' visszajátszást.\n"
-
-#~ msgid "Option '%s' requires an argument.\n"
-#~ msgstr "A '%s' lehetőségnek kell egy érték\n"
-
-#~ msgid "Pause / Release Pointer"
-#~ msgstr "Kurzor megfogás / elengedés"
-
-#~ msgid "Backspace"
-#~ msgstr "Backspace"
-
-#~ msgid "Tab"
-#~ msgstr "Tab"
-
-#~ msgid "Clear"
-#~ msgstr "Clear"
-
-#~ msgid "Return"
-#~ msgstr "Enter"
-
-#~ msgid "Pause"
-#~ msgstr "Pause"
-
-#~ msgid "Escape"
-#~ msgstr "Escape"
-
-#~ msgid "Space"
-#~ msgstr "Szóköz"
-
-#~ msgid "Enter"
-#~ msgstr "Enter"
-
-#~ msgid "Equals"
-#~ msgstr "Egyenlő"
-
-#~ msgid "Up"
-#~ msgstr "Fel"
-
-#~ msgid "Down"
-#~ msgstr "Le"
-
-#~ msgid "Right"
-#~ msgstr "Jobb"
-
-#~ msgid "Left"
-#~ msgstr "Bal"
-
-#~ msgid "Insert"
-#~ msgstr "Insert"
-
-#~ msgid "Home"
-#~ msgstr "Home"
-
-#~ msgid "End"
-#~ msgstr "End"
-
-#~ msgid "Page Up"
-#~ msgstr "Page Up"
-
-#~ msgid "Page Down"
-#~ msgstr "Page Down"
-
-#~ msgid "F1"
-#~ msgstr "F1"
-
-#~ msgid "F2"
-#~ msgstr "F2"
-
-#~ msgid "F3"
-#~ msgstr "F3"
-
-#~ msgid "F4"
-#~ msgstr "F4"
-
-#~ msgid "F5"
-#~ msgstr "F5"
-
-#~ msgid "F6"
-#~ msgstr "F6"
-
-#~ msgid "F7"
-#~ msgstr "F7"
-
-#~ msgid "F8"
-#~ msgstr "F8"
-
-#~ msgid "F9"
-#~ msgstr "F9"
-
-#~ msgid "F10"
-#~ msgstr "F10"
-
-#~ msgid "F11"
-#~ msgstr "F11"
-
-#~ msgid "F12"
-#~ msgstr "F12"
-
-#~ msgid "F13"
-#~ msgstr "F13"
-
-#~ msgid "F14"
-#~ msgstr "F14"
-
-#~ msgid "F15"
-#~ msgstr "F15"
-
-#~ msgid "Num Lock"
-#~ msgstr "Num Lock"
-
-#~ msgid "Caps Lock"
-#~ msgstr "Caps Lock"
-
-#~ msgid "Scroll Lock"
-#~ msgstr "Scroll Lock"
-
-#~ msgid "Right Shift"
-#~ msgstr "Jobb Shift"
-
-#~ msgid "Left Shift"
-#~ msgstr "Bal Shift"
-
-#~ msgid "Right CTRL"
-#~ msgstr "Jobb CTRL"
-
-#~ msgid "Left CTRL"
-#~ msgstr "Bal CTRL"
-
-#~ msgid "Right Alt"
-#~ msgstr "Jobb Alt"
-
-#~ msgid "Left Alt"
-#~ msgstr "Bal Alt"
-
-#~ msgid "Right Meta"
-#~ msgstr "Jobb Meta"
-
-#~ msgid "Left Meta"
-#~ msgstr "Bal Meta"
-
-#~ msgid "Left Super"
-#~ msgstr "Bal Super"
-
-#~ msgid "Right Super"
-#~ msgstr "Jobb Super"
-
-#~ msgid "Alt Gr"
-#~ msgstr "Alt Gr"
-
-#~ msgid "Compose"
-#~ msgstr "Compose"
-
-#~ msgid "Help"
-#~ msgstr "Help"
-
-#~ msgid "Print Screen"
-#~ msgstr "Print Screen"
-
-#~ msgid "Sys Req"
-#~ msgstr "Sys Req"
-
-#~ msgid "Break"
-#~ msgstr "Break"
-
-#~ msgid "Menu"
-#~ msgstr "Menu"
-
-#~ msgid "Power"
-#~ msgstr "Power"
-
-#~ msgid "Euro"
-#~ msgstr "Euro"
-
-#~ msgid "Undo"
-#~ msgstr "Visszavonás"
-
-#~ msgid "Failed to get WM info: %s\n"
-#~ msgstr "Sikertelen WM infó szerzés: %s\n"
-
-#~ msgid "Failed to allocate memory for EWMH icon data.\n"
-#~ msgstr "Sikertelen memóriafoglalása az EWMH ikonoknak.\n"
-
-#~ msgid "Low"
-#~ msgstr "Alacsony"
-
-#~ msgid "High"
-#~ msgstr "Magas"
-
-#~ msgid "Textures"
-#~ msgstr "Textúrák"
-
-#~ msgid "No"
-#~ msgstr "Nem"
-
-#~ msgid "Yes"
-#~ msgstr "Igen"
-
-#~ msgid "   No   "
-#~ msgstr "   Nem   "
-
-#~ msgid "Next"
-#~ msgstr "Következő"
-
-#~ msgid "Prev"
-#~ msgstr "Előző"
-
-#~ msgid "Chase"
-#~ msgstr "Követés"
-
-#~ msgid "Lazy"
-#~ msgstr "Lusta"
-
-#~ msgid "Manual"
-#~ msgstr "Kézi"
-
-#, fuzzy
-#~| msgid "Failure to load user score file '%s'"
-#~ msgid "Failure to load user score file '%s'\n"
-#~ msgstr "Sikertelen felhasználói pont-tábla fájl betöltés '%s'"
-
-#~ msgid "Ball"
-#~ msgstr "Labda"
-
-#~ msgid "%d new bonus level"
-#~ msgid_plural "%d new bonus levels"
-#~ msgstr[0] "%d új bónusz pálya"
-#~ msgstr[1] "%d új bónusz pályák"
-
-#~ msgid "Hold Shift for faster view rotation."
-#~ msgstr "Nyomd a Shift gombot a gyors nézetforgatáshoz."
-
-#~ msgid "Geometry"
-#~ msgstr "Geometria"
-
-#~ msgid "Techniques"
-#~ msgstr "Technikák"
-
-#~ msgid "Top-Down"
-#~ msgstr "Fentről-Lefele"
-
-#~ msgid "Levels for Neverball Experts\\Author: Florian Priester\\\\\\\\"
-#~ msgstr "Pályák a Neverball szakértőknek\\Szerző: Florian Priester\\\\\\\\"
