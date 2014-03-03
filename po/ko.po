@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2012-12-06 17:58+0200\n"
+"POT-Creation-Date: 2014-03-03 06:42+0200\n"
 "PO-Revision-Date: 2013-12-10 14:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: Korean <htnever@gmail.com>\n"
@@ -16,54 +16,291 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/demo.c:226
-msgid "Missing format character in replay name\n"
-msgstr "재생 이름에 놓친 문자 있어요\n"
+#: ball/st_conf.c:157 putt/st_conf.c:104
+msgid "Options"
+msgstr "수정"
 
-#: ball/demo.c:231
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr "재생 이름에 정당하지 않은 문자 있어요: \"%%%c\"\n"
-
-#: ball/game_common.c:27
-msgid "Aborted"
+#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
 msgstr ""
 
-#: ball/game_common.c:28
-msgid "Time-out"
-msgstr "시간이 끝냈어요"
-
-#: ball/game_common.c:29
-msgid "Success"
+#: ball/st_conf.c:159 putt/st_conf.c:114
+msgid "Configure"
 msgstr ""
 
-#: ball/game_common.c:30
-msgid "Fall-out"
+#: ball/st_conf.c:163
+msgid "Mouse Sensitivity"
 msgstr ""
 
-#: ball/game_common.c:31
-#: ball/progress.c:420
-msgid "Unknown"
+#: ball/st_conf.c:168 putt/st_conf.c:134
+msgid "Sound Volume"
 msgstr ""
 
-#: ball/game_common.c:43
-#: ball/st_help.c:185
-msgid "Manual Camera"
+#: ball/st_conf.c:170 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "음악 볼륨"
+
+#: ball/st_conf.c:175 ball/st_name.c:99
+msgid "Player Name"
+msgstr "이름"
+
+#: ball/st_conf.c:176 ball/st_ball.c:180
+msgid "Ball Model"
 msgstr ""
 
-#: ball/game_common.c:44
-#: ball/st_help.c:184
-msgid "Lazy Camera"
+#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
 msgstr ""
 
-#: ball/game_common.c:45
-#: ball/st_help.c:183
+#: ball/st_conf.c:191 share/st_common.c:666
+msgid "Default"
+msgstr ""
+
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr ""
+
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr ""
+
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr ""
+
+#: ball/st_demo.c:201
+msgid "Time"
+msgstr "시간"
+
+#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
+msgid "Coins"
+msgstr ""
+
+#: ball/st_demo.c:203
+msgid "Status"
+msgstr ""
+
+#: ball/st_demo.c:234 ball/st_demo.c:425
+msgid "Replay"
+msgstr "재생"
+
+#: ball/st_demo.c:235 putt/st_all.c:740
+msgid "Player"
+msgstr ""
+
+#: ball/st_demo.c:236
+msgid "Date"
+msgstr ""
+
+#: ball/st_demo.c:289
+msgid "Select Replay"
+msgstr ""
+
+#: ball/st_demo.c:305
+msgid "No Replays"
+msgstr ""
+
+#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "돌아오기"
+
+#: ball/st_demo.c:601
+msgid "Replay Paused"
+msgstr ""
+
+#: ball/st_demo.c:603
+msgid "Replay Ends"
+msgstr ""
+
+#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
+msgid "Quit"
+msgstr ""
+
+#: ball/st_demo.c:613 ball/st_demo.c:699
+msgid "Keep"
+msgstr ""
+
+#: ball/st_demo.c:614 ball/st_demo.c:700
+msgid "Delete"
+msgstr ""
+
+#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
+msgid "Continue"
+msgstr ""
+
+#: ball/st_demo.c:620
+msgid "Repeat"
+msgstr ""
+
+#: ball/st_demo.c:695
+msgid "Delete Replay?"
+msgstr ""
+
+#: ball/st_demo.c:749 ball/st_level.c:179
+msgid "Warning!"
+msgstr ""
+
+#: ball/st_demo.c:751
+msgid ""
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
+msgstr ""
+
+#: ball/st_help.c:101
+msgid "Tricks"
+msgstr ""
+
+#: ball/st_help.c:102
+msgid "Modes"
+msgstr ""
+
+#: ball/st_help.c:103
+msgid "Controls"
+msgstr ""
+
+#: ball/st_help.c:104
+msgid "Rules"
+msgstr ""
+
+#: ball/st_help.c:115
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
+msgstr ""
+
+#: ball/st_help.c:120
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
+msgstr ""
+
+#: ball/st_help.c:177
+msgid ""
+"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+"rotation."
+msgstr ""
+
+#: ball/st_help.c:179
+msgid "Exit / Pause"
+msgstr ""
+
+#: ball/st_help.c:180 ball/game_common.c:46
 msgid "Chase Camera"
 msgstr ""
 
-#: ball/game_common.c:47
+#: ball/st_help.c:181 ball/game_common.c:45
+msgid "Lazy Camera"
+msgstr ""
+
+#: ball/st_help.c:182 ball/game_common.c:44
+msgid "Manual Camera"
+msgstr ""
+
+#: ball/st_help.c:183
+msgid "Screenshot"
+msgstr ""
+
+#: ball/st_help.c:246 ball/progress.c:418
+msgid "Normal Mode"
+msgstr ""
+
+#: ball/st_help.c:248
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order "
+"to open the goal."
+msgstr ""
+
+#: ball/st_help.c:259 ball/progress.c:417
+msgid "Challenge Mode"
+msgstr ""
+
+#: ball/st_help.c:261
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr ""
+
+#: ball/st_help.c:275
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
+msgstr ""
+
+#: ball/st_help.c:280
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+"turn the camera by 45\\degrees for best results.\\"
+msgstr ""
+
+#: ball/st_help.c:300 ball/st_help.c:310
+msgid "Watch demo"
+msgstr ""
+
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr ""
+
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "시간이 끝냈어요"
+
+#: ball/game_common.c:30
+msgid "Success"
+msgstr ""
+
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr ""
+
+#: ball/game_common.c:32 ball/progress.c:420
+msgid "Unknown"
+msgstr ""
+
+#: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
+msgstr ""
+
+#: ball/st_pause.c:82 putt/st_all.c:644
+msgid "Paused"
+msgstr ""
+
+#: ball/st_pause.c:91
+msgid "Restart"
+msgstr ""
+
+#: ball/st_goal.c:101
+msgid "New Record"
+msgstr ""
+
+#: ball/st_goal.c:102
+msgid "GOAL"
+msgstr ""
+
+#: ball/st_goal.c:154 ball/hud.c:89
+msgid "Balls"
+msgstr ""
+
+#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
+msgid "Score"
+msgstr ""
+
+#: ball/st_goal.c:215 ball/st_goal.c:217
+msgid "Finish"
+msgstr ""
+
+#: ball/st_goal.c:220 ball/st_fail.c:98
+msgid "Next Level"
+msgstr ""
+
+#: ball/st_goal.c:223 ball/st_fail.c:101
+msgid "Retry Level"
+msgstr ""
+
+#: ball/st_goal.c:226 ball/st_fail.c:104
+msgid "Save Replay"
 msgstr ""
 
 #: ball/game_common.h:10
@@ -98,62 +335,36 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/hud.c:68
-#: ball/st_demo.c:202
-#: ball/st_goal.c:167
-msgid "Coins"
-msgstr ""
-
 #: ball/hud.c:69
 msgid "Goal"
 msgstr ""
 
-#: ball/hud.c:89
-#: ball/st_goal.c:155
-msgid "Balls"
-msgstr ""
-
-#: ball/hud.c:90
-#: ball/st_goal.c:161
-#: putt/hud.c:45
-msgid "Score"
-msgstr ""
-
-#: ball/level.c:138
-#, c-format
-msgid "Failure to load level file '%s'\n"
-msgstr ""
-
-#: ball/main.c:294
-#, c-format
-msgid ""
-"Usage: %s [options ...]\n"
-"Options:\n"
-"  -h, --help                show this usage message.\n"
-"  -v, --version             show version.\n"
-"  -d, --data <dir>          use 'dir' as game data directory.\n"
-"  -r, --replay <file>       play the replay 'file'.\n"
-"  -l, --level <file>        load the level 'file'\n"
-msgstr ""
-
-#: ball/main.c:304
-#, c-format
-msgid "Option '%s' requires an argument.\n"
-msgstr ""
-
-#: ball/progress.c:417
-#: ball/st_help.c:263
-msgid "Challenge Mode"
-msgstr ""
-
-#: ball/progress.c:417
-#: ball/st_start.c:207
+#: ball/st_start.c:203 ball/progress.c:417
 msgid "Challenge"
 msgstr ""
 
-#: ball/progress.c:418
-#: ball/st_help.c:250
-msgid "Normal Mode"
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr ""
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr ""
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr ""
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr ""
+
+#: ball/st_done.c:77
+msgid "Select Level"
 msgstr ""
 
 #: ball/progress.c:418
@@ -172,316 +383,68 @@ msgstr ""
 msgid "Unknown Mode"
 msgstr ""
 
-#: ball/set.c:276
-#, c-format
-msgid "Failure to load set file '%s'\n"
+#: ball/st_set.c:108
+msgid "Level Set"
 msgstr ""
 
-#: ball/st_ball.c:187
-#: ball/st_conf.c:316
-msgid "Ball Model"
+#: ball/util.c:28
+msgid "Hard"
 msgstr ""
 
-#: ball/st_ball.c:189
-#: ball/st_conf.c:104
-#: ball/st_demo.c:307
-#: ball/st_help.c:107
-#: ball/st_start.c:178
-#: ball/util.c:407
-#: share/st_resol.c:105
-#: putt/st_all.c:393
-#: putt/st_all.c:541
-#: putt/st_conf.c:158
-msgid "Back"
-msgstr "돌아오기"
-
-#: ball/st_conf.c:297
-#: putt/st_conf.c:156
-msgid "Options"
-msgstr "수정"
-
-#: ball/st_conf.c:299
-#: ball/st_conf.c:443
-msgid "Graphics"
+#: ball/util.c:29
+msgid "Medium"
 msgstr ""
 
-#: ball/st_conf.c:299
-msgid "Configure"
+#: ball/util.c:30
+msgid "Easy"
 msgstr ""
 
-#: ball/st_conf.c:303
-msgid "Mouse Sensitivity"
+#: ball/util.c:76 ball/util.c:122
+msgid "Unavailable"
 msgstr ""
 
-#: ball/st_conf.c:308
-#: putt/st_conf.c:223
-msgid "Sound Volume"
+#: ball/util.c:178 ball/util.c:228
+msgid "Most Coins"
 msgstr ""
 
-#: ball/st_conf.c:310
-#: putt/st_conf.c:238
-msgid "Music Volume"
-msgstr "음악 볼륨"
-
-#: ball/st_conf.c:315
-#: ball/st_name.c:107
-msgid "Player Name"
-msgstr "이름"
-
-#: ball/st_conf.c:420
-#: ball/st_conf.c:448
-#: ball/st_conf.c:453
-#: ball/st_conf.c:461
-#: ball/st_conf.c:464
-#: ball/st_conf.c:467
-#: putt/st_conf.c:166
-#: putt/st_conf.c:200
-msgid "Off"
+#: ball/util.c:185 ball/util.c:232
+msgid "Best Times"
 msgstr ""
 
-#: ball/st_conf.c:421
-msgid "2x"
-msgstr "2x"
-
-#: ball/st_conf.c:422
-msgid "4x"
-msgstr "4x"
-
-#: ball/st_conf.c:423
-msgid "8x"
-msgstr "8x"
-
-#: ball/st_conf.c:445
-#: share/st_resol.c:103
-#: putt/st_conf.c:180
-msgid "Resolution"
+#: ball/util.c:192 ball/util.c:236
+msgid "Fast Unlock"
 msgstr ""
 
-#: ball/st_conf.c:447
-#: putt/st_conf.c:172
-msgid "Fullscreen"
+#: ball/util.c:205
+msgid "Change Name"
 msgstr ""
 
-#: ball/st_conf.c:448
-#: ball/st_conf.c:453
-#: ball/st_conf.c:461
-#: ball/st_conf.c:464
-#: ball/st_conf.c:467
-#: putt/st_conf.c:167
-#: putt/st_conf.c:201
-msgid "On"
+#: ball/util.c:332
+msgid "caps"
 msgstr ""
 
-#: ball/st_conf.c:452
-msgid "V-Sync"
+#: ball/st_name.c:110
+msgid "OK"
 msgstr ""
 
-#: ball/st_conf.c:455
-msgid "Antialiasing"
+#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
 msgstr ""
 
-#: ball/st_conf.c:460
-msgid "Reflection"
+#: ball/st_over.c:35
+msgid "GAME OVER"
 msgstr ""
 
-#: ball/st_conf.c:463
-msgid "Background"
-msgstr ""
-
-#: ball/st_conf.c:466
-#: putt/st_conf.c:206
-msgid "Shadow"
-msgstr ""
-
-#: ball/st_demo.c:201
-msgid "Time"
-msgstr "시간"
-
-#: ball/st_demo.c:203
-msgid "Status"
-msgstr ""
-
-#: ball/st_demo.c:234
-#: ball/st_demo.c:415
-msgid "Replay"
-msgstr "재생"
-
-#: ball/st_demo.c:235
-#: putt/st_all.c:731
-msgid "Player"
-msgstr ""
-
-#: ball/st_demo.c:236
-msgid "Date"
-msgstr ""
-
-#: ball/st_demo.c:289
-msgid "Select Replay"
-msgstr ""
-
-#: ball/st_demo.c:305
-msgid "No Replays"
-msgstr ""
-
-#: ball/st_demo.c:597
-msgid "Replay Paused"
-msgstr ""
-
-#: ball/st_demo.c:599
-msgid "Replay Ends"
-msgstr ""
-
-#: ball/st_demo.c:605
-#: ball/st_pause.c:88
-#: putt/st_all.c:641
-msgid "Quit"
-msgstr ""
-
-#: ball/st_demo.c:609
-#: ball/st_demo.c:691
-msgid "Keep"
-msgstr ""
-
-#: ball/st_demo.c:610
-#: ball/st_demo.c:692
-#: share/keyboard.c:40
-msgid "Delete"
-msgstr ""
-
-#: ball/st_demo.c:614
-#: ball/st_pause.c:93
-#: putt/st_all.c:642
-msgid "Continue"
-msgstr ""
-
-#: ball/st_demo.c:616
-msgid "Repeat"
-msgstr ""
-
-#: ball/st_demo.c:687
-msgid "Delete Replay?"
-msgstr ""
-
-#: ball/st_demo.c:731
-#: ball/st_level.c:160
-msgid "Warning!"
-msgstr ""
-
-#: ball/st_demo.c:733
-msgid "The current replay was recorded with a\\different (or unknown) version of this level.\\Be prepared to encounter visual errors.\\"
-msgstr ""
-
-#: ball/st_done.c:62
-msgid "New Set Record"
-msgstr ""
-
-#: ball/st_done.c:63
-msgid "Set Complete"
-msgstr ""
-
-#: ball/st_done.c:82
-msgid "Select Level"
-msgstr ""
-
-#: ball/st_fail.c:83
+#: ball/st_fail.c:82
 msgid "Fall-out!"
 msgstr ""
 
-#: ball/st_fail.c:85
+#: ball/st_fail.c:84
 msgid "Time's Up!"
 msgstr ""
 
-#: ball/st_fail.c:96
+#: ball/st_fail.c:95
 msgid "Exit"
-msgstr ""
-
-#: ball/st_fail.c:99
-#: ball/st_goal.c:221
-msgid "Next Level"
-msgstr ""
-
-#: ball/st_fail.c:102
-#: ball/st_goal.c:224
-msgid "Retry Level"
-msgstr ""
-
-#: ball/st_fail.c:105
-#: ball/st_goal.c:227
-msgid "Save Replay"
-msgstr ""
-
-#: ball/st_goal.c:102
-msgid "New Record"
-msgstr ""
-
-#: ball/st_goal.c:103
-msgid "GOAL"
-msgstr ""
-
-#: ball/st_goal.c:216
-#: ball/st_goal.c:218
-msgid "Finish"
-msgstr ""
-
-#: ball/st_help.c:103
-msgid "Tricks"
-msgstr ""
-
-#: ball/st_help.c:104
-msgid "Modes"
-msgstr ""
-
-#: ball/st_help.c:105
-msgid "Controls"
-msgstr ""
-
-#: ball/st_help.c:106
-msgid "Rules"
-msgstr ""
-
-#: ball/st_help.c:117
-msgid "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor causing the\\ball to roll.\\"
-msgstr ""
-
-#: ball/st_help.c:122
-msgid "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and finish\\the level.\\"
-msgstr ""
-
-#: ball/st_help.c:179
-msgid "Left and right mouse buttons rotate the view.\\Hold Shift for faster view rotation."
-msgstr ""
-
-#: ball/st_help.c:181
-msgid "Pause / Release Pointer"
-msgstr ""
-
-#: ball/st_help.c:182
-msgid "Exit / Cancel Menu"
-msgstr ""
-
-#: ball/st_help.c:186
-msgid "Screenshot"
-msgstr ""
-
-#: ball/st_help.c:252
-msgid "Finish a level before the time runs out.\\You need to collect coins in order to open the goal."
-msgstr ""
-
-#: ball/st_help.c:265
-msgid "Start playing from the first level of the set.\\You start with only three balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr ""
-
-#: ball/st_help.c:279
-msgid "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You may be able\\to reach new places.\\"
-msgstr ""
-
-#: ball/st_help.c:284
-msgid "Tilting in 2 directions increases\\the slope. Use the manual camera\\and turn the camera by 45\\degrees for best results.\\"
-msgstr ""
-
-#: ball/st_help.c:304
-#: ball/st_help.c:314
-msgid "Watch demo"
 msgstr ""
 
 #: ball/st_level.c:56
@@ -499,433 +462,138 @@ msgstr ""
 msgid "Standalone level"
 msgstr ""
 
-#: ball/st_level.c:162
-msgid "A replay file could not be opened for writing.\\This game will not be recorded.\\"
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
 msgstr ""
 
-#: ball/st_name.c:118
-msgid "OK"
-msgstr ""
-
-#: ball/st_name.c:120
-#: ball/st_save.c:126
-#: ball/st_save.c:215
-msgid "Cancel"
-msgstr ""
-
-#: ball/st_over.c:35
-msgid "GAME OVER"
-msgstr ""
-
-#: ball/st_pause.c:82
-#: putt/st_all.c:636
-msgid "Paused"
-msgstr ""
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr ""
-
-#: ball/st_play.c:116
-msgid "Ready?"
-msgstr ""
-
-#: ball/st_play.c:200
-msgid "Set?"
-msgstr ""
-
-#: ball/st_play.c:306
-msgid "GO!"
-msgstr ""
-
-#: ball/st_save.c:113
-msgid "Replay Name"
-msgstr "재생의 이름"
-
-#: ball/st_save.c:124
-msgid "Save"
-msgstr ""
-
-#: ball/st_save.c:209
-msgid "Overwrite?"
-msgstr ""
-
-#: ball/st_save.c:216
-msgid "Overwrite"
-msgstr ""
-
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr ""
-
-#: ball/st_start.c:227
-msgid "Unlocked"
-msgstr ""
-
-#: ball/st_start.c:228
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:238
-msgid "Goal State in Completed Levels"
-msgstr ""
-
-#: ball/st_title.c:138
-#: ball/st_title.c:173
+#: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
 msgstr "컨닝하기"
 
-#: ball/st_title.c:144
-#: ball/st_title.c:176
-#: putt/st_all.c:238
+#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
 msgid "menu^Play"
 msgstr "놀기"
 
-#: ball/st_title.c:179
+#: ball/st_title.c:181
 msgid "menu^Replay"
 msgstr "재생"
 
-#: ball/st_title.c:180
+#: ball/st_title.c:182
 msgid "menu^Help"
 msgstr "도움말"
 
-#: ball/st_title.c:181
-#: putt/st_all.c:239
+#: ball/st_title.c:183 putt/st_all.c:239
 msgid "menu^Options"
 msgstr "수정하기"
 
-#: ball/st_title.c:182
-#: putt/st_all.c:240
+#: ball/st_title.c:184 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "출구"
 
-#: ball/util.c:28
-msgid "Hard"
-msgstr ""
-
-#: ball/util.c:29
-msgid "Medium"
-msgstr ""
-
-#: ball/util.c:30
-msgid "Easy"
-msgstr ""
-
-#: ball/util.c:76
-#: ball/util.c:122
-msgid "Unavailable"
-msgstr ""
-
-#: ball/util.c:178
-#: ball/util.c:228
-msgid "Most Coins"
-msgstr ""
-
-#: ball/util.c:185
-#: ball/util.c:232
-msgid "Best Times"
-msgstr ""
-
-#: ball/util.c:192
-#: ball/util.c:236
-msgid "Fast Unlock"
-msgstr ""
-
-#: ball/util.c:205
-msgid "Change Name"
-msgstr ""
-
-#: ball/util.c:332
-msgid "caps"
-msgstr ""
-
-#: share/gui.c:425
-#, c-format
-msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr ""
-
-#: share/gui.c:472
-#, c-format
-msgid "Could not load font '%s'.\n"
-msgstr ""
-
-#: share/gui.h:23
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/wqy-microhei.ttc"
-
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr ""
-
-#. Translators,
-#. *
-#. * This is a mostly-complete list of human-readable SDL key names.  There
-#. * might not be corresponding names for all these keys in your language,
-#. * and that's perfectly fine -- in such cases just copy the source string.
-#.
-#: share/keyboard.c:33
-msgid "Backspace"
-msgstr ""
-
-#: share/keyboard.c:34
-msgid "Tab"
-msgstr ""
-
-#: share/keyboard.c:35
-msgid "Clear"
-msgstr ""
-
-#: share/keyboard.c:36
-msgid "Return"
-msgstr ""
-
-#: share/keyboard.c:37
-msgid "Pause"
-msgstr ""
-
-#: share/keyboard.c:38
-msgid "Escape"
-msgstr ""
-
-#: share/keyboard.c:39
-msgid "Space"
-msgstr ""
-
-#: share/keyboard.c:41
-msgid "Enter"
-msgstr ""
-
-#: share/keyboard.c:42
-msgid "Equals"
-msgstr ""
-
-#: share/keyboard.c:43
-msgid "Up"
-msgstr ""
-
-#: share/keyboard.c:44
-#: share/keyboard.c:47
-msgid "Down"
-msgstr ""
-
-#: share/keyboard.c:45
-msgid "Right"
-msgstr ""
-
-#: share/keyboard.c:46
-msgid "Left"
-msgstr ""
-
-#: share/keyboard.c:48
-msgid "Insert"
-msgstr ""
-
-#: share/keyboard.c:49
-msgid "Home"
-msgstr ""
-
-#: share/keyboard.c:50
-msgid "End"
-msgstr ""
-
-#: share/keyboard.c:51
-msgid "Page Up"
-msgstr ""
-
-#: share/keyboard.c:52
-msgid "Page Down"
-msgstr ""
-
-#: share/keyboard.c:53
-msgid "F1"
-msgstr ""
-
-#: share/keyboard.c:54
-msgid "F2"
-msgstr ""
-
-#: share/keyboard.c:55
-msgid "F3"
-msgstr ""
-
-#: share/keyboard.c:56
-msgid "F4"
-msgstr ""
-
-#: share/keyboard.c:57
-msgid "F5"
-msgstr ""
-
-#: share/keyboard.c:58
-msgid "F6"
-msgstr ""
-
-#: share/keyboard.c:59
-msgid "F7"
-msgstr ""
-
-#: share/keyboard.c:60
-msgid "F8"
-msgstr ""
-
-#: share/keyboard.c:61
-msgid "F9"
-msgstr ""
-
-#: share/keyboard.c:62
-msgid "F10"
-msgstr ""
-
-#: share/keyboard.c:63
-msgid "F11"
-msgstr ""
-
-#: share/keyboard.c:64
-msgid "F12"
-msgstr ""
-
-#: share/keyboard.c:65
-msgid "F13"
-msgstr ""
-
-#: share/keyboard.c:66
-msgid "F14"
-msgstr ""
-
-#: share/keyboard.c:67
-msgid "F15"
-msgstr ""
-
-#: share/keyboard.c:68
-msgid "Num Lock"
-msgstr ""
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "재생의 이름"
 
-#: share/keyboard.c:69
-msgid "Caps Lock"
+#: ball/st_save.c:111
+msgid "Save"
 msgstr ""
 
-#: share/keyboard.c:70
-msgid "Scroll Lock"
+#: ball/st_save.c:217
+msgid "Overwrite?"
 msgstr ""
 
-#: share/keyboard.c:71
-msgid "Right Shift"
+#: ball/st_save.c:223
+msgid "Overwrite"
 msgstr ""
 
-#: share/keyboard.c:72
-msgid "Left Shift"
+#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
+#: share/st_common.c:384
+msgid "Off"
 msgstr ""
 
-#: share/keyboard.c:73
-msgid "Right CTRL"
-msgstr ""
-
-#: share/keyboard.c:74
-msgid "Left CTRL"
-msgstr ""
-
-#: share/keyboard.c:75
-msgid "Right Alt"
-msgstr ""
-
-#: share/keyboard.c:76
-msgid "Left Alt"
-msgstr ""
+#: share/st_common.c:319
+msgid "2x"
+msgstr "2x"
 
-#: share/keyboard.c:77
-msgid "Right Meta"
-msgstr ""
-
-#: share/keyboard.c:78
-msgid "Left Meta"
-msgstr ""
+#: share/st_common.c:320
+msgid "4x"
+msgstr "4x"
 
-#: share/keyboard.c:79
-msgid "Left Super"
-msgstr ""
-
-#: share/keyboard.c:80
-msgid "Right Super"
-msgstr ""
+#: share/st_common.c:321
+msgid "8x"
+msgstr "8x"
 
-#: share/keyboard.c:81
-msgid "Alt Gr"
+#: share/st_common.c:337
+msgid "Unknown Display"
 msgstr ""
 
-#: share/keyboard.c:82
-msgid "Compose"
-msgstr ""
+#: share/st_common.c:341 share/st_common.c:447
+#, fuzzy
+#| msgid "Replay"
+msgid "Display"
+msgstr "재생"
 
-#: share/keyboard.c:83
-msgid "Help"
+#: share/st_common.c:347
+msgid "Fullscreen"
 msgstr ""
 
-#: share/keyboard.c:84
-msgid "Print Screen"
+#: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
+#: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
+msgid "On"
 msgstr ""
 
-#: share/keyboard.c:85
-msgid "Sys Req"
+#: share/st_common.c:350 share/st_common.c:544
+msgid "Resolution"
 msgstr ""
 
-#: share/keyboard.c:86
-msgid "Break"
+#: share/st_common.c:365
+msgid "HMD"
 msgstr ""
 
-#: share/keyboard.c:87
-msgid "Menu"
+#: share/st_common.c:371
+msgid "V-Sync"
 msgstr ""
 
-#: share/keyboard.c:88
-msgid "Power"
+#: share/st_common.c:373
+msgid "Antialiasing"
 msgstr ""
 
-#: share/keyboard.c:89
-msgid "Euro"
+#: share/st_common.c:379
+msgid "Reflection"
 msgstr ""
 
-#: share/keyboard.c:90
-msgid "Undo"
+#: share/st_common.c:381
+msgid "Background"
 msgstr ""
 
-#: share/syswm.c:58
-#, c-format
-msgid "Failed to get WM info: %s\n"
+#: share/st_common.c:383
+msgid "Shadow"
 msgstr ""
 
-#: share/syswm.c:129
-msgid "Failed to allocate memory for EWMH icon data.\n"
+#: putt/st_conf.c:158
+msgid "Select"
 msgstr ""
 
-#: putt/hole.c:160
-#: putt/hud.c:52
-#: putt/st_all.c:107
-#: putt/st_all.c:168
+#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
 msgid "Par"
 msgstr ""
 
-#: putt/hole.c:162
-#: putt/st_all.c:108
-#: putt/st_all.c:169
+#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
 msgid "P1"
 msgstr ""
 
-#: putt/hole.c:163
-#: putt/st_all.c:109
-#: putt/st_all.c:170
+#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
 msgid "P2"
 msgstr ""
 
-#: putt/hole.c:164
-#: putt/st_all.c:110
-#: putt/st_all.c:171
+#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
 msgid "P3"
 msgstr ""
 
-#: putt/hole.c:165
-#: putt/st_all.c:111
-#: putt/st_all.c:172
+#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
 msgid "P4"
 msgstr ""
 
@@ -941,45 +609,33 @@ msgstr ""
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:350
+#: putt/st_all.c:361
 msgid "Select Course"
 msgstr ""
 
-#: putt/st_all.c:518
+#: putt/st_all.c:529
 msgid "Players?"
 msgstr ""
 
-#: putt/st_all.c:722
+#: putt/st_all.c:731
 #, c-format
 msgid "Hole %02d"
 msgstr ""
 
-#: putt/st_all.c:1048
+#: putt/st_all.c:1064
 msgid "It's In!"
 msgstr ""
 
-#: putt/st_all.c:1190
+#: putt/st_all.c:1207
 msgid "1 Stroke Penalty"
 msgstr ""
 
-#: putt/st_all.c:1268
+#: putt/st_all.c:1285
 msgid "Scores"
 msgstr ""
 
-#: putt/st_all.c:1321
+#: putt/st_all.c:1338
 msgid "Final Scores"
-msgstr ""
-
-#: putt/st_conf.c:188
-msgid "Low"
-msgstr ""
-
-#: putt/st_conf.c:189
-msgid "High"
-msgstr ""
-
-#: putt/st_conf.c:194
-msgid "Textures"
 msgstr ""
 
 #: data/set-easy.txt
@@ -987,7 +643,9 @@ msgid "Neverball Easy"
 msgstr ""
 
 #: data/set-easy.txt
-msgid "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgid ""
+"Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
+"learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
 
 #: data/set-medium.txt
@@ -995,7 +653,9 @@ msgid "Neverball Medium"
 msgstr ""
 
 #: data/set-medium.txt
-msgid "Difficulty: Beginner through Expert\\\\25 levels which provide a balanced\\challenge for players. Try to claim\\some of the records provided.\\"
+msgid ""
+"Difficulty: Beginner through Expert\\\\25 levels which provide a balanced"
+"\\challenge for players. Try to claim\\some of the records provided.\\"
 msgstr ""
 
 #: data/set-hard.txt
@@ -1003,7 +663,10 @@ msgid "Neverball Hard"
 msgstr ""
 
 #: data/set-hard.txt
-msgid "Difficulty: Intermediate through Expert\\\\25 levels with more of a challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, and Fast Unlock records.\\"
+msgid ""
+"Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
 msgstr ""
 
 #: data/set-mym.txt
@@ -1011,7 +674,9 @@ msgid "Tour de force"
 msgstr ""
 
 #: data/set-mym.txt
-msgid "Difficulty: Expert through Insane\\\\25 levels with even greater challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-mym2.txt
@@ -1019,7 +684,9 @@ msgid "Retour de force"
 msgstr ""
 
 #: data/set-mym2.txt
-msgid "Difficulty: A little bit harder than my first set.\\\\More challenge, particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-fwp.txt
@@ -1027,7 +694,9 @@ msgid "Nevermania"
 msgstr ""
 
 #: data/set-fwp.txt
-msgid "Difficulty: Expert through Impossible\\\\Assorted levels for advanced players.\\Author: Florian Priester\\\\"
+msgid ""
+"Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
+"players.\\Author: Florian Priester\\\\"
 msgstr ""
 
 #: data/set-tones.txt
@@ -1047,7 +716,9 @@ msgid "Unsorted levels\\For testing purposes\\\\\\\\"
 msgstr ""
 
 #: data/holes-putt.txt
-msgid "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ \\Difficulty: Easy to Medium\\Author: rlk\\"
+msgid ""
+"The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
+"\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
 
 #: data/holes-paxed.txt
@@ -1063,7 +734,8 @@ msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr ""
 
 #: data/holes-abc.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
 
 #: data/holes-slippi.txt
@@ -1071,96 +743,149 @@ msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
 msgstr ""
 
 #: data/holes-kk.txt
-msgid "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert Through Insane\\Author: Byron James Johnson"
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson"
 msgstr ""
 
 #: data/holes-vidski.txt
-msgid "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard.\\Author: vidski\\"
+msgid ""
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
+"\\Author: vidski\\"
 msgstr ""
 
 #: data/gui/ball.map data/map-easy/peasy.map
-msgid "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click to begin.\\"
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 
 #: data/map-easy/bumper.map
-msgid "Try to avoid being hit by moving objects.\\One bump can throw the ball\\completely out of control.\\"
+msgid ""
+"Try to avoid being hit by moving objects.\\One bump can throw the ball"
+"\\completely out of control.\\"
 msgstr ""
 
 #: data/map-easy/bumps.map
-msgid "Learn to control a bouncing ball.\\Look at the shadow to know where the\\ball will land.  If you're feeling confident in\\your mastery of bouncing, take a risk\\for a big payoff.\\"
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where the"
+"\\ball will land.  If you're feeling confident in\\your mastery of bouncing, "
+"take a risk\\for a big payoff.\\"
 msgstr ""
 
 #: data/map-easy/coins.map
-msgid "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to begin.\\"
+msgid ""
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
 msgstr ""
 
 #: data/map-easy/corners.map
-msgid "Here are some more opportunities for you to\\fall off into the void. Hit the bump hard to\\grab some big coins and score a short time.\\"
+msgid ""
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
 
 #: data/map-easy/curved.map
-msgid "As before, but without the training wheels.\\Keep the ball on a level floor\\and maintain precise control.\\Build some momentum to reach the corners.\\"
+msgid ""
+"As before, but without the training wheels.\\Keep the ball on a level floor"
+"\\and maintain precise control.\\Build some momentum to reach the corners.\\"
 msgstr ""
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
-msgid "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
 
 #: data/map-easy/easyhalfpipe.map
-msgid "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over accelerate and you will\\be able to stay in control."
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
 msgstr ""
 
 #: data/map-easy/fence.map
-msgid "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope remains level.\\This way, you maintain full control of the ball.\\Use momentum to get up to the big coins.\\"
+msgid ""
+"''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
+"remains level.\\This way, you maintain full control of the ball.\\Use "
+"momentum to get up to the big coins.\\"
 msgstr ""
 
 #: data/map-easy/goals.map
-msgid "There are 100 coins here.\\This one shouldn't be too difficult,\\if you don't accidentally make a goal first.\\"
+msgid ""
+"There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
+"don't accidentally make a goal first.\\"
 msgstr ""
 
 #: data/map-easy/goslow.map
-msgid "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower speed means better control.\\Watch the clock and use the time wisely.\\"
+msgid ""
+"Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
+"speed means better control.\\Watch the clock and use the time wisely.\\"
 msgstr ""
 
 #: data/map-easy/greed.map
-msgid "Each bridge is narrower than the one before.\\But each pays better than the last as well!\\You get to decide how far you go on this one.\\"
+msgid ""
+"Each bridge is narrower than the one before.\\But each pays better than the "
+"last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
 
 #: data/map-easy/groundbreak.map
-msgid "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole instead of falling into it."
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
 msgstr ""
 
 #: data/map-easy/hole.map
-msgid "Stay away from the edges!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgid ""
+"Stay away from the edges!\\When approaching a drop, begin slowing down"
+"\\early. You need just as much room to slow\\down as you did to speed up.\\"
 msgstr ""
 
 #: data/map-easy/lollipop.map
-msgid "Follow the yellow lick road!\\\\The blue coins are especially challenging,\\but with some experimentation and practice,\\you'll be able to collect them all."
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
 msgstr ""
 
 #: data/map-easy/maze.map
-msgid "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgid ""
+"The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
+"and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
 
 #: data/map-easy/mazebump.map
-msgid "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers - it will help you\\to reach the goal."
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
 msgstr ""
 
 #: data/map-easy/mover.map
-msgid "A moving platform can be tricky.\\Use precise timing to get aboard,\\and precise balance to stay there.\\Don't let it move out from under you.\\Ride the platforms to grab the big coins.\\"
+msgid ""
+"A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
+"precise balance to stay there.\\Don't let it move out from under you.\\Ride "
+"the platforms to grab the big coins.\\"
 msgstr ""
 
 #: data/map-easy/roundcoins.map
-msgid "When you are on the elevators,\\make small adjustments to keep the ball steady.\\You can collect many coins by\\keeping the ball in one place.\\Too much movement and you will fall off."
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
 msgstr ""
 
 #: data/map-easy/roundlaby.map
-msgid "There is only one path to reach the goal,\\but lots of paths for collecting coins.\\Make sure you collect enough\\to unlock the goal."
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
 msgstr ""
 
 #: data/map-easy/slalom.map
-msgid "Follow the trail of coins to reach the goal.\\If you hit a post while moving quickly,\\you will bounce far off course."
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
 msgstr ""
 
 #: data/map-easy/slightcurve.map
@@ -1168,7 +893,10 @@ msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
 msgstr ""
 
 #: data/map-easy/speedbumps.map
-msgid "When the ball is on a moving platform,\\it will be pulled in the direction of movement.\\Use the rails to steady yourself,\\and collect the coins you need\\to open the goal."
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
 msgstr ""
 
 #: data/map-easy/thwomp2.map
@@ -1176,7 +904,9 @@ msgid "Grab all the coins...\\but don't get bullied!"
 msgstr ""
 
 #: data/map-easy/wakka.map
-msgid "Here's another coin grab.\\Perhaps you already know a good route.\\Teleportation might come in handy.\\"
+msgid ""
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
 msgstr ""
 
 #: data/map-fwp/adventure.map
@@ -1201,6 +931,10 @@ msgstr ""
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr ""
+
+#: data/map-fwp/inferno.map
+msgid "=Inferno=\\The fire thwomps will try to foil your mission."
 msgstr ""
 
 #: data/map-fwp/ladybirds.map
@@ -1264,11 +998,15 @@ msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
 msgstr ""
 
 #: data/map-hard/curbs.map
-msgid "To make progress here you'll need to hit the\\edges hard and control your bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgid ""
+"To make progress here you'll need to hit the\\edges hard and control your "
+"bouncing.\\It's often easiest to hit the curb at a corner.\\"
 msgstr ""
 
 #: data/map-hard/flip.map
-msgid "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each trigger switches colors in direct contact."
+msgid ""
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
 msgstr ""
 
 #: data/map-hard/frogger.map
@@ -1276,7 +1014,9 @@ msgid "Ribbit!\\"
 msgstr ""
 
 #: data/map-hard/gaps.map
-msgid "Time the switches carefully to synchronize\\the motion of the platforms.\\Move quickly across the gaps.\\"
+msgid ""
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
 msgstr ""
 
 #: data/map-hard/grid.map
@@ -1284,7 +1024,9 @@ msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
 msgstr ""
 
 #: data/map-hard/hallways.map
-msgid "Control your speed and your bounces.\\Teleporters will always bring you\\back somewhere in the level."
+msgid ""
+"Control your speed and your bounces.\\Teleporters will always bring you"
+"\\back somewhere in the level."
 msgstr ""
 
 #: data/map-hard/hump.map
@@ -1292,7 +1034,9 @@ msgid "Momentum may work against you.\\"
 msgstr ""
 
 #: data/map-hard/invis.map
-msgid "Allow your greed to guide you.\\For an added challenge,\\try to get to all of the coins.\\It can be done without guesswork.\\"
+msgid ""
+"Allow your greed to guide you.\\For an added challenge,\\try to get to all "
+"of the coins.\\It can be done without guesswork.\\"
 msgstr ""
 
 #: data/map-hard/movers.map
@@ -1300,7 +1044,10 @@ msgid "Go for a ride.\\"
 msgstr ""
 
 #: data/map-hard/nostairs.map
-msgid "There are two goals here.\\You can complete this level\\the easy way or the hard way.\\Of course, by going the easy way\\you can forget about all\\those red and blue coins."
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
 msgstr ""
 
 #: data/map-hard/paths.map
@@ -1316,7 +1063,9 @@ msgid "Slow and steady.\\"
 msgstr ""
 
 #: data/map-hard/pyramid.map
-msgid "You'll only get about 15 seconds at each step,\\so don't delay.  Get the coins and\\get to the next switch.\\"
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
 msgstr ""
 
 #: data/map-hard/quads.map
@@ -1332,7 +1081,9 @@ msgid "So close, yet so very far.\\"
 msgstr ""
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
-msgid "Ride the elevators to the top.\\They move quickly,\\so don't dally too long.\\"
+msgid ""
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
 msgstr ""
 
 #: data/map-hard/spiralin.map
@@ -1344,11 +1095,16 @@ msgid "Don't worry.\\The green part isn't going anywhere.\\"
 msgstr ""
 
 #: data/map-hard/sync.map
-msgid "Use the switches to set the platforms\\in motion.  Time it so they come\\together in the middle.\\"
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they come"
+"\\together in the middle.\\"
 msgstr ""
 
 #: data/map-hard/teleport.map
-msgid "The ball must be entirely within a teleporter\\in order to trigger it.\\Remember that the ball carries its momentum\\through a teleporter, so plan ahead.\\"
+msgid ""
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
 msgstr ""
 
 #: data/map-hard/tilt.map
@@ -1360,7 +1116,9 @@ msgid "Stairway to heaven"
 msgstr ""
 
 #: data/map-medium/angle.map
-msgid "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take the easy cash or\\go all the way for a big payoff.\\"
+msgid ""
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
 
 #: data/map-medium/coneskeleton.map
@@ -1368,11 +1126,15 @@ msgid "Plenty of coins for the taking.\\Can you take them all?"
 msgstr ""
 
 #: data/map-medium/cross.map
-msgid "Use momentum to reach\\the upper platforms,\\but keep the ball in control\\for safe landing.\\\\The manual view may help here.\\"
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in control"
+"\\for safe landing.\\\\The manual view may help here.\\"
 msgstr ""
 
 #: data/map-medium/drops.map
-msgid "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgid ""
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
 
 #: data/map-medium/easytele.map
@@ -1392,7 +1154,10 @@ msgid "Catch the train before it leaves the station.\\"
 msgstr ""
 
 #: data/map-medium/learngrow.map
-msgid "The ball will fit in those small holes,\\if you can just find something to make it smaller.\\Other places may require a bigger ball.\\One thing is certain - you'll want a plan!"
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
 msgstr ""
 
 #: data/map-medium/locks.map
@@ -1400,7 +1165,9 @@ msgid "Hit the switches to move the barriers.\\"
 msgstr ""
 
 #: data/map-medium/multicurves.map
-msgid "The temptation to move quickly\\could prove your undoing.\\\\Then again, maybe not..."
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
 msgstr ""
 
 #: data/map-medium/plinko.map
@@ -1412,35 +1179,51 @@ msgid "You can never go home again..."
 msgstr ""
 
 #: data/map-medium/rampdn.map
-msgid "You'll need to exert some control over your\\view here.  Press 3 to stop the auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to return to the auto-rotating view.\\"
+msgid ""
+"You'll need to exert some control over your\\view here.  Press 3 to stop the "
+"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"return to the auto-rotating view.\\"
 msgstr ""
 
 #: data/map-medium/roundfloors.map
-msgid "This wedding cake is plenty rich,\\but be careful as you go\\to each lower layer."
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
 msgstr ""
 
 #: data/map-medium/sparselines.map
-msgid "Bump the logs at speed to change lanes.\\Try to reach the top for an extra challenge!"
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
 msgstr ""
 
 #: data/map-medium/spiraldn.map
-msgid "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might work.\\"
+msgid ""
+"Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
+"work.\\"
 msgstr ""
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
 
 #: data/map-medium/stairs.map
-msgid "Here's yet another test of your ability\\to control bouncing.  Moving down the\\stairs too quickly can be hazardous.\\"
+msgid ""
+"Here's yet another test of your ability\\to control bouncing.  Moving down "
+"the\\stairs too quickly can be hazardous.\\"
 msgstr ""
 
 #: data/map-medium/telemaze.map
-msgid "This maze has no walls.\\But that doesn't make the solution\\any easier to find.\\"
+msgid ""
+"This maze has no walls.\\But that doesn't make the solution\\any easier to "
+"find.\\"
 msgstr ""
 
 #: data/map-medium/timer.map
-msgid "That one switch controls all five barriers.\\Be quick, because the switch is on a timer.\\When it expires, the barriers will rise.\\"
+msgid ""
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
 
 #: data/map-medium/title.map
@@ -1452,11 +1235,15 @@ msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr ""
 
 #: data/map-medium/zigzag.map
-msgid "There are plenty of coins here if you're\\willing to take the time to grab them.\\"
+msgid ""
+"There are plenty of coins here if you're\\willing to take the time to grab "
+"them.\\"
 msgstr ""
 
 #: data/map-misc/bigball-old.map
-msgid "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a challenge."
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
 msgstr ""
 
 #: data/map-misc/billiard.map
@@ -1468,7 +1255,9 @@ msgid "Block around the clock."
 msgstr ""
 
 #: data/map-misc/bounce.map
-msgid "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the 'chase' camera mode."
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
 msgstr ""
 
 #: data/map-misc/bounce2.map
@@ -1476,7 +1265,9 @@ msgid "Follow the arrows."
 msgstr ""
 
 #: data/map-misc/checkers.map
-msgid "It's a real game of checkers, but no one wins...\\You have to bounce to reach the blue coins."
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
 msgstr ""
 
 #: data/map-misc/elevator.map
@@ -1536,7 +1327,10 @@ msgid "La ballade tranquille.\\What a quiet walk."
 msgstr ""
 
 #: data/map-mym/dance2.map
-msgid "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After activating the last moving platform,\\ turn around the Thwomp until the goal is reachable."
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
 msgstr ""
 
 #: data/map-mym/descent.map
@@ -1544,11 +1338,15 @@ msgid "La descente infernale.\\Easy enough to start?"
 msgstr ""
 
 #: data/map-mym/drive1.map
-msgid "La conduite stressante.\\Attention:\\The platform under the ball moves forward."
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
 msgstr ""
 
 #: data/map-mym/drive2.map
-msgid "La conduite dangereuse.\\The platform under the ball moves quickly forward.\\You would do well to advance."
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
 msgstr ""
 
 #: data/map-mym/earthquake.map
@@ -1572,7 +1370,9 @@ msgid "Les boucles renversantes.\\Upside down!"
 msgstr ""
 
 #: data/map-mym/loop2.map
-msgid "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to land..."
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
 msgstr ""
 
 #: data/map-mym/maze1.map
@@ -1580,11 +1380,15 @@ msgid "Le chemin dissimulé.\\Test your memory."
 msgstr ""
 
 #: data/map-mym/maze2.map
-msgid "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking another one?"
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
 msgstr ""
 
 #: data/map-mym/narrow.map
-msgid "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first slope."
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
+"slope."
 msgstr ""
 
 #: data/map-mym/running.map
@@ -1592,7 +1396,8 @@ msgid "Les épreuves minutées.\\Run baby, run!"
 msgstr ""
 
 #: data/map-mym/scrambling.map
-msgid "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
 
 #: data/map-mym/snow.map
@@ -1636,11 +1441,16 @@ msgid "Les sauts du célèbre plombier.\\Follow the coins."
 msgstr ""
 
 #: data/map-mym2/fall.map
-msgid "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 teleports to unlock and reach the goal."
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
 msgstr ""
 
 #: data/map-mym2/freefall.map
-msgid "This level is full of challenges:\\understand the level's functioning,\\learn to fly and to survive,\\grab half of all coins to open the goal,\\find and reach the goal,\\and more..."
+msgid ""
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
 msgstr ""
 
 #: data/map-mym2/grinder.map
@@ -1652,7 +1462,9 @@ msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
 msgstr ""
 
 #: data/map-mym2/longpipe.map
-msgid "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last jump!"
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
 msgstr ""
 
 #: data/map-mym2/morenarrow.map
@@ -1740,7 +1552,9 @@ msgid "Work your way to the top."
 msgstr ""
 
 #: data/map-tones/easyian.map
-msgid "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain enough speed\\for the jump."
+msgid ""
+"Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
+"enough speed\\for the jump."
 msgstr ""
 
 #: data/map-tones/easyone.map
@@ -1772,7 +1586,8 @@ msgid "Walk the plank.\\After the teleport, go for speed!"
 msgstr ""
 
 #: data/map-tones/skiball.map
-msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgid ""
+"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
 msgstr ""
 
 #: data/map-tones/swish.map
@@ -1784,7 +1599,9 @@ msgid "What goes down must come up!\\"
 msgstr ""
 
 #: data/map-tones/tonesmaze.map
-msgid "Make sure you are\\safely on a purple platform\\before 20 seconds have elapsed!"
+msgid ""
+"Make sure you are\\safely on a purple platform\\before 20 seconds have "
+"elapsed!"
 msgstr ""
 
 #: data/map-tones/twisted.map
@@ -1829,3 +1646,11 @@ msgstr ""
 msgid "item/coin/coin"
 msgstr ""
 
+#~ msgid "Missing format character in replay name\n"
+#~ msgstr "재생 이름에 놓친 문자 있어요\n"
+
+#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
+#~ msgstr "재생 이름에 정당하지 않은 문자 있어요: \"%%%c\"\n"
+
+#~ msgid "ttf/DejaVuSans-Bold.ttf"
+#~ msgstr "ttf/wqy-microhei.ttc"

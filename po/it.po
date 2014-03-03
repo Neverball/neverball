@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2013-11-30 01:59+0200\n"
+"POT-Creation-Date: 2014-03-03 06:42+0200\n"
 "PO-Revision-Date: 2012-12-09 21:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
@@ -18,6 +18,48 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Language: Italian\n"
 "X-Poedit-Country: ITALY\n"
+
+#: ball/st_conf.c:157 putt/st_conf.c:104
+msgid "Options"
+msgstr "Opzioni"
+
+#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Video"
+
+#: ball/st_conf.c:159 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Configura"
+
+#: ball/st_conf.c:163
+msgid "Mouse Sensitivity"
+msgstr "Sensibilità"
+
+#: ball/st_conf.c:168 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Volume"
+
+#: ball/st_conf.c:170 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Musica"
+
+#: ball/st_conf.c:175 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Nome"
+
+#: ball/st_conf.c:176 ball/st_ball.c:180
+msgid "Ball Model"
+msgstr "Modello"
+
+#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Lingua"
+
+#: ball/st_conf.c:191 share/st_common.c:666
+#, fuzzy
+#| msgid "System Default"
+msgid "Default"
+msgstr "Opzioni di sistema predefinite"
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -31,209 +73,11 @@ msgstr "Ai posti..."
 msgid "GO!"
 msgstr "Via"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Nome del Replay"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Salva"
-
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Cancellare"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Sovrascrivere?"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Sovrascrivo"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr "snd/select.ogg"
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr "snd/ready.ogg"
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr "snd/set.ogg"
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr "snd/go.ogg"
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr "snd/record.ogg"
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr "snd/fall.ogg"
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr "snd/time.ogg"
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr "snd/over.ogg"
-
-#: ball/st_start.c:174 ball/st_demo.c:307 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2281 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "<<"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Sfida"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Sbloccato"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Bloccato"
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "Stato Obiettivo in Livelli Completati"
-
-#: ball/st_conf.c:159 putt/st_conf.c:104
-msgid "Options"
-msgstr "Opzioni"
-
-#: ball/st_conf.c:161 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Video"
-
-#: ball/st_conf.c:161 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Configura"
-
-#: ball/st_conf.c:165
-msgid "Mouse Sensitivity"
-msgstr "Sensibilità"
-
-#: ball/st_conf.c:170 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Volume"
-
-#: ball/st_conf.c:172 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Musica"
-
-#: ball/st_conf.c:177 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Nome"
-
-#: ball/st_conf.c:178 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Modello"
-
-#: ball/st_conf.c:179 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Lingua"
-
-#: ball/st_conf.c:193 share/st_common.c:666
-#, fuzzy
-#| msgid "System Default"
-msgid "Default"
-msgstr "Opzioni di sistema predefinite"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Nuovo Record generale"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Set Completato!"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Seleziona un livello"
-
-#: ball/progress.c:417 ball/st_help.c:259
-msgid "Challenge Mode"
-msgstr "Modalità Sfida"
-
-#: ball/progress.c:418 ball/st_help.c:246
-msgid "Normal Mode"
-msgstr "Modalità Sblocco"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normale"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr "Modalità Singola"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr "Portabile"
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Modalità sconosciuta"
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Sconosciuto"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Sei Caduto!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Tempo scaduto!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Esci"
-
-#: ball/st_fail.c:98 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Livello Successivo"
-
-#: ball/st_fail.c:101 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Riprova"
-
-#: ball/st_fail.c:104 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Salva Replay"
-
-#: ball/demo.c:227
-msgid "Missing format character in replay name\n"
-msgstr "Formato carattere assente nel nome del raplay\n"
-
-#: ball/demo.c:232
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr "Formato carattere non valido nel nome del raplay: \"%%%c\"\n"
-
-#: ball/set.c:276
-#, c-format
-msgid "Failure to load set file '%s'\n"
-msgstr "Errore durante il caricamento del file del set '%s'\n"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
-
 #: ball/st_demo.c:201
 msgid "Time"
 msgstr "Tempo"
 
-#: ball/st_demo.c:202 ball/hud.c:68 ball/st_goal.c:166
+#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
 msgid "Coins"
 msgstr "Monete"
 
@@ -260,6 +104,12 @@ msgstr "Seleziona Replay"
 #: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "Nessun Replay"
+
+#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "<<"
 
 #: ball/st_demo.c:601
 msgid "Replay Paused"
@@ -367,6 +217,10 @@ msgstr "Manuale"
 msgid "Screenshot"
 msgstr "Screenshot"
 
+#: ball/st_help.c:246 ball/progress.c:418
+msgid "Normal Mode"
+msgstr "Modalità Sblocco"
+
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
@@ -374,6 +228,10 @@ msgid ""
 msgstr ""
 "Termina il livello prima dello scadere\\ del tempo per completare il livello."
 "\\ Prendi tutte le monete per raggiungere l'obiettivo."
+
+#: ball/st_help.c:259 ball/progress.c:417
+msgid "Challenge Mode"
+msgstr "Modalità Sfida"
 
 #: ball/st_help.c:261
 msgid ""
@@ -419,6 +277,10 @@ msgstr "Vittoria"
 msgid "Fall-out"
 msgstr "Caduto!"
 
+#: ball/game_common.c:32 ball/progress.c:420
+msgid "Unknown"
+msgstr "Sconosciuto"
+
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -432,18 +294,6 @@ msgstr "Pausa"
 msgid "Restart"
 msgstr "Riparti"
 
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Goal"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Palline"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Punteggio"
-
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Nuovo Record"
@@ -452,41 +302,113 @@ msgstr "Nuovo Record"
 msgid "GOAL"
 msgstr "FINITO!"
 
+#: ball/st_goal.c:154 ball/hud.c:89
+msgid "Balls"
+msgstr "Palline"
+
+#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
+msgid "Score"
+msgstr "Punteggio"
+
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Esci"
 
+#: ball/st_goal.c:220 ball/st_fail.c:98
+msgid "Next Level"
+msgstr "Livello Successivo"
+
+#: ball/st_goal.c:223 ball/st_fail.c:101
+msgid "Retry Level"
+msgstr "Riprova"
+
+#: ball/st_goal.c:226 ball/st_fail.c:104
+msgid "Save Replay"
+msgstr "Salva Replay"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Goal"
+
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Sfida"
+
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr "Sbloccato"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr "Bloccato"
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr "Stato Obiettivo in Livelli Completati"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Nuovo Record generale"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Set Completato!"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Seleziona un livello"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normale"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr "Modalità Singola"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr "Portabile"
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Modalità sconosciuta"
+
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Level Set"
-
-#: ball/level.c:138
-#, c-format
-msgid "Failure to load level file '%s'\n"
-msgstr "Errore nel caricamento del livello '%s'\n"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Livello Bonus %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Livello %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr "Livello singolo"
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
-"Impossibile scrivere un file di replay.\\Questa partita non verrà registrata."
-"\\"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -524,9 +446,52 @@ msgstr "Cambia Nome"
 msgid "caps"
 msgstr "Caps"
 
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Cancellare"
+
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "Game Over"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Sei Caduto!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Tempo scaduto!"
+
+#: ball/st_fail.c:95
+msgid "Exit"
+msgstr "Esci"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Livello Bonus %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Livello %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr "Livello singolo"
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
+"Impossibile scrivere un file di replay.\\Questa partita non verrà registrata."
+"\\"
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -552,24 +517,21 @@ msgstr "Configura"
 msgid "menu^Exit"
 msgstr "Esci"
 
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr "Impossibile caricare la superficie SDL_ttf: %s\n"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Nome del Replay"
 
-#: share/gui.c:432
-#, c-format
-msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr "Il font '%s' non esiste, provare con il carattere predefinito.\n"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Salva"
 
-#: share/gui.c:479
-#, c-format
-msgid "Could not load font '%s'.\n"
-msgstr "Impossibile caricare il font '%s'.\n"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Sovrascrivere?"
 
-#: share/gui.h:23
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/DejaVuSans-Bold.ttf"
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Sovrascrivo"
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -1826,6 +1788,30 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
+
+#~ msgid "Missing format character in replay name\n"
+#~ msgstr "Formato carattere assente nel nome del raplay\n"
+
+#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
+#~ msgstr "Formato carattere non valido nel nome del raplay: \"%%%c\"\n"
+
+#~ msgid "Failure to load set file '%s'\n"
+#~ msgstr "Errore durante il caricamento del file del set '%s'\n"
+
+#~ msgid "Failure to load level file '%s'\n"
+#~ msgstr "Errore nel caricamento del livello '%s'\n"
+
+#~ msgid "Failed to convert SDL_ttf surface: %s\n"
+#~ msgstr "Impossibile caricare la superficie SDL_ttf: %s\n"
+
+#~ msgid "Font '%s' doesn't exist, trying default font.\n"
+#~ msgstr "Il font '%s' non esiste, provare con il carattere predefinito.\n"
+
+#~ msgid "Could not load font '%s'.\n"
+#~ msgstr "Impossibile caricare il font '%s'.\n"
+
+#~ msgid "ttf/DejaVuSans-Bold.ttf"
+#~ msgstr "ttf/DejaVuSans-Bold.ttf"
 
 #~ msgid ""
 #~ "Usage: %s [options ...]\n"

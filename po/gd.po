@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.4.1\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2013-11-30 01:59+0200\n"
+"POT-Creation-Date: 2014-03-03 06:42+0200\n"
 "PO-Revision-Date: 2013-04-29 10:34-0000\n"
 "Last-Translator: GunChleoc <fiosAIGforamnagaidhligDOTnet>\n"
 "Language-Team: Fòram na Gàidhlig http://www.foramnagaidhlig.net\n"
@@ -17,6 +17,46 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
 "X-Generator: Poedit 1.5.5\n"
+
+#: ball/st_conf.c:157 putt/st_conf.c:104
+msgid "Options"
+msgstr "Roghainnean"
+
+#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Grafaigeachd"
+
+#: ball/st_conf.c:159 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Rèitich"
+
+#: ball/st_conf.c:163
+msgid "Mouse Sensitivity"
+msgstr "Mothalachd na luchaige"
+
+#: ball/st_conf.c:168 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Àirde fuaime"
+
+#: ball/st_conf.c:170 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Àirde ciùil"
+
+#: ball/st_conf.c:175 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Ainm a' chluicheadair"
+
+#: ball/st_conf.c:176 ball/st_ball.c:180
+msgid "Ball Model"
+msgstr "Modail bàla"
+
+#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:191 share/st_common.c:666
+msgid "Default"
+msgstr ""
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -30,208 +70,11 @@ msgstr "Deònach?"
 msgid "GO!"
 msgstr "DÈAN ÀS!"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Ainm an ath-chluiche"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Sàbhail"
-
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Sgur dheth"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Sgrìobhadh thairis air?"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Sgrìobh thairis air"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr "snd/gd/select.ogg"
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr "snd/gd/ready.ogg"
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr "snd/gd/set.ogg"
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr "snd/gd/go.ogg"
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr "snd/gd/record.ogg"
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr "snd/gd/fall.ogg"
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr "snd/gd/time.ogg"
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr "snd/gd/over.ogg"
-
-#: ball/st_start.c:174 ball/st_demo.c:307 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2281 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Air ais"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Dùbhlan"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Fosgailte"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Glaiste"
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "Targaidean nan leibheilean coileanta"
-
-#: ball/st_conf.c:159 putt/st_conf.c:104
-msgid "Options"
-msgstr "Roghainnean"
-
-#: ball/st_conf.c:161 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Grafaigeachd"
-
-#: ball/st_conf.c:161 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Rèitich"
-
-#: ball/st_conf.c:165
-msgid "Mouse Sensitivity"
-msgstr "Mothalachd na luchaige"
-
-#: ball/st_conf.c:170 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Àirde fuaime"
-
-#: ball/st_conf.c:172 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Àirde ciùil"
-
-#: ball/st_conf.c:177 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Ainm a' chluicheadair"
-
-#: ball/st_conf.c:178 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Modail bàla"
-
-#: ball/st_conf.c:179 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:193 share/st_common.c:666
-msgid "Default"
-msgstr ""
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Sàr-thoradh ùr an t-seata"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Seata coileanta"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Tagh leibheil"
-
-#: ball/progress.c:417 ball/st_help.c:259
-msgid "Challenge Mode"
-msgstr "Modh dùbhlain"
-
-#: ball/progress.c:418 ball/st_help.c:246
-msgid "Normal Mode"
-msgstr "Modh àbhaisteach"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Àbhaisteach"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr "Modh aon-seasmhach"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr "Aon-seasmhach"
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Modh neo-aithnichte"
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Neo-aithnichte"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Thuit thu!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Ùine air falbh!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Fàg an-seo"
-
-#: ball/st_fail.c:98 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "An t-ath fhear"
-
-#: ball/st_fail.c:101 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Feuch ris a-rithist"
-
-#: ball/st_fail.c:104 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Sàbhail ath-chluich"
-
-#: ball/demo.c:227
-msgid "Missing format character in replay name\n"
-msgstr "Caractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
-
-#: ball/demo.c:232
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr ""
-"Caractar fòrmataidh mì-dhligheach ann an ainm an ath-chluiche: \"%%%c\"\n"
-
-#: ball/set.c:276
-#, c-format
-msgid "Failure to load set file '%s'\n"
-msgstr "Cha ghabh am faidhle-seata '%s' a luchdadh\n"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "Ceart ma-thà"
-
 #: ball/st_demo.c:201
 msgid "Time"
 msgstr "Ùine"
 
-#: ball/st_demo.c:202 ball/hud.c:68 ball/st_goal.c:166
+#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
 msgid "Coins"
 msgstr "Buinn"
 
@@ -258,6 +101,12 @@ msgstr "Tagh ath-chluiche"
 #: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "Chan eil ath-chluiche ann"
+
+#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "Air ais"
 
 #: ball/st_demo.c:601
 msgid "Replay Paused"
@@ -365,6 +214,10 @@ msgstr "Camara a làimh"
 msgid "Screenshot"
 msgstr "Glacadh-sgrìn"
 
+#: ball/st_help.c:246 ball/progress.c:418
+msgid "Normal Mode"
+msgstr "Modh àbhaisteach"
+
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
@@ -372,6 +225,10 @@ msgid ""
 msgstr ""
 "Crìochnaich leibheil mus falbh an ùine ort.\\Feumaidh tu buinn a "
 "chruinneachadh gus an targaid\\fhosgladh."
+
+#: ball/st_help.c:259 ball/progress.c:417
+msgid "Challenge Mode"
+msgstr "Modh dùbhlain"
 
 #: ball/st_help.c:261
 msgid ""
@@ -418,6 +275,10 @@ msgstr "Buaidh"
 msgid "Fall-out"
 msgstr "Thuit thu!"
 
+#: ball/game_common.c:32 ball/progress.c:420
+msgid "Unknown"
+msgstr "Neo-aithnichte"
+
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -431,18 +292,6 @@ msgstr "Na stad"
 msgid "Restart"
 msgstr "Ath-thòiseachadh"
 
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Amas"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Bàlaichean"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Sgòr"
-
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Sàr-thoradh ùr"
@@ -451,41 +300,113 @@ msgstr "Sàr-thoradh ùr"
 msgid "GOAL"
 msgstr "TARGAID"
 
+#: ball/st_goal.c:154 ball/hud.c:89
+msgid "Balls"
+msgstr "Bàlaichean"
+
+#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
+msgid "Score"
+msgstr "Sgòr"
+
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Ullamh"
 
+#: ball/st_goal.c:220 ball/st_fail.c:98
+msgid "Next Level"
+msgstr "An t-ath fhear"
+
+#: ball/st_goal.c:223 ball/st_fail.c:101
+msgid "Retry Level"
+msgstr "Feuch ris a-rithist"
+
+#: ball/st_goal.c:226 ball/st_fail.c:104
+msgid "Save Replay"
+msgstr "Sàbhail ath-chluich"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/gd/select.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/gd/ready.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/gd/set.ogg"
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/gd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/gd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/gd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/gd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/gd/over.ogg"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Amas"
+
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Dùbhlan"
+
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr "Fosgailte"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr "Glaiste"
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr "Targaidean nan leibheilean coileanta"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Sàr-thoradh ùr an t-seata"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Seata coileanta"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Tagh leibheil"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Àbhaisteach"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr "Modh aon-seasmhach"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr "Aon-seasmhach"
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Modh neo-aithnichte"
+
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Seata leibheilean"
-
-#: ball/level.c:138
-#, c-format
-msgid "Failure to load level file '%s'\n"
-msgstr "Mearachd le luchdadh an fhaidhle leibheil '%s '\n"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Leibheil duaise %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Leibheil %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr "Leibheil aon-seasmhach"
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
-"Cha do ghabh faidhle airson sgrìobhadh fhosgladh.\\Cha tèid an geama seo a "
-"chlàradh.\\"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -523,9 +444,52 @@ msgstr "Atharraich ainm"
 msgid "caps"
 msgstr "mòr"
 
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "Ceart ma-thà"
+
+#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Sgur dheth"
+
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "CRÌOCH A' GHEAMA"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Thuit thu!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Ùine air falbh!"
+
+#: ball/st_fail.c:95
+msgid "Exit"
+msgstr "Fàg an-seo"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Leibheil duaise %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Leibheil %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr "Leibheil aon-seasmhach"
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
+"Cha do ghabh faidhle airson sgrìobhadh fhosgladh.\\Cha tèid an geama seo a "
+"chlàradh.\\"
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -551,26 +515,21 @@ msgstr "Roghainnean"
 msgid "menu^Exit"
 msgstr "Fàg an-seo"
 
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr "Dh'fhàillig iompachadh an uachdair SDL_ttf: %s\n"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Ainm an ath-chluiche"
 
-#: share/gui.c:432
-#, c-format
-msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr ""
-"Chan eil an cruth-clò '%s' ann, a' fheuchainn ris a' chruth-chlò "
-"bhunaiteach.\n"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Sàbhail"
 
-#: share/gui.c:479
-#, c-format
-msgid "Could not load font '%s'.\n"
-msgstr "Cha do ghabh an cruth-clò '%s' a luchdadh.\n"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Sgrìobhadh thairis air?"
 
-#: share/gui.h:23
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/DejaVuSans-Bold.ttf"
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Sgrìobh thairis air"
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -1908,6 +1867,33 @@ msgstr "mtrl/words-gd"
 
 msgid "item/coin/coin"
 msgstr "item/coin/pound_coin"
+
+#~ msgid "Missing format character in replay name\n"
+#~ msgstr "Caractar fòrmataidh a dhìth ann an ainm an ath-chluiche\n"
+
+#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
+#~ msgstr ""
+#~ "Caractar fòrmataidh mì-dhligheach ann an ainm an ath-chluiche: \"%%%c\"\n"
+
+#~ msgid "Failure to load set file '%s'\n"
+#~ msgstr "Cha ghabh am faidhle-seata '%s' a luchdadh\n"
+
+#~ msgid "Failure to load level file '%s'\n"
+#~ msgstr "Mearachd le luchdadh an fhaidhle leibheil '%s '\n"
+
+#~ msgid "Failed to convert SDL_ttf surface: %s\n"
+#~ msgstr "Dh'fhàillig iompachadh an uachdair SDL_ttf: %s\n"
+
+#~ msgid "Font '%s' doesn't exist, trying default font.\n"
+#~ msgstr ""
+#~ "Chan eil an cruth-clò '%s' ann, a' fheuchainn ris a' chruth-chlò "
+#~ "bhunaiteach.\n"
+
+#~ msgid "Could not load font '%s'.\n"
+#~ msgstr "Cha do ghabh an cruth-clò '%s' a luchdadh.\n"
+
+#~ msgid "ttf/DejaVuSans-Bold.ttf"
+#~ msgstr "ttf/DejaVuSans-Bold.ttf"
 
 #~ msgid ""
 #~ "Usage: %s [options ...]\n"

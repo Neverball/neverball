@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball 1.5.0\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2013-11-30 01:59+0200\n"
+"POT-Creation-Date: 2014-03-03 06:42+0200\n"
 "PO-Revision-Date: 2008-10-04 21:54+0300\n"
 "Last-Translator: Jānis Rūcis <parasti@gmail.com>\n"
 "Language-Team: Latvian\n"
@@ -17,6 +17,50 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
+
+#: ball/st_conf.c:157 putt/st_conf.c:104
+msgid "Options"
+msgstr "Opcijas"
+
+#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr ""
+
+#: ball/st_conf.c:159 putt/st_conf.c:114
+msgid "Configure"
+msgstr ""
+
+#: ball/st_conf.c:163
+msgid "Mouse Sensitivity"
+msgstr ""
+
+#: ball/st_conf.c:168 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Skaņu skaļums"
+
+#: ball/st_conf.c:170 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Mūzikas skaļums"
+
+#: ball/st_conf.c:175 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Spēlētāja vārds"
+
+#: ball/st_conf.c:176 ball/st_ball.c:180
+#, fuzzy
+#| msgid "Normal Mode"
+msgid "Ball Model"
+msgstr "Normālais režīms"
+
+#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Valoda"
+
+#: ball/st_conf.c:191 share/st_common.c:666
+#, fuzzy
+#| msgid "System Default"
+msgid "Default"
+msgstr "Sistēmas valoda"
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -30,220 +74,11 @@ msgstr "Gatavību!"
 msgid "GO!"
 msgstr "AIZIET!"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Ieraksta nosaukums"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Saglabāt"
-
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Atcelt"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Pārrakstīt?"
-
-#: ball/st_save.c:223
-#, fuzzy
-#| msgid "Overwrite?"
-msgid "Overwrite"
-msgstr "Pārrakstīt?"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr ""
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr ""
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr ""
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr ""
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr ""
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr ""
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr ""
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr ""
-
-#: ball/st_start.c:174 ball/st_demo.c:307 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2281 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Atpakaļ"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Spēku pārbaude"
-
-#: ball/st_start.c:223
-#, fuzzy
-#| msgid "Caps Lock"
-msgid "Unlocked"
-msgstr "Caps Lock"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:234
-#, fuzzy
-#| msgid "Lock Goals of Completed Levels?"
-msgid "Goal State in Completed Levels"
-msgstr "Vai slēgt pabeigtu līmeņu mērķus?"
-
-#: ball/st_conf.c:159 putt/st_conf.c:104
-msgid "Options"
-msgstr "Opcijas"
-
-#: ball/st_conf.c:161 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr ""
-
-#: ball/st_conf.c:161 putt/st_conf.c:114
-msgid "Configure"
-msgstr ""
-
-#: ball/st_conf.c:165
-msgid "Mouse Sensitivity"
-msgstr ""
-
-#: ball/st_conf.c:170 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Skaņu skaļums"
-
-#: ball/st_conf.c:172 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Mūzikas skaļums"
-
-#: ball/st_conf.c:177 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Spēlētāja vārds"
-
-#: ball/st_conf.c:178 ball/st_ball.c:180
-#, fuzzy
-#| msgid "Normal Mode"
-msgid "Ball Model"
-msgstr "Normālais režīms"
-
-#: ball/st_conf.c:179 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Valoda"
-
-#: ball/st_conf.c:193 share/st_common.c:666
-#, fuzzy
-#| msgid "System Default"
-msgid "Default"
-msgstr "Sistēmas valoda"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Jauns komplekta rekords"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Komplekts pabeigts"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Izvēlies līmeni"
-
-#: ball/progress.c:417 ball/st_help.c:259
-msgid "Challenge Mode"
-msgstr "Spēku pārbaude"
-
-#: ball/progress.c:418 ball/st_help.c:246
-msgid "Normal Mode"
-msgstr "Normālais režīms"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normālais"
-
-#: ball/progress.c:419
-#, fuzzy
-#| msgid "Challenge Mode"
-msgid "Standalone Mode"
-msgstr "Spēku pārbaude"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr ""
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Nezināms režīms"
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Nezināms"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Kritiens!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Laiks cauri!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Iziet"
-
-#: ball/st_fail.c:98 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Nākošais līmenis"
-
-#: ball/st_fail.c:101 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Mēģināt vēlreiz"
-
-#: ball/st_fail.c:104 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Saglabāt ierakstu"
-
-#: ball/demo.c:227
-msgid "Missing format character in replay name\n"
-msgstr "Ieraksta nosaukumā trūkst formāta rakstzīmes\n"
-
-#: ball/demo.c:232
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr "Ieraksta nosaukumā ir nederīga formāta rakstzīme: \"%%%c\"\n"
-
-#: ball/set.c:276
-#, fuzzy, c-format
-#| msgid "Cannot load the set file '%s': %s\n"
-msgid "Failure to load set file '%s'\n"
-msgstr "Nav iespējams ielādēt komplekta failu \"%s\": %s\n"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "Labi"
-
 #: ball/st_demo.c:201
 msgid "Time"
 msgstr "Laiks"
 
-#: ball/st_demo.c:202 ball/hud.c:68 ball/st_goal.c:166
+#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
 msgid "Coins"
 msgstr "Monētas"
 
@@ -270,6 +105,12 @@ msgstr "Izvēlies ierakstu"
 #: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "Nav ierakstu"
+
+#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "Atpakaļ"
 
 #: ball/st_demo.c:601
 msgid "Replay Paused"
@@ -381,11 +222,19 @@ msgstr "Manuālais skats"
 msgid "Screenshot"
 msgstr "Ekrāna attēls"
 
+#: ball/st_help.c:246 ball/progress.c:418
+msgid "Normal Mode"
+msgstr "Normālais režīms"
+
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
 msgstr "Pabeidz līmeni pirms beidzas laiks.\\Vāc monētas, lai atslēgtu mērķi."
+
+#: ball/st_help.c:259 ball/progress.c:417
+msgid "Challenge Mode"
+msgstr "Spēku pārbaude"
 
 #: ball/st_help.c:261
 msgid ""
@@ -435,6 +284,10 @@ msgstr "Veiksmīgs"
 msgid "Fall-out"
 msgstr "Kritiens"
 
+#: ball/game_common.c:32 ball/progress.c:420
+msgid "Unknown"
+msgstr "Nezināms"
+
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -448,18 +301,6 @@ msgstr "Pauze"
 msgid "Restart"
 msgstr "Sākt vēlreiz"
 
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Mērķis"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Bumbas"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Rezultāts"
-
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Jauns rekords"
@@ -468,40 +309,119 @@ msgstr "Jauns rekords"
 msgid "GOAL"
 msgstr "MĒRĶIS"
 
+#: ball/st_goal.c:154 ball/hud.c:89
+msgid "Balls"
+msgstr "Bumbas"
+
+#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
+msgid "Score"
+msgstr "Rezultāts"
+
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Beigt"
 
+#: ball/st_goal.c:220 ball/st_fail.c:98
+msgid "Next Level"
+msgstr "Nākošais līmenis"
+
+#: ball/st_goal.c:223 ball/st_fail.c:101
+msgid "Retry Level"
+msgstr "Mēģināt vēlreiz"
+
+#: ball/st_goal.c:226 ball/st_fail.c:104
+msgid "Save Replay"
+msgstr "Saglabāt ierakstu"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr ""
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr ""
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr ""
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr ""
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr ""
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr ""
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr ""
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr ""
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Mērķis"
+
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Spēku pārbaude"
+
+#: ball/st_start.c:223
+#, fuzzy
+#| msgid "Caps Lock"
+msgid "Unlocked"
+msgstr "Caps Lock"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+#, fuzzy
+#| msgid "Lock Goals of Completed Levels?"
+msgid "Goal State in Completed Levels"
+msgstr "Vai slēgt pabeigtu līmeņu mērķus?"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Jauns komplekta rekords"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Komplekts pabeigts"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Izvēlies līmeni"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normālais"
+
+#: ball/progress.c:419
+#, fuzzy
+#| msgid "Challenge Mode"
+msgid "Standalone Mode"
+msgstr "Spēku pārbaude"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Nezināms režīms"
+
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Līmeņu komplekts"
-
-#: ball/level.c:138
-#, fuzzy, c-format
-#| msgid "Error while loading level file '%s': %s\n"
-msgid "Failure to load level file '%s'\n"
-msgstr "Kļūda, ielādējot līmeņa failu \"%s\": %s\n"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Bonusa līmenis %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Līmenis %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr ""
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
 
 #: ball/util.c:28
 msgid "Hard"
@@ -541,9 +461,50 @@ msgstr "Mainīt vārdu"
 msgid "caps"
 msgstr "lielie"
 
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "Labi"
+
+#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Atcelt"
+
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "SPĒLE GALĀ"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Kritiens!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Laiks cauri!"
+
+#: ball/st_fail.c:95
+msgid "Exit"
+msgstr "Iziet"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonusa līmenis %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Līmenis %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr ""
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -569,24 +530,23 @@ msgstr "Opcijas"
 msgid "menu^Exit"
 msgstr "Iziet"
 
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr "Neizdevās konvertēt SDL_ttf virsmu: %s\n"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Ieraksta nosaukums"
 
-#: share/gui.c:432
-#, c-format
-msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr ""
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Saglabāt"
 
-#: share/gui.c:479
-#, c-format
-msgid "Could not load font '%s'.\n"
-msgstr ""
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Pārrakstīt?"
 
-#: share/gui.h:23
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/DejaVuSans-Bold.ttf"
+#: ball/st_save.c:223
+#, fuzzy
+#| msgid "Overwrite?"
+msgid "Overwrite"
+msgstr "Pārrakstīt?"
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -1734,6 +1694,28 @@ msgstr "mtrl/words-lv"
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Missing format character in replay name\n"
+#~ msgstr "Ieraksta nosaukumā trūkst formāta rakstzīmes\n"
+
+#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
+#~ msgstr "Ieraksta nosaukumā ir nederīga formāta rakstzīme: \"%%%c\"\n"
+
+#, fuzzy
+#~| msgid "Cannot load the set file '%s': %s\n"
+#~ msgid "Failure to load set file '%s'\n"
+#~ msgstr "Nav iespējams ielādēt komplekta failu \"%s\": %s\n"
+
+#, fuzzy
+#~| msgid "Error while loading level file '%s': %s\n"
+#~ msgid "Failure to load level file '%s'\n"
+#~ msgstr "Kļūda, ielādējot līmeņa failu \"%s\": %s\n"
+
+#~ msgid "Failed to convert SDL_ttf surface: %s\n"
+#~ msgstr "Neizdevās konvertēt SDL_ttf virsmu: %s\n"
+
+#~ msgid "ttf/DejaVuSans-Bold.ttf"
+#~ msgstr "ttf/DejaVuSans-Bold.ttf"
 
 #, fuzzy
 #~| msgid ""

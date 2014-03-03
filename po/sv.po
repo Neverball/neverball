@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2013-11-30 01:59+0200\n"
+"POT-Creation-Date: 2014-03-03 06:42+0200\n"
 "PO-Revision-Date: 2011-07-20 11:11+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -16,6 +16,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ball/st_conf.c:157 putt/st_conf.c:104
+msgid "Options"
+msgstr "Alternativ"
+
+#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr ""
+
+#: ball/st_conf.c:159 putt/st_conf.c:114
+msgid "Configure"
+msgstr ""
+
+#: ball/st_conf.c:163
+msgid "Mouse Sensitivity"
+msgstr ""
+
+#: ball/st_conf.c:168 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Ljudvolym"
+
+#: ball/st_conf.c:170 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Musikvolym"
+
+#: ball/st_conf.c:175 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Spelarnamn"
+
+#: ball/st_conf.c:176 ball/st_ball.c:180
+#, fuzzy
+#| msgid "Normal Mode"
+msgid "Ball Model"
+msgstr "Normalt läge"
+
+#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:191 share/st_common.c:666
+msgid "Default"
+msgstr ""
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -29,217 +71,11 @@ msgstr "Färdiga"
 msgid "GO!"
 msgstr "KÖR!"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Inspelningsnamn"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Spara"
-
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Skriv över?"
-
-#: ball/st_save.c:223
-#, fuzzy
-#| msgid "Overwrite?"
-msgid "Overwrite"
-msgstr "Skriv över?"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr "snd/select.ogg"
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr "snd/ready.ogg"
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr "snd/set.ogg"
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr "snd/go.ogg"
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr "snd/record.ogg"
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr "snd/fall.ogg"
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr "snd/time.ogg"
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr "snd/over.ogg"
-
-#: ball/st_start.c:174 ball/st_demo.c:307 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2281 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Bakåt"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Utmaning"
-
-#: ball/st_start.c:223
-#, fuzzy
-#| msgid "Fast Unlock"
-msgid "Unlocked"
-msgstr "Snabb upplåsning"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:234
-#, fuzzy
-#| msgid "Lock Goals of Completed Levels?"
-msgid "Goal State in Completed Levels"
-msgstr "Lås mål för kompletta nivåer?"
-
-#: ball/st_conf.c:159 putt/st_conf.c:104
-msgid "Options"
-msgstr "Alternativ"
-
-#: ball/st_conf.c:161 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr ""
-
-#: ball/st_conf.c:161 putt/st_conf.c:114
-msgid "Configure"
-msgstr ""
-
-#: ball/st_conf.c:165
-msgid "Mouse Sensitivity"
-msgstr ""
-
-#: ball/st_conf.c:170 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Ljudvolym"
-
-#: ball/st_conf.c:172 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Musikvolym"
-
-#: ball/st_conf.c:177 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Spelarnamn"
-
-#: ball/st_conf.c:178 ball/st_ball.c:180
-#, fuzzy
-#| msgid "Normal Mode"
-msgid "Ball Model"
-msgstr "Normalt läge"
-
-#: ball/st_conf.c:179 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:193 share/st_common.c:666
-msgid "Default"
-msgstr ""
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Nytt bansamlingsrekord"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Bansamlingen är komplett"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Välj nivå"
-
-#: ball/progress.c:417 ball/st_help.c:259
-msgid "Challenge Mode"
-msgstr "Utmanarläge"
-
-#: ball/progress.c:418 ball/st_help.c:246
-msgid "Normal Mode"
-msgstr "Normalt läge"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normal"
-
-#: ball/progress.c:419
-#, fuzzy
-#| msgid "Challenge Mode"
-msgid "Standalone Mode"
-msgstr "Utmanarläge"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr ""
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Okänt läge"
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Okänd"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Du ramlade!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Tiden är slut!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Avsluta"
-
-#: ball/st_fail.c:98 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Nästa nivå"
-
-#: ball/st_fail.c:101 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Börja om"
-
-#: ball/st_fail.c:104 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Spara inspelning"
-
-#: ball/demo.c:227
-msgid "Missing format character in replay name\n"
-msgstr "Saknat formattecken i inspelningsnamnet\n"
-
-#: ball/demo.c:232
-#, c-format
-msgid "Invalid format character in replay name: \"%%%c\"\n"
-msgstr "Ogiltigt formattecken i inspelningsnamnet: \"%%%c\"\n"
-
-#: ball/set.c:276
-#, c-format
-msgid "Failure to load set file '%s'\n"
-msgstr "Misslyckades med att läsa in bansamlingsfilen \"%s\"\n"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
-
 #: ball/st_demo.c:201
 msgid "Time"
 msgstr "Tid"
 
-#: ball/st_demo.c:202 ball/hud.c:68 ball/st_goal.c:166
+#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
 msgid "Coins"
 msgstr "Mynt"
 
@@ -266,6 +102,12 @@ msgstr "Välj inspelning"
 #: ball/st_demo.c:305
 msgid "No Replays"
 msgstr "Inga inspelningar"
+
+#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+msgid "Back"
+msgstr "Bakåt"
 
 #: ball/st_demo.c:601
 msgid "Replay Paused"
@@ -379,6 +221,10 @@ msgstr "Manuell vy"
 msgid "Screenshot"
 msgstr "Skärmbild"
 
+#: ball/st_help.c:246 ball/progress.c:418
+msgid "Normal Mode"
+msgstr "Normalt läge"
+
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
@@ -386,6 +232,10 @@ msgid ""
 msgstr ""
 "Avsluta en nivå innan tiden tar slut.\\Du måste samla mynt för att öppna "
 "målet."
+
+#: ball/st_help.c:259 ball/progress.c:417
+msgid "Challenge Mode"
+msgstr "Utmanarläge"
 
 #: ball/st_help.c:261
 msgid ""
@@ -435,6 +285,10 @@ msgstr "Du lyckades"
 msgid "Fall-out"
 msgstr "Du ramlade"
 
+#: ball/game_common.c:32 ball/progress.c:420
+msgid "Unknown"
+msgstr "Okänd"
+
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -448,18 +302,6 @@ msgstr "Pausad"
 msgid "Restart"
 msgstr "Börja om"
 
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Mål"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Bollar"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Poäng"
-
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Nytt rekord"
@@ -468,39 +310,119 @@ msgstr "Nytt rekord"
 msgid "GOAL"
 msgstr "MÅL"
 
+#: ball/st_goal.c:154 ball/hud.c:89
+msgid "Balls"
+msgstr "Bollar"
+
+#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
+msgid "Score"
+msgstr "Poäng"
+
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Mål"
 
+#: ball/st_goal.c:220 ball/st_fail.c:98
+msgid "Next Level"
+msgstr "Nästa nivå"
+
+#: ball/st_goal.c:223 ball/st_fail.c:101
+msgid "Retry Level"
+msgstr "Börja om"
+
+#: ball/st_goal.c:226 ball/st_fail.c:104
+msgid "Save Replay"
+msgstr "Spara inspelning"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Mål"
+
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Utmaning"
+
+#: ball/st_start.c:223
+#, fuzzy
+#| msgid "Fast Unlock"
+msgid "Unlocked"
+msgstr "Snabb upplåsning"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+#, fuzzy
+#| msgid "Lock Goals of Completed Levels?"
+msgid "Goal State in Completed Levels"
+msgstr "Lås mål för kompletta nivåer?"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Nytt bansamlingsrekord"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Bansamlingen är komplett"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Välj nivå"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normal"
+
+#: ball/progress.c:419
+#, fuzzy
+#| msgid "Challenge Mode"
+msgid "Standalone Mode"
+msgstr "Utmanarläge"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Okänt läge"
+
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Bansamling"
-
-#: ball/level.c:138
-#, c-format
-msgid "Failure to load level file '%s'\n"
-msgstr "Misslyckades med att läsa in nivåfilen \"%s\"\n"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Bonusnivå %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Nivå %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr ""
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
 
 #: ball/util.c:28
 msgid "Hard"
@@ -538,9 +460,50 @@ msgstr "Byt namn"
 msgid "caps"
 msgstr ""
 
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Avbryt"
+
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "SPELET ÄR ÖVER"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Du ramlade!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Tiden är slut!"
+
+#: ball/st_fail.c:95
+msgid "Exit"
+msgstr "Avsluta"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonusnivå %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Nivå %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr ""
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -566,26 +529,23 @@ msgstr "Alternativ"
 msgid "menu^Exit"
 msgstr "Avsluta"
 
-#: share/image.c:229
-#, c-format
-msgid "Failed to convert SDL_ttf surface: %s\n"
-msgstr "Misslyckades med att konvertera SDL_ttf-yta: %s\n"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Inspelningsnamn"
 
-#: share/gui.c:432
-#, fuzzy, c-format
-#| msgid "Font \"%s\" doesn't exist, trying default font.\n"
-msgid "Font '%s' doesn't exist, trying default font.\n"
-msgstr "Typsnittet \"%s\" finns inte, provar standardtypsnittet.\n"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Spara"
 
-#: share/gui.c:479
-#, fuzzy, c-format
-#| msgid "Could not load font %s.\n"
-msgid "Could not load font '%s'.\n"
-msgstr "Kunde inte läsa in typsnittet %s.\n"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Skriv över?"
 
-#: share/gui.h:23
-msgid "ttf/DejaVuSans-Bold.ttf"
-msgstr "ttf/DejaVuSans-Bold.ttf"
+#: ball/st_save.c:223
+#, fuzzy
+#| msgid "Overwrite?"
+msgid "Overwrite"
+msgstr "Skriv över?"
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -1790,6 +1750,34 @@ msgstr "mtrl/words"
 
 msgid "item/coin/coin"
 msgstr ""
+
+#~ msgid "Missing format character in replay name\n"
+#~ msgstr "Saknat formattecken i inspelningsnamnet\n"
+
+#~ msgid "Invalid format character in replay name: \"%%%c\"\n"
+#~ msgstr "Ogiltigt formattecken i inspelningsnamnet: \"%%%c\"\n"
+
+#~ msgid "Failure to load set file '%s'\n"
+#~ msgstr "Misslyckades med att läsa in bansamlingsfilen \"%s\"\n"
+
+#~ msgid "Failure to load level file '%s'\n"
+#~ msgstr "Misslyckades med att läsa in nivåfilen \"%s\"\n"
+
+#~ msgid "Failed to convert SDL_ttf surface: %s\n"
+#~ msgstr "Misslyckades med att konvertera SDL_ttf-yta: %s\n"
+
+#, fuzzy
+#~| msgid "Font \"%s\" doesn't exist, trying default font.\n"
+#~ msgid "Font '%s' doesn't exist, trying default font.\n"
+#~ msgstr "Typsnittet \"%s\" finns inte, provar standardtypsnittet.\n"
+
+#, fuzzy
+#~| msgid "Could not load font %s.\n"
+#~ msgid "Could not load font '%s'.\n"
+#~ msgstr "Kunde inte läsa in typsnittet %s.\n"
+
+#~ msgid "ttf/DejaVuSans-Bold.ttf"
+#~ msgstr "ttf/DejaVuSans-Bold.ttf"
 
 #, fuzzy
 #~| msgid ""
