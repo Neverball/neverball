@@ -26,9 +26,9 @@ extern "C"
 static OVR::Ptr<OVR::DeviceManager> pManager;
 static OVR::Ptr<OVR::HMDDevice>     pHMD;
 static OVR::Ptr<OVR::SensorDevice>  pSensor;
+static OVR::SensorFusion           *pFusion;
 
-static OVR::HMDInfo      Info;
-static OVR::SensorFusion Fusion;
+static OVR::HMDInfo Info;
 
 static OVR::Util::Render::StereoConfig    Stereo;
 static OVR::Util::Render::StereoEyeParams Params;
@@ -68,7 +68,7 @@ extern "C" int hmd_stat()
 
 extern "C" void hmd_init()
 {
-    // Set default HMD info for a 7" OVR DK1 in case OVR fails for any reason.
+    /* Set default HMD info for a 7" OVR DK1 in case OVR fails. */
 
     Info.DesktopX               = 0;
     Info.DesktopY               = 0;
@@ -91,7 +91,7 @@ extern "C" void hmd_init()
     Info.ChromaAbCorrection[2]  =  1.014f;
     Info.ChromaAbCorrection[3]  =  0.000f;
 
-    // Initialize OVR, the device, the sensor, and the sensor fusion.
+    /* Initialize OVR, the device, the sensor, and the sensor fusion. */
 
     OVR::System::Init(OVR::Log::ConfigureDefaultLog(OVR::LogMask_All));
 
@@ -103,7 +103,8 @@ extern "C" void hmd_init()
             {
                 if ((pSensor = *pHMD->GetSensor()))
                 {
-                    Fusion.AttachToSensor(pSensor);
+                    pFusion = new OVR::SensorFusion();
+                    pFusion->AttachToSensor(pSensor);
 
                     pHMD->GetDeviceInfo(&Info);
                 }
@@ -111,7 +112,7 @@ extern "C" void hmd_init()
         }
     }
 
-    // Set up the stereo config using the HMD info.
+    /* Set up the stereo config using the HMD info. */
 
     using namespace OVR::Util::Render;
 
@@ -127,6 +128,8 @@ extern "C" void hmd_init()
 extern "C" void hmd_free()
 {
     hmd_common_free();
+
+    delete pFusion;
 
     pSensor  = 0;
     pHMD     = 0;
@@ -176,7 +179,7 @@ extern "C" void hmd_persp(float n, float f)
         OVR::Vector3f v;
         float         a;
 
-        Fusion.GetOrientation().GetAxisAngle(&v, &a);
+        pFusion->GetOrientation().GetAxisAngle(&v, &a);
         glTranslatef(0.0f, -0.1f, 0.f);
         glRotatef(OVR::RadToDegree(-a), v.x, v.y, v.z);
         glTranslatef(0.0f, +0.1f, 0.f);
