@@ -15,6 +15,7 @@
 #include <png.h>
 #include <jpeglib.h>
 #include <stdlib.h>
+#include <string.h>
 #include <assert.h>
 
 #include "base_config.h"
