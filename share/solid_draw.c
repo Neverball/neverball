@@ -450,6 +450,23 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
         glAlphaFunc(GL_GEQUAL, mp_base->alpha_test);
     }
 
+    /* Point sprite. */
+
+    if ((mp_flags & M_PARTICLE) ^ (mq_flags & M_PARTICLE))
+    {
+        if (mp_flags & M_PARTICLE)
+        {
+            const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
+            glEnable (GL_POINT_SPRITE);
+            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
+            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+        }
+        else
+        {
+            glDisable(GL_POINT_SPRITE);
+        }
+    }
+
     rend->curr_mtrl  = *mp_draw;
     rend->curr_flags =  mp_flags;
 }
@@ -693,6 +710,7 @@ static void sol_load_mesh(struct d_mesh *mp,
 
         mp->mp  = draw->mv + mi;
         mp->ebc = gn * 3;
+        mp->vbc = vn;
     }
 
     free(iv);
@@ -740,7 +758,10 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 
         /* Draw the mesh. */
 
-        glDrawElements(GL_TRIANGLES, mp->ebc, GL_UNSIGNED_SHORT, 0);
+        if (rend->curr_flags & M_PARTICLE)
+            glDrawArrays(GL_POINTS, 0, mp->vbc);
+        else
+            glDrawElements(GL_TRIANGLES, mp->ebc, GL_UNSIGNED_SHORT, 0);
     }
 }
 
@@ -776,8 +797,8 @@ static void sol_load_body(struct d_body *bp,
 
     bp->pass[0] = sol_count_mesh(bp, 0);
     bp->pass[1] = sol_count_mesh(bp, 1);
-    bp->pass[2] = sol_count_mesh(bp, 2); 
-    bp->pass[3] = sol_count_mesh(bp, 3); 
+    bp->pass[2] = sol_count_mesh(bp, 2);
+    bp->pass[3] = sol_count_mesh(bp, 3);
     bp->pass[4] = sol_count_mesh(bp, 4);
 }
 
