@@ -629,6 +629,7 @@ static const struct
     { "two-sided",   M_TWO_SIDED },
     { "semi-opaque", M_SEMI_OPAQUE | M_TRANSPARENT },
     { "alpha-test",  M_ALPHA_TEST },
+    { "particle",    M_PARTICLE },
 };
 
 static int read_mtrl(struct s_base *fp, const char *name)
@@ -863,7 +864,7 @@ static void read_f(struct s_base *fp, const char *line,
                    int v0, int t0, int s0, int mi)
 {
     struct b_geom *gp = fp->gv + incg(fp);
-    
+
     struct b_offs *op = fp->ov + (gp->oi = inco(fp));
     struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
     struct b_offs *or = fp->ov + (gp->ok = inco(fp));

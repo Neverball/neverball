@@ -342,46 +342,31 @@ void back_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void jump_part_draw(struct s_rend *rend, GLfloat s, GLfloat a)
-{
-    glMatrixMode(GL_TEXTURE);
-    glTranslatef(s, 0.0f, 0.0f);
-    glMatrixMode(GL_MODELVIEW);
-
-    glRotatef(a, 0.0f, 1.0f, 0.0f);
-    sol_draw(&jump.draw, rend, 1, 1);
-    glScalef(0.9f, 0.9f, 0.9f);
-}
-
-static void goal_part_draw(struct s_rend *rend, GLfloat s)
-{
-    glMatrixMode(GL_TEXTURE);
-    glTranslatef(0.0f, -s, 0.0f);
-    glMatrixMode(GL_MODELVIEW);
-
-    sol_draw(&goal.draw, rend, 1, 1);
-    glScalef(0.8f, 1.1f, 0.8f);
-}
-
-/*---------------------------------------------------------------------------*/
-
 void goal_draw(struct s_rend *rend, float t)
 {
     glPushMatrix();
     {
-        glScalef(1.0f, 3.0f, 1.0f);
+        glPointSize(config_get_d(CONFIG_HEIGHT) / 4);
         glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
 
+        glScalef(1.0f, 3.000f, 1.0f);
         sol_draw(&beam.draw, rend, 1, 1);
+        glScalef(0.9f, 0.333f, 0.9f);
 
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
+        glPushAttrib(GL_LIGHTING_BIT);
+        {
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT2);
 
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
+            glDisable(GL_LIGHT0);
+            glDisable(GL_LIGHT1);
+
+            glRotatef(+100.f * t, 0.0f, 1.0f, 0.0f);
+            sol_draw(&goal.draw, rend, 1, 1);
+            glRotatef(-137.f * t, 0.0f, 1.0f, 0.0f);
+            sol_draw(&goal.draw, rend, 1, 1);
+        }
+        glPopAttrib();
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -397,19 +382,24 @@ void jump_draw(struct s_rend *rend, float t, int h)
 
     glPushMatrix();
     {
+        glPointSize(config_get_d(CONFIG_HEIGHT) / 16);
         glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
 
         glScalef(1.0f, 2.0f, 1.0f);
-
         sol_draw(&beam.draw, rend, 1, 1);
+        glScalef(0.9f, 0.5f, 0.9f);
 
-        jump_part_draw(rend, t * 0.15f, t * 360.0f);
-        jump_part_draw(rend, t * 0.20f, t * 360.0f);
-        jump_part_draw(rend, t * 0.25f, t * 360.0f);
+        glPushAttrib(GL_LIGHTING_BIT);
+        {
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT2);
 
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
+            glDisable(GL_LIGHT0);
+            glDisable(GL_LIGHT1);
+
+            sol_draw(&jump.draw, rend, 1, 1);
+        }
+        glPopAttrib();
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
