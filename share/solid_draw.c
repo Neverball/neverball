@@ -361,7 +361,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
     {
         if (mp_flags & M_ADDITIVE)
-            glBlendFunc(GL_ONE, GL_ONE);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         else
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
@@ -456,7 +456,7 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     {
         if (mp_flags & M_PARTICLE)
         {
-            const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
             glEnable (GL_POINT_SPRITE);
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
             glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
