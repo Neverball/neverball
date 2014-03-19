@@ -226,9 +226,6 @@ GLuint make_image_from_font(int *W, int *H,
 
             if ((src = SDL_ConvertSurface(orig, &fmt, orig->flags)) == NULL)
             {
-                fprintf(stderr, "Failure to convert SDL_ttf surface (%s)\n",
-                        SDL_GetError());
-
                 /* Pretend everything's just fine. */
 
                 src = orig;
@@ -292,11 +289,6 @@ SDL_Surface *load_surface(const char *filename)
         {
             srf = SDL_CreateRGBSurfaceFrom(q, w, h, b * 8, w * b,
                                            RMASK, GMASK, BMASK, AMASK);
-
-            if (!srf)
-                fprintf(stderr,
-                        "Failure to create SDL surface from %s (%s).\n",
-                        filename, SDL_GetError());
         }
         free(p);
     }

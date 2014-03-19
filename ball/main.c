@@ -455,7 +455,7 @@ int main(int argc, char *argv[])
 
     if (!fs_init(argv[0]))
     {
-        fprintf(stderr, "Failure to initialize virtual file system: %s\n",
+        fprintf(stderr, "Failure to initialize virtual file system (%s)\n",
                 fs_error());
         return 1;
     }
@@ -463,13 +463,14 @@ int main(int argc, char *argv[])
     opt_parse(argc, argv);
 
     config_paths(opt_data);
+    log_init("Neverball", "neverball.log");
     make_dirs_and_migrate();
 
     /* Initialize SDL. */
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
-        fprintf(stderr, "%s\n", SDL_GetError());
+        log_printf("Failure to initialize SDL (%s)\n", SDL_GetError());
         return 1;
     }
 
@@ -533,7 +534,7 @@ int main(int argc, char *argv[])
                 }
             }
         }
-        else fprintf(stderr, "%s: file is not in game path\n", opt_level);
+        else log_printf("File %s is not in game path\n", opt_level);
 
         if (!loaded)
             goto_state(&st_title);

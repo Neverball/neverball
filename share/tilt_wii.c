@@ -112,7 +112,7 @@ static int tilt_func(void *data)
     if (strlen(address) > 0)
     {
         if (wiimote_connect(&wiimote, address) < 0)
-            fprintf(stderr, "%s\n", wiimote_get_error());
+            log_printf("Wiimote error (%s)\n", wiimote_get_error());
         else
         {
             int running = 1;

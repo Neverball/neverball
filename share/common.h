@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "fs.h"
 
 /* Random stuff. */
@@ -79,6 +80,15 @@ char *concat_string(const char *first, ...) NULL_TERMINATED;
 
 #define str_starts_with(s, h) (strncmp((s), (h), strlen(h)) == 0)
 #define str_ends_with(s, t) ((strlen(s) >= strlen(t)) && strcmp((s) + strlen(s) - strlen(t), (t)) == 0)
+
+/*
+ * Declaring vsnprintf with the C99 signature, even though we're
+ * claiming to be ANSI C. This is probably bad but is not known to not
+ * work.
+ */
+#ifndef __APPLE__
+extern int vsnprintf(char *, size_t, const char *, va_list);
+#endif
 
 /* Time. */
 

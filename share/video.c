@@ -122,7 +122,7 @@ int video_init(void)
                     config_get_d(CONFIG_WIDTH),
                     config_get_d(CONFIG_HEIGHT)))
     {
-        fprintf(stderr, "Failure to create window (%s)\n", SDL_GetError());
+        log_printf("Failure to create window (%s)\n", SDL_GetError());
         return 0;
     }
 

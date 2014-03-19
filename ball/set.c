@@ -273,7 +273,7 @@ static int set_load(struct set *s, const char *filename)
 
     if (!fin)
     {
-        fprintf(stderr, "Failure to load set file '%s'\n", filename);
+        log_printf("Failure to load set file %s\n", filename);
         return 0;
     }
 

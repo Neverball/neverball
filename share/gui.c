@@ -736,7 +736,7 @@ static int gui_widget(int pd, int type)
             return id;
         }
 
-    fprintf(stderr, "Out of widget IDs\n");
+    log_printf("Out of widget IDs\n");
 
     return 0;
 }

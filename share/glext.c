@@ -16,6 +16,7 @@
 #include <stdio.h>
 
 #include "glext.h"
+#include "log.h"
 
 struct gl_info gli;
 
@@ -89,7 +90,7 @@ int glext_assert(const char *ext)
 {
     if (!glext_check(ext))
     {
-        fprintf(stderr, "Missing required OpenGL extension (%s)\n", ext);
+        log_printf("Missing required OpenGL extension (%s)\n", ext);
         return 0;
     }
     return 1;

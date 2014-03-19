@@ -53,8 +53,8 @@ void gt_init(const char *domain, const char *pref)
 
     if (!setlocale(LC_ALL, ""))
     {
-        fprintf(stderr, "Failed to set LC_ALL to native locale: %s\n",
-                errno ? strerror(errno) : "Unknown error");
+        log_printf("Failure to set LC_ALL to native locale (%s)\n",
+                   errno ? strerror(errno) : "Unknown error");
     }
 
     /* The C locale is guaranteed (sort of) to be available. */

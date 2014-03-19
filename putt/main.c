@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
 
     if (!fs_init(argv[0]))
     {
-        fprintf(stderr, "Failure to initialize virtual file system: %s\n",
+        fprintf(stderr, "Failure to initialize virtual file system (%s)\n",
                 fs_error());
         return 1;
     }
@@ -278,6 +278,7 @@ int main(int argc, char *argv[])
     opt_parse(argc, argv);
 
     config_paths(opt_data);
+    log_init("Neverputt", "neverputt.log");
     fs_mkdir("Screenshots");
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
@@ -365,7 +366,7 @@ int main(int argc, char *argv[])
 
         SDL_Quit();
     }
-    else fprintf(stderr, "%s: %s\n", argv[0], SDL_GetError());
+    else log_printf("Failure to initialize SDL (%s)\n", SDL_GetError());
 
     return 0;
 }

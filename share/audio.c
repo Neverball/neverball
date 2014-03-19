@@ -273,7 +273,7 @@ void audio_init(void)
             audio_state = 1;
             SDL_PauseAudio(0);
         }
-        else fprintf(stderr, "%s\n", SDL_GetError());
+        else log_printf("Failure to open audio device (%s)\n", SDL_GetError());
     }
 
     /* Set the initial volumes. */

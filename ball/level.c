@@ -135,7 +135,7 @@ int level_load(const char *filename, struct level *level)
 
     if (!sol_load_meta(&base, filename))
     {
-        fprintf(stderr, "Failure to load level file '%s'\n", filename);
+        log_printf("Failure to load level file '%s'\n", filename);
         return 0;
     }
 

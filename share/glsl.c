@@ -19,6 +19,7 @@
 
 #include "glext.h"
 #include "glsl.h"
+#include "log.h"
 
 /*----------------------------------------------------------------------------*/
 
@@ -39,7 +40,7 @@ int check_shader_log(GLuint shader)
         {
             glGetShaderInfoLog_(shader, n, NULL, p);
 
-            fprintf(stderr, "OpenGL Shader Error:\n%s", p);
+            log_printf("OpenGL Shader Error:\n%s", p);
             free(p);
         }
         return 0;
@@ -64,7 +65,7 @@ int check_program_log(GLuint program)
         {
             glGetProgramInfoLog_(program, n, NULL, p);
 
-            fprintf(stderr, "OpenGL Program Error:\n%s", p);
+            log_printf("OpenGL Program Error:\n%s", p);
             free(p);
         }
         return 0;

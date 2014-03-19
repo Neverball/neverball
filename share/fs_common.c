@@ -212,17 +212,6 @@ static int write_lines(const char *start, int length, fs_file fh)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Trying to avoid defining a feature test macro for every platform by
- * declaring vsnprintf with the C99 signature.  This is probably bad.
- */
-
-#include <stdio.h>
-#include <stdarg.h>
-#ifndef __APPLE__
-extern int vsnprintf(char *, size_t, const char *, va_list);
-#endif
-
 int fs_printf(fs_file fh, const char *fmt, ...)
 {
     char *buff;
@@ -231,7 +220,7 @@ int fs_printf(fs_file fh, const char *fmt, ...)
     va_list ap;
 
     va_start(ap, fmt);
-    len = vsnprintf(NULL, 0, fmt, ap) + 1;
+    len = 1 + vsnprintf(NULL, 0, fmt, ap);
     va_end(ap);
 
     if ((buff = malloc(len)))
