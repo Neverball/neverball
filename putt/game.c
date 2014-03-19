@@ -215,64 +215,41 @@ static void game_draw_balls(struct s_rend *rend,
     sol_color_mtrl(rend, 0);
 }
 
-static void game_draw_goals(struct s_rend *rend, const struct s_base *fp)
+static void game_draw_flags(struct s_rend *rend, const struct s_base *fp)
 {
     int zi;
 
     for (zi = 0; zi < fp->zc; zi++)
-    {
-        glPushMatrix();
-        {
-            glTranslatef(fp->zv[zi].p[0],
-                         fp->zv[zi].p[1],
-                         fp->zv[zi].p[2]);
-            flag_draw(rend);
-        }
-        glPopMatrix();
-    }
+        flag_draw(rend, fp->zv[zi].p);
 }
 
-static void game_draw_jumps(struct s_rend *rend, const struct s_base *fp)
+static void game_draw_beams(struct s_rend *rend, const struct s_base *bp,
+                                                 const struct s_vary *vp)
 {
-    float t = 0.001f * SDL_GetTicks();
-    int ji;
+    static const GLfloat jump_c[2][4]    =  {{ 0.7f, 0.5f, 1.0f, 0.5f },
+                                             { 0.7f, 0.5f, 1.0f, 0.8f }};
+    static const GLfloat swch_c[2][2][4] = {{{ 1.0f, 0.0f, 0.0f, 0.5f },
+                                             { 1.0f, 0.0f, 0.0f, 0.8f }},
+                                            {{ 0.0f, 1.0f, 0.0f, 0.5f },
+                                             { 0.0f, 1.0f, 0.0f, 0.8f }}};
 
-    for (ji = 0; ji < fp->jc; ji++)
+    int i;
+
+    /* Jump beams */
+
+    for (i = 0; i < bp->jc; i++)
+        beam_draw(rend, bp->jv[i].p, jump_c[jump_e ? 0 : 1],
+                        bp->jv[i].r, 2.0f);
+
+    /* Switch beams */
+
+    for (i = 0; i < vp->xc; i++)
     {
-        glPushMatrix();
-        {
-            glTranslatef(fp->jv[ji].p[0],
-                         fp->jv[ji].p[1],
-                         fp->jv[ji].p[2]);
+        struct v_swch *xp = vp->xv + i;
 
-            glScalef(fp->jv[ji].r, 1.f, fp->jv[ji].r);
-            jump_draw(rend, t, !jump_e);
-        }
-        glPopMatrix();
-    }
-}
-
-static void game_draw_swchs(struct s_rend *rend, const struct s_vary *fp)
-{
-    int xi;
-
-    for (xi = 0; xi < fp->xc; xi++)
-    {
-        struct v_swch *xp = fp->xv + xi;
-
-        if (xp->base->i)
-            continue;
-
-        glPushMatrix();
-        {
-            glTranslatef(xp->base->p[0],
-                         xp->base->p[1],
-                         xp->base->p[2]);
-
-            glScalef(xp->base->r, 1.f, xp->base->r);
-            swch_draw(rend, xp->f, xp->e);
-        }
-        glPopMatrix();
+        if (!xp->base->i)
+            beam_draw(rend, xp->base->p, swch_c[xp->f][xp->e],
+                            xp->base->r, 2.0f);
     }
 }
 
@@ -363,9 +340,8 @@ void game_draw(int pose, float t)
         glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
-            game_draw_goals(&rend, fp->base);
-            game_draw_jumps(&rend, fp->base);
-            game_draw_swchs(&rend, fp->vary);
+            game_draw_flags(&rend, fp->base);
+            game_draw_beams(&rend, fp->base, fp->vary);
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
