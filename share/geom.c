@@ -342,96 +342,57 @@ void back_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-void goal_draw(struct s_rend *rend, float t)
+/* Draw a column of light with position p, color c, radius r, and height h. */
+
+void beam_draw(struct s_rend *rend, const GLfloat *p,
+                                    const GLfloat *c, GLfloat r, GLfloat h)
 {
     glPushMatrix();
     {
-        glPointSize(config_get_d(CONFIG_HEIGHT) / 4);
-        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-
-        glScalef(1.0f, 3.000f, 1.0f);
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        glColor4f(c[0], c[1], c[2], c[3]);
         sol_draw(&beam.draw, rend, 1, 1);
-        glScalef(0.9f, 0.333f, 0.9f);
-
-        glPushAttrib(GL_LIGHTING_BIT);
-        {
-            glEnable(GL_LIGHTING);
-            glEnable(GL_LIGHT2);
-
-            glDisable(GL_LIGHT0);
-            glDisable(GL_LIGHT1);
-
-            glRotatef(+100.f * t, 0.0f, 1.0f, 0.0f);
-            sol_draw(&goal.draw, rend, 1, 1);
-            glRotatef(-137.f * t, 0.0f, 1.0f, 0.0f);
-            sol_draw(&goal.draw, rend, 1, 1);
-        }
-        glPopAttrib();
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
 }
 
-void jump_draw(struct s_rend *rend, float t, int h)
+void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
 {
-    static GLfloat c[4][4] = {
-        { 0.75f, 0.5f, 1.0f, 0.5f },
-        { 0.75f, 0.5f, 1.0f, 0.8f },
-    };
-
+    glPointSize(config_get_d(CONFIG_HEIGHT) / 4);
     glPushMatrix();
     {
-        glPointSize(config_get_d(CONFIG_HEIGHT) / 16);
-        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
-
-        glScalef(1.0f, 2.0f, 1.0f);
-        sol_draw(&beam.draw, rend, 1, 1);
-        glScalef(0.9f, 0.5f, 0.9f);
-
-        glPushAttrib(GL_LIGHTING_BIT);
-        {
-            glEnable(GL_LIGHTING);
-            glEnable(GL_LIGHT2);
-
-            glDisable(GL_LIGHT0);
-            glDisable(GL_LIGHT1);
-
-            sol_draw(&jump.draw, rend, 1, 1);
-        }
-        glPopAttrib();
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        glRotatef(+100.f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(&goal.draw, rend, 1, 1);
+        glRotatef(-137.f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(&goal.draw, rend, 1, 1);
     }
     glPopMatrix();
 }
 
-void swch_draw(struct s_rend *rend, int b, int e)
+void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 {
-    static GLfloat c[4][4] = {
-        { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
-        { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
-        { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
-        { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
-    };
-
-    const int h = 2 * b + e;
-
+    glPointSize(config_get_d(CONFIG_HEIGHT) / 16);
     glPushMatrix();
     {
-        glScalef(1.0f, 2.0f, 1.0f);
-
-        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
-        sol_draw(&beam.draw, rend, 1, 1);
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        sol_draw(&jump.draw, rend, 1, 1);
     }
     glPopMatrix();
 }
 
-void flag_draw(struct s_rend *rend)
+void flag_draw(struct s_rend *rend, const GLfloat *p)
 {
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_draw(&flag.draw, rend, 1, 1);
+    glPushMatrix();
+    {
+        glTranslatef(p[0], p[1], p[2]);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        sol_draw(&flag.draw, rend, 1, 1);
+    }
+    glPopMatrix();
 }
 
 void mark_draw(struct s_rend *rend)

@@ -20,10 +20,10 @@
 void geom_init(void);
 void geom_free(void);
 
-void goal_draw(struct s_rend *, float);
-void jump_draw(struct s_rend *, float, int);
-void swch_draw(struct s_rend *, int, int);
-void flag_draw(struct s_rend *);
+void beam_draw(struct s_rend *, const GLfloat *, const GLfloat *, GLfloat, GLfloat);
+void goal_draw(struct s_rend *, const GLfloat *, GLfloat, GLfloat, GLfloat);
+void jump_draw(struct s_rend *, const GLfloat *, GLfloat, GLfloat);
+void flag_draw(struct s_rend *, const GLfloat *);
 void mark_draw(struct s_rend *);
 void vect_draw(struct s_rend *);
 void back_draw(struct s_rend *);

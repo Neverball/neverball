@@ -104,86 +104,63 @@ static void game_draw_items(struct s_rend *rend,
     sol_color_mtrl(rend, 0);
 }
 
+static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
+{
+    static const GLfloat goal_c[4]       =   { 1.0f, 1.0f, 0.0f, 0.5f };
+    static const GLfloat jump_c[2][4]    =  {{ 0.7f, 0.5f, 1.0f, 0.5f },
+                                             { 0.7f, 0.5f, 1.0f, 0.8f }};
+    static const GLfloat swch_c[2][2][4] = {{{ 1.0f, 0.0f, 0.0f, 0.5f },
+                                             { 1.0f, 0.0f, 0.0f, 0.8f }},
+                                            {{ 0.0f, 1.0f, 0.0f, 0.5f },
+                                             { 0.0f, 1.0f, 0.0f, 0.8f }}};
+
+    const struct s_base *base =  gd->vary.base;
+    const struct s_vary *vary = &gd->vary;
+
+    int i;
+
+    /* Goal beams */
+
+    if (gd->goal_e)
+        for (i = 0; i < base->zc; i++)
+            beam_draw(rend, base->zv[i].p, goal_c,
+                            base->zv[i].r, gd->goal_k * 3.0f);
+
+    /* Jump beams */
+
+    for (i = 0; i < base->jc; i++)
+        beam_draw(rend, base->jv[i].p, jump_c[gd->jump_e ? 0 : 1],
+                        base->jv[i].r, 2.0f);
+
+    /* Switch beams */
+
+    for (i = 0; i < base->xc; i++)
+        if (!vary->xv[i].base->i)
+            beam_draw(rend, base->xv[i].p, swch_c[vary->xv[i].f][vary->xv[i].e],
+                            base->xv[i].r, 2.0f);
+}
+
 static void game_draw_goals(struct s_rend *rend,
-                            const struct game_draw *gd,
-                            const float *M, float t)
+                            const struct game_draw *gd, float t)
 {
     const struct s_base *base = gd->vary.base;
 
+    int i;
+
     if (gd->goal_e)
-    {
-        int zi;
-
-        /* Draw the goal column. */
-
-        for (zi = 0; zi < base->zc; zi++)
-        {
-            glPushMatrix();
-            {
-                glTranslatef(base->zv[zi].p[0],
-                             base->zv[zi].p[1],
-                             base->zv[zi].p[2]);
-
-                glScalef(base->zv[zi].r,
-                         gd->goal_k,
-                         base->zv[zi].r);
-
-                goal_draw(rend, t);
-            }
-            glPopMatrix();
-        }
-    }
+        for (i = 0; i < base->zc; i++)
+            goal_draw(rend, base->zv[i].p, base->zv[i].r, gd->goal_k, t);
 }
 
 static void game_draw_jumps(struct s_rend *rend,
-                            const struct game_draw *gd,
-                            const float *M, float t)
+                            const struct game_draw *gd, float t)
 {
     const struct s_base *base = gd->vary.base;
 
-    int ji;
+    int i;
 
-    for (ji = 0; ji < base->jc; ji++)
-    {
-        glPushMatrix();
-        {
-            glTranslatef(base->jv[ji].p[0],
-                         base->jv[ji].p[1],
-                         base->jv[ji].p[2]);
-            glScalef(base->jv[ji].r,
-                     1.0f,
-                     base->jv[ji].r);
-
-            jump_draw(rend, t, !gd->jump_e);
-        }
-        glPopMatrix();
-    }
-}
-
-static void game_draw_swchs(struct s_rend *rend, const struct s_vary *vary)
-{
-    int xi;
-
-    for (xi = 0; xi < vary->xc; xi++)
-    {
-        struct v_swch *xp = vary->xv + xi;
-
-        if (xp->base->i)
-            continue;
-
-        glPushMatrix();
-        {
-            glTranslatef(xp->base->p[0],
-                         xp->base->p[1],
-                         xp->base->p[2]);
-            glScalef(xp->base->r,
-                     1.0f,
-                     xp->base->r);
-
-            swch_draw(rend, xp->f, xp->e);
-        }
-        glPopMatrix();
-    }
+    for (i = 0; i < base->jc; i++)
+        jump_draw(rend, base->jv[i].p, base->jv[i].r, 1.0f);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -397,22 +374,36 @@ static void game_draw_fore(struct s_rend *rend,
             break;
         }
 
-        /* Draw the billboards, entities, and  particles. */
 
-        glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
-            sol_bill(draw, rend, M, t);
+            /* Draw the billboards, entity beams, and coin particles. */
 
-            game_draw_goals(rend, gd, M, t);
-            game_draw_jumps(rend, gd, M, t);
-            game_draw_swchs(rend, draw->vary);
+            glDisable(GL_LIGHTING);
+            {
+                sol_bill(draw, rend, M, t);
 
-            part_draw_coin(rend);
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                game_draw_beams(rend, gd);
+                part_draw_coin(rend);
+
+                glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+            glEnable(GL_LIGHTING);
+
+            /* Draw the entity particles using only the sparkle light. */
+
+            glDisable(GL_LIGHT0);
+            glDisable(GL_LIGHT1);
+            glEnable (GL_LIGHT2);
+            {
+                game_draw_goals(rend, gd, t);
+                game_draw_jumps(rend, gd, t);
+            }
+            glDisable(GL_LIGHT2);
+            glEnable (GL_LIGHT1);
+            glEnable (GL_LIGHT0);
         }
         glDepthMask(GL_TRUE);
-        glEnable(GL_LIGHTING);
 
         if (d < 0)
             glDisable(GL_CLIP_PLANE0);
