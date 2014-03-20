@@ -203,8 +203,10 @@ extern PFNGLISBUFFER_PROC      glIsBuffer_;
 /* ARB_point_parameters                                                      */
 
 typedef void (APIENTRYP PFNGLPOINTPARAMETERFV_PROC)(GLenum, const GLfloat *);
+typedef void (APIENTRYP PFNGLPOINTPARAMETERF_PROC) (GLenum, const GLfloat);
 
 extern PFNGLPOINTPARAMETERFV_PROC glPointParameterfv_;
+extern PFNGLPOINTPARAMETERF_PROC  glPointParameterf_;
 
 /*---------------------------------------------------------------------------*/
 /* OpenGL Shading Language                                                   */
