@@ -63,7 +63,7 @@ static void hmd_matrix(OVR::Matrix4f& M)
 
 extern "C" int hmd_stat()
 {
-    return config_get_d(CONFIG_HMD);
+    return (config_get_d(CONFIG_HMD) && hmd_common_stat());
 }
 
 extern "C" void hmd_init()

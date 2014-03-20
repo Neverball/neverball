@@ -33,7 +33,7 @@ static int vres = 0;
 
 int hmd_stat()
 {
-    return config_get_d(CONFIG_HMD);
+    return (config_get_d(CONFIG_HMD) && hmd_common_stat());
 }
 
 void hmd_init()

@@ -17,6 +17,7 @@
 
 /*---------------------------------------------------------------------------*/
 
+int  hmd_common_stat();
 void hmd_common_init(int, int);
 void hmd_common_left();
 void hmd_common_right();
