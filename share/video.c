@@ -172,6 +172,33 @@ int video_mode(int f, int w, int h)
 
     if (window)
     {
+        if ((context = SDL_GL_CreateContext(window)))
+        {
+            int buf, smp;
+
+            SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buf);
+            SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &smp);
+
+            /*
+             * Work around SDL+WGL returning pixel formats below
+             * minimum specifications instead of failing, thus
+             * bypassing our fallback path. SDL tries to ensure that
+             * WGL plays by the rules, but forgets about extended
+             * context attributes such as multisample. See SDL
+             * Bugzilla #77.
+             */
+
+            if (buf < buffers || smp < samples)
+            {
+                log_printf("GL context does not meet minimum specifications\n");
+                SDL_GL_DeleteContext(context);
+                context = NULL;
+            }
+        }
+    }
+
+    if (window && context)
+    {
         set_window_title(TITLE);
         set_window_icon(ICON);
 
@@ -181,8 +208,6 @@ int video_mode(int f, int w, int h)
         config_set_d(CONFIG_FULLSCREEN, f);
         config_set_d(CONFIG_WIDTH,      w);
         config_set_d(CONFIG_HEIGHT,     h);
-
-        context = SDL_GL_CreateContext(window);
 
         SDL_GL_SetSwapInterval(vsync);
 
