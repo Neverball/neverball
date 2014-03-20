@@ -22,7 +22,29 @@
 
 /*----------------------------------------------------------------------------*/
 
-int check_shader_log(GLuint shader)
+#if ENABLE_OPENGLES
+
+/* OpenGL ES support in Neverball is targeted toward OpenGL ES version 1.1.   */
+/* This version of ES has no support for programmable shading.                */
+
+GLboolean glsl_create(glsl *G, int vertc, const char *const *vertv,
+                               int fragc, const char *const *fragv)
+{
+    return GL_FALSE;
+}
+
+void glsl_delete(glsl *G) { }
+
+void glsl_uniform1f(glsl *G, const char *name, GLfloat a) { }
+void glsl_uniform2f(glsl *G, const char *name, GLfloat a, GLfloat b) { }
+void glsl_uniform3f(glsl *G, const char *name, GLfloat a, GLfloat b, GLfloat c) { }
+void glsl_uniform4f(glsl *G, const char *name, GLfloat a, GLfloat b, GLfloat c, GLfloat d) { }
+
+#else
+
+/*----------------------------------------------------------------------------*/
+
+static int check_shader_log(GLuint shader)
 {
     char *p = 0;
     GLint s = 0;
@@ -47,7 +69,7 @@ int check_shader_log(GLuint shader)
     return 1;
 }
 
-int check_program_log(GLuint program)
+static int check_program_log(GLuint program)
 {
     char *p = 0;
     GLint s = 0;
@@ -74,7 +96,7 @@ int check_program_log(GLuint program)
 
 /*----------------------------------------------------------------------------*/
 
-GLuint glsl_init_shader(GLenum type, int strc, const char *const *strv)
+static GLuint glsl_init_shader(GLenum type, int strc, const char *const *strv)
 {
     /* Compile a new shader with the given source. */
 
@@ -93,8 +115,8 @@ GLuint glsl_init_shader(GLenum type, int strc, const char *const *strv)
     return 0;
 }
 
-GLuint glsl_init_program(GLuint shader_vert,
-                         GLuint shader_frag)
+static GLuint glsl_init_program(GLuint shader_vert,
+                                GLuint shader_frag)
 {
     /* Link a new program object. */
 
@@ -115,9 +137,13 @@ GLuint glsl_init_program(GLuint shader_vert,
     return 0;
 }
 
+/*----------------------------------------------------------------------------*/
+
 GLboolean glsl_create(glsl *G, int vertc, const char *const *vertv,
                                int fragc, const char *const *fragv)
 {
+    if (gli.shader_objects == 0) return GL_FALSE;
+
     /* Compile the shaders. */
 
     G->vert_shader = glsl_init_shader(GL_VERTEX_SHADER,   vertc, vertv);
@@ -135,6 +161,8 @@ GLboolean glsl_create(glsl *G, int vertc, const char *const *vertv,
 
 void glsl_delete(glsl *G)
 {
+    if (gli.shader_objects == 0) return;
+
     /* Delete the program and shaders. */
 
     if (G->program)     glDeleteProgram_(G->program);
@@ -146,21 +174,27 @@ void glsl_delete(glsl *G)
 
 void glsl_uniform1f(glsl *G, const char *name, GLfloat a)
 {
-    glUniform1f_(glGetUniformLocation_(G->program, name), a);
+    if (gli.shader_objects)
+        glUniform1f_(glGetUniformLocation_(G->program, name), a);
 }
 
 void glsl_uniform2f(glsl *G, const char *name, GLfloat a, GLfloat b)
 {
-    glUniform2f_(glGetUniformLocation_(G->program, name), a, b);
+    if (gli.shader_objects)
+        glUniform2f_(glGetUniformLocation_(G->program, name), a, b);
 }
 
 void glsl_uniform3f(glsl *G, const char *name, GLfloat a, GLfloat b, GLfloat c)
 {
-    glUniform3f_(glGetUniformLocation_(G->program, name), a, b, c);
+    if (gli.shader_objects)
+        glUniform3f_(glGetUniformLocation_(G->program, name), a, b, c);
 }
 
 void glsl_uniform4f(glsl *G, const char *name, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 {
-    glUniform4f_(glGetUniformLocation_(G->program, name), a, b, c, d);
+    if (gli.shader_objects)
+        glUniform4f_(glGetUniformLocation_(G->program, name), a, b, c, d);
 }
+
+#endif
 
