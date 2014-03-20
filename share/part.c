@@ -223,7 +223,7 @@ void part_step(const float *g, float dt)
 
 void part_draw_coin(struct s_rend *rend)
 {
-    const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
+    const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
     GLint s = config_get_d(CONFIG_HEIGHT) / 8;
 
     sol_apply_mtrl(&coin_draw_mtrl, rend);

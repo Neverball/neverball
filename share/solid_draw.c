@@ -25,6 +25,7 @@
 #include "geom.h"
 #include "image.h"
 #include "base_image.h"
+#include "config.h"
 #include "base_config.h"
 #include "lang.h"
 
@@ -456,10 +457,14 @@ void sol_apply_mtrl(const struct d_mtrl *mp_draw, struct s_rend *rend)
     {
         if (mp_flags & M_PARTICLE)
         {
+            const int s = config_get_d(CONFIG_HEIGHT) / 4;
             const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+
             glEnable (GL_POINT_SPRITE);
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
             glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointParameterf_ (GL_POINT_SIZE_MIN, 1);
+            glPointParameterf_ (GL_POINT_SIZE_MAX, s);
         }
         else
         {
