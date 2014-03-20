@@ -18,8 +18,28 @@
 
 /*---------------------------------------------------------------------------*/
 
+#if ENABLE_OPENGLES
+
+/* OpenGL ES support in Neverball is targeted toward OpenGL ES version 1.1.  */
+/* This version of ES has no support for framebuffer objects.                */
+
 GLboolean fbo_create(fbo *F, GLsizei w, GLsizei h)
 {
+    return GL_FALSE;
+}
+
+void fbo_delete(fbo *F)
+{
+}
+
+#else
+
+/*---------------------------------------------------------------------------*/
+
+GLboolean fbo_create(fbo *F, GLsizei w, GLsizei h)
+{
+    if (gli.framebuffer_object == 0) return GL_FALSE;
+
     F->width  = w;
     F->height = h;
 
@@ -53,18 +73,20 @@ GLboolean fbo_create(fbo *F, GLsizei w, GLsizei h)
 
     if (glCheckFramebufferStatus_(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
     {
-        glBindFramebuffer_ (GL_FRAMEBUFFER, 0);
+        glBindFramebuffer_(GL_FRAMEBUFFER, 0);
         return GL_TRUE;
     }
     else
     {
-        glBindFramebuffer_ (GL_FRAMEBUFFER, 0);
+        glBindFramebuffer_(GL_FRAMEBUFFER, 0);
         return GL_FALSE;
     }
 }
 
 void fbo_delete(fbo *F)
 {
+    if (gli.framebuffer_object == 0) return;
+
     if (F->color_texture) glDeleteTextures     (1, &F->color_texture);
     if (F->depth_texture) glDeleteTextures     (1, &F->depth_texture);
     if (F->framebuffer)   glDeleteFramebuffers_(1, &F->framebuffer);
@@ -72,4 +94,4 @@ void fbo_delete(fbo *F)
     memset(F, 0, sizeof (fbo));
 }
 
-/*---------------------------------------------------------------------------*/
+#endif
