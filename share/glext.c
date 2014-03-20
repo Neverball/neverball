@@ -104,6 +104,12 @@ int glext_assert(const char *ext)
 
 /*---------------------------------------------------------------------------*/
 
+int glext_fail(const char *title, const char *message)
+{
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title, message, NULL);
+    return 0;
+}
+
 int glext_init(void)
 {
     void *ptr = 0;
@@ -112,21 +118,20 @@ int glext_init(void)
 
     /* Common init. */
 
-    gli.max_texture_units = 1;
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &gli.max_texture_size);
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE,  &gli.max_texture_size);
+    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
+
+    /* Desktop init. */
 
 #if !ENABLE_OPENGLES
-    /* Desktop init. */
 
     if (glext_assert("ARB_multitexture"))
     {
-        glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
-
         SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
         SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
-
-        gli.multitexture = 1;
     }
+    else return glext_fail("Missing ARB_multitexture",
+                           "GPU support for multi-texture is required");
 
     if (glext_assert("ARB_vertex_buffer_object"))
     {
@@ -136,16 +141,16 @@ int glext_init(void)
         SDL_GL_GFPA(glBufferSubData_,       "glBufferSubDataARB");
         SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
         SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
-
-        gli.vertex_buffer_object = 1;
     }
+    else return glext_fail("Missing ARB_vertex_buffer_object",
+                           "GPU support for vertex buffer objects is required");
 
     if (glext_assert("ARB_point_parameters"))
     {
         SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
-
-        gli.point_parameters = 1;
     }
+    else return glext_fail("Missing ARB_point_parameters",
+                           "GPU support for point sprites is required");
 
     if (glext_assert("ARB_shader_objects"))
     {
@@ -185,22 +190,9 @@ int glext_init(void)
     if (glext_check("GREMEDY_string_marker"))
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
-    return (gli.multitexture &&
-            gli.vertex_buffer_object &&
-            gli.point_parameters);
-#else
-    /* GLES init. */
-
-    glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
-
-    gli.multitexture = 1;
-    gli.vertex_buffer_object = 1;
-    gli.point_parameters = 1;
-    gli.shader_objects = 1;
-    gli.framebuffer_object = 1;
+#endif
 
     return 1;
-#endif
 }
 
 /*---------------------------------------------------------------------------*/

@@ -285,11 +285,8 @@ struct gl_info
     GLint max_texture_units;
     GLint max_texture_size;
 
-    unsigned int multitexture:1;
-    unsigned int vertex_buffer_object:1;
-    unsigned int point_parameters:1;
-    unsigned int shader_objects:1;
-    unsigned int framebuffer_object:1;
+    unsigned int shader_objects     : 1;
+    unsigned int framebuffer_object : 1;
 };
 
 extern struct gl_info gli;
