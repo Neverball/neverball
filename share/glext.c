@@ -132,8 +132,6 @@ int glext_init(void)
         SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
         SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
     }
-    else return glext_fail("Missing ARB_multitexture",
-                           "GPU support for multi-texture is required");
 
     if (glext_assert("ARB_vertex_buffer_object"))
     {
@@ -144,18 +142,14 @@ int glext_init(void)
         SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
         SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
     }
-    else return glext_fail("Missing ARB_vertex_buffer_object",
-                           "GPU support for vertex buffer objects is required");
 
     if (glext_assert("ARB_point_parameters"))
     {
         SDL_GL_GFPA(glPointParameterf_,    "glPointParameterfARB");
         SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
     }
-    else return glext_fail("Missing ARB_point_parameters",
-                           "GPU support for point sprites is required");
 
-    if (glext_assert("ARB_shader_objects"))
+    if (glext_check("ARB_shader_objects"))
     {
         SDL_GL_GFPA(glGetShaderiv_,        "glGetShaderiv");
         SDL_GL_GFPA(glGetShaderInfoLog_,   "glGetShaderInfoLog");
@@ -179,7 +173,7 @@ int glext_init(void)
         gli.shader_objects = 1;
     }
 
-    if (glext_assert("ARB_framebuffer_object"))
+    if (glext_check("ARB_framebuffer_object"))
     {
         SDL_GL_GFPA(glBindFramebuffer_,        "glBindFramebuffer");
         SDL_GL_GFPA(glDeleteFramebuffers_,     "glDeleteFramebuffers");
