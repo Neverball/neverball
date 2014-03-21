@@ -79,6 +79,12 @@
 #ifndef GL_COORD_REPLACE
 #define GL_COORD_REPLACE              0x8862
 #endif
+#ifndef GL_POINT_SIZE_MIN
+#define GL_POINT_SIZE_MIN             0x8126
+#endif
+#ifndef GL_POINT_SIZE_MAX
+#define GL_POINT_SIZE_MAX             0x8127
+#endif
 #ifndef GL_POINT_DISTANCE_ATTENUATION
 #define GL_POINT_DISTANCE_ATTENUATION 0x8129
 #endif
