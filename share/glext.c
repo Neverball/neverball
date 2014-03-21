@@ -34,6 +34,7 @@ PFNGLBUFFERSUBDATA_PROC          glBufferSubData_;
 PFNGLDELETEBUFFERS_PROC          glDeleteBuffers_;
 PFNGLISBUFFER_PROC               glIsBuffer_;
 
+PFNGLPOINTPARAMETERF_PROC        glPointParameterf_;
 PFNGLPOINTPARAMETERFV_PROC       glPointParameterfv_;
 
 PFNGLGETSHADERIV_PROC            glGetShaderiv_;
@@ -143,6 +144,7 @@ int glext_init(void)
 
     if (glext_assert("ARB_point_parameters"))
     {
+        SDL_GL_GFPA(glPointParameterf_,    "glPointParameterfARB");
         SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
 
         gli.point_parameters = 1;

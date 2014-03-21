@@ -72,6 +72,7 @@ struct d_mesh
     const struct d_mtrl *mp;
 
     GLuint vbo;                                /* Vertex  buffer object      */
+    GLuint vbc;                                /* Vertex  buffer count       */
     GLuint ebo;                                /* Element buffer object      */
     GLuint ebc;                                /* Element buffer count       */
 };

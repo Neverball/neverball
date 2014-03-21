@@ -84,6 +84,7 @@
 
 /* Material type flags */
 
+#define M_PARTICLE    (1 << 11)
 #define M_ALPHA_TEST  (1 << 10)
 #define M_SEMI_OPAQUE (1 <<  9)
 #define M_REFLECTIVE  (1 <<  8)

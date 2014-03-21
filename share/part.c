@@ -23,6 +23,7 @@
 #include "vec3.h"
 #include "image.h"
 #include "geom.h"
+#include "hmd.h"
 
 /*---------------------------------------------------------------------------*/
 /*
@@ -223,8 +224,7 @@ void part_step(const float *g, float dt)
 
 void part_draw_coin(struct s_rend *rend)
 {
-    const GLfloat c[3] = { 0.0f, 1.0f, 0.0f };
-    GLint s = config_get_d(CONFIG_HEIGHT) / 8;
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
 
     sol_apply_mtrl(&coin_draw_mtrl, rend);
 
@@ -252,9 +252,11 @@ void part_draw_coin(struct s_rend *rend)
 
         glEnable(GL_POINT_SPRITE);
         {
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
             glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
-            glPointSize(s);
+            glPointSize(height / 6);
 
             glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);
         }

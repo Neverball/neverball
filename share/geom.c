@@ -342,106 +342,63 @@ void back_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void jump_part_draw(struct s_rend *rend, GLfloat s, GLfloat a)
-{
-    glMatrixMode(GL_TEXTURE);
-    glTranslatef(s, 0.0f, 0.0f);
-    glMatrixMode(GL_MODELVIEW);
+/* Draw a column of light with position p, color c, radius r, and height h. */
 
-    glRotatef(a, 0.0f, 1.0f, 0.0f);
-    sol_draw(&jump.draw, rend, 1, 1);
-    glScalef(0.9f, 0.9f, 0.9f);
-}
-
-static void goal_part_draw(struct s_rend *rend, GLfloat s)
-{
-    glMatrixMode(GL_TEXTURE);
-    glTranslatef(0.0f, -s, 0.0f);
-    glMatrixMode(GL_MODELVIEW);
-
-    sol_draw(&goal.draw, rend, 1, 1);
-    glScalef(0.8f, 1.1f, 0.8f);
-}
-
-/*---------------------------------------------------------------------------*/
-
-void goal_draw(struct s_rend *rend, float t)
+void beam_draw(struct s_rend *rend, const GLfloat *p,
+                                    const GLfloat *c, GLfloat r, GLfloat h)
 {
     glPushMatrix();
     {
-        glScalef(1.0f, 3.0f, 1.0f);
-        glColor4f(1.0f, 1.0f, 0.0f, 0.5f);
-
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        glColor4f(c[0], c[1], c[2], c[3]);
         sol_draw(&beam.draw, rend, 1, 1);
-
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
-        goal_part_draw(rend, t * 0.10f);
-
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
 }
 
-void jump_draw(struct s_rend *rend, float t, int h)
+void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
 {
-    static GLfloat c[4][4] = {
-        { 0.75f, 0.5f, 1.0f, 0.5f },
-        { 0.75f, 0.5f, 1.0f, 0.8f },
-    };
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+
+    glPointSize(height / 6);
 
     glPushMatrix();
     {
-        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
-
-        glScalef(1.0f, 2.0f, 1.0f);
-
-        sol_draw(&beam.draw, rend, 1, 1);
-
-        jump_part_draw(rend, t * 0.15f, t * 360.0f);
-        jump_part_draw(rend, t * 0.20f, t * 360.0f);
-        jump_part_draw(rend, t * 0.25f, t * 360.0f);
-
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        glRotatef(+100.f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(&goal.draw, rend, 1, 1);
+        glRotatef(-137.f * t, 0.0f, 1.0f, 0.0f);
+        sol_draw(&goal.draw, rend, 1, 1);
     }
     glPopMatrix();
 }
 
-void swch_draw(struct s_rend *rend, int b, int e)
+void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 {
-    static GLfloat c[4][4] = {
-        { 1.0f, 0.0f, 0.0f, 0.5f }, /* red out */
-        { 1.0f, 0.0f, 0.0f, 0.8f }, /* red in */
-        { 0.0f, 1.0f, 0.0f, 0.5f }, /* green out */
-        { 0.0f, 1.0f, 0.0f, 0.8f }, /* green in */
-    };
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
 
-    const int h = 2 * b + e;
+    glPointSize(height / 12);
 
     glPushMatrix();
     {
-        glScalef(1.0f, 2.0f, 1.0f);
-
-        glColor4f(c[h][0], c[h][1], c[h][2], c[h][3]);
-        sol_draw(&beam.draw, rend, 1, 1);
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glTranslatef(p[0], p[1], p[2]);
+        glScalef(r, h, r);
+        sol_draw(&jump.draw, rend, 1, 1);
     }
     glPopMatrix();
 }
 
-void flag_draw(struct s_rend *rend)
+void flag_draw(struct s_rend *rend, const GLfloat *p)
 {
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_draw(&flag.draw, rend, 1, 1);
+    glPushMatrix();
+    {
+        glTranslatef(p[0], p[1], p[2]);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        sol_draw(&flag.draw, rend, 1, 1);
+    }
+    glPopMatrix();
 }
 
 void mark_draw(struct s_rend *rend)
