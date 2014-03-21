@@ -767,8 +767,8 @@ static int game_step(const float g[3], float dt, int bt)
 
         /* Smooth jittery or discontinuous input. */
 
-        tilt.rx += (input_get_x() - tilt.rx) * dt / input_get_s();
-        tilt.rz += (input_get_z() - tilt.rz) * dt / input_get_s();
+        tilt.rx += (input_get_x() - tilt.rx) * dt / MAX(dt, input_get_s());
+        tilt.rz += (input_get_z() - tilt.rz) * dt / MAX(dt, input_get_s());
 
         game_tilt_axes(&tilt, view.e);
 
