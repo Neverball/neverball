@@ -359,7 +359,10 @@ void beam_draw(struct s_rend *rend, const GLfloat *p,
 
 void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
 {
-    glPointSize(config_get_d(CONFIG_HEIGHT) / 6);
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+
+    glPointSize(height / 6);
+
     glPushMatrix();
     {
         glTranslatef(p[0], p[1], p[2]);
@@ -374,7 +377,10 @@ void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfl
 
 void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 {
-    glPointSize(config_get_d(CONFIG_HEIGHT) / 12);
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+
+    glPointSize(height / 12);
+
     glPushMatrix();
     {
         glTranslatef(p[0], p[1], p[2]);
