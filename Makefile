@@ -114,7 +114,7 @@ ifeq ($(ENABLE_HMD),libovr)
 		HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 	ifeq ($(PLATFORM),darwin)
-		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit
+		HMD_LIBS     := -L/usr/local/OculusSDK/LibOVR/Lib/MacOS/Release -lovr -framework IOKit -framework CoreFoundation -framework ApplicationServices
 		HMD_CPPFLAGS := -I/usr/local/OculusSDK/LibOVR/Include
 	endif
 endif
@@ -364,8 +364,8 @@ ifeq ($(ENABLE_HMD),libovr)
 BALL_OBJS += share/hmd_libovr.o share/hmd_common.o
 PUTT_OBJS += share/hmd_libovr.o share/hmd_common.o
 else
-BALL_OBJS += share/hmd_null.o share/hmd_common.o
-PUTT_OBJS += share/hmd_null.o share/hmd_common.o
+BALL_OBJS += share/hmd_null.o
+PUTT_OBJS += share/hmd_null.o
 endif
 endif
 

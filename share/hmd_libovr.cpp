@@ -63,7 +63,7 @@ static void hmd_matrix(OVR::Matrix4f& M)
 
 extern "C" int hmd_stat()
 {
-    return config_get_d(CONFIG_HMD);
+    return (config_get_d(CONFIG_HMD) && hmd_common_stat());
 }
 
 extern "C" void hmd_init()
@@ -190,8 +190,11 @@ extern "C" void hmd_ortho()
 {
     hmd_persp(0.5f, 2.0f);
 
-    glScalef    ( 1.25f / Info.VResolution,  1.25f / Info.VResolution,  1.0f);
-    glTranslatef(-0.50f * Info.HResolution, -0.50f * Info.VResolution, -1.0f);
+    int w = config_get_d(CONFIG_WIDTH);
+    int h = config_get_d(CONFIG_HEIGHT);
+
+    glScalef    ( 1.25f / h,  1.25f / h,  1.0f);
+    glTranslatef(-0.50f * w, -0.50f * h, -1.0f);
 }
 
 /*---------------------------------------------------------------------------*/

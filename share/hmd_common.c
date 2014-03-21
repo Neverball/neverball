@@ -125,6 +125,12 @@ static const char *hmd_frag[] = {
 
 #endif
 
+int hmd_common_stat()
+{
+    return (distortion.program && L_vbo && L_fbo.framebuffer
+                               && R_vbo && R_fbo.framebuffer);
+}
+
 void hmd_common_init(int w, int h)
 {
     /* Create the off-screen frame buffers. */
