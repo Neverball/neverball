@@ -25,6 +25,7 @@
 #include "image.h"
 #include "config.h"
 #include "video.h"
+#include "hmd.h"
 
 #include "solid_draw.h"
 
