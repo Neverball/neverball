@@ -5,7 +5,7 @@
 * REQUIREMENTS
 
     SDL 2.0           http://libsdl.org/download-2.0.php
-    SDL_ttf           http://libsdl.org/projects/SDL_ttf/
+    SDL2_ttf          http://libsdl.org/projects/SDL_ttf/
     PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
     libpng            http://libpng.org/pub/png/libpng.html
