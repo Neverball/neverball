@@ -1,6 +1,6 @@
 # Licensing and exceptions
 
-Neverball is released under the terms of the GNU General Pulic License
+Neverball is released under the terms of the GNU General Public License
 version 2 or a later version (at your option). The full text of GPLv2
 is available in `GPL-2.0.txt`.
 
