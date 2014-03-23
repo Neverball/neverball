@@ -16,3 +16,6 @@
 *.map text
 *.obj text
 *.mtl text
+
+# Markdown
+*.md  text
