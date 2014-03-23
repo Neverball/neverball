@@ -1,8 +1,8 @@
 # Licensing and exceptions
 
-Neverball is released under the terms of the GNU General Public License
-version 2 or a later version (at your option). The full text of GPLv2
-is available in `GPL-2.0.txt`.
+Neverball is released under the terms of the GNU General Public
+License version 2 or a later version (at your option). The full text
+of GPLv2 is included in `doc/legal/`.
 
 Neverball uses a number of external libraries. Certain features that
 can be enabled at compile time require additional libraries. Binary
