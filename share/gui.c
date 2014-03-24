@@ -2219,12 +2219,12 @@ int gui_stick(int id, int a, float v, int bump)
 
     /* Find a new active widget in the direction of joystick motion. */
 
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
+    if      (config_tst_d(CONFIG_JOYSTICK_AXIS_X0, a))
     {
         if (v < 0) jd = gui_wrap_L(id, active);
         if (v > 0) jd = gui_wrap_R(id, active);
     }
-    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
+    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y0, a))
     {
         if (v < 0) jd = gui_wrap_U(id, active);
         if (v > 0) jd = gui_wrap_D(id, active);

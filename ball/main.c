@@ -121,13 +121,13 @@ static int handle_key_dn(SDL_Event *e)
 
     default:
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), -1.0f);
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), +1.0f);
         else if (config_tst_d(CONFIG_KEY_LEFT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), -1.0f);
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), +1.0f);
         else
             d = st_keybd(e->key.keysym.sym, 1);
     }
@@ -150,13 +150,13 @@ static int handle_key_up(SDL_Event *e)
         break;
     default:
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0);
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0);
         else if (config_tst_d(CONFIG_KEY_LEFT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0);
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0);
+            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0);
         else
             d = st_keybd(e->key.keysym.sym, 0);
     }
@@ -251,8 +251,8 @@ static int loop(void)
 
         while (tilt_get_button(&b, &s))
         {
-            const int X = config_get_d(CONFIG_JOYSTICK_AXIS_X);
-            const int Y = config_get_d(CONFIG_JOYSTICK_AXIS_Y);
+            const int X = config_get_d(CONFIG_JOYSTICK_AXIS_X0);
+            const int Y = config_get_d(CONFIG_JOYSTICK_AXIS_Y0);
             const int L = config_get_d(CONFIG_JOYSTICK_DPAD_L);
             const int R = config_get_d(CONFIG_JOYSTICK_DPAD_R);
             const int U = config_get_d(CONFIG_JOYSTICK_DPAD_U);

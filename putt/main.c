@@ -146,13 +146,13 @@ static int loop(void)
 
             default:
                 if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), -1.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), -1.0f);
                 else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), +1.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), +1.0f);
                 else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), -1.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), -1.0f);
                 else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), +1.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), +1.0f);
                 else
                     d = st_keybd(e.key.keysym.sym, 1);
             }
@@ -176,13 +176,13 @@ static int loop(void)
 
             default:
                 if (config_tst_d(CONFIG_KEY_FORWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0.0f);
                 else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y), 0.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0.0f);
                 else if (config_tst_d(CONFIG_KEY_LEFT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0.0f);
                 else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X), 0.0f);
+                    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0.0f);
                 else
                     d = st_keybd(e.key.keysym.sym, 0);
             }

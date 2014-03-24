@@ -982,9 +982,9 @@ static void stroke_point(int id, int x, int y, int dx, int dy)
 
 static void stroke_stick(int id, int a, float v, int bump)
 {
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_X, a))
+    if      (config_tst_d(CONFIG_JOYSTICK_AXIS_X0, a))
         stroke_rotate = 6 * v;
-    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
+    else if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y0, a))
         stroke_mag = -6 * v;
 }
 

@@ -59,12 +59,14 @@ int CONFIG_MUSIC_VOLUME;
 int CONFIG_JOYSTICK;
 int CONFIG_JOYSTICK_DEVICE;
 int CONFIG_JOYSTICK_RESPONSE;
-int CONFIG_JOYSTICK_AXIS_X;
-int CONFIG_JOYSTICK_AXIS_Y;
-int CONFIG_JOYSTICK_AXIS_U;
-int CONFIG_JOYSTICK_AXIS_X_INVERT;
-int CONFIG_JOYSTICK_AXIS_Y_INVERT;
-int CONFIG_JOYSTICK_AXIS_U_INVERT;
+int CONFIG_JOYSTICK_AXIS_X0;
+int CONFIG_JOYSTICK_AXIS_Y0;
+int CONFIG_JOYSTICK_AXIS_X1;
+int CONFIG_JOYSTICK_AXIS_Y1;
+int CONFIG_JOYSTICK_AXIS_X0_INVERT;
+int CONFIG_JOYSTICK_AXIS_Y0_INVERT;
+int CONFIG_JOYSTICK_AXIS_X1_INVERT;
+int CONFIG_JOYSTICK_AXIS_Y1_INVERT;
 
 int CONFIG_JOYSTICK_BUTTON_A;
 int CONFIG_JOYSTICK_BUTTON_B;
@@ -157,15 +159,17 @@ static struct
     { &CONFIG_SOUND_VOLUME, "sound_volume", 10 },
     { &CONFIG_MUSIC_VOLUME, "music_volume", 6 },
 
-    { &CONFIG_JOYSTICK,               "joystick",               1 },
-    { &CONFIG_JOYSTICK_DEVICE,        "joystick_device",        0 },
-    { &CONFIG_JOYSTICK_RESPONSE,      "joystick_response",      250 },
-    { &CONFIG_JOYSTICK_AXIS_X,        "joystick_axis_x",        0 },
-    { &CONFIG_JOYSTICK_AXIS_Y,        "joystick_axis_y",        1 },
-    { &CONFIG_JOYSTICK_AXIS_U,        "joystick_axis_u",        2 },
-    { &CONFIG_JOYSTICK_AXIS_X_INVERT, "joystick_axis_x_invert", 0 },
-    { &CONFIG_JOYSTICK_AXIS_Y_INVERT, "joystick_axis_y_invert", 0 },
-    { &CONFIG_JOYSTICK_AXIS_U_INVERT, "joystick_axis_u_invert", 0 },
+    { &CONFIG_JOYSTICK,                "joystick",                1 },
+    { &CONFIG_JOYSTICK_DEVICE,         "joystick_device",         0 },
+    { &CONFIG_JOYSTICK_RESPONSE,       "joystick_response",       250 },
+    { &CONFIG_JOYSTICK_AXIS_X0,        "joystick_axis_x0",        0 },
+    { &CONFIG_JOYSTICK_AXIS_Y0,        "joystick_axis_y0",        1 },
+    { &CONFIG_JOYSTICK_AXIS_X1,        "joystick_axis_x1",        2 },
+    { &CONFIG_JOYSTICK_AXIS_Y1,        "joystick_axis_y1",        3 },
+    { &CONFIG_JOYSTICK_AXIS_X0_INVERT, "joystick_axis_x0_invert", 0 },
+    { &CONFIG_JOYSTICK_AXIS_Y0_INVERT, "joystick_axis_y0_invert", 0 },
+    { &CONFIG_JOYSTICK_AXIS_X1_INVERT, "joystick_axis_x1_invert", 0 },
+    { &CONFIG_JOYSTICK_AXIS_Y1_INVERT, "joystick_axis_y1_invert", 0 },
 
     { &CONFIG_JOYSTICK_BUTTON_A,      "joystick_button_a",      0 },
     { &CONFIG_JOYSTICK_BUTTON_B,      "joystick_button_b",      1 },

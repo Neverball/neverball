@@ -511,7 +511,7 @@ static void demo_play_stick(int id, int a, float v, int bump)
     if (!bump)
         return;
 
-    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y, a))
+    if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y0, a))
     {
         if (v < 0) set_speed(+1);
         if (v > 0) set_speed(-1);
