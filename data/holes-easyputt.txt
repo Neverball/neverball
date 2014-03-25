@@ -1,0 +1,21 @@
+shot-putt/easyputt.jpg
+Reshaun's Easy-Putt\\Difficulty: Easy through Hard\Author: Reshaun Francis
+map-easyputt/easyputt1.sol     back/blues.png       3 bgm/track1.ogg
+map-easyputt/easyputt1.sol     back/blues.png       3 bgm/track1.ogg
+map-easyputt/easyputt2.sol     back/org_yel.png       3 bgm/track2.ogg
+map-easyputt/easyputt3.sol     back/greens.png       3 bgm/track3.ogg
+map-easyputt/easyputt4.sol     back/greys.png       3 bgm/track4.ogg
+map-easyputt/easyputt5.sol     back/pastel.png       3 bgm/track5.ogg
+map-easyputt/easyputt6.sol     back/blk_org.png       3 bgm/track6.ogg
+map-easyputt/easyputt7.sol     back/blues.png       4 bgm/track1.ogg
+map-easyputt/easyputt8.sol     back/blk_grn.png       3 bgm/track2.ogg
+map-easyputt/easyputt9.sol     back/blk_blu.png       3 bgm/track3.ogg
+map-easyputt/easyputt10.sol     back/blk_cyn.png       3 bgm/track4.ogg
+map-easyputt/easyputt11.sol     back/red_prp.png       4 bgm/track5.ogg
+map-easyputt/easyputt12.sol     back/blk_org.png       3 bgm/track6.ogg
+map-easyputt/easyputt13.sol     back/blues.png       4 bgm/track1.ogg
+map-easyputt/easyputt14.sol     back/grn_yel.png       3 bgm/track2.ogg
+map-easyputt/easyputt15.sol     back/purples.png       3 bgm/track3.ogg
+map-easyputt/easyputt16.sol     back/greys.png       3 bgm/track4.ogg
+map-easyputt/easyputt17.sol     back/pastel.png       4 bgm/track5.ogg
+map-easyputt/easyputt18.sol     back/org_yel.png       7 bgm/track6.ogg
