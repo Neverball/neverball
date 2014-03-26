@@ -1,0 +1,13 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+"drawback" "1"
+"depthmask" "1"
+}
+// entity 1
+{
+"classname" "misc_model"
+"material" "ball/diagonal-ball/diagonal-ball"
+"model" "ball/basic-ball/basic-ball.obj"
+}

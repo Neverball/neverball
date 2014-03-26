@@ -21,6 +21,7 @@ D: SVG icons
 D: Screenshot naming tweaks
 D: Teleport design
 D: Volcano background
+D: Octocat ball
 
 N: Challenge Space Yard
 E: challengespaceyard@gmail.com
@@ -47,6 +48,7 @@ D: Galician translation
 
 N: Reshaun Francis (reshaun)
 D: Neverputt course (easyputt)
+D: Diagonal ball
 
 N: Giacomo Frate (giacomo.frate)
 D: Italian translation
