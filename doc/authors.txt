@@ -45,6 +45,9 @@ N: Adrián Chaves Fernández (Gallaecio)
 E: adriyetichaves@gmail.com
 D: Galician translation
 
+N: Reshaun Francis (reshaun)
+D: Neverputt course (easyputt)
+
 N: Giacomo Frate (giacomo.frate)
 D: Italian translation
 
