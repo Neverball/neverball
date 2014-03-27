@@ -80,6 +80,9 @@ N: Karl Ove Hufthammer (huftis)
 E: karl@huftis.org
 D: Norwegian Nynorsk translation
 
+N: Eckhard M. Jäger
+D: Eyeball and Blinky textures
+
 N: Byron James Johnson (Krabby Krap)
 D: Neverputt course
 D: Platform acceleration toggle
