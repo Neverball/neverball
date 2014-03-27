@@ -1,0 +1,11 @@
+{
+"classname" "worldspawn"
+"drawback" "1"
+"drawclip" "1"
+"depthmask" "0"
+}
+{
+"classname" "misc_model"
+"material" "ball/eyeball/lens"
+"model" "ball/basic-ball/basic-ball.obj"
+}
