@@ -75,7 +75,6 @@ static void toggle_wire(void)
 static void toggle_lerp(void)
 {
     extern int enable_interpolation;
-
     enable_interpolation = !enable_interpolation;
 }
 

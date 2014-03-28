@@ -58,7 +58,7 @@ static struct b_mtrl coin_base_mtrl =
     { 0.0f }, 0.0f, M_TRANSPARENT, IMG_PART_STAR
 };
 
-static struct d_mtrl coin_draw_mtrl;
+static int coin_mtrl;
 
 /*---------------------------------------------------------------------------*/
 
@@ -138,7 +138,7 @@ void part_reset(void)
 
 void part_init(void)
 {
-    sol_load_mtrl(&coin_draw_mtrl, &coin_base_mtrl);
+    coin_mtrl = mtrl_cache(&coin_base_mtrl);
 
     memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
@@ -158,7 +158,8 @@ void part_free(void)
 {
     glDeleteBuffers_(1, &coin_vbo);
 
-    sol_free_mtrl(&coin_draw_mtrl);
+    mtrl_free(coin_mtrl);
+    coin_mtrl = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -226,7 +227,7 @@ void part_draw_coin(struct s_rend *rend)
 {
     GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
 
-    sol_apply_mtrl(&coin_draw_mtrl, rend);
+    sol_apply_mtrl(coin_mtrl, rend);
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 

@@ -332,6 +332,11 @@ struct s_base
     struct b_view *wv;
     struct b_dict *dv;
     int           *iv;
+
+    /*
+     * A mapping from internal to cached material indices.
+     */
+    int *mtrls;
 };
 
 /*---------------------------------------------------------------------------*/

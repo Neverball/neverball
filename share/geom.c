@@ -327,7 +327,8 @@ void back_init(const char *name)
 
     if (sol_load_full(&back, "geom/back/back.sol", 0))
     {
-        back.draw.mv[0].o = make_image_from_file(name, IF_MIPMAP);
+        struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
+        mp->o = make_image_from_file(name, IF_MIPMAP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         back_state = 1;
     }

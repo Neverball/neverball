@@ -232,12 +232,14 @@ static int null_enter(struct state *st, struct state *prev)
     geom_free();
     ball_free();
     shad_free();
+    mtrl_quit();
 
     return 0;
 }
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
+    mtrl_init();
     shad_init();
     ball_init();
     geom_init();
