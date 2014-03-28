@@ -2948,6 +2948,11 @@ int main(int argc, char *argv[])
 #if ENABLE_RADIANT_CONSOLE
             if (strcmp(argv[argi], "--bcast") == 0) bcast_init();
 #endif
+            if (strcmp(argv[argi], "--data")  == 0)
+            {
+                if (++argi < argc)
+                    fs_add_path(argv[argi]);
+            }
         }
 
         strncpy(src, argv[1], MAXSTR - 1);
