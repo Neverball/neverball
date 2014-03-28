@@ -438,9 +438,9 @@ void back_draw_easy(void)
 {
     struct s_rend rend;
 
-    sol_draw_enable(&rend);
+    r_draw_enable(&rend);
     back_draw(&rend);
-    sol_draw_disable(&rend);
+    r_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/

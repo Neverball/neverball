@@ -161,7 +161,7 @@ static void game_draw_balls(struct s_rend *rend,
 
     int ui;
 
-    sol_color_mtrl(rend, 1);
+    r_color_mtrl(rend, 1);
 
     for (ui = curr_party(); ui > 0; ui--)
     {
@@ -212,7 +212,7 @@ static void game_draw_balls(struct s_rend *rend,
     }
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_color_mtrl(rend, 0);
+    r_color_mtrl(rend, 0);
 }
 
 static void game_draw_flags(struct s_rend *rend, const struct s_base *fp)
@@ -285,7 +285,7 @@ void game_draw(int pose, float t)
     fp->shadow_ui = ball;
 
     game_shadow_conf(1);
-    sol_draw_enable(&rend);
+    r_draw_enable(&rend);
 
     if (jump_b) fov *= 2.0f * fabsf(jump_dt - 0.5f);
 
@@ -349,7 +349,7 @@ void game_draw(int pose, float t)
     glPopMatrix();
     video_pop_matrix();
 
-    sol_draw_disable(&rend);
+    r_draw_disable(&rend);
     game_shadow_conf(0);
 }
 

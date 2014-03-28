@@ -109,16 +109,16 @@ struct s_rend
     unsigned int color_mtrl:1;          /* Color material flag               */
 };
 
+void r_draw_enable(struct s_rend *);
+void r_draw_disable(struct s_rend *);
+
+void r_color_mtrl(struct s_rend *, int);
+void r_apply_mtrl(struct s_rend *, int);
+
 /*---------------------------------------------------------------------------*/
 
 int  sol_load_draw(struct s_draw *, struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
-
-void sol_draw_enable(struct s_rend *);
-void sol_draw_disable(struct s_rend *);
-
-void sol_color_mtrl(struct s_rend *, int);
-void sol_apply_mtrl(int, struct s_rend *);
 
 void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
 void sol_refl(const struct s_draw *, struct s_rend *);

@@ -63,7 +63,7 @@ static void game_draw_items(struct s_rend *rend,
     int type = ITEM_NONE;
     int value = 0;
 
-    sol_color_mtrl(rend, 1);
+    r_color_mtrl(rend, 1);
     {
         for (hi = 0; hi < vary->hc; hi++)
         {
@@ -100,8 +100,7 @@ static void game_draw_items(struct s_rend *rend,
             glPopMatrix();
         }
     }
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_color_mtrl(rend, 0);
+    r_color_mtrl(rend, 0);
 }
 
 static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
@@ -453,7 +452,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         gd->draw.shadow_ui = 0;
 
         game_shadow_conf(pose, 1);
-        sol_draw_enable(&rend);
+        r_draw_enable(&rend);
 
         video_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
@@ -532,13 +531,13 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             if (gd->draw.reflective && !config_get_d(CONFIG_REFLECTION))
             {
-                sol_color_mtrl(&rend, 1);
+                r_color_mtrl(&rend, 1);
                 {
                     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
                     game_refl_all(&rend, gd);
                     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                 }
-                sol_color_mtrl(&rend, 0);
+                r_color_mtrl(&rend, 0);
             }
 
             /* Draw the mirrors and the rest of the foreground. */
@@ -553,7 +552,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         sol_fade(&gd->draw, &rend, gd->fade_k);
 
-        sol_draw_disable(&rend);
+        r_draw_disable(&rend);
         game_shadow_conf(pose, 0);
     }
 }

@@ -227,7 +227,7 @@ void part_draw_coin(struct s_rend *rend)
 {
     GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
 
-    sol_apply_mtrl(coin_mtrl, rend);
+    r_apply_mtrl(rend, coin_mtrl);
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 

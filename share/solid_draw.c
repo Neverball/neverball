@@ -182,8 +182,8 @@ static void sol_draw_bill(GLboolean edge)
 /*---------------------------------------------------------------------------*/
 
 /* NOTE: The state management here presumes that billboard rendering is      */
-/* NESTED within a wider SOL rendering process. That is: sol_draw_enable     */
-/* has been called and sol_draw_disable will be called in the future.        */
+/* NESTED within a wider SOL rendering process. That is: r_draw_enable       */
+/* has been called and r_draw_disable will be called in the future.          */
 /* Thus the "default" VBO state retained by billboard rendering is the       */
 /* state appropriate for normal SOL rendering.                               */
 
@@ -207,252 +207,6 @@ static void sol_bill_disable(void)
 }
 
 /*---------------------------------------------------------------------------*/
-
-#if DEBUG_MTRL
-static void check_mtrl(const char *name, GLenum pname, GLuint curr)
-{
-    static char buff[64];
-
-    GLuint real;
-    GLfloat v[4];
-
-    glGetMaterialfv(GL_FRONT, pname, v);
-
-    if (pname != GL_SHININESS)
-        real = (tobyte(v[0])       |
-                tobyte(v[1]) << 8  |
-                tobyte(v[2]) << 16 |
-                tobyte(v[3]) << 24);
-    else
-        real = (tobyte(v[0]));
-
-    if (real != curr)
-    {
-        sprintf(buff, "%s mismatch (0x%08X -> 0x%08X)", name, real, curr);
-        glStringMarker_(buff);
-    }
-}
-
-static void assert_mtrl(const struct mtrl *mp)
-{
-    if (glIsEnabled(GL_COLOR_MATERIAL))
-        return;
-
-    check_mtrl("ambient",   GL_AMBIENT,   mp->a);
-    check_mtrl("diffuse",   GL_DIFFUSE,   mp->d);
-    check_mtrl("specular",  GL_SPECULAR,  mp->s);
-    check_mtrl("emission",  GL_EMISSION,  mp->e);
-    check_mtrl("shininess", GL_SHININESS, mp->h);
-}
-#endif
-
-void sol_color_mtrl(struct s_rend *rend, int enable)
-{
-    if (enable)
-    {
-        glEnable(GL_COLOR_MATERIAL);
-
-        rend->color_mtrl = 1;
-    }
-    else
-    {
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-        glDisable(GL_COLOR_MATERIAL);
-
-        /* Keep material tracking synchronized with GL state. */
-
-        rend->curr_mtrl.d = 0xffffffff;
-        rend->curr_mtrl.a = 0xffffffff;
-
-        rend->color_mtrl = 0;
-    }
-}
-
-void sol_apply_mtrl(int mi, struct s_rend *rend)
-{
-    struct mtrl *mp = mtrl_get(mi);
-    struct mtrl *mq = &rend->curr_mtrl;
-
-    /* Mask ignored flags. */
-
-    int mp_flags = mp->base.fl & ~rend->skip_flags;
-    int mq_flags = mq->base.fl;
-
-#if DEBUG_MTRL
-    assert_mtrl(&rend->curr_mtrl);
-#endif
-
-    /* Bind the texture. */
-
-    if (mp->o != mq->o)
-        glBindTexture(GL_TEXTURE_2D, mp->o);
-
-    /* Set material properties. */
-
-    if (mp->d != mq->d && !rend->color_mtrl)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp->base.d);
-    if (mp->a != mq->a && !rend->color_mtrl)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp->base.a);
-    if (mp->s != mq->s)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->base.s);
-    if (mp->e != mq->e)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->base.e);
-    if (mp->h != mq->h)
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->base.h);
-
-    /* Ball shadow. */
-
-    if ((mp_flags & M_SHADOWED) ^ (mq_flags & M_SHADOWED))
-    {
-        if (mp_flags & M_SHADOWED)
-            shad_draw_set();
-        else
-            shad_draw_clr();
-    }
-
-    /* Environment mapping. */
-
-#if !ENABLE_OPENGLES
-    if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
-    {
-        if (mp_flags & M_ENVIRONMENT)
-        {
-            glEnable(GL_TEXTURE_GEN_S);
-            glEnable(GL_TEXTURE_GEN_T);
-
-            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-            glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        }
-        else
-        {
-            glDisable(GL_TEXTURE_GEN_S);
-            glDisable(GL_TEXTURE_GEN_T);
-        }
-    }
-#endif
-
-    /* Additive blending. */
-
-    if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
-    {
-        if (mp_flags & M_ADDITIVE)
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-        else
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
-
-    /* Visibility-from-behind. */
-
-    if ((mp_flags & M_TWO_SIDED) ^ (mq_flags & M_TWO_SIDED))
-    {
-        if (mp_flags & M_TWO_SIDED)
-        {
-            glDisable(GL_CULL_FACE);
-            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
-        }
-        else
-        {
-            glEnable(GL_CULL_FACE);
-            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
-        }
-    }
-
-    /* Decal offset. */
-
-    if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
-    {
-        if (mp_flags & M_DECAL)
-        {
-            glEnable(GL_POLYGON_OFFSET_FILL);
-            glPolygonOffset(-1.0f, -2.0f);
-        }
-        else
-            glDisable(GL_POLYGON_OFFSET_FILL);
-    }
-
-    /* Semi-opacity. */
-
-    if ((mp_flags & M_SEMI_OPAQUE) ^ (mq_flags & M_SEMI_OPAQUE))
-    {
-        if (mp_flags & M_SEMI_OPAQUE)
-        {
-            glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
-
-            glEnable(GL_ALPHA_TEST);
-            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-        }
-        else
-        {
-            glDisable(GL_ALPHA_TEST);
-            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-        }
-    }
-
-    if (((mp_flags & mq_flags) & M_SEMI_OPAQUE) && (mp->base.semi_opaque !=
-                                                    mq->base.semi_opaque))
-    {
-        /* Update alpha function. */
-
-        glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
-    }
-
-    /* Alpha test. */
-
-    /*
-     * Kind of/sort of works with semi-opacity, as long as geometry is
-     * rendered in two passes and the semi-opacity flag is masked
-     * during the second pass.
-     */
-
-    if ((mp_flags & M_SEMI_OPAQUE) == 0 && ((mp_flags & M_ALPHA_TEST) ^
-                                            (mq_flags & M_ALPHA_TEST)))
-    {
-        if (mp_flags & M_ALPHA_TEST)
-        {
-            glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
-
-            glEnable(GL_ALPHA_TEST);
-        }
-        else
-            glDisable(GL_ALPHA_TEST);
-    }
-
-    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_test !=
-                                                   mq->base.alpha_test))
-    {
-        /* Update alpha function. */
-
-        glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
-    }
-
-    /* Point sprite. */
-
-    if ((mp_flags & M_PARTICLE) ^ (mq_flags & M_PARTICLE))
-    {
-        if (mp_flags & M_PARTICLE)
-        {
-            const int s = config_get_d(CONFIG_HEIGHT) / 4;
-            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
-
-            glEnable (GL_POINT_SPRITE);
-            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
-            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
-            glPointParameterf_ (GL_POINT_SIZE_MIN, 1);
-            glPointParameterf_ (GL_POINT_SIZE_MAX, s);
-        }
-        else
-        {
-            glDisable(GL_POINT_SPRITE);
-        }
-    }
-
-    /* Update current material state. */
-
-    memcpy(mq, mp, sizeof (struct mtrl));
-
-    mq->base.fl = mp_flags;
-}
 
 static int sol_test_mtrl(int mi, int p)
 {
@@ -662,7 +416,7 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 
         /* Apply the material state. */
 
-        sol_apply_mtrl(mp->mtrl, rend);
+        r_apply_mtrl(rend, mp->mtrl);
 
         /* Bind the mesh data. */
 
@@ -828,28 +582,6 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
         }
 }
 
-void sol_draw_enable(struct s_rend *rend)
-{
-    memset(rend, 0, sizeof (*rend));
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    rend->curr_mtrl = *mtrl_get(default_mtrl);
-}
-
-void sol_draw_disable(struct s_rend *rend)
-{
-    sol_apply_mtrl(default_mtrl, rend);
-
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-
 /*---------------------------------------------------------------------------*/
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
@@ -941,7 +673,7 @@ void sol_back(const struct s_draw *draw,
                     float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                     float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                    sol_apply_mtrl(draw->base->mtrls[rp->mi], rend);
+                    r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
                     glPushMatrix();
                     {
@@ -998,7 +730,7 @@ void sol_bill(const struct s_draw *draw,
             float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
             float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-            sol_apply_mtrl(draw->base->mtrls[rp->mi], rend);
+            r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
             glPushMatrix();
             {
@@ -1038,7 +770,7 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
             glColor4f(0.0f, 0.0f, 0.0f, k);
 
             sol_bill_enable(draw);
-            sol_apply_mtrl(default_mtrl, rend);
+            r_apply_mtrl(rend, default_mtrl);
             glScalef(2.0f, 2.0f, 1.0f);
             sol_draw_bill(GL_FALSE);
             sol_bill_disable();
@@ -1081,6 +813,276 @@ void sol_free_full(struct s_full *full)
     sol_free_draw(&full->draw);
     sol_free_vary(&full->vary);
     sol_free_base(&full->base);
+}
+
+/*---------------------------------------------------------------------------*/
+
+#if DEBUG_MTRL
+static void check_mtrl(const char *name, GLenum pname, GLuint curr)
+{
+    static char buff[64];
+
+    GLuint real;
+    GLfloat v[4];
+
+    glGetMaterialfv(GL_FRONT, pname, v);
+
+    if (pname != GL_SHININESS)
+        real = (tobyte(v[0])       |
+                tobyte(v[1]) << 8  |
+                tobyte(v[2]) << 16 |
+                tobyte(v[3]) << 24);
+    else
+        real = (tobyte(v[0]));
+
+    if (real != curr)
+    {
+        sprintf(buff, "%s mismatch (0x%08X -> 0x%08X)", name, real, curr);
+        glStringMarker_(buff);
+    }
+}
+
+static void assert_mtrl(const struct mtrl *mp)
+{
+    if (glIsEnabled(GL_COLOR_MATERIAL))
+        return;
+
+    check_mtrl("ambient",   GL_AMBIENT,   mp->a);
+    check_mtrl("diffuse",   GL_DIFFUSE,   mp->d);
+    check_mtrl("specular",  GL_SPECULAR,  mp->s);
+    check_mtrl("emission",  GL_EMISSION,  mp->e);
+    check_mtrl("shininess", GL_SHININESS, mp->h);
+}
+#endif
+
+void r_color_mtrl(struct s_rend *rend, int enable)
+{
+    if (enable)
+    {
+        glEnable(GL_COLOR_MATERIAL);
+
+        rend->color_mtrl = 1;
+    }
+    else
+    {
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        glDisable(GL_COLOR_MATERIAL);
+
+        /* Keep material tracking synchronized with GL state. */
+
+        rend->curr_mtrl.d = 0xffffffff;
+        rend->curr_mtrl.a = 0xffffffff;
+
+        rend->color_mtrl = 0;
+    }
+}
+
+void r_apply_mtrl(struct s_rend *rend, int mi)
+{
+    struct mtrl *mp = mtrl_get(mi);
+    struct mtrl *mq = &rend->curr_mtrl;
+
+    /* Mask ignored flags. */
+
+    int mp_flags = mp->base.fl & ~rend->skip_flags;
+    int mq_flags = mq->base.fl;
+
+#if DEBUG_MTRL
+    assert_mtrl(&rend->curr_mtrl);
+#endif
+
+    /* Bind the texture. */
+
+    if (mp->o != mq->o)
+        glBindTexture(GL_TEXTURE_2D, mp->o);
+
+    /* Set material properties. */
+
+    if (mp->d != mq->d && !rend->color_mtrl)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mp->base.d);
+    if (mp->a != mq->a && !rend->color_mtrl)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mp->base.a);
+    if (mp->s != mq->s)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mp->base.s);
+    if (mp->e != mq->e)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,  mp->base.e);
+    if (mp->h != mq->h)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->base.h);
+
+    /* Ball shadow. */
+
+    if ((mp_flags & M_SHADOWED) ^ (mq_flags & M_SHADOWED))
+    {
+        if (mp_flags & M_SHADOWED)
+            shad_draw_set();
+        else
+            shad_draw_clr();
+    }
+
+    /* Environment mapping. */
+
+#if !ENABLE_OPENGLES
+    if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
+    {
+        if (mp_flags & M_ENVIRONMENT)
+        {
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
+
+            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+        }
+    }
+#endif
+
+    /* Additive blending. */
+
+    if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
+    {
+        if (mp_flags & M_ADDITIVE)
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        else
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    /* Visibility-from-behind. */
+
+    if ((mp_flags & M_TWO_SIDED) ^ (mq_flags & M_TWO_SIDED))
+    {
+        if (mp_flags & M_TWO_SIDED)
+        {
+            glDisable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
+        }
+        else
+        {
+            glEnable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
+        }
+    }
+
+    /* Decal offset. */
+
+    if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
+    {
+        if (mp_flags & M_DECAL)
+        {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glPolygonOffset(-1.0f, -2.0f);
+        }
+        else
+            glDisable(GL_POLYGON_OFFSET_FILL);
+    }
+
+    /* Semi-opacity. */
+
+    if ((mp_flags & M_SEMI_OPAQUE) ^ (mq_flags & M_SEMI_OPAQUE))
+    {
+        if (mp_flags & M_SEMI_OPAQUE)
+        {
+            glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
+
+            glEnable(GL_ALPHA_TEST);
+            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+        }
+        else
+        {
+            glDisable(GL_ALPHA_TEST);
+            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+        }
+    }
+
+    if (((mp_flags & mq_flags) & M_SEMI_OPAQUE) && (mp->base.semi_opaque !=
+                                                    mq->base.semi_opaque))
+    {
+        /* Update alpha function. */
+
+        glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
+    }
+
+    /* Alpha test. */
+
+    /*
+     * Kind of/sort of works with semi-opacity, as long as geometry is
+     * rendered in two passes and the semi-opacity flag is masked
+     * during the second pass.
+     */
+
+    if ((mp_flags & M_SEMI_OPAQUE) == 0 && ((mp_flags & M_ALPHA_TEST) ^
+                                            (mq_flags & M_ALPHA_TEST)))
+    {
+        if (mp_flags & M_ALPHA_TEST)
+        {
+            glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
+
+            glEnable(GL_ALPHA_TEST);
+        }
+        else
+            glDisable(GL_ALPHA_TEST);
+    }
+
+    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_test !=
+                                                   mq->base.alpha_test))
+    {
+        /* Update alpha function. */
+
+        glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
+    }
+
+    /* Point sprite. */
+
+    if ((mp_flags & M_PARTICLE) ^ (mq_flags & M_PARTICLE))
+    {
+        if (mp_flags & M_PARTICLE)
+        {
+            const int s = config_get_d(CONFIG_HEIGHT) / 4;
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+
+            glEnable (GL_POINT_SPRITE);
+            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
+            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointParameterf_ (GL_POINT_SIZE_MIN, 1);
+            glPointParameterf_ (GL_POINT_SIZE_MAX, s);
+        }
+        else
+        {
+            glDisable(GL_POINT_SPRITE);
+        }
+    }
+
+    /* Update current material state. */
+
+    memcpy(mq, mp, sizeof (struct mtrl));
+
+    mq->base.fl = mp_flags;
+}
+
+void r_draw_enable(struct s_rend *rend)
+{
+    memset(rend, 0, sizeof (*rend));
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    rend->curr_mtrl = *mtrl_get(default_mtrl);
+}
+
+void r_draw_disable(struct s_rend *rend)
+{
+    r_apply_mtrl(rend, default_mtrl);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 /*---------------------------------------------------------------------------*/
