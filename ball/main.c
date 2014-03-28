@@ -33,6 +33,7 @@
 #include "fs.h"
 #include "common.h"
 #include "text.h"
+#include "mtrl.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -72,12 +73,6 @@ static void toggle_wire(void)
 #endif
 }
 
-static void toggle_lerp(void)
-{
-    extern int enable_interpolation;
-    enable_interpolation = !enable_interpolation;
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int handle_key_dn(SDL_Event *e)
@@ -107,9 +102,9 @@ static int handle_key_dn(SDL_Event *e)
         if (config_cheat())
             toggle_wire();
         break;
-    case KEY_LERP:
+    case KEY_RESOURCES:
         if (config_cheat())
-            toggle_lerp();
+            mtrl_reload();
         break;
     case SDLK_RETURN:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);

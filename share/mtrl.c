@@ -21,8 +21,6 @@
 #include "image.h"
 #include "lang.h"
 
-/*---------------------------------------------------------------------------*/
-
 /*
  * Material cache.
  *
@@ -37,6 +35,15 @@
  * start out with the values from the first cached SOL. If the values
  * are bad, every subsequent SOL will use them. On the upside,
  * duplicates are uncommon.
+ *
+ * Reloading does not reschedule meshes. Mesh counts for each geometry
+ * pass are tested every frame, but cached at load time. Reloading
+ * does not update those counts, which results in weird behaviors,
+ * e.g., opaque materials that are reloaded as transparent becoming
+ * invisible because they are unaccounted for.
+ *
+ * Obviously, features that require geometry recomputation, such as
+ * "angle" normal smoothing feature, are not handled by the reloader.
  */
 
 static Array mtrls;
@@ -51,6 +58,8 @@ static struct b_mtrl default_base_mtrl =
 };
 
 int default_mtrl;
+
+/*---------------------------------------------------------------------------*/
 
 /*
  * Obtain a mtrl ref by name.
@@ -240,6 +249,32 @@ void mtrl_free_sol(struct s_base *fp)
             free(fp->mtrls);
             fp->mtrls = NULL;
         }
+}
+
+/*
+ * Reload materials from material specifications.
+ */
+void mtrl_reload(void)
+{
+    if (mtrls)
+    {
+        struct b_mtrl base;
+
+        int i, c = array_len(mtrls);
+
+        for (i = 0; i < c; i++)
+        {
+            struct mtrl *mp = array_get(mtrls, i);
+
+            /* Read the material specification. */
+
+            if (mp->refc > 0 && mtrl_read(&base, mp->base.f))
+            {
+                free_mtrl(mp);
+                load_mtrl(mp, &base);
+            }
+        }
+    }
 }
 
 /*

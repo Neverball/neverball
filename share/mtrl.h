@@ -38,6 +38,8 @@ void mtrl_free (int);
 void mtrl_cache_sol(struct s_base *);
 void mtrl_free_sol (struct s_base *);
 
+void mtrl_reload(void);
+
 struct mtrl *mtrl_get(int);
 
 /*---------------------------------------------------------------------------*/
