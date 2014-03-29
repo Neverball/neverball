@@ -194,38 +194,25 @@ static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
 
 static void game_draw_light(const struct game_draw *gd, int d, float t)
 {
-    const float light_p[2][4] = {
-        { -8.0f, +32.0f, -8.0f, 0.0f },
-        { +8.0f, +32.0f, +8.0f, 0.0f },
-    };
-    const float light_c[3][4] = {
-        { 1.0f, 0.8f, 0.8f, 1.0f },
-        { 0.8f, 1.0f, 0.8f, 1.0f },
-        { 1.0f, 1.0f, 1.0f, 1.0f },
-    };
-
     GLfloat p[4];
+
+    /* Configure the lighting. */
+
+    light_conf();
+
+    /* Overrride light 2 position. */
 
     p[0] = cosf(t);
     p[1] = 0.0f;
     p[2] = sinf(t);
     p[3] = 0.0f;
 
-    /* Configure the lighting. */
+    glLightfv(GL_LIGHT2, GL_POSITION, p);
+
+    /* Enable scene lights. */
 
     glEnable(GL_LIGHT0);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_c[0]);
-
     glEnable(GL_LIGHT1);
-    glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
-
-    glLightfv(GL_LIGHT2, GL_POSITION, p);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE,  light_c[2]);
-    glLightfv(GL_LIGHT2, GL_SPECULAR, light_c[2]);
 }
 
 static void game_draw_back(struct s_rend *rend,

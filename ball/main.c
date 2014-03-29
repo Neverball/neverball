@@ -34,6 +34,7 @@
 #include "common.h"
 #include "text.h"
 #include "mtrl.h"
+#include "geom.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -104,7 +105,10 @@ static int handle_key_dn(SDL_Event *e)
         break;
     case KEY_RESOURCES:
         if (config_cheat())
+        {
+            light_load();
             mtrl_reload();
+        }
         break;
     case SDLK_RETURN:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
