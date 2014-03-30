@@ -24,6 +24,7 @@
 #include "util.h"
 #include "common.h"
 #include "demo_dir.h"
+#include "video.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -432,6 +433,8 @@ static int demo_play_gui(void)
 
 static int demo_play_enter(struct state *st, struct state *prev)
 {
+    video_hide_cursor();
+
     if (demo_paused)
     {
         demo_paused = 0;
@@ -461,6 +464,13 @@ static int demo_play_enter(struct state *st, struct state *prev)
     hud_update(0);
 
     return demo_play_gui();
+}
+
+static void demo_play_leave(struct state *st, struct state *next, int id)
+{
+    gui_delete(id);
+
+    video_show_cursor();
 }
 
 static void demo_play_paint(int id, float t)
@@ -811,7 +821,7 @@ struct state st_demo = {
 
 struct state st_demo_play = {
     demo_play_enter,
-    shared_leave,
+    demo_play_leave,
     demo_play_paint,
     demo_play_timer,
     NULL,
