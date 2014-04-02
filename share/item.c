@@ -22,10 +22,15 @@
 
 /*---------------------------------------------------------------------------*/
 
-static struct s_full item_coin_file;
+#define COIN_MAX 3
+
+static struct s_full item_coin_file[COIN_MAX];
 static struct s_full item_grow_file;
 static struct s_full item_shrink_file;
 
+/*
+ * Colors for coin bursts. TODO, turn into a material/text file?
+ */
 void item_color(const struct v_item *hp, float *c)
 {
     switch (hp->t)
@@ -86,14 +91,28 @@ void item_color(const struct v_item *hp, float *c)
 
 void item_init(void)
 {
-    sol_load_full(&item_coin_file,   "item/coin/coin.sol",     0);
+    static const char coin_sols[COIN_MAX][PATHMAX] = {
+        "item/coin/coin.sol",
+        "item/coin/coin5.sol",
+        "item/coin/coin10.sol"
+    };
+
+    int i;
+
+    for (i = 0; i < COIN_MAX; i++)
+        sol_load_full(&item_coin_file[i], coin_sols[i], 0);
+
     sol_load_full(&item_grow_file,   "item/grow/grow.sol",     0);
     sol_load_full(&item_shrink_file, "item/shrink/shrink.sol", 0);
 }
 
 void item_free(void)
 {
-    sol_free_full(&item_coin_file);
+    int i;
+
+    for (i = 0; i < COIN_MAX; i++)
+        sol_free_full(&item_coin_file[i]);
+
     sol_free_full(&item_grow_file);
     sol_free_full(&item_shrink_file);
 }
@@ -102,13 +121,26 @@ void item_draw(struct s_rend *rend,
                const struct v_item *hp,
                const GLfloat *M, float t)
 {
-    struct s_draw *draw = &item_coin_file.draw;
+    struct s_draw *draw;
 
     switch (hp->t)
     {
-    case ITEM_COIN:   draw = &item_coin_file.draw;   break;
-    case ITEM_GROW:   draw = &item_grow_file.draw;   break;
-    case ITEM_SHRINK: draw = &item_shrink_file.draw; break;
+    case ITEM_GROW:
+        draw = &item_grow_file.draw;
+        break;
+
+    case ITEM_SHRINK:
+        draw = &item_shrink_file.draw;
+        break;
+
+    default:
+        if      (hp->n >= 10)
+            draw = &item_coin_file[2].draw;
+        else if (hp->n >= 5)
+            draw = &item_coin_file[1].draw;
+        else
+            draw = &item_coin_file[0].draw;
+        break;
     }
 
     glDepthMask(GL_FALSE);

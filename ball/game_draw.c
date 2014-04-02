@@ -60,47 +60,26 @@ static void game_draw_items(struct s_rend *rend,
 {
     int hi;
 
-    int type = ITEM_NONE;
-    int value = 0;
-
-    r_color_mtrl(rend, 1);
+    for (hi = 0; hi < vary->hc; hi++)
     {
-        for (hi = 0; hi < vary->hc; hi++)
+        struct v_item *hp = &vary->hv[hi];
+
+        /* Skip picked up items. */
+
+        if (hp->t == ITEM_NONE)
+            continue;
+
+        /* Draw model. */
+
+        glPushMatrix();
         {
-            struct v_item *hp = &vary->hv[hi];
-
-            /* Skip picked up items. */
-
-            if (hp->t == ITEM_NONE)
-                continue;
-
-            /* Lazily update color. */
-
-            if (hp->t != type || hp->n != value)
-            {
-                float c[4];
-
-                item_color(hp, c);
-
-                glColor4f(c[0], c[1], c[2], c[3]);
-
-                type = hp->t;
-                value = hp->n;
-            }
-
-            /* Draw model. */
-
-            glPushMatrix();
-            {
-                glTranslatef(hp->p[0],
-                             hp->p[1],
-                             hp->p[2]);
-                item_draw(rend, hp, bill_M, t);
-            }
-            glPopMatrix();
+            glTranslatef(hp->p[0],
+                         hp->p[1],
+                         hp->p[2]);
+            item_draw(rend, hp, bill_M, t);
         }
+        glPopMatrix();
     }
-    r_color_mtrl(rend, 0);
 }
 
 static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
