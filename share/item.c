@@ -28,64 +28,51 @@ static struct s_full item_coin_file[COIN_MAX];
 static struct s_full item_grow_file;
 static struct s_full item_shrink_file;
 
-/*
- * Colors for coin bursts. TODO, turn into a material/text file?
- */
+static struct s_draw *item_file(const struct v_item *hp)
+{
+    if (hp)
+    {
+        switch (hp->t)
+        {
+        case ITEM_GROW:
+            return &item_grow_file.draw; break;
+
+        case ITEM_SHRINK:
+            return &item_shrink_file.draw; break;
+
+        default:
+            if      (hp->n >= 10)
+                return &item_coin_file[2].draw;
+            else if (hp->n >= 5)
+                return &item_coin_file[1].draw;
+            else
+                return &item_coin_file[0].draw;
+            break;
+        }
+    }
+    return &item_coin_file[0].draw;
+}
+
 void item_color(const struct v_item *hp, float *c)
 {
-    switch (hp->t)
+    const struct s_draw *draw = item_file(hp);
+
+    c[0] = 1.0f;
+    c[1] = 1.0f;
+    c[2] = 1.0f;
+    c[3] = 1.0f;
+
+    if (draw && draw->base && draw->base->mtrls)
     {
-    case ITEM_COIN:
+        struct mtrl *mp = mtrl_get(draw->base->mtrls[0]);
 
-        if (hp->n >= 1)
+        if (mp)
         {
-            c[0] = 1.0f;
-            c[1] = 1.0f;
-            c[2] = 0.2f;
-            c[3] = 1.0f;
+            c[0] = mp->base.d[0];
+            c[1] = mp->base.d[1];
+            c[2] = mp->base.d[2];
+            c[3] = mp->base.d[3];
         }
-        if (hp->n >= 5)
-        {
-            c[0] = 1.0f;
-            c[1] = 0.2f;
-            c[2] = 0.2f;
-            c[3] = 1.0f;
-        }
-        if (hp->n >= 10)
-        {
-            c[0] = 0.2f;
-            c[1] = 0.2f;
-            c[2] = 1.0f;
-            c[3] = 1.0f;
-        }
-        break;
-
-    case ITEM_GROW:
-
-        c[0] = 0.00f;
-        c[1] = 0.51f;
-        c[2] = 0.80f;
-        c[3] = 1.00f;
-
-        break;
-
-    case ITEM_SHRINK:
-
-        c[0] = 1.00f;
-        c[1] = 0.76f;
-        c[2] = 0.00f;
-        c[3] = 1.00f;
-
-        break;
-
-    default:
-
-        c[0] = 1.0f;
-        c[1] = 1.0f;
-        c[2] = 1.0f;
-        c[3] = 1.0f;
-
-        break;
     }
 }
 
@@ -123,27 +110,7 @@ void item_draw(struct s_rend *rend,
 {
     const GLfloat s = ITEM_RADIUS;
 
-    struct s_draw *draw;
-
-    switch (hp->t)
-    {
-    case ITEM_GROW:
-        draw = &item_grow_file.draw;
-        break;
-
-    case ITEM_SHRINK:
-        draw = &item_shrink_file.draw;
-        break;
-
-    default:
-        if      (hp->n >= 10)
-            draw = &item_coin_file[2].draw;
-        else if (hp->n >= 5)
-            draw = &item_coin_file[1].draw;
-        else
-            draw = &item_coin_file[0].draw;
-        break;
-    }
+    struct s_draw *draw = item_file(hp);
 
     glPushMatrix();
     {

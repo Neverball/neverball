@@ -343,8 +343,6 @@ static void game_draw_fore(struct s_rend *rend,
 
                 game_draw_beams(rend, gd);
                 part_draw_coin(rend);
-
-                glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             }
             glEnable(GL_LIGHTING);
 
