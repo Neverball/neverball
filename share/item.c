@@ -121,6 +121,8 @@ void item_draw(struct s_rend *rend,
                const struct v_item *hp,
                const GLfloat *M, float t)
 {
+    const GLfloat s = ITEM_RADIUS;
+
     struct s_draw *draw;
 
     switch (hp->t)
@@ -143,14 +145,16 @@ void item_draw(struct s_rend *rend,
         break;
     }
 
-    glDepthMask(GL_FALSE);
-    {
-        sol_bill(draw, rend, M, t);
-    }
-    glDepthMask(GL_TRUE);
-
     glPushMatrix();
     {
+        glScalef(s, s, s);
+
+        glDepthMask(GL_FALSE);
+        {
+            sol_bill(draw, rend, M, t);
+        }
+        glDepthMask(GL_TRUE);
+
         glRotatef(360.0f * t, 0.0f, 1.0f, 0.0f);
         sol_draw(draw, rend, 0, 1);
     }
