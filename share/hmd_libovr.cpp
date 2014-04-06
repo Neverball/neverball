@@ -85,6 +85,7 @@ extern "C" void hmd_init()
     Info.DistortionK[0]         =  1.00f;
     Info.DistortionK[1]         =  0.22f;
     Info.DistortionK[2]         =  0.24f;
+    Info.DistortionK[3]         =  0.00f;
 
     Info.ChromaAbCorrection[0]  =  0.996f;
     Info.ChromaAbCorrection[1]  = -0.004f;

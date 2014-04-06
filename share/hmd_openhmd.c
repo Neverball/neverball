@@ -80,7 +80,7 @@ void hmd_swap()
     static const float center = 0.151976f;
     static const float scale  = 1.714606f;
 
-    static const float barrel_correction[] = { 1.00f, 0.22f, 0.24f };
+    static const float barrel_correction[] = { 1.00f, 0.22f, 0.24f, 0.00f };
     static const float chroma_correction[] = { 0.996f, -0.004f, 1.014f, 0.000f };
 
     hmd_common_swap(center, scale, barrel_correction, chroma_correction);
