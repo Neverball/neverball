@@ -28,6 +28,7 @@
 #include "state.h"
 #include "config.h"
 #include "video.h"
+#include "mtrl.h"
 #include "course.h"
 #include "hole.h"
 #include "game.h"
@@ -316,6 +317,10 @@ int main(int argc, char *argv[])
         {
             int t1, t0 = SDL_GetTicks();
 
+            /* Material system. */
+
+            mtrl_init();
+
             /* Run the main game loop. */
 
             init_state(&st_null);
@@ -357,6 +362,8 @@ int main(int argc, char *argv[])
                     if (config_get_d(CONFIG_NICE))
                         SDL_Delay(1);
                 }
+
+            mtrl_quit();
         }
 
         /* Restore Neverball's camera setting. */

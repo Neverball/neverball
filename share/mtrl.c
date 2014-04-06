@@ -98,6 +98,47 @@ static GLuint find_texture(const char *name)
 }
 
 /*
+ * Load GL resources of an initialized material.
+ */
+static void load_mtrl_objects(struct mtrl *mp)
+{
+    /* Make sure not to leak an already loaded object. */
+
+    if (mp->o)
+        return;
+
+    /* Load the texture. */
+
+    if ((mp->o = find_texture(_(mp->base.f))))
+    {
+        /* Set the texture to clamp or repeat based on material type. */
+
+        if (mp->base.fl & M_CLAMP_S)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        else
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+
+        if (mp->base.fl & M_CLAMP_T)
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        else
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+}
+
+/*
+ * Free GL resources of a material.
+ */
+static void free_mtrl_objects(struct mtrl *mp)
+{
+    if (mp->o)
+    {
+        glDeleteTextures(1, &mp->o);
+
+        mp->o = 0;
+    }
+}
+
+/*
  * Load a material from a base material.
  */
 static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
@@ -106,23 +147,6 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
     memcpy(&mp->base, base, sizeof (struct b_mtrl));
 
-    /* Load the texture. */
-
-    if ((mp->o = find_texture(_(base->f))))
-    {
-        /* Set the texture to clamp or repeat based on material type. */
-
-        if (base->fl & M_CLAMP_S)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        else
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-
-        if (base->fl & M_CLAMP_T)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        else
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    }
-
     /* Cache the 32-bit material values for quick comparison. */
 
     mp->d = touint(base->d);
@@ -130,14 +154,18 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
     mp->s = touint(base->s);
     mp->e = touint(base->e);
     mp->h = tobyte(base->h[0]);
+
+    /* Load GL resources. */
+
+    load_mtrl_objects(mp);
 }
 
 /*
- * Free material resources.
+ * Free a material.
  */
 static void free_mtrl(struct mtrl *mp)
 {
-    glDeleteTextures(1, &mp->o);
+    free_mtrl_objects(mp);
 }
 
 /*
@@ -278,6 +306,38 @@ void mtrl_reload(void)
 }
 
 /*
+ * Load GL resources of all materials.
+ */
+void mtrl_load_objects(void)
+{
+    int i, c = array_len(mtrls);
+
+    for (i = 0; i < c; i++)
+    {
+        struct mtrl *mp = array_get(mtrls, i);
+
+        if (mp->refc > 0)
+            load_mtrl_objects(mp);
+    }
+}
+
+/*
+ * Delete GL resources of all materials.
+ */
+void mtrl_free_objects(void)
+{
+    int i, c = array_len(mtrls);
+
+    for (i = 0; i < c; i++)
+    {
+        struct mtrl *mp = array_get(mtrls, i);
+
+        if (mp->refc > 0)
+            free_mtrl_objects(mp);
+    }
+}
+
+/*
  * Initialize material cache.
  */
 void mtrl_init(void)
@@ -309,3 +369,4 @@ void mtrl_quit(void)
     }
 }
 
+/*---------------------------------------------------------------------------*/

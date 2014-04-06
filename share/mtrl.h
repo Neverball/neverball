@@ -35,12 +35,15 @@ void mtrl_quit(void);
 int  mtrl_cache(const struct b_mtrl *);
 void mtrl_free (int);
 
+struct mtrl *mtrl_get(int);
+
 void mtrl_cache_sol(struct s_base *);
 void mtrl_free_sol (struct s_base *);
 
-void mtrl_reload(void);
+void mtrl_load_objects(void);
+void mtrl_free_objects(void);
 
-struct mtrl *mtrl_get(int);
+void mtrl_reload(void);
 
 /*---------------------------------------------------------------------------*/
 

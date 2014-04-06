@@ -500,6 +500,12 @@ int main(int argc, char *argv[])
     if (!video_init())
         return 1;
 
+    /* Material system. */
+
+    mtrl_init();
+
+    /* Screen states. */
+
     init_state(&st_null);
 
     /* Initialize demo playback or load the level. */
@@ -566,6 +572,8 @@ int main(int argc, char *argv[])
     }
 
     config_save();
+
+    mtrl_quit();
 
     if (joy)
         SDL_JoystickClose(joy);
