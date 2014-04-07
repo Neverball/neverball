@@ -249,6 +249,16 @@ const char *path_next_sep(const char *path)
     return *(path + skip) ? path + skip : NULL;
 }
 
+char *path_normalize(char *path)
+{
+    char *sep = path;
+
+    while ((sep = (char *) path_next_sep(sep)))
+        *sep++ = '/';
+
+    return path;
+}
+
 const char *base_name_sans(const char *name, const char *suffix)
 {
     static char base[MAXSTR];

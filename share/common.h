@@ -107,6 +107,7 @@ int path_is_sep(int);
 int path_is_abs(const char *);
 
 char *path_join(const char *, const char *);
+char *path_normalize(char *);
 
 const char *path_last_sep(const char *);
 const char *path_next_sep(const char *);

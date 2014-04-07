@@ -278,21 +278,40 @@ void *fs_load(const char *path, int *datalen)
 
 /*---------------------------------------------------------------------------*/
 
-const char *fs_resolve(const char *path)
+/*
+ * Convert a system path into a VFS path.
+ */
+const char *fs_resolve(const char *system)
 {
+    static char path[MAXSTR];
+
+    const char *p;
+
+    /*
+     * PhysicsFS will claim a file doesn't exist if its path uses a
+     * directory separator other than a forward slash, even if that
+     * separator is valid for the system. We'll oblige.
+     */
+
+    SAFECPY(path, system);
+
+    path_normalize(path);
+
     if (fs_exists(path))
         return path;
 
     /* Chop off directories until we have a match. */
 
-    while ((path = path_next_sep(path)))
+    p = path;
+
+    while ((p = path_next_sep(p)))
     {
         /* Skip separator. */
 
-        path += 1;
+        p += 1;
 
-        if (fs_exists(path))
-            return path;
+        if (fs_exists(p))
+            return p;
     }
 
     return NULL;
