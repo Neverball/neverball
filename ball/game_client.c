@@ -433,6 +433,10 @@ int  game_client_init(const char *file_name)
     back_init(grad_name);
     sol_load_full(&gd.back, back_name, 0);
 
+    /* Initialize lighting. */
+
+    light_reset();
+
     return gd.state;
 }
 

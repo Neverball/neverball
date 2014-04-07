@@ -327,7 +327,8 @@ void back_init(const char *name)
 
     if (sol_load_full(&back, "geom/back/back.sol", 0))
     {
-        back.draw.mv[0].o = make_image_from_file(name, IF_MIPMAP);
+        struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
+        mp->o = make_image_from_file(name, IF_MIPMAP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         back_state = 1;
     }
@@ -437,9 +438,9 @@ void back_draw_easy(void)
 {
     struct s_rend rend;
 
-    sol_draw_enable(&rend);
+    r_draw_enable(&rend);
     back_draw(&rend);
-    sol_draw_disable(&rend);
+    r_draw_disable(&rend);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -533,6 +534,128 @@ void shad_draw_clr(void)
         }
 
         tex_env_stage(TEX_STAGE_TEXTURE);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Configurable lights.
+ */
+
+#define LIGHT_MAX 3
+
+struct light
+{
+    GLfloat p[4];
+    GLfloat d[4];
+    GLfloat a[4];
+    GLfloat s[4];
+};
+
+static const GLfloat default_ambient[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+
+static const struct light default_lights[LIGHT_MAX] = {
+    {
+        { -8.0f, +32.0f, -8.0f, 0.0f },
+
+        { 1.0f, 0.8f, 0.8f, 1.0f },
+        { 0.7f, 0.7f, 0.7f, 1.0f },
+        { 1.0f, 0.8f, 0.8f, 1.0f }
+    },
+    {
+        { +8.0f, +32.0f, +8.0f, 0.0f },
+
+        { 0.8f, 1.0f, 0.8f, 1.0f },
+        { 0.7f, 0.7f, 0.7f, 1.0f },
+        { 0.8f, 1.0f, 0.8f, 1.0f },
+    },
+    {
+        { 0.0f, 0.0f, 1.0f, 0.0f },
+
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        { 0.0f, 0.0f, 0.0f, 1.0f },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+    }
+};
+
+static GLfloat      light_ambient[4];
+static struct light lights[LIGHT_MAX];
+
+void light_reset(void)
+{
+    memcpy(lights,        default_lights,  sizeof (lights));
+    memcpy(light_ambient, default_ambient, sizeof (light_ambient));
+}
+
+void light_conf(void)
+{
+    int i;
+
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
+
+    for (i = 0; i < ARRAYSIZE(lights); i++)
+    {
+        GLenum light = GL_LIGHT0 + i;
+
+        glLightfv(light, GL_POSITION, lights[i].p);
+        glLightfv(light, GL_DIFFUSE,  lights[i].d);
+        glLightfv(light, GL_AMBIENT,  lights[i].a);
+        glLightfv(light, GL_SPECULAR, lights[i].s);
+    }
+}
+
+void light_load(void)
+{
+    static char buf[MAXSTR];
+
+    int light = -1;
+
+    fs_file fp;
+    float v[4];
+    int i;
+
+    light_reset();
+
+    if ((fp = fs_open("lights.txt", "r")))
+    {
+        while (fs_gets(buf, sizeof (buf), fp))
+        {
+            strip_newline(buf);
+
+            if      (sscanf(buf, "light %d", &i) == 1)
+            {
+                if (i >= 0 && i < LIGHT_MAX)
+                    light = i;
+            }
+            else if (sscanf(buf, "position %f %f %f %f",
+                            &v[0], &v[1], &v[2], &v[3]) == 4)
+            {
+                if (light >= 0)
+                    q_cpy(lights[light].p, v);
+            }
+            else if (sscanf(buf, "diffuse %f %f %f %f",
+                            &v[0], &v[1], &v[2], &v[3]) == 4)
+            {
+                if (light >= 0)
+                    q_cpy(lights[light].d, v);
+            }
+            else if (sscanf(buf, "ambient %f %f %f %f",
+                            &v[0], &v[1], &v[2], &v[3]) == 4)
+            {
+                if (light >= 0)
+                    q_cpy(lights[light].a, v);
+                else
+                    q_cpy(light_ambient, v);
+            }
+            else if (sscanf(buf, "specular %f %f %f %f",
+                            &v[0], &v[1], &v[2], &v[3]) == 4)
+            {
+                if (light >= 0)
+                    q_cpy(lights[light].s, v);
+            }
+        }
+        fs_close(fp);
     }
 }
 

@@ -60,48 +60,26 @@ static void game_draw_items(struct s_rend *rend,
 {
     int hi;
 
-    int type = ITEM_NONE;
-    int value = 0;
-
-    sol_color_mtrl(rend, 1);
+    for (hi = 0; hi < vary->hc; hi++)
     {
-        for (hi = 0; hi < vary->hc; hi++)
+        struct v_item *hp = &vary->hv[hi];
+
+        /* Skip picked up items. */
+
+        if (hp->t == ITEM_NONE)
+            continue;
+
+        /* Draw model. */
+
+        glPushMatrix();
         {
-            struct v_item *hp = &vary->hv[hi];
-
-            /* Skip picked up items. */
-
-            if (hp->t == ITEM_NONE)
-                continue;
-
-            /* Lazily update color. */
-
-            if (hp->t != type || hp->n != value)
-            {
-                float c[4];
-
-                item_color(hp, c);
-
-                glColor4f(c[0], c[1], c[2], c[3]);
-
-                type = hp->t;
-                value = hp->n;
-            }
-
-            /* Draw model. */
-
-            glPushMatrix();
-            {
-                glTranslatef(hp->p[0],
-                             hp->p[1],
-                             hp->p[2]);
-                item_draw(rend, hp, bill_M, t);
-            }
-            glPopMatrix();
+            glTranslatef(hp->p[0],
+                         hp->p[1],
+                         hp->p[2]);
+            item_draw(rend, hp, bill_M, t);
         }
+        glPopMatrix();
     }
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    sol_color_mtrl(rend, 0);
 }
 
 static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
@@ -195,38 +173,25 @@ static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
 
 static void game_draw_light(const struct game_draw *gd, int d, float t)
 {
-    const float light_p[2][4] = {
-        { -8.0f, +32.0f, -8.0f, 0.0f },
-        { +8.0f, +32.0f, +8.0f, 0.0f },
-    };
-    const float light_c[3][4] = {
-        { 1.0f, 0.8f, 0.8f, 1.0f },
-        { 0.8f, 1.0f, 0.8f, 1.0f },
-        { 1.0f, 1.0f, 1.0f, 1.0f },
-    };
-
     GLfloat p[4];
+
+    /* Configure the lighting. */
+
+    light_conf();
+
+    /* Overrride light 2 position. */
 
     p[0] = cosf(t);
     p[1] = 0.0f;
     p[2] = sinf(t);
     p[3] = 0.0f;
 
-    /* Configure the lighting. */
+    glLightfv(GL_LIGHT2, GL_POSITION, p);
+
+    /* Enable scene lights. */
 
     glEnable(GL_LIGHT0);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_p[0]);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_c[0]);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_c[0]);
-
     glEnable(GL_LIGHT1);
-    glLightfv(GL_LIGHT1, GL_POSITION, light_p[1]);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_c[1]);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, light_c[1]);
-
-    glLightfv(GL_LIGHT2, GL_POSITION, p);
-    glLightfv(GL_LIGHT2, GL_DIFFUSE,  light_c[2]);
-    glLightfv(GL_LIGHT2, GL_SPECULAR, light_c[2]);
 }
 
 static void game_draw_back(struct s_rend *rend,
@@ -378,8 +343,6 @@ static void game_draw_fore(struct s_rend *rend,
 
                 game_draw_beams(rend, gd);
                 part_draw_coin(rend);
-
-                glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             }
             glEnable(GL_LIGHTING);
 
@@ -453,7 +416,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         gd->draw.shadow_ui = 0;
 
         game_shadow_conf(pose, 1);
-        sol_draw_enable(&rend);
+        r_draw_enable(&rend);
 
         video_push_persp(fov, 0.1f, FAR_DIST);
         glPushMatrix();
@@ -532,13 +495,13 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             if (gd->draw.reflective && !config_get_d(CONFIG_REFLECTION))
             {
-                sol_color_mtrl(&rend, 1);
+                r_color_mtrl(&rend, 1);
                 {
                     glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
                     game_refl_all(&rend, gd);
                     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
                 }
-                sol_color_mtrl(&rend, 0);
+                r_color_mtrl(&rend, 0);
             }
 
             /* Draw the mirrors and the rest of the foreground. */
@@ -553,7 +516,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         sol_fade(&gd->draw, &rend, gd->fade_k);
 
-        sol_draw_disable(&rend);
+        r_draw_disable(&rend);
         game_shadow_conf(pose, 0);
     }
 }

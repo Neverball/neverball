@@ -20,7 +20,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int sol_load_vary(struct s_vary *fp, const struct s_base *base)
+int sol_load_vary(struct s_vary *fp, struct s_base *base)
 {
     int i;
 

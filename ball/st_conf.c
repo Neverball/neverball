@@ -216,12 +216,14 @@ static int null_enter(struct state *st, struct state *prev)
     ball_free();
     shad_free();
     part_free();
+    mtrl_free_objects();
 
     return 0;
 }
 
 static void null_leave(struct state *st, struct state *next, int id)
 {
+    mtrl_load_objects();
     part_init();
     shad_init();
     ball_init();

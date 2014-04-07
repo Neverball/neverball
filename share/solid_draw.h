@@ -18,6 +18,7 @@
 #include "glext.h"
 #include "solid_base.h"
 #include "solid_vary.h"
+#include "mtrl.h"
 
 /*
  * Rendered solid data.
@@ -55,21 +56,9 @@ struct d_geom
 
 /*---------------------------------------------------------------------------*/
 
-struct d_mtrl
-{
-    const struct b_mtrl *base;
-
-    GLuint d;                              /* 32-bit diffuse color cache     */
-    GLuint a;                              /* 32-bit ambient color cache     */
-    GLuint s;                              /* 32-bit specular color cache    */
-    GLuint e;                              /* 32-bit emissive color cache    */
-    GLuint h;                              /* 32-bit specular exponent cache */
-    GLuint o;                              /* OpenGL texture object          */
-};
-
 struct d_mesh
 {
-    const struct d_mtrl *mp;
+    int mtrl;                                  /* Cached material            */
 
     GLuint vbo;                                /* Vertex  buffer object      */
     GLuint vbc;                                /* Vertex  buffer count       */
@@ -89,13 +78,11 @@ struct d_body
 
 struct s_draw
 {
-    const struct s_base *base;
-    const struct s_vary *vary;
+    struct s_base *base;
+    struct s_vary *vary;
 
-    int mc;
     int bc;
 
-    struct d_mtrl *mv;
     struct d_body *bv;
 
     GLuint bill;
@@ -115,27 +102,23 @@ struct s_draw
 
 struct s_rend
 {
-    struct d_mtrl curr_mtrl;            /* Current material                  */
+    struct mtrl curr_mtrl;              /* Current material state            */
 
-    int curr_flags;                     /* Effective material flags          */
     int skip_flags;                     /* Ignored material flags            */
 
     unsigned int color_mtrl:1;          /* Color material flag               */
 };
 
+void r_draw_enable(struct s_rend *);
+void r_draw_disable(struct s_rend *);
+
+void r_color_mtrl(struct s_rend *, int);
+void r_apply_mtrl(struct s_rend *, int);
+
 /*---------------------------------------------------------------------------*/
 
-int  sol_load_draw(struct s_draw *, const struct s_vary *, int);
+int  sol_load_draw(struct s_draw *, struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
-
-void sol_draw_enable(struct s_rend *);
-void sol_draw_disable(struct s_rend *);
-
-void sol_load_mtrl(struct d_mtrl *, const struct b_mtrl *);
-void sol_free_mtrl(struct d_mtrl *);
-
-void sol_color_mtrl(struct s_rend *, int);
-void sol_apply_mtrl(const struct d_mtrl *, struct s_rend *);
 
 void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
 void sol_refl(const struct s_draw *, struct s_rend *);

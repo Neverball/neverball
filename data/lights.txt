@@ -1,0 +1,13 @@
+ambient 0.2 0.2 0.2 1.0
+
+light 0
+
+diffuse  1.0 0.8 0.8 1.0
+ambient  0.7 0.7 0.7 1.0
+specular 1.0 0.8 0.8 1.0
+
+light 1
+
+diffuse  0.8 1.0 0.8 1.0
+ambient  0.7 0.7 0.7 1.0
+specular 0.8 1.0 0.8 1.0

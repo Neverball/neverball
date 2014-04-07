@@ -785,3 +785,125 @@ const struct path mtrl_paths[2] = {
 };
 
 /*---------------------------------------------------------------------------*/
+
+static const struct
+{
+    char name[16];
+    int flag;
+} mtrl_flags[] = {
+    { "additive",    M_ADDITIVE },
+    { "clamp-s",     M_CLAMP_S },
+    { "clamp-t",     M_CLAMP_T },
+    { "decal",       M_DECAL },
+    { "environment", M_ENVIRONMENT },
+    { "reflective",  M_REFLECTIVE },
+    { "shadowed",    M_SHADOWED },
+    { "transparent", M_TRANSPARENT },
+    { "two-sided",   M_TWO_SIDED },
+    { "semi-opaque", M_SEMI_OPAQUE | M_TRANSPARENT },
+    { "alpha-test",  M_ALPHA_TEST },
+    { "particle",    M_PARTICLE },
+};
+
+int mtrl_read(struct b_mtrl *mp, const char *name)
+{
+    static char line[MAXSTR];
+    static char word[MAXSTR];
+
+    fs_file fp;
+    int i;
+
+    if (mp && name && *name)
+    {
+        SAFECPY(mp->f, name);
+
+        mp->a[0] = mp->a[1] = mp->a[2] = 0.2f;
+        mp->d[0] = mp->d[1] = mp->d[2] = 0.8f;
+        mp->s[0] = mp->s[1] = mp->s[2] = 0.0f;
+        mp->e[0] = mp->e[1] = mp->e[2] = 0.0f;
+        mp->a[3] = mp->d[3] = mp->s[3] = mp->e[3] = 1.0f;
+        mp->h[0] = 0.0f;
+        mp->fl   = 0;
+        mp->angle = 45.0f;
+
+        fp = NULL;
+
+        for (i = 0; i < ARRAYSIZE(mtrl_paths); i++)
+        {
+            CONCAT_PATH(line, &mtrl_paths[i], name);
+
+            if ((fp = fs_open(line, "r")))
+                break;
+        }
+
+        if (fp)
+        {
+            while (fs_gets(line, sizeof (line), fp))
+            {
+                char *p = strip_newline(line);
+
+                if (sscanf(p, "diffuse %f %f %f %f",
+                           &mp->d[0], &mp->d[1],
+                           &mp->d[2], &mp->d[3]) == 4)
+                {
+                }
+                else if (sscanf(p, "ambient %f %f %f %f",
+                                &mp->a[0], &mp->a[1],
+                                &mp->a[2], &mp->a[3]) == 4)
+                {
+                }
+                else if (sscanf(p, "specular %f %f %f %f",
+                                &mp->s[0], &mp->s[1],
+                                &mp->s[2], &mp->s[3]) == 4)
+                {
+                }
+                else if (sscanf(p, "emissive %f %f %f %f",
+                                &mp->e[0], &mp->e[1],
+                                &mp->e[2], &mp->e[3]) == 4)
+                {
+                }
+                else if (sscanf(p, "shininess %f", &mp->h[0]) == 1)
+                {
+                }
+                else if (strncmp(p, "flags ", 6) == 0)
+                {
+                    int f = 0;
+                    int n;
+
+                    p += 6;
+
+                    while (sscanf(p, "%s%n", word, &n) > 0)
+                    {
+                        for (i = 0; i < ARRAYSIZE(mtrl_flags); i++)
+                            if (strcmp(word, mtrl_flags[i].name) == 0)
+                            {
+                                f |= mtrl_flags[i].flag;
+                                break;
+                            }
+
+                        p += n;
+                    }
+
+                    mp->fl = f;
+                }
+                else if (sscanf(p, "angle %f", &mp->angle) == 1)
+                {
+                }
+                else if (sscanf(p, "semi-opaque %f", &mp->semi_opaque) == 1)
+                {
+                }
+                else if (sscanf(p, "alpha-test %f", &mp->alpha_test) == 1)
+                {
+                }
+                else /* Unknown directive */;
+            }
+
+            fs_close(fp);
+            return 1;
+        }
+        else /* Unknown material */;
+    }
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/

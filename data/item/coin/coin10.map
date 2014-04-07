@@ -1,0 +1,5 @@
+{
+"classname" "worldspawn"
+"material" "item/coin/coin10"
+"model" "item/coin/coin.obj"
+}

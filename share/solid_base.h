@@ -332,6 +332,11 @@ struct s_base
     struct b_view *wv;
     struct b_dict *dv;
     int           *iv;
+
+    /*
+     * A mapping from internal to cached material indices.
+     */
+    int *mtrls;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -357,6 +362,10 @@ struct path
 
 extern const struct path tex_paths[4];
 extern const struct path mtrl_paths[2];
+
+/*---------------------------------------------------------------------------*/
+
+int mtrl_read(struct b_mtrl *, const char *);
 
 /*---------------------------------------------------------------------------*/
 
