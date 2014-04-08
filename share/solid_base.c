@@ -69,8 +69,6 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
     if (sol_version >= SOL_VERSION_DEV)
     {
-        if (mp->fl & M_SEMI_OPAQUE)
-            mp->semi_opaque = get_float(fin);
         if (mp->fl & M_ALPHA_TEST)
             mp->alpha_test = get_float(fin);
     }
@@ -548,8 +546,6 @@ static void sol_stor_mtrl(fs_file fout, struct b_mtrl *mp)
 
     fs_write(mp->f, 1, PATHMAX, fout);
 
-    if (mp->fl & M_SEMI_OPAQUE)
-        put_float(fout, mp->semi_opaque);
     if (mp->fl & M_ALPHA_TEST)
         put_float(fout, mp->alpha_test);
 }
@@ -800,7 +796,6 @@ static const struct
     { "shadowed",    M_SHADOWED },
     { "transparent", M_TRANSPARENT },
     { "two-sided",   M_TWO_SIDED },
-    { "semi-opaque", M_SEMI_OPAQUE | M_TRANSPARENT },
     { "alpha-test",  M_ALPHA_TEST },
     { "particle",    M_PARTICLE },
 };
@@ -887,9 +882,6 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
                     mp->fl = f;
                 }
                 else if (sscanf(p, "angle %f", &mp->angle) == 1)
-                {
-                }
-                else if (sscanf(p, "semi-opaque %f", &mp->semi_opaque) == 1)
                 {
                 }
                 else if (sscanf(p, "alpha-test %f", &mp->alpha_test) == 1)

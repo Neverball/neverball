@@ -38,31 +38,16 @@
  * Included and excluded material flags for each rendering pass.
  */
 
-/*
- * The second pair of flags for each pass is a hack to accomodate
- * semi-opaque materials (which are simultaneously opaque and
- * transparent).
- */
-
 static const struct
 {
     int in;
     int ex;
-} passes[PASS_MAX][2] = {
-    { { 0,             M_REFLECTIVE | M_TRANSPARENT | M_DECAL },
-      { M_SEMI_OPAQUE, M_REFLECTIVE | M_DECAL } },
-
-    { { M_DECAL,                 M_REFLECTIVE | M_TRANSPARENT },
-      { M_DECAL | M_SEMI_OPAQUE, M_REFLECTIVE } },
-
-    { { M_DECAL | M_TRANSPARENT, M_REFLECTIVE },
-      { M_DECAL | M_TRANSPARENT, M_REFLECTIVE } },
-
-    { { M_TRANSPARENT, M_REFLECTIVE | M_DECAL },
-      { M_TRANSPARENT, M_REFLECTIVE | M_DECAL } },
-
-    { { M_REFLECTIVE, 0 },
-      { M_REFLECTIVE, 0 } }
+} passes[PASS_MAX] = {
+    { 0,                       M_REFLECTIVE | M_TRANSPARENT | M_DECAL },
+    { M_DECAL,                 M_REFLECTIVE | M_TRANSPARENT },
+    { M_DECAL | M_TRANSPARENT, M_REFLECTIVE },
+    { M_TRANSPARENT,           M_REFLECTIVE | M_DECAL },
+    { M_REFLECTIVE,            0 }
 };
 
 /*---------------------------------------------------------------------------*/
@@ -214,10 +199,8 @@ static int sol_test_mtrl(int mi, int p)
 
     /* Test whether the material flags match inclusion rules. */
 
-    return (((mp->base.fl & passes[p][0].in) == passes[p][0].in &&
-             (mp->base.fl & passes[p][0].ex) == 0) ||
-            ((mp->base.fl & passes[p][1].in) == passes[p][1].in &&
-             (mp->base.fl & passes[p][1].ex) == 0));
+    return ((mp->base.fl & passes[p].in) == passes[p].in &&
+            (mp->base.fl & passes[p].ex) == 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -594,10 +577,6 @@ void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test
 
     sol_draw_all(draw, rend, PASS_OPAQUE);
     sol_draw_all(draw, rend, PASS_OPAQUE_DECAL);
-
-    /* Disable semi-opaque material setup.  */
-
-    rend->skip_flags |= M_SEMI_OPAQUE;
 
     /* Render all transparent geometry, decals first. */
 
@@ -980,42 +959,9 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
             glDisable(GL_POLYGON_OFFSET_FILL);
     }
 
-    /* Semi-opacity. */
-
-    if ((mp_flags & M_SEMI_OPAQUE) ^ (mq_flags & M_SEMI_OPAQUE))
-    {
-        if (mp_flags & M_SEMI_OPAQUE)
-        {
-            glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
-
-            glEnable(GL_ALPHA_TEST);
-            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-        }
-        else
-        {
-            glDisable(GL_ALPHA_TEST);
-            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-        }
-    }
-
-    if (((mp_flags & mq_flags) & M_SEMI_OPAQUE) && (mp->base.semi_opaque !=
-                                                    mq->base.semi_opaque))
-    {
-        /* Update alpha function. */
-
-        glAlphaFunc(GL_GEQUAL, mp->base.semi_opaque);
-    }
-
     /* Alpha test. */
 
-    /*
-     * Kind of/sort of works with semi-opacity, as long as geometry is
-     * rendered in two passes and the semi-opacity flag is masked
-     * during the second pass.
-     */
-
-    if ((mp_flags & M_SEMI_OPAQUE) == 0 && ((mp_flags & M_ALPHA_TEST) ^
-                                            (mq_flags & M_ALPHA_TEST)))
+    if ((mp_flags & M_ALPHA_TEST) ^ (mq_flags & M_ALPHA_TEST))
     {
         if (mp_flags & M_ALPHA_TEST)
         {
