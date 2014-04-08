@@ -368,5 +368,31 @@ void mtrl_quit(void)
         mtrls = NULL;
     }
 }
+/*---------------------------------------------------------------------------*/
+
+/*
+ * This has to match up with mtrl_func_names in solid_base.c.
+ */
+static GLenum mtrl_func_syms[8] = {
+    GL_ALWAYS,
+    GL_EQUAL,
+    GL_GEQUAL,
+    GL_GREATER,
+    GL_LEQUAL,
+    GL_LESS,
+    GL_NEVER,
+    GL_NOTEQUAL
+};
+
+/*
+ * Convert function index to a GL symbol.
+ */
+GLenum mtrl_func(int i)
+{
+    if (i >= 0 && i < ARRAYSIZE(mtrl_func_syms))
+        return mtrl_func_syms[i];
+    else
+        return GL_ALWAYS;
+}
 
 /*---------------------------------------------------------------------------*/

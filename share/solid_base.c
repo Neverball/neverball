@@ -70,7 +70,10 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
     if (sol_version >= SOL_VERSION_DEV)
     {
         if (mp->fl & M_ALPHA_TEST)
-            mp->alpha_test = get_float(fin);
+        {
+            mp->alpha_func = get_index(fin);
+            mp->alpha_ref  = get_float(fin);
+        }
     }
 
     /* Convert 1.5.4 material flags. */
@@ -547,7 +550,10 @@ static void sol_stor_mtrl(fs_file fout, struct b_mtrl *mp)
     fs_write(mp->f, 1, PATHMAX, fout);
 
     if (mp->fl & M_ALPHA_TEST)
-        put_float(fout, mp->alpha_test);
+    {
+        put_index(fout, mp->alpha_func);
+        put_float(fout, mp->alpha_ref);
+    }
 }
 
 static void sol_stor_vert(fs_file fout, struct b_vert *vp)
@@ -782,6 +788,20 @@ const struct path mtrl_paths[2] = {
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * This has to match up with mtrl_func_syms in mtrl.c.
+ */
+static const char mtrl_func_names[8][16] = {
+    "always",
+    "equal",
+    "gequal",
+    "greater",
+    "lequal",
+    "less",
+    "never",
+    "notequal"
+};
+
 static const struct
 {
     char name[16];
@@ -796,7 +816,6 @@ static const struct
     { "shadowed",    M_SHADOWED },
     { "transparent", M_TRANSPARENT },
     { "two-sided",   M_TWO_SIDED },
-    { "alpha-test",  M_ALPHA_TEST },
     { "particle",    M_PARTICLE },
 };
 
@@ -821,6 +840,9 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
         mp->fl   = 0;
         mp->angle = 45.0f;
 
+        mp->alpha_func = 0;
+        mp->alpha_ref  = 0.0f;
+
         fp = NULL;
 
         for (i = 0; i < ARRAYSIZE(mtrl_paths); i++)
@@ -833,6 +855,8 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
 
         if (fp)
         {
+            char str[16] = "";
+
             while (fs_gets(line, sizeof (line), fp))
             {
                 char *p = strip_newline(line);
@@ -884,8 +908,17 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
                 else if (sscanf(p, "angle %f", &mp->angle) == 1)
                 {
                 }
-                else if (sscanf(p, "alpha-test %f", &mp->alpha_test) == 1)
+                else if (sscanf(p, "alpha-test %15s %f",
+                                str, &mp->alpha_ref) == 2)
                 {
+                    mp->fl |= M_ALPHA_TEST;
+
+                    for (i = 0; i < ARRAYSIZE(mtrl_func_names); i++)
+                        if (strcmp(str, mtrl_func_names[i]) == 0)
+                        {
+                            mp->alpha_func = i;
+                            break;
+                        }
                 }
                 else /* Unknown directive */;
             }

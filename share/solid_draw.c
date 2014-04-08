@@ -965,7 +965,7 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     {
         if (mp_flags & M_ALPHA_TEST)
         {
-            glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
+            glAlphaFunc(mtrl_func(mp->base.alpha_func), mp->base.alpha_ref);
 
             glEnable(GL_ALPHA_TEST);
         }
@@ -973,12 +973,14 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
             glDisable(GL_ALPHA_TEST);
     }
 
-    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_test !=
-                                                   mq->base.alpha_test))
+    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_func !=
+                                                   mq->base.alpha_func ||
+                                                   mp->base.alpha_ref !=
+                                                   mq->base.alpha_ref))
     {
         /* Update alpha function. */
 
-        glAlphaFunc(GL_GEQUAL, mp->base.alpha_test);
+        glAlphaFunc(mtrl_func(mp->base.alpha_func), mp->base.alpha_ref);
     }
 
     /* Point sprite. */

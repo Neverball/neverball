@@ -134,7 +134,8 @@ struct b_mtrl
     char   f[PATHMAX];                         /* texture file name          */
 
     /* M_ALPHA_TEST */
-    float alpha_test;                          /* reference value            */
+    int   alpha_func;                          /* comparison function        */
+    float alpha_ref;                           /* reference value            */
 };
 
 struct b_vert
