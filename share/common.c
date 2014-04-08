@@ -322,7 +322,8 @@ int rand_between(int low, int high)
 
 #ifdef _WIN32
 
-extern int _putenv(const char *envstring);
+/* MinGW hides this from ANSI C. MinGW-w64 doesn't. */
+_CRTIMP int _putenv(const char *envstring);
 
 int set_env_var(const char *name, const char *value)
 {
