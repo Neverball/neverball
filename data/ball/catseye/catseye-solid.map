@@ -1,0 +1,75 @@
+{
+"classname" "worldspawn"
+"drawback" "1"
+"depthmask" "1"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/catseye-surface"
+"model" "ball/basic-ball/basic-ball.obj"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/catseye"
+"model" "ball/catseye/catseye.obj"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble.obj"
+"origin" "50 -20 0"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble.obj"
+"origin" "-20 40 -30"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble.obj"
+"origin" "20 15 50"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble.obj"
+"origin" "0 -50 10"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "10 -30 30"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "-30 10 30"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "10 -15 -27"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "-45 15 -40"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "30 0 -10"
+}
+{
+"classname" "misc_model"
+"material" "ball/catseye/bubble"
+"model" "ball/catseye/bubble-small.obj"
+"origin" "15 45 27"
+}
