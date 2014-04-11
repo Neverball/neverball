@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -11,7 +12,7 @@
 "time" "21965"
 "goal" "30"
 "time_hs" "8000 18000"
-"coin_hs" "129 100"
+"coin_hs" "81 74"
 "goal_hs" "10000 11000"
 "message" "Make sure you are\safely on a purple platform\before 20 seconds have elapsed!"
 // brush 0

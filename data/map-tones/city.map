@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -11,7 +12,7 @@
 "goal" "15"
 "time_hs" "2000 4500"
 "goal_hs" "5000 7000"
-"coin_hs" "42 26"
+"coin_hs" "40 26"
 "message" "Stepping stones."
 "version" "1"
 // brush 0

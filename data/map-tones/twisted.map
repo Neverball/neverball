@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -12,7 +13,7 @@
 "goal" "128"
 "time_hs" "11000 16000"
 "goal_hs" "11000 16000"
-"coin_hs" "190 135"
+"coin_hs" "189 135"
 "message" "Afraid of heights?\Try not to get dizzy."
 // brush 0
 {
