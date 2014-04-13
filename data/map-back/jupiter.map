@@ -43,7 +43,6 @@
 "yrot" "85.587418"
 "zrot" "176.687317"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -54,7 +53,6 @@
 "yrot" "-59.613888"
 "zrot" "67.366386"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -65,7 +63,6 @@
 "yrot" "-59.386433"
 "zrot" "-99.091232"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -76,7 +73,6 @@
 "yrot" "85.871651"
 "zrot" "82.171494"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -87,7 +83,6 @@
 "yrot" "26.688444"
 "zrot" "-102.256294"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -98,7 +93,6 @@
 "yrot" "53.836586"
 "zrot" "-150.706207"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -109,7 +103,6 @@
 "yrot" "-118.018562"
 "zrot" "-7.754098"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -120,7 +113,6 @@
 "yrot" "159.968658"
 "zrot" "-35.754528"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -131,7 +123,6 @@
 "yrot" "84.357620"
 "zrot" "-160.264877"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -142,7 +133,6 @@
 "yrot" "-54.766338"
 "zrot" "-166.025269"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -153,7 +143,6 @@
 "yrot" "-16.691797"
 "zrot" "-149.772614"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -164,7 +153,6 @@
 "yrot" "-134.836502"
 "zrot" "105.695984"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -175,7 +163,6 @@
 "yrot" "141.305786"
 "zrot" "99.906448"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -186,7 +173,6 @@
 "yrot" "133.063950"
 "zrot" "132.638916"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -197,7 +183,6 @@
 "yrot" "-10.634178"
 "zrot" "-126.748459"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -208,7 +193,6 @@
 "yrot" "-105.323143"
 "zrot" "-83.137215"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -219,7 +203,6 @@
 "yrot" "158.013580"
 "zrot" "163.337830"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -230,7 +213,6 @@
 "yrot" "47.963989"
 "zrot" "83.605026"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -241,7 +223,6 @@
 "yrot" "-26.752310"
 "zrot" "-44.101574"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -252,7 +233,6 @@
 "yrot" "165.202301"
 "zrot" "-69.087982"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -263,7 +243,6 @@
 "yrot" "92.968056"
 "zrot" "62.579403"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -274,7 +253,6 @@
 "yrot" "-65.587906"
 "zrot" "39.140484"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -285,7 +263,6 @@
 "yrot" "51.473049"
 "zrot" "87.755013"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -296,7 +273,6 @@
 "yrot" "-122.294823"
 "zrot" "-129.933838"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -307,7 +283,6 @@
 "yrot" "-28.668400"
 "zrot" "-8.153913"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -318,7 +293,6 @@
 "yrot" "-70.874092"
 "zrot" "-2.029615"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -329,7 +303,6 @@
 "yrot" "160.412109"
 "zrot" "-96.698441"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -340,7 +313,6 @@
 "yrot" "167.971893"
 "zrot" "-132.118317"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -351,7 +323,6 @@
 "yrot" "-53.924213"
 "zrot" "-9.483739"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -362,7 +333,6 @@
 "yrot" "-168.425339"
 "zrot" "26.288906"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -373,7 +343,6 @@
 "yrot" "87.343407"
 "zrot" "12.707828"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -384,7 +353,6 @@
 "yrot" "-173.572464"
 "zrot" "-162.973450"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -395,7 +363,6 @@
 "yrot" "-85.369736"
 "zrot" "-112.554176"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -406,7 +373,6 @@
 "yrot" "-41.573200"
 "zrot" "36.365532"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -417,7 +383,6 @@
 "yrot" "-153.579788"
 "zrot" "171.408264"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -428,7 +393,6 @@
 "yrot" "138.543442"
 "zrot" "103.373009"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -439,7 +403,6 @@
 "yrot" "31.168200"
 "zrot" "88.571457"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -450,7 +413,6 @@
 "yrot" "2.932976"
 "zrot" "74.329132"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -461,7 +423,6 @@
 "yrot" "-159.141312"
 "zrot" "-58.990456"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -472,7 +433,6 @@
 "yrot" "-130.275925"
 "zrot" "-110.052902"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -483,7 +443,6 @@
 "yrot" "-178.822540"
 "zrot" "-55.058617"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -494,7 +453,6 @@
 "yrot" "-113.320175"
 "zrot" "105.645905"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -505,7 +463,6 @@
 "yrot" "104.861961"
 "zrot" "84.128922"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -516,7 +473,6 @@
 "yrot" "-168.082504"
 "zrot" "85.251999"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -527,7 +483,6 @@
 "yrot" "-152.277512"
 "zrot" "46.274830"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -538,7 +493,6 @@
 "yrot" "-137.955994"
 "zrot" "-53.744778"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -549,7 +503,6 @@
 "yrot" "-16.978195"
 "zrot" "68.990166"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -560,7 +513,6 @@
 "yrot" "-153.542496"
 "zrot" "-23.610535"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -571,7 +523,6 @@
 "yrot" "-111.387512"
 "zrot" "91.432190"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -582,7 +533,6 @@
 "yrot" "85.509628"
 "zrot" "95.975403"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -593,7 +543,6 @@
 "yrot" "10.634493"
 "zrot" "159.591751"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -604,7 +553,6 @@
 "yrot" "-34.538502"
 "zrot" "105.319313"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -615,7 +563,6 @@
 "yrot" "-132.845490"
 "zrot" "-3.774468"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -626,7 +573,6 @@
 "yrot" "98.214828"
 "zrot" "-116.670212"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -637,7 +583,6 @@
 "yrot" "91.674828"
 "zrot" "-51.434147"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -648,7 +593,6 @@
 "yrot" "135.083420"
 "zrot" "110.663567"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -659,7 +603,6 @@
 "yrot" "-110.009308"
 "zrot" "-135.278870"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -670,7 +613,6 @@
 "yrot" "98.247490"
 "zrot" "23.118561"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -681,7 +623,6 @@
 "yrot" "-153.552216"
 "zrot" "-32.219868"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -692,7 +633,6 @@
 "yrot" "118.482994"
 "zrot" "-173.215195"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -703,7 +643,6 @@
 "yrot" "117.882233"
 "zrot" "92.482460"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -714,7 +653,6 @@
 "yrot" "47.927773"
 "zrot" "34.297871"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -725,7 +663,6 @@
 "yrot" "-69.167206"
 "zrot" "66.517624"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -736,7 +673,6 @@
 "yrot" "-138.897903"
 "zrot" "71.204872"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -747,7 +683,6 @@
 "yrot" "-176.384460"
 "zrot" "100.865639"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -758,7 +693,6 @@
 "yrot" "144.263046"
 "zrot" "154.646347"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -769,7 +703,6 @@
 "yrot" "-97.041397"
 "zrot" "-29.872505"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -780,7 +713,6 @@
 "yrot" "5.572829"
 "zrot" "-33.809601"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -791,7 +723,6 @@
 "yrot" "152.024323"
 "zrot" "-15.294414"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -802,7 +733,6 @@
 "yrot" "-26.590372"
 "zrot" "-53.767941"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -813,7 +743,6 @@
 "yrot" "-159.301666"
 "zrot" "124.318405"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -824,7 +753,6 @@
 "yrot" "130.951172"
 "zrot" "-55.428001"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -835,7 +763,6 @@
 "yrot" "110.582077"
 "zrot" "-129.869797"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -846,7 +773,6 @@
 "yrot" "-3.713307"
 "zrot" "-175.908661"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -857,7 +783,6 @@
 "yrot" "-102.699448"
 "zrot" "-128.049164"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -868,7 +793,6 @@
 "yrot" "-179.667313"
 "zrot" "-100.054878"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -879,7 +803,6 @@
 "yrot" "103.962761"
 "zrot" "-130.101135"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -890,7 +813,6 @@
 "yrot" "125.448158"
 "zrot" "-3.570521"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -901,7 +823,6 @@
 "yrot" "131.597076"
 "zrot" "11.158339"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -912,7 +833,6 @@
 "yrot" "-17.875895"
 "zrot" "74.828514"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -923,7 +843,6 @@
 "yrot" "-108.267677"
 "zrot" "174.007874"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -934,7 +853,6 @@
 "yrot" "-16.213352"
 "zrot" "114.734726"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -945,7 +863,6 @@
 "yrot" "-158.863510"
 "zrot" "171.062271"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -956,7 +873,6 @@
 "yrot" "44.041939"
 "zrot" "111.551048"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -967,7 +883,6 @@
 "yrot" "-3.428868"
 "zrot" "-29.581173"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -978,7 +893,6 @@
 "yrot" "-147.037506"
 "zrot" "-7.573483"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -989,7 +903,6 @@
 "yrot" "-81.455811"
 "zrot" "-61.536991"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1000,7 +913,6 @@
 "yrot" "-176.314911"
 "zrot" "109.036690"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1011,7 +923,6 @@
 "yrot" "131.535034"
 "zrot" "-154.689926"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1022,7 +933,6 @@
 "yrot" "23.739029"
 "zrot" "9.411096"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1033,7 +943,6 @@
 "yrot" "-44.908676"
 "zrot" "-126.719788"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1044,7 +953,6 @@
 "yrot" "-132.387665"
 "zrot" "11.339463"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1055,7 +963,6 @@
 "yrot" "145.142990"
 "zrot" "89.945686"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1066,7 +973,6 @@
 "yrot" "-130.601791"
 "zrot" "-128.030197"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1077,7 +983,6 @@
 "yrot" "140.368607"
 "zrot" "168.533005"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1088,7 +993,6 @@
 "yrot" "-87.133553"
 "zrot" "-28.693911"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1099,7 +1003,6 @@
 "yrot" "-8.453887"
 "zrot" "-9.078214"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1110,7 +1013,6 @@
 "yrot" "-35.121986"
 "zrot" "-142.189880"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1121,7 +1023,6 @@
 "yrot" "-141.291626"
 "zrot" "166.030151"
 "dist" "350"
-"flag" "4"
 }
 {
 "classname" "info_null"
@@ -1132,5 +1033,4 @@
 "yrot" "-25.646969"
 "zrot" "-95.360268"
 "dist" "350"
-"flag" "4"
 }

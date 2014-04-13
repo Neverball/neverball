@@ -1267,9 +1267,6 @@ static void make_bill(struct s_base *fp,
             rp->p[2] = -y / SCALE;
         }
     }
-
-    if (rp->fl & B_ADDITIVE)
-        fp->mv[rp->mi].fl |= M_ADDITIVE;
 }
 
 static void make_goal(struct s_base *fp,
