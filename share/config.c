@@ -117,6 +117,7 @@ int CONFIG_BALL_FILE;
 int CONFIG_WIIMOTE_ADDR;
 int CONFIG_REPLAY_NAME;
 int CONFIG_LANGUAGE;
+int CONFIG_THEME;
 
 /*---------------------------------------------------------------------------*/
 
@@ -226,7 +227,8 @@ static struct
     { &CONFIG_BALL_FILE,    "ball_file",    "ball/basic-ball/basic-ball" },
     { &CONFIG_WIIMOTE_ADDR, "wiimote_addr", "" },
     { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l" },
-    { &CONFIG_LANGUAGE,     "language",     "" }
+    { &CONFIG_LANGUAGE,     "language",     "" },
+    { &CONFIG_THEME,        "theme",        "classic" }
 };
 
 static int dirty = 0;

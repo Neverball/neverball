@@ -25,6 +25,7 @@
 #include "gui.h"
 #include "common.h"
 #include "font.h"
+#include "theme.h"
 
 #include "fs.h"
 #include "fs_rwops.h"
@@ -115,6 +116,10 @@ static int digit_id[3][11];
 static int cursor_id = 0;
 static int cursor_st = 0;
 
+/* GUI theme. */
+
+static struct theme curr_theme;
+
 /*---------------------------------------------------------------------------*/
 
 static int gui_hot(int id)
@@ -158,16 +163,6 @@ struct vert
 static struct vert vert_buf[WIDGET_MAX * WIDGET_VERT];
 static GLuint      vert_vbo = 0;
 static GLuint      vert_ebo = 0;
-
-static GLuint      rect_tex[4] = {
-    0,             /* off and inactive    */
-    0,             /* off and   active    */
-    0,             /* on  and inactive    */
-    0              /* on  and   active    */
-};
-
-static float rect_t[4];
-static float rect_s[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -279,7 +274,7 @@ static void gui_geom_rect(int id, int x, int y, int w, int h, int f)
 
     for (i = 0; i < 4; i++)
         for (j = 0; j < 4; j++)
-            set_vert(p++, X[i], Y[j], rect_s[i], rect_t[j], gui_wht);
+            set_vert(p++, X[i], Y[j], curr_theme.s[i], curr_theme.t[j], gui_wht);
 
     for (i = 0; i < RECT_ELEM; i++)
         rect_elem[i] = id * WIDGET_VERT + rect_elem_base[i];
@@ -491,105 +486,19 @@ static void gui_font_quit(void)
 
 /*---------------------------------------------------------------------------*/
 
-static GLuint gui_rect_image(const char *path)
+static void gui_theme_quit(void)
 {
-    const int W = config_get_d(CONFIG_WIDTH);
-    const int H = config_get_d(CONFIG_HEIGHT);
-
-    int W2, H2;
-
-    int w, h, b;
-    void *p;
-
-    GLuint o = 0;
-
-    /*
-     * Disable mipmapping and do a manual downscale.  Heuristic for
-     * downscaling the texture: assume target size to be roughly 1/16
-     * of a full screen texture, smallest size being 32x32.
-     */
-
-    image_near2(&W2, &H2, W, H);
-
-    W2 = MAX(W2 / 16, 32);
-    H2 = MAX(H2 / 16, 32);
-
-    if ((p = image_load(path, &w, &h, &b)))
-    {
-        void *q;
-
-        /* Prefer a small scale factor. */
-
-        int s = MAX(w, h) / MAX(W2, H2);
-
-        if (s > 1 && (q = image_scale(p, w, h, b, &w, &h, s)))
-        {
-            free(p);
-            p = q;
-        }
-
-        o = make_texture(p, w, h, b, 0);
-
-        free(p);
-        p = NULL;
-    }
-
-    return o;
+    theme_free(&curr_theme);
 }
 
-static void gui_rect_init(void)
+static void gui_theme_init(void)
 {
-    char buff[MAXSTR];
-    fs_file fp;
+    gui_theme_quit();
 
-    float b[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    float s[4] = { 0.25f, 0.25f, 0.25f, 0.25f };
-
-    int i;
-
-    /* Load description. */
-
-    if ((fp = fs_open("gui/desc.txt", "r")))
-    {
-        while ((fs_gets(buff, sizeof (buff), fp)))
-        {
-            strip_newline(buff);
-
-            if (strncmp(buff, "slice ", 6) == 0)
-                sscanf(buff + 6, "%f %f %f %f", &s[0], &s[1], &s[2], &s[3]);
-
-            if (strncmp(buff, "scale ", 6) == 0)
-                sscanf(buff + 6, "%f %f %f %f", &b[0], &b[1], &b[2], &b[3]);
-        }
-
-        fs_close(fp);
-    }
-
-    rect_s[0] =  0.0f;
-    rect_s[1] =  s[0];
-    rect_s[2] = (1.0f - s[1]);
-    rect_s[3] =  1.0f;
-
-    rect_t[0] =  1.0f;
-    rect_t[1] = (1.0f - s[2]);
-    rect_t[2] =  s[3];
-    rect_t[3] =  0.0f;
-
-    for (i = 0; i < 4; i++)
-        borders[i] = padding * b[i];
-
-    /* Load textures. */
-
-    rect_tex[0] = gui_rect_image("gui/back-plain.png");
-    rect_tex[1] = gui_rect_image("gui/back-plain-focus.png");
-    rect_tex[2] = gui_rect_image("gui/back-hilite.png");
-    rect_tex[3] = gui_rect_image("gui/back-hilite-focus.png");
+    theme_load(&curr_theme, config_get_s(CONFIG_THEME));
 }
 
-static void gui_rect_quit(void)
-{
-    glDeleteTextures(4, rect_tex);
-}
+/*---------------------------------------------------------------------------*/
 
 void gui_init(void)
 {
@@ -603,13 +512,16 @@ void gui_init(void)
 
     padding = s / 60;
 
+    for (i = 0; i < 4; i++)
+        borders[i] = padding;
+
     /* Initialize font rendering. */
 
     gui_font_init();
 
-    /* Initialize rectangle resources. */
+    /* Initialize GUI theme. */
 
-    gui_rect_init();
+    gui_theme_init();
 
     /* Initialize the VBOs. */
 
@@ -684,9 +596,9 @@ void gui_free(void)
 
     gui_font_quit();
 
-    /* Release rectangle resources. */
+    /* Release theme resources. */
 
-    gui_rect_quit();
+    gui_theme_quit();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1552,7 +1464,7 @@ static void gui_paint_rect(int id, int st, int flags)
             glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
                          (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
 
-            glBindTexture(GL_TEXTURE_2D, rect_tex[i]);
+            glBindTexture(GL_TEXTURE_2D, curr_theme.tex[i]);
             draw_rect(id);
         }
         glPopMatrix();
