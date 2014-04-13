@@ -237,6 +237,7 @@ BALL_OBJS := \
 	share/ball.o        \
 	share/gui.o         \
 	share/font.o        \
+	share/theme.o       \
 	share/base_config.o \
 	share/config.o      \
 	share/video.o       \
@@ -314,6 +315,7 @@ PUTT_OBJS := \
 	share/state.o       \
 	share/gui.o         \
 	share/font.o        \
+	share/theme.o       \
 	share/text.o        \
 	share/common.o      \
 	share/list.o        \
