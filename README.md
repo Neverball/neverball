@@ -8,7 +8,7 @@ worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 
 ## Documentation
 
-* [LICENSE.txt](LICENSE.txt): a description of licensing and exceptions
+* [LICENSE.md](LICENSE.md): a description of licensing and exceptions
 * [doc/install.txt](doc/install.txt): instructions on how to build the game from source code
 * [doc/manual.txt](doc/manual.txt): a detailed description of how to play and configure the game
 * [doc/authors.txt](doc/authors.txt): a list of people who have contributed to Neverball
