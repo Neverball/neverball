@@ -660,6 +660,65 @@ static int ms_peek(float *accum, float dt)
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Find time till the next path change.
+ */
+static float sol_path_time(struct s_vary *vary, float dt)
+{
+    int mi;
+
+    for (mi = 0; mi < vary->mc; mi++)
+    {
+        struct v_move *mp = vary->mv + mi;
+        struct v_path *pp = vary->pv + mp->pi;
+
+        if (!pp->f)
+            continue;
+
+        if (mp->tm + ms_peek(&vary->ms_accum, dt) > pp->base->tm)
+            dt = MS_TO_TIME(pp->base->tm - mp->tm);
+    }
+
+    return dt;
+}
+
+/*
+ * Move SOL state forward DT seconds.
+ */
+static void sol_move_once(struct s_vary *vary, cmd_fn cmd_func, float dt)
+{
+    int ms;
+
+    if (cmd_func)
+    {
+        union cmd cmd = { CMD_STEP_SIMULATION };
+        cmd.stepsim.dt = dt;
+        cmd_func(&cmd);
+    }
+
+    ms = ms_step(&vary->ms_accum, dt);
+
+    sol_move_step(vary, cmd_func, dt, ms);
+    sol_swch_step(vary, cmd_func, dt, ms);
+    sol_ball_step(vary, cmd_func, dt);
+}
+
+/*
+ * Move SOL state forward DT seconds across multiple path changes.
+ */
+void sol_move(struct s_vary *vary, cmd_fn cmd_func, float dt)
+{
+    if (vary && vary->base)
+    {
+        while (dt > 0.0f)
+        {
+            float pt = sol_path_time(vary, dt);
+            sol_move_once(vary, cmd_func, pt);
+            dt -= pt;
+        }
+    }
+}
+
+/*
  * Step the physics forward DT  seconds under the influence of gravity
  * vector G.  If the ball gets pinched between two moving solids, this
  * loop might not terminate.  It  is better to do something physically
@@ -722,46 +781,22 @@ float sol_step(struct s_vary *vary, cmd_fn cmd_func,
 
         for (c = 16; c > 0 && tt > 0; c--)
         {
-            float st;
-            int mi, ms;
+            float pt;
 
-            /* HACK: avoid stepping across path changes. */
+            /* Avoid stepping across path changes. */
 
-            st = tt;
-
-            for (mi = 0; mi < vary->mc; mi++)
-            {
-                struct v_move *mp = vary->mv + mi;
-                struct v_path *pp = vary->pv + mp->pi;
-
-                if (!pp->f)
-                    continue;
-
-                if (mp->tm + ms_peek(&vary->ms_accum, st) > pp->base->tm)
-                    st = MS_TO_TIME(pp->base->tm - mp->tm);
-            }
+            pt = sol_path_time(vary, tt);
 
             /* Miss collisions if we reach the iteration limit. */
 
             if (c > 1)
-                nt = sol_test_file(st, P, V, up, vary);
+                nt = sol_test_file(pt, P, V, up, vary);
             else
                 nt = tt;
 
-            if (cmd_func)
-            {
-                union cmd cmd = { CMD_STEP_SIMULATION };
-                cmd.stepsim.dt = nt;
-                cmd_func(&cmd);
-            }
+            sol_move_once(vary, cmd_func, nt);
 
-            ms = ms_step(&vary->ms_accum, nt);
-
-            sol_move_step(vary, cmd_func, nt, ms);
-            sol_swch_step(vary, cmd_func, nt, ms);
-            sol_ball_step(vary, cmd_func, nt);
-
-            if (nt < st)
+            if (nt < pt)
                 if (b < (d = sol_bounce(up, P, V, nt)))
                     b = d;
 

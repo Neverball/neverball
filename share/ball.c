@@ -21,6 +21,7 @@
 #include "common.h"
 
 #include "solid_draw.h"
+#include "solid_sim.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -105,6 +106,13 @@ void ball_free(void)
     if (has_solid) sol_free_full(&solid);
 
     has_solid = has_inner = has_outer = 0;
+}
+
+void ball_step(float dt)
+{
+    if (has_solid) sol_move(&solid.vary, NULL, dt);
+    if (has_inner) sol_move(&inner.vary, NULL, dt);
+    if (has_outer) sol_move(&outer.vary, NULL, dt);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -23,6 +23,7 @@
 void sol_init_sim(struct s_vary *);
 void sol_quit_sim(void);
 
+void  sol_move(struct s_vary *, cmd_fn, float);
 float sol_step(struct s_vary *, cmd_fn, const float *, float, int, int *);
 
 /*---------------------------------------------------------------------------*/

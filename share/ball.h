@@ -24,6 +24,8 @@
 void ball_init(void);
 void ball_free(void);
 
+void ball_step(float);
+
 void ball_draw(struct s_rend *,
                const float *,
                const float *,

@@ -1,4 +1,58 @@
 {
-"classname" "worldspawn"
+"classname" "misc_model"
 "model" "geom/goal/goal.obj"
+"target" "a0"
+}
+{
+"classname" "misc_model"
+"model" "geom/goal/goal.obj"
+"target" "b0"
+}
+{
+"classname" "path_corner"
+"speed" "1.200"
+"smooth" "0"
+"angle" "0"
+"targetname" "a0"
+"target" "a1"
+}
+{
+"classname" "path_corner"
+"speed" "1.200"
+"smooth" "0"
+"angle" "120"
+"targetname" "a1"
+"target" "a2"
+}
+{
+"classname" "path_corner"
+"speed" "1.200"
+"smooth" "0"
+"angle" "240"
+"targetname" "a2"
+"target" "a0"
+}
+{
+"classname" "path_corner"
+"speed" "3.243"
+"smooth" "0"
+"angle" "-0"
+"targetname" "b0"
+"target" "b1"
+}
+{
+"classname" "path_corner"
+"speed" "3.243"
+"smooth" "0"
+"angle" "-120"
+"targetname" "b1"
+"target" "b2"
+}
+{
+"classname" "path_corner"
+"speed" "3.243"
+"smooth" "0"
+"angle" "-240"
+"targetname" "b2"
+"target" "b0"
 }

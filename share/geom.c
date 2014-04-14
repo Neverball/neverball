@@ -20,6 +20,7 @@
 
 #include "glext.h"
 #include "geom.h"
+#include "ball.h"
 #include "part.h"
 #include "vec3.h"
 #include "image.h"
@@ -28,6 +29,7 @@
 #include "hmd.h"
 
 #include "solid_draw.h"
+#include "solid_sim.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -347,6 +349,19 @@ void geom_free(void)
         sol_free_full(&item[i]);
 }
 
+void geom_step(float dt)
+{
+    int i;
+
+    sol_move(&goal.vary, NULL, dt);
+    sol_move(&jump.vary, NULL, dt);
+
+    for (i = 0; i < GEOM_MAX; i++)
+        sol_move(&item[i].vary, NULL, dt);
+
+    ball_step(dt);
+}
+
 /*---------------------------------------------------------------------------*/
 
 static struct s_draw *item_file(const struct v_item *hp)
@@ -470,9 +485,6 @@ void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfl
     {
         glTranslatef(p[0], p[1], p[2]);
         glScalef(r, h, r);
-        glRotatef(+100.f * t, 0.0f, 1.0f, 0.0f);
-        sol_draw(&goal.draw, rend, 1, 1);
-        glRotatef(-137.f * t, 0.0f, 1.0f, 0.0f);
         sol_draw(&goal.draw, rend, 1, 1);
     }
     glPopMatrix();

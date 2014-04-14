@@ -19,6 +19,7 @@
 #include "video.h"
 #include "common.h"
 #include "hmd.h"
+#include "geom.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -187,6 +188,10 @@ void st_timer(float dt)
             sc->t = state_time + STICK_REPEAT_TIME;
         }
     }
+
+    /* Step SOL animations. (This is not the best place to put this.) */
+
+    geom_step(dt);
 }
 
 void st_point(int x, int y, int dx, int dy)

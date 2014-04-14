@@ -20,6 +20,7 @@
 
 void geom_init(void);
 void geom_free(void);
+void geom_step(float);
 
 void beam_draw(struct s_rend *, const GLfloat *, const GLfloat *, GLfloat, GLfloat);
 void goal_draw(struct s_rend *, const GLfloat *, GLfloat, GLfloat, GLfloat);
