@@ -441,7 +441,7 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, ball) == SWCH_INSIDE)
+    if (sol_swch_test(fp, NULL, ball) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
@@ -543,7 +543,7 @@ int game_step(const float g[3], float dt)
 
         for (i = 0; i < n; i++)
         {
-            d = sol_step(fp, g, t, ball, &m);
+            d = sol_step(fp, NULL, g, t, ball, &m);
 
             if (b < d)
                 b = d;

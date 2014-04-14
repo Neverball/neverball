@@ -16,13 +16,14 @@
 #define SOLID_SIM_H
 
 #include "solid_vary.h"
+#include "solid_all.h"
 
 /*---------------------------------------------------------------------------*/
 
 void sol_init_sim(struct s_vary *);
 void sol_quit_sim(void);
 
-float sol_step(struct s_vary *, const float *, float, int, int *);
+float sol_step(struct s_vary *, cmd_fn, const float *, float, int, int *);
 
 /*---------------------------------------------------------------------------*/
 

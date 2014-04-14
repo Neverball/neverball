@@ -3,6 +3,8 @@
 
 #include "solid_vary.h"
 
+typedef void (*cmd_fn)(const union cmd *);
+
 void sol_body_p(float p[3],
                 const struct s_vary *,
                 const struct v_body *,
@@ -24,9 +26,9 @@ void sol_pendulum(struct v_ball *up,
                   const float a[3],
                   const float g[3], float dt);
 
-void sol_swch_step(struct s_vary *, float dt, int ms);
-void sol_move_step(struct s_vary *, float dt, int ms);
-void sol_ball_step(struct s_vary *, float dt);
+void sol_swch_step(struct s_vary *, cmd_fn, float dt, int ms);
+void sol_move_step(struct s_vary *, cmd_fn, float dt, int ms);
+void sol_ball_step(struct s_vary *, cmd_fn, float dt);
 
 enum
 {
@@ -45,6 +47,6 @@ enum
 int            sol_item_test(struct s_vary *, float *p, float item_r);
 struct b_goal *sol_goal_test(struct s_vary *, float *p, int ui);
 int            sol_jump_test(struct s_vary *, float *p, int ui);
-int            sol_swch_test(struct s_vary *, int ui);
+int            sol_swch_test(struct s_vary *, cmd_fn, int ui);
 
 #endif

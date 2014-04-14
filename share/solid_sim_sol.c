@@ -20,7 +20,6 @@
 #include "solid_vary.h"
 #include "solid_sim.h"
 #include "solid_all.h"
-#include "solid_cmd.h"
 
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
@@ -668,12 +667,11 @@ static int ms_peek(float *accum, float dt)
  * iterations, punt it.
  */
 
-float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
+float sol_step(struct s_vary *vary, cmd_fn cmd_func,
+               const float *g, float dt, int ui, int *m)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c;
-
-    union cmd cmd;
 
     if (ui < vary->uc)
     {
@@ -750,15 +748,18 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
             else
                 nt = tt;
 
-            cmd.type       = CMD_STEP_SIMULATION;
-            cmd.stepsim.dt = nt;
-            sol_cmd_enq(&cmd);
+            if (cmd_func)
+            {
+                union cmd cmd = { CMD_STEP_SIMULATION };
+                cmd.stepsim.dt = nt;
+                cmd_func(&cmd);
+            }
 
             ms = ms_step(&vary->ms_accum, nt);
 
-            sol_move_step(vary, nt, ms);
-            sol_swch_step(vary, nt, ms);
-            sol_ball_step(vary, nt);
+            sol_move_step(vary, cmd_func, nt, ms);
+            sol_swch_step(vary, cmd_func, nt, ms);
+            sol_ball_step(vary, cmd_func, nt);
 
             if (nt < st)
                 if (b < (d = sol_bounce(up, P, V, nt)))
