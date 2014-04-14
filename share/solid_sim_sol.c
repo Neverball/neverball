@@ -628,45 +628,34 @@ static float sol_test_file(float dt,
 /*---------------------------------------------------------------------------*/
 
 /*
- * Track simulation steps in integer milliseconds.
+ * Accumulate and convert simulation time to integer milliseconds.
  */
 
-static float ms_accum;
-
-static void ms_init(void)
+static void ms_init(float *accum)
 {
-    ms_accum = 0.0f;
+    *accum = 0.0f;
 }
 
-static int ms_step(float dt)
+static int ms_step(float *accum, float dt)
 {
     int ms = 0;
 
-    ms_accum += dt;
+    *accum += dt;
 
-    while (ms_accum >= 0.001f)
+    while (*accum >= 0.001f)
     {
-        ms_accum -= 0.001f;
+        *accum -= 0.001f;
         ms += 1;
     }
 
     return ms;
 }
 
-static int ms_peek(float dt)
+static int ms_peek(float *accum, float dt)
 {
-    int ms = 0;
-    float at;
+    float at = *accum;
 
-    at = ms_accum + dt;
-
-    while (at >= 0.001f)
-    {
-        at -= 0.001f;
-        ms += 1;
-    }
-
-    return ms;
+    return ms_step(&at, dt);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -750,7 +739,7 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
                 if (!pp->f)
                     continue;
 
-                if (mp->tm + ms_peek(st) > pp->base->tm)
+                if (mp->tm + ms_peek(&vary->ms_accum, st) > pp->base->tm)
                     st = MS_TO_TIME(pp->base->tm - mp->tm);
             }
 
@@ -765,7 +754,7 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
             cmd.stepsim.dt = nt;
             sol_cmd_enq(&cmd);
 
-            ms = ms_step(nt);
+            ms = ms_step(&vary->ms_accum, nt);
 
             sol_move_step(vary, nt, ms);
             sol_swch_step(vary, nt, ms);
@@ -790,7 +779,7 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
 
 void sol_init_sim(struct s_vary *vary)
 {
-    ms_init();
+    ms_init(&vary->ms_accum);
 }
 
 void sol_quit_sim(void)
