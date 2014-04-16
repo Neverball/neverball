@@ -17,8 +17,8 @@ Neverball includes a number of third party fonts. The DejaVu font
 GPLv3. The full text of GPLv3 is included in `doc/legal/`.
 
 The Octocat ball `data/ball/octocat/` uses the Octocat design with
-permission from Github dated 2013-11-12
-(http://forum.nevercorner.net/viewtopic.php?id=2754).
+permission from Github dated 2013-11-12. Wording of approval is in
+`doc/legal`.
 
 The source file `share/fs_jpg.c` is based on `jdatasrc.c` from the
 libjpeg project.
