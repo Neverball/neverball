@@ -345,6 +345,8 @@ void game_draw(int pose, float t)
         }
         glDepthMask(GL_TRUE);
         glEnable(GL_LIGHTING);
+
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     glPopMatrix();
     video_pop_matrix();
