@@ -1,7 +1,8 @@
-diffuse   1.0 1.0 1.0 1.0
-ambient   0.0 0.0 0.0 1.0
-specular  0.0 0.0 0.0 1.0
-emissive  0.0 0.0 0.0 1.0
-shininess 0.0
-flags     transparent 
-angle     45.0
+diffuse    1.0 1.0 1.0 1.0
+ambient    0.0 0.0 0.0 1.0
+specular   0.0 0.0 0.0 1.0
+emissive   0.0 0.0 0.0 1.0
+shininess  0.0
+flags      transparent
+alpha-test gequal 0.01
+angle      45.0

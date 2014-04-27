@@ -7,7 +7,7 @@
 "height" "3.0 0.0 0.0"
 "width" "3.0 0.0 0.0"
 "time" "1.0"
-"image" "ball/sootsprite/sootsprite-body"
+"image" "ball/sootsprite/sootsprite-body-solid"
 }
 {
 "classname" "info_null"
@@ -15,7 +15,7 @@
 "height" "3.0 0.0 0.0"
 "width" "3.0 0.0 0.0"
 "time" "1.0"
-"image" "ball/sootsprite/sootsprite-body"
+"image" "ball/sootsprite/sootsprite-body-solid"
 }
 {
 "classname" "info_null"
@@ -24,7 +24,7 @@
 "width" "3.0 0.0 0.0"
 "zrot" "90.0 0.0 0.0"
 "time" "1.0"
-"image" "ball/sootsprite/sootsprite-body"
+"image" "ball/sootsprite/sootsprite-body-solid"
 }
 {
 "classname" "info_null"
@@ -33,5 +33,5 @@
 "width" "-3.0 0.0 0.0"
 "zrot" "110.0 0.0 0.0"
 "time" "1.0"
-"image" "ball/sootsprite/sootsprite-body"
+"image" "ball/sootsprite/sootsprite-body-solid"
 }

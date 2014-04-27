@@ -42,15 +42,11 @@ static int solid_flags;
 static int inner_flags;
 static int outer_flags;
 
-static float solid_alpha;
-static float inner_alpha;
-static float outer_alpha;
-
 /*---------------------------------------------------------------------------*/
 
 #define SET(B, v, b) ((v) ? ((B) | (b)) : ((B) & ~(b)))
 
-static int ball_opts(const struct s_base *base, float *alpha)
+static int ball_opts(const struct s_base *base)
 {
     int flags = F_DEPTHTEST;
     int di;
@@ -70,8 +66,6 @@ static int ball_opts(const struct s_base *base, float *alpha)
             flags = SET(flags, atoi(v), F_DEPTHMASK);
         if (strcmp(k, "depthtest") == 0)
             flags = SET(flags, atoi(v), F_DEPTHTEST);
-        if (strcmp(k, "alphatest") == 0)
-            sscanf(v, "%f", alpha);
     }
 
     return flags;
@@ -90,18 +84,14 @@ void ball_init(void)
     inner_flags = 0;
     outer_flags = 0;
 
-    solid_alpha = 1.0f;
-    inner_alpha = 1.0f;
-    outer_alpha = 1.0f;
-
     if ((has_solid = sol_load_full(&solid, solid_file, 0)))
-        solid_flags = ball_opts(&solid.base, &solid_alpha);
+        solid_flags = ball_opts(&solid.base);
 
     if ((has_inner = sol_load_full(&inner, inner_file, 0)))
-        inner_flags = ball_opts(&inner.base, &inner_alpha);
+        inner_flags = ball_opts(&inner.base);
 
     if ((has_outer = sol_load_full(&outer, outer_file, 0)))
-        outer_flags = ball_opts(&outer.base, &outer_alpha);
+        outer_flags = ball_opts(&outer.base);
 
     free(solid_file);
     free(inner_file);
@@ -127,12 +117,6 @@ static void ball_draw_solid(struct s_rend *rend,
     {
         const int mask = (solid_flags & F_DEPTHMASK);
         const int test = (solid_flags & F_DEPTHTEST);
-
-        if (solid_alpha < 1.0f)
-        {
-            glEnable(GL_ALPHA_TEST);
-            glAlphaFunc(GL_GEQUAL, solid_alpha);
-        }
 
         glPushMatrix();
         {
@@ -160,9 +144,6 @@ static void ball_draw_solid(struct s_rend *rend,
             sol_draw(&solid.draw, rend, mask, test);
         }
         glPopMatrix();
-
-        if (solid_alpha < 1.0f)
-            glDisable(GL_ALPHA_TEST);
     }
 }
 
@@ -176,12 +157,6 @@ static void ball_draw_inner(struct s_rend *rend,
         const int pend = (inner_flags & F_PENDULUM);
         const int mask = (inner_flags & F_DEPTHMASK);
         const int test = (inner_flags & F_DEPTHTEST);
-
-        if (inner_alpha < 1.0f)
-        {
-            glEnable(GL_ALPHA_TEST);
-            glAlphaFunc(GL_GEQUAL, inner_alpha);
-        }
 
         /* Apply the pendulum rotation. */
 
@@ -216,9 +191,6 @@ static void ball_draw_inner(struct s_rend *rend,
 
         if (pend)
             glPopMatrix();
-
-        if (inner_alpha < 1.0f)
-            glDisable(GL_ALPHA_TEST);
     }
 }
 
@@ -232,12 +204,6 @@ static void ball_draw_outer(struct s_rend *rend,
         const int pend = (outer_flags & F_PENDULUM);
         const int mask = (outer_flags & F_DEPTHMASK);
         const int test = (outer_flags & F_DEPTHTEST);
-
-        if (outer_alpha < 1.0f)
-        {
-            glEnable(GL_ALPHA_TEST);
-            glAlphaFunc(GL_GEQUAL, outer_alpha);
-        }
 
         /* Apply the pendulum rotation. */
 
@@ -271,9 +237,6 @@ static void ball_draw_outer(struct s_rend *rend,
 
         if (pend)
             glPopMatrix();
-
-        if (outer_alpha < 1.0f)
-            glDisable(GL_ALPHA_TEST);
     }
 }
 
