@@ -1,0 +1,9 @@
+{
+"classname" "worldspawn"
+}
+
+{
+"classname" "misc_model"
+"material" "ball/cheese-ball/cheese-ball"
+"model" "ball/cheese-ball/cheese-ball.obj"
+}
