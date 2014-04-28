@@ -1,9 +1,7 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "depthmask" "1"
-"alphatest" "0.5"
 "pendulum" "1"
 }
 // entity 1
