@@ -821,10 +821,18 @@ static int next_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            if (num > 0 && hole_goto(num, -1))
+            if (num > 0)
             {
-                num = 0;
-                return goto_state(&st_next);
+                if (hole_goto(num, -1))
+                {
+                    num = 0;
+                    return goto_state(&st_next);
+                }
+                else
+                {
+                    num = 0;
+                    return 1;
+                }
             }
             return goto_state(&st_flyby);
         }
