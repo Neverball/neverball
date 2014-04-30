@@ -17,7 +17,7 @@
 #include <assert.h>
 
 #include "vec3.h"
-#include "item.h"
+#include "geom.h"
 #include "config.h"
 #include "binary.h"
 #include "common.h"

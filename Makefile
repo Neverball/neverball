@@ -232,7 +232,6 @@ BALL_OBJS := \
 	share/mtrl.o        \
 	share/part.o        \
 	share/geom.o        \
-	share/item.o        \
 	share/ball.o        \
 	share/gui.o         \
 	share/font.o        \

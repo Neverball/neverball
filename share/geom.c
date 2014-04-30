@@ -283,6 +283,27 @@ int tex_env_stage(int stage)
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    GEOM_NONE = -1,
+
+    GEOM_COIN,
+    GEOM_COIN5,
+    GEOM_COIN10,
+    GEOM_GROW,
+    GEOM_SHRINK,
+
+    GEOM_MAX
+};
+
+static const char item_sols[GEOM_MAX][PATHMAX] = {
+    "item/coin/coin.sol",
+    "item/coin/coin5.sol",
+    "item/coin/coin10.sol",
+    "item/grow/grow.sol",
+    "item/shrink/shrink.sol"
+};
+
 static struct s_full beam;
 static struct s_full jump;
 static struct s_full goal;
@@ -290,6 +311,7 @@ static struct s_full flag;
 static struct s_full mark;
 static struct s_full vect;
 static struct s_full back;
+static struct s_full item[GEOM_MAX];
 
 static int back_state = 0;
 
@@ -297,22 +319,101 @@ static int back_state = 0;
 
 void geom_init(void)
 {
+    int i;
+
     sol_load_full(&beam, "geom/beam/beam.sol", 0);
     sol_load_full(&jump, "geom/jump/jump.sol", 0);
     sol_load_full(&goal, "geom/goal/goal.sol", 0);
     sol_load_full(&flag, "geom/flag/flag.sol", 0);
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
     sol_load_full(&vect, "geom/vect/vect.sol", 0);
+
+    for (i = 0; i < GEOM_MAX; i++)
+        sol_load_full(&item[i], item_sols[i], 0);
 }
 
 void geom_free(void)
 {
+    int i;
+
     sol_free_full(&vect);
     sol_free_full(&mark);
     sol_free_full(&flag);
     sol_free_full(&goal);
     sol_free_full(&jump);
     sol_free_full(&beam);
+
+    for (i = 0; i < GEOM_MAX; i++)
+        sol_free_full(&item[i]);
+}
+
+/*---------------------------------------------------------------------------*/
+
+static struct s_draw *item_file(const struct v_item *hp)
+{
+    int g = GEOM_COIN;
+
+    if (hp)
+    {
+        switch (hp->t)
+        {
+        case ITEM_GROW:   g = GEOM_GROW;   break;
+        case ITEM_SHRINK: g = GEOM_SHRINK; break;
+        default:
+            if      (hp->n >= 10) g = GEOM_COIN10;
+            else if (hp->n >= 5)  g = GEOM_COIN5;
+            else                  g = GEOM_COIN;
+            break;
+        }
+    }
+
+    return &item[g].draw;
+}
+
+void item_color(const struct v_item *hp, float *c)
+{
+    const struct s_draw *draw = item_file(hp);
+
+    c[0] = 1.0f;
+    c[1] = 1.0f;
+    c[2] = 1.0f;
+    c[3] = 1.0f;
+
+    if (draw && draw->base && draw->base->mtrls)
+    {
+        struct mtrl *mp = mtrl_get(draw->base->mtrls[0]);
+
+        if (mp)
+        {
+            c[0] = mp->base.d[0];
+            c[1] = mp->base.d[1];
+            c[2] = mp->base.d[2];
+            c[3] = mp->base.d[3];
+        }
+    }
+}
+
+void item_draw(struct s_rend *rend,
+               const struct v_item *hp,
+               const GLfloat *M, float t)
+{
+    const GLfloat s = ITEM_RADIUS;
+
+    struct s_draw *draw = item_file(hp);
+
+    glPushMatrix();
+    {
+        glScalef(s, s, s);
+
+        glDepthMask(GL_FALSE);
+        {
+            sol_bill(draw, rend, M, t);
+        }
+        glDepthMask(GL_TRUE);
+
+        sol_draw(draw, rend, 0, 1);
+    }
+    glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
