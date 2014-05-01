@@ -1,0 +1,7 @@
+diffuse   0.0 0.0 1.0 1.00
+ambient   0.2 0.2 0.2 0.25
+specular  0.0 0.0 0.0 0.25
+emissive  0.0 0.0 0.0 0.25
+shininess 0.0
+flags     additive 
+angle     45.0
