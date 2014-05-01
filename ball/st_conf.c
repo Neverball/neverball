@@ -15,7 +15,6 @@
 #include "gui.h"
 #include "hud.h"
 #include "geom.h"
-#include "item.h"
 #include "ball.h"
 #include "part.h"
 #include "audio.h"
@@ -212,7 +211,6 @@ static int null_enter(struct state *st, struct state *prev)
     hud_free();
     gui_free();
     geom_free();
-    item_free();
     ball_free();
     shad_free();
     part_free();
@@ -227,7 +225,6 @@ static void null_leave(struct state *st, struct state *next, int id)
     part_init();
     shad_init();
     ball_init();
-    item_init();
     geom_init();
     gui_init();
     hud_init();

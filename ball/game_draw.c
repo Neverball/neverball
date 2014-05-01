@@ -15,7 +15,6 @@
 #include "vec3.h"
 #include "glext.h"
 #include "ball.h"
-#include "item.h"
 #include "part.h"
 #include "geom.h"
 #include "config.h"

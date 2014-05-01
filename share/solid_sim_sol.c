@@ -20,7 +20,6 @@
 #include "solid_vary.h"
 #include "solid_sim.h"
 #include "solid_all.h"
-#include "solid_cmd.h"
 
 #define LARGE 1.0e+5f
 #define SMALL 1.0e-3f
@@ -628,48 +627,96 @@ static float sol_test_file(float dt,
 /*---------------------------------------------------------------------------*/
 
 /*
- * Track simulation steps in integer milliseconds.
+ * Accumulate and convert simulation time to integer milliseconds.
  */
 
-static float ms_accum;
-
-static void ms_init(void)
+static void ms_init(float *accum)
 {
-    ms_accum = 0.0f;
+    *accum = 0.0f;
 }
 
-static int ms_step(float dt)
+static int ms_step(float *accum, float dt)
 {
     int ms = 0;
 
-    ms_accum += dt;
+    *accum += dt;
 
-    while (ms_accum >= 0.001f)
+    while (*accum >= 0.001f)
     {
-        ms_accum -= 0.001f;
+        *accum -= 0.001f;
         ms += 1;
     }
 
     return ms;
 }
 
-static int ms_peek(float dt)
+static int ms_peek(float *accum, float dt)
 {
-    int ms = 0;
-    float at;
+    float at = *accum;
 
-    at = ms_accum + dt;
-
-    while (at >= 0.001f)
-    {
-        at -= 0.001f;
-        ms += 1;
-    }
-
-    return ms;
+    return ms_step(&at, dt);
 }
 
 /*---------------------------------------------------------------------------*/
+
+/*
+ * Find time till the next path change.
+ */
+static float sol_path_time(struct s_vary *vary, float dt)
+{
+    int mi;
+
+    for (mi = 0; mi < vary->mc; mi++)
+    {
+        struct v_move *mp = vary->mv + mi;
+        struct v_path *pp = vary->pv + mp->pi;
+
+        if (!pp->f)
+            continue;
+
+        if (mp->tm + ms_peek(&vary->ms_accum, dt) > pp->base->tm)
+            dt = MS_TO_TIME(pp->base->tm - mp->tm);
+    }
+
+    return dt;
+}
+
+/*
+ * Move SOL state forward DT seconds.
+ */
+static void sol_move_once(struct s_vary *vary, cmd_fn cmd_func, float dt)
+{
+    int ms;
+
+    if (cmd_func)
+    {
+        union cmd cmd = { CMD_STEP_SIMULATION };
+        cmd.stepsim.dt = dt;
+        cmd_func(&cmd);
+    }
+
+    ms = ms_step(&vary->ms_accum, dt);
+
+    sol_move_step(vary, cmd_func, dt, ms);
+    sol_swch_step(vary, cmd_func, dt, ms);
+    sol_ball_step(vary, cmd_func, dt);
+}
+
+/*
+ * Move SOL state forward DT seconds across multiple path changes.
+ */
+void sol_move(struct s_vary *vary, cmd_fn cmd_func, float dt)
+{
+    if (vary && vary->base)
+    {
+        while (dt > 0.0f)
+        {
+            float pt = sol_path_time(vary, dt);
+            sol_move_once(vary, cmd_func, pt);
+            dt -= pt;
+        }
+    }
+}
 
 /*
  * Step the physics forward DT  seconds under the influence of gravity
@@ -679,12 +726,11 @@ static int ms_peek(float dt)
  * iterations, punt it.
  */
 
-float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
+float sol_step(struct s_vary *vary, cmd_fn cmd_func,
+               const float *g, float dt, int ui, int *m)
 {
     float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
     int c;
-
-    union cmd cmd;
 
     if (ui < vary->uc)
     {
@@ -735,43 +781,22 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
 
         for (c = 16; c > 0 && tt > 0; c--)
         {
-            float st;
-            int mi, ms;
+            float pt;
 
-            /* HACK: avoid stepping across path changes. */
+            /* Avoid stepping across path changes. */
 
-            st = tt;
-
-            for (mi = 0; mi < vary->mc; mi++)
-            {
-                struct v_move *mp = vary->mv + mi;
-                struct v_path *pp = vary->pv + mp->pi;
-
-                if (!pp->f)
-                    continue;
-
-                if (mp->tm + ms_peek(st) > pp->base->tm)
-                    st = MS_TO_TIME(pp->base->tm - mp->tm);
-            }
+            pt = sol_path_time(vary, tt);
 
             /* Miss collisions if we reach the iteration limit. */
 
             if (c > 1)
-                nt = sol_test_file(st, P, V, up, vary);
+                nt = sol_test_file(pt, P, V, up, vary);
             else
                 nt = tt;
 
-            cmd.type       = CMD_STEP_SIMULATION;
-            cmd.stepsim.dt = nt;
-            sol_cmd_enq(&cmd);
+            sol_move_once(vary, cmd_func, nt);
 
-            ms = ms_step(nt);
-
-            sol_move_step(vary, nt, ms);
-            sol_swch_step(vary, nt, ms);
-            sol_ball_step(vary, nt);
-
-            if (nt < st)
+            if (nt < pt)
                 if (b < (d = sol_bounce(up, P, V, nt)))
                     b = d;
 
@@ -790,7 +815,7 @@ float sol_step(struct s_vary *vary, const float *g, float dt, int ui, int *m)
 
 void sol_init_sim(struct s_vary *vary)
 {
-    ms_init();
+    ms_init(&vary->ms_accum);
 }
 
 void sol_quit_sim(void)

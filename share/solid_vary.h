@@ -92,6 +92,10 @@ struct s_vary
     struct v_item *hv;
     struct v_swch *xv;
     struct v_ball *uv;
+
+    /* Accumulator for tracking time in integer milliseconds. */
+
+    float ms_accum;
 };
 
 /*---------------------------------------------------------------------------*/

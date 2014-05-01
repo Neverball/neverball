@@ -17,14 +17,13 @@
 #include <assert.h>
 
 #include "vec3.h"
-#include "item.h"
+#include "geom.h"
 #include "config.h"
 #include "binary.h"
 #include "common.h"
 
 #include "solid_sim.h"
 #include "solid_all.h"
-#include "solid_cmd.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -501,7 +500,6 @@ int game_server_init(const char *file_name, int t, int e)
     /* Initialize simulation. */
 
     sol_init_sim(&vary);
-    sol_cmd_enq_func(game_proxy_enq);
 
     /* Send initial update. */
 
@@ -709,7 +707,7 @@ static int game_update_state(int bt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(&vary, 0) == SWCH_INSIDE)
+    if (sol_swch_test(&vary, game_proxy_enq, 0) == SWCH_INSIDE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
@@ -811,7 +809,7 @@ static int game_step(const float g[3], float dt, int bt)
         {
             /* Run the sim. */
 
-            float b = sol_step(&vary, h, dt, 0, NULL);
+            float b = sol_step(&vary, game_proxy_enq, h, dt, 0, NULL);
 
             /* Mix the sound of a ball bounce. */
 

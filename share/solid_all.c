@@ -16,7 +16,6 @@
 /* Random code used in more than one place. */
 
 #include "solid_all.h"
-#include "solid_cmd.h"
 #include "solid_vary.h"
 
 #include "common.h"
@@ -244,10 +243,8 @@ void sol_pendulum(struct v_ball *up,
 
 /*---------------------------------------------------------------------------*/
 
-static void sol_path_flag(struct s_vary *vary, int pi, int f)
+static void sol_path_flag(struct s_vary *vary, cmd_fn cmd_func, int pi, int f)
 {
-    union cmd cmd;
-
     if (pi < 0 || pi >= vary->pc)
         return;
 
@@ -256,13 +253,16 @@ static void sol_path_flag(struct s_vary *vary, int pi, int f)
 
     vary->pv[pi].f = f;
 
-    cmd.type = CMD_PATH_FLAG;
-    cmd.pathflag.pi = pi;
-    cmd.pathflag.f = vary->pv[pi].f;
-    sol_cmd_enq(&cmd);
+    if (cmd_func)
+    {
+        union cmd cmd = { CMD_PATH_FLAG };
+        cmd.pathflag.pi = pi;
+        cmd.pathflag.f = vary->pv[pi].f;
+        cmd_func(&cmd);
+    }
 }
 
-static void sol_path_loop(struct s_vary *vary, int p0, int f)
+static void sol_path_loop(struct s_vary *vary, cmd_fn cmd_func, int p0, int f)
 {
     int pi = p0;
     int pj = p0;
@@ -273,7 +273,7 @@ static void sol_path_loop(struct s_vary *vary, int p0, int f)
 
     do  /* Tortoise and hare cycle traverser. */
     {
-        sol_path_flag(vary, pi, f);
+        sol_path_flag(vary, cmd_func, pi, f);
 
         pi = vary->base->pv[pi].pi;
         pj = vary->base->pv[pj].pi;
@@ -294,7 +294,7 @@ static void sol_path_loop(struct s_vary *vary, int p0, int f)
 
     do
     {
-        sol_path_flag(vary, pi, f);
+        sol_path_flag(vary, cmd_func, pi, f);
 
         pi = vary->base->pv[pi].pi;
         pj = vary->base->pv[pj].pi;
@@ -307,11 +307,9 @@ static void sol_path_loop(struct s_vary *vary, int p0, int f)
 /*
  * Compute the states of all switches after DT seconds have passed.
  */
-void sol_swch_step(struct s_vary *vary, float dt, int ms)
+void sol_swch_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
 {
     int xi;
-
-    union cmd cmd;
 
     for (xi = 0; xi < vary->xc; xi++)
     {
@@ -324,13 +322,16 @@ void sol_swch_step(struct s_vary *vary, float dt, int ms)
 
             if (xp->tm >= xp->base->tm)
             {
-                sol_path_loop(vary, xp->base->pi, xp->base->f);
+                sol_path_loop(vary, cmd_func, xp->base->pi, xp->base->f);
 
                 xp->f = xp->base->f;
 
-                cmd.type = CMD_SWCH_TOGGLE;
-                cmd.swchtoggle.xi = xi;
-                sol_cmd_enq(&cmd);
+                if (cmd_func)
+                {
+                    union cmd cmd = { CMD_SWCH_TOGGLE };
+                    cmd.swchtoggle.xi = xi;
+                    cmd_func(&cmd);
+                }
             }
         }
     }
@@ -339,11 +340,9 @@ void sol_swch_step(struct s_vary *vary, float dt, int ms)
 /*
  * Compute the positions of all movers after DT seconds have passed.
  */
-void sol_move_step(struct s_vary *vary, float dt, int ms)
+void sol_move_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
 {
     int i;
-
-    union cmd cmd;
 
     for (i = 0; i < vary->mc; i++)
     {
@@ -362,15 +361,20 @@ void sol_move_step(struct s_vary *vary, float dt, int ms)
                 mp->tm = 0;
                 mp->pi = pp->base->pi;
 
-                cmd.type        = CMD_MOVE_TIME;
-                cmd.movetime.mi = i;
-                cmd.movetime.t  = mp->t;
-                sol_cmd_enq(&cmd);
+                if (cmd_func)
+                {
+                    union cmd cmd;
 
-                cmd.type        = CMD_MOVE_PATH;
-                cmd.movepath.mi = i;
-                cmd.movepath.pi = mp->pi;
-                sol_cmd_enq(&cmd);
+                    cmd.type        = CMD_MOVE_TIME;
+                    cmd.movetime.mi = i;
+                    cmd.movetime.t  = mp->t;
+                    cmd_func(&cmd);
+
+                    cmd.type        = CMD_MOVE_PATH;
+                    cmd.movepath.mi = i;
+                    cmd.movepath.pi = mp->pi;
+                    cmd_func(&cmd);
+                }
             }
         }
     }
@@ -379,7 +383,7 @@ void sol_move_step(struct s_vary *vary, float dt, int ms)
 /*
  * Compute the positions of all balls after DT seconds have passed.
  */
-void sol_ball_step(struct s_vary *vary, float dt)
+void sol_ball_step(struct s_vary *vary, cmd_fn cmd_func, float dt)
 {
     int i;
 
@@ -499,12 +503,10 @@ int sol_jump_test(struct s_vary *vary, float *p, int ui)
 /*
  * Test for a ball entering a switch.
  */
-int sol_swch_test(struct s_vary *vary, int ui)
+int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
 {
     const float *ball_p = vary->uv[ui].p;
     const float  ball_r = vary->uv[ui].r;
-
-    union cmd cmd;
 
     int xi, rc = SWCH_OUTSIDE;
 
@@ -544,20 +546,26 @@ int sol_swch_test(struct s_vary *vary, int ui)
                     {
                         xp->e = 1;
 
-                        cmd.type = CMD_SWCH_ENTER;
-                        cmd.swchenter.xi = xi;
-                        sol_cmd_enq(&cmd);
+                        if (cmd_func)
+                        {
+                            union cmd cmd = { CMD_SWCH_ENTER };
+                            cmd.swchenter.xi = xi;
+                            cmd_func(&cmd);
+                        }
                     }
 
                     /* Toggle the state, update the path. */
 
                     xp->f = xp->f ? 0 : 1;
 
-                    cmd.type = CMD_SWCH_TOGGLE;
-                    cmd.swchtoggle.xi = xi;
-                    sol_cmd_enq(&cmd);
+                    if (cmd_func)
+                    {
+                        union cmd cmd = { CMD_SWCH_TOGGLE };
+                        cmd.swchtoggle.xi = xi;
+                        cmd_func(&cmd);
+                    }
 
-                    sol_path_loop(vary, xp->base->pi, xp->f);
+                    sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
                     /* It toggled to non-default state, start the timer. */
 
@@ -580,9 +588,12 @@ int sol_swch_test(struct s_vary *vary, int ui)
             {
                 xp->e = 0;
 
-                cmd.type = CMD_SWCH_EXIT;
-                cmd.swchexit.xi = xi;
-                sol_cmd_enq(&cmd);
+                if (cmd_func)
+                {
+                    union cmd cmd = { CMD_SWCH_EXIT };
+                    cmd.swchexit.xi = xi;
+                    cmd_func(&cmd);
+                }
             }
         }
     }

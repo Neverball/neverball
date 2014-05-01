@@ -13,12 +13,14 @@
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
+#define ITEM_RADIUS   0.15f
 #define GOAL_SPARKS  64
 
 /*---------------------------------------------------------------------------*/
 
 void geom_init(void);
 void geom_free(void);
+void geom_step(float);
 
 void beam_draw(struct s_rend *, const GLfloat *, const GLfloat *, GLfloat, GLfloat);
 void goal_draw(struct s_rend *, const GLfloat *, GLfloat, GLfloat, GLfloat);
@@ -27,6 +29,9 @@ void flag_draw(struct s_rend *, const GLfloat *);
 void mark_draw(struct s_rend *);
 void vect_draw(struct s_rend *);
 void back_draw(struct s_rend *);
+
+void item_color(const struct v_item *, float *);
+void item_draw(struct s_rend *, const struct v_item *, const GLfloat *, float);
 
 /*---------------------------------------------------------------------------*/
 

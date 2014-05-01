@@ -228,12 +228,10 @@ BALL_OBJS := \
 	share/solid_base.o  \
 	share/solid_vary.o  \
 	share/solid_draw.o  \
-	share/solid_cmd.o   \
 	share/solid_all.o   \
 	share/mtrl.o        \
 	share/part.o        \
 	share/geom.o        \
-	share/item.o        \
 	share/ball.o        \
 	share/gui.o         \
 	share/font.o        \
@@ -300,7 +298,6 @@ PUTT_OBJS := \
 	share/solid_base.o  \
 	share/solid_vary.o  \
 	share/solid_draw.o  \
-	share/solid_cmd.o   \
 	share/solid_all.o   \
 	share/mtrl.o        \
 	share/part.o        \
