@@ -729,7 +729,7 @@ void sol_move(struct s_vary *vary, cmd_fn cmd_func, float dt)
 float sol_step(struct s_vary *vary, cmd_fn cmd_func,
                const float *g, float dt, int ui, int *m)
 {
-    float P[3], V[3], v[3], r[3], a[3], d, e, nt, b = 0.0f, tt = dt;
+    float P[3], V[3], v[3], r[3], a[3], d, nt, b = 0.0f, tt = dt;
     int c;
 
     if (ui < vary->uc)
@@ -749,12 +749,13 @@ float sol_step(struct s_vary *vary, cmd_fn cmd_func,
 
             if ((d = v_dot(r, g) / (v_len(r) * v_len(g))) > 0.999f)
             {
-                if ((e = (v_len(up->v) - dt)) > 0.0f)
+                if (v_len(up->v) > dt)
                 {
                     /* Scale the linear velocity. */
 
-                    v_nrm(up->v, up->v);
-                    v_scl(up->v, up->v, e);
+                    v_sub(v, V, up->v);
+                    v_nrm(v, v);
+                    v_mad(up->v, up->v, v, dt);
 
                     /* Scale the angular velocity. */
 
