@@ -9,6 +9,38 @@
 {
 "classname" "misc_model"
 "model" "ball/snowglobe/snowglobe-train.obj"
+"target" "train0"
+}
+{
+"classname" "path_corner"
+"targetname" "train0"
+"target" "train1"
+"speed" "1.25"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "train1"
+"angle" "90"
+"target" "train2"
+"speed" "1.25"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "train2"
+"angle" "180"
+"target" "train3"
+"speed" "1.25"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "train3"
+"angle" "270"
+"target" "train0"
+"speed" "1.25"
+"smooth" "0"
 }
 {
 "classname" "info_null"
