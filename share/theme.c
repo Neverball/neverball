@@ -101,7 +101,7 @@ int theme_load(struct theme *theme, const char *name)
 
         /* Load description. */
 
-        if ((fp = fs_open(theme_path(name, "desc.txt"), "r")))
+        if ((fp = fs_open(theme_path(name, "theme.txt"), "r")))
         {
             while ((fs_gets(buff, sizeof (buff), fp)))
             {
@@ -112,6 +112,10 @@ int theme_load(struct theme *theme, const char *name)
             }
 
             fs_close(fp);
+        }
+        else
+        {
+            log_printf("Failure to open \"%s\" theme file\n", name);
         }
 
         theme->s[0] =  0.0f;
