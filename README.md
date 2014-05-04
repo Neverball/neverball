@@ -28,7 +28,7 @@ worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 ## Translation
 
 Neverball uses the gettext approach to translations. We're always
-interested in covering more languages. We have project on Transifex
+interested in covering more languages. We have a project on Transifex
 (see [instructions on the forum][tx]) and we also accept PO files.
 
 [tx]: http://forum.nevercorner.net/viewtopic.php?id=2741
