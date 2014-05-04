@@ -9,22 +9,26 @@ worth 5.  Blue coins are worth 10.  A ball is awarded for 100 coins.
 ## Documentation
 
 * [LICENSE.md](LICENSE.md): a description of licensing and exceptions
-* [doc/install.txt](doc/install.txt): instructions on how to build the game from source code
-* [doc/manual.txt](doc/manual.txt): a detailed description of how to play and configure the game
-* [doc/authors.txt](doc/authors.txt): a list of people who have contributed to Neverball
+* [doc/install.txt](doc/install.txt): instructions on how to build the
+  game from source code
+* [doc/manual.txt](doc/manual.txt): a detailed description of how to
+  play and configure the game
+* [doc/authors.txt](doc/authors.txt): a list of people who have
+  contributed to Neverball
 
 ## Resources
 
-* [Website][web]
-* [Development][dev]
-* [Neverforum][nf] (discussion forum)
-* [Nevertable][nt] (high-score and replay database)
-* [Neverwiki][nw] (documentation and level design tips)
-* [#neverball on chat.freenode.net][irc]
+* [Website](http://neverball.org/)
+* [Development](http://github.com/Neverball)
+* [Neverforum](http://forum.nevercorner.net/)
+* [Nevertable](http://table.nevercorner.net/) (high-score and replay
+  database)
+* [#neverball on chat.freenode.net](http://webchat.freenode.net/)
 
-[web]: http://neverball.org/
-[dev]: http://github.com/Neverball
-[nf]:  http://forum.nevercorner.net/
-[nt]:  http://table.nevercorner.net/
-[nw]:  http://wiki.nevercorner.net/
-[irc]: http://webchat.freenode.net/
+## Translation
+
+Neverball uses the gettext approach to translations. We're always
+interested in covering more languages. We have project on Transifex
+(see [instructions on the forum][tx]) and we also accept PO files.
+
+[tx]: http://forum.nevercorner.net/viewtopic.php?id=2741
