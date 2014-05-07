@@ -203,6 +203,9 @@ D: Code review, suggestions and comments
 D: Edge intersection handling
 D: Rotating platforms
 
+N: vidski
+D: Golf Jambalaya course
+
 N: Georg Wachter (nue)
 E: georgwachter@gmail.com
 D: German translation
