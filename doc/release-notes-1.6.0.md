@@ -6,18 +6,27 @@ After what's been a long, long wait since 1.5.4 released way back in 2009, we're
 
 * Neverball is using Git [on Github][git]!
 * Oculus Rift support. This is a compile-time option. Precompiled Windows builds are included in the official download. HMD-enabled builds contain an option to toggle VR mode in the Options screen. Both the Oculus SDK (`make ENABLE_HMD=libovr`) and OpenHMD (`make ENABLE_HMD=openhmd`) backends are supported.
-* An OpenGL ES-compatible renderer. All of the Neverball rendering code was rewritten for OpenGL ES 1.1 compliance to ease porting efforts to mobile/embedded platforms.
+* An OpenGL ES-compatible renderer. All of the Neverball rendering code has been rewritten for OpenGL ES 1.1 compliance to ease porting efforts to mobile/embedded platforms.
 * Port to SDL 2. Amongst other things, this fixes a number of fullscreen-related issues and vastly improves multiple display support.
 * [Mapping documentation][mapping]!
 
 [git]: https://github.com/neverball
 [mapping]: https://github.com/Neverball/neverball-docs/blob/master/README.md
 
-## Localization
+## Gameplay / controls
 
-* Transifex translation integration
-* Countless translation updates
-* Language selection screen
+* Camera behavior tweaks
+    * Configurable responsiveness of all three cameras
+    * Intelligent manual rotation behavior
+* Gamepad handling improvements
+    * Standardized controls
+    * Reworked configuration options
+* Configurable tilt responsiveness
+* Move default camera keys from F1-F3 to 1-3
+* Rework highscore file format and automatically invalidate scores for older levels
+* Adjustable replay playback speed using the mouse wheel
+* Interpolate game state between updates for smooth display.
+* Simulation and collision detection-related fixes
 
 ## Mapping
 
@@ -56,20 +65,11 @@ After what's been a long, long wait since 1.5.4 released way back in 2009, we're
 * Cheese Ball
 * Catseye Ball
 
-## Gameplay / controls
+## Localization
 
-* Camera behavior tweaks
-    * Configurable responsiveness of all three cameras
-    * Intelligent manual rotation behavior
-* Gamepad handling improvements
-    * Standardized controls
-    * Reworked configuration options
-* Configurable tilt responsiveness
-* Move default camera keys from F1-F3 to 1-3
-* Rework highscore file format and automatically invalidate scores for older levels
-* Adjustable replay playback speed using the mouse wheel
-* Interpolate game state between updates for smooth display.
-* Simulation and collision detection-related fixes
+* Transifex translation integration
+* Countless translation updates
+* Language selection screen
 
 ## Other noteworthy changes
 
