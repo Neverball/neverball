@@ -16,14 +16,14 @@ After what's been a long, long wait since 1.5.4 released way back in 2009, we're
 ## Gameplay / controls
 
 * Camera behavior tweaks
-    * Configurable responsiveness of all three cameras
+    * Configurable responsiveness of all three cameras via `camera_*_speed` options in *neverballrc*
     * Intelligent manual rotation behavior
 * Gamepad handling improvements
     * Standardized controls
-    * Reworked configuration options
-* Configurable tilt responsiveness
+    * Reworked configuration options via `joystick_axis_*` and `joystick_button_*` options in *neverballrc*
+* Configurable tilt responsiveness via `mouse_response` and `joystick_response` options in *neverballrc*
 * Move default camera keys from F1-F3 to 1-3
-* Rework highscore file format and automatically invalidate scores for older levels
+* Automatically invalidate scores for older levels
 * Adjustable replay playback speed using the mouse wheel
 * Interpolate game state between updates for smooth display.
 * Simulation and collision detection-related fixes
