@@ -1,0 +1,74 @@
+{
+"classname" "worldspawn"
+"drawback" "0"
+"depthmask" "1"
+"pendulum" "1"
+}
+
+{
+"classname" "misc_model"
+"material" "mtrl/glass"
+"model" "ball/ufo/ufo-glass.obj"
+}
+
+{
+"classname" "misc_model"
+"material" "mtrl/chrome"
+"model" "ball/ufo/ufo-body.obj"
+}
+
+{
+"classname" "misc_model"
+"material" "ball/ufo/thruster"
+"model" "ball/ufo/ufo-thrusters.obj"
+"target" "thruster0"
+}
+
+
+{
+"classname" "path_corner"
+"targetname" "thruster0"
+"target" "thruster1"
+"speed" "0.05"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "thruster1"
+"angle" "90"
+"target" "thruster2"
+"speed" "0.05"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "thruster2"
+"angle" "180"
+"target" "thruster3"
+"speed" "0.05"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "thruster3"
+"angle" "270"
+"target" "thruster0"
+"speed" "0.05"
+"smooth" "0"
+}
+
+{
+"classname" "misc_model"
+"material" "ball/ufo/alien"
+"model" "ball/ufo/ufo-alien.obj"
+}
+
+{
+"classname" "info_null"
+"origin" "0 0 -15"
+"height" "1.0 0.0 0.5"
+"width" "1.0 0.0 0.5"
+"zrot" "0.0 0.0 0.0"
+"time" "5.0"
+"image" "ball/ufo/poof-blue"
+}
