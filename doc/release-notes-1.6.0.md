@@ -58,12 +58,14 @@ After what's been a long, long wait since 1.5.4 released way back in 2009, we're
 
 * Rift Ball!
 * Octocat Ball!
-* Two fruit flavoured balls, Melon and Orange
-* New Eyeball
-* New Blinky
+* Melon Ball
+* Orange Ball
 * Diagonal Ball
 * Cheese Ball
 * Catseye Ball
+* UFO Ball
+* Updated Eyeball
+* Updated Blinky
 
 ## Localization
 
