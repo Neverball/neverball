@@ -21,7 +21,7 @@ D: SVG icons
 D: Screenshot naming tweaks
 D: Teleport design
 D: Volcano background
-D: Cheese, Melon, Orange and Octocat balls
+D: Catseye, Cheese, Melon, Octocat, Orange, and UFO balls
 
 N: Challenge Space Yard
 E: challengespaceyard@gmail.com
