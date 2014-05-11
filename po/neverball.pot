@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-03-03 06:42+0200\n"
+"POT-Creation-Date: 2014-05-12 01:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,43 +17,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ball/st_conf.c:157 putt/st_conf.c:104
+#: ball/st_conf.c:156 putt/st_conf.c:104
 msgid "Options"
 msgstr ""
 
-#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
+#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
 msgid "Graphics"
 msgstr ""
 
-#: ball/st_conf.c:159 putt/st_conf.c:114
+#: ball/st_conf.c:158 putt/st_conf.c:114
 msgid "Configure"
 msgstr ""
 
-#: ball/st_conf.c:163
+#: ball/st_conf.c:162
 msgid "Mouse Sensitivity"
 msgstr ""
 
-#: ball/st_conf.c:168 putt/st_conf.c:134
+#: ball/st_conf.c:167 putt/st_conf.c:134
 msgid "Sound Volume"
 msgstr ""
 
-#: ball/st_conf.c:170 putt/st_conf.c:150
+#: ball/st_conf.c:169 putt/st_conf.c:150
 msgid "Music Volume"
 msgstr ""
 
-#: ball/st_conf.c:175 ball/st_name.c:99
+#: ball/st_conf.c:174 ball/st_name.c:99
 msgid "Player Name"
 msgstr ""
 
-#: ball/st_conf.c:176 ball/st_ball.c:180
+#: ball/st_conf.c:175 ball/st_ball.c:180
 msgid "Ball Model"
 msgstr ""
 
-#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
+#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
 msgid "Language"
 msgstr ""
 
-#: ball/st_conf.c:191 share/st_common.c:666
+#: ball/st_conf.c:190 share/st_common.c:666
 msgid "Default"
 msgstr ""
 
@@ -69,81 +69,81 @@ msgstr ""
 msgid "GO!"
 msgstr ""
 
-#: ball/st_demo.c:201
+#: ball/st_demo.c:202
 msgid "Time"
 msgstr ""
 
-#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
+#: ball/st_demo.c:203 ball/st_goal.c:166 ball/hud.c:68
 msgid "Coins"
 msgstr ""
 
-#: ball/st_demo.c:203
+#: ball/st_demo.c:204
 msgid "Status"
 msgstr ""
 
-#: ball/st_demo.c:234 ball/st_demo.c:425
+#: ball/st_demo.c:235 ball/st_demo.c:426
 msgid "Replay"
 msgstr ""
 
-#: ball/st_demo.c:235 putt/st_all.c:740
+#: ball/st_demo.c:236 putt/st_all.c:740
 msgid "Player"
 msgstr ""
 
-#: ball/st_demo.c:236
+#: ball/st_demo.c:237
 msgid "Date"
 msgstr ""
 
-#: ball/st_demo.c:289
+#: ball/st_demo.c:290
 msgid "Select Replay"
 msgstr ""
 
-#: ball/st_demo.c:305
+#: ball/st_demo.c:306
 msgid "No Replays"
 msgstr ""
 
-#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
-#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
+#: ball/st_demo.c:308 ball/st_help.c:105 ball/st_ball.c:182
+#: ball/st_start.c:174 share/gui.c:2202 share/st_common.c:97
 #: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
 msgstr ""
 
-#: ball/st_demo.c:601
+#: ball/st_demo.c:611
 msgid "Replay Paused"
 msgstr ""
 
-#: ball/st_demo.c:603
+#: ball/st_demo.c:613
 msgid "Replay Ends"
 msgstr ""
 
-#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
 msgid "Quit"
 msgstr ""
 
-#: ball/st_demo.c:613 ball/st_demo.c:699
+#: ball/st_demo.c:623 ball/st_demo.c:709
 msgid "Keep"
 msgstr ""
 
-#: ball/st_demo.c:614 ball/st_demo.c:700
+#: ball/st_demo.c:624 ball/st_demo.c:710
 msgid "Delete"
 msgstr ""
 
-#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
 msgid "Continue"
 msgstr ""
 
-#: ball/st_demo.c:620
+#: ball/st_demo.c:630
 msgid "Repeat"
 msgstr ""
 
-#: ball/st_demo.c:695
+#: ball/st_demo.c:705
 msgid "Delete Replay?"
 msgstr ""
 
-#: ball/st_demo.c:749 ball/st_level.c:179
+#: ball/st_demo.c:759 ball/st_level.c:179
 msgid "Warning!"
 msgstr ""
 
-#: ball/st_demo.c:751
+#: ball/st_demo.c:761
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
@@ -621,19 +621,19 @@ msgstr ""
 msgid "Hole %02d"
 msgstr ""
 
-#: putt/st_all.c:1064
+#: putt/st_all.c:1072
 msgid "It's In!"
 msgstr ""
 
-#: putt/st_all.c:1207
+#: putt/st_all.c:1215
 msgid "1 Stroke Penalty"
 msgstr ""
 
-#: putt/st_all.c:1285
+#: putt/st_all.c:1293
 msgid "Scores"
 msgstr ""
 
-#: putt/st_all.c:1338
+#: putt/st_all.c:1346
 msgid "Final Scores"
 msgstr ""
 
@@ -753,10 +753,9 @@ msgid ""
 "\\Author: vidski\\"
 msgstr ""
 
-#: data/gui/ball.map data/map-easy/peasy.map
+#: data/holes-easyputt.txt
 msgid ""
-"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
-"to begin.\\"
+"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun Francis"
 msgstr ""
 
 #: data/map-easy/bumper.map
@@ -866,6 +865,12 @@ msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
+msgstr ""
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
 msgstr ""
 
 #: data/map-easy/roundcoins.map
