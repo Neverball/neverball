@@ -463,7 +463,7 @@ static int game_update_state(float dt)
 
     /* Test for fall-out. */
 
-    if (fp->uv[ball].p[1] < -10.f)
+    if (file.base.vc == 0 || fp->uv[ball].p[1] < file.base.vv[0].p[1])
         return GAME_FALL;
 
     /* Test for a goal or stop. */
