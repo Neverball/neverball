@@ -95,6 +95,7 @@ D: Brazilian Portuguese translation
 N: Pasi Kallinen (paxed)
 E: paxed@alt.org
 D: Finnish translation
+D: Gradient contributions
 D: Neverputt courses
 D: mapc tweaks
 
