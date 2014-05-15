@@ -51,6 +51,17 @@ static void shot(void)
     video_snap(filename);
 }
 
+static void reset_axes(void)
+{
+    /*
+     * Force the axes to return to neutral. Chances are, whatever we did, we
+     * do not want them to mess up the aim of the putt ball
+     */
+
+    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0.0f);
+    st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0.0f);
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void toggle_wire(void)
@@ -136,9 +147,13 @@ static int loop(void)
                 toggle_wire();
                 break;
             case SDLK_RETURN:
+                reset_axes();
+
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                 break;
             case SDLK_ESCAPE:
+                reset_axes();
+
                 if (video_get_grab())
                     d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_START), 1);
                 else
@@ -209,6 +224,8 @@ static int loop(void)
             break;
 
         case SDL_JOYBUTTONDOWN:
+            reset_axes();
+
             d = st_buttn(e.jbutton.button, 1);
             break;
 
