@@ -15,6 +15,7 @@
 #include "theme.h"
 #include "config.h"
 #include "image.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -27,8 +28,8 @@ static const char theme_images[THEME_IMAGES_MAX][PATHMAX] = {
 
 static GLuint theme_image(const char *path)
 {
-    const int W = config_get_d(CONFIG_WIDTH);
-    const int H = config_get_d(CONFIG_HEIGHT);
+    const int W = video.device_w;
+    const int H = video.device_h;
 
     int W2, H2;
 

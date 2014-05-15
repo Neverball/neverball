@@ -21,6 +21,7 @@
 #include <math.h>
 
 #include "glext.h"
+#include "video.h"
 #include "vec3.h"
 #include "geom.h"
 #include "image.h"
@@ -989,7 +990,7 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     {
         if (mp_flags & M_PARTICLE)
         {
-            const int s = config_get_d(CONFIG_HEIGHT) / 4;
+            const int s = video.device_h / 4;
             const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
 
             glEnable (GL_POINT_SPRITE);

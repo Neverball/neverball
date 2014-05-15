@@ -94,8 +94,8 @@ static void gui_set(int id, int i)
 
 static int set_gui(void)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     int id, jd, kd;
 

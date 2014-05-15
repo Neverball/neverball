@@ -129,8 +129,8 @@ static int gui_hot(int id)
 
 static int gui_size(void)
 {
-    const int w = config_get_d(CONFIG_WIDTH);
-    const int h = config_get_d(CONFIG_HEIGHT);
+    const int w = video.device_w;
+    const int h = video.device_h;
 
     return MIN(w, h);
 }
@@ -1163,9 +1163,9 @@ static void gui_button_up(int id)
 
     /* Padded text elements look a little nicer. */
 
-    if (widget[id].w < config_get_d(CONFIG_WIDTH))
+    if (widget[id].w < video.device_w)
         widget[id].w += padding;
-    if (widget[id].h < config_get_d(CONFIG_HEIGHT))
+    if (widget[id].h < video.device_h)
         widget[id].h += padding;
 
     /* A button should be at least wide enough to accomodate the borders. */
@@ -1370,8 +1370,8 @@ void gui_layout(int id, int xd, int yd)
 {
     int x, y;
 
-    int w, W = config_get_d(CONFIG_WIDTH);
-    int h, H = config_get_d(CONFIG_HEIGHT);
+    int w, W = video.device_w;
+    int h, H = video.device_h;
 
     gui_widget_up(id);
 

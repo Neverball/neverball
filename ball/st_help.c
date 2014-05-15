@@ -16,6 +16,7 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "video.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -122,8 +123,8 @@ static int page_rules(int id)
         "unlock the goal and finish\\"
         "the level.\\");
 
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     int jd, kd, ld;
 
@@ -282,8 +283,8 @@ static int page_tricks(int id)
         "and turn the camera by 45\\"
         "degrees for best results.\\");
 
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     int jd, kd, ld;
 

@@ -14,6 +14,7 @@
 
 #include "config.h"
 #include "glext.h"
+#include "video.h"
 #include "glsl.h"
 #include "fbo.h"
 
@@ -186,8 +187,8 @@ void hmd_common_swap(float center,
                      const float *barrel_correction,
                      const float *chroma_correction)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     float a = (float) w / (float) h / 2;
 

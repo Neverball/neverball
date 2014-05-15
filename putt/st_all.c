@@ -344,8 +344,8 @@ static int comp_rows(int n)
 
 static int course_enter(struct state *st, struct state *prev)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     int id, jd, kd, ld, md;
 

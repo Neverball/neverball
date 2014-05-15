@@ -560,8 +560,8 @@ static void look_paint(int id, float t)
 
 static void look_point(int id, int x, int y, int dx, int dy)
 {
-    phi   +=  90.0f * dy / config_get_d(CONFIG_HEIGHT);
-    theta += 180.0f * dx / config_get_d(CONFIG_WIDTH);
+    phi   +=  90.0f * dy / video.device_h;
+    theta += 180.0f * dx / video.device_w;
 
     if (phi > +90.0f) phi = +90.0f;
     if (phi < -90.0f) phi = -90.0f;

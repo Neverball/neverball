@@ -17,6 +17,16 @@
 
 /*---------------------------------------------------------------------------*/
 
+struct video
+{
+    int device_w, device_h;
+    int window_w, window_h;
+
+    float device_scale;
+};
+
+extern struct video video;
+
 int video_init(void);
 
 /*---------------------------------------------------------------------------*/
