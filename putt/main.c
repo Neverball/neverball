@@ -54,8 +54,9 @@ static void shot(void)
 static void reset_axes(void)
 {
     /*
-     * Force the axes to return to neutral. Chances are, whatever we did, we
-     * do not want them to mess up the aim of the putt ball
+     * Force the axes to return to neutral. Chances are, whatever action was
+     * done (for example, putting a ball), we do not want it to mess up the aim
+     * of [future] strokes
      */
 
     st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0.0f);
