@@ -207,8 +207,9 @@ int video_mode(int f, int w, int h)
 
         SDL_GetWindowSize(window, &w, &h);
 
-        printf("Created a window (%u, %dx%d, %s)\n",
-               SDL_GetWindowID(window), w, h, (f ? "fullscreen" : "windowed"));
+        log_printf("Created a window (%u, %dx%d, %s)\n",
+                   SDL_GetWindowID(window), w, h,
+                   (f ? "fullscreen" : "windowed"));
 
         config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);
