@@ -20,8 +20,8 @@ After a long wait since Neverball 1.5.4 (released way back in 2009), we're final
     * Intelligent manual rotation behavior.
 * Gamepad handling improvements:
     * Standardized controls.
-    * Reworked configuration options via `joystick_axis_*` and `joystick_button_*` options in *neverballrc*.
-* Configurable tilt responsiveness via `mouse_response` and `joystick_response` options in *neverballrc*.
+    * Reworked configuration via `joystick_axis_*` and `joystick_button_*` options in *neverballrc*.
+* Configurable tilt responsiveness via `mouse_response` and `joystick_response` options in *neverballrc*. Accustomed keyboard users may want to set `joystick_response` to 50 to restore previous arrow key responiveness.
 * Move default camera keys from F1-F3 to 1-3.
 * Automatically invalidate scores for older levels.
 * Adjustable replay playback speed using the mouse wheel.
