@@ -212,6 +212,20 @@ static int loop(void)
                 if (config_get_d(CONFIG_DISPLAY) != video_display())
                     config_set_d(CONFIG_DISPLAY, video_display());
                 break;
+
+            case SDL_WINDOWEVENT_RESIZED:
+                log_printf("Resize event (%u, %dx%d)\n",
+                           e.window.windowID,
+                           e.window.data1,
+                           e.window.data2);
+                break;
+
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                log_printf("Size change event (%u, %dx%d)\n",
+                           e.window.windowID,
+                           e.window.data1,
+                           e.window.data2);
+                break;
             }
             break;
 

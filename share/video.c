@@ -166,6 +166,9 @@ int video_mode(int f, int w, int h)
 
     /* Try to set the currently specified mode. */
 
+    log_printf("Creating a window (%dx%d, %s)\n",
+               w, h, (f ? "fullscreen" : "windowed"));
+
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
                               (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
@@ -203,6 +206,9 @@ int video_mode(int f, int w, int h)
         set_window_icon(ICON);
 
         SDL_GetWindowSize(window, &w, &h);
+
+        printf("Created a window (%u, %dx%d, %s)\n",
+               SDL_GetWindowID(window), w, h, (f ? "fullscreen" : "windowed"));
 
         config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);
