@@ -954,6 +954,7 @@ static void stroke_leave(struct state *st, struct state *next, int id)
     hud_free();
     video_clr_grab();
     config_set_d(CONFIG_CAMERA, 0);
+    stroke_rotate = 0.0f;
 }
 
 static void stroke_paint(int id, float t)
