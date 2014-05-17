@@ -225,7 +225,12 @@ static int loop(void)
             break;
 
         case SDL_JOYBUTTONDOWN:
-            reset_axes();
+            /* Do not reset unless an action button is pressed */
+            if (e.jbutton.button == config_get_d(CONFIG_JOYSTICK_BUTTON_A) ||
+                e.jbutton.button == config_get_d(CONFIG_JOYSTICK_BUTTON_START))
+            {
+                reset_axes();
+            }
 
             d = st_buttn(e.jbutton.button, 1);
             break;
