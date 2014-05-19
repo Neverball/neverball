@@ -85,7 +85,10 @@ static int fail_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
+        if (gui_measure(label, GUI_LRG).w >= config_get_d(CONFIG_WIDTH))
+            kd = gui_label(id, label, GUI_MED, gui_gry, gui_red);
+        else
+            kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
 
         gui_space(id);
 

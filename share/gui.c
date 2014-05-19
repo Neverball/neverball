@@ -661,12 +661,7 @@ int gui_filler(int pd) { return gui_widget(pd, GUI_FILLER); }
 
 /*---------------------------------------------------------------------------*/
 
-struct size
-{
-    int w, h;
-};
-
-static struct size gui_measure(const char *text, TTF_Font *font)
+static struct size gui_measure_ttf(const char *text, TTF_Font *font)
 {
     struct size size = { 0, 0 };
 
@@ -675,6 +670,13 @@ static struct size gui_measure(const char *text, TTF_Font *font)
 
     return size;
 }
+
+struct size gui_measure(const char *text, int size)
+{
+    return gui_measure_ttf(text, fonts[0].ttf[size]);
+}
+
+/*---------------------------------------------------------------------------*/
 
 static char *gui_trunc_head(const char *text,
                             const int maxwidth,
@@ -692,7 +694,7 @@ static char *gui_trunc_head(const char *text,
 
         str = concat_string("...", text + mid, NULL);
 
-        if (gui_measure(str, font).w <= maxwidth)
+        if (gui_measure_ttf(str, font).w <= maxwidth)
             right = mid;
         else
             left = mid;
@@ -722,7 +724,7 @@ static char *gui_trunc_tail(const char *text,
         memcpy(str,       text,  mid);
         memcpy(str + mid, "...", sizeof ("..."));
 
-        if (gui_measure(str, font).w <= maxwidth)
+        if (gui_measure_ttf(str, font).w <= maxwidth)
             left = mid;
         else
             right = mid;
@@ -743,7 +745,7 @@ static char *gui_truncate(const char *text,
                           TTF_Font *font,
                           enum trunc trunc)
 {
-    if (gui_measure(text, font).w <= maxwidth)
+    if (gui_measure_ttf(text, font).w <= maxwidth)
         return strdup(text);
 
     switch (trunc)

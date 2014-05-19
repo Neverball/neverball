@@ -149,4 +149,13 @@ int gui_maybe(int, const char *, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 
+struct size
+{
+    int w, h;
+};
+
+struct size gui_measure(const char *text, int size);
+
+/*---------------------------------------------------------------------------*/
+
 #endif
