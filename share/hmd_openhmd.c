@@ -19,6 +19,7 @@
 #include "hmd_common.h"
 #include "config.h"
 #include "glext.h"
+#include "video.h"
 
 static ohmd_context *ctx = NULL;
 static ohmd_device  *dev = NULL;
@@ -38,8 +39,8 @@ int hmd_stat()
 
 void hmd_init()
 {
-    hres = config_get_d(CONFIG_WIDTH);
-    vres = config_get_d(CONFIG_HEIGHT);
+    hres = video.device_w;
+    vres = video.device_h;
 
     /* Start up OpenHMD. */
 
@@ -112,8 +113,8 @@ void hmd_ortho()
 {
     hmd_persp(0.5f, 2.0f);
 
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     glScalef    ( 1.25f / h,  1.25f / h,  1.0f);
     glTranslatef(-0.50f * w, -0.50f * h, -1.0f);

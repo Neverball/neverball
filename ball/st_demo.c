@@ -96,8 +96,8 @@ static struct thumb
 
 static int gui_demo_thumbs(int id)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     int jd, kd, ld;
     int i, j;

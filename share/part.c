@@ -24,6 +24,7 @@
 #include "image.h"
 #include "geom.h"
 #include "hmd.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 /*
@@ -225,7 +226,7 @@ void part_step(const float *g, float dt)
 
 void part_draw_coin(struct s_rend *rend)
 {
-    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
 
     r_apply_mtrl(rend, coin_mtrl);
 

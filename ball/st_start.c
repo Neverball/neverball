@@ -158,8 +158,8 @@ static int start_action(int tok, int val)
 
 static int start_gui(void)
 {
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
     int i, j;
 
     int id, jd, kd, ld;

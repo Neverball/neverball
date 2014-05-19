@@ -26,6 +26,8 @@
 extern const char TITLE[];
 extern const char ICON[];
 
+struct video video;
+
 /*---------------------------------------------------------------------------*/
 
 /* Normally...... show the system cursor and hide the virtual cursor.        */
@@ -171,6 +173,7 @@ int video_mode(int f, int w, int h)
 
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
+                              SDL_WINDOW_ALLOW_HIGHDPI |
                               (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 
     if (window)
@@ -212,36 +215,41 @@ int video_mode(int f, int w, int h)
          * doing this lazy thing instead.
          */
 
+        SDL_GL_GetDrawableSize(window, &video.device_w, &video.device_h);
+
         if (f)
         {
             SDL_DisplayMode dm;
 
             if (SDL_GetDesktopDisplayMode(video_display(), &dm) == 0)
             {
-                w = dm.w;
-                h = dm.h;
+                video.window_w = dm.w;
+                video.window_h = dm.h;
             }
         }
         else
         {
-            SDL_GetWindowSize(window, &w, &h);
+            SDL_GetWindowSize(window, &video.window_w, &video.window_h);
         }
 
         log_printf("Created a window (%u, %dx%d, %s)\n",
-                   SDL_GetWindowID(window), w, h,
+                   SDL_GetWindowID(window),
+                   video.window_w, video.window_h,
                    (f ? "fullscreen" : "windowed"));
+
+        video.device_scale = (float) video.device_h / (float) video.window_h;
 
         config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);
-        config_set_d(CONFIG_WIDTH,      w);
-        config_set_d(CONFIG_HEIGHT,     h);
+        config_set_d(CONFIG_WIDTH,      video.window_w);
+        config_set_d(CONFIG_HEIGHT,     video.window_h);
 
         SDL_GL_SetSwapInterval(vsync);
 
         if (!glext_init())
             return 0;
 
-        glViewport(0, 0, w, h);
+        glViewport(0, 0, video.device_w, video.device_h);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_NORMALIZE);
@@ -391,8 +399,8 @@ void video_set_grab(int w)
         SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 
         SDL_WarpMouseInWindow(window,
-                              config_get_d(CONFIG_WIDTH)  / 2,
-                              config_get_d(CONFIG_HEIGHT) / 2);
+                              video.window_w / 2,
+                              video.window_h / 2);
 
         SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
     }
@@ -458,8 +466,8 @@ void video_push_persp(float fov, float n, float f)
         GLfloat s = fsinf(r);
         GLfloat c = fcosf(r) / s;
 
-        GLfloat a = ((GLfloat) config_get_d(CONFIG_WIDTH) /
-                     (GLfloat) config_get_d(CONFIG_HEIGHT));
+        GLfloat a = ((GLfloat) video.device_w /
+                     (GLfloat) video.device_h);
 
         glMatrixMode(GL_PROJECTION);
         {
@@ -497,8 +505,8 @@ void video_push_ortho(void)
         hmd_ortho();
     else
     {
-        GLfloat w = (GLfloat) config_get_d(CONFIG_WIDTH);
-        GLfloat h = (GLfloat) config_get_d(CONFIG_HEIGHT);
+        GLfloat w = (GLfloat) video.device_w;
+        GLfloat h = (GLfloat) video.device_h;
 
         glMatrixMode(GL_PROJECTION);
         {

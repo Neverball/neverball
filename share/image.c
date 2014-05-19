@@ -23,6 +23,7 @@
 #include "image.h"
 #include "base_image.h"
 #include "config.h"
+#include "video.h"
 
 #include "fs.h"
 #include "fs_png.h"
@@ -36,8 +37,8 @@ void image_snap(const char *filename)
     png_infop   infop  = NULL;
     png_bytep  *bytep  = NULL;
 
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
     int i;
 
     unsigned char *p = NULL;

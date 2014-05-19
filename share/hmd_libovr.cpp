@@ -19,6 +19,7 @@ extern "C"
     #include "hmd_common.h"
     #include "config.h"
     #include "glext.h"
+    #include "video.h"
 }
 
 /*---------------------------------------------------------------------------*/
@@ -72,8 +73,8 @@ extern "C" void hmd_init()
 
     Info.DesktopX               = 0;
     Info.DesktopY               = 0;
-    Info.HResolution            = config_get_d(CONFIG_WIDTH);
-    Info.VResolution            = config_get_d(CONFIG_HEIGHT);
+    Info.HResolution            = video.device_w;
+    Info.VResolution            = video.device_h;
 
     Info.HScreenSize            =  0.14976f;
     Info.VScreenSize            =  0.09350f;
@@ -191,8 +192,8 @@ extern "C" void hmd_ortho()
 {
     hmd_persp(0.5f, 2.0f);
 
-    int w = config_get_d(CONFIG_WIDTH);
-    int h = config_get_d(CONFIG_HEIGHT);
+    int w = video.device_w;
+    int h = video.device_h;
 
     glScalef    ( 1.25f / h,  1.25f / h,  1.0f);
     glTranslatef(-0.50f * w, -0.50f * h, -1.0f);

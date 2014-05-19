@@ -167,6 +167,8 @@ static int loop(void)
     SDL_Event e;
     int d = 1;
 
+    int ax, ay, dx, dy;
+
     /* Process SDL events. */
 
     while (d && SDL_PollEvent(&e))
@@ -177,11 +179,23 @@ static int loop(void)
             return 0;
 
         case SDL_MOUSEMOTION:
-            st_point(+e.motion.x,
-                     -e.motion.y + config_get_d(CONFIG_HEIGHT),
-                     +e.motion.xrel,
-                     config_get_d(CONFIG_MOUSE_INVERT)
-                     ? +e.motion.yrel : -e.motion.yrel);
+            /* Convert to OpenGL coordinates. */
+
+            ax = +e.motion.x;
+            ay = -e.motion.y + video.window_h;
+            dx = +e.motion.xrel;
+            dy = (config_get_d(CONFIG_MOUSE_INVERT) ?
+                  +e.motion.yrel : -e.motion.yrel);
+
+            /* Convert to pixels. */
+
+            ax = ROUND(ax * video.device_scale);
+            ay = ROUND(ay * video.device_scale);
+            dx = ROUND(dx * video.device_scale);
+            dy = ROUND(dy * video.device_scale);
+
+            st_point(ax, ay, dx, dy);
+
             break;
 
         case SDL_MOUSEBUTTONDOWN:

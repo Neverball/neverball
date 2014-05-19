@@ -477,7 +477,7 @@ void beam_draw(struct s_rend *rend, const GLfloat *p,
 
 void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
 {
-    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
 
     glPointSize(height / 6);
 
@@ -492,7 +492,7 @@ void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfl
 
 void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 {
-    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * config_get_d(CONFIG_HEIGHT);
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
 
     glPointSize(height / 12);
 
