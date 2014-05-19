@@ -205,7 +205,27 @@ int video_mode(int f, int w, int h)
         set_window_title(TITLE);
         set_window_icon(ICON);
 
-        SDL_GetWindowSize(window, &w, &h);
+        /*
+         * SDL_GetWindowSize can be unreliable when going fullscreen
+         * on OSX (and possibly elsewhere). We should really be
+         * waiting for a resize / size change event, but for now we're
+         * doing this lazy thing instead.
+         */
+
+        if (f)
+        {
+            SDL_DisplayMode dm;
+
+            if (SDL_GetDesktopDisplayMode(video_display(), &dm) == 0)
+            {
+                w = dm.w;
+                h = dm.h;
+            }
+        }
+        else
+        {
+            SDL_GetWindowSize(window, &w, &h);
+        }
 
         log_printf("Created a window (%u, %dx%d, %s)\n",
                    SDL_GetWindowID(window), w, h,
