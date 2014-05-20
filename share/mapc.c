@@ -223,7 +223,7 @@ static void bcast_quit(void)
 #define MAXE    131072
 #define MAXS    65536
 #define MAXT    131072
-#define MAXO    131072
+#define MAXO    262144
 #define MAXG    65536
 #define MAXL    4096
 #define MAXN    2048
