@@ -7,7 +7,7 @@ After a long wait since Neverball 1.5.4 (released way back in 2009), we're final
 * Neverball is using Git [on Github][git]!
 * Oculus Rift support. This is a compile-time option. Precompiled Windows builds are included in the official download. HMD-enabled builds contain an option to toggle VR mode in the Options screen. Both the Oculus SDK (`make ENABLE_HMD=libovr`) and OpenHMD (`make ENABLE_HMD=openhmd`) backends are supported.
 * An OpenGL ES-compatible renderer. All of the Neverball rendering code has been rewritten for OpenGL ES 1.1 compliance to ease porting efforts to mobile/embedded platforms.
-* Port to SDL 2. Amongst other things, this fixes a number of fullscreen-related issues and vastly improves multiple display support.
+* Port to SDL 2. Amongst other things, this fixes a number of fullscreen-related issues, improves multiple display support and enables high-DPI/Retina display support (controllable via the `highdpi` option in *neverballrc*).
 * [Mapping documentation][mapping]!
 
 [git]: https://github.com/neverball
@@ -39,7 +39,7 @@ After a long wait since Neverball 1.5.4 (released way back in 2009), we're final
 * Alpha-tested materials.
 * Particle materials.
 * *mapc* can now output directly to the Radiant message window. This is a compile time option (`make ENABLE_RADIANT_CONSOLE=1`) and is enabled by default in the official builds.
-* Recognize *.pk3* (a renamed *.zip*) as a package extension.
+* Recognize *.pk3* (a renamed *.zip*) as a package extension for Radiant compatibility.
 * Limit entity timer precision to milliseconds to fix a number of timing-related bugs.
 * Fix mapc not to merge some planes, fixing a number of collision bugs.
 
