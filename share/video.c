@@ -139,6 +139,7 @@ int video_mode(int f, int w, int h)
     int samples = config_get_d(CONFIG_MULTISAMPLE);
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
     int hmd     = config_get_d(CONFIG_HMD)         ? 1 : 0;
+    int highdpi = config_get_d(CONFIG_HIGHDPI)     ? 1 : 0;
 
     int dpy = config_get_d(CONFIG_DISPLAY);
 
@@ -173,7 +174,7 @@ int video_mode(int f, int w, int h)
 
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
-                              SDL_WINDOW_ALLOW_HIGHDPI |
+                              (highdpi ? SDL_WINDOW_ALLOW_HIGHDPI : 0) |
                               (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
 
     if (window)
@@ -215,8 +216,6 @@ int video_mode(int f, int w, int h)
          * doing this lazy thing instead.
          */
 
-        SDL_GL_GetDrawableSize(window, &video.device_w, &video.device_h);
-
         if (f)
         {
             SDL_DisplayMode dm;
@@ -232,12 +231,22 @@ int video_mode(int f, int w, int h)
             SDL_GetWindowSize(window, &video.window_w, &video.window_h);
         }
 
+        if (highdpi)
+        {
+            SDL_GL_GetDrawableSize(window, &video.device_w, &video.device_h);
+        }
+        else
+        {
+            video.device_w = video.window_w;
+            video.device_h = video.window_h;
+        }
+
+        video.device_scale = (float) video.device_h / (float) video.window_h;
+
         log_printf("Created a window (%u, %dx%d, %s)\n",
                    SDL_GetWindowID(window),
                    video.window_w, video.window_h,
                    (f ? "fullscreen" : "windowed"));
-
-        video.device_scale = (float) video.device_h / (float) video.window_h;
 
         config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);

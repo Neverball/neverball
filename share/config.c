@@ -46,6 +46,7 @@ int CONFIG_MOUSE_RESPONSE;
 int CONFIG_MOUSE_INVERT;
 int CONFIG_VSYNC;
 int CONFIG_HMD;
+int CONFIG_HIGHDPI;
 int CONFIG_MOUSE_CAMERA_1;
 int CONFIG_MOUSE_CAMERA_2;
 int CONFIG_MOUSE_CAMERA_3;
@@ -147,6 +148,7 @@ static struct
     { &CONFIG_MOUSE_INVERT, "mouse_invert", 0 },
     { &CONFIG_VSYNC,        "vsync",        1 },
     { &CONFIG_HMD,          "hmd",          0 },
+    { &CONFIG_HIGHDPI,      "highdpi",      1 },
 
     { &CONFIG_MOUSE_CAMERA_1,      "mouse_camera_1",      0 },
     { &CONFIG_MOUSE_CAMERA_2,      "mouse_camera_2",      0 },
