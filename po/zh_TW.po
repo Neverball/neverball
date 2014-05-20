@@ -3,59 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# GunChleoc, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-03-03 06:42+0200\n"
-"PO-Revision-Date: 2014-03-03 04:47+0000\n"
-"Last-Translator: parasti <parasti@gmail.com>\n"
+"POT-Creation-Date: 2014-05-19 16:28+0300\n"
+"PO-Revision-Date: 2014-05-20 17:10+0000\n"
+"Last-Translator: GunChleoc\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/neverball/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: ball/st_conf.c:157 putt/st_conf.c:104
-msgid "Options"
-msgstr "選項"
-
-#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr ""
-
-#: ball/st_conf.c:159 putt/st_conf.c:114
-msgid "Configure"
-msgstr ""
-
-#: ball/st_conf.c:163
-msgid "Mouse Sensitivity"
-msgstr ""
-
-#: ball/st_conf.c:168 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "音效音量"
-
-#: ball/st_conf.c:170 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "音樂音量"
-
-#: ball/st_conf.c:175 ball/st_name.c:99
-msgid "Player Name"
-msgstr "玩家名稱"
-
-#: ball/st_conf.c:176 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr ""
-
-#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:191 share/st_common.c:666
-msgid "Default"
-msgstr ""
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -69,81 +30,257 @@ msgstr "就緒？"
 msgid "GO!"
 msgstr "開球！"
 
-#: ball/st_demo.c:201
-msgid "Time"
-msgstr "時間"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "重播名稱"
 
-#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
-msgid "Coins"
-msgstr "錢幣"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "儲存"
 
-#: ball/st_demo.c:203
-msgid "Status"
-msgstr "狀態"
+#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
+msgid "Cancel"
+msgstr "取消"
 
-#: ball/st_demo.c:234 ball/st_demo.c:425
-msgid "Replay"
-msgstr "重播"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "覆寫？"
 
-#: ball/st_demo.c:235 putt/st_all.c:740
-msgid "Player"
-msgstr "玩家"
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr ""
 
-#: ball/st_demo.c:236
-msgid "Date"
-msgstr "日期"
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
 
-#: ball/st_demo.c:289
-msgid "Select Replay"
-msgstr "選擇重播"
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
 
-#: ball/st_demo.c:305
-msgid "No Replays"
-msgstr "沒有重播"
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
 
-#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
-#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
-#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
+#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
+#: putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
 msgstr "返回"
 
-#: ball/st_demo.c:601
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "挑戰"
+
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr ""
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr ""
+
+#: ball/st_conf.c:156 putt/st_conf.c:104
+msgid "Options"
+msgstr "選項"
+
+#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr ""
+
+#: ball/st_conf.c:158 putt/st_conf.c:114
+msgid "Configure"
+msgstr ""
+
+#: ball/st_conf.c:162
+msgid "Mouse Sensitivity"
+msgstr ""
+
+#: ball/st_conf.c:167 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "音效音量"
+
+#: ball/st_conf.c:169 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "音樂音量"
+
+#: ball/st_conf.c:174 ball/st_name.c:99
+msgid "Player Name"
+msgstr "玩家名稱"
+
+#: ball/st_conf.c:175 ball/st_ball.c:180
+msgid "Ball Model"
+msgstr ""
+
+#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:190 share/st_common.c:666
+msgid "Default"
+msgstr ""
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "新紀錄"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "完成"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "選擇關卡"
+
+#: ball/progress.c:417 ball/st_help.c:259
+msgid "Challenge Mode"
+msgstr "挑戰模式"
+
+#: ball/progress.c:418 ball/st_help.c:246
+msgid "Normal Mode"
+msgstr "正常模式"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "正常"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr ""
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "不明模式"
+
+#: ball/progress.c:420 ball/game_common.c:32
+msgid "Unknown"
+msgstr "不明"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "落下！"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "時間到！"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "退出"
+
+#: ball/st_fail.c:101 ball/st_goal.c:220
+msgid "Next Level"
+msgstr "下一關"
+
+#: ball/st_fail.c:104 ball/st_goal.c:223
+msgid "Retry Level"
+msgstr "重來"
+
+#: ball/st_fail.c:107 ball/st_goal.c:226
+msgid "Save Replay"
+msgstr "儲存重播"
+
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "確定"
+
+#: ball/st_demo.c:202
+msgid "Time"
+msgstr "時間"
+
+#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
+msgid "Coins"
+msgstr "錢幣"
+
+#: ball/st_demo.c:204
+msgid "Status"
+msgstr "狀態"
+
+#: ball/st_demo.c:235 ball/st_demo.c:426
+msgid "Replay"
+msgstr "重播"
+
+#: ball/st_demo.c:236 putt/st_all.c:740
+msgid "Player"
+msgstr "玩家"
+
+#: ball/st_demo.c:237
+msgid "Date"
+msgstr "日期"
+
+#: ball/st_demo.c:290
+msgid "Select Replay"
+msgstr "選擇重播"
+
+#: ball/st_demo.c:306
+msgid "No Replays"
+msgstr "沒有重播"
+
+#: ball/st_demo.c:611
 msgid "Replay Paused"
 msgstr "重播暫停"
 
-#: ball/st_demo.c:603
+#: ball/st_demo.c:613
 msgid "Replay Ends"
 msgstr "重播結束"
 
-#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
 msgid "Quit"
 msgstr "離開"
 
-#: ball/st_demo.c:613 ball/st_demo.c:699
+#: ball/st_demo.c:623 ball/st_demo.c:709
 msgid "Keep"
 msgstr "保留"
 
-#: ball/st_demo.c:614 ball/st_demo.c:700
+#: ball/st_demo.c:624 ball/st_demo.c:710
 msgid "Delete"
 msgstr "刪除"
 
-#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
 msgid "Continue"
 msgstr "繼續"
 
-#: ball/st_demo.c:620
+#: ball/st_demo.c:630
 msgid "Repeat"
 msgstr "重複"
 
-#: ball/st_demo.c:695
+#: ball/st_demo.c:705
 msgid "Delete Replay?"
 msgstr "刪除重播？"
 
-#: ball/st_demo.c:749 ball/st_level.c:179
+#: ball/st_demo.c:759 ball/st_level.c:179
 msgid "Warning!"
 msgstr "警告"
 
-#: ball/st_demo.c:751
+#: ball/st_demo.c:761
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
@@ -203,19 +340,11 @@ msgstr ""
 msgid "Screenshot"
 msgstr "截圖"
 
-#: ball/st_help.c:246 ball/progress.c:418
-msgid "Normal Mode"
-msgstr "正常模式"
-
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
 msgstr "時間用完之前要結束關卡。\\需要收集錢幣才能開啟出口。"
-
-#: ball/st_help.c:259 ball/progress.c:417
-msgid "Challenge Mode"
-msgstr "挑戰模式"
 
 #: ball/st_help.c:261
 msgid ""
@@ -255,10 +384,6 @@ msgstr "成功"
 msgid "Fall-out"
 msgstr "掉落"
 
-#: ball/game_common.c:32 ball/progress.c:420
-msgid "Unknown"
-msgstr "不明"
-
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -272,6 +397,18 @@ msgstr "暫停"
 msgid "Restart"
 msgstr "重新開始"
 
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "出口"
+
+#: ball/hud.c:89 ball/st_goal.c:154
+msgid "Balls"
+msgstr "球數"
+
+#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
+msgid "Score"
+msgstr "分數"
+
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "新紀錄"
@@ -280,113 +417,34 @@ msgstr "新紀錄"
 msgid "GOAL"
 msgstr "出口"
 
-#: ball/st_goal.c:154 ball/hud.c:89
-msgid "Balls"
-msgstr "球數"
-
-#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
-msgid "Score"
-msgstr "分數"
-
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "結束"
 
-#: ball/st_goal.c:220 ball/st_fail.c:98
-msgid "Next Level"
-msgstr "下一關"
-
-#: ball/st_goal.c:223 ball/st_fail.c:101
-msgid "Retry Level"
-msgstr "重來"
-
-#: ball/st_goal.c:226 ball/st_fail.c:104
-msgid "Save Replay"
-msgstr "儲存重播"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr "snd/select.ogg"
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr "snd/ready.ogg"
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr "snd/set.ogg"
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr "snd/go.ogg"
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr "snd/record.ogg"
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr "snd/fall.ogg"
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr "snd/time.ogg"
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr "snd/over.ogg"
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "出口"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "挑戰"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr ""
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr ""
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "新紀錄"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "完成"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "選擇關卡"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "正常"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr ""
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr ""
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "不明模式"
-
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "關卡集合"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "獎勵關卡 %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "關卡 %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr ""
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
 
 #: ball/util.c:28
 msgid "Hard"
@@ -424,50 +482,9 @@ msgstr "更改名稱"
 msgid "caps"
 msgstr "帽子"
 
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "確定"
-
-#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
-msgid "Cancel"
-msgstr "取消"
-
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "遊戲結束"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "落下！"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "時間到！"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "退出"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "獎勵關卡 %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "關卡 %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr ""
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -492,22 +509,6 @@ msgstr "選  項"
 #: ball/st_title.c:184 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "退  出"
-
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "重播名稱"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "儲存"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "覆寫？"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr ""
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -621,19 +622,19 @@ msgstr "玩家數目？"
 msgid "Hole %02d"
 msgstr "%02d 洞"
 
-#: putt/st_all.c:1064
+#: putt/st_all.c:1073
 msgid "It's In!"
 msgstr "進了！"
 
-#: putt/st_all.c:1207
+#: putt/st_all.c:1216
 msgid "1 Stroke Penalty"
 msgstr "罰一桿"
 
-#: putt/st_all.c:1285
+#: putt/st_all.c:1294
 msgid "Scores"
 msgstr "分數"
 
-#: putt/st_all.c:1338
+#: putt/st_all.c:1347
 msgid "Final Scores"
 msgstr "最終得分"
 
@@ -753,11 +754,11 @@ msgid ""
 "hard.\\Author: vidski\\"
 msgstr ""
 
-#: data/gui/ball.map data/map-easy/peasy.map
+#: data/holes-easyputt.txt
 msgid ""
-"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
-"to begin.\\"
-msgstr "滑鼠按鈕可以旋轉檢視角度。\\按下退出以暫停或離開。\\\\\\\\按一下以開始。\\"
+"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Francis"
+msgstr ""
 
 #: data/map-easy/bumper.map
 msgid ""
@@ -869,6 +870,12 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr "移動平臺可能很巧妙。\\以精確時機上臺，\\並且在那裏保持精確平衡。\\不要讓它從您下方移出。\\駕馭這個平臺好抓取大錢幣。\\"
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr "滑鼠按鈕可以旋轉檢視角度。\\按下退出以暫停或離開。\\\\\\\\按一下以開始。\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
@@ -1639,5 +1646,13 @@ msgstr "立體迷你高爾夫遊戲"
 msgid "mtrl/words"
 msgstr "mtrl/words"
 
+#. Translators,
+#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
-msgstr "item/coin/coin"
+msgstr "item/coin/chinese_coin"
+
+msgid "item/coin/coin5"
+msgstr "item/coin/coin5"
+
+msgid "item/coin/coin10"
+msgstr "item/coin/coin10"

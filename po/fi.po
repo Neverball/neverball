@@ -3,59 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# GunChleoc, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-03-03 06:42+0200\n"
-"PO-Revision-Date: 2014-03-03 04:47+0000\n"
-"Last-Translator: parasti <parasti@gmail.com>\n"
+"POT-Creation-Date: 2014-05-19 16:28+0300\n"
+"PO-Revision-Date: 2014-05-20 17:14+0000\n"
+"Last-Translator: GunChleoc\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/neverball/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ball/st_conf.c:157 putt/st_conf.c:104
-msgid "Options"
-msgstr "Asetukset"
-
-#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr ""
-
-#: ball/st_conf.c:159 putt/st_conf.c:114
-msgid "Configure"
-msgstr ""
-
-#: ball/st_conf.c:163
-msgid "Mouse Sensitivity"
-msgstr ""
-
-#: ball/st_conf.c:168 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Ääniefektit"
-
-#: ball/st_conf.c:170 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Musiikki"
-
-#: ball/st_conf.c:175 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Pelaajan nimi"
-
-#: ball/st_conf.c:176 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr ""
-
-#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:191 share/st_common.c:666
-msgid "Default"
-msgstr ""
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -69,81 +30,257 @@ msgstr "Valmiit"
 msgid "GO!"
 msgstr "HEP!"
 
-#: ball/st_demo.c:201
-msgid "Time"
-msgstr "Aika"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Tallenteen nimi"
 
-#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
-msgid "Coins"
-msgstr "Kolikot"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Tallenna"
 
-#: ball/st_demo.c:203
-msgid "Status"
-msgstr "Tila"
+#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
+msgid "Cancel"
+msgstr "Peruuta"
 
-#: ball/st_demo.c:234 ball/st_demo.c:425
-msgid "Replay"
-msgstr "Tallenne"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Kirjoita päälle?"
 
-#: ball/st_demo.c:235 putt/st_all.c:740
-msgid "Player"
-msgstr "Pelaaja"
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr ""
 
-#: ball/st_demo.c:236
-msgid "Date"
-msgstr "Päiväys"
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr ""
 
-#: ball/st_demo.c:289
-msgid "Select Replay"
-msgstr "Valitse tallenne"
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr ""
 
-#: ball/st_demo.c:305
-msgid "No Replays"
-msgstr "Ei tallenteita"
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr ""
 
-#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
-#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
-#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr ""
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr ""
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr ""
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr ""
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr ""
+
+#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
+#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
+#: putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
 msgstr "Takaisin"
 
-#: ball/st_demo.c:601
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Haaste"
+
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr ""
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr ""
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr ""
+
+#: ball/st_conf.c:156 putt/st_conf.c:104
+msgid "Options"
+msgstr "Asetukset"
+
+#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr ""
+
+#: ball/st_conf.c:158 putt/st_conf.c:114
+msgid "Configure"
+msgstr ""
+
+#: ball/st_conf.c:162
+msgid "Mouse Sensitivity"
+msgstr ""
+
+#: ball/st_conf.c:167 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Ääniefektit"
+
+#: ball/st_conf.c:169 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Musiikki"
+
+#: ball/st_conf.c:174 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Pelaajan nimi"
+
+#: ball/st_conf.c:175 ball/st_ball.c:180
+msgid "Ball Model"
+msgstr ""
+
+#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr ""
+
+#: ball/st_conf.c:190 share/st_common.c:666
+msgid "Default"
+msgstr ""
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Uusi sarjaennätys"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Sarja on pelattu loppuu"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Valitse kenttä"
+
+#: ball/progress.c:417 ball/st_help.c:259
+msgid "Challenge Mode"
+msgstr "Haastemoodi"
+
+#: ball/progress.c:418 ball/st_help.c:246
+msgid "Normal Mode"
+msgstr "Normaalimoodi"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normaali"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr ""
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr ""
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Tuntematon moodi"
+
+#: ball/progress.c:420 ball/game_common.c:32
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Putosit kentästä!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Aika!"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "Poistu"
+
+#: ball/st_fail.c:101 ball/st_goal.c:220
+msgid "Next Level"
+msgstr "Seuraava kenttä"
+
+#: ball/st_fail.c:104 ball/st_goal.c:223
+msgid "Retry Level"
+msgstr "Yritä uudelleen"
+
+#: ball/st_fail.c:107 ball/st_goal.c:226
+msgid "Save Replay"
+msgstr "Tallenna uusinta"
+
+#: ball/st_name.c:110
+msgid "OK"
+msgstr ""
+
+#: ball/st_demo.c:202
+msgid "Time"
+msgstr "Aika"
+
+#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
+msgid "Coins"
+msgstr "Kolikot"
+
+#: ball/st_demo.c:204
+msgid "Status"
+msgstr "Tila"
+
+#: ball/st_demo.c:235 ball/st_demo.c:426
+msgid "Replay"
+msgstr "Tallenne"
+
+#: ball/st_demo.c:236 putt/st_all.c:740
+msgid "Player"
+msgstr "Pelaaja"
+
+#: ball/st_demo.c:237
+msgid "Date"
+msgstr "Päiväys"
+
+#: ball/st_demo.c:290
+msgid "Select Replay"
+msgstr "Valitse tallenne"
+
+#: ball/st_demo.c:306
+msgid "No Replays"
+msgstr "Ei tallenteita"
+
+#: ball/st_demo.c:611
 msgid "Replay Paused"
 msgstr "Toisto tauotettu"
 
-#: ball/st_demo.c:603
+#: ball/st_demo.c:613
 msgid "Replay Ends"
 msgstr "Tallenne loppui"
 
-#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
 msgid "Quit"
 msgstr "Poistu"
 
-#: ball/st_demo.c:613 ball/st_demo.c:699
+#: ball/st_demo.c:623 ball/st_demo.c:709
 msgid "Keep"
 msgstr "Säilytä"
 
-#: ball/st_demo.c:614 ball/st_demo.c:700
+#: ball/st_demo.c:624 ball/st_demo.c:710
 msgid "Delete"
 msgstr "Poista"
 
-#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
 msgid "Continue"
 msgstr "Jatka"
 
-#: ball/st_demo.c:620
+#: ball/st_demo.c:630
 msgid "Repeat"
 msgstr "Toista"
 
-#: ball/st_demo.c:695
+#: ball/st_demo.c:705
 msgid "Delete Replay?"
 msgstr "Tuhoa tallenne?"
 
-#: ball/st_demo.c:749 ball/st_level.c:179
+#: ball/st_demo.c:759 ball/st_level.c:179
 msgid "Warning!"
 msgstr ""
 
-#: ball/st_demo.c:751
+#: ball/st_demo.c:761
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
@@ -203,19 +340,11 @@ msgstr ""
 msgid "Screenshot"
 msgstr "Ruutukaappaus"
 
-#: ball/st_help.c:246 ball/progress.c:418
-msgid "Normal Mode"
-msgstr "Normaalimoodi"
-
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
 msgstr "Liikuta pallo maaliin ennen ajan loppumista.\\Joudut keräämään kolikoita avataksesi maalin."
-
-#: ball/st_help.c:259 ball/progress.c:417
-msgid "Challenge Mode"
-msgstr "Haastemoodi"
 
 #: ball/st_help.c:261
 msgid ""
@@ -255,10 +384,6 @@ msgstr "Onnistui"
 msgid "Fall-out"
 msgstr "Putosit kentästä"
 
-#: ball/game_common.c:32 ball/progress.c:420
-msgid "Unknown"
-msgstr "Tuntematon"
-
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -272,6 +397,18 @@ msgstr "Keskeytetty"
 msgid "Restart"
 msgstr "Uusi peli"
 
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Maali"
+
+#: ball/hud.c:89 ball/st_goal.c:154
+msgid "Balls"
+msgstr "Palloja"
+
+#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
+msgid "Score"
+msgstr "Pisteet"
+
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Uusi ennätys"
@@ -280,113 +417,34 @@ msgstr "Uusi ennätys"
 msgid "GOAL"
 msgstr "MAALI"
 
-#: ball/st_goal.c:154 ball/hud.c:89
-msgid "Balls"
-msgstr "Palloja"
-
-#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
-msgid "Score"
-msgstr "Pisteet"
-
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Maali"
 
-#: ball/st_goal.c:220 ball/st_fail.c:98
-msgid "Next Level"
-msgstr "Seuraava kenttä"
-
-#: ball/st_goal.c:223 ball/st_fail.c:101
-msgid "Retry Level"
-msgstr "Yritä uudelleen"
-
-#: ball/st_goal.c:226 ball/st_fail.c:104
-msgid "Save Replay"
-msgstr "Tallenna uusinta"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr ""
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr ""
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr ""
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr ""
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr ""
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr ""
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr ""
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr ""
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Maali"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Haaste"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr ""
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr ""
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr ""
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Uusi sarjaennätys"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Sarja on pelattu loppuu"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Valitse kenttä"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normaali"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr ""
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr ""
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Tuntematon moodi"
-
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Kenttäsarja"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonuskenttä %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Kenttä %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr ""
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr ""
 
 #: ball/util.c:28
 msgid "Hard"
@@ -424,50 +482,9 @@ msgstr "Vaihda pelaajan nimeä"
 msgid "caps"
 msgstr "vaihto"
 
-#: ball/st_name.c:110
-msgid "OK"
-msgstr ""
-
-#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
-msgid "Cancel"
-msgstr "Peruuta"
-
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "Peli loppui"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Putosit kentästä!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Aika!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Poistu"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Bonuskenttä %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Kenttä %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr ""
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr ""
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -492,22 +509,6 @@ msgstr "Asetukset"
 #: ball/st_title.c:184 putt/st_all.c:240
 msgid "menu^Exit"
 msgstr "Poistu"
-
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Tallenteen nimi"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Tallenna"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Kirjoita päälle?"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr ""
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -621,19 +622,19 @@ msgstr "Pelaajia?"
 msgid "Hole %02d"
 msgstr "Reikä %02d"
 
-#: putt/st_all.c:1064
+#: putt/st_all.c:1073
 msgid "It's In!"
 msgstr "Reiässä!"
 
-#: putt/st_all.c:1207
+#: putt/st_all.c:1216
 msgid "1 Stroke Penalty"
 msgstr "1 rangaistuslyönti"
 
-#: putt/st_all.c:1285
+#: putt/st_all.c:1294
 msgid "Scores"
 msgstr "Lyönnit"
 
-#: putt/st_all.c:1338
+#: putt/st_all.c:1347
 msgid "Final Scores"
 msgstr "Tulostaulu"
 
@@ -753,11 +754,11 @@ msgid ""
 "hard.\\Author: vidski\\"
 msgstr ""
 
-#: data/gui/ball.map data/map-easy/peasy.map
+#: data/holes-easyputt.txt
 msgid ""
-"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
-"to begin.\\"
-msgstr "Voit kääntää näkökulmaa hiiren painikkeilla.\\Voit keskeyttää tai lopettaa pelin painamalla Esc-näppäintä.\\\\\\\\Napsauta hiirellä aloittaaksesi peli.\\"
+"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Francis"
+msgstr ""
 
 #: data/map-easy/bumper.map
 msgid ""
@@ -869,6 +870,12 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr "Liikkuva alusta voi olla hankala.\\Ole tarkkana että pääset kyytiin,\\ja varo ettei se liiku alta pois.\\Käytä liikkuvia alustoja kerätäksesi\\arvokkaimmat kolikot."
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr "Voit kääntää näkökulmaa hiiren painikkeilla.\\Voit keskeyttää tai lopettaa pelin painamalla Esc-näppäintä.\\\\\\\\Napsauta hiirellä aloittaaksesi peli.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
@@ -1639,5 +1646,13 @@ msgstr ""
 msgid "mtrl/words"
 msgstr ""
 
+#. Translators,
+#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
-msgstr ""
+msgstr "item/coin/euro_coin"
+
+msgid "item/coin/coin5"
+msgstr "item/coin/coin5"
+
+msgid "item/coin/coin10"
+msgstr "item/coin/coin10"

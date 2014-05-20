@@ -3,59 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# GunChleoc, 2014
+# htnever <htnever@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-03-03 06:42+0200\n"
-"PO-Revision-Date: 2014-03-03 04:47+0000\n"
-"Last-Translator: parasti <parasti@gmail.com>\n"
+"POT-Creation-Date: 2014-05-19 16:28+0300\n"
+"PO-Revision-Date: 2014-05-20 17:12+0000\n"
+"Last-Translator: GunChleoc\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/neverball/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ball/st_conf.c:157 putt/st_conf.c:104
-msgid "Options"
-msgstr "Opcioj"
-
-#: ball/st_conf.c:159 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Grafikoj"
-
-#: ball/st_conf.c:159 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Agordi"
-
-#: ball/st_conf.c:163
-msgid "Mouse Sensitivity"
-msgstr "Sentiveco"
-
-#: ball/st_conf.c:168 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Kiom je Sono?"
-
-#: ball/st_conf.c:170 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Kiom je Muziko?"
-
-#: ball/st_conf.c:175 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Ludantonomo"
-
-#: ball/st_conf.c:176 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Formo de la pilko"
-
-#: ball/st_conf.c:177 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr ""
-
-#: ball/st_conf.c:191 share/st_common.c:666
-msgid "Default"
-msgstr ""
 
 #: ball/st_play.c:100
 msgid "Ready?"
@@ -69,81 +31,257 @@ msgstr "Ekas?"
 msgid "GO!"
 msgstr "Eku!"
 
-#: ball/st_demo.c:201
-msgid "Time"
-msgstr "Tempo"
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Reludo nomo"
 
-#: ball/st_demo.c:202 ball/st_goal.c:166 ball/hud.c:68
-msgid "Coins"
-msgstr "Devizoj"
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Savi"
 
-#: ball/st_demo.c:203
-msgid "Status"
-msgstr "Statuso"
+#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
+msgid "Cancel"
+msgstr "Nuligi"
 
-#: ball/st_demo.c:234 ball/st_demo.c:425
-msgid "Replay"
-msgstr "Reludo"
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Surskribi?"
 
-#: ball/st_demo.c:235 putt/st_all.c:740
-msgid "Player"
-msgstr "Iudanto"
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Surskribi"
 
-#: ball/st_demo.c:236
-msgid "Date"
-msgstr "Tago"
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
 
-#: ball/st_demo.c:289
-msgid "Select Replay"
-msgstr "Selektu reludon"
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
 
-#: ball/st_demo.c:305
-msgid "No Replays"
-msgstr "Neniu reludoj"
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
 
-#: ball/st_demo.c:307 ball/st_help.c:105 ball/st_ball.c:182
-#: ball/st_start.c:174 share/gui.c:2290 share/st_common.c:97
-#: putt/st_conf.c:106 putt/st_all.c:404 putt/st_all.c:552
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
+#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
+#: putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
 msgstr "Retri"
 
-#: ball/st_demo.c:601
+#: ball/st_start.c:203 ball/progress.c:417
+msgid "Challenge"
+msgstr "Defio"
+
+#: ball/st_start.c:223
+msgid "Unlocked"
+msgstr "Malkluza"
+
+#: ball/st_start.c:224
+msgid "Locked"
+msgstr "Kluza"
+
+#: ball/st_start.c:234
+msgid "Goal State in Completed Levels"
+msgstr "Celostato en la completaj niveloj"
+
+#: ball/st_conf.c:156 putt/st_conf.c:104
+msgid "Options"
+msgstr "Opcioj"
+
+#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Grafikoj"
+
+#: ball/st_conf.c:158 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Agordi"
+
+#: ball/st_conf.c:162
+msgid "Mouse Sensitivity"
+msgstr "Sentiveco"
+
+#: ball/st_conf.c:167 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Kiom je Sono?"
+
+#: ball/st_conf.c:169 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Kiom je Muziko?"
+
+#: ball/st_conf.c:174 ball/st_name.c:99
+msgid "Player Name"
+msgstr "Ludantonomo"
+
+#: ball/st_conf.c:175 ball/st_ball.c:180
+msgid "Ball Model"
+msgstr "Formo de la pilko"
+
+#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Lingvo"
+
+#: ball/st_conf.c:190 share/st_common.c:666
+msgid "Default"
+msgstr "Normala"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Novan recordon"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Aro kompletigita"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Selektu nivelon"
+
+#: ball/progress.c:417 ball/st_help.c:259
+msgid "Challenge Mode"
+msgstr "Defie"
+
+#: ball/progress.c:418 ball/st_help.c:246
+msgid "Normal Mode"
+msgstr "Normale"
+
+#: ball/progress.c:418
+msgid "Normal"
+msgstr "Normala"
+
+#: ball/progress.c:419
+msgid "Standalone Mode"
+msgstr "Solaestante"
+
+#: ball/progress.c:419
+msgid "Standalone"
+msgstr "Solaestanta"
+
+#: ball/progress.c:420
+msgid "Unknown Mode"
+msgstr "Malsciata kategorio"
+
+#: ball/progress.c:420 ball/game_common.c:32
+msgid "Unknown"
+msgstr "Malkonata"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Vi falis!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Fujo finis!"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "Eliro"
+
+#: ball/st_fail.c:101 ball/st_goal.c:220
+msgid "Next Level"
+msgstr "Sekva Nivelo"
+
+#: ball/st_fail.c:104 ball/st_goal.c:223
+msgid "Retry Level"
+msgstr "Reprovi Nivelon"
+
+#: ball/st_fail.c:107 ball/st_goal.c:226
+msgid "Save Replay"
+msgstr "Savi Reludon"
+
+#: ball/st_name.c:110
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_demo.c:202
+msgid "Time"
+msgstr "Tempo"
+
+#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
+msgid "Coins"
+msgstr "Devizoj"
+
+#: ball/st_demo.c:204
+msgid "Status"
+msgstr "Statuso"
+
+#: ball/st_demo.c:235 ball/st_demo.c:426
+msgid "Replay"
+msgstr "Reludo"
+
+#: ball/st_demo.c:236 putt/st_all.c:740
+msgid "Player"
+msgstr "Iudanto"
+
+#: ball/st_demo.c:237
+msgid "Date"
+msgstr "Tago"
+
+#: ball/st_demo.c:290
+msgid "Select Replay"
+msgstr "Selektu reludon"
+
+#: ball/st_demo.c:306
+msgid "No Replays"
+msgstr "Neniu reludoj"
+
+#: ball/st_demo.c:611
 msgid "Replay Paused"
 msgstr "Reludo paŭzis"
 
-#: ball/st_demo.c:603
+#: ball/st_demo.c:613
 msgid "Replay Ends"
 msgstr "Reludo finis"
 
-#: ball/st_demo.c:609 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
 msgid "Quit"
 msgstr "Eliri"
 
-#: ball/st_demo.c:613 ball/st_demo.c:699
+#: ball/st_demo.c:623 ball/st_demo.c:709
 msgid "Keep"
 msgstr "Subteni"
 
-#: ball/st_demo.c:614 ball/st_demo.c:700
+#: ball/st_demo.c:624 ball/st_demo.c:710
 msgid "Delete"
 msgstr "Forviŝi"
 
-#: ball/st_demo.c:618 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
 msgid "Continue"
 msgstr "Daŭrigi"
 
-#: ball/st_demo.c:620
+#: ball/st_demo.c:630
 msgid "Repeat"
 msgstr "Ripeti"
 
-#: ball/st_demo.c:695
+#: ball/st_demo.c:705
 msgid "Delete Replay?"
 msgstr "Kiu vi forviŝi reludon?"
 
-#: ball/st_demo.c:749 ball/st_level.c:179
+#: ball/st_demo.c:759 ball/st_level.c:179
 msgid "Warning!"
 msgstr "Atentu!"
 
-#: ball/st_demo.c:751
+#: ball/st_demo.c:761
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
@@ -185,7 +323,7 @@ msgstr "Liva kaj dekstra butonoj rotacias vidpunkton"
 
 #: ball/st_help.c:179
 msgid "Exit / Pause"
-msgstr ""
+msgstr "Eliri / Pauzi"
 
 #: ball/st_help.c:180 ball/game_common.c:46
 msgid "Chase Camera"
@@ -203,19 +341,11 @@ msgstr "Blokita vido"
 msgid "Screenshot"
 msgstr "Ekrankopio"
 
-#: ball/st_help.c:246 ball/progress.c:418
-msgid "Normal Mode"
-msgstr "Normale"
-
 #: ball/st_help.c:248
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
 msgstr "Apredu nivelon antaŭ tempo finiĝas.\\Vi bezonas aglomeri monetaron por\\apertigi la celon."
-
-#: ball/st_help.c:259 ball/progress.c:417
-msgid "Challenge Mode"
-msgstr "Defie"
 
 #: ball/st_help.c:261
 msgid ""
@@ -255,10 +385,6 @@ msgstr "Venko"
 msgid "Fall-out"
 msgstr "Vi falis"
 
-#: ball/game_common.c:32 ball/progress.c:420
-msgid "Unknown"
-msgstr "Malkonata"
-
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
@@ -272,6 +398,18 @@ msgstr "Paŭzita"
 msgid "Restart"
 msgstr "Reeki"
 
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Serĉota"
+
+#: ball/hud.c:89 ball/st_goal.c:154
+msgid "Balls"
+msgstr "Pilkoj"
+
+#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
+msgid "Score"
+msgstr "Punktoj"
+
 #: ball/st_goal.c:101
 msgid "New Record"
 msgstr "Nova Rekordo"
@@ -280,113 +418,34 @@ msgstr "Nova Rekordo"
 msgid "GOAL"
 msgstr "Celo"
 
-#: ball/st_goal.c:154 ball/hud.c:89
-msgid "Balls"
-msgstr "Pilkoj"
-
-#: ball/st_goal.c:160 ball/hud.c:90 putt/hud.c:45
-msgid "Score"
-msgstr "Punktoj"
-
 #: ball/st_goal.c:215 ball/st_goal.c:217
 msgid "Finish"
 msgstr "Fino"
 
-#: ball/st_goal.c:220 ball/st_fail.c:98
-msgid "Next Level"
-msgstr "Sekva Nivelo"
-
-#: ball/st_goal.c:223 ball/st_fail.c:101
-msgid "Retry Level"
-msgstr "Reprovi Nivelon"
-
-#: ball/st_goal.c:226 ball/st_fail.c:104
-msgid "Save Replay"
-msgstr "Savi Reludon"
-
-#: ball/game_common.h:10
-msgid "snd/select.ogg"
-msgstr "snd/select.ogg"
-
-#: ball/game_common.h:11
-msgid "snd/ready.ogg"
-msgstr "snd/ready.ogg"
-
-#: ball/game_common.h:12
-msgid "snd/set.ogg"
-msgstr "snd/set.ogg"
-
-#: ball/game_common.h:13
-msgid "snd/go.ogg"
-msgstr "snd/go.ogg"
-
-#: ball/game_common.h:24
-msgid "snd/record.ogg"
-msgstr "snd/record.ogg"
-
-#: ball/game_common.h:25
-msgid "snd/fall.ogg"
-msgstr "snd/fall.ogg"
-
-#: ball/game_common.h:26
-msgid "snd/time.ogg"
-msgstr "snd/time.ogg"
-
-#: ball/game_common.h:27
-msgid "snd/over.ogg"
-msgstr "snd/over.ogg"
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Serĉota"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Defio"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Malkluza"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Kluza"
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "Celostato en la completaj niveloj"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Novan recordon"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Aro kompletigita"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Selektu nivelon"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normala"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr "Solaestante"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr "Solaestanta"
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Malsciata kategorio"
-
 #: ball/st_set.c:108
 msgid "Level Set"
 msgstr "Nivelaro"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Plia Nivelo %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Nivelo %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr "Memstara nivelo"
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr "Reludo ne povas apertati. La ludo ne rekordatos.\\"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -424,50 +483,9 @@ msgstr "Nomigi"
 msgid "caps"
 msgstr "caps"
 
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
-
-#: ball/st_name.c:112 ball/st_save.c:113 ball/st_save.c:222
-msgid "Cancel"
-msgstr "Nuligi"
-
 #: ball/st_over.c:35
 msgid "GAME OVER"
 msgstr "FINITA LUDO"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Vi falis!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Fujo finis!"
-
-#: ball/st_fail.c:95
-msgid "Exit"
-msgstr "Eliro"
-
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Plia Nivelo %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Nivelo %s"
-
-#: ball/st_level.c:64
-#, c-format
-msgid "Standalone level"
-msgstr "Memstara nivelo"
-
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr "Reludo ne povas apertati. La ludo ne rekordatos.\\"
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
@@ -493,22 +511,6 @@ msgstr "Opcioj"
 msgid "menu^Exit"
 msgstr "Eliri"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Reludo nomo"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Savi"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Surskribi?"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Surskribi"
-
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
 #: share/st_common.c:384
@@ -529,11 +531,11 @@ msgstr "8x"
 
 #: share/st_common.c:337
 msgid "Unknown Display"
-msgstr ""
+msgstr "Malsciita Vidisto"
 
 #: share/st_common.c:341 share/st_common.c:447
 msgid "Display"
-msgstr ""
+msgstr "Vidisto"
 
 #: share/st_common.c:347
 msgid "Fullscreen"
@@ -550,7 +552,7 @@ msgstr "Kvadratigio"
 
 #: share/st_common.c:365
 msgid "HMD"
-msgstr ""
+msgstr "HMD"
 
 #: share/st_common.c:371
 msgid "V-Sync"
@@ -574,7 +576,7 @@ msgstr "Ombroj"
 
 #: putt/st_conf.c:158
 msgid "Select"
-msgstr ""
+msgstr "Elekti"
 
 #: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
 msgid "Par"
@@ -621,19 +623,19 @@ msgstr "Kiom Ludantoj?"
 msgid "Hole %02d"
 msgstr "Truo %02d"
 
-#: putt/st_all.c:1064
+#: putt/st_all.c:1073
 msgid "It's In!"
 msgstr "Enas!"
 
-#: putt/st_all.c:1207
+#: putt/st_all.c:1216
 msgid "1 Stroke Penalty"
 msgstr "1 Streko Puno"
 
-#: putt/st_all.c:1285
+#: putt/st_all.c:1294
 msgid "Scores"
 msgstr "Poentoj"
 
-#: putt/st_all.c:1338
+#: putt/st_all.c:1347
 msgid "Final Scores"
 msgstr "Finaj Poentoj"
 
@@ -753,11 +755,11 @@ msgid ""
 "hard.\\Author: vidski\\"
 msgstr "Golf Ĝambalaja\\\\Vidski-a fifama truilaro.\\Malfacileco: Intermedia  ĝis Malfacila.\\Author: vidski\\"
 
-#: data/gui/ball.map data/map-easy/peasy.map
+#: data/holes-easyputt.txt
 msgid ""
-"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
-"to begin.\\"
-msgstr "Musobutonoj rotacias la vidon.\\Premu 'Escape'-n por paŭzigi aŭ eliri."
+"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Francis"
+msgstr ""
 
 #: data/map-easy/bumper.map
 msgid ""
@@ -869,6 +871,12 @@ msgid ""
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
 msgstr ""
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr "Musobutonoj rotacias la vidon.\\Premu 'Escape'-n por paŭzigi aŭ eliri."
 
 #: data/map-easy/roundcoins.map
 msgid ""
@@ -1639,5 +1647,13 @@ msgstr "3Da golfvideoludo"
 msgid "mtrl/words"
 msgstr "mtrl/words"
 
+#. Translators,
+#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
 msgstr "item/coin/coin"
+
+msgid "item/coin/coin5"
+msgstr "item/coin/coin5"
+
+msgid "item/coin/coin10"
+msgstr "item/coin/coin10"
