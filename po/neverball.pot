@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-05-19 16:28+0300\n"
+"POT-Creation-Date: 2014-05-21 13:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,7 +81,7 @@ msgstr ""
 msgid "snd/over.ogg"
 msgstr ""
 
-#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
+#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:106
 #: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
 #: putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
@@ -155,11 +155,11 @@ msgstr ""
 msgid "Select Level"
 msgstr ""
 
-#: ball/progress.c:417 ball/st_help.c:259
+#: ball/progress.c:417 ball/st_help.c:260
 msgid "Challenge Mode"
 msgstr ""
 
-#: ball/progress.c:418 ball/st_help.c:246
+#: ball/progress.c:418 ball/st_help.c:247
 msgid "Normal Mode"
 msgstr ""
 
@@ -285,85 +285,85 @@ msgid ""
 "this level.\\Be prepared to encounter visual errors.\\"
 msgstr ""
 
-#: ball/st_help.c:101
+#: ball/st_help.c:102
 msgid "Tricks"
 msgstr ""
 
-#: ball/st_help.c:102
+#: ball/st_help.c:103
 msgid "Modes"
 msgstr ""
 
-#: ball/st_help.c:103
+#: ball/st_help.c:104
 msgid "Controls"
 msgstr ""
 
-#: ball/st_help.c:104
+#: ball/st_help.c:105
 msgid "Rules"
 msgstr ""
 
-#: ball/st_help.c:115
+#: ball/st_help.c:116
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
 msgstr ""
 
-#: ball/st_help.c:120
+#: ball/st_help.c:121
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr ""
 
-#: ball/st_help.c:177
+#: ball/st_help.c:178
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
 msgstr ""
 
-#: ball/st_help.c:179
+#: ball/st_help.c:180
 msgid "Exit / Pause"
 msgstr ""
 
-#: ball/st_help.c:180 ball/game_common.c:46
+#: ball/st_help.c:181 ball/game_common.c:46
 msgid "Chase Camera"
 msgstr ""
 
-#: ball/st_help.c:181 ball/game_common.c:45
+#: ball/st_help.c:182 ball/game_common.c:45
 msgid "Lazy Camera"
 msgstr ""
 
-#: ball/st_help.c:182 ball/game_common.c:44
+#: ball/st_help.c:183 ball/game_common.c:44
 msgid "Manual Camera"
 msgstr ""
 
-#: ball/st_help.c:183
+#: ball/st_help.c:184
 msgid "Screenshot"
 msgstr ""
 
-#: ball/st_help.c:248
+#: ball/st_help.c:249
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order "
 "to open the goal."
 msgstr ""
 
-#: ball/st_help.c:261
+#: ball/st_help.c:262
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr ""
 
-#: ball/st_help.c:275
+#: ball/st_help.c:276
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr ""
 
-#: ball/st_help.c:280
+#: ball/st_help.c:281
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
 msgstr ""
 
-#: ball/st_help.c:300 ball/st_help.c:310
+#: ball/st_help.c:301 ball/st_help.c:311
 msgid "Watch demo"
 msgstr ""
 
@@ -1647,9 +1647,6 @@ msgstr ""
 msgid "mtrl/words"
 msgstr ""
 
-#. Translators,
-#.
-#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
 msgstr ""
 
