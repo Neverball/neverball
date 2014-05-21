@@ -21,9 +21,6 @@
 msgid "mtrl/words"
 msgstr ""
 
-#. Translators,
-#.
-#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
 msgstr ""
 
