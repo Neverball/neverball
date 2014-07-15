@@ -145,6 +145,10 @@ ifeq ($(ENABLE_TILT),wii)
 else
 ifeq ($(ENABLE_TILT),loop)
 	TILT_LIBS := -lusb-1.0 -lfreespace
+else
+ifeq ($(ENABLE_TILT),leapmotion)
+	TILT_LIBS := /usr/lib/Leap/libLeap.so -Wl,-rpath,/usr/lib/Leap -lstdc++
+endif
 endif
 endif
 
@@ -353,7 +357,11 @@ else
 ifeq ($(ENABLE_TILT),loop)
 BALL_OBJS += share/tilt_loop.o
 else
+ifeq ($(ENABLE_TILT),leapmotion)
+BALL_OBJS += share/tilt_leapmotion.o
+else
 BALL_OBJS += share/tilt_null.o
+endif
 endif
 endif
 
