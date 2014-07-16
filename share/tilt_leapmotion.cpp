@@ -88,7 +88,7 @@ float tilt_get_x(void)
         return 0.0f;
     }
 
-    return -hands.frontmost().direction().pitch() * 180.0f / 3.14159f;
+    return -hands.frontmost().direction().pitch() * 180.0f / 3.14159f + 10.0f;
 }
 
 float tilt_get_z(void)
