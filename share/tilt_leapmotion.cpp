@@ -12,6 +12,10 @@
  * General Public License for more details.
  */
 
+extern "C" {
+#include "config.h"
+}
+
 #include <Leap.h>
 
 using namespace Leap;
@@ -37,6 +41,34 @@ int tilt_stat(void)
 
 int tilt_get_button(int *b, int *s)
 {
+    static bool btn_l1 = 0;
+    static bool btn_r1 = 0;
+
+    HandList hands = leapctrl.frame().hands();
+    Hand hand;
+    Finger thumb;
+    float angle;
+
+    if (!tilt_stat() || hands.count() != 1)
+    {
+        return 0;
+    }
+
+    hand = hands.frontmost();
+    thumb = hand.fingers().fingerType(Finger::TYPE_THUMB)[0];
+    angle = hand.direction().angleTo(thumb.direction()) * 180.0f / 3.14159f;
+
+    if (angle < 25.0f != btn_l1)
+    {
+        *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L1);
+        return (*s = btn_l1 = angle < 25.0f) + 1;
+    }
+    else if (angle > 50.0f != btn_r1)
+    {
+        *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R1);
+        return (*s = btn_r1 = angle > 50.0f) + 1;
+    }
+
     return 0;
 }
 
