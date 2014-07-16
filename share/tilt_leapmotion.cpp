@@ -43,11 +43,13 @@ int tilt_get_button(int *b, int *s)
 {
     static bool btn_l1 = 0;
     static bool btn_r1 = 0;
+    static bool btn_start = 0;
 
     HandList hands = leapctrl.frame().hands();
     Hand hand;
     Finger thumb;
     float angle;
+    bool cond;
 
     if (!tilt_stat() || hands.count() != 1)
     {
@@ -58,15 +60,20 @@ int tilt_get_button(int *b, int *s)
     thumb = hand.fingers().fingerType(Finger::TYPE_THUMB)[0];
     angle = hand.direction().angleTo(thumb.direction()) * 180.0f / 3.14159f;
 
-    if (angle < 25.0f != btn_l1)
+    if ((cond = angle < 20.0f) != btn_l1)
     {
         *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L1);
-        return (*s = btn_l1 = angle < 25.0f) + 1;
+        return (*s = btn_l1 = cond) + 1;
     }
-    else if (angle > 50.0f != btn_r1)
+    else if ((cond = angle > 55.0f) != btn_r1)
     {
         *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R1);
-        return (*s = btn_r1 = angle > 50.0f) + 1;
+        return (*s = btn_r1 = cond) + 1;
+    }
+    else if ((cond = hand.grabStrength() == 1.0f) != btn_start)
+    {
+        *b = config_get_d(CONFIG_JOYSTICK_BUTTON_START);
+        return (*s = btn_start = cond) + 1;
     }
 
     return 0;
