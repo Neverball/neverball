@@ -44,7 +44,7 @@ float tilt_get_x(void)
 {
     HandList hands = leapctrl.frame().hands();
 
-    if (!tilt_stat() || hands.count() == 0)
+    if (!tilt_stat() || hands.count() != 1)
     {
         return 0.0f;
     }
@@ -56,7 +56,7 @@ float tilt_get_z(void)
 {
     HandList hands = leapctrl.frame().hands();
 
-    if (!tilt_stat() || hands.count() == 0)
+    if (!tilt_stat() || hands.count() != 1)
     {
         return 0.0f;
     }
