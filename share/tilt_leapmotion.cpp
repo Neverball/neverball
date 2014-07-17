@@ -60,12 +60,14 @@ int tilt_get_button(int *b, int *s)
     thumb = hand.fingers().fingerType(Finger::TYPE_THUMB)[0];
     angle = hand.direction().angleTo(thumb.direction()) * 180.0f / 3.14159f;
 
-    if ((cond = angle < 20.0f) != btn_l1)
+    if ((cond = (angle < 20.0f && hand.isRight()) ||
+                (angle > 55.0f && hand.isLeft())) != btn_l1)
     {
         *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L1);
         return (*s = btn_l1 = cond) + 1;
     }
-    else if ((cond = angle > 55.0f) != btn_r1)
+    else if ((cond = (angle > 55.0f && hand.isRight()) ||
+                     (angle < 20.0f && hand.isLeft())) != btn_r1)
     {
         *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R1);
         return (*s = btn_r1 = cond) + 1;
@@ -104,3 +106,4 @@ float tilt_get_z(void)
 }
 
 }
+
