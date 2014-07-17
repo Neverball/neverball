@@ -56,6 +56,11 @@ make ENABLE_TILT=loop
     libusb-1.0        http://libusb.org/wiki/Libusb1.0
     libfreespace      http://libfreespace.hillcrestlabs.com/
 
+make ENABLE_TILT=leapmotion
+    Leap Motion support on Linux.
+
+    V2 SDK            https://developer.leapmotion.com/
+
 make ENABLE_HMD=openhmd
     Head-mounted display support (including the Oculus Rift).
 
