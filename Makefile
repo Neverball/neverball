@@ -147,7 +147,7 @@ ifeq ($(ENABLE_TILT),loop)
 	TILT_LIBS := -lusb-1.0 -lfreespace
 else
 ifeq ($(ENABLE_TILT),leapmotion)
-	TILT_LIBS := /usr/lib/Leap/libLeap.so -Wl,-rpath,/usr/lib/Leap -lstdc++
+	TILT_LIBS := /usr/lib/Leap/libLeap.so -Wl,-rpath,/usr/lib/Leap
 endif
 endif
 endif
@@ -422,7 +422,11 @@ all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 ifeq ($(ENABLE_HMD),libovr)
 LINK := $(CXX) $(ALL_CXXFLAGS)
 else
+ifeq ($(ENABLE_TILT),leapmotion)
+LINK := $(CXX) $(ALL_CXXFLAGS)
+else
 LINK := $(CC) $(ALL_CFLAGS)
+endif
 endif
 
 $(BALL_TARG) : $(BALL_OBJS)
