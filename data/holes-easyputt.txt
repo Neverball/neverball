@@ -1,4 +1,4 @@
-shot-putt/easyputt.jpg
+shot-putt/easyputt.png
 Reshaun's Easy-Putt\The Unofficial 18-hole course.\\Difficulty: Easy through Hard\Author: Reshaun Francis
 map-easyputt/easyputt1.sol     back/blues.png       3 bgm/track1.ogg
 map-easyputt/easyputt1.sol     back/blues.png       3 bgm/track1.ogg
