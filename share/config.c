@@ -102,6 +102,7 @@ int CONFIG_VIEW_DC;
 int CONFIG_VIEW_DZ;
 int CONFIG_ROTATE_FAST;
 int CONFIG_ROTATE_SLOW;
+int CONFIG_ROTATE_TIMEOUT;
 int CONFIG_CHEAT;
 int CONFIG_STATS;
 int CONFIG_SCREENSHOT;
@@ -202,16 +203,17 @@ static struct
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
 
-    { &CONFIG_VIEW_FOV,    "view_fov",    50 },
-    { &CONFIG_VIEW_DP,     "view_dp",     75 },
-    { &CONFIG_VIEW_DC,     "view_dc",     25 },
-    { &CONFIG_VIEW_DZ,     "view_dz",     200 },
-    { &CONFIG_ROTATE_FAST, "rotate_fast", 300 },
-    { &CONFIG_ROTATE_SLOW, "rotate_slow", 150 },
-    { &CONFIG_CHEAT,       "cheat",       0 },
-    { &CONFIG_STATS,       "stats",       0 },
-    { &CONFIG_SCREENSHOT,  "screenshot",  0 },
-    { &CONFIG_LOCK_GOALS,  "lock_goals",  0 },
+    { &CONFIG_VIEW_FOV,       "view_fov",       50 },
+    { &CONFIG_VIEW_DP,        "view_dp",        75 },
+    { &CONFIG_VIEW_DC,        "view_dc",        25 },
+    { &CONFIG_VIEW_DZ,        "view_dz",        200 },
+    { &CONFIG_ROTATE_FAST,    "rotate_fast",    300 },
+    { &CONFIG_ROTATE_SLOW,    "rotate_slow",    150 },
+    { &CONFIG_ROTATE_TIMEOUT, "rotate_timeout", 3500 },
+    { &CONFIG_CHEAT,          "cheat",          0 },
+    { &CONFIG_STATS,          "stats",          0 },
+    { &CONFIG_SCREENSHOT,     "screenshot",     0 },
+    { &CONFIG_LOCK_GOALS,     "lock_goals",     0 },
 
     { &CONFIG_CAMERA_1_SPEED, "camera_1_speed", 250 },
     { &CONFIG_CAMERA_2_SPEED, "camera_2_speed", 0 },

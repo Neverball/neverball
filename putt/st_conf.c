@@ -203,6 +203,8 @@ static int conf_click(int b, int d)
 {
     if (gui_click(b, d))
         return conf_action(gui_token(gui_active()));
+    else if (gui_click_right(b, d))
+        return goto_state(&st_title);
 
     return 1;
 }

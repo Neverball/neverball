@@ -145,6 +145,8 @@ static int play_ready_click(int b, int d)
 
         if (b == SDL_BUTTON_LEFT)
             goto_state(&st_play_loop);
+        else if (b == SDL_BUTTON_RIGHT)
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -226,6 +228,8 @@ static int play_set_click(int b, int d)
 
         if (b == SDL_BUTTON_LEFT)
             goto_state(&st_play_loop);
+        else if (b == SDL_BUTTON_RIGHT)
+            goto_state(&st_pause);
     }
     return 1;
 }
@@ -262,7 +266,8 @@ enum
 {
     ROT_NONE = 0,
     ROT_ROTATE,
-    ROT_HOLD
+    ROT_HOLD,
+    ROT_TIMEOUT
 };
 
 #define DIR_R 0x1
@@ -270,6 +275,7 @@ enum
 
 static int   rot_dir;
 static float rot_val;
+static float rot_start;
 
 static void rot_init(void)
 {
@@ -303,7 +309,10 @@ static int rot_get(float *v)
     else if (rot_dir & DIR_R)
     {
         *v = +rot_val;
-        return ROT_ROTATE;
+        return (config_get_d(CONFIG_ROTATE_TIMEOUT) > 0 &&
+                time_state() - rot_start >
+                (float) config_get_d(CONFIG_ROTATE_TIMEOUT) / 1000.0f) ?
+                ROT_TIMEOUT : ROT_ROTATE;
     }
     else if (rot_dir & DIR_L)
     {
@@ -388,6 +397,12 @@ static void play_loop_timer(int id, float dt)
         game_set_rot(r * k);
         game_set_cam(config_get_d(CONFIG_CAMERA));
         break;
+
+    case ROT_TIMEOUT:
+        game_set_rot(r * k);
+        game_set_cam(config_get_d(CONFIG_CAMERA));
+        goto_state(&st_pause);
+        break;
     }
 
     game_step_fade(dt);
@@ -446,7 +461,10 @@ static int play_loop_click(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
+        {
             rot_set(DIR_R, 1.0f, 0);
+            rot_start = time_state();
+        }
         if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
             rot_set(DIR_L, 1.0f, 0);
 

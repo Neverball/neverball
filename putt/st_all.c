@@ -288,7 +288,11 @@ static void title_point(int id, int x, int y, int dx, int dy)
 
 static int title_click(int b, int d)
 {
-    return gui_click(b, d) ? title_action(gui_token(gui_active())) : 1;
+    if (gui_click(b, d))
+        return title_action(gui_token(gui_active()));
+    else if (gui_click_right(b, d))
+        return title_action(TITLE_EXIT);
+    return 1;
 }
 
 static int title_buttn(int b, int d)
@@ -464,7 +468,11 @@ static void course_stick(int id, int a, float v, int bump)
 
 static int course_click(int b, int d)
 {
-    return gui_click(b, d) ? course_action(gui_token(gui_active())) : 1;
+    if ( gui_click(b, d))
+        return course_action(gui_token(gui_active()));
+    else if ( gui_click_right(b, d))
+        return course_action(COURSE_BACK);
+    return 1;
 }
 
 static int course_buttn(int b, int d)
@@ -581,7 +589,11 @@ static void party_point(int id, int x, int y, int dx, int dy)
 
 static int party_click(int b, int d)
 {
-    return gui_click(b, d) ? party_action(gui_token(gui_active())) : 1;
+    if (gui_click(b, d))
+        return party_action(gui_token(gui_active()));
+    else if (gui_click_right(b, d))
+        return party_action(PARTY_B);
+    return 1;
 }
 
 static int party_buttn(int b, int d)
@@ -684,7 +696,11 @@ static void pause_point(int id, int x, int y, int dx, int dy)
 
 static int pause_click(int b, int d)
 {
-    return gui_click(b, d) ? pause_action(gui_token(gui_active())) : 1;
+    if (gui_click(b, d))
+        return pause_action(gui_token(gui_active()));
+    else if (gui_click_right(b, d))
+        return pause_action(PAUSE_CONTINUE);
+    return 1;
 }
 
 static int pause_keybd(int c, int d)
@@ -798,7 +814,15 @@ static void next_point(int id, int x, int y, int dx, int dy)
 
 static int next_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_flyby) : 1;
+    if (d && b == SDL_BUTTON_LEFT)
+    {
+        return goto_state(&st_flyby);
+    }
+    else if (d && b == SDL_BUTTON_RIGHT)
+    {
+        return goto_pause(&st_over);
+    }
+    return 1;
 }
 
 static int next_keybd(int c, int d)
@@ -912,6 +936,10 @@ static int flyby_click(int b, int d)
         game_set_fly(0.f);
         return goto_state(&st_stroke);
     }
+    else if (d && b == SDL_BUTTON_RIGHT)
+    {
+        return goto_pause(&st_over);
+    }
     return 1;
 }
 
@@ -1000,7 +1028,11 @@ static void stroke_stick(int id, int a, float v, int bump)
 
 static int stroke_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_roll) : 1;
+    if (d && b == SDL_BUTTON_LEFT)
+        return goto_state(&st_roll);
+    else if (d && b == SDL_BUTTON_RIGHT)
+        return goto_pause(&st_over);
+    return 1;
 }
 
 static int stroke_buttn(int b, int d)
@@ -1051,6 +1083,14 @@ static void roll_timer(int id, float dt)
     case GAME_STOP: goto_state(&st_stop); break;
     case GAME_GOAL: goto_state(&st_goal); break;
     case GAME_FALL: goto_state(&st_fall); break;
+    }
+}
+
+static int roll_click(int b, int d)
+{
+    if (d && b == SDL_BUTTON_RIGHT)
+    {
+        return goto_pause(&st_over);
     }
 }
 
@@ -1116,6 +1156,10 @@ static int goal_click(int b, int d)
             goto_state(&st_next);
         else
             goto_state(&st_score);
+    }
+    else if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1186,6 +1230,10 @@ static int stop_click(int b, int d)
             goto_state(&st_next);
         else
             goto_state(&st_score);
+    }
+    else if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        return goto_pause(&st_over);
     }
     return 1;
 }
@@ -1263,6 +1311,10 @@ static int fall_click(int b, int d)
         else
             goto_state(&st_score);
     }
+    else if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        return goto_pause(&st_over);
+    }
     return 1;
 }
 
@@ -1320,6 +1372,10 @@ static int score_click(int b, int d)
         else
             return goto_state(&st_title);
     }
+    else if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        return goto_pause(&st_over);
+    }
     return 1;
 }
 
@@ -1366,7 +1422,7 @@ static void over_timer(int id, float dt)
 
 static int over_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_title) : 1;
+    return (d && (b == SDL_BUTTON_LEFT || b == SDL_BUTTON_RIGHT)) ? goto_state(&st_title) : 1;
 }
 
 static int over_buttn(int b, int d)
@@ -1482,7 +1538,7 @@ struct state st_roll = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    roll_click,
     shared_keybd,
     roll_buttn
 };

@@ -107,7 +107,16 @@ static void level_timer(int id, float dt)
 
 static int level_click(int b, int d)
 {
-    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_play_ready) : 1;
+    if (b == SDL_BUTTON_LEFT && d == 1)
+    {
+        return goto_state(&st_play_ready);
+    }
+    else if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        progress_stop();
+        return goto_state(&st_exit);
+    }
+    return 1;
 }
 
 static int level_keybd(int c, int d)
