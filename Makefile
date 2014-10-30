@@ -36,13 +36,13 @@ endif
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(DEBUG),1)
-	CFLAGS   := -g
-	CXXFLAGS := -g
-	CPPFLAGS :=
+	CFLAGS   ?= -g
+	CXXFLAGS ?= -g
+	CPPFLAGS +=
 else
-	CFLAGS   := -O2
-	CXXFLAGS := -O2
-	CPPFLAGS := -DNDEBUG
+	CFLAGS   ?= -O2
+	CXXFLAGS ?= -O2
+	CPPFLAGS += -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
