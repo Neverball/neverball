@@ -202,7 +202,7 @@ msgstr "Beenden"
 
 #: ball/st_fail.c:101 ball/st_goal.c:220
 msgid "Next Level"
-msgstr "Nächster Level"
+msgstr "Nächstes Level"
 
 #: ball/st_fail.c:104 ball/st_goal.c:223
 msgid "Retry Level"
