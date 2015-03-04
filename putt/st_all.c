@@ -691,6 +691,8 @@ static int pause_keybd(int c, int d)
 {
     if (d && c == KEY_EXIT)
         return pause_action(PAUSE_CONTINUE);
+      if (d && c == KEY_FALL)
+	goto_state(&st_fall);
     return 1;
 }
 
@@ -713,8 +715,10 @@ static int shared_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+      if (c == KEY_EXIT)
+	return goto_pause(&st_over);
+      if (c == KEY_FALL)
+	goto_state(&st_fall);
     }
     return 1;
 }
@@ -805,12 +809,14 @@ static int next_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == KEY_POSE)
-            return goto_state(&st_poser);
-        if (c == KEY_EXIT)
-            return goto_pause(&st_over);
-        if ('0' <= c && c <= '9')
-            num = num * 10 + c - '0';
+      if (c == KEY_POSE)
+	return goto_state(&st_poser);
+      if (c == KEY_EXIT)
+	return goto_pause(&st_over);
+      if (c == KEY_FALL)
+	goto_state(&st_fall);
+      if ('0' <= c && c <= '9')
+	num = num * 10 + c - '0';
     }
     return 1;
 }
