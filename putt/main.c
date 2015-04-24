@@ -150,6 +150,7 @@ static int loop(void)
                 toggle_wire();
                 break;
             case SDLK_RETURN:
+            case SDLK_KP_ENTER:
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
                 break;
             case SDLK_ESCAPE:
@@ -180,6 +181,7 @@ static int loop(void)
             switch (c)
             {
             case SDLK_RETURN:
+            case SDLK_KP_ENTER:
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
                 break;
             case SDLK_ESCAPE:

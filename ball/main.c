@@ -111,6 +111,7 @@ static int handle_key_dn(SDL_Event *e)
         }
         break;
     case SDLK_RETURN:
+    case SDLK_KP_ENTER:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
         break;
     case KEY_EXIT:
@@ -141,6 +142,7 @@ static int handle_key_up(SDL_Event *e)
     switch (c)
     {
     case SDLK_RETURN:
+    case SDLK_KP_ENTER:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
         break;
     case KEY_EXIT:
