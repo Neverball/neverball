@@ -112,7 +112,9 @@ GLuint make_texture(const void *p, int w, int h, int b, int fl)
     /* Scale the image as configured, or to fit the OpenGL limitations. */
 
 #ifdef GL_TEXTURE_MAX_ANISOTROPY_EXT
-    int a = config_get_d(CONFIG_ANISO);
+    int a = 0;
+    if (glext_check("GL_EXT_texture_filter_anisotropic"))
+        a = config_get_d(CONFIG_ANISO);
 #endif
 #ifdef GL_GENERATE_MIPMAP_SGIS
     int m = (fl & IF_MIPMAP) ? config_get_d(CONFIG_MIPMAP) : 0;
