@@ -124,7 +124,7 @@ int glext_init(void)
     glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
 
     if (glext_check("GL_EXT_texture_filter_anisotropic"))
-        gli.aniso_filtering = 1;
+        gli.texture_filter_anisotropic = 1;
 
     /* Desktop init. */
 
