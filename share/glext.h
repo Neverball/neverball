@@ -293,6 +293,7 @@ struct gl_info
     GLint max_texture_units;
     GLint max_texture_size;
 
+    unsigned int aniso_filtering    : 1;
     unsigned int shader_objects     : 1;
     unsigned int framebuffer_object : 1;
 };

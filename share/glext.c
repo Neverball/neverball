@@ -187,6 +187,9 @@ int glext_init(void)
     if (glext_check("GREMEDY_string_marker"))
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
+    if (glext_check("GL_EXT_texture_filter_anisotropic"))
+        gli.aniso_filtering = 1;
+
 #endif
 
     return 1;
