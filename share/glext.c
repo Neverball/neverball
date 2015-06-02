@@ -123,6 +123,9 @@ int glext_init(void)
     glGetIntegerv(GL_MAX_TEXTURE_SIZE,  &gli.max_texture_size);
     glGetIntegerv(GL_MAX_TEXTURE_UNITS, &gli.max_texture_units);
 
+    if (glext_check("GL_EXT_texture_filter_anisotropic"))
+        gli.texture_filter_anisotropic = 1;
+
     /* Desktop init. */
 
 #if !ENABLE_OPENGLES

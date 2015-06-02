@@ -139,7 +139,7 @@ static struct
     { &CONFIG_REFLECTION,   "reflection",   1 },
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       1 },
-    { &CONFIG_ANISO,        "aniso",        0 },
+    { &CONFIG_ANISO,        "aniso",        8 },
     { &CONFIG_BACKGROUND,   "background",   1 },
     { &CONFIG_SHADOW,       "shadow",       1 },
     { &CONFIG_AUDIO_BUFF,   "audio_buff",   AUDIO_BUFF_HI },
