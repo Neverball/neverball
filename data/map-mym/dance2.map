@@ -2,7 +2,7 @@
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
-"version" "1.1"
+"version" "1.2"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
 "shot" "shot-mym/dance2.jpg"
@@ -2256,6 +2256,7 @@
 "classname" "info_camp"
 "origin" "1680 592 8"
 "target" "t41"
+"timer" "600"
 }
 // entity 48
 {

@@ -12,7 +12,7 @@
 "shot" "shot-hard/airways.jpg"
 "grad" "back/alien.png"
 "back" "map-back/alien.sol"
-"version" "1.1"
+"version" "1.2"
 "author" "Mehdi Yousfi-Monod"
 // brush 0
 {
@@ -4346,6 +4346,7 @@
 "classname" "info_camp"
 "target" "path_corner6"
 "origin" "-1024 0 128"
+"timer" "600"
 }
 // entity 12
 {
@@ -4397,12 +4398,14 @@
 "classname" "info_camp"
 "target" "path_corner8"
 "origin" "1024 0 128"
+"timer" "600"
 }
 // entity 20
 {
 "classname" "info_camp"
 "target" "path_corner3"
 "origin" "-1024 0 0"
+"timer" "600"
 }
 // entity 21
 {
@@ -7726,6 +7729,7 @@
 "invisible" "1"
 "target" "path_corner16"
 "origin" "-1024 0 128"
+"timer" "600"
 }
 // entity 131
 {

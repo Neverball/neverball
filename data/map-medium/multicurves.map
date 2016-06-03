@@ -3,7 +3,7 @@
 "classname" "worldspawn"
 "message" "The temptation to move quickly\could prove your undoing.\\Then again, maybe not..."
 "author" "Mehdi Yousfi-Monod"
-"version" "1.1"
+"version" "1.2"
 "back" "map-back/clouds.sol"
 "grad" "back/land.png"
 "shot" "shot-medium/multicurves.jpg"
@@ -1682,7 +1682,7 @@
 }
 // brush 184
 {
-( 831 1984 232 ) ( 831 1864 232 ) ( 703 1984 232 ) mtrl/timer 128 144 0 0.5 0.5 134217728 0 0
+( 831 1984 232 ) ( 831 1864 232 ) ( 703 1984 232 ) mtrl/switch 128 144 0 0.5 0.5 134217728 0 0
 ( 832 1992 239 ) ( 704 1992 239 ) ( 832 1992 231 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 832 1984 239 ) ( 832 1984 231 ) ( 832 1864 239 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
 ( 704 1864 231 ) ( 832 1864 231 ) ( 704 1984 231 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
@@ -17149,6 +17149,7 @@
 "origin" "-384 -252 408"
 "target" "path_corner9"
 "invisible" "1"
+"timer" "600"
 }
 // entity 93
 {
@@ -17918,7 +17919,7 @@
 {
 "classname" "info_camp"
 "origin" "768 1928 232"
-"timer" "360"
+"timer" "600"
 "target" "path_corner13"
 "invisible" "1"
 }
@@ -17942,7 +17943,7 @@
 "classname" "info_camp"
 "origin" "768 1928 232"
 "target" "path_corner15"
-"timer" "360"
+"timer" "600"
 "invisible" "1"
 }
 // entity 104
@@ -17950,6 +17951,7 @@
 "classname" "info_camp"
 "origin" "-384 -252 408"
 "target" "path_corner17"
+"timer" "600"
 }
 // entity 105
 {
@@ -17971,7 +17973,7 @@
 "classname" "info_camp"
 "origin" "768 1928 232"
 "target" "path_corner19"
-"timer" "360"
+"timer" "600"
 }
 // entity 108
 {
