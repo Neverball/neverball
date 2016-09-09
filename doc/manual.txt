@@ -301,7 +301,7 @@ values follow.
         written to the config file.)
 
     mipmap 1
-    aniso  0
+    aniso  8
 
         These  keys  control  mipmapping  and  anisotropic  filtering,
         respectively.
@@ -318,9 +318,9 @@ values follow.
         vertically than  horizontally.  For  example, if a  texture is
         applied  to a  flat surface  and seen  from far  away then  it
         appears  much wider  than high.   Anisotropic filtering  takes
-        care of  this.  To enable  it, set aniso  to a small  power of
-        two.   If  you  have  weak hardware,  this  feature  won't  do
-        anything.
+        care of this.  Its level is expressed as a small power of two.
+        To disable  it, set  aniso to 0.  If  you have  weak hardware,
+        this feature won't do anything.
 
     joystick 1
 
