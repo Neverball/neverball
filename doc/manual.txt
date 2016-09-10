@@ -182,8 +182,7 @@ values follow.
 
         These   keys  match   the  respective   key_camera_*  options.
         Accepted values are: "none" (for no mapping), "left", "right",
-        "wheelup",  "middle", "wheeldown"  or a  numeric  mouse button
-        index.
+        "middle" or a numeric mouse button index.
 
     key_forward  up
     key_backward down
