@@ -74,6 +74,10 @@ ALL_CPPFLAGS += \
 	-DCONFIG_DATA=\"$(DATADIR)\" \
 	-DCONFIG_LOCALE=\"$(LOCALEDIR)\"
 
+ifeq ($(ENABLE_OPENGLES),1)
+	ALL_CPPFLAGS += -DENABLE_OPENGLES=1
+endif
+
 ifeq ($(ENABLE_NLS),0)
 	ALL_CPPFLAGS += -DENABLE_NLS=0
 else
@@ -152,7 +156,11 @@ endif
 endif
 endif
 
-OGL_LIBS := -lGL
+ifeq ($(ENABLE_OPENGLES),1)
+	OGL_LIBS := -lGLESv1_CM
+else
+	OGL_LIBS := -lGL
+endif
 
 ifeq ($(PLATFORM),mingw)
 	ifneq ($(ENABLE_NLS),0)

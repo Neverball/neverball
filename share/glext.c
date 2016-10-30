@@ -106,6 +106,18 @@ int glext_assert(const char *ext)
 
 /*---------------------------------------------------------------------------*/
 
+static void log_opengl(void)
+{
+    log_printf("GL vendor: %s\n"
+               "GL renderer: %s\n"
+               "GL version: %s\n"
+               "GL extensions: %s",
+               glGetString(GL_VENDOR),
+               glGetString(GL_RENDERER),
+               glGetString(GL_VERSION),
+               glGetString(GL_EXTENSIONS));
+}
+
 int glext_fail(const char *title, const char *message)
 {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title, message, NULL);
@@ -114,8 +126,6 @@ int glext_fail(const char *title, const char *message)
 
 int glext_init(void)
 {
-    void *ptr = 0;
-
     memset(&gli, 0, sizeof (struct gl_info));
 
     /* Common init. */
@@ -129,6 +139,7 @@ int glext_init(void)
     /* Desktop init. */
 
 #if !ENABLE_OPENGLES
+    void *ptr = 0;
 
     if (glext_assert("ARB_multitexture"))
     {
@@ -191,6 +202,8 @@ int glext_init(void)
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
 
 #endif
+
+    log_opengl();
 
     return 1;
 }
