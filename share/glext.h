@@ -23,6 +23,12 @@
 #include <windows.h>
 #endif
 
+#if ENABLE_OPENGLES
+
+#include <GLES/gl.h>
+
+#else  /* ENABLE_OPENGLES */
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
@@ -32,6 +38,8 @@
 #ifdef _WIN32
 #include <GL/glext.h>
 #endif
+
+#endif  /* ENABLE_OPENGLES */
 
 /* Windows calling convention cruft. */
 
@@ -155,11 +163,7 @@ int glext_init(void);
 /* of the extensions we use. Otherwise, GetProc them regardless of whether   */
 /* they need it or not.                                                      */
 
-#if defined(GL_VERSION_ES_CM_1_0) || \
-    defined(GL_VERSION_ES_CM_1_1) || \
-    defined(GL_OES_VERSION_1_0)
-
-#define ENABLE_OPENGLES 1
+#if ENABLE_OPENGLES
 
 #define glClientActiveTexture_ glClientActiveTexture
 #define glActiveTexture_       glActiveTexture
@@ -170,6 +174,7 @@ int glext_init(void);
 #define glDeleteBuffers_       glDeleteBuffers
 #define glIsBuffer_            glIsBuffer
 #define glPointParameterfv_    glPointParameterfv
+#define glPointParameterf_     glPointParameterf
 
 #define glOrtho_               glOrthof
 
