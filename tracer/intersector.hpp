@@ -304,7 +304,7 @@ namespace PathTracer {
 
             lscounterTemp->copydata(nodeCounter, cdesc);
             pgl::intv2 range = { 0, 1 };
-            for (int i = 1;i < 200;i++) {
+            for (int i = 1;i < 400;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
                 octreeUniformData.currentDepth = i; octreeUniform->subdata(&octreeUniformData);//syncUniforms();
                 context->useProgram(buildProgramH)->dispatchCompute(tiled(range.y - range.x, worksize));
