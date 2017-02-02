@@ -406,6 +406,8 @@ void item_color(const struct v_item *hp, float *c)
             c[2] = mp->base.d[2];
             c[3] = mp->base.d[3];
         }
+
+        mtrl_get(draw->base->mtrls[0]);
     }
 }
 
