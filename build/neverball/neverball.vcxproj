@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ball\demo.cpp" />
+    <ClCompile Include="..\..\ball\demo_dir.cpp" />
+    <ClCompile Include="..\..\ball\game_client.cpp" />
+    <ClCompile Include="..\..\ball\game_common.cpp" />
+    <ClCompile Include="..\..\ball\game_draw.cpp" />
+    <ClCompile Include="..\..\ball\game_proxy.cpp" />
+    <ClCompile Include="..\..\ball\game_server.cpp" />
+    <ClCompile Include="..\..\ball\hud.cpp" />
+    <ClCompile Include="..\..\ball\level.cpp" />
+    <ClCompile Include="..\..\ball\main.cpp" />
+    <ClCompile Include="..\..\ball\progress.cpp" />
+    <ClCompile Include="..\..\ball\score.cpp" />
+    <ClCompile Include="..\..\ball\set.cpp" />
+    <ClCompile Include="..\..\ball\st_ball.cpp" />
+    <ClCompile Include="..\..\ball\st_conf.cpp" />
+    <ClCompile Include="..\..\ball\st_demo.cpp" />
+    <ClCompile Include="..\..\ball\st_done.cpp" />
+    <ClCompile Include="..\..\ball\st_fail.cpp" />
+    <ClCompile Include="..\..\ball\st_goal.cpp" />
+    <ClCompile Include="..\..\ball\st_help.cpp" />
+    <ClCompile Include="..\..\ball\st_level.cpp" />
+    <ClCompile Include="..\..\ball\st_name.cpp" />
+    <ClCompile Include="..\..\ball\st_over.cpp" />
+    <ClCompile Include="..\..\ball\st_pause.cpp" />
+    <ClCompile Include="..\..\ball\st_play.cpp" />
+    <ClCompile Include="..\..\ball\st_save.cpp" />
+    <ClCompile Include="..\..\ball\st_set.cpp" />
+    <ClCompile Include="..\..\ball\st_shared.cpp" />
+    <ClCompile Include="..\..\ball\st_start.cpp" />
+    <ClCompile Include="..\..\ball\st_title.cpp" />
+    <ClCompile Include="..\..\ball\util.cpp" />
+    <ClCompile Include="..\..\share\array.cpp" />
+    <ClCompile Include="..\..\share\audio.cpp" />
+    <ClCompile Include="..\..\share\ball.cpp" />
+    <ClCompile Include="..\..\share\base_config.cpp" />
+    <ClCompile Include="..\..\share\base_image.cpp" />
+    <ClCompile Include="..\..\share\binary.cpp" />
+    <ClCompile Include="..\..\share\cmd.cpp" />
+    <ClCompile Include="..\..\share\common.cpp" />
+    <ClCompile Include="..\..\share\config.cpp" />
+    <ClCompile Include="..\..\share\dir.cpp" />
+    <ClCompile Include="..\..\share\fbo.cpp" />
+    <ClCompile Include="..\..\share\font.cpp" />
+    <ClCompile Include="..\..\share\fs_common.cpp" />
+    <ClCompile Include="..\..\share\fs_jpg.cpp" />
+    <ClCompile Include="..\..\share\fs_ov.cpp" />
+    <ClCompile Include="..\..\share\fs_physfs.cpp" />
+    <ClCompile Include="..\..\share\fs_png.cpp" />
+    <ClCompile Include="..\..\share\fs_rwops.cpp" />
+    <ClCompile Include="..\..\share\geom.cpp" />
+    <ClCompile Include="..\..\share\glext.cpp" />
+    <ClCompile Include="..\..\share\glsl.cpp" />
+    <ClCompile Include="..\..\share\gui.cpp" />
+    <ClCompile Include="..\..\share\hmd_common.cpp" />
+    <ClCompile Include="..\..\share\hmd_null.cpp" />
+    <ClCompile Include="..\..\share\image.cpp" />
+    <ClCompile Include="..\..\share\lang.cpp" />
+    <ClCompile Include="..\..\share\list.cpp" />
+    <ClCompile Include="..\..\share\log.cpp" />
+    <ClCompile Include="..\..\share\mtrl.cpp" />
+    <ClCompile Include="..\..\share\part.cpp" />
+    <ClCompile Include="..\..\share\queue.cpp" />
+    <ClCompile Include="..\..\share\solid_all.cpp" />
+    <ClCompile Include="..\..\share\solid_base.cpp" />
+    <ClCompile Include="..\..\share\solid_draw.cpp" />
+    <ClCompile Include="..\..\share\solid_sim_sol.cpp" />
+    <ClCompile Include="..\..\share\solid_vary.cpp" />
+    <ClCompile Include="..\..\share\state.cpp" />
+    <ClCompile Include="..\..\share\st_common.cpp" />
+    <ClCompile Include="..\..\share\text.cpp" />
+    <ClCompile Include="..\..\share\theme.cpp" />
+    <ClCompile Include="..\..\share\tilt_null.cpp" />
+    <ClCompile Include="..\..\share\vec3.cpp" />
+    <ClCompile Include="..\..\share\video.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ball\demo.h" />
+    <ClInclude Include="..\..\ball\demo_dir.h" />
+    <ClInclude Include="..\..\ball\game_client.h" />
+    <ClInclude Include="..\..\ball\game_common.h" />
+    <ClInclude Include="..\..\ball\game_draw.h" />
+    <ClInclude Include="..\..\ball\game_proxy.h" />
+    <ClInclude Include="..\..\ball\game_server.h" />
+    <ClInclude Include="..\..\ball\hud.h" />
+    <ClInclude Include="..\..\ball\level.h" />
+    <ClInclude Include="..\..\ball\progress.h" />
+    <ClInclude Include="..\..\ball\score.h" />
+    <ClInclude Include="..\..\ball\set.h" />
+    <ClInclude Include="..\..\ball\st_ball.h" />
+    <ClInclude Include="..\..\ball\st_conf.h" />
+    <ClInclude Include="..\..\ball\st_demo.h" />
+    <ClInclude Include="..\..\ball\st_done.h" />
+    <ClInclude Include="..\..\ball\st_fail.h" />
+    <ClInclude Include="..\..\ball\st_goal.h" />
+    <ClInclude Include="..\..\ball\st_help.h" />
+    <ClInclude Include="..\..\ball\st_level.h" />
+    <ClInclude Include="..\..\ball\st_name.h" />
+    <ClInclude Include="..\..\ball\st_over.h" />
+    <ClInclude Include="..\..\ball\st_pause.h" />
+    <ClInclude Include="..\..\ball\st_play.h" />
+    <ClInclude Include="..\..\ball\st_save.h" />
+    <ClInclude Include="..\..\ball\st_set.h" />
+    <ClInclude Include="..\..\ball\st_shared.h" />
+    <ClInclude Include="..\..\ball\st_start.h" />
+    <ClInclude Include="..\..\ball\st_title.h" />
+    <ClInclude Include="..\..\ball\util.h" />
+    <ClInclude Include="..\..\share\array.h" />
+    <ClInclude Include="..\..\share\audio.h" />
+    <ClInclude Include="..\..\share\ball.h" />
+    <ClInclude Include="..\..\share\base_config.h" />
+    <ClInclude Include="..\..\share\base_image.h" />
+    <ClInclude Include="..\..\share\binary.h" />
+    <ClInclude Include="..\..\share\cmd.h" />
+    <ClInclude Include="..\..\share\common.h" />
+    <ClInclude Include="..\..\share\config.h" />
+    <ClInclude Include="..\..\share\dir.h" />
+    <ClInclude Include="..\..\share\fbo.h" />
+    <ClInclude Include="..\..\share\font.h" />
+    <ClInclude Include="..\..\share\fs.h" />
+    <ClInclude Include="..\..\share\fs_jpg.h" />
+    <ClInclude Include="..\..\share\fs_ov.h" />
+    <ClInclude Include="..\..\share\fs_png.h" />
+    <ClInclude Include="..\..\share\fs_rwops.h" />
+    <ClInclude Include="..\..\share\geom.h" />
+    <ClInclude Include="..\..\share\glext.h" />
+    <ClInclude Include="..\..\share\glsl.h" />
+    <ClInclude Include="..\..\share\gui.h" />
+    <ClInclude Include="..\..\share\hmd.h" />
+    <ClInclude Include="..\..\share\hmd_common.h" />
+    <ClInclude Include="..\..\share\image.h" />
+    <ClInclude Include="..\..\share\lang.h" />
+    <ClInclude Include="..\..\share\list.h" />
+    <ClInclude Include="..\..\share\log.h" />
+    <ClInclude Include="..\..\share\mtrl.h" />
+    <ClInclude Include="..\..\share\part.h" />
+    <ClInclude Include="..\..\share\queue.h" />
+    <ClInclude Include="..\..\share\solid_all.h" />
+    <ClInclude Include="..\..\share\solid_base.h" />
+    <ClInclude Include="..\..\share\solid_draw.h" />
+    <ClInclude Include="..\..\share\solid_sim.h" />
+    <ClInclude Include="..\..\share\solid_vary.h" />
+    <ClInclude Include="..\..\share\state.h" />
+    <ClInclude Include="..\..\share\st_common.h" />
+    <ClInclude Include="..\..\share\text.h" />
+    <ClInclude Include="..\..\share\theme.h" />
+    <ClInclude Include="..\..\share\tilt.h" />
+    <ClInclude Include="..\..\share\vec3.h" />
+    <ClInclude Include="..\..\share\version.h" />
+    <ClInclude Include="..\..\share\version.in.h" />
+    <ClInclude Include="..\..\share\video.h" />
+    <ClInclude Include="..\..\tracer\controller.hpp" />
+    <ClInclude Include="..\..\tracer\includes.hpp" />
+    <ClInclude Include="..\..\tracer\intersector.hpp" />
+    <ClInclude Include="..\..\tracer\material.hpp" />
+    <ClInclude Include="..\..\tracer\mesh.hpp" />
+    <ClInclude Include="..\..\tracer\structs.hpp" />
+    <ClInclude Include="..\..\tracer\tracer.hpp" />
+    <ClInclude Include="..\..\tracer\utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\ball\Makefile" />
+    <None Include="..\..\share\Makefile" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D6D45A17-DD39-4D0E-A6D7-5A210346E543}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>neverball</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>$(SolutionDir)..\..\install\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(CUDA_INCLUDE_PATH);$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
+    <LibraryPath>$(CUDA_LIB_PATH);$(SolutionDir)..\..\install\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <ExecutablePath>$(SolutionDir)..\..\install\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(CUDA_INCLUDE_PATH);$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
+    <LibraryPath>$(CUDA_LIB_PATH);$(SolutionDir)..\..\install\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLM_FORCE_SWIZZLE;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;glew32.lib;OpenGL32.lib;user32.lib;sorter-d.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>GLM_FORCE_SWIZZLE;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;glew32.lib;OpenGL32.lib;user32.lib;sorter.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
+  </ImportGroup>
+</Project>

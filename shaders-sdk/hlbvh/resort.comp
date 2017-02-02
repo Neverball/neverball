@@ -1,0 +1,25 @@
+#version 450
+
+#include "../include/structs.glsl"
+#include "../include/uniforms.glsl"
+
+layout( std430, binding = 0 ) buffer LeafBlock {
+    Leaf Leafs[];
+};
+
+layout( std430, binding = 1 ) buffer MortoncodesBlock {
+    ivec2 Mortoncodes[];
+};
+
+layout( std430, binding = 2 ) buffer OutLeafBlock {
+    Leaf OutLeafs[];
+};
+
+layout( local_size_x = 64, local_size_y = 1, local_size_z = 1 ) in;
+
+void main() {
+    int globalID = int(gl_GlobalInvocationID.x);
+    if (globalID < geometryUniform.triangleCount) {
+        OutLeafs[globalID] = Leafs[Mortoncodes[globalID].x];
+    }
+}

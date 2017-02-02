@@ -49,9 +49,12 @@ struct d_vert
 
 struct d_geom
 {
-    GLushort i;
-    GLushort j;
-    GLushort k;
+    //GLushort i;
+    //GLushort j;
+    //GLushort k;
+    GLint i;
+    GLint j;
+    GLint k;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -64,6 +67,12 @@ struct d_mesh
     GLuint vbc;                                /* Vertex  buffer count       */
     GLuint ebo;                                /* Element buffer object      */
     GLuint ebc;                                /* Element buffer count       */
+
+    pgl::Buffer<pgl::intv> idcBuf;
+    pgl::Buffer<pgl::intv> ridcBuf;
+    pgl::Buffer<pgl::floatv> vertBuf;
+    pgl::Buffer<pgl::floatv> normBuf;
+    pgl::Buffer<pgl::floatv> texBuf;
 };
 
 struct d_body
@@ -86,6 +95,9 @@ struct s_draw
     struct d_body *bv;
 
     GLuint bill;
+
+    pgl::Buffer<pgl::floatv> billVert;
+    pgl::Buffer<pgl::floatv> billTex;
 
     unsigned int reflective:1;
     unsigned int shadowed:1;

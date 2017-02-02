@@ -1,0 +1,54 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+
+#include "../include/structs.glsl"
+#include "../include/constants.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/rays.glsl"
+
+//layout(binding=0) uniform samplerCube cubeTex;
+
+layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+float mlength(vec3 mcolor){
+    return max(mcolor.x, max(mcolor.y, mcolor.z));
+}
+
+void main()
+{
+    int offT = int(gl_GlobalInvocationID.x);
+    int it = offT;
+    if (it >= samplerUniform.rayCount) return;
+    int t = actived[it];
+    
+    Ray ray = fetchRayDirect(t);
+    if (ray.actived < 1) return;
+    
+    Hit hit = fetchHitDirect(t);
+    if (ray.params.y <= 0) {
+        ray.actived = 0;
+        if (ray.params.w == 1) {
+            ray.final = vec4(0.0f);
+        }
+    }
+    
+    if (hit.shaded < 1) {
+        ray.actived = 0;
+        ray.final = vec4(0.0f);
+    }
+
+    ray.origin.xyz = fma(faceforward(hit.normal.xyz, ray.direct.xyz, -hit.normal.xyz), vec3(0.0001f), ray.origin.xyz);
+    ray.color.xyz = max(ray.color.xyz, vec3(0.0f));
+    ray.final = max(ray.final, vec4(0.0f));
+    
+    if (ray.actived == 1){
+        int act = int(atomicCounterIncrement(acounter));
+        qrays[act] = t;
+    }
+    
+    storeRay(t, ray);
+}

@@ -1,0 +1,34 @@
+#version 450
+
+#include "../include/structs.glsl"
+#include "../include/uniforms.glsl"
+#include "./includes.glsl"
+
+layout( std430, binding = 4 ) buffer FlagsBlock {
+    int Flags[];
+};
+
+bbox bboxunion(in bbox b1, in bbox b2) {
+    bbox res = b1;
+    res.pmin = min(res.pmin, b2.pmin);
+    res.pmax = max(res.pmax, b2.pmax);
+    return res;
+}
+
+void main() {
+    int globalID = int(gl_GlobalInvocationID.x);
+    if (globalID < geometryUniform.triangleCount) {
+        int idx = Leafs[globalID].parent;
+        for(int i=0;i<10000;i++) {
+            idx = Nodes[idx].parent;
+            if (atomicCompSwap(Flags[idx], 0, 1) == 1) {
+                int lc = Nodes[idx].left;
+                int rc = Nodes[idx].right;
+                Nodes[idx].box = bboxunion(Nodes[lc].box, Nodes[rc].box);
+            } else {
+                break;
+            }
+            if (idx <= 0) break;
+        }
+    }
+}

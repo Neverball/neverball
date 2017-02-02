@@ -1,0 +1,72 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+
+#include "../include/structs.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/constants.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/vertex.glsl"
+
+layout ( std430, binding=10) buffer ssbo10 {int minmax[];};
+layout ( local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+
+shared int minmax_l[8];
+
+void main() {
+    if (gl_LocalInvocationID.x == 0){
+        minmax_l[0] = 10000000;
+        minmax_l[1] = 10000000;
+        minmax_l[2] = 10000000;
+        minmax_l[3] = 10000000;
+        minmax_l[4] = -10000000;
+        minmax_l[5] = -10000000;
+        minmax_l[6] = -10000000;
+        minmax_l[7] = -10000000;
+    }
+    
+    barrier();
+    
+    int idx = int(gl_GlobalInvocationID.x);
+    int idxh = idx * minmaxUniform.heap;
+    if (idxh < geometryUniform.triangleCount) {
+        Minmax mnmx;
+        mnmx.mn = vec4(INFINITY);
+        mnmx.mx = vec4(-INFINITY);
+
+        for (int i=0;i<256;i++) {
+            if (i >= minmaxUniform.heap) break;
+            vec3 triverts[3];
+            int tri = idxh + i;
+            if (tri < geometryUniform.triangleCount) {
+                int tri3 = tri * 3;
+                for (int x=0;x<3;x++) {
+                    int j = indics[tri3 + x];
+                    triverts[x] = toVec3(verts[j]);
+                }
+                mnmx.mn.xyz = min(mnmx.mn.xyz, min(triverts[0], min(triverts[1], triverts[2])));
+                mnmx.mx.xyz = max(mnmx.mx.xyz, max(triverts[0], max(triverts[1], triverts[2])));
+            }
+        }
+
+        atomicMin(minmax_l[0], int(floor(mnmx.mn.x * minmaxUniform.prec)));
+        atomicMin(minmax_l[1], int(floor(mnmx.mn.y * minmaxUniform.prec)));
+        atomicMin(minmax_l[2], int(floor(mnmx.mn.z * minmaxUniform.prec)));
+        atomicMax(minmax_l[4], int(ceil(mnmx.mx.x * minmaxUniform.prec)));
+        atomicMax(minmax_l[5], int(ceil(mnmx.mx.y * minmaxUniform.prec)));
+        atomicMax(minmax_l[6], int(ceil(mnmx.mx.z * minmaxUniform.prec)));
+    }
+    
+    barrier();
+    
+    if (gl_LocalInvocationID.x == 0){
+        atomicMin(minmax[0], minmax_l[0]);
+        atomicMin(minmax[1], minmax_l[1]);
+        atomicMin(minmax[2], minmax_l[2]);
+        atomicMax(minmax[4], minmax_l[4]);
+        atomicMax(minmax[5], minmax_l[5]);
+        atomicMax(minmax[6], minmax_l[6]);
+    }
+}

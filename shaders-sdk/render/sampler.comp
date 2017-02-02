@@ -1,0 +1,72 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+
+#include "../include/structs.glsl"
+#include "../include/constants.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/rays.glsl"
+
+layout ( binding = 0, rgba32f ) uniform image2D samples;
+layout ( binding = 1, r32ui ) uniform uimage2D sampleflags;
+layout ( binding = 2, rgba32f ) uniform image2D presampled;
+layout ( local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+void main(){
+    int offT = int(gl_GlobalInvocationID.x);
+    int it = offT;
+    
+    ivec2 wh = ivec2(samplerUniform.sceneRes.xy);
+    ivec2 whs = ivec2(imageSize(samples).xy);
+    vec2 aspect = vec2(wh) / vec2(whs);
+    ivec2 scl = ivec2(ceil(aspect));
+    ivec3 xyl = ivec3(it % whs.x, it / whs.x, 0);
+    
+    if(imageLoad(sampleflags, xyl.xy).x > 0) {
+        imageStore(sampleflags, xyl.xy, uvec4(0));
+        imageStore(samples, xyl.xy, vec4(0.0f));
+    }
+    
+    ivec2 basis = ivec2(vec2(xyl.xy) * aspect);
+    vec4 newc = vec4(0.0f);
+    vec2 screen = vec2(xyl.xy);
+    for(int x=0;x<=scl.x;x++){
+        for(int y=0;y<=scl.y;y++){
+            ivec2 cmp = basis + ivec2(x, y);
+            if (cmp.x > 0 && cmp.y > 0 && cmp.x < wh.x && cmp.y < wh.y) {
+                int ts = cmp.y * wh.x + cmp.x;
+                if (texelInfo[ts].last != LONGEST) {
+                    vec2 surround = vec2(texelInfo[ts].x, texelInfo[ts].y) * vec2(whs);
+                    vec2 diff = surround - screen;
+                    if (
+                        diff.x >= -0.0f && 
+                        diff.y >= -0.0f && 
+                        diff.x < 1.0f && 
+                        diff.y < 1.0f
+                    ) {
+                        Ray ray = fetchRay(ts);
+                        for(int i=0;i<64;i++){
+                            Hit hit = fetchHit(ray);
+                            if (ray.actived < 1 && hit.shaded > 0) {
+                                vec4 smp = max(ray.final, vec4(0.0f));
+                                if (smp.w > 0.0f) newc += smp;
+                                storeRay(ray);
+                            }
+                            ray.final = vec4(0.0f);
+                            
+                            if(!haveChain(ray)) break;
+                            ray = nextRay(ray);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    vec4 xsample = imageLoad(samples, xyl.xy) + newc;
+    imageStore(samples, xyl.xy, xsample);
+    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 1.0f), 1.0f));
+}

@@ -1,0 +1,123 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+
+#include "../include/structs.glsl"
+#include "../include/constants.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/rays.glsl"
+
+layout ( binding = 0, rgba32f ) uniform image2DArray samples;
+layout ( binding = 1, rgba32f ) uniform image2DArray filtered;
+layout ( local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+float v4g(in vec4 a, in int b){
+    if (b == 0) return a.x; else 
+    if (b == 1) return a.y; else 
+    if (b == 2) return a.z; else 
+    return a.w;
+}
+
+void v4s(in vec4 a, in int b, in float c){
+    if (b == 0) a.x = c; else 
+    if (b == 1) a.y = c; else 
+    if (b == 2) a.z = c; else 
+    a.w = c;
+}
+
+vec4 readSample(in ivec2 p, in int i){
+    vec4 scol = imageLoad(samples, ivec3(p, i));
+    return clamp(scol / max(scol.w, 0.00001f), vec4(0.00001f), vec4(0.99999f));
+}
+
+vec4 readFiltered(in ivec2 p, in int i){
+    vec4 scol = imageLoad(filtered, ivec3(p, i));
+    return clamp(scol / max(scol.w, 0.00001f), vec4(0.00001f), vec4(0.99999f));
+}
+
+void saveFiltered(in ivec2 p, in int i, in vec4 color){
+    imageStore(filtered, ivec3(p, i), color);
+}
+
+const int patchRadius = 2;
+const int filterRadius = 4;
+
+vec4 mean(in ivec2 p, in int i){
+    const int t = patchRadius*2+1;
+    vec4 c = vec4(0.0f);
+    for(int x=0;x<t;x++){
+        for(int y=0;y<t;y++){
+            ivec2 q = p + ivec2(x, y) - patchRadius;
+            c += readSample(q, i);
+        }
+    }
+    return c / (t * t);
+}
+
+float h = 0.0001f;
+int selectedSample = 0;
+
+vec4 pdist(in ivec2 p, in ivec2 q){
+    return pow(abs(readFiltered(q, selectedSample) - readFiltered(p, selectedSample)), vec4(2.0f)) / pow(h, 2.0f);
+}
+
+vec4 weight(in ivec2 p, in ivec2 q){
+    return exp(-max(pdist(p, q), vec4(0.0f)));
+}
+
+vec4 experiemntalNonLocalMean(in ivec2 p){
+    vec4 C = vec4(0.0f);
+    const int t = filterRadius*2+1;
+    for(int x=0;x<t;x++){
+        for(int y=0;y<t;y++){
+            ivec2 q = p + ivec2(x, y) - filterRadius;
+            C += weight(p, q);
+        }
+    }
+    vec4 u = vec4(0.0f);
+    for(int x=0;x<t;x++){
+        for(int y=0;y<t;y++){
+            ivec2 q = p + ivec2(x, y) - filterRadius;
+            u += readSample(q, selectedSample) * weight(p, q);
+        }
+    }
+    u /= C;
+    return u;
+}
+
+vec4 readAverage(in ivec2 p){
+    int K = samplerUniform.maxSamples;
+    vec4 color = vec4(0.0f);
+    for(int i=0;i<K;i++) {
+        color += readSample(p, i);
+    }
+    return color / float(K);
+}
+
+vec4 readFilteredCandidate(in ivec2 p, in int i){
+    int K = samplerUniform.maxSamples;
+    return readFiltered(p, K + i);
+}
+
+vec4 readFilteredAverage(in ivec2 p){
+    int K = samplerUniform.maxSamples;
+    vec4 color = vec4(0.0f);
+    for(int i=0;i<K;i++) {
+        color += readFilteredCandidate(p, i);
+    }
+    return color / float(K);
+}
+
+void main()
+{
+    ivec2 wh = ivec2(samplerUniform.sceneRes.xy);
+    int offT = int(gl_GlobalInvocationID.x);
+    int it = offT;
+    ivec2 xyl = ivec2(it % wh.x, it / wh.x);
+    if (xyl.x < wh.x && xyl.y < wh.y) {
+        saveFiltered(xyl, 0, readAverage(xyl));
+    }
+}

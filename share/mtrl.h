@@ -24,6 +24,8 @@ struct mtrl
     GLuint h;                              /* 32-bit specular exponent cache */
     GLuint o;                              /* OpenGL texture object          */
 
+    pgl::Texture2D po;
+
     unsigned int refc;
 };
 
