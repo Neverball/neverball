@@ -131,8 +131,8 @@ static struct
 } option_d[] = {
     { &CONFIG_FULLSCREEN,   "fullscreen",   0 },
     { &CONFIG_DISPLAY,      "display",      0 },
-    { &CONFIG_WIDTH,        "width",        800 },
-    { &CONFIG_HEIGHT,       "height",       600 },
+    { &CONFIG_WIDTH,        "width",        640 },
+    { &CONFIG_HEIGHT,       "height",       480 },
     { &CONFIG_STEREO,       "stereo",       0 },
     { &CONFIG_CAMERA,       "camera",       0 },
     { &CONFIG_TEXTURES,     "textures",     1 },
