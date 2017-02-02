@@ -19,6 +19,7 @@
 #include "geom.h"
 #include "config.h"
 #include "video.h"
+#include "mtrl.h"
 
 #include "solid_draw.h"
 
@@ -561,6 +562,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             /* Draw the background. */
 
+            r_apply_mtrl(&rend, default_mtrl);
             game_draw_back(&rend, gd, pose, +1, t);
             game_draw_light(gd, 1, t);
             game_refl_all(&rend, gd);

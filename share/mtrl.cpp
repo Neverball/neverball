@@ -51,7 +51,7 @@ static Array mtrls;
 
 static struct b_mtrl default_base_mtrl =
 {
-    { 1.0f, 1.0f, 1.0f, 1.0f },
+    { 0.0f, 0.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },

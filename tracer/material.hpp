@@ -17,10 +17,10 @@ namespace PathTracer {
         };
 
         struct Submat {
-            pgl::floatv4 diffuse = glm::vec4(1.0f);
+            pgl::floatv4 diffuse = glm::vec4(0.0f);
             pgl::floatv4 specular = glm::vec4(0.0f);
             pgl::floatv4 transmission = glm::vec4(0.0f);
-            pgl::floatv4 emissive = glm::vec4(1.0f);
+            pgl::floatv4 emissive = glm::vec4(0.0f);
             pgl::floatv ior = 1.0f;
             pgl::floatv reflectivity = 0.0001f;
             pgl::floatv s1;

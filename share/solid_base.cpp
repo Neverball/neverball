@@ -832,10 +832,11 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
         SAFECPY(mp->f, name);
 
         mp->a[0] = mp->a[1] = mp->a[2] = 0.0f;
-        mp->d[0] = mp->d[1] = mp->d[2] = 1.0f;
+        mp->d[0] = mp->d[1] = mp->d[2] = 0.0f;
         mp->s[0] = mp->s[1] = mp->s[2] = 0.0f;
         mp->e[0] = mp->e[1] = mp->e[2] = 0.0f;
-        mp->a[3] = mp->d[3] = mp->s[3] = mp->e[3] = 1.0f;
+        mp->a[3] = mp->s[3] = mp->e[3] = 1.0f;
+        mp->d[3] = 0.0f;
         mp->h[0] = 0.0f;
         mp->fl   = 0;
         mp->angle = 45.0f;
