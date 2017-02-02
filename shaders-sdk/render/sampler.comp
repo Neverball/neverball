@@ -52,7 +52,7 @@ void main(){
                             Hit hit = fetchHit(ray);
                             if (ray.actived < 1 && hit.shaded > 0) {
                                 vec4 smp = max(ray.final, vec4(0.0f));
-                                if (smp.w > 0.0f) newc += smp;
+                                newc += smp;
                                 storeRay(ray);
                             }
                             ray.final = vec4(0.0f);

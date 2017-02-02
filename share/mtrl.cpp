@@ -284,6 +284,11 @@ int mtrl_cache(const struct b_mtrl *base)
  */
 void mtrl_free(int mi)
 {
+    if (mi < pmaterials->submats.size()) {
+        pmaterials->submats[mi] = PathTracer::Material::Submat();
+    }
+    pmaterials->loadToVGA();
+
     if (mtrls)
     {
         struct mtrl *mp = (mtrl *)array_get(mtrls, mi);
@@ -292,8 +297,6 @@ void mtrl_free(int mi)
             mp->refc--;
 
             if (mp->refc == 0) {
-                pmaterials->submats[mi] = PathTracer::Material::Submat();
-                pmaterials->loadToVGA();
                 free_mtrl(mp);
             }
         }

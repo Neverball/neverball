@@ -71,9 +71,9 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
     if(mat.diffusePart == NOT_EXIST){
         result = mat.diffuse;
     } else {
-        result = fetchPart(mat.diffusePart, texcoord) * ((mat.flags & M_SHADOWED) > 0 && (mat.flags & M_TRANSPARENT) < 1 ? vec4(1.0f) : mat.diffuse);
+        result = fetchPart(mat.diffusePart, texcoord) * ((mat.flags & M_TRANSPARENT) < 1 ? vec4(1.0f) : mat.diffuse);
     }
-    result.w = ((mat.flags & M_REFLECTIVE) > 0 && (mat.flags & M_TRANSPARENT) < 1) ? 1.0f : result.w;
+    //result.w = ((mat.flags & M_REFLECTIVE) > 0 && (mat.flags & M_TRANSPARENT) < 1) ? 1.0f : result.w;
     return result;
 }
 
@@ -86,8 +86,8 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
         result = fetchPart(mat.specularPart, texcoord);
     }
     
-    bool reflfilter = /*((mat.flags & M_REFLECTIVE) > 0 || (mat.flags & M_ENVIRONMENT) > 0) &&*/ (mat.flags & M_TRANSPARENT) < 1;
-    result.xyz = reflfilter ? min(result.xyz, vec3(0.4f)) : vec3(0.0f);
+    bool reflfilter = (mat.flags & M_REFLECTIVE) > 0 || (mat.flags & M_ENVIRONMENT) > 0;
+    result.xyz = reflfilter ? ((mat.flags & M_REFLECTIVE) > 0 ? vec3(0.5) : vec3(0.2)) : vec3(0.0f);
     
     result = clamp(result, vec4(0.0f), vec4(1.0f));
     return result;
@@ -222,7 +222,7 @@ Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
     if (newRay.params.w < 1) {
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = max(clamp(dot(normalize(ldiff), normal), 0.0f, 1.0f), 0.0f);
+        float intensivity = clamp(dot(normalize(ldiff), normal), 0.4f, 1.0f);
     
         newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone * intensivity, vec3(0.0f));
         newRay.final = max(newRay.final, vec4(0.0f));
@@ -243,11 +243,15 @@ int applyLight(in Ray directRay, inout Ray newRay, in Hit hit, in vec3 normal){
     return newRay.params.x;
 }
 
-int emitRay(in Ray directRay, in Hit hit, in vec3 normal, in float coef){
-    directRay.final.w *= coef;
-    directRay.color.xyz *= coef;
-    directRay.final.xyz *= coef;
-    
+int emitRay(in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
+    if(additive){
+        directRay.final.w *= 0.0f;
+    } else {
+        directRay.final.w *= coef;
+        directRay.color.xyz *= coef;
+        directRay.final.xyz *= coef;
+    }
+
     int ps = createRay(directRay);
     storeHit(ps, hit);
     return ps;
@@ -331,13 +335,15 @@ void main() {
     
     float rlspc = 1.0f - spic;
     float trns = prom; //* rlspc;
-    
-    if (trns > 0.999f) {
-        if((material.flags & M_SHADOWED) > 0 && (material.flags & M_ENVIRONMENT) < 1){
-            //emitRay(directLight(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic);
-            emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic);
+    float atrns = 1.0f - prom;
+
+    bool isAdditive = (material.flags & M_ADDITIVE) > 0;
+
+    if (trns > 0.999f && !isAdditive) {
+        if((material.flags & M_SHADOWED) > 0){
+            emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
         } else {
-            emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic);
+            emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
         }
         
         newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
@@ -347,21 +353,25 @@ void main() {
         if (spic > 0.0f && random() < spic) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
-            if((material.flags & M_SHADOWED) > 0 && (material.flags & M_ENVIRONMENT) < 1){
-                //emitRay(directLight(newRay, hit, tx.xyz, normal), hit, normal, trns);
-                emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, trns);
+            if((material.flags & M_SHADOWED) > 0){
+                emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
             } else {
-                emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, trns);
+                emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
             }
 
             newRay = promised(newRay, hit, normal);
-            newRay.final *= 1.0f - trns;
-            newRay.color.xyz *= 1.0f - trns;
+
+            if (isAdditive){
+                //newRay.final.w *= 1.0f;
+                //newRay.color.xyz *= 1.0f;
+            } else {
+                newRay.final.w *= atrns;
+                newRay.color.xyz *= atrns;
+            }
         }
     }
     
     if (newRay.final.w < 0.0001f) newRay.actived = 0;
-    
     
     //newRay.final.xyz = hit.normal.xyz * 0.5f + 0.5f;
     //newRay.actived = 0;
