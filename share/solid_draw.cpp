@@ -203,7 +203,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     GLfloat model[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
-    //voffsetAccum += 0.001f;
+    voffsetAccum += 0.001f;
 
     meshloader->setColorModifier(glm::vec4(1.0f));
     meshloader->setVerticeOffset(voffsetAccum);
@@ -215,7 +215,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setMaterialOffset(mi);
     meshloader->triangleCount = 2;
 
-    voffsetAccum += 0.001f;
+    //voffsetAccum += 0.01f;
 
     if (edge) {
         meshloader->setLoadingOffset(0);

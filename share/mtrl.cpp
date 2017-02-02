@@ -202,9 +202,16 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 static int pt_cache_texture(const int mi, const struct mtrl *mp) {
+    if (!mp) {
+        return mi;
+    }
+
     PathTracer::Material::Submat submat;
     if (mp->po != nullptr) {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
+    }
+    else {
+        submat.diffusePart = -1;
     }
 
     const struct b_mtrl *base = &mp->base;
@@ -214,7 +221,7 @@ static int pt_cache_texture(const int mi, const struct mtrl *mp) {
     submat.reflectivity = *(pgl::floatv *)base->h;
     submat.flags = base->fl;
 
-    if (pmaterials->submats.size() <= mi) {
+    if (mi >= pmaterials->submats.size()) {
         pmaterials->submats.resize(mi + 1);
     }
 
@@ -287,11 +294,6 @@ int mtrl_cache(const struct b_mtrl *base)
  */
 void mtrl_free(int mi)
 {
-    if (mi < pmaterials->submats.size()) {
-        pmaterials->submats[mi] = PathTracer::Material::Submat();
-    }
-    pmaterials->loadToVGA();
-
     if (mtrls)
     {
         struct mtrl *mp = (mtrl *)array_get(mtrls, mi);
@@ -301,6 +303,10 @@ void mtrl_free(int mi)
 
             if (mp->refc == 0) {
                 free_mtrl(mp);
+                if (mi < pmaterials->submats.size()) {
+                    pmaterials->submats[mi] = PathTracer::Material::Submat();
+                    pmaterials->loadToVGA();
+                }
             }
         }
     }
