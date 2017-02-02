@@ -371,7 +371,9 @@ void main() {
         }
     }
     
-    if (newRay.final.w < 0.0001f) newRay.actived = 0;
+    if (newRay.final.w < 0.0001f && !isAdditive) {
+        newRay.actived = 0;
+    }
     
     //newRay.final.xyz = hit.normal.xyz * 0.5f + 0.5f;
     //newRay.actived = 0;
