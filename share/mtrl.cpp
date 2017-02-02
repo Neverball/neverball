@@ -158,6 +158,9 @@ static void load_mtrl_objects(struct mtrl *mp)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         }
     }
+    else {
+        mp->po = nullptr;
+    }
 }
 
 /*
