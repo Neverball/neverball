@@ -13,7 +13,7 @@ TResult testIntersection(inout TResult res, in vec3 orig, in vec3 dir, in int tr
         vec2 uv = vec2(0.0f);
         vec3 n = vec3(0.0f);
         float _d = intersectTriangle(orig, dir, triverts, uv, n);
-        if (_d < INFINITY && _d >= 0.0f && _d < res.dist) {
+        if (_d < INFINITY && _d >= 0.0f && _d <= res.dist) {
             res.dist = _d;
             res.triangle = tri;
             res.uv = uv;

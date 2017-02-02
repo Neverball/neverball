@@ -158,7 +158,7 @@ void main() {
         TResult res = traverse(hit.dist, ray.origin.xyz, ray.direct.xyz);
         if (
             res.dist >= 0.0f && 
-            res.dist < hit.dist && 
+            res.dist <= hit.dist && 
             res.dist < INFINITY && 
             res.triangle != LONGEST
         ) {

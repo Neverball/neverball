@@ -390,7 +390,7 @@ void mtrl_load_objects(void)
         struct mtrl *mp = (mtrl *)array_get(mtrls, i);
 
         if (mp->refc > 0) {
-            //pt_cache_texture(i, mp);
+            pt_cache_texture(i, mp);
             load_mtrl_objects(mp);
         }
     }

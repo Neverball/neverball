@@ -8,8 +8,8 @@
 
 #define IMG_SHAD "png/shadow.png"
 
-#define BACK_DIST   512.0f
-#define FAR_DIST    512.0f
+#define BACK_DIST   1024.0f
+#define FAR_DIST    2048.0f
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
