@@ -51,11 +51,11 @@ static Array mtrls;
 
 static struct b_mtrl default_base_mtrl =
 {
-    { 0.0f, 0.0f, 0.0f, 0.0f },
+    { 0.8f, 0.8f, 0.8f, 1.0f },
+    { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f }, 0.0f, M_ADDITIVE, ""
+    { 0.0f }, 0.0f, 0, ""
 };
 
 int default_mtrl;
@@ -206,15 +206,15 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
         return mi;
     }
 
+    const struct b_mtrl *base = &mp->base;
     PathTracer::Material::Submat submat;
-    if (mp->po != nullptr) {
+    if (mp->po != nullptr && mp->base.f != "default" && mp->base.f != "") {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
     }
     else {
         submat.diffusePart = 0xFFFFFFFFFFFFFFFF;
     }
-
-    const struct b_mtrl *base = &mp->base;
+    
     submat.diffuse = *(glm::vec4 *)base->d;
     submat.emissive = *(glm::vec4 *)base->e;
     submat.specular = *(glm::vec4 *)base->s;
@@ -263,7 +263,8 @@ int mtrl_cache(const struct b_mtrl *base)
             {
                 load_mtrl(mp, base);
                 mp->refc++;
-                return pt_cache_texture(i, mp);
+                mi = i;
+                return pt_cache_texture(mi, mp);
                 //return i;
             }
         }
@@ -286,8 +287,8 @@ int mtrl_cache(const struct b_mtrl *base)
         mp->refc++;
     }
 
-    return pt_cache_texture(mi, mp);
-    //return mi;
+    //return pt_cache_texture(mi, mp);
+    return mi;
 }
 
 /*
@@ -320,6 +321,7 @@ void mtrl_free(int mi)
 struct mtrl *mtrl_get(int mi)
 {
     mtrl * mp = (mtrl *)(mtrls ? array_get(mtrls, mi) : NULL);
+    //pt_cache_texture(mi, mp);
     return mp;
 }
 
@@ -382,7 +384,7 @@ void mtrl_reload(void)
             {
                 free_mtrl(mp);
                 load_mtrl(mp, &base);
-                pt_cache_texture(i, mp);
+                //pt_cache_texture(i, mp);
             }
         }
     }
@@ -401,7 +403,7 @@ void mtrl_load_objects(void)
 
         if (mp->refc > 0) {
             load_mtrl_objects(mp);
-            pt_cache_texture(i, mp);
+            //pt_cache_texture(i, mp);
         }
     }
 }

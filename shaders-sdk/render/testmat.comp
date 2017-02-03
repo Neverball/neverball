@@ -281,9 +281,13 @@ Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - directRay.origin.xyz;
         
+        /*
         float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f), 0.0f);
         directRay.color.xyz *= color * intensivity;
         directRay.final.w *= intensivity;
+        */
+        
+        directRay.color.xyz *= color * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
     }
 
     return directRay;
@@ -353,7 +357,7 @@ void main() {
     bool isAdditive = (material.flags & M_ADDITIVE) > 0;
     bool shadowed = (material.flags & M_SHADOWED) > 0;
     
-    const float shadowIntense = 0.0f;
+    const float shadowIntense = 0.4f;
     const float unShadowIntense = 1.0f - shadowIntense;
     
     if (trns > 0.999f && !isAdditive) {

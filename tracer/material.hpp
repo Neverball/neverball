@@ -9,13 +9,6 @@ namespace PathTracer {
 
     public:
 
-        struct Texpart {
-            pgl::intv offset = -1;
-            pgl::intv width = 0;
-            pgl::intv height = 0;
-            pgl::intv type = 1; //0 is UINT32, 1 is RGBA8, 2 is RGBA16
-        };
-
         struct Submat {
             pgl::floatv4 diffuse = glm::vec4(0.0f);
             pgl::floatv4 specular = glm::vec4(0.0f);
@@ -72,6 +65,12 @@ namespace PathTracer {
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(mats);
         }
 
+        pgl::uint64v loadTextureUnstricted(pgl::Texture2D texture) {
+            pgl::uint64v idx = texture->handleTexture();
+            context->makeResidentTexture(idx);
+            return idx;
+        }
+
         pgl::uint64v loadTexture(std::string tex, pgl::Texture2D texture) {
             if (tex == "") {
                 pgl::uint64v idx = texture->handleTexture();
@@ -87,7 +86,7 @@ namespace PathTracer {
         }
 
         pgl::uint64v loadTexture(std::string tex) {
-            if (tex == "") return -1;
+            if (tex == "") return 0xFFFFFFFFFFFFFFFF;
             if (texnames.find(tex) == texnames.end()) {
                 std::vector<unsigned char> image;
                 unsigned width, height;

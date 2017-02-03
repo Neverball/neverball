@@ -24,7 +24,7 @@ void main()
 {
     if (gl_GlobalInvocationID.x < geometryUniform.triangleCount) {
         int ctriangle = geometryUniform.loadOffset + int(gl_GlobalInvocationID.x);
-        int matID = imats[ctriangle] + geometryUniform.materialID;
+        int matID = /*imats[ctriangle] +*/ geometryUniform.materialID;
         vec3 vertice[3];
         vec3 normal[3];
         vec2 texcoord[3];

@@ -484,8 +484,8 @@ static void sol_load_mesh(struct d_mesh *mp,
     mp->vertBuf = vertBuf;
     mp->normBuf = normBuf;
     mp->texBuf = texBuf;
-    mp->ebc = gn * 3;
-    mp->vbc = vn /** 3*/; //WHY?
+    mp->ebc = gn; 
+    mp->vbc = vn; 
 }
 
 //#endif
@@ -742,7 +742,7 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         meshloader->setIndices(mp->idcBuf);
         meshloader->setTransform(*(glm::mat4 *)(model));
         meshloader->setLoadingOffset(0);
-        meshloader->triangleCount = mp->ebc / 3;
+        meshloader->triangleCount = mp->ebc;
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -956,66 +956,70 @@ void sol_back(const struct s_draw *draw,
         return;
 
     glDisable(GL_LIGHTING);
-    glDepthMask(GL_FALSE);
+    //glDepthMask(GL_FALSE);
 
-    sol_bill_enable(draw);
-    {
+    //sol_bill_enable(draw);
+    //{
         int ri;
 
         /* Consider each billboard. */
 
         for (ri = 0; ri < draw->base->rc; ri++)
         {
-            const struct b_bill *rp = draw->base->rv + ri;
+            //if (ri < draw->base->rc) {
+                const struct b_bill *rp = draw->base->rv + ri;
 
-            /* Render only billboards at distances between n and f. */
+                /* Render only billboards at distances between n and f. */
 
-            if (n <= rp->d && rp->d < f)
-            {
-                float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
-
-                float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
-                float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
-
-                /* Render only billboards facing the viewer. */
-
-                if (w > 0 && h > 0)
+                if (n <= rp->d && rp->d < f)
                 {
-                    float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
-                    float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
-                    float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
+                    float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
 
-                    //r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
+                    float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
+                    float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
 
-                    glPushMatrix();
+                    /* Render only billboards facing the viewer. */
+
+                    if (w > 0 && h > 0)
                     {
-                        if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
-                        if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                        float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
+                        float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
+                        float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                        glTranslatef(0.0f, 0.0f, -rp->d);
+                        //r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
-                        if (rp->fl & B_FLAT)
+                        glMatrixMode(GL_MODELVIEW);
+                        glLoadIdentity();
+                        glPushMatrix();
                         {
-                            glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
-                            glRotatef(-ry,         0.0f, 0.0f, 1.0f);
+                            if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                            if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+
+                            glTranslatef(0.0f, 0.0f, -rp->d);
+
+                            if (rp->fl & B_FLAT)
+                            {
+                                glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                                glRotatef(-ry, 0.0f, 0.0f, 1.0f);
+                            }
+                            if (rp->fl & B_EDGE)
+                                glRotatef(-rx, 1.0f, 0.0f, 0.0f);
+
+                            if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+                            glScalef(w, h, 1.0f);
+
+                            sol_draw_bill(draw, draw->base->mtrls[rp->mi], rp->fl & B_EDGE);
                         }
-                        if (rp->fl & B_EDGE)
-                            glRotatef(-rx,         1.0f, 0.0f, 0.0f);
-
-                        if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
-
-                        glScalef(w, h, 1.0f);
-
-                        sol_draw_bill(draw, draw->base->mtrls[rp->mi], rp->fl & B_EDGE);
+                        glPopMatrix();
                     }
-                    glPopMatrix();
                 }
-            }
+            //}
         }
-    }
-    sol_bill_disable();
+    //}
+    //sol_bill_disable();
 
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);
     //glEnable(GL_LIGHTING);
 }
 
@@ -1025,8 +1029,8 @@ void sol_bill(const struct s_draw *draw,
     if (!(draw && draw->base && draw->base->rc))
         return;
 
-    sol_bill_enable(draw);
-    {
+    //sol_bill_enable(draw);
+    //{
         int ri;
 
         for (ri = 0; ri < draw->base->rc; ++ri)
@@ -1044,6 +1048,8 @@ void sol_bill(const struct s_draw *draw,
 
             //r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
             glPushMatrix();
             {
                 glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
@@ -1060,12 +1066,13 @@ void sol_bill(const struct s_draw *draw,
             }
             glPopMatrix();
         }
-    }
-    sol_bill_disable();
+    //}
+    //sol_bill_disable();
 }
 
 void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 {
+    /*
     if (k > 0.0f)
     {
         glMatrixMode(GL_PROJECTION);
@@ -1098,6 +1105,7 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
+    */
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1183,10 +1191,10 @@ void r_color_mtrl(struct s_rend *rend, int enable)
 
         /* Keep material tracking synchronized with GL state. */
 
-        rend->curr_mtrl.d = 0xffffffff;
-        rend->curr_mtrl.a = 0xffffffff;
+        //rend->curr_mtrl.d = 0xffffffff;
+        //rend->curr_mtrl.a = 0xffffffff;
 
-        rend->color_mtrl = 0;
+        //rend->color_mtrl = 0;
     }
 }
 
@@ -1354,9 +1362,9 @@ void r_draw_enable(struct s_rend *rend)
     //glEnableClientState(GL_NORMAL_ARRAY);
     //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    //glBindTexture(GL_TEXTURE_2D, 0);
 
-    rend->curr_mtrl = *mtrl_get(default_mtrl);
+    //rend->curr_mtrl = *mtrl_get(default_mtrl);
 }
 
 void r_draw_disable(struct s_rend *rend)

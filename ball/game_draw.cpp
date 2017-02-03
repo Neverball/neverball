@@ -521,7 +521,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 #endif
 
         glm::vec3 eye = glm::vec3(0.0f);
-        glm::vec3 target = glm::vec3(0.0f, 0.0f, -1.0f);
+        glm::vec3 target = glm::vec3(1.0f, 0.0f, -1.0f);
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
         glm::mat4 persp = glm::perspective(fov / 180.f * ((float)M_PI * 1.0f), (float)video.window_w / (float)video.window_h, 0.01f, 1000.0f);
 
@@ -578,7 +578,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         //pmaterials->loadToVGA();
         ptracer->camera(eye, target, persp);
 
-        for (int j = 0;j < 8;j++) {
+        for (int j = 0;j < 16;j++) {
             if (ptracer->getRayCount() <= 0) break;
 
             ptracer->resetHits();
@@ -602,20 +602,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
             glcontext->cullFace(pgl::Cullface::Back);
             glcontext->enable(pgl::Feature::Blend);
             glcontext->disable(pgl::Feature::DepthTest);
-
-            /*
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-            glBegin(GL_QUADS);
-            glColor4d(0, 0, 0, 0);
-            glVertex3f(-1, -1, 0);
-            glColor4d(0, 0, 0, 0);
-            glVertex3f(1, -1, 0);
-            glColor4d(0, 0, 0, 0);
-            glVertex3f(1, 1, 0);
-            glColor4d(0, 0, 0, 0);
-            glVertex3f(-1, 1, 0);
-            glEnd();
-            */
 
             glColor4d(1, 1, 1, 1);
         }

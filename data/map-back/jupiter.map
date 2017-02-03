@@ -3,6 +3,17 @@
 }
 {
 "classname" "info_null"
+"image" "png/t0"
+"height" "1.0"
+"width" "1.0"
+"flag" "0"
+"dist" "0"
+"xrot" "0"
+"yrot" "0"
+"xrot" "0"
+}
+{
+"classname" "info_null"
 "image" "png/sun"
 "height" "50.0"
 "width" "50.0"
