@@ -596,18 +596,13 @@ void game_draw(struct game_draw *gd, int pose, float t)
         video_push_FX();
         {
             ptracer->render();
-        }
-        video_pop_matrix();
 
-        glcontext->cullFace(pgl::Cullface::Back);
-        glcontext->enable(pgl::Feature::Blend);
-        glcontext->disable(pgl::Feature::DepthTest);
+            glcontext->cullFace(pgl::Cullface::Back);
+            glcontext->enable(pgl::Feature::Blend);
+            glcontext->disable(pgl::Feature::DepthTest);
 
-        //glBindVertexArray(0);
-        //glUseProgram(0);
-
-        video_push_FX();
-        {
+            /*
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
             glBegin(GL_QUADS);
             glColor4d(0, 0, 0, 0);
             glVertex3f(-1, -1, 0);
@@ -618,14 +613,15 @@ void game_draw(struct game_draw *gd, int pose, float t)
             glColor4d(0, 0, 0, 0);
             glVertex3f(-1, 1, 0);
             glEnd();
+            */
 
             glColor4d(1, 1, 1, 1);
         }
         video_pop_matrix();
-        //
 
         glBindVertexArray(0);
         glUseProgram(0);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4d(1, 1, 1, 1);
 
         /* Draw the fade overlay. */

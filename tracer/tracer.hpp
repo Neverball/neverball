@@ -417,15 +417,30 @@ namespace PathTracer {
             //sortIndices(activel->glID(), rsize);
         }
 
-        void render() {
-            //context->bindDefaultFramebuffer();
+
+        void prerender() {
             context->scissor({ 0, 0 }, { displayWidth, displayHeight });
             context->viewport({ 0, 0 }, { displayWidth, displayHeight });
-            //context->clearColor(0.0f, 0.0f, 0.0f, 1.0f)->clear();
 
             context->disable(pgl::Feature::DepthTest);
             context->disable(pgl::Feature::Blend);
-            context->cullFace(pgl::Cullface::FrontAndBack);
+            context->cullFace(pgl::Cullface::Back);
+            context->textureUnit(0)->texture(presampled);
+
+            bind();
+
+            context->useProgram(renderProgram);
+            context->bindVertexArray(vao);
+        }
+
+
+        void render() {
+            context->scissor({ 0, 0 }, { displayWidth, displayHeight });
+            context->viewport({ 0, 0 }, { displayWidth, displayHeight });
+
+            context->disable(pgl::Feature::DepthTest);
+            context->disable(pgl::Feature::Blend);
+            context->cullFace(pgl::Cullface::Back);
             context->textureUnit(0)->texture(presampled);
 
             bind();
