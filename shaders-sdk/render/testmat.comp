@@ -210,7 +210,7 @@ Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
     if (newRay.params.w < 1) {
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = max(clamp(dot(normalize(ldiff), normal), 0.0f, 1.0f), 0.0f);
+        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
     
         newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
         newRay.final = max(newRay.final, vec4(0.0f));
@@ -225,9 +225,11 @@ Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
     if (newRay.params.w < 1) {
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f);
+        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
     
         newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone * intensivity, vec3(0.0f));
+        newRay.final.xyz = newRay.final.xyz / (lightUniform.lightRadius * lightUniform.lightRadius) * lightUniform.lightColor.xyz;
+
         newRay.final = max(newRay.final, vec4(0.0f));
         newRay.color.xyz = vec3(0.0f);
         newRay.actived = 0;
@@ -349,7 +351,7 @@ void main() {
     float atrns = 1.0f - prom;
 
     bool isAdditive = (material.flags & M_ADDITIVE) > 0;
-    bool shadowed = (material.flags & M_SHADOWED) > 0 && (material.flags & M_ENVIRONMENT) < 1;
+    bool shadowed = (material.flags & M_SHADOWED) > 0;
     
     if (trns > 0.999f && !isAdditive) {
 

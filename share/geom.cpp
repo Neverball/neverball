@@ -406,8 +406,6 @@ void item_color(const struct v_item *hp, float *c)
             c[2] = mp->base.d[2];
             c[3] = mp->base.d[3];
         }
-
-        mtrl_get(draw->base->mtrls[0]);
     }
 }
 
@@ -450,6 +448,7 @@ void back_init(const char *name)
         mp->o = make_image_from_file(name, IF_MIPMAP);
         mp->po = make_image_from_file_pgl(name, IF_MIPMAP);
 
+
         glBindTexture(GL_TEXTURE_2D, mp->o);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
@@ -459,8 +458,8 @@ void back_init(const char *name)
         }
 
         glBindTexture(GL_TEXTURE_2D, 0);
-        mtrl_get(back.base.mtrls[0]); //Fix for ray tracer
 
+        pt_cache_texture(back.base.mtrls[0], mp);
         back_state = 1;
     }
 }

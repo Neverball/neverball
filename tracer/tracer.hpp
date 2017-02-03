@@ -218,9 +218,9 @@ namespace PathTracer {
         pgl::intv raycountCache = 0;
         pgl::intv qraycountCache = 0;
 
-        glm::vec4 lightColor = glm::vec4(glm::vec3(1000.0f), 1.0f);
+        glm::vec4 lightColor = glm::vec4(glm::vec3(2000.0f), 1.0f);
         glm::vec4 lightVector = glm::vec4(0.1f, 1.0f, 0.1f, 1.0f);
-        pgl::floatv lightDistance = 30.0f;
+        pgl::floatv lightDistance = 40.0f;
         pgl::floatv lightRadius = 1.0f;
 
         Tracer(pgl::Context ctx, CLTracerAPI api) { 

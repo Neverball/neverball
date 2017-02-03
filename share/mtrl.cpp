@@ -201,7 +201,7 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 
-static int pt_cache_texture(const int mi, const struct mtrl *mp) {
+int pt_cache_texture(const int mi, const struct mtrl *mp) {
     if (!mp) {
         return mi;
     }
@@ -209,9 +209,6 @@ static int pt_cache_texture(const int mi, const struct mtrl *mp) {
     PathTracer::Material::Submat submat;
     if (mp->po != nullptr) {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
-    }
-    else {
-        submat.diffusePart = -1;
     }
 
     const struct b_mtrl *base = &mp->base;
@@ -318,7 +315,6 @@ void mtrl_free(int mi)
 struct mtrl *mtrl_get(int mi)
 {
     mtrl * mp = (mtrl *)(mtrls ? array_get(mtrls, mi) : NULL);
-    pt_cache_texture(mi, mp);
     return mp;
 }
 
@@ -399,8 +395,8 @@ void mtrl_load_objects(void)
         struct mtrl *mp = (mtrl *)array_get(mtrls, i);
 
         if (mp->refc > 0) {
-            pt_cache_texture(i, mp);
             load_mtrl_objects(mp);
+            pt_cache_texture(i, mp);
         }
     }
 }

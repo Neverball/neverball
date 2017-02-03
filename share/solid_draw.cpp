@@ -746,9 +746,9 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        r_apply_mtrl(rend, mp->mtrl);
+        //r_apply_mtrl(rend, mp->mtrl);
 
-        if (rend->curr_mtrl.base.fl & M_PARTICLE) {
+        if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) {
             meshloader->setIndexed(false);
         }
         else {
@@ -985,7 +985,7 @@ void sol_back(const struct s_draw *draw,
                     float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                     float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                    r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
+                    //r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
                     glPushMatrix();
                     {
@@ -1042,7 +1042,7 @@ void sol_bill(const struct s_draw *draw,
             float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
             float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-            r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
+            //r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
             glPushMatrix();
             {
@@ -1082,7 +1082,7 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
             glColor4f(0.0f, 0.0f, 0.0f, k);
 
             sol_bill_enable(draw);
-            r_apply_mtrl(rend, default_mtrl);
+            //r_apply_mtrl(rend, default_mtrl);
             glScalef(2.0f, 2.0f, 1.0f);
             sol_draw_bill(draw, default_mtrl, GL_FALSE);
             sol_bill_disable();
@@ -1192,34 +1192,6 @@ void r_color_mtrl(struct s_rend *rend, int enable)
 
 void r_apply_mtrl(struct s_rend *rend, int mi)
 {
-    struct mtrl *mp = mtrl_get(mi);
-    struct mtrl *mq = &rend->curr_mtrl;
-    int mp_flags = mp->base.fl & ~rend->skip_flags;
-    int mq_flags = mq->base.fl;
-
-    /*
-    if (mp->po) {
-        glBindTexture(GL_TEXTURE_2D, mp->po->glID());
-
-        if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
-        {
-            if (mp_flags & M_ENVIRONMENT)
-            {
-                glEnable(GL_TEXTURE_GEN_S);
-                glEnable(GL_TEXTURE_GEN_T);
-
-                glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-                glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-            }
-        }
-    }
-    */
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    memcpy(mq, mp, sizeof(struct mtrl));
-    mq->base.fl = mp_flags;
-
 #ifdef T1 
     struct mtrl *mp = mtrl_get(mi);
     struct mtrl *mq = &rend->curr_mtrl;
@@ -1389,7 +1361,7 @@ void r_draw_enable(struct s_rend *rend)
 
 void r_draw_disable(struct s_rend *rend)
 {
-    r_apply_mtrl(rend, default_mtrl);
+    //r_apply_mtrl(rend, default_mtrl);
 
     //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     //glDisableClientState(GL_NORMAL_ARRAY);
