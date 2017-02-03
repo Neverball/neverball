@@ -565,8 +565,8 @@ void sol_back(const struct s_draw *draw,
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                 float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
+                //glMatrixMode(GL_MODELVIEW);
+                //glLoadIdentity();
                 glPushMatrix();
                 {
                     const int mi = draw->base->mtrls[rp->mi];
@@ -617,8 +617,8 @@ void sol_bill(const struct s_draw *draw,
         float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
         float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+        //glMatrixMode(GL_MODELVIEW);
+        //glLoadIdentity();
         glPushMatrix();
         {
             glTranslatef(rp->p[0], rp->p[1], rp->p[2]);

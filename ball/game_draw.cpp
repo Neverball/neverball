@@ -402,7 +402,11 @@ void game_draw(struct game_draw *gd, int pose, float t)
             eye = *(glm::vec3 *)view->p;
             target = *(glm::vec3 *)view->c;
 
+            //glPushMatrix();
+            //glTranslatef(eye.x, eye.y, eye.z);
             game_draw_back(&rend, gd, pose, +1, t);
+            //glPopMatrix();
+
             game_draw_light(gd, 1, t);
             game_refl_all(&rend, gd);
             game_draw_fore(&rend, gd, pose, T, +1, t);
