@@ -372,8 +372,7 @@ void main() {
         if (spic > 0.0f && random() < spic) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
-            
-            //if (newRay.params.w < 1) {
+            if (newRay.params.w < 1) {
 
                 if (shadowed) {
                     //emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, trns, false);
@@ -394,14 +393,14 @@ void main() {
                 }
 
             } 
-
-            //else {
-            //    if (atrns > 0.0f && random() < atrns) {
-            //        newRay = promised(newRay, hit, normal);
-            //    } else {
-            //        newRay = emissive(newRay, hit, tx.xyz, normal);
-            //    }
-            //}
+            else {
+                if (atrns > 0.0f && random() < atrns) {
+                    newRay = promised(newRay, hit, normal);
+                } else {
+                    newRay = emissive(newRay, hit, tx.xyz, normal);
+                }
+            }
+        }
     }
 
 #endif
