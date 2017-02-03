@@ -29,26 +29,38 @@ void main()
     if (ray.actived < 1) return;
     
     Hit hit = fetchHitDirect(t);
-    if (ray.params.y <= 0) {
+
+    if (ray.params.w > 0 && ray.params.y <= 0) {
+        ray.final.xyz = ray.color.xyz / (lightUniform.lightRadius * lightUniform.lightRadius) * lightUniform.lightColor.xyz * 0.6f;
+        ray.actived = 0;
+
+        hit.triangle = 0;
+        hit.dist = 0.001f;
+        hit.materialID = -1;
+        hit.shaded = 1;
+    }
+    
+    if (ray.actived > 0 && ray.params.y <= 0) {
         ray.actived = 0;
         if (ray.params.w == 1) {
             ray.final = vec4(0.0f);
         }
     }
     
-    if (hit.shaded < 1) {
+    if (ray.actived > 0 && hit.shaded <= 0) {
         ray.actived = 0;
         ray.final = vec4(0.0f);
     }
 
-    ray.origin.xyz = fma(faceforward(hit.normal.xyz, ray.direct.xyz, -hit.normal.xyz), vec3(0.0001f), ray.origin.xyz);
-    ray.color.xyz = max(ray.color.xyz, vec3(0.0f));
-    ray.final = max(ray.final, vec4(0.0f));
-    
-    if (ray.actived == 1){
+    if (ray.actived > 0){
         int act = int(atomicCounterIncrement(acounter));
         qrays[act] = t;
     }
     
+    ray.origin.xyz = fma(faceforward(hit.normal.xyz, ray.direct.xyz, -hit.normal.xyz), vec3(0.0001f), ray.origin.xyz);
+    ray.color.xyz = max(ray.color.xyz, vec3(0.0f));
+    ray.final = max(ray.final, vec4(0.0f));
+
+    storeHit(t, hit);
     storeRay(t, ray);
 }

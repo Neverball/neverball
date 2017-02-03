@@ -88,7 +88,7 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
     }
     
     bool reflfilter = ((mat.flags & M_REFLECTIVE) > 0 || (mat.flags & M_ENVIRONMENT) > 0) && (mat.flags & M_TRANSPARENT) < 1;
-    result.xyz = reflfilter ? ((mat.flags & M_REFLECTIVE) > 0 ? vec3(0.6) : vec3(0.2)) : vec3(0.0f);
+    result.xyz = reflfilter ? ((mat.flags & M_REFLECTIVE) > 0 ? vec3(0.5) : vec3(0.2)) : vec3(0.0f);
     
     //result = clamp(result, vec4(0.0f), vec4(1.0f));
     return result;
@@ -165,34 +165,37 @@ vec3 glossy(in vec3 dir, in vec3 normal, in float refli) {
 }
 
 Ray reflection(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in float glossiness){
-    newRay.direct.xyz = reflect(newRay.direct.xyz, normal);
-    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
     if (newRay.params.w < 1) {
+        newRay.direct.xyz = reflect(newRay.direct.xyz, normal);
+        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
         newRay.extended.x = 0;
+        
+        newRay.params.y = min(1, newRay.params.y); //for Debugging only
     }
-    
-    newRay.params.y = min(1, newRay.params.y); //for Debugging only
     return newRay;
 }
 
 Ray refraction(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in float inior, in float outior, in float glossiness){
-    newRay.direct.xyz = normalize(  glossy(refract(newRay.direct.xyz, normal, inior / outior), -normal, glossiness)   );
-    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
-    
+    if (newRay.params.w < 1) {
+        newRay.direct.xyz = normalize(  glossy(refract(newRay.direct.xyz, normal, inior / outior), -normal, glossiness)   );
+        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    }
+
     if (abs(inior - outior) < 0.0001f || newRay.params.w < 1) {
         newRay.params.y += 1;
     } else {
         newRay.extended.x = 0;
     }
+    
     return newRay;
 }
 
 Ray diffuse(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
-    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
-    newRay.direct.xyz = randomCosine(normal);
-    newRay.params.y = min(2, newRay.params.y);
-    newRay.params.z = 1;
     if (newRay.params.w < 1) {
+        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+        newRay.direct.xyz = randomCosine(normal);
+        newRay.params.y = min(2, newRay.params.y);
+        newRay.params.z = 1;
         newRay.extended.x = 0;
     }
     return newRay;
@@ -213,7 +216,6 @@ Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
         newRay.final = max(newRay.final, vec4(0.0f));
         newRay.color.xyz = vec3(0.0f);
         newRay.actived = 0;
-        newRay.params.y += 1;
         newRay.extended.x = 1;
     }
     return newRay;
@@ -223,39 +225,41 @@ Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
     if (newRay.params.w < 1) {
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = clamp(dot(normalize(ldiff), normal), 0.4f, 1.0f);
+        float intensivity = clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f);
     
         newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone * intensivity, vec3(0.0f));
         newRay.final = max(newRay.final, vec4(0.0f));
         newRay.color.xyz = vec3(0.0f);
         newRay.actived = 0;
-        newRay.params.y += 1;
         newRay.extended.x = 1;
     }
     return newRay;
 }
 
-
-
 int applyLight(in Ray directRay, inout Ray newRay, in Hit hit, in vec3 normal){
-    newRay.params.x = createRay(directRay);
-    newRay.extended.x = 1;
-    storeHit(newRay.params.x, hit);
-    return newRay.params.x;
+    if(newRay.params.w < 1){
+        newRay.params.x = createRay(directRay);
+        newRay.extended.x = 1;
+        storeHit(newRay.params.x, hit);
+        return newRay.params.x;
+    }
+    return -1;
 }
 
-int emitRay(in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
-    if(additive){
-        directRay.final.w *= 0.0f;
-    } else {
-        directRay.final.w *= coef;
-        directRay.color.xyz *= coef;
-        directRay.final.xyz *= coef;
+int emitRay(in Ray originRay, in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
+    if(originRay.params.w < 1){
+        if(additive){
+            directRay.final.w *= 0.0f;
+        } else {
+            directRay.final.w *= coef;
+            directRay.color.xyz *= coef;
+            directRay.final.xyz *= coef;
+        }
+        int ps = createRay(directRay);
+        storeHit(ps, hit);
+        return ps;
     }
-
-    int ps = createRay(directRay);
-    storeHit(ps, hit);
-    return ps;
+    return -1;
 }
 
 vec3 sLight(){
@@ -264,18 +268,22 @@ vec3 sLight(){
 }
 
 Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
-    directRay.params.y = min(1, directRay.params.y);
-    directRay.actived = 1;
-    directRay.params.w = 1;
-    directRay.direct.xyz = normalize(sLight() - directRay.origin.xyz);
-    directRay.extended.x = 0;
-    
-    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
-    vec3 ldiff = lightCenter - directRay.origin.xyz;
-    
-    float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f), 0.0f);
-    directRay.color.xyz *= color * intensivity;
-    directRay.final.w *= intensivity;
+    if (directRay.params.w < 1) {
+
+        directRay.params.y = 1;
+        directRay.actived = 1;
+        directRay.params.w = 1;
+        directRay.direct.xyz = normalize(sLight() - directRay.origin.xyz);
+        directRay.extended.x = 0;
+        
+        vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+        vec3 ldiff = lightCenter - directRay.origin.xyz;
+        
+        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.6f, 1.0f), 0.0f);
+        directRay.color.xyz *= color * intensivity;
+        directRay.final.w *= intensivity;
+    }
+
     return directRay;
 }
 
@@ -292,6 +300,8 @@ void main() {
     if (hit.shaded > 0 || hit.dist >= INFINITY) return;
     
     uint l = gl_LocalInvocationID.x;
+    if (hit.materialID < 0) return;
+    
     Submat material = submats[hit.materialID];
     
     hit.shaded = 1;
@@ -342,48 +352,58 @@ void main() {
     bool shadowed = (material.flags & M_SHADOWED) > 0 && (material.flags & M_ENVIRONMENT) < 1;
     
     if (trns > 0.999f && !isAdditive) {
-        if(shadowed){
-            emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
+
+        if (shadowed) {
+            //emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
+            emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
         } else {
-            emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
+            emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
         }
         
         newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         newRay.final *= spic;
         newRay.color.xyz *= spic;
+
+        if (newRay.final.w < 0.0001f && newRay.params.w < 1) {
+            newRay.actived = 0;
+        }
+
     } else {
         if (spic > 0.0f && random() < spic) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
-            if(shadowed){
-                emitRay(lighted(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
-            } else {
-                emitRay(emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
-            }
+            
+            //if (newRay.params.w < 1) {
 
-            newRay = promised(newRay, hit, normal);
+                if (shadowed) {
+                    //emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, trns, false);
+                    emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, trns, false);
+                } else {
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
+                }
 
-            if (isAdditive){
-                //newRay.final.w *= 1.0f;
-                //newRay.color.xyz *= 1.0f;
-            } else {
-                newRay.final.w *= atrns;
-                newRay.color.xyz *= atrns;
-            }
-        }
+                newRay = promised(newRay, hit, normal);
+
+                if (!isAdditive){
+                    newRay.final.w *= atrns;
+                    newRay.color.xyz *= atrns;
+
+                    if (newRay.final.w < 0.0001f) {
+                        newRay.actived = 0;
+                    }
+                }
+
+            } 
+
+            //else {
+            //    if (atrns > 0.0f && random() < atrns) {
+            //        newRay = promised(newRay, hit, normal);
+            //    } else {
+            //        newRay = emissive(newRay, hit, tx.xyz, normal);
+            //    }
+            //}
     }
-    
-    if (newRay.final.w < 0.0001f && !isAdditive) {
-        newRay.actived = 0;
-    }
-    
-    //newRay.final.xyz = hit.normal.xyz * 0.5f + 0.5f;
-    //newRay.actived = 0;
 
-    //newRay.final.w *= prom;
-    //newRay.color.xyz *= prom;
-    //newRay.final.xyz *= prom;
-    
 #endif
 
     storeHit(t, hit);
