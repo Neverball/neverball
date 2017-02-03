@@ -437,8 +437,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
             glcontext->cullFace(pgl::Cullface::Back);
             glcontext->enable(pgl::Feature::Blend);
             glcontext->disable(pgl::Feature::DepthTest);
-
-            glColor4d(1, 1, 1, 1);
         }
         video_pop_matrix();
 
