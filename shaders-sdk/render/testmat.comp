@@ -214,7 +214,6 @@ Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
     
         newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
         newRay.final = max(newRay.final, vec4(0.0f));
-        newRay.color.xyz = vec3(0.0f);
         newRay.actived = 0;
         newRay.extended.x = 1;
     }
@@ -231,7 +230,6 @@ Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
         newRay.final.xyz = newRay.final.xyz / (lightUniform.lightRadius * lightUniform.lightRadius) * lightUniform.lightColor.xyz;
 
         newRay.final = max(newRay.final, vec4(0.0f));
-        newRay.color.xyz = vec3(0.0f);
         newRay.actived = 0;
         newRay.extended.x = 1;
     }
@@ -283,11 +281,11 @@ Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
         
         /*
         float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f), 0.0f);
-        directRay.color.xyz *= color * intensivity;
+        directRay.color.xyz *= pow(color, vec3(GAMMA)) * intensivity;
         directRay.final.w *= intensivity;
         */
         
-        directRay.color.xyz *= color * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
+        directRay.color.xyz *= pow(color, vec3(GAMMA)) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
     }
 
     return directRay;

@@ -42,7 +42,8 @@ void main()
         texelInfo[idx].last = LONGEST;
         texelInfo[idx].count = 0;
 
-        vec2 coord = (vec2(xy) + clamp(vec2(random(), random()), vec2(0.0001f), vec2(0.9999f))) * sceneResInv;
+        //vec2 coord = (vec2(xy) + clamp(vec2(random(), random()), vec2(0.0001f), vec2(0.9999f))) * sceneResInv;
+        vec2 coord = (vec2(xy) + clamp(vec2(0.5f), vec2(0.0001f), vec2(0.9999f))) * sceneResInv;
         texelInfo[idx].x = coord.x;
         texelInfo[idx].y = coord.y;
         
