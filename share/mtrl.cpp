@@ -307,7 +307,7 @@ void mtrl_free(int mi)
 
                 if (mi < pmaterials->submats.size()) {
                     pmaterials->submats[mi] = PathTracer::Material::Submat();
-                    pmaterials->loadToVGA();
+                    //pmaterials->loadToVGA();
                 }
             }
         }
