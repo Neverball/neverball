@@ -3,5 +3,5 @@ ambient   0.4 0.2 0.0 1.0
 specular  0.5 0.5 0.5 1.0
 emissive  0.0 0.0 0.0 1.0
 shininess 50.0
-flags     clamp-s clamp-t
+flags     clamp-s clamp-t transparent
 angle     45.0

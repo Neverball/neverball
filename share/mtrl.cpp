@@ -287,8 +287,8 @@ int mtrl_cache(const struct b_mtrl *base)
         mp->refc++;
     }
 
-    //return pt_cache_texture(mi, mp);
-    return mi;
+    return pt_cache_texture(mi, mp);
+    //return mi;
 }
 
 /*
