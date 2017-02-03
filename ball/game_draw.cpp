@@ -189,13 +189,6 @@ static void game_draw_light(const struct game_draw *gd, int d, float t)
     p[1] = 0.0f;
     p[2] = sinf(t);
     p[3] = 0.0f;
-
-    glLightfv(GL_LIGHT2, GL_POSITION, p);
-
-    /* Enable scene lights. */
-
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
 }
 
 static void game_draw_back(struct s_rend *rend,
@@ -292,17 +285,9 @@ static void game_draw_fore(struct s_rend *rend,
 
     glPushMatrix();
     {
-        /* Rotate the environment about the position of the ball. */
-
         game_draw_tilt(gd, d);
-
-        /* Compute clipping planes for reflection and ball facing. */
-
         game_clip_refl(d);
         game_clip_ball(gd, d, ball_p);
-
-        if (d < 0)
-            glEnable(GL_CLIP_PLANE0);
 
         switch (pose)
         {
@@ -313,66 +298,24 @@ static void game_draw_fore(struct s_rend *rend,
         case POSE_BALL:
             if (curr_tex_env == &tex_env_pose)
             {
-                /*
-                 * We need the check above because otherwise the
-                 * active texture env is set up in a way that makes
-                 * level geometry visible, and we don't want that.
-                 */
-
-                glDepthMask(GL_FALSE);
                 sol_draw(draw, rend, 0, 1);
-                glDepthMask(GL_TRUE);
             }
             game_draw_balls(rend, draw->vary, M, t);
             break;
 
         case POSE_NONE:
-            /* Draw the coins. */
-
             game_draw_items(rend, draw->vary, M, t);
-
-            /* Draw the floor. */
-
             sol_draw(draw, rend, 0, 1);
-
-            /* Draw the ball. */
-
             game_draw_balls(rend, draw->vary, M, t);
-
             break;
         }
 
+        sol_bill(draw, rend, M, t);
+        game_draw_beams(rend, gd);
+        part_draw_coin(rend);
+        game_draw_goals(rend, gd, t);
+        game_draw_jumps(rend, gd, t);
 
-        glDepthMask(GL_FALSE);
-        {
-            /* Draw the billboards, entity beams, and coin particles. */
-
-            glDisable(GL_LIGHTING);
-            {
-                sol_bill(draw, rend, M, t);
-
-                game_draw_beams(rend, gd);
-                part_draw_coin(rend);
-            }
-            //glEnable(GL_LIGHTING);
-
-            /* Draw the entity particles using only the sparkle light. */
-
-            glDisable(GL_LIGHT0);
-            glDisable(GL_LIGHT1);
-            glEnable (GL_LIGHT2);
-            {
-                game_draw_goals(rend, gd, t);
-                game_draw_jumps(rend, gd, t);
-            }
-            glDisable(GL_LIGHT2);
-            glEnable (GL_LIGHT1);
-            glEnable (GL_LIGHT0);
-        }
-        glDepthMask(GL_TRUE);
-
-        if (d < 0)
-            glDisable(GL_CLIP_PLANE0);
     }
     glPopMatrix();
 }
@@ -428,98 +371,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
         game_shadow_conf(pose, 1);
         r_draw_enable(&rend);
 
-#ifdef T1
-        video_push_persp(fov, 0.1f, FAR_DIST);
-        glPushMatrix();
-        {
-            float T[16], U[16], M[16], v[3];
-
-            /* Compute direct and reflected view bases. */
-
-            v[0] = +view->p[0];
-            v[1] = -view->p[1];
-            v[2] = +view->p[2];
-
-            video_calc_view(T, view->c, view->p, view->e[1]);
-            video_calc_view(U, view->c, v,       view->e[1]);
-
-            m_xps(M, T);
-
-            /* Apply the current view. */
-
-            v_sub(v, view->c, view->p);
-
-            glTranslatef(0.f, 0.f, -v_len(v));
-            glMultMatrixf(M);
-            glTranslatef(-view->c[0], -view->c[1], -view->c[2]);
-
-            /* Draw the background. */
-
-            game_draw_back(&rend, gd, pose, +1, t);
-
-            /* Draw the reflection. */
-
-            if (gd->draw.reflective && config_get_d(CONFIG_REFLECTION))
-            {
-                glEnable(GL_STENCIL_TEST);
-                {
-                    glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFF);
-                    glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-                    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-                    glDepthMask(GL_FALSE);
-
-                    game_refl_all(&rend, gd);
-
-                    glDepthMask(GL_TRUE);
-                    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-                    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-                    glStencilFunc(GL_EQUAL, 1, 0xFFFFFFFF);
-
-                    glFrontFace(GL_CW);
-                    glPushMatrix();
-                    {
-                        glScalef(+1.0f, -1.0f, +1.0f);
-
-                        game_draw_light(gd, -1, t);
-
-                        game_draw_back(&rend, gd, pose,    -1, t);
-                        game_draw_fore(&rend, gd, pose, U, -1, t);
-                    }
-                    glPopMatrix();
-                    glFrontFace(GL_CCW);
-
-                    glStencilFunc(GL_ALWAYS, 0, 0xFFFFFFFF);
-                }
-                glDisable(GL_STENCIL_TEST);
-            }
-
-            /* Ready the lights for foreground rendering. */
-
-            game_draw_light(gd, 1, t);
-
-            /* When reflection is disabled, mirrors must be rendered opaque  */
-            /* to prevent the background from showing.                       */
-
-            if (gd->draw.reflective && !config_get_d(CONFIG_REFLECTION))
-            {
-                r_color_mtrl(&rend, 1);
-                {
-                    glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
-                    game_refl_all(&rend, gd);
-                    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-                }
-                r_color_mtrl(&rend, 0);
-            }
-
-            /* Draw the mirrors and the rest of the foreground. */
-
-            game_refl_all (&rend, gd);
-            game_draw_fore(&rend, gd, pose, T, +1, t);
-        }
-        glPopMatrix();
-        video_pop_matrix();
-#endif
-
         glm::vec3 eye = glm::vec3(0.0f);
         glm::vec3 target = glm::vec3(1.0f, 0.0f, -1.0f);
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -533,12 +384,11 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glUseProgram(0);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        //video_push_persp(fov, 0.1f, FAR_DIST);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
         glPushMatrix();
         {
             float T[16], U[16], M[16], v[3];
-
-            /* Compute direct and reflected view bases. */
 
             v[0] = +view->p[0];
             v[1] = -view->p[1];
@@ -550,32 +400,17 @@ void game_draw(struct game_draw *gd, int pose, float t)
             m_xps(M, T);
 
             eye = *(glm::vec3 *)view->p;
-            target = *(glm::vec3 *)view->c;//*(glm::vec3 *)view->p - *(glm::vec3 *)v;
+            target = *(glm::vec3 *)view->c;
 
-            /* Apply the current view. */
-
-            //v_sub(v, view->c, view->p);
-
-            //glTranslatef(0.f, 0.f, -v_len(v));
-            //glMultMatrixf(M);
-            //glTranslatef(-view->c[0], -view->c[1], -view->c[2]);
-
-            /* Draw the background. */
-
-            //r_apply_mtrl(&rend, default_mtrl);
             game_draw_back(&rend, gd, pose, +1, t);
             game_draw_light(gd, 1, t);
             game_refl_all(&rend, gd);
             game_draw_fore(&rend, gd, pose, T, +1, t);
-            
         }
         glPopMatrix();
-        //video_pop_matrix();
 
         glEnable(GL_TEXTURE_2D);
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
-
-        //pmaterials->loadToVGA();
         ptracer->camera(eye, target, persp);
 
         for (int j = 0;j < 16;j++) {
@@ -609,6 +444,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glBindVertexArray(0);
         glUseProgram(0);
+        glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4d(1, 1, 1, 1);
 

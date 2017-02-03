@@ -208,7 +208,8 @@ static void draw_enable(GLboolean c, GLboolean u, GLboolean p)
 
 static void draw_rect(int id)
 {
-    glDrawElements(GL_TRIANGLE_STRIP, RECT_ELEM, GL_UNSIGNED_SHORT, (const GLvoid *) (id * WIDGET_ELEM * sizeof (GLushort)));
+    glDrawElements(GL_TRIANGLE_STRIP, RECT_ELEM, GL_UNSIGNED_SHORT,
+                   (const GLvoid *) (id * WIDGET_ELEM * sizeof (GLushort)));
 }
 
 static void draw_text(int id)
@@ -1706,7 +1707,6 @@ static void gui_paint_text(int id)
 
 void gui_paint(int id)
 {
-//#ifdef T1
     if (id)
     {
         video_push_ortho();
@@ -1731,7 +1731,6 @@ void gui_paint(int id)
         }
         video_pop_matrix();
     }
-//#endif
 }
 
 /*---------------------------------------------------------------------------*/

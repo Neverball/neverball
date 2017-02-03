@@ -65,7 +65,7 @@ void main() {
     }
     
     if ((hit.dist >= INFINITY /*|| hit.triangle == LONGEST*/) && ray.params.w < 1) {
-        ray.final.xyz = ray.color.xyz * /*pow(texture(cubeTex, ray.direct.xyz).xyz, vec3(GAMMA))*/vec3(1.0f);
+        ray.final.xyz = ray.color.xyz * /*pow(texture(cubeTex, ray.direct.xyz).xyz, vec3(GAMMA))*/vec3(0.0f);
         
         //ray.final.xyz = ray.color.xyz;
         ray.actived = 0;

@@ -3,17 +3,6 @@
 }
 {
 "classname" "info_null"
-"image" "png/t0"
-"height" "1.0"
-"width" "1.0"
-"flag" "0"
-"dist" "0"
-"xrot" "0"
-"yrot" "0"
-"xrot" "0"
-}
-{
-"classname" "info_null"
 "image"     "png/mount1"
 "width"     "  +150.00000     +0.00000     +0.00000"
 "height"    "   +20.00000     +0.00000     +0.00000"
