@@ -187,8 +187,8 @@ namespace PathTracer {
             height = h;
 
             pgl::intv wrsize = width * height;
-            rays = context->createBuffer<Ray>()->storage(wrsize * 8);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
-            hits = context->createBuffer<Hit>()->storage(wrsize * 8);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            rays = context->createBuffer<Ray>()->storage(wrsize * 12);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            hits = context->createBuffer<Hit>()->storage(wrsize * 12);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             activel = context->createBuffer<pgl::intv>()->storage(wrsize * 8);
             activenl = context->createBuffer<pgl::intv>()->storage(wrsize * 8);
             texels = context->createBuffer<Texel>()->storage(wrsize);
@@ -218,10 +218,10 @@ namespace PathTracer {
         pgl::intv raycountCache = 0;
         pgl::intv qraycountCache = 0;
 
-        glm::vec4 lightColor = glm::vec4(glm::vec3(2000.0f), 1.0f);
+        glm::vec4 lightColor = glm::vec4(glm::vec3(3000.0f), 1.0f);
         glm::vec4 lightVector = glm::vec4(0.1f, 1.0f, 0.1f, 1.0f);
-        pgl::floatv lightDistance = 40.0f;
-        pgl::floatv lightRadius = 1.0f;
+        pgl::floatv lightDistance = 50.0f;
+        pgl::floatv lightRadius = 5.0f;
 
         Tracer(pgl::Context ctx, CLTracerAPI api) { 
             context = ctx;  

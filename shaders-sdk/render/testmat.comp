@@ -281,7 +281,7 @@ Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
         vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
         vec3 ldiff = lightCenter - directRay.origin.xyz;
         
-        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.6f, 1.0f), 0.0f);
+        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f), 0.0f);
         directRay.color.xyz *= color * intensivity;
         directRay.final.w *= intensivity;
     }
@@ -353,11 +353,22 @@ void main() {
     bool isAdditive = (material.flags & M_ADDITIVE) > 0;
     bool shadowed = (material.flags & M_SHADOWED) > 0;
     
+    const float shadowIntense = 0.0f;
+    const float unShadowIntense = 1.0f - shadowIntense;
+    
     if (trns > 0.999f && !isAdditive) {
 
         if (shadowed) {
-            //emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
-            emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
+            if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic) * unShadowIntense, false);
+            if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic) * shadowIntense, false);
+
+            //if (unShadowIntense > 0.0f && random() < unShadowIntense){
+            //    emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic), false);
+            //} else {
+            //    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic), false);
+            //}
+
+            //emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic), false);
         } else {
             emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
         }
@@ -377,8 +388,16 @@ void main() {
             if (newRay.params.w < 1) {
 
                 if (shadowed) {
-                    //emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, trns, false);
-                    emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, trns, false);
+                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
+                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
+
+                    //if (unShadowIntense > 0.0f && random() < unShadowIntense){
+                    //    emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns), false);
+                    //} else {
+                    //    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns), false);
+                    //}
+
+                    //emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, (trns), false);
                 } else {
                     emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
                 }

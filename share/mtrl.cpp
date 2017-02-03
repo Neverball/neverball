@@ -55,7 +55,7 @@ static struct b_mtrl default_base_mtrl =
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
-    { 0.0f }, 0.0f, 0, ""
+    { 0.0f }, 0.0f, M_ADDITIVE, ""
 };
 
 int default_mtrl;
@@ -202,13 +202,16 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 int pt_cache_texture(const int mi, const struct mtrl *mp) {
-    if (!mp) {
+    if (!mp || mi < 0) {
         return mi;
     }
 
     PathTracer::Material::Submat submat;
     if (mp->po != nullptr) {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
+    }
+    else {
+        submat.diffusePart = 0xFFFFFFFFFFFFFFFF;
     }
 
     const struct b_mtrl *base = &mp->base;
@@ -272,7 +275,8 @@ int mtrl_cache(const struct b_mtrl *base)
             memset(mp, 0, sizeof (*mp));
             load_mtrl(mp, base);
             mp->refc++;
-            return pt_cache_texture(array_len(mtrls) - 1, mp);
+            mi = array_len(mtrls) - 1;
+            return pt_cache_texture(mi, mp);
             //return array_len(mtrls) - 1;
         }
     }
@@ -300,6 +304,7 @@ void mtrl_free(int mi)
 
             if (mp->refc == 0) {
                 free_mtrl(mp);
+
                 if (mi < pmaterials->submats.size()) {
                     pmaterials->submats[mi] = PathTracer::Material::Submat();
                     pmaterials->loadToVGA();

@@ -68,5 +68,5 @@ void main(){
     
     vec4 xsample = imageLoad(samples, xyl.xy) + newc;
     imageStore(samples, xyl.xy, xsample);
-    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 1.0f), 1.0f));
+    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 0.99f), 1.0f));
 }

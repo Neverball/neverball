@@ -26,10 +26,10 @@ namespace PathTracer {
             pgl::floatv s1;
             pgl::floatv s2;
 
-            pgl::uint64v diffusePart = -1;
-            pgl::uint64v specularPart = -1;
-            pgl::uint64v bumpPart = -1;
-            pgl::uint64v emissivePart = -1;
+            pgl::uint64v diffusePart = 0xFFFFFFFFFFFFFFFF;
+            pgl::uint64v specularPart = 0xFFFFFFFFFFFFFFFF;
+            pgl::uint64v bumpPart = 0xFFFFFFFFFFFFFFFF;
+            pgl::uint64v emissivePart = 0xFFFFFFFFFFFFFFFF;
 
             int flags = 0;
             int nkvd0 = 0;
