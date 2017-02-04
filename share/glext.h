@@ -23,13 +23,6 @@
 #include <windows.h>
 #endif
 
-#if ENABLE_OPENGLES
-#include <GLES/gl.h>
-#else
-#include <GL/glew.h>
-#endif
-
-
 #include "phantom/phantom.hpp"
 #include "tracer/includes.hpp""
 #include "tracer/utils.hpp"

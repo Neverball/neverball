@@ -50,6 +50,7 @@
     <ClCompile Include="..\..\ball\st_start.cpp" />
     <ClCompile Include="..\..\ball\st_title.cpp" />
     <ClCompile Include="..\..\ball\util.cpp" />
+    <ClCompile Include="..\..\glad\glad.cpp" />
     <ClCompile Include="..\..\share\array.cpp" />
     <ClCompile Include="..\..\share\audio.cpp" />
     <ClCompile Include="..\..\share\ball.cpp" />
@@ -125,6 +126,8 @@
     <ClInclude Include="..\..\ball\st_start.h" />
     <ClInclude Include="..\..\ball\st_title.h" />
     <ClInclude Include="..\..\ball\util.h" />
+    <ClInclude Include="..\..\glad\glad.h" />
+    <ClInclude Include="..\..\glad\khrplatform.h" />
     <ClInclude Include="..\..\share\array.h" />
     <ClInclude Include="..\..\share\audio.h" />
     <ClInclude Include="..\..\share\ball.h" />

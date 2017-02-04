@@ -22,6 +22,9 @@
     <Filter Include="Файлы исходного кода\tracer">
       <UniqueIdentifier>{8768e6c8-eb05-47a1-bf87-0f70209b042e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\glad">
+      <UniqueIdentifier>{2cca8c96-120e-4e49-995f-7a195e74c57b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ball\demo.cpp">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="..\..\share\video.cpp">
       <Filter>Файлы исходного кода\share</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\glad\glad.cpp">
+      <Filter>Файлы исходного кода\glad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +499,12 @@
     </ClInclude>
     <ClInclude Include="..\..\tracer\utils.hpp">
       <Filter>Файлы исходного кода\tracer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\glad\glad.h">
+      <Filter>Файлы исходного кода\glad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\glad\khrplatform.h">
+      <Filter>Файлы исходного кода\glad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
