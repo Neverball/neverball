@@ -326,19 +326,11 @@ void back_init(const char *name)
     if (sol_load_full(&back, "geom/back/back.sol", 0))
     {
         struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
-        mp->o = make_image_from_file(name, IF_MIPMAP);
         mp->po = make_image_from_file_pgl(name, IF_MIPMAP);
 
-
-        glBindTexture(GL_TEXTURE_2D, mp->o);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-
         if (mp->po) {
-            glBindTexture(GL_TEXTURE_2D, mp->po->glID());
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            mp->po->wrap<0>(pgl::TextureWrap::Repeat);
         }
-
-        glBindTexture(GL_TEXTURE_2D, 0);
 
         pt_cache_texture(back.base.mtrls[0], mp);
         back_state = 1;

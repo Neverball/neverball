@@ -1,0 +1,50 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+#extension GL_ARB_gpu_shader_int64 : require
+
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
+layout(std430, binding = 0)buffer ssbo0 { uint64_t source[];};
+layout(std430, binding = 1)buffer ssbo1 { uint64_t destination[];};
+
+uniform uint size;
+uniform uint direction;
+uniform uint subStage;
+uniform uint stage;
+
+void main(){
+    uint threadId = gl_GlobalInvocationID . x;
+    uint sortIncreasing = direction;
+
+    uint distanceBetweenPairs = 1 <<(stage - subStage);
+    uint blockWidth = distanceBetweenPairs << 1;
+
+    uint leftId =(threadId % distanceBetweenPairs)+(threadId / distanceBetweenPairs)* blockWidth;
+    uint rightId = leftId + distanceBetweenPairs;
+
+    uint64_t leftElement = source[leftId];
+    uint64_t rightElement = source[rightId];
+    uint sameDirectionBlockWidth = 1 << stage;
+
+    if((threadId / sameDirectionBlockWidth)% 2 == 1)sortIncreasing = 1 - sortIncreasing;
+
+    uint64_t greater;
+    uint64_t lesser;
+
+    if(leftElement > rightElement){
+        greater = leftElement;
+        lesser = rightElement;
+    } else {
+        greater = rightElement;
+        lesser = leftElement;
+    }
+
+    if(sortIncreasing > 0){
+        source[leftId]= lesser;
+        source[rightId]= greater;
+    } else {
+        source[leftId]= greater;
+        source[rightId]= lesser;
+    }
+}

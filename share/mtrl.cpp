@@ -129,37 +129,25 @@ static void load_mtrl_objects(struct mtrl *mp)
 {
     /* Make sure not to leak an already loaded object. */
 
-    if (mp->o) return;
+    if (mp->po) return;
 
     /* Load the texture. */
 
-    if ((mp->o = find_texture(_(mp->base.f))))
+    if (mp->po = find_texture_pt(_(mp->base.f)))
     {
-        mp->po = find_texture_pt(_(mp->base.f));
-
-        /* Set the texture to clamp or repeat based on material type. */
-
-
         if (mp->base.fl & M_CLAMP_S) {
             mp->po->wrap<0>(pgl::TextureWrap::ClampToEdge);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         }
         else {
             mp->po->wrap<0>(pgl::TextureWrap::Repeat);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         }
 
         if (mp->base.fl & M_CLAMP_T) {
             mp->po->wrap<1>(pgl::TextureWrap::ClampToEdge);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         } 
         else {
             mp->po->wrap<1>(pgl::TextureWrap::Repeat);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         }
-    }
-    else {
-        mp->po = nullptr;
     }
 }
 
@@ -168,11 +156,8 @@ static void load_mtrl_objects(struct mtrl *mp)
  */
 static void free_mtrl_objects(struct mtrl *mp)
 {
-    if (mp->o)
+    if (mp->po)
     {
-        glDeleteTextures(1, &mp->o);
-
-        mp->o = 0;
         mp->po = 0;
     }
 }
@@ -208,7 +193,7 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
 
     const struct b_mtrl *base = &mp->base;
     PathTracer::Material::Submat submat;
-    if (mp->po != nullptr && mp->base.f != "default" && mp->base.f != "") {
+    if (mp->po && mp->base.f != "default" && mp->base.f != "") {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
     }
     else {
@@ -308,7 +293,7 @@ void mtrl_free(int mi)
 
                 if (mi < pmaterials->submats.size()) {
                     pmaterials->submats[mi] = PathTracer::Material::Submat();
-                    //pmaterials->loadToVGA();
+                    pmaterials->loadToVGA();
                 }
             }
         }
@@ -321,7 +306,6 @@ void mtrl_free(int mi)
 struct mtrl *mtrl_get(int mi)
 {
     mtrl * mp = (mtrl *)(mtrls ? array_get(mtrls, mi) : NULL);
-    //pt_cache_texture(mi, mp);
     return mp;
 }
 
@@ -384,7 +368,7 @@ void mtrl_reload(void)
             {
                 free_mtrl(mp);
                 load_mtrl(mp, &base);
-                //pt_cache_texture(i, mp);
+                pt_cache_texture(i, mp);
             }
         }
     }
@@ -403,7 +387,7 @@ void mtrl_load_objects(void)
 
         if (mp->refc > 0) {
             load_mtrl_objects(mp);
-            //pt_cache_texture(i, mp);
+            pt_cache_texture(i, mp);
         }
     }
 }
