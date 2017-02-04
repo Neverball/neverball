@@ -26,6 +26,6 @@ void main() {
 
     float empty = 0.0f;
     vec4 color = texture(samples, texcoord);
-    outFragColor = vec4(pow(color.xyz, vec3(1.0f / GAMMA)), color.w);
+    outFragColor = vec4(pow(clamp(color.xyz, vec3(0.0f), vec3(1.0f)), vec3(1.0f / GAMMA)), color.w);
     //outFragColor = vec4(0.5f, 0.0f, 0.0f, 1.0f);
 }

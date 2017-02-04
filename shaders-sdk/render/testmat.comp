@@ -372,7 +372,7 @@ void main() {
 
             //emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic), false);
         } else {
-            emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, false);
+            emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, 1.0f - spic, isAdditive);
         }
         
         newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
@@ -401,7 +401,7 @@ void main() {
 
                     //emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, (trns), false);
                 } else {
-                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? vec3(tx.a) : vec3(1.0f)), normal), hit, normal, trns, isAdditive);
                 }
 
                 newRay = promised(newRay, hit, normal);
