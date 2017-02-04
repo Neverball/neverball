@@ -606,7 +606,7 @@ void sol_bill(const struct s_draw *draw,
 
     int ri;
 
-    for (ri = 0; ri < draw->base->rc; ++ri)
+    for (ri = draw->base->rc - 1;ri >= 0;ri--)
     {
         const struct b_bill *rp = draw->base->rv + ri;
 
