@@ -355,7 +355,7 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         glGetFloatv(GL_CURRENT_COLOR, (float *)&cmod);
 
         meshloader->setColorModifier(cmod);
-        meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.001f : 0.0f);
+        meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.002f : 0.0f);
         meshloader->setMaterialOffset(mp->mtrl);
         meshloader->setVertices(mp->vertBuf);
         meshloader->setTexcoords(mp->texBuf);
@@ -374,6 +374,8 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
             meshloader->setIndexed(true);
             currentIntersector->loadMesh(meshloader);
         }
+
+        meshloader->setVerticeOffset(0.0f);
 
     }
 }
