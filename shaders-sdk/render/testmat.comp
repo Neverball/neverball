@@ -250,6 +250,8 @@ int emitRay(in Ray originRay, in Ray directRay, in Hit hit, in vec3 normal, in f
     if(originRay.params.w < 1){
         if(additive){
             directRay.final.w *= 0.0f;
+            directRay.color.xyz *= coef;
+            directRay.final.xyz *= coef;
         } else {
             directRay.final.w *= coef;
             directRay.color.xyz *= coef;
@@ -400,8 +402,9 @@ void main() {
                     //}
 
                     //emitRay(newRay, lighted(newRay, hit, tx.xyz, normal), hit, normal, (trns), false);
-                } else {
-                    emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? vec3(tx.a) : vec3(1.0f)), normal), hit, normal, trns, isAdditive);
+                } else 
+                if (trns > 0.0f) {
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
                 }
 
                 newRay = promised(newRay, hit, normal);
