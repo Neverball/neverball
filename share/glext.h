@@ -32,7 +32,6 @@
 #include "tracer/mesh.hpp"
 #include "tracer/material.hpp"
 
-
 #ifndef APIENTRY
 #define APIENTRY
 #endif

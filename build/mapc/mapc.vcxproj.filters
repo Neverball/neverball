@@ -14,214 +14,101 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Файлы исходного кода\mapc">
-      <UniqueIdentifier>{0d5236f3-e5f4-4079-b299-3a54d887a230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы исходного кода\share">
-      <UniqueIdentifier>{cc56fba8-9b01-4577-9cc9-10a441de4b80}</UniqueIdentifier>
+      <UniqueIdentifier>{660d7d96-c735-4f51-a923-68ada5851111}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\share\vec3.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+    <ClCompile Include="..\..\share\mapc.cpp">
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\array.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\audio.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\base_image.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\base_config.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\base_image.cpp">
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\binary.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\cmd.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\common.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\config.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\tilt_null.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\text.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\solid_vary.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\solid_sim_sol.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\solid_base.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\solid_all.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\queue.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\mapc.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\log.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\list.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\lang.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\hmd_null.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\glsl.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\glext.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\fs_stdio.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\fs_rwops.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\fs_png.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\share\fs_ov.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\fs_jpg.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\fs_ov.cpp">
+      <Filter>Файлы исходного кода\mapc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\fs_png.cpp">
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\fs_common.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\share\font.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+    <ClCompile Include="..\..\share\fs_physfs.cpp">
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\share\fbo.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+    <ClCompile Include="..\..\share\solid_base.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\..\share\dir.cpp">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\vec3.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\list.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\share\array.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\audio.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\base_config.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\base_image.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\binary.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\cmd.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\common.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\config.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\dir.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\fbo.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\font.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\fs.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\fs_jpg.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\fs_ov.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\fs_png.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\fs_rwops.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\glext.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\glsl.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\hmd.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\lang.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\list.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\log.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\queue.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\solid_all.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\solid_base.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\share\solid_sim.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\solid_vary.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\text.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\tilt.h">
-      <Filter>Файлы исходного кода\share</Filter>
+    <ClInclude Include="..\..\share\dir.h">
+      <Filter>Файлы исходного кода\mapc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\share\vec3.h">
-      <Filter>Файлы исходного кода\share</Filter>
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\share\version.h">
-      <Filter>Файлы исходного кода\share</Filter>
+    <ClInclude Include="..\..\share\list.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\share\version.in.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\share\video.h">
-      <Filter>Файлы исходного кода\share</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\share\Makefile">
-      <Filter>Файлы исходного кода\share</Filter>
-    </None>
   </ItemGroup>
 </Project>

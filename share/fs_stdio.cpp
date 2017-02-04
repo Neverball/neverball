@@ -136,7 +136,7 @@ static void add_files(List *items, const char *real)
             {
                 int cmp;
 
-                if ((cmp = strcmp(l->data, file->data)) >= 0)
+                if ((cmp = strcmp((char *)l->data, (char *)file->data)) >= 0)
                 {
                     skip = (cmp == 0);
                     break;
@@ -167,7 +167,7 @@ static List list_files(const char *path)
 
     for (p = fs_path; p; p = p->next)
     {
-        char *real = path_join(p->data, path);
+        char *real = path_join((char *)p->data, path);
         add_files(&files, real);
         free(real);
     }
@@ -203,7 +203,7 @@ static char *real_path(const char *path)
 
     for (p = fs_path; p; p = p->next)
     {
-        real = path_join(p->data, path);
+        real = path_join((char *)p->data, path);
 
         if (file_exists(real))
             break;
@@ -224,7 +224,7 @@ fs_file fs_open(const char *path, const char *mode)
     assert((mode[0] == 'r' && !mode[1]) ||
            (mode[0] == 'w' && (!mode[1] || mode[1] == '+')));
 
-    if ((fh = malloc(sizeof (*fh))))
+    if ((fh = (fs_file)malloc(sizeof (*fh))))
     {
         char *real;
 
