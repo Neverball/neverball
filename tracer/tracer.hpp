@@ -187,8 +187,8 @@ namespace PathTracer {
             height = h;
 
             pgl::intv wrsize = width * height;
-            rays = context->createBuffer<Ray>()->storage(wrsize * 16);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
-            hits = context->createBuffer<Hit>()->storage(wrsize * 16);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            rays = context->createBuffer<Ray>()->storage(wrsize * 8);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            hits = context->createBuffer<Hit>()->storage(wrsize * 8);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             activel = context->createBuffer<pgl::intv>()->storage(wrsize * 8);
             activenl = context->createBuffer<pgl::intv>()->storage(wrsize * 8);
             texels = context->createBuffer<Texel>()->storage(wrsize);

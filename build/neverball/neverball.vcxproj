@@ -187,7 +187,10 @@
     <None Include="..\..\share\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="..\..\sorter\sorter.cu" />
+    <CudaCompile Include="..\..\sorter\sorter.cu">
+      <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">64</TargetMachinePlatform>
+      <CodeGeneration Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">compute_52,sm_52</CodeGeneration>
+    </CudaCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6D45A17-DD39-4D0E-A6D7-5A210346E543}</ProjectGuid>
