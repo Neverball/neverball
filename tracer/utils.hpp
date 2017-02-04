@@ -39,6 +39,7 @@ namespace PathTracer {
         "./cubemap/-z.png"
     };
 
+    /*
     static pgl::TextureCube initCubeMap(pgl::Context &glcontext)
     {
         std::vector<unsigned char> image;
@@ -71,6 +72,7 @@ namespace PathTracer {
 
         return cubemap;
     }
+    */
 
     static pgl::intv tiled(pgl::intv sz, pgl::intv gmaxtile) {
         return (pgl::intv)ceil((double)sz / (double)gmaxtile);
@@ -83,7 +85,7 @@ namespace PathTracer {
     }
 
 
-
+    /*
     static pgl::Texture2D loadWithDefault(pgl::Context &glcontext, const std::string& tex, const glm::vec4& def = glm::vec4(0.0f)) {
         pgl::Texture2D texture = glcontext->createTexture2D();
         texture->magFilter(pgl::TextureFilter::Nearest);
@@ -132,6 +134,7 @@ namespace PathTracer {
     static pgl::Texture2D loadSpecular(pgl::Context &glcontext, std::string tex) {
         return loadWithDefault(glcontext, tex, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
     }
+    */
 
     static pgl::floatv frandom() {
         std::ranlux24 eng{ std::random_device{}() };

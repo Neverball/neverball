@@ -227,13 +227,15 @@ int video_mode(int f, int w, int h)
         }
     }
 
-    //glewExperimental = GL_TRUE;
-    //glewInit();
-
+#ifdef GLAD_SUPPORT
     if (!gladLoadGL()) {
         printf("Something went wrong!\n");
         exit(-1);
     }
+#else 
+    glewExperimental = GL_TRUE;
+    glewInit();
+#endif
 
     if (window && context)
     {

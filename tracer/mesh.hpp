@@ -3,7 +3,7 @@
 #include "includes.hpp"
 #include "utils.hpp"
 
-#define TOL_SUPPORT
+//#define TOL_SUPPORT
 
 #ifdef TOL_SUPPORT
 #include "tiny_obj_loader/tiny_obj_loader.h"

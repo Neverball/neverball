@@ -1,6 +1,6 @@
 #pragma once
 
-#define GLM_FORCE_SWIZZLE
+//#define GLM_FORCE_SWIZZLE
 //#define OPENCL_SUPPORT
 
 #include <stdio.h>
@@ -19,7 +19,7 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/component_wise.hpp"
-#include "lodepng/lodepng.h"
+//#include "lodepng/lodepng.h"
 #include "phantom/phantom.hpp"
 
 #include <GLFW/glfw3.h>

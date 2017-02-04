@@ -2,6 +2,7 @@
 
 #include "includes.hpp"
 #include "utils.hpp"
+#include <map>
 
 namespace PathTracer {
     class Material : public PTObject {
@@ -85,6 +86,7 @@ namespace PathTracer {
             return texnames[tex];
         }
 
+        /*
         pgl::uint64v loadTexture(std::string tex) {
             if (tex == "") return 0xFFFFFFFFFFFFFFFF;
             if (texnames.find(tex) == texnames.end()) {
@@ -121,6 +123,6 @@ namespace PathTracer {
             }
             return texnames[tex];
         }
-
+        */
     };
 }
