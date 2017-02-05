@@ -67,7 +67,7 @@ ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 SDL_CPPFLAGS := $(shell sdl2-config --cflags)
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
-ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare -Isorter -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
+ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Isorter -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
 
 ALL_CPPFLAGS += \
 	-DCONFIG_USER=\"$(USERDIR)\" \
