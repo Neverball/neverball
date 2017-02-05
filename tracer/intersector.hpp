@@ -22,7 +22,7 @@ namespace PathTracer {
         pgl::Program refitProgramH;
         pgl::Program resortProgramH;
         pgl::Program minmaxProgram2;
-        pgl::Program sortProgram;
+        //pgl::Program sortProgram;
 
         pgl::Buffer<pgl::floatv> temp_vbo;
         pgl::Buffer<pgl::intv> temp_srt;
@@ -63,7 +63,7 @@ namespace PathTracer {
         }
 
         void initShaders() {
-            initShaderCompute("./shaders/hlbvh/sort.comp", sortProgram);
+            //initShaderCompute("./shaders/hlbvh/sort.comp", sortProgram);
             initShaderCompute("./shaders/hlbvh/resort.comp", resortProgramH);
             initShaderCompute("./shaders/hlbvh/refit.comp", refitProgramH);
             initShaderCompute("./shaders/hlbvh/flag.comp", fresetProgramH);

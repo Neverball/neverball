@@ -512,6 +512,9 @@
     <ClInclude Include="..\..\sorter\sorter.h">
       <Filter>Файлы исходного кода\sorter</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\tracer\transformer.hpp">
+      <Filter>Файлы исходного кода\tracer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\ball\Makefile">
