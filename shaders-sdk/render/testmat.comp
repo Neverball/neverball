@@ -420,7 +420,7 @@ void main() {
 
             } 
             else {
-                if (atrns > 0.0f && random() < atrns) {
+                if (atrns > 0.0f && random() < atrns || isAdditive) {
                     newRay = promised(newRay, hit, normal);
                 } else {
                     newRay = emissive(newRay, hit, tx.xyz, normal);
