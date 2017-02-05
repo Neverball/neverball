@@ -13,7 +13,7 @@
 #include <random>
 #include <memory>
 #include <sstream>
-#include <windows.h>
+//#include <windows.h>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"

@@ -15,14 +15,20 @@
 /*---------------------------------------------------------------------------*/
 
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h> /* offsetof */
 #include <string.h>
 #include <cmath>
-//#include <sys/time.h>
+
+#ifdef _WIN32
+#include <Windows.h>
 #include <Winsock2.h>
+#else
+#include <sys/time.h>
+#endif
+
 #include <assert.h>
 
 #if ENABLE_RADIANT_CONSOLE
@@ -756,7 +762,7 @@ static void read_f(struct s_base *fp, const char *line,
 
     struct b_offs *op = fp->ov + (gp->oi = inco(fp));
     struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
-    struct b_offs *or = fp->ov + (gp->ok = inco(fp));
+    struct b_offs *om = fp->ov + (gp->ok = inco(fp));
 
     char c1;
     char c2;
@@ -764,17 +770,17 @@ static void read_f(struct s_base *fp, const char *line,
     sscanf(line, "%d%c%d%c%d %d%c%d%c%d %d%c%d%c%d",
            &op->vi, &c1, &op->ti, &c2, &op->si,
            &oq->vi, &c1, &oq->ti, &c2, &oq->si,
-           &or->vi, &c1, &or->ti, &c2, &or->si);
+           &om->vi, &c1, &om->ti, &c2, &om->si);
 
     op->vi += (v0 - 1);
     oq->vi += (v0 - 1);
-    or->vi += (v0 - 1);
+    om->vi += (v0 - 1);
     op->ti += (t0 - 1);
     oq->ti += (t0 - 1);
-    or->ti += (t0 - 1);
+    om->ti += (t0 - 1);
     op->si += (s0 - 1);
     oq->si += (s0 - 1);
-    or->si += (s0 - 1);
+    om->si += (s0 - 1);
 
     gp->mi  = mi;
 }
@@ -1735,21 +1741,21 @@ static void clip_geom(struct s_base *fp,
 
         struct b_offs *op = fp->ov + (gp->oi = inco(fp));
         struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
-        struct b_offs *or = fp->ov + (gp->ok = inco(fp));
+        struct b_offs *om = fp->ov + (gp->ok = inco(fp));
 
         gp->mi = plane_m[si];
 
         op->ti = t[0];
         oq->ti = t[i + 1];
-        or->ti = t[i + 2];
+        om->ti = t[i + 2];
 
         op->si = si;
         oq->si = si;
-        or->si = si;
+        om->si = si;
 
         op->vi = m[0];
         oq->vi = m[i + 1];
-        or->vi = m[i + 2];
+        om->vi = m[i + 2];
 
         fp->iv[fp->ic] = gi;
         lp->gc++;
@@ -2360,11 +2366,11 @@ static void smth_file(struct s_base *fp)
                 struct b_geom *gp = fp->gv + T[i].gi;
                 struct b_offs *op = fp->ov + gp->oi;
                 struct b_offs *oq = fp->ov + gp->oj;
-                struct b_offs *or = fp->ov + gp->ok;
+                struct b_offs *om = fp->ov + gp->ok;
 
                 if (op->vi == T[i].vi) op->si = T[i].si;
                 if (oq->vi == T[i].vi) oq->si = T[i].si;
-                if (or->vi == T[i].vi) or->si = T[i].si;
+                if (om->vi == T[i].vi) om->si = T[i].si;
             }
 
             free(T);
@@ -2804,6 +2810,7 @@ static void dump_file(struct s_base *p, const char *name, double t)
     }
 }
 
+#ifdef _WIN32
 int gettimeofday(struct timeval * tp, struct timezone * tzp)
 {
     // Note: some broken versions only have 8 trailing zero's, the correct epoch has 9 trailing zero's
@@ -2824,6 +2831,7 @@ int gettimeofday(struct timeval * tp, struct timezone * tzp)
     tp->tv_usec = (long)(system_time.wMilliseconds * 1000);
     return 0;
 }
+#endif
 
 int main(int argc, char *argv[])
 {
