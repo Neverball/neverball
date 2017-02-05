@@ -12,8 +12,7 @@ namespace PathTracer {
         
         public:
         Transformer(){
-            stack.push_back(glm::mat4());
-            current = &stack[stack.size()-1];
+            current = new glm::mat4(1.0f);
         }
         
         glm::mat4 getCurrent(){
@@ -22,15 +21,14 @@ namespace PathTracer {
         
         void reset() {
             stack.resize(0);
-            stack.push_back(glm::mat4());
-            current = &stack[stack.size() - 1];
+            *current = glm::mat4(1.0f);
         }
 
         void multiply(glm::mat4 mat) {
             *current = (*current) * mat;
         }
 
-        void multiply(float * m) {
+        void multiply(const float * m) {
             multiply(*(glm::mat4 *)m);
         }
 
@@ -38,8 +36,8 @@ namespace PathTracer {
             *current = glm::rotate(*current, angle, rot);
         }
 
-        void scale(float angle, float x, float y, float z) {
-            rotate(angle * 180.0f / M_PI, glm::vec3(x, y, z));
+        void rotate(float angle, float x, float y, float z) {
+            rotate(angle * M_PI / 180.0f, glm::vec3(x, y, z));
         }
         
         void translate(glm::vec3 offset){
@@ -59,18 +57,22 @@ namespace PathTracer {
         }
         
         void identity(){
-            *current = glm::mat4();
+            *current = glm::mat4(1.0f);
         }
         
         void push(){
-            stack.push_back(glm::mat4());
-            current = &stack[stack.size() - 1];
+            stack.push_back(*current);
+            //current = new glm::mat4();
         }
         
         void pop(){
+            if (stack.size() <= 0) {
+                *current = glm::mat4(1.0f);
+            }
+            else {
+                *current = stack[stack.size() - 1];
+            }
             stack.pop_back();
-            if (stack.size() <= 0) this->push();
-            current = &stack[stack.size() - 1];
         }
     };
 }

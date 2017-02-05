@@ -1463,8 +1463,7 @@ static void gui_paint_rect(int id, int st, int flags)
 
         glPushMatrix();
         {
-            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2), (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
 
             glBindTexture(GL_TEXTURE_2D, curr_theme.tex[i]);
             draw_rect(id);

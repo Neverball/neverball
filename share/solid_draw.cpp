@@ -66,11 +66,15 @@ static void sol_transform(const struct s_vary *vary,
 
     q_as_axisangle(e, v, &a);
 
-    if (!(p[0] == 0 && p[1] == 0 && p[2] == 0))
-        glTranslatef(p[0], p[1], p[2]);
+    if (!(p[0] == 0 && p[1] == 0 && p[2] == 0)) {
+        //glTranslatef(p[0], p[1], p[2]);
+        ptransformer->translate(p[0], p[1], p[2]);
+    }
 
-    if (!((v[0] == 0 && v[1] == 0 && v[2] == 0) || a == 0))
-        glRotatef(V_DEG(a), v[0], v[1], v[2]);
+    if (!((v[0] == 0 && v[1] == 0 && v[2] == 0) || a == 0)) {
+        //glRotatef(V_DEG(a), v[0], v[1], v[2]);
+        ptransformer->rotate(V_DEG(a), v[0], v[1], v[2]);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -122,8 +126,8 @@ static void sol_free_bill(const s_draw *draw)
 
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 {
-    GLfloat model[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, model);
+    //GLfloat model[16];
+    //glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
     //voffsetAccum += 0.001f;
 
@@ -133,7 +137,8 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setTexcoords(draw->billTex);
     meshloader->setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
     meshloader->setIndexed(false);
-    meshloader->setTransform(*(glm::mat4 *)(model));
+    //meshloader->setTransform(*(glm::mat4 *)(model));
+    meshloader->setTransform(ptransformer->getCurrent());
     meshloader->setMaterialOffset(mi);
     meshloader->triangleCount = 2;
 
@@ -348,8 +353,8 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     if (sol_test_mtrl(mp->mtrl, p))
     {
-        GLfloat model[16];
-        glGetFloatv(GL_MODELVIEW_MATRIX, model);
+        //GLfloat model[16];
+        //glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
         glm::vec4 cmod;
         glGetFloatv(GL_CURRENT_COLOR, (float *)&cmod);
@@ -361,7 +366,8 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         meshloader->setTexcoords(mp->texBuf);
         meshloader->setNormals(mp->normBuf);
         meshloader->setIndices(mp->idcBuf);
-        meshloader->setTransform(*(glm::mat4 *)(model));
+        //meshloader->setTransform(*(glm::mat4 *)(model));
+        meshloader->setTransform(ptransformer->getCurrent());
         meshloader->setLoadingOffset(0);
         meshloader->triangleCount = mp->ebc;
 
@@ -503,12 +509,15 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
     for (bi = 0; bi < draw->bc; ++bi)
         if (draw->bv[bi].pass[p])
         {
-            glPushMatrix();
-            {
+            //glPushMatrix();
+            //{
+                ptransformer->push();
                 sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
                 sol_draw_body(draw->bv + bi, rend, p);
-            }
-            glPopMatrix();
+                ptransformer->pop();
+
+            //}
+            //glPopMatrix();
         }
 }
 
@@ -569,31 +578,42 @@ void sol_back(const struct s_draw *draw,
 
                 //glMatrixMode(GL_MODELVIEW);
                 //glLoadIdentity();
-                glPushMatrix();
+                //glPushMatrix();
+
+                ptransformer->push();
                 {
                     const int mi = draw->base->mtrls[rp->mi];
                     const mtrl *mp = mtrl_get(mi);
 
-                    if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
-                    if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                    //if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                    //if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+                    //glTranslatef(0.0f, 0.0f, -rp->d);
+                    //if (rp->fl & B_FLAT)
+                    //{
+                    //    glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                    //    glRotatef(-ry, 0.0f, 0.0f, 1.0f);
+                    //}
+                    //if (rp->fl & B_EDGE) glRotatef(-rx, 1.0f, 0.0f, 0.0f);
+                    //if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+                    //glScalef(w, h, 1.0f);
 
-                    glTranslatef(0.0f, 0.0f, -rp->d);
-
+                    if (ry) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+                    if (rx) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+                    ptransformer->translate(0.0f, 0.0f, -rp->d);
                     if (rp->fl & B_FLAT)
                     {
-                        glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
-                        glRotatef(-ry, 0.0f, 0.0f, 1.0f);
+                        ptransformer->rotate(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                        ptransformer->rotate(-ry, 0.0f, 0.0f, 1.0f);
                     }
-                    if (rp->fl & B_EDGE)
-                        glRotatef(-rx, 1.0f, 0.0f, 0.0f);
-
-                    if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
-
-                    glScalef(w, h, 1.0f);
+                    if (rp->fl & B_EDGE) ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
+                    if (rz) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+                    ptransformer->scale(w, h, 1.0f);
 
                     sol_draw_bill(draw, mi, rp->fl & B_EDGE);
                 }
-                glPopMatrix();
+                ptransformer->pop();
+
+                //glPopMatrix();
             }
         }
     }
@@ -621,21 +641,27 @@ void sol_bill(const struct s_draw *draw,
 
         //glMatrixMode(GL_MODELVIEW);
         //glLoadIdentity();
-        glPushMatrix();
+        //glPushMatrix();
+        ptransformer->push();
         {
-            glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+            //glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+            //if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
+            //if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+            //if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+            //if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+            //glScalef(w, h, 1.0f);
 
-            if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
-
-            if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
-            if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
-            if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
-
-            glScalef(w, h, 1.0f);
+            ptransformer->translate(rp->p[0], rp->p[1], rp->p[2]);
+            if (M && ((rp->fl & B_NOFACE) == 0)) ptransformer->multiply(M);
+            if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+            if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+            if (fabsf(rz) > 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+            ptransformer->scale(w, h, 1.0f);
 
             sol_draw_bill(draw, draw->base->mtrls[rp->mi], GL_FALSE);
         }
-        glPopMatrix();
+        ptransformer->pop();
+        //glPopMatrix();
     }
 }
 

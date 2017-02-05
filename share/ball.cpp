@@ -22,6 +22,7 @@
 
 #include "solid_draw.h"
 #include "solid_sim.h"
+#include "video.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -126,17 +127,20 @@ static void ball_draw_solid(struct s_rend *rend,
         const int mask = (solid_flags & F_DEPTHMASK);
         const int test = (solid_flags & F_DEPTHTEST);
 
-        glPushMatrix();
-        {
-            glMultMatrixf(ball_M);
+        //glPushMatrix();
+        //{
+        //    glMultMatrixf(ball_M);
 
+            ptransformer->push();
+            ptransformer->multiply(ball_M);
             if (solid.base.rc)
             {
                 sol_bill(&solid.draw, rend, ball_bill_M, t);
             }
             sol_draw(&solid.draw, rend, mask, test);
-        }
-        glPopMatrix();
+            ptransformer->pop();
+        //}
+        //glPopMatrix();
     }
 }
 
@@ -153,8 +157,10 @@ static void ball_draw_inner(struct s_rend *rend,
 
         if (pend)
         {
-            glPushMatrix();
-            glMultMatrixf(pend_M);
+            //glPushMatrix();
+            //glMultMatrixf(pend_M);
+            ptransformer->push();
+            ptransformer->multiply(pend_M);
         }
 
         sol_draw(&inner.draw, rend, mask, test);
@@ -170,7 +176,8 @@ static void ball_draw_inner(struct s_rend *rend,
         }
 
         if (pend) {
-            glPopMatrix();
+            ptransformer->pop();
+            //glPopMatrix();
         }
     }
 }
@@ -188,8 +195,10 @@ static void ball_draw_outer(struct s_rend *rend,
 
         if (pend)
         {
-            glPushMatrix();
-            glMultMatrixf(pend_M);
+            ptransformer->push();
+            ptransformer->multiply(pend_M);
+            //glPushMatrix();
+            //glMultMatrixf(pend_M);
         }
 
         sol_draw(&outer.draw, rend, mask, test);
@@ -204,7 +213,10 @@ static void ball_draw_outer(struct s_rend *rend,
             }
         }
 
-        if (pend) glPopMatrix();
+        if (pend) {
+            ptransformer->pop();
+            //glPopMatrix();
+        }
     }
 }
 

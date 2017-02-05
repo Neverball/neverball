@@ -39,14 +39,14 @@ static void game_draw_balls(struct s_rend *rend,
     m_basis(ball_M, vary->uv[0].e[0], vary->uv[0].e[1], vary->uv[0].e[2]);
     m_basis(pend_M, vary->uv[0].E[0], vary->uv[0].E[1], vary->uv[0].E[2]);
 
-    glPushMatrix();
-    {
-        glTranslatef(vary->uv[0].p[0],
-                     vary->uv[0].p[1] + BALL_FUDGE,
-                     vary->uv[0].p[2]);
-        glScalef(vary->uv[0].r,
-                 vary->uv[0].r,
-                 vary->uv[0].r);
+    //glPushMatrix();
+    //{
+        //glTranslatef(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
+        //glScalef(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
+
+        ptransformer->push();
+        ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
+        ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
 
         currentIntersector = intersectorBall;
 
@@ -54,8 +54,9 @@ static void game_draw_balls(struct s_rend *rend,
         ball_draw(rend, ball_M, pend_M, bill_M, t);
 
         currentIntersector = intersector;
-    }
-    glPopMatrix();
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 static void game_draw_items(struct s_rend *rend,
@@ -75,14 +76,15 @@ static void game_draw_items(struct s_rend *rend,
 
         /* Draw model. */
 
-        glPushMatrix();
-        {
-            glTranslatef(hp->p[0],
-                         hp->p[1],
-                         hp->p[2]);
+        //glPushMatrix();
+        //{
+            //glTranslatef(hp->p[0], hp->p[1], hp->p[2]);
+            ptransformer->push();
+            ptransformer->translate(hp->p[0], hp->p[1], hp->p[2]);
             item_draw(rend, hp, bill_M, t);
-        }
-        glPopMatrix();
+            ptransformer->pop();
+        //}
+        //glPopMatrix();
     }
 }
 
@@ -154,23 +156,30 @@ static void game_draw_tilt(const struct game_draw *gd, int d)
 
     /* Rotate the environment about the position of the ball. */
 
-    glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    glRotatef(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
-    glRotatef(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
-    glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+    //glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+    //glRotatef(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
+    //glRotatef(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
+    //glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
+
+    ptransformer->translate(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
+    ptransformer->rotate(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
+    ptransformer->rotate(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
+    ptransformer->translate(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 }
 
 static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
 {
-    glPushMatrix();
-    {
+    //glPushMatrix();
+    //{
+        ptransformer->push();
         game_draw_tilt(gd, 1);
 
         /* Draw the floor. */
 
         sol_refl(&gd->draw, rend);
-    }
-    glPopMatrix();
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -198,19 +207,23 @@ static void game_draw_back(struct s_rend *rend,
     if (pose == POSE_BALL)
         return;
 
-    glPushMatrix();
-    {
+    //glPushMatrix();
+    //{
+        ptransformer->push();
         const struct game_view *view = &gd->view;
 
         if (d < 0)
         {
             const struct game_tilt *tilt = &gd->tilt;
+            ptransformer->rotate(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
+            ptransformer->rotate(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
 
-            glRotatef(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
-            glRotatef(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
+            //glRotatef(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
+            //glRotatef(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
         }
 
-        glTranslatef(view->p[0], view->p[1] * d, view->p[2]);
+        //glTranslatef(view->p[0], view->p[1] * d, view->p[2]);
+        ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
 
         voffsetAccum = 0.0f;
 
@@ -224,8 +237,9 @@ static void game_draw_back(struct s_rend *rend,
         currentIntersector = intersector;
 
         voffsetAccum = 0.0f;
-    }
-    glPopMatrix();
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 static void game_clip_refl(int d)
@@ -283,7 +297,8 @@ static void game_draw_fore(struct s_rend *rend,
 
     struct s_draw *draw = &gd->draw;
 
-    glPushMatrix();
+    //glPushMatrix();
+    ptransformer->push();
     {
         game_draw_tilt(gd, d);
         game_clip_refl(d);
@@ -317,7 +332,8 @@ static void game_draw_fore(struct s_rend *rend,
         game_draw_jumps(rend, gd, t);
 
     }
-    glPopMatrix();
+    ptransformer->pop();
+    //glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -387,6 +403,9 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glPushMatrix();
+
+        ptransformer->reset();
+        //ptransformer->push();
         {
             float T[16], U[16], M[16], v[3];
 
@@ -407,6 +426,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
             game_refl_all(&rend, gd);
             game_draw_fore(&rend, gd, pose, T, +1, t);
         }
+        //ptransformer->pop();
         glPopMatrix();
 
         glEnable(GL_TEXTURE_2D);

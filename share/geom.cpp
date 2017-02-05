@@ -303,14 +303,19 @@ void item_draw(struct s_rend *rend,
 
     struct s_draw *draw = item_file(hp);
 
-    glPushMatrix();
-    {
-        glScalef(s, s, s);
+    //glPushMatrix();
+    //{
+    //    glScalef(s, s, s);
+
+        ptransformer->push();
+        ptransformer->scale(s, s, s);
 
         sol_bill(draw, rend, M, t);
         sol_draw(draw, rend, 0, 1);
-    }
-    glPopMatrix();
+
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -352,15 +357,21 @@ void back_free(void)
 void beam_draw(struct s_rend *rend, const GLfloat *p,
                                     const GLfloat *c, GLfloat r, GLfloat h)
 {
-    glPushMatrix();
-    {
-        glTranslatef(p[0], p[1], p[2]);
-        glScalef(r, h, r);
+    //glPushMatrix();
+    //{
+        //glTranslatef(p[0], p[1], p[2]);
+        //glScalef(r, h, r);
+        ptransformer->push();
+        ptransformer->translate(p[0], p[1], p[2]);
+        ptransformer->scale(r, h, r);
+
         glColor4f(c[0], c[1], c[2], c[3]);
         sol_draw(&beam.draw, rend, 1, 1);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    }
-    glPopMatrix();
+
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
@@ -369,13 +380,19 @@ void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfl
 
     glPointSize(height / 6);
 
-    glPushMatrix();
-    {
-        glTranslatef(p[0], p[1], p[2]);
-        glScalef(r, h, r);
+    //glPushMatrix();
+    //{
+    //    glTranslatef(p[0], p[1], p[2]);
+    //    glScalef(r, h, r);
+        ptransformer->push();
+        ptransformer->translate(p[0], p[1], p[2]);
+        ptransformer->scale(r, h, r);
+
         sol_draw(&goal.draw, rend, 1, 1);
-    }
-    glPopMatrix();
+
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
@@ -384,24 +401,35 @@ void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 
     glPointSize(height / 12);
 
-    glPushMatrix();
-    {
-        glTranslatef(p[0], p[1], p[2]);
-        glScalef(r, h, r);
+    //glPushMatrix();
+    //{
+        //glTranslatef(p[0], p[1], p[2]);
+        //glScalef(r, h, r);
+        ptransformer->push();
+        ptransformer->translate(p[0], p[1], p[2]);
+        ptransformer->scale(r, h, r);
+
         sol_draw(&jump.draw, rend, 1, 1);
-    }
-    glPopMatrix();
+
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 void flag_draw(struct s_rend *rend, const GLfloat *p)
 {
-    glPushMatrix();
-    {
-        glTranslatef(p[0], p[1], p[2]);
+    //glPushMatrix();
+    //{
+        //glTranslatef(p[0], p[1], p[2]);
+        ptransformer->push();
+        ptransformer->translate(p[0], p[1], p[2]);
+
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         sol_draw(&flag.draw, rend, 1, 1);
-    }
-    glPopMatrix();
+
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 void mark_draw(struct s_rend *rend)
@@ -417,12 +445,15 @@ void vect_draw(struct s_rend *rend)
 
 void back_draw(struct s_rend *rend)
 {
-    glPushMatrix();
-    {
-        glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+    //glPushMatrix();
+    //{
+    //    glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
+        ptransformer->push();
+        ptransformer->scale(-BACK_DIST, BACK_DIST, -BACK_DIST);
         sol_draw(&back.draw, rend, 1, 1);
-    }
-    glPopMatrix();
+        ptransformer->pop();
+    //}
+    //glPopMatrix();
 }
 
 void back_draw_easy(void)
