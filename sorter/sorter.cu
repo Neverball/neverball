@@ -1,4 +1,9 @@
+#ifdef GLAD_SUPPORT
+#include <glad/glad.h>
+#else
 #include <GL/glew.h>
+#endif
+
 #include <cuda_runtime.h>
 #include <cuda_gl_interop.h>
 #include <thrust/device_ptr.h>
