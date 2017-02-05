@@ -37,6 +37,7 @@ PathTracer::Intersector * intersector;
 PathTracer::Intersector * intersectorBillboard;
 PathTracer::Intersector * intersectorBall;
 PathTracer::Material * pmaterials;
+PathTracer::Transformer * ptransformer;
 
 /*---------------------------------------------------------------------------*/
 
@@ -333,6 +334,7 @@ int video_mode(int f, int w, int h)
             intersectorBall = new PathTracer::Intersector(glcontext, api);
             currentIntersector = intersector;
             pmaterials = new PathTracer::Material(glcontext, api);
+            ptransformer = new PathTracer::Transformer();
 
             ptracer->resizeBuffers(video.device_w, video.device_h);
             ptracer->resize(video.window_w, video.window_h);

@@ -31,6 +31,7 @@
 #include "tracer/intersector.hpp"
 #include "tracer/mesh.hpp"
 #include "tracer/material.hpp"
+#include "tracer/transformer.hpp"
 
 #ifndef APIENTRY
 #define APIENTRY

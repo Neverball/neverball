@@ -35,6 +35,7 @@ extern PathTracer::Intersector * intersector;
 extern PathTracer::Intersector * intersectorBillboard;
 extern PathTracer::Intersector * intersectorBall;
 extern PathTracer::Material * pmaterials;
+extern PathTracer::Transformer * ptransformer;
 
 extern struct video video;
 
