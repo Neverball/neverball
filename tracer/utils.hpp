@@ -3,16 +3,16 @@
 #include "includes.hpp"
 
 namespace PathTracer {
-    const int kW = 0;
-    const int kA = 1;
-    const int kS = 2;
-    const int kD = 3;
-    const int kQ = 4;
-    const int kE = 5;
-    const int kSpc = 6;
-    const int kSft = 7;
-    const int kC = 8;
-    const int kK = 9;
+    const pgl::intv kW = 0;
+    const pgl::intv kA = 1;
+    const pgl::intv kS = 2;
+    const pgl::intv kD = 3;
+    const pgl::intv kQ = 4;
+    const pgl::intv kE = 5;
+    const pgl::intv kSpc = 6;
+    const pgl::intv kSft = 7;
+    const pgl::intv kC = 8;
+    const pgl::intv kK = 9;
 
     class PTObject {};
     class Tracer;
@@ -75,18 +75,18 @@ namespace PathTracer {
     */
 
     static pgl::intv tiled(pgl::intv sz, pgl::intv gmaxtile) {
-        return (pgl::intv)ceil((double)sz / (double)gmaxtile);
+        return (pgl::intv)ceil((pgl::doublev)sz / (pgl::doublev)gmaxtile);
     }
 
-    static double milliseconds() {
+    static pgl::doublev milliseconds() {
         auto duration = std::chrono::high_resolution_clock::now();
-        double millis = std::chrono::duration_cast<std::chrono::nanoseconds>(duration.time_since_epoch()).count() / 1000000.0;
+        pgl::doublev millis = std::chrono::duration_cast<std::chrono::nanoseconds>(duration.time_since_epoch()).count() / 1000000.0;
         return millis;
     }
 
 
     /*
-    static pgl::Texture2D loadWithDefault(pgl::Context &glcontext, const std::string& tex, const glm::vec4& def = glm::vec4(0.0f)) {
+    static pgl::Texture2D loadWithDefault(pgl::Context &glcontext, const std::string& tex, const pgl::floatv4& def = pgl::floatv4(0.0f)) {
         pgl::Texture2D texture = glcontext->createTexture2D();
         texture->magFilter(pgl::TextureFilter::Nearest);
         texture->minFilter(pgl::TextureFilter::Nearest);
@@ -124,15 +124,15 @@ namespace PathTracer {
 
 
     static pgl::Texture2D  loadBump(pgl::Context &glcontext, std::string tex) {
-        return loadWithDefault(glcontext, tex, glm::vec4(0.5f, 0.5f, 1.0f, 1.0f));
+        return loadWithDefault(glcontext, tex, pgl::floatv4(0.5f, 0.5f, 1.0f, 1.0f));
     }
 
     static pgl::Texture2D loadDiffuse(pgl::Context &glcontext, std::string tex) {
-        return loadWithDefault(glcontext, tex, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+        return loadWithDefault(glcontext, tex, pgl::floatv4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
     static pgl::Texture2D loadSpecular(pgl::Context &glcontext, std::string tex) {
-        return loadWithDefault(glcontext, tex, glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+        return loadWithDefault(glcontext, tex, pgl::floatv4(0.0f, 0.0f, 0.0f, 1.0f));
     }
     */
 

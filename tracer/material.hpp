@@ -11,10 +11,10 @@ namespace PathTracer {
     public:
 
         struct Submat {
-            pgl::floatv4 diffuse = glm::vec4(0.0f);
-            pgl::floatv4 specular = glm::vec4(0.0f);
-            pgl::floatv4 transmission = glm::vec4(0.0f);
-            pgl::floatv4 emissive = glm::vec4(0.0f);
+            pgl::floatv4 diffuse = pgl::floatv4(0.0f);
+            pgl::floatv4 specular = pgl::floatv4(0.0f);
+            pgl::floatv4 transmission = pgl::floatv4(0.0f);
+            pgl::floatv4 emissive = pgl::floatv4(0.0f);
             pgl::floatv ior = 1.0f;
             pgl::floatv reflectivity = 0.0001f;
             pgl::floatv s1;
@@ -25,10 +25,10 @@ namespace PathTracer {
             pgl::uint64v bumpPart = 0xFFFFFFFFFFFFFFFF;
             pgl::uint64v emissivePart = 0xFFFFFFFFFFFFFFFF;
 
-            int flags = 0;
-            int nkvd0 = 0;
-            int nkvd1 = 0;
-            int nkvd2 = 0;
+            pgl::intv flags = 0;
+            pgl::intv nkvd0 = 0;
+            pgl::intv nkvd1 = 0;
+            pgl::intv nkvd2 = 0;
         };
 
     private:
@@ -91,8 +91,8 @@ namespace PathTracer {
             if (tex == "") return 0xFFFFFFFFFFFFFFFF;
             if (texnames.find(tex) == texnames.end()) {
                 std::vector<unsigned char> image;
-                unsigned width, height;
-                unsigned error = lodepng::decode(image, width, height, tex);
+                pgl::uintv width, height;
+                pgl::uintv error = lodepng::decode(image, width, height, tex);
                 if (!error) {
                     pgl::TextureSubImageDescriptor desc;
                     pgl::TextureStorageDescriptor stor;

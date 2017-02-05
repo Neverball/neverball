@@ -200,9 +200,9 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
         submat.diffusePart = 0xFFFFFFFFFFFFFFFF;
     }
     
-    submat.diffuse = *(glm::vec4 *)base->d;
-    submat.emissive = *(glm::vec4 *)base->e;
-    submat.specular = *(glm::vec4 *)base->s;
+    submat.diffuse = *(pgl::floatv4 *)base->d;
+    submat.emissive = *(pgl::floatv4 *)base->e;
+    submat.specular = *(pgl::floatv4 *)base->s;
     submat.reflectivity = *(pgl::floatv *)base->h;
     submat.flags = base->fl;
 

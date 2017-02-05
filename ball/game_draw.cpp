@@ -387,10 +387,10 @@ void game_draw(struct game_draw *gd, int pose, float t)
         game_shadow_conf(pose, 1);
         r_draw_enable(&rend);
 
-        glm::vec3 eye = glm::vec3(0.0f);
-        glm::vec3 target = glm::vec3(1.0f, 0.0f, -1.0f);
-        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-        glm::mat4 persp = glm::perspective(fov / 180.f * ((float)M_PI * 1.0f), (float)video.window_w / (float)video.window_h, 0.01f, 1000.0f);
+        pgl::floatv3 eye = pgl::floatv3(0.0f);
+        pgl::floatv3 target = pgl::floatv3(1.0f, 0.0f, -1.0f);
+        pgl::floatv3 up = pgl::floatv3(0.0f, 1.0f, 0.0f);
+        glm::mat4 persp = glm::perspective(fov / 180.f * ((pgl::floatv)M_PI * 1.0f), (pgl::floatv)video.window_w / (pgl::floatv)video.window_h, 0.01f, 1000.0f);
 
         intersector->clearTribuffer();
         intersectorBillboard->clearTribuffer();
@@ -418,8 +418,8 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
             m_xps(M, T);
 
-            eye = *(glm::vec3 *)view->p;
-            target = *(glm::vec3 *)view->c;
+            eye = *(pgl::floatv3 *)view->p;
+            target = *(pgl::floatv3 *)view->c;
 
             game_draw_back(&rend, gd, pose, +1, t);
             //game_draw_light(gd, 1, t);

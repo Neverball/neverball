@@ -28,32 +28,32 @@ namespace PathTracer {
             *current = (*current) * mat;
         }
 
-        void multiply(const float * m) {
+        void multiply(const pgl::floatv * m) {
             multiply(*(glm::mat4 *)m);
         }
 
-        void rotate(float angle, glm::vec3 rot){
+        void rotate(pgl::floatv angle, pgl::floatv3 rot){
             *current = glm::rotate(*current, angle, rot);
         }
 
-        void rotate(float angle, float x, float y, float z) {
-            rotate(angle * M_PI / 180.0f, glm::vec3(x, y, z));
+        void rotate(pgl::floatv angle, pgl::floatv x, pgl::floatv y, pgl::floatv z) {
+            rotate(angle * M_PI / 180.0f, pgl::floatv3(x, y, z));
         }
         
-        void translate(glm::vec3 offset){
+        void translate(pgl::floatv3 offset){
             *current = glm::translate(*current, offset);
         }
 
-        void translate(float x, float y, float z) {
-            translate(glm::vec3(x, y, z));
+        void translate(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
+            translate(pgl::floatv3(x, y, z));
         }
         
-        void scale(glm::vec3 size){
+        void scale(pgl::floatv3 size){
             *current = glm::scale(*current, size);
         }
 
-        void scale(float x, float y, float z) {
-            scale(glm::vec3(x, y, z));
+        void scale(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
+            scale(pgl::floatv3(x, y, z));
         }
         
         void identity(){

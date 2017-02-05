@@ -20,13 +20,13 @@ namespace PathTracer {
     };
 
     struct Minmax {
-        glm::vec4 mn;
-        glm::vec4 mx;
+        pgl::floatv4 mn;
+        pgl::floatv4 mx;
     };
 
     struct Minmaxi {
-        glm::ivec4 mn;
-        glm::ivec4 mx;
+        pgl::intv4 mn;
+        pgl::intv4 mx;
     };
 
     struct Ray {
@@ -34,19 +34,19 @@ namespace PathTracer {
         pgl::intv prev;
         pgl::intv texel;
         pgl::intv actived;
-        glm::vec4 origin;
-        glm::vec4 direct;
-        glm::vec4 color;
-        glm::vec4 final;
-        glm::ivec4 params;
-        glm::ivec4 extended;
+        pgl::floatv4 origin;
+        pgl::floatv4 direct;
+        pgl::floatv4 color;
+        pgl::floatv4 final;
+        pgl::intv4 params;
+        pgl::intv4 extended;
     };
 
     struct Hit {
-        glm::vec4 normal;
-        glm::vec4 tangent;
-        glm::vec4 color;
-        glm::vec2 texcoord;
+        pgl::floatv4 normal;
+        pgl::floatv4 tangent;
+        pgl::floatv4 color;
+        pgl::floatv2 texcoord;
         pgl::floatv dist;
         pgl::floatv _t0;
         pgl::intv triangle;
@@ -81,7 +81,7 @@ namespace PathTracer {
     };
 
     struct SamplerUniformStruct {
-        glm::vec2 sceneRes;
+        pgl::floatv2 sceneRes;
         pgl::intv samplecount;
         pgl::intv rayCount;
         pgl::intv iteration;
@@ -92,8 +92,8 @@ namespace PathTracer {
     };
 
     struct LightUniformStruct {
-        glm::vec4 lightVector;
-        glm::vec4 lightColor;
+        pgl::floatv4 lightVector;
+        pgl::floatv4 lightColor;
         pgl::floatv lightRadius;
         pgl::floatv lightDistance;
     };
@@ -101,7 +101,7 @@ namespace PathTracer {
     struct GeometryUniformStruct {
         glm::mat4 transform;
         glm::mat4 transformInv;
-        glm::vec4 colormod = glm::vec4(0.0f);
+        pgl::floatv4 colormod = pgl::floatv4(0.0f);
         pgl::floatv offset = 0.0f;
         pgl::intv materialID = 0;
         pgl::intv triangleCount = 1;
@@ -128,16 +128,16 @@ namespace PathTracer {
         glm::mat4 projInv;
         glm::mat4 camInv;
         glm::mat4 camInv2;
-        glm::vec4 eye;
-        glm::vec4 view;
+        pgl::floatv4 eye;
+        pgl::floatv4 view;
         pgl::floatv prob;
         pgl::intv enable360;
     };
 
     struct bbox
     {
-        glm::vec4 pmin;
-        glm::vec4 pmax;
+        pgl::floatv4 pmin;
+        pgl::floatv4 pmax;
     };
 
     struct Leaf {

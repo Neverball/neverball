@@ -10,7 +10,7 @@ namespace PathTracer {
     private:
         CLTracerAPI clapi;
 
-        bool dirty = false;
+        pgl::boolv dirty = false;
         pgl::uintv maxt = 1024 * 1024 * 1;
 
         pgl::Context context;
@@ -125,8 +125,8 @@ namespace PathTracer {
             init();
         }
 
-        glm::vec3 offset;
-        glm::vec3 scale;
+        pgl::floatv3 offset;
+        pgl::floatv3 scale;
         pgl::intv materialID = 0;
         pgl::intv maxDepth = 4;
         pgl::uintv triangleCount = 0;
@@ -264,9 +264,9 @@ namespace PathTracer {
             context->useProgram(minmaxProgram2)->dispatchCompute(tiled(triangleCount, worksize * heap));
 
             Minmaxi bound = minmaxBuf->subdata(0, 1)[0];
-            glm::vec3 mn = glm::vec3(bound.mn.x, bound.mn.y, bound.mn.z) / prec - glm::vec3(0.001f);
-            glm::vec3 mx = glm::vec3(bound.mx.x, bound.mx.y, bound.mx.z) / prec + glm::vec3(0.001f);
-            glm::vec3 full = mx - mn;//glm::vec3(glm::compMax(mx - mn));
+            pgl::floatv3 mn = pgl::floatv3(bound.mn.x, bound.mn.y, bound.mn.z) / prec - pgl::floatv3(0.001f);
+            pgl::floatv3 mx = pgl::floatv3(bound.mx.x, bound.mx.y, bound.mx.z) / prec + pgl::floatv3(0.001f);
+            pgl::floatv3 full = mx - mn;//pgl::floatv3(glm::compMax(mx - mn));
             scale = full;
             offset = mn;
 
@@ -304,7 +304,7 @@ namespace PathTracer {
 
             lscounterTemp->copydata(nodeCounter, cdesc);
             pgl::intv2 range = { 0, 1 };
-            for (int i = 1;i < 400;i++) {
+            for (pgl::intv i = 1;i < 400;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
                 octreeUniformData.currentDepth = i; octreeUniform->subdata(&octreeUniformData);//syncUniforms();
                 context->useProgram(buildProgramH)->dispatchCompute(tiled(range.y - range.x, worksize));

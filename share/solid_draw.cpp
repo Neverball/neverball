@@ -131,7 +131,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 
     //voffsetAccum += 0.001f;
 
-    meshloader->setColorModifier(glm::vec4(1.0f));
+    meshloader->setColorModifier(pgl::floatv4(1.0f));
     meshloader->setVerticeOffset(voffsetAccum);
     meshloader->setVertices(draw->billVert);
     meshloader->setTexcoords(draw->billTex);
@@ -356,7 +356,7 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         //GLfloat model[16];
         //glGetFloatv(GL_MODELVIEW_MATRIX, model);
 
-        glm::vec4 cmod;
+        pgl::floatv4 cmod;
         glGetFloatv(GL_CURRENT_COLOR, (float *)&cmod);
 
         meshloader->setColorModifier(cmod);

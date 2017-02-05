@@ -78,7 +78,7 @@ namespace PathTracer {
             tex_triangle_ssbo = buf;
         }
 
-        void setIndices(const pgl::Buffer<pgl::intv> &buf, const bool &all = true) {
+        void setIndices(const pgl::Buffer<pgl::intv> &buf, const pgl::boolv &all = true) {
             vebo_triangle_ssbo = buf;
             //triangleCount = buf->size() / 3;
             if (all) {

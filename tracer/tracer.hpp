@@ -218,8 +218,8 @@ namespace PathTracer {
         pgl::intv raycountCache = 0;
         pgl::intv qraycountCache = 0;
 
-        glm::vec4 lightColor = glm::vec4(glm::vec3(3000.0f), 1.0f);
-        glm::vec4 lightVector = glm::vec4(0.1f, 1.0f, 0.1f, 1.0f);
+        pgl::floatv4 lightColor = pgl::floatv4(pgl::floatv3(3000.0f), 1.0f);
+        pgl::floatv4 lightVector = pgl::floatv4(0.1f, 1.0f, 0.1f, 1.0f);
         pgl::floatv lightDistance = 50.0f;
         pgl::floatv lightRadius = 5.0f;
 
@@ -256,10 +256,10 @@ namespace PathTracer {
 
             arcounterTemp->copydata(arcounter, cdesc);
 
-            cdesc.writeOffset = 4;
+            cdesc.writeOffset = sizeof(pgl::uintv);
             arcounterTemp->copydata(arcounter, cdesc);
 
-            cdesc.writeOffset = 8;
+            cdesc.writeOffset = sizeof(pgl::uintv) * 2;
             arcounterTemp->copydata(arcounter, cdesc);
         }
 
@@ -307,16 +307,16 @@ namespace PathTracer {
             context->flush();
         }
 
-        void camera(const glm::vec3 &eye, const glm::vec3 &view) {
+        void camera(const pgl::floatv3 &eye, const pgl::floatv3 &view) {
             clearRays();
             bind();
 
             randomUniformData.time = frandom();
-            cameraUniformData.camInv = glm::inverse(glm::lookAt(eye, view, glm::vec3(0.0f, 1.0f, 0.0f)));
-            cameraUniformData.camInv2 = glm::inverse(glm::lookAt(eye, eye - (view - eye), glm::vec3(0.0f, 1.0f, 0.0f)));
-            cameraUniformData.eye = glm::vec4(eye, 1.0f);
-            cameraUniformData.view = glm::vec4(view, 1.0f);
-            cameraUniformData.projInv = glm::inverse(glm::perspective(((float)M_PI / 3.0f), (float)displayWidth / (float)displayHeight, 0.1f, 1000.0f));
+            cameraUniformData.camInv = glm::inverse(glm::lookAt(eye, view, pgl::floatv3(0.0f, 1.0f, 0.0f)));
+            cameraUniformData.camInv2 = glm::inverse(glm::lookAt(eye, eye - (view - eye), pgl::floatv3(0.0f, 1.0f, 0.0f)));
+            cameraUniformData.eye = pgl::floatv4(eye, 1.0f);
+            cameraUniformData.view = pgl::floatv4(view, 1.0f);
+            cameraUniformData.projInv = glm::inverse(glm::perspective(((pgl::floatv)M_PI / 3.0f), (pgl::floatv)displayWidth / (pgl::floatv)displayHeight, 0.1f, 1000.0f));
             cameraUniformData.prob = 1.0f;
             syncUniforms();
 
@@ -326,15 +326,15 @@ namespace PathTracer {
             //sortIndices(activel->glID(), getRayCount());
         }
 
-        void camera(const glm::vec3 &eye, const glm::vec3 &view, const glm::mat4 &persp) {
+        void camera(const pgl::floatv3 &eye, const pgl::floatv3 &view, const glm::mat4 &persp) {
             clearRays();
             bind();
 
             randomUniformData.time = frandom();
-            cameraUniformData.camInv = glm::inverse(glm::lookAt(eye, view, glm::vec3(0.0f, 1.0f, 0.0f)));
-            cameraUniformData.camInv2 = glm::inverse(glm::lookAt(eye, eye - (view - eye), glm::vec3(0.0f, 1.0f, 0.0f)));
-            cameraUniformData.eye = glm::vec4(eye, 1.0f);
-            cameraUniformData.view = glm::vec4(view, 1.0f);
+            cameraUniformData.camInv = glm::inverse(glm::lookAt(eye, view, pgl::floatv3(0.0f, 1.0f, 0.0f)));
+            cameraUniformData.camInv2 = glm::inverse(glm::lookAt(eye, eye - (view - eye), pgl::floatv3(0.0f, 1.0f, 0.0f)));
+            cameraUniformData.eye = pgl::floatv4(eye, 1.0f);
+            cameraUniformData.view = pgl::floatv4(view, 1.0f);
             cameraUniformData.projInv = glm::inverse(persp);
             cameraUniformData.prob = 1.0f;
             syncUniforms();
