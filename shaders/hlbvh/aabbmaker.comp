@@ -335,6 +335,7 @@ void main(){
         mx . xyz = max(triverts[0], max(triverts[1], triverts[2]))+ 0.0001f;
 
         vec3 center =(triverts[0]+ triverts[1]+ triverts[2])* 0.3333333333f;
+
         Mortoncodes[t]. x = t;
         Mortoncodes[t]. y = CalculateMortonCode(center);
 
