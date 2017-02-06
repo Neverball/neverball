@@ -219,7 +219,7 @@ namespace PathTracer {
             bindUniforms();
             syncUniforms();
 
-            context->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
+            context->flush()->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
 
             triangleCount += gobject->triangleCount;
             verticeCount = triangleCount * 3;
