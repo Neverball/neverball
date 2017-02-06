@@ -369,11 +369,11 @@ void beam_draw(struct s_rend *rend, const GLfloat *p,
         ptransformer->push();
         ptransformer->translate(p[0], p[1], p[2]);
         ptransformer->scale(r, h, r);
-
-        glColor4f(c[0], c[1], c[2], c[3]);
+        ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
+        ptransformer->flags |= M_TRANSPARENT;
         sol_draw(&beam.draw, rend, 1, 1);
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
+        ptransformer->flags = 0;
+        ptransformer->colormod = pgl::floatv4(1.0f);
         ptransformer->pop();
     //}
     //glPopMatrix();
@@ -429,7 +429,7 @@ void flag_draw(struct s_rend *rend, const GLfloat *p)
         ptransformer->push();
         ptransformer->translate(p[0], p[1], p[2]);
 
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        ptransformer->colormod = pgl::floatv4(1.0f);
         sol_draw(&flag.draw, rend, 1, 1);
 
         ptransformer->pop();

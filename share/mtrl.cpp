@@ -188,18 +188,18 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 int pt_cache_texture(const int mi, const struct mtrl *mp) {
-    if (!mp) return mi;
+    //if (!mp) return mi;
 
     const struct b_mtrl *base = &mp->base;
     PathTracer::Material::Submat submat;
-    if (mp->po && mp->base.f != "default" && mp->base.f != "") {
+    if (mp->po && base->f != "default" && base->f != "") {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
     }
     else {
         submat.diffusePart = 0xFFFFFFFFFFFFFFFF;
     }
     
-    submat.diffuse = *(pgl::floatv4 *)base->d;
+    submat.diffuse = (*(pgl::floatv4 *)base->d) * ptransformer->colormod;
     submat.emissive = *(pgl::floatv4 *)base->e;
     submat.specular = *(pgl::floatv4 *)base->s;
     submat.reflectivity = *(pgl::floatv *)base->h;

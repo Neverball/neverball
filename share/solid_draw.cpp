@@ -126,10 +126,7 @@ static void sol_free_bill(const s_draw *draw)
 
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 {
-    //GLfloat model[16];
-    //glGetFloatv(GL_MODELVIEW_MATRIX, model);
-
-    //voffsetAccum += 0.001f;
+    ptransformer->voffsetAccum += 0.0001f;
 
     pgl::uintv mid = pmaterials->submats.size();
     pt_cache_texture(mid, mtrl_get(mi));
@@ -145,8 +142,6 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setMaterialOffset(mid);
     meshloader->triangleCount = 2;
 
-    ptransformer->voffsetAccum += 0.0001f;
-
     if (edge) {
         meshloader->setLoadingOffset(0);
     }
@@ -154,10 +149,10 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
         meshloader->setLoadingOffset(2);
     }
 
-    
-
     currentIntersector->loadMesh(meshloader);
     meshloader->setVerticeOffset(0.0f);
+    
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -357,28 +352,19 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     if (sol_test_mtrl(mp->mtrl, p))
     {
-        //GLfloat model[16];
-        //glGetFloatv(GL_MODELVIEW_MATRIX, model);
-
-        pgl::floatv4 cmod;
-        glGetFloatv(GL_CURRENT_COLOR, (float *)&cmod);
-
         pgl::uintv mid = pmaterials->submats.size();
         pt_cache_texture(mid, mtrl_get(mp->mtrl));
 
-        meshloader->setColorModifier(cmod);
+        meshloader->setColorModifier(pgl::floatv4(1.0f));
         meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
         meshloader->setMaterialOffset(mid);
         meshloader->setVertices(mp->vertBuf);
         meshloader->setTexcoords(mp->texBuf);
         meshloader->setNormals(mp->normBuf);
         meshloader->setIndices(mp->idcBuf);
-        //meshloader->setTransform(*(glm::mat4 *)(model));
         meshloader->setTransform(ptransformer->getCurrent());
         meshloader->setLoadingOffset(0);
         meshloader->triangleCount = mp->ebc;
-
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) {
             meshloader->setIndexed(false);

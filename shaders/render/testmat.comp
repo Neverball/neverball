@@ -519,7 +519,11 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
     if(mat . diffusePart == NOT_EXIST){
         result = mat . diffuse;
     } else {
-        result = fetchPart(mat . diffusePart, texcoord)*((mat . flags & M_TRANSPARENT)< 1 &&(mat . flags & M_ENVIRONMENT)< 1 ? vec4(1.0f): mat . diffuse);
+        result = fetchPart(mat . diffusePart, texcoord)* clamp(mat . diffuse *(1.25f), vec4(0.0f), vec4(1.0f));
+    }
+
+    if((mat . flags & M_REFLECTIVE)> 0){
+        result . w = 1.0f;
     }
 
 
@@ -836,12 +840,12 @@ void main(){
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
             newRay = promised(newRay, hit, normal);
+            newRay . color . xyz *= isAdditive ? 1.0f : atrns;
+            if(shadowed && ! isAdditive && atrns < 0.0001f){
+                newRay . actived = 0;
+            }
         }
-        newRay . color . xyz *= isAdditive ? 1.0f : atrns;
 
-        if(shadowed && ! isAdditive && atrns < 0.0001f){
-            newRay . actived = 0;
-        }
     }
 
 

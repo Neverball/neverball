@@ -50,8 +50,10 @@ static void game_draw_balls(struct s_rend *rend,
 
         currentIntersector = intersectorBall;
 
-        glColor4f(c[0], c[1], c[2], c[3]);
+        //glColor4f(c[0], c[1], c[2], c[3]);
+        ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
         ball_draw(rend, ball_M, pend_M, bill_M, t);
+        ptransformer->colormod = pgl::floatv4(1.0f);
 
         currentIntersector = intersector;
         ptransformer->pop();
@@ -399,6 +401,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glBindVertexArray(0);
         glUseProgram(0);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        ptransformer->colormod = pgl::floatv4(1.0f);
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
@@ -432,7 +435,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glEnable(GL_TEXTURE_2D);
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
-        glColor4d(1, 1, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         pmaterials->loadToVGA();
         ptracer->camera(eye, target, persp);
@@ -464,11 +467,14 @@ void game_draw(struct game_draw *gd, int pose, float t)
         }
         video_pop_matrix();
 
+
+
         glBindVertexArray(0);
         glUseProgram(0);
         glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glColor4d(1, 1, 1, 1);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        
 
         /* Draw the fade overlay. */
 

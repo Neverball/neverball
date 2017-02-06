@@ -3,5 +3,5 @@ ambient   0.2 0.2 0.0 1.0
 specular  0.2 0.2 0.2 1.0
 emissive  0.0 0.0 0.0 1.0
 shininess 25.0
-flags     transparent shadowed
+flags     transparent shadowed 
 angle     45.0

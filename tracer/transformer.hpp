@@ -13,6 +13,7 @@ namespace PathTracer {
         public:
             pgl::floatv voffsetAccum;
             pgl::intv flags = 0;
+            pgl::floatv4 colormod = pgl::floatv4(1.0f);
 
             Transformer(){
                 current = new glm::mat4(1.0f);
