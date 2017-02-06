@@ -432,6 +432,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glEnable(GL_TEXTURE_2D);
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
+        glColor4d(1, 1, 1, 1);
 
         pmaterials->loadToVGA();
         ptracer->camera(eye, target, persp);
