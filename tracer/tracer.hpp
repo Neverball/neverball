@@ -268,7 +268,7 @@ namespace PathTracer {
             if (rsize <= 0) return;
 
             bind();
-            context->useProgram(beginProgram)->dispatchCompute(tiled(rsize, worksize));
+            context->useProgram(beginProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
         }
 
@@ -284,7 +284,7 @@ namespace PathTracer {
             context->imageUnit(0)->texture(samples, unid);
             context->imageUnit(1)->texture(sampleflags, unid);
             context->imageUnit(2)->texture(presampled, unid);
-            context->useProgram(samplerProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize));
+            context->useProgram(samplerProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize))->flush();
             context->flush();
 
             currentSample = (currentSample + 1) % maxSamples;
@@ -303,7 +303,7 @@ namespace PathTracer {
             context->imageUnit(0)->texture(samples, unid);
             context->imageUnit(1)->texture(sampleflags, unid);
             context->imageUnit(2)->texture(presampled, unid);
-            context->useProgram(samplerProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize));
+            context->useProgram(samplerProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize))->flush();
             context->flush();
         }
 
@@ -320,7 +320,7 @@ namespace PathTracer {
             cameraUniformData.prob = 1.0f;
             syncUniforms();
 
-            context->useProgram(cameraProgram)->dispatchCompute(tiled(width * height, worksize));
+            context->useProgram(cameraProgram)->dispatchCompute(tiled(width * height, worksize))->flush();
             context->flush();
             raycountCacheClear = true;
             //sortIndices(activel->glID(), getRayCount());
@@ -339,7 +339,7 @@ namespace PathTracer {
             cameraUniformData.prob = 1.0f;
             syncUniforms();
 
-            context->useProgram(cameraProgram)->dispatchCompute(tiled(width * height, worksize));
+            context->useProgram(cameraProgram)->dispatchCompute(tiled(width * height, worksize))->flush();
             context->flush();
             raycountCacheClear = true;
             //sortIndices(activel->glID(), getRayCount());
@@ -359,7 +359,7 @@ namespace PathTracer {
 
                 bind();
                 context->imageUnit(0)->texture(sampleflags, unid);
-                context->useProgram(clearProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize));
+                context->useProgram(clearProgram)->dispatchCompute(tiled(displayWidth * displayHeight, worksize))->flush();
                 context->flush();
             //}
         }
@@ -380,7 +380,7 @@ namespace PathTracer {
                 context->textureUnit(0)->texture(cubeTex);
             }
             context->binding(14)->target(pgl::BufferTarget::ShaderStorage)->buffer(activenl);
-            context->useProgram(closeProgram)->dispatchCompute(tiled(rsize, worksize));
+            context->useProgram(closeProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
 
             raycountCacheClear = true;
@@ -405,7 +405,7 @@ namespace PathTracer {
 
             bind();
             context->binding(14)->target(pgl::BufferTarget::ShaderStorage)->buffer(activenl);
-            context->useProgram(reclaimProgram)->dispatchCompute(tiled(rsize, worksize));
+            context->useProgram(reclaimProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
 
             raycountCacheClear = true;
@@ -451,7 +451,7 @@ namespace PathTracer {
 
             context->useProgram(renderProgram);
             context->bindVertexArray(vao);
-            context->drawElements(ddesc);
+            context->drawElements(ddesc)->flush();
 
             //context->flush();
         }
@@ -466,7 +466,7 @@ namespace PathTracer {
             obj->bindBVH();
             obj->bindUniforms();
             bind();
-            context->useProgram(intersectionProgram)->dispatchCompute(tiled(rsize, worksize));
+            context->useProgram(intersectionProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
 
             obj->resolve();
@@ -482,7 +482,7 @@ namespace PathTracer {
             syncUniforms();
             bind();
 
-            context->useProgram(matProgram)->dispatchCompute(tiled(rsize, worksize));
+            context->useProgram(matProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
         }
 
