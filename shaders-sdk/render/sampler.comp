@@ -31,7 +31,7 @@ void main(){
     }
     
     ivec2 basis = ivec2(vec2(xyl.xy) * aspect);
-    vec4 newc = vec4(0.0f);
+    vec4 newc = vec4(0.0f, 0.0f, 0.0f, 1.0f);
     vec2 screen = vec2(xyl.xy);
     for(int x=0;x<=scl.x;x++){
         for(int y=0;y<=scl.y;y++){
@@ -48,11 +48,12 @@ void main(){
                         diff.y < 1.0f
                     ) {
                         Ray ray = fetchRay(ts);
+                        vec4 samp = vec4(0.0f, 0.0f, 0.0f, 1.0f);
                         for(int i=0;i<64;i++){
                             Hit hit = fetchHit(ray);
                             if (ray.actived < 1 && hit.shaded > 0) {
                                 vec4 smp = max(ray.final, vec4(0.0f));
-                                newc += smp;
+                                samp.xyz += smp.xyz;
                                 storeRay(ray);
                             }
                             ray.final = vec4(0.0f);
@@ -60,6 +61,7 @@ void main(){
                             if(!haveChain(ray)) break;
                             ray = nextRay(ray);
                         }
+                        newc.xyz += samp.xyz;
                     }
                 }
             }

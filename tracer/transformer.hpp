@@ -11,6 +11,8 @@ namespace PathTracer {
         glm::mat4 * current;
         
         public:
+        int flags = 0;
+
         Transformer(){
             current = new glm::mat4(1.0f);
         }

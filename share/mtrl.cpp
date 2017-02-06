@@ -133,7 +133,8 @@ static void load_mtrl_objects(struct mtrl *mp)
 
     /* Load the texture. */
 
-    if (mp->po = find_texture_pt(_(mp->base.f)))
+    mp->po = find_texture_pt(_(mp->base.f));
+    if (mp->po)
     {
         if (mp->base.fl & M_CLAMP_S) {
             mp->po->wrap<0>(pgl::TextureWrap::ClampToEdge);
@@ -187,9 +188,7 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 int pt_cache_texture(const int mi, const struct mtrl *mp) {
-    if (!mp || mi < 0) {
-        return mi;
-    }
+    if (!mp) return mi;
 
     const struct b_mtrl *base = &mp->base;
     PathTracer::Material::Submat submat;
@@ -204,14 +203,13 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
     submat.emissive = *(pgl::floatv4 *)base->e;
     submat.specular = *(pgl::floatv4 *)base->s;
     submat.reflectivity = *(pgl::floatv *)base->h;
-    submat.flags = base->fl;
+    submat.flags = base->fl | ptransformer->flags;
 
     if (mi >= pmaterials->submats.size()) {
         pmaterials->submats.resize(mi + 1);
     }
 
     pmaterials->submats[mi] = submat;
-    //pmaterials->loadToVGA();
     return mi;
 }
 

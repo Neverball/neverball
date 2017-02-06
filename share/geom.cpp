@@ -332,6 +332,11 @@ void back_init(const char *name)
     {
         struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
         mp->po = make_image_from_file_pgl(name, IF_MIPMAP);
+        mp->base.d[0] = 1.0f;
+        mp->base.d[1] = 1.0f;
+        mp->base.d[2] = 1.0f;
+        mp->base.d[3] = 1.0f;
+        //mp->base.fl |= M_TRANSPARENT;
 
         if (mp->po) {
             mp->po->wrap<0>(pgl::TextureWrap::Repeat);
@@ -450,7 +455,9 @@ void back_draw(struct s_rend *rend)
     //    glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
         ptransformer->push();
         ptransformer->scale(-BACK_DIST, BACK_DIST, -BACK_DIST);
+        ptransformer->flags |= M_TRANSPARENT;
         sol_draw(&back.draw, rend, 1, 1);
+        ptransformer->flags = 0;
         ptransformer->pop();
     //}
     //glPopMatrix();

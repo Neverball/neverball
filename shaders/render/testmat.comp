@@ -152,7 +152,7 @@ struct HlbvhNode {
 #line 9 "./render/testmat.comp"
 #line 1 "./render/../include/constants.glsl"
 const int LONGEST = 0xFFFFFFFF;
-const float INFINITY = 100000.0f;
+const float INFINITY = 1000000.0f;
 const float GAMMA = 1.0f;
 const float PI = 3.1415926535897932384626422832795028841971f;
 const float TWO_PI = 6.2831853071795864769252867665590057683943f;
@@ -696,15 +696,9 @@ int applyLight(in Ray directRay, inout Ray newRay, in Hit hit, in vec3 normal){
 
 int emitRay(in Ray originRay, in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
     if(originRay . params . w < 1){
-        if(additive){
-            directRay . final . w *= 0.0f;
-            directRay . color . xyz *= coef;
-            directRay . final . xyz *= coef;
-        } else {
-            directRay . final . w *= coef;
-            directRay . color . xyz *= coef;
-            directRay . final . xyz *= coef;
-        }
+        directRay . color . xyz *= coef;
+        directRay . final . xyz *= coef;
+
         int ps = createRay(directRay);
         storeHit(ps, hit);
         return ps;
@@ -808,64 +802,40 @@ void main(){
     const float shadowIntense = 0.4f;
     const float unShadowIntense = 1.0f - shadowIntense;
 
-    if(trns > 0.999f && ! isAdditive){
-
+    if(trns > 0.999f &&(material . flags & M_TRANSPARENT)< 1 && ! isAdditive){
         if(shadowed){
             if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal,(1.0f - spic)* unShadowIntense, false);
             if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal,(1.0f - spic)* shadowIntense, false);
-
-
-
-
-
-
-
-
-        } else {
-            emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal, 1.0f - spic, isAdditive);
+        } else
+        if(spic < 1.0f){
+            emitRay(newRay, emissive(newRay, hit, tx . xyz *(isAdditive ? 1.0f : trns), normal), hit, normal, 1.0f - spic, isAdditive);
         }
 
         newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
-        newRay . final *= spic;
         newRay . color . xyz *= spic;
 
-        if(newRay . final . w < 0.0001f && newRay . params . w < 1){
+        if(shadowed && spic < 0.0001f){
             newRay . actived = 0;
         }
-
     } else {
         if(spic > 0.0f && random()< spic){
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
             if(newRay . params . w < 1){
-
                 if(shadowed){
                     if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal,(trns)* unShadowIntense, false);
                     if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal,(trns)* shadowIntense, false);
-
-
-
-
-
-
-
-
                 } else
                 if(trns > 0.0f){
                     emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal, trns, isAdditive);
                 }
 
                 newRay = promised(newRay, hit, normal);
+                newRay . color . xyz *= isAdditive ? 1.0f : atrns;
 
-                if(! isAdditive){
-                    newRay . final . w *= atrns;
-                    newRay . color . xyz *= atrns;
-
-                    if(newRay . final . w < 0.0001f){
-                        newRay . actived = 0;
-                    }
+                if(shadowed && atrns < 0.0001f){
+                    newRay . actived = 0;
                 }
-
             }
             else {
                 if(atrns > 0.0f && random()< atrns || isAdditive){

@@ -428,20 +428,17 @@ static void sol_load_body(struct d_body *bp,
 
 static void sol_free_body(struct d_body *bp)
 {
-    int mi;
-
-    for (mi = 0; mi < bp->mc; ++mi)
+    for (int mi = 0; mi < bp->mc; mi++) {
         sol_free_mesh(bp->mv + mi);
-
+    }
     free(bp->mv);
 }
 
 static void sol_draw_body(const struct d_body *bp, struct s_rend *rend, int p)
 {
-    int i;
-
-    for (i = 0; i < bp->mc; ++i)
+    for (int i = 0; i < bp->mc; i++) {
         sol_draw_mesh(bp->mv + i, rend, p);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -509,19 +506,20 @@ void sol_free_draw(struct s_draw *draw)
 
 static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 {
-    for (int bi = 0; bi < draw->bc; ++bi)
+    for (int bi = 0; bi < draw->bc; bi++) {
         if (draw->bv[bi].pass[p])
         {
             //glPushMatrix();
             //{
-                ptransformer->push();
-                sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
-                sol_draw_body(draw->bv + bi, rend, p);
-                ptransformer->pop();
+            ptransformer->push();
+            sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
+            sol_draw_body(draw->bv + bi, rend, p);
+            ptransformer->pop();
 
             //}
             //glPopMatrix();
         }
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -560,12 +558,13 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    //for (int ri = 0; ri < draw->base->rc; ri++)
-    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    for (int ri = 0; ri < draw->base->rc; ri++)
+    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
         {
+
             float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
 
             float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
