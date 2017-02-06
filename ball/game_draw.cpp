@@ -426,8 +426,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
             target = *(pgl::floatv3 *)view->c;
 
             game_draw_back(&rend, gd, pose, +1, t);
-            //game_draw_light(gd, 1, t);
-            game_refl_all(&rend, gd);
             game_draw_fore(&rend, gd, pose, T, +1, t);
         }
         //ptransformer->pop();

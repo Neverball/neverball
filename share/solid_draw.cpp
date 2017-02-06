@@ -512,30 +512,20 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
 {
-    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
+    //rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
     sol_draw_all(draw, rend, PASS_OPAQUE);
     sol_draw_all(draw, rend, PASS_OPAQUE_DECAL);
+    sol_draw_all(draw, rend, PASS_REFLECTIVE);
     sol_draw_all(draw, rend, PASS_TRANSPARENT_DECAL);
     sol_draw_all(draw, rend, PASS_TRANSPARENT);
-    rend->skip_flags = 0;
+    //rend->skip_flags = 0;
 }
 
 void sol_refl(const struct s_draw *draw, struct s_rend *rend)
 {
-    /* Disable shadowed material setup if not requested. */
-
-    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
-
-    /* Render all reflective geometry. */
-
-    sol_draw_all(draw, rend, PASS_REFLECTIVE);
-
-    /* Revert the buffer object state. */
-
-    glBindBuffer_(GL_ARRAY_BUFFER,         0);
-    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    rend->skip_flags = 0;
+//    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
+//    sol_draw_all(draw, rend, PASS_REFLECTIVE);
+//    rend->skip_flags = 0;
 }
 
 void sol_back(const struct s_draw *draw,
