@@ -142,7 +142,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setMaterialOffset(mi);
     meshloader->triangleCount = 2;
 
-    //voffsetAccum += 0.01f;
+    voffsetAccum += 0.001f;
 
     if (edge) {
         meshloader->setLoadingOffset(0);
@@ -211,10 +211,11 @@ static int sol_count_body(const struct b_body *bp,
 static int sol_count_mesh(const struct d_body *bp, int p)
 {
     int mi, c = 0;
-    for (mi = 0; mi < bp->mc; ++mi)
-        if (sol_test_mtrl(bp->mv[mi].mtrl, p))
+    for (mi = 0; mi < bp->mc; ++mi) {
+        if (sol_test_mtrl(bp->mv[mi].mtrl, p)) {
             c++;
-
+        }
+    }
     return c;
 }
 
@@ -450,12 +451,12 @@ int sol_load_draw(struct s_draw *draw, struct s_vary *vary, int s)
 
     /* Determine whether this file has reflective materials. */
 
-    for (i = 0; i < draw->base->mc; i++)
-        if (draw->base->mv[i].fl & M_REFLECTIVE)
-        {
-            draw->reflective = 1;
-            break;
-        }
+    //for (i = 0; i < draw->base->mc; i++)
+    //    if (draw->base->mv[i].fl & M_REFLECTIVE)
+    //    {
+    //        draw->reflective = 1;
+    //        break;
+    //    }
 
     /* Cache all materials for this file. */
 
@@ -502,11 +503,7 @@ void sol_free_draw(struct s_draw *draw)
 
 static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 {
-    int bi;
-
-    /* Draw all meshes of all bodies matching the given material flags. */
-
-    for (bi = 0; bi < draw->bc; ++bi)
+    for (int bi = 0; bi < draw->bc; ++bi)
         if (draw->bv[bi].pass[p])
         {
             //glPushMatrix();
@@ -557,10 +554,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    int ri;
-
-    //for (ri = 0; ri < draw->base->rc; ri++)
-    for (ri = draw->base->rc - 1;ri >= 0;ri--) 
+    for (int ri = 0; ri < draw->base->rc; ri++)
+    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
@@ -624,9 +619,8 @@ void sol_bill(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    int ri;
-
-    for (ri = draw->base->rc - 1;ri >= 0;ri--)
+    //for (int ri = draw->base->rc - 1;ri >= 0;ri--)
+    for (int ri = 0; ri < draw->base->rc; ri++)
     {
         const struct b_bill *rp = draw->base->rv + ri;
 
