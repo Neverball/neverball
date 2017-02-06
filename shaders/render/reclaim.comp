@@ -436,7 +436,7 @@ void main()
         qrays[act]= t;
     }
 
-    ray . origin . xyz = fma(faceforward(hit . normal . xyz, ray . direct . xyz, - hit . normal . xyz), vec3(0.001f), ray . origin . xyz);
+    ray . origin . xyz = fma(faceforward(hit . normal . xyz, ray . direct . xyz, - hit . normal . xyz), vec3(0.0001f), ray . origin . xyz);
     ray . color . xyz = max(ray . color . xyz, vec3(0.0f));
     ray . final = max(ray . final, vec4(0.0f));
 

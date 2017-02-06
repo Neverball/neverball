@@ -29,7 +29,6 @@ extern const char ICON[];
 
 struct video video;
 
-pgl::floatv voffsetAccum = 0.0f;
 PathTracer::Tracer * ptracer;
 PathTracer::Mesh * meshloader;
 PathTracer::Intersector * currentIntersector;

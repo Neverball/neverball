@@ -27,7 +27,6 @@ struct video
     float device_scale;
 };
 
-extern pgl::floatv voffsetAccum;
 extern PathTracer::Tracer * ptracer;
 extern PathTracer::Mesh * meshloader;
 extern PathTracer::Intersector * currentIntersector;

@@ -225,7 +225,7 @@ static void game_draw_back(struct s_rend *rend,
         //glTranslatef(view->p[0], view->p[1] * d, view->p[2]);
         ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
 
-        voffsetAccum = 0.0f;
+        ptransformer->voffsetAccum = 0.0f;
 
         currentIntersector = intersectorBillboard;
         if (config_get_d(CONFIG_BACKGROUND))
@@ -236,7 +236,7 @@ static void game_draw_back(struct s_rend *rend,
         else back_draw(rend);
         currentIntersector = intersector;
 
-        voffsetAccum = 0.0f;
+        ptransformer->voffsetAccum = 0.0f;
         ptransformer->pop();
     //}
     //glPopMatrix();

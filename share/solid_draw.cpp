@@ -135,7 +135,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     pt_cache_texture(mid, mtrl_get(mi));
 
     meshloader->setColorModifier(pgl::floatv4(1.0f));
-    meshloader->setVerticeOffset(voffsetAccum);
+    meshloader->setVerticeOffset(ptransformer->voffsetAccum);
     meshloader->setVertices(draw->billVert);
     meshloader->setTexcoords(draw->billTex);
     meshloader->setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
@@ -145,7 +145,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setMaterialOffset(mid);
     meshloader->triangleCount = 2;
 
-    //voffsetAccum += 0.001f;
+    ptransformer->voffsetAccum += 0.0001f;
 
     if (edge) {
         meshloader->setLoadingOffset(0);
@@ -367,7 +367,7 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         pt_cache_texture(mid, mtrl_get(mp->mtrl));
 
         meshloader->setColorModifier(cmod);
-        meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.002f : 0.0f);
+        meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
         meshloader->setMaterialOffset(mid);
         meshloader->setVertices(mp->vertBuf);
         meshloader->setTexcoords(mp->texBuf);
