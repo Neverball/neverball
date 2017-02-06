@@ -558,8 +558,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    for (int ri = 0; ri < draw->base->rc; ri++)
-    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    //for (int ri = 0; ri < draw->base->rc; ri++)
+    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)

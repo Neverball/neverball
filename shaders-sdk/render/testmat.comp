@@ -344,23 +344,25 @@ void main() {
 
 #ifdef REFLECTION_TEST
     
-    float rlspc = 1.0f - spic;
-    float trns = prom; //* rlspc;
+    float trns = prom;
     float atrns = 1.0f - prom;
-
+    float aspic = 1.0f - spic;
+    
     bool isAdditive = (material.flags & M_ADDITIVE) > 0;
     bool shadowed = (material.flags & M_SHADOWED) > 0 && !((material.flags & M_ENVIRONMENT) > 0 && (material.flags & M_TRANSPARENT) > 0);
     
     const float shadowIntense = 0.4f;
     const float unShadowIntense = 1.0f - shadowIntense;
     
+    // Solid (reflection priority)
     if (trns > 0.999f && (material.flags & M_TRANSPARENT) < 1 && !isAdditive) {
-        if (shadowed) {
-            if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic) * unShadowIntense, false);
-            if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (1.0f - spic) * shadowIntense, false);
-        } else 
-        if (spic < 1.0f) {
-            emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? 1.0f : trns), normal), hit, normal, 1.0f - spic, isAdditive);
+        if (aspic > 0.0) {
+            if (shadowed) {
+                if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, aspic * unShadowIntense, false);
+                if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, aspic * shadowIntense, false);
+            } else {
+                emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? 1.0f : trns), normal), hit, normal, aspic, false);
+            }
         }
         
         newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
@@ -369,33 +371,37 @@ void main() {
         if (shadowed && spic < 0.0001f) {
             newRay.actived = 0;
         }
-    } else {
+    } else 
+    
+    // Transparency priority
+    if (newRay.params.w < 1) {
+        if (trns > 0.0f) {
+            if (shadowed) {
+                if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
+                if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
+            } else {
+                emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
+            }
+        }
+
         if (spic > 0.0f && random() < spic) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
         } else {
-            if (newRay.params.w < 1) {
-                if (shadowed) {
-                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
-                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
-                } else 
-                if (trns > 0.0f) {
-                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
-                }
+            newRay = promised(newRay, hit, normal);
+        }
+        newRay.color.xyz *= isAdditive ? 1.0f : atrns;
 
-                newRay = promised(newRay, hit, normal);
-                newRay.color.xyz *= isAdditive ? 1.0f : atrns;
-
-                if (shadowed && atrns < 0.0001f) {
-                    newRay.actived = 0;
-                }
-            } 
-            else {
-                if (atrns > 0.0f && random() < atrns || isAdditive) {
-                    newRay = promised(newRay, hit, normal);
-                } else {
-                    newRay = emissive(newRay, hit, tx.xyz, normal);
-                }
-            }
+        if (shadowed && !isAdditive && atrns < 0.0001f) {
+            newRay.actived = 0;
+        }
+    }
+    
+    // Shadow overlapping
+    else {
+        if (atrns > 0.0f && random() < atrns || isAdditive) {
+            newRay = promised(newRay, hit, normal);
+        } else {
+            newRay = emissive(newRay, hit, tx.xyz, normal);
         }
     }
 
