@@ -211,7 +211,7 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
     }
 
     pmaterials->submats[mi] = submat;
-    pmaterials->loadToVGA();
+    //pmaterials->loadToVGA();
     return mi;
 }
 
@@ -249,7 +249,8 @@ int mtrl_cache(const struct b_mtrl *base)
                 load_mtrl(mp, base);
                 mp->refc++;
                 mi = i;
-                return pt_cache_texture(mi, mp);
+                //return pt_cache_texture(mi, mp);
+                return mi;
                 //return i;
             }
         }
@@ -262,7 +263,8 @@ int mtrl_cache(const struct b_mtrl *base)
             load_mtrl(mp, base);
             mp->refc++;
             mi = array_len(mtrls) - 1;
-            return pt_cache_texture(mi, mp);
+            return mi;
+            //return pt_cache_texture(mi, mp);
             //return array_len(mtrls) - 1;
         }
     }
@@ -272,7 +274,8 @@ int mtrl_cache(const struct b_mtrl *base)
         mp->refc++;
     }
 
-    return pt_cache_texture(mi, mp);
+    return mi;
+    //return pt_cache_texture(mi, mp);
     //return mi;
 }
 
@@ -365,7 +368,7 @@ void mtrl_reload(void)
             {
                 free_mtrl(mp);
                 load_mtrl(mp, &base);
-                pt_cache_texture(i, mp);
+                //pt_cache_texture(i, mp);
             }
         }
     }
@@ -384,7 +387,7 @@ void mtrl_load_objects(void)
 
         if (mp->refc > 0) {
             load_mtrl_objects(mp);
-            pt_cache_texture(i, mp);
+            //pt_cache_texture(i, mp);
         }
     }
 }

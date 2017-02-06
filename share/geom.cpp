@@ -337,7 +337,7 @@ void back_init(const char *name)
             mp->po->wrap<0>(pgl::TextureWrap::Repeat);
         }
 
-        pt_cache_texture(back.base.mtrls[0], mp);
+        //pt_cache_texture(back.base.mtrls[0], mp);
         back_state = 1;
     }
 }

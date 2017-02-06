@@ -131,6 +131,9 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 
     //voffsetAccum += 0.001f;
 
+    pgl::uintv mid = pmaterials->submats.size();
+    pt_cache_texture(mid, mtrl_get(mi));
+
     meshloader->setColorModifier(pgl::floatv4(1.0f));
     meshloader->setVerticeOffset(voffsetAccum);
     meshloader->setVertices(draw->billVert);
@@ -139,10 +142,10 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setIndexed(false);
     //meshloader->setTransform(*(glm::mat4 *)(model));
     meshloader->setTransform(ptransformer->getCurrent());
-    meshloader->setMaterialOffset(mi);
+    meshloader->setMaterialOffset(mid);
     meshloader->triangleCount = 2;
 
-    voffsetAccum += 0.001f;
+    //voffsetAccum += 0.001f;
 
     if (edge) {
         meshloader->setLoadingOffset(0);
@@ -360,9 +363,12 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         pgl::floatv4 cmod;
         glGetFloatv(GL_CURRENT_COLOR, (float *)&cmod);
 
+        pgl::uintv mid = pmaterials->submats.size();
+        pt_cache_texture(mid, mtrl_get(mp->mtrl));
+
         meshloader->setColorModifier(cmod);
         meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.002f : 0.0f);
-        meshloader->setMaterialOffset(mp->mtrl);
+        meshloader->setMaterialOffset(mid);
         meshloader->setVertices(mp->vertBuf);
         meshloader->setTexcoords(mp->texBuf);
         meshloader->setNormals(mp->normBuf);
@@ -554,8 +560,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    for (int ri = 0; ri < draw->base->rc; ri++)
-    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    //for (int ri = 0; ri < draw->base->rc; ri++)
+    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)

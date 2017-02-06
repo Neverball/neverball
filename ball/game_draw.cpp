@@ -404,6 +404,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glLoadIdentity();
         glPushMatrix();
 
+        pmaterials->submats.resize(0);
         ptransformer->reset();
         //ptransformer->push();
         {
@@ -431,6 +432,8 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glEnable(GL_TEXTURE_2D);
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
+
+        pmaterials->loadToVGA();
         ptracer->camera(eye, target, persp);
 
         for (int j = 0;j < 16;j++) {
