@@ -252,7 +252,7 @@ layout(std430, binding = 3)buffer LeafBlock {
 layout(binding = 0)uniform atomic_uint NodeCounter;
 
 int clzm(in int x){
-    return(31 - findMSB(x));
+    return(32 - findMSB(x));
 }
 
 int delta(in int i1, in int i2){
