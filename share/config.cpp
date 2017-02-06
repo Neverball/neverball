@@ -146,7 +146,7 @@ static struct
     { &CONFIG_MOUSE_SENSE,  "mouse_sense",  300 },
     { &CONFIG_MOUSE_RESPONSE, "mouse_response", 50 },
     { &CONFIG_MOUSE_INVERT, "mouse_invert", 0 },
-    { &CONFIG_VSYNC,        "vsync",        1 },
+    { &CONFIG_VSYNC,        "vsync",        0 },
     { &CONFIG_HMD,          "hmd",          0 },
     { &CONFIG_HIGHDPI,      "highdpi",      1 },
 
