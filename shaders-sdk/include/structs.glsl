@@ -34,7 +34,6 @@ struct Ray {
 struct Hit {
     vec4 normal;
     vec4 tangent;
-    vec4 color;
     vec2 texcoord;
     float dist;
     float _t0;

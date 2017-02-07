@@ -45,7 +45,6 @@ struct Ray {
 struct Hit {
     vec4 normal;
     vec4 tangent;
-    vec4 color;
     vec2 texcoord;
     float dist;
     float _t0;
@@ -776,7 +775,7 @@ void main(){
     normal = faceforward(normal, dir, normal);
 
     const float glossiness = clamp(1.0f / log2(material . reflectivity), 0.0f, 1.0f);
-    vec4 tx = fetchDiffuse(material, hit . texcoord, newRay . direct . xyz, normal)* vec4(hit . color . xyz, 1.0f);
+    vec4 tx = fetchDiffuse(material, hit . texcoord, newRay . direct . xyz, normal);
     vec4 tts = 1.0f - clamp(fetchTransmission(material, hit . texcoord, newRay . direct . xyz, normal), vec4(0.0f), vec4(1.0f));
     vec4 emi = fetchEmissive(material, hit . texcoord, newRay . direct . xyz, normal);
     emi . xyz = emi . xyz / max(mlength(emi . xyz), 0.0001f)* 10.0f;

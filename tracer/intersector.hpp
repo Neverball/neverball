@@ -32,7 +32,6 @@ namespace PathTracer {
         pgl::Buffer<pgl::floatv> norm_triangle_ssbo;
         pgl::Buffer<pgl::floatv> tex_triangle_ssbo;
         pgl::Buffer<pgl::intv> mat_triangle_ssbo;
-        pgl::Buffer<pgl::floatv> col_triangle_ssbo;
 
         pgl::Buffer<MinmaxUniformStruct> minmaxUniform;
         pgl::Buffer<HelperUniformStruct> helperUniform;
@@ -146,7 +145,6 @@ namespace PathTracer {
             //Geometry
             ebo_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt * 3);
             vbo_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9);
-            col_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 12);
             norm_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9);
             tex_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 6);
             mat_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt);
@@ -187,7 +185,6 @@ namespace PathTracer {
             context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(norm_triangle_ssbo);
             context->binding(6)->target(pgl::BufferTarget::ShaderStorage)->buffer(tex_triangle_ssbo);
             context->binding(7)->target(pgl::BufferTarget::ShaderStorage)->buffer(mat_triangle_ssbo);
-            context->binding(16)->target(pgl::BufferTarget::ShaderStorage)->buffer(col_triangle_ssbo);
         }
 
         void bindBVH() {

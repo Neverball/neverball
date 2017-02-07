@@ -44,7 +44,6 @@ struct Ray {
 struct Hit {
     vec4 normal;
     vec4 tangent;
-    vec4 color;
     vec2 texcoord;
     float dist;
     float _t0;
@@ -407,6 +406,5 @@ void main()
     hit . normal = vec4(0.0f);
     hit . tangent = vec4(0.0f);
     hit . shaded = 0;
-    hit . color = vec4(1.0f);
     storeHit(t, hit);
 }

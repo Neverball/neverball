@@ -164,7 +164,6 @@ void main() {
             res.dist <= hit.dist
         ) {
             Hit newHit = hit;
-            newHit.color = res.color;
             newHit.shaded = 0;
             newHit.dist = res.dist;
             newHit.normal.xyz = res.normal;

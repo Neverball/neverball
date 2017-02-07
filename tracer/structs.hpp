@@ -45,7 +45,6 @@ namespace PathTracer {
     struct Hit {
         pgl::floatv4 normal;
         pgl::floatv4 tangent;
-        pgl::floatv4 color;
         pgl::floatv2 texcoord;
         pgl::floatv dist;
         pgl::floatv _t0;
