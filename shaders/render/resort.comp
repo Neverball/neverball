@@ -150,7 +150,7 @@ struct HlbvhNode {
 #line 8 "./render/resort.comp"
 #line 1 "./render/../include/constants.glsl"
 const int LONGEST = 0xFFFFFFFF;
-const float INFINITY = 10000.0f;
+const float INFINITY = 100000.0f;
 const float GAMMA = 1.0f;
 const float PI = 3.1415926535897932384626422832795028841971f;
 const float TWO_PI = 6.2831853071795864769252867665590057683943f;

@@ -136,9 +136,10 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     pgl::uintv mid = pmaterials->submats.size();
     pt_cache_texture(mid, mat);
 
-    ptransformer->voffsetAccum += 0.0001f;
+    //ptransformer->voffsetAccum += 0.0001f;
     meshloader->setColorModifier(pgl::floatv4(1.0f));
-    meshloader->setVerticeOffset(ptransformer->voffsetAccum);
+    //meshloader->setVerticeOffset(ptransformer->voffsetAccum);
+    meshloader->setVerticeOffset(0.0f);
     meshloader->setVertices(draw->billVert);
     meshloader->setTexcoords(draw->billTex);
     meshloader->setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
@@ -492,9 +493,7 @@ void sol_back(const struct s_draw *draw,
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
         {
-
             float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2.0f) : 0.0f;
-
             float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
             float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
 
@@ -508,7 +507,7 @@ void sol_back(const struct s_draw *draw,
                 {
                     if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
                     if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
-                    ptransformer->translate(0.0f, 0.0f, -rp->d);
+                    ptransformer->translate(0.0f, 0.0f, -(rp->d));
                     if (rp->fl & B_FLAT)
                     {
                         ptransformer->rotate(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
