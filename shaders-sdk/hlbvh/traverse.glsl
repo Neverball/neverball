@@ -4,7 +4,7 @@ layout( std430, binding = 1 ) buffer MortoncodesBlock {ivec2 Mortoncodes[];};
 #define LEAFNODE(x) (((x).left) == ((x).right))
 
 TResult testIntersection(inout TResult res, in vec3 orig, in vec3 dir, in int tri) {
-    if (tri != LONGEST /*&& res.triangle != tri*/) {
+    if (tri != LONGEST && res.triangle != tri) {
         vec3 triverts[3];
         for (int x=0;x<3;x++) {
             int j = indics[tri * 3 + x];
