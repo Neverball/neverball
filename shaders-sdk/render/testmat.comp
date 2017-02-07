@@ -357,53 +357,35 @@ void main() {
     const float unShadowIntense = 1.0f - shadowIntense;
     
     // Solid (reflection priority)
-    if (trns > 0.999f && (material.flags & M_TRANSPARENT) < 1 && !isAdditive) {
-        //if (atrns > 0.0f && random() < atrns) {
-        //    newRay = promised(newRay, hit, normal);
-        //} else 
-        {
-            if (aspic > 0.0) {
-                if (shadowed) {
-                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, aspic * unShadowIntense, false);
-                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, aspic * shadowIntense, false);
-                } else {
-                    emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? 1.0f : trns), normal), hit, normal, aspic, false);
-                }
+    if (newRay.params.w < 1) {
+        float lspc = aspic * trns;
+        if (lspc > 0.0) {
+            if (shadowed) {
+                if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, lspc * unShadowIntense, false);
+                if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, lspc * shadowIntense, false);
+            } else {
+                emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, lspc, false);
             }
+        }
 
+        float spc = clamp(spic / atrns, 0.0f, 1.0f);
+        if (spc > 0.0f && random() < spc) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
-            newRay.color.xyz *= spic;
-            if (shadowed && spic < 0.0001f) {
-                newRay.actived = 0;
-            }
+        } else {
+            newRay = promised(newRay, hit, normal);
+        }
+        
+        float alspc = 1.0f - lspc;
+        float absor = isAdditive ? 1.0f : alspc;
+        
+        newRay.color.xyz *= absor;
+        if (shadowed && absor < 0.0001f) {
+            newRay.actived = 0;
         }
     } else 
     
-    // Transparency priority
-    if (newRay.params.w < 1) {
-        if (spic > 0.0f && random() < spic) {
-            newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
-        } else 
-        {
-            if (trns > 0.0f) {
-                if (shadowed) {
-                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
-                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
-                } else {
-                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
-                }
-            }
-            
-            newRay = promised(newRay, hit, normal);
-            newRay.color.xyz *= isAdditive ? 1.0f : atrns;
-            if (shadowed && !isAdditive && atrns < 0.0001f) {
-                newRay.actived = 0;
-            }
-        }
-    }
-    
     // Shadow overlapping
-    else {
+    {
         if (atrns > 0.0f && random() < atrns || isAdditive) {
             newRay = promised(newRay, hit, normal);
         } else {
