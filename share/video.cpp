@@ -338,9 +338,9 @@ int video_mode(int f, int w, int h)
             ptracer->resizeBuffers(video.device_w, video.device_h);
             ptracer->resize(video.window_w, video.window_h);
 
-            intersector->allocate(1024 * 1024);
-            intersectorBillboard->allocate(1024 * 64);
-            intersectorBall->allocate(1024 * 128);
+            intersector->allocate(1024 * 1024 * 1);
+            intersectorBillboard->allocate(1024 * 128);
+            intersectorBall->allocate(1024 * 256);
         }
 
 
