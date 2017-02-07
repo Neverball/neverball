@@ -19,7 +19,6 @@ layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
 
 const uint64_t NOT_EXIST = 0xFFFFFFFFFFFFFFFFul;
 
-
 const int M_SHADOWED = (1 <<  6);
 const int M_TRANSPARENT = (1 <<  7);
 const int M_REFLECTIVE = (1 <<  8);
@@ -212,55 +211,53 @@ Ray promised(in Ray newRay, in Hit hit, in vec3 normal){
 }
 
 Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
-    if (newRay.params.w < 1) {
-        vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
-        vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
+    if (newRay.params.w == 1) return newRay;
     
-        newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
-        newRay.final = max(newRay.final, vec4(0.0f));
-        newRay.actived = 0;
-        newRay.extended.x = 1;
-    }
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - newRay.origin.xyz;
+    float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
+
+    newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
+    newRay.final = max(newRay.final, vec4(0.0f));
+    newRay.actived = 0;
+    newRay.extended.x = 1;
     return newRay;
 }
 
 Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
-    if (newRay.params.w < 1) {
-        vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
-        vec3 ldiff = lightCenter - newRay.origin.xyz;
-        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
+    if (newRay.params.w == 1) return newRay;
     
-        newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone * intensivity, vec3(0.0f));
-        newRay.final.xyz = newRay.final.xyz / (lightUniform.lightRadius * lightUniform.lightRadius) * lightUniform.lightColor.xyz;
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - newRay.origin.xyz;
+    float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
 
-        newRay.final = max(newRay.final, vec4(0.0f));
-        newRay.actived = 0;
-        newRay.extended.x = 1;
-    }
+    newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone * intensivity, vec3(0.0f));
+    newRay.final.xyz = newRay.final.xyz / (lightUniform.lightRadius * lightUniform.lightRadius) * lightUniform.lightColor.xyz;
+
+    newRay.final = max(newRay.final, vec4(0.0f));
+    newRay.actived = 0;
+    newRay.extended.x = 1;
     return newRay;
 }
 
 int applyLight(in Ray directRay, inout Ray newRay, in Hit hit, in vec3 normal){
-    if(newRay.params.w < 1){
-        newRay.params.x = createRay(directRay);
-        newRay.extended.x = 1;
-        storeHit(newRay.params.x, hit);
-        return newRay.params.x;
-    }
-    return -1;
+    if (newRay.params.w == 1) return -1;
+    
+    newRay.params.x = createRay(directRay);
+    newRay.extended.x = 1;
+    storeHit(newRay.params.x, hit);
+    return newRay.params.x;
 }
 
 int emitRay(in Ray originRay, in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
-    if(originRay.params.w < 1){
-        directRay.color.xyz *= coef;
-        directRay.final.xyz *= coef;
+    if (originRay.params.w == 1) return -1;
+    
+    directRay.color.xyz *= coef;
+    directRay.final.xyz *= coef;
 
-        int ps = createRay(directRay);
-        storeHit(ps, hit);
-        return ps;
-    }
-    return -1;
+    int ps = createRay(directRay);
+    storeHit(ps, hit);
+    return ps;
 }
 
 vec3 sLight(){
@@ -269,26 +266,18 @@ vec3 sLight(){
 }
 
 Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
-    if (directRay.params.w < 1) {
+    if (directRay.params.w == 1) return directRay;
 
-        directRay.params.y = 1;
-        directRay.actived = 1;
-        directRay.params.w = 1;
-        directRay.direct.xyz = normalize(sLight() - directRay.origin.xyz);
-        directRay.extended.x = 0;
-        
-        vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
-        vec3 ldiff = lightCenter - directRay.origin.xyz;
-        
-        /*
-        float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f), 0.0f);
-        directRay.color.xyz *= pow(color, vec3(GAMMA)) * intensivity;
-        directRay.final.w *= intensivity;
-        */
-        
-        directRay.color.xyz *= pow(color, vec3(GAMMA)) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
-    }
-
+    directRay.params.y = 1;
+    directRay.actived = 1;
+    directRay.params.w = 1;
+    directRay.direct.xyz = normalize(sLight() - directRay.origin.xyz);
+    directRay.extended.x = 0;
+    
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - directRay.origin.xyz;
+    
+    directRay.color.xyz *= pow(color, vec3(GAMMA)) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
     return directRay;
 }
 

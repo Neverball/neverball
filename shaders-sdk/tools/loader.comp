@@ -16,48 +16,44 @@ layout ( std430, binding=12) buffer ssbo12 {int imats[];};
 layout ( std430, binding=13) buffer ssbo13 {int vindics[];};
 layout ( std430, binding=14) buffer ssbo14 {int nindics[];};
 layout ( std430, binding=15) buffer ssbo15 {int tindics[];};
-layout ( std430, binding=17) buffer ssbo17 {Stride4f icolors[];};
 
 layout ( local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 
 void main()
 {
-    if (gl_GlobalInvocationID.x < geometryUniform.triangleCount) {
-        int ctriangle = geometryUniform.loadOffset + int(gl_GlobalInvocationID.x);
-        int matID = /*imats[ctriangle] +*/ geometryUniform.materialID;
-        vec3 vertice[3];
-        vec3 normal[3];
-        vec2 texcoord[3];
-        vec4 colors[3];
-        
-        for(int i=0;i<3;i++){
-            int ctri = ctriangle * 3;
-            int vindices = geometryUniform.unindexed == 1 ? (ctri + i) : vindics[ctri + i];
-            int nindices = geometryUniform.unindexed == 1 ? (ctri + i) : nindics[ctri + i];
-            int tindices = geometryUniform.unindexed == 1 ? (ctri + i) : tindics[ctri + i];
+    if (gl_GlobalInvocationID.x >= geometryUniform.triangleCount) return;
+    
+    int ctriangle = geometryUniform.loadOffset + int(gl_GlobalInvocationID.x);
+    int matID = /*imats[ctriangle] +*/ geometryUniform.materialID;
+    vec3 vertice[3];
+    vec3 normal[3];
+    vec2 texcoord[3];
 
-            vec4 verticef = geometryUniform.transform * vec4(toVec3(iverts[vindices]), 1.0f);
-            verticef.xyz /= verticef.w;
-            vec4 normalf = vec4(toVec3(inorms[nindices]), 0.0f) * geometryUniform.transformInv;
-            vec2 texcoordf = toVec2(itexcs[tindices]);
+    for(int i=0;i<3;i++){
+        int ctri = ctriangle * 3;
+        int vindices = geometryUniform.unindexed == 1 ? (ctri + i) : vindics[ctri + i];
+        int nindices = geometryUniform.unindexed == 1 ? (ctri + i) : nindics[ctri + i];
+        int tindices = geometryUniform.unindexed == 1 ? (ctri + i) : tindics[ctri + i];
 
-            colors[i] = max(toVec4(icolors[vindices]), vec4(0.0f)) + geometryUniform.colormod;
-            vertice[i] = verticef.xyz;
-            normal[i] = normalf.xyz;
-            texcoord[i] = texcoordf.xy;
-        }
-        
-        vec3 offsetnormal = normalize(cross(vertice[1] - vertice[0], vertice[2] - vertice[0]));
+        vec4 verticef = geometryUniform.transform * vec4(toVec3(iverts[vindices]), 1.0f);
+        verticef.xyz /= verticef.w;
+        vec4 normalf = vec4(toVec3(inorms[nindices]), 0.0f) * geometryUniform.transformInv;
+        vec2 texcoordf = toVec2(itexcs[tindices]);
 
-        int ntriangle = geometryUniform.triangleOffset + ctriangle;
-        mats[ntriangle] = matID;
-        for(int i=0;i<3;i++){
-            int idc = ntriangle*3 + i;
-            indics[idc] = idc;
-            verts[idc] = toStride3(vertice[i] + offsetnormal * geometryUniform.offset);
-            norms[idc] = toStride3(normal[i]);
-            texcs[idc] = toStride2(texcoord[i]);
-            vcolors[idc] = toStride4(colors[i]);
-        }
+        vertice[i] = verticef.xyz;
+        normal[i] = normalf.xyz;
+        texcoord[i] = texcoordf.xy;
+    }
+    
+    vec3 offsetnormal = normalize(cross(vertice[1] - vertice[0], vertice[2] - vertice[0]));
+
+    int ntriangle = geometryUniform.triangleOffset + ctriangle;
+    mats[ntriangle] = matID;
+    for (int i=0;i<3;i++) {
+        int idc = ntriangle*3 + i;
+        indics[idc] = idc;
+        verts[idc] = toStride3(vertice[i] + offsetnormal * geometryUniform.offset);
+        norms[idc] = toStride3(normal[i]);
+        texcs[idc] = toStride2(texcoord[i]);
     }
 }
