@@ -185,11 +185,9 @@ static void load_mtrl(struct mtrl *mp, const struct b_mtrl *base)
 
 
 int pt_cache_texture(const int mi, const struct mtrl *mp) {
-    //if (!mp) return mi;
-
     const struct b_mtrl *base = &mp->base;
     PathTracer::Material::Submat submat;
-    if (mp->po && base->f != "default" && base->f != "") {
+    if (mp->po) {
         submat.diffusePart = pmaterials->loadTexture("", mp->po);
     }
     else {
