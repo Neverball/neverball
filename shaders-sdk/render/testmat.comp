@@ -358,44 +358,48 @@ void main() {
     
     // Solid (reflection priority)
     if (trns > 0.999f && (material.flags & M_TRANSPARENT) < 1 && !isAdditive) {
-        if (aspic > 0.0) {
-            if (shadowed) {
-                if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, aspic * unShadowIntense, false);
-                if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, aspic * shadowIntense, false);
-            } else {
-                emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? 1.0f : trns), normal), hit, normal, aspic, false);
+        //if (atrns > 0.0f && random() < atrns) {
+        //    newRay = promised(newRay, hit, normal);
+        //} else 
+        {
+            if (aspic > 0.0) {
+                if (shadowed) {
+                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, aspic * unShadowIntense, false);
+                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, aspic * shadowIntense, false);
+                } else {
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz * (isAdditive ? 1.0f : trns), normal), hit, normal, aspic, false);
+                }
             }
-        }
-        
-        newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
-        newRay.color.xyz *= spic;
 
-        if (shadowed && spic < 0.0001f) {
-            newRay.actived = 0;
+            newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
+            newRay.color.xyz *= spic;
+            if (shadowed && spic < 0.0001f) {
+                newRay.actived = 0;
+            }
         }
     } else 
     
     // Transparency priority
     if (newRay.params.w < 1) {
-        if (trns > 0.0f) {
-            if (shadowed) {
-                if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
-                if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
-            } else {
-                emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
-            }
-        }
-
         if (spic > 0.0f && random() < spic) {
             newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
-        } else {
+        } else 
+        {
+            if (trns > 0.0f) {
+                if (shadowed) {
+                    if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, (trns) * unShadowIntense, false);
+                    if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, (trns) * shadowIntense, false);
+                } else {
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal), hit, normal, trns, isAdditive);
+                }
+            }
+            
             newRay = promised(newRay, hit, normal);
             newRay.color.xyz *= isAdditive ? 1.0f : atrns;
             if (shadowed && !isAdditive && atrns < 0.0001f) {
                 newRay.actived = 0;
             }
         }
-        
     }
     
     // Shadow overlapping
