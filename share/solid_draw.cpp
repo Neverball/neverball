@@ -137,22 +137,16 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader->setTexcoords(draw->billTex);
     meshloader->setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
     meshloader->setIndexed(false);
-    //meshloader->setTransform(*(glm::mat4 *)(model));
     meshloader->setTransform(ptransformer->getCurrent());
     meshloader->setMaterialOffset(mid);
+    meshloader->setLoadingOffset(0);
     meshloader->triangleCount = 2;
 
-    if (edge) {
-        meshloader->setLoadingOffset(0);
-    }
-    else {
+    if (!edge) {
         meshloader->setLoadingOffset(2);
     }
 
     currentIntersector->loadMesh(meshloader);
-    meshloader->setVerticeOffset(0.0f);
-    
-
 }
 
 /*---------------------------------------------------------------------------*/
@@ -336,7 +330,7 @@ static void sol_load_mesh(struct d_mesh *mp,
     mp->vertBuf = vertBuf;
     mp->normBuf = normBuf;
     mp->texBuf = texBuf;
-    mp->ebc = gn; 
+    mp->ebc = gn * 3; 
     mp->vbc = vn; 
 }
 
@@ -357,14 +351,14 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 
         meshloader->setColorModifier(pgl::floatv4(1.0f));
         meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
-        meshloader->setMaterialOffset(mid);
         meshloader->setVertices(mp->vertBuf);
         meshloader->setTexcoords(mp->texBuf);
         meshloader->setNormals(mp->normBuf);
         meshloader->setIndices(mp->idcBuf);
-        meshloader->setTransform(ptransformer->getCurrent());
         meshloader->setLoadingOffset(0);
-        meshloader->triangleCount = mp->ebc;
+        meshloader->setTransform(ptransformer->getCurrent());
+        meshloader->setMaterialOffset(mid);
+        meshloader->triangleCount = mp->ebc / 3;
 
         if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) {
             meshloader->setIndexed(false);
@@ -373,9 +367,6 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
             meshloader->setIndexed(true);
             currentIntersector->loadMesh(meshloader);
         }
-
-        meshloader->setVerticeOffset(0.0f);
-
     }
 }
 
@@ -541,12 +532,12 @@ void sol_back(const struct s_draw *draw,
         if (n <= rp->d && rp->d < f)
         {
 
-            float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
+            float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2.0f) : 0.0f;
 
             float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
             float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
 
-            if (w > 0 && h > 0)
+            if (w > 0.0f && h > 0.0f)
             {
                 float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
@@ -558,9 +549,6 @@ void sol_back(const struct s_draw *draw,
 
                 ptransformer->push();
                 {
-                    const int mi = draw->base->mtrls[rp->mi];
-                    const mtrl *mp = mtrl_get(mi);
-
                     //if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
                     //if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
                     //glTranslatef(0.0f, 0.0f, -rp->d);
@@ -573,19 +561,23 @@ void sol_back(const struct s_draw *draw,
                     //if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
                     //glScalef(w, h, 1.0f);
 
-                    if (ry) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
-                    if (rx) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+                    if (ry != 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+                    if (rx != 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
                     ptransformer->translate(0.0f, 0.0f, -rp->d);
                     if (rp->fl & B_FLAT)
                     {
                         ptransformer->rotate(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
-                        ptransformer->rotate(-ry, 0.0f, 0.0f, 1.0f);
+                        ptransformer->rotate(-ry,         0.0f, 0.0f, 1.0f);
                     }
-                    if (rp->fl & B_EDGE) ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
-                    if (rz) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+                    if (rp->fl & B_EDGE) {
+                        ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
+                    }
+                    if (rz != 0.0f) {
+                        ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+                    }
                     ptransformer->scale(w, h, 1.0f);
 
-                    sol_draw_bill(draw, mi, rp->fl & B_EDGE);
+                    sol_draw_bill(draw, draw->base->mtrls[rp->mi], (rp->fl & B_EDGE));
                 }
                 ptransformer->pop();
 
@@ -627,10 +619,12 @@ void sol_bill(const struct s_draw *draw,
             //glScalef(w, h, 1.0f);
 
             ptransformer->translate(rp->p[0], rp->p[1], rp->p[2]);
-            if (M && ((rp->fl & B_NOFACE) == 0)) ptransformer->multiply(M);
-            if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
-            if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
-            if (fabsf(rz) > 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+            if (M && ((rp->fl & B_NOFACE) == 0)) {
+                ptransformer->multiply(M);
+            }
+            if (rx != 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+            if (ry != 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+            if (rz != 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
             ptransformer->scale(w, h, 1.0f);
 
             sol_draw_bill(draw, draw->base->mtrls[rp->mi], GL_FALSE);
