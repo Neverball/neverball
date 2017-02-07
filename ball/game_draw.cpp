@@ -39,54 +39,34 @@ static void game_draw_balls(struct s_rend *rend,
     m_basis(ball_M, vary->uv[0].e[0], vary->uv[0].e[1], vary->uv[0].e[2]);
     m_basis(pend_M, vary->uv[0].E[0], vary->uv[0].E[1], vary->uv[0].E[2]);
 
-    //glPushMatrix();
-    //{
-        //glTranslatef(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
-        //glScalef(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
+    ptransformer->push();
+    ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
+    ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
 
-        ptransformer->push();
-        ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
-        ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
+    currentIntersector = intersectorBall;
 
-        currentIntersector = intersectorBall;
+    ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
+    ball_draw(rend, ball_M, pend_M, bill_M, t);
+    ptransformer->colormod = pgl::floatv4(1.0f);
 
-        //glColor4f(c[0], c[1], c[2], c[3]);
-        ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
-        ball_draw(rend, ball_M, pend_M, bill_M, t);
-        ptransformer->colormod = pgl::floatv4(1.0f);
-
-        currentIntersector = intersector;
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    currentIntersector = intersector;
+    ptransformer->pop();
 }
 
 static void game_draw_items(struct s_rend *rend,
                             const struct s_vary *vary,
                             const float *bill_M, float t)
 {
-    int hi;
-
-    for (hi = 0; hi < vary->hc; hi++)
+    for (int hi = 0; hi < vary->hc; hi++)
     {
         struct v_item *hp = &vary->hv[hi];
 
-        /* Skip picked up items. */
+        if (hp->t == ITEM_NONE) continue;
 
-        if (hp->t == ITEM_NONE)
-            continue;
-
-        /* Draw model. */
-
-        //glPushMatrix();
-        //{
-            //glTranslatef(hp->p[0], hp->p[1], hp->p[2]);
-            ptransformer->push();
-            ptransformer->translate(hp->p[0], hp->p[1], hp->p[2]);
-            item_draw(rend, hp, bill_M, t);
-            ptransformer->pop();
-        //}
-        //glPopMatrix();
+        ptransformer->push();
+        ptransformer->translate(hp->p[0], hp->p[1], hp->p[2]);
+        item_draw(rend, hp, bill_M, t);
+        ptransformer->pop();
     }
 }
 
@@ -103,50 +83,44 @@ static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
     const struct s_base *base =  gd->vary.base;
     const struct s_vary *vary = &gd->vary;
 
-    int i;
-
     /* Goal beams */
-
-    if (gd->goal_e)
-        for (i = 0; i < base->zc; i++)
-            beam_draw(rend, base->zv[i].p, goal_c,
-                            base->zv[i].r, gd->goal_k * 3.0f);
+    if (gd->goal_e) {
+        for (int i = 0; i < base->zc; i++) {
+            beam_draw(rend, base->zv[i].p, goal_c, base->zv[i].r, gd->goal_k * 3.0f);
+        }
+    }
 
     /* Jump beams */
-
-    for (i = 0; i < base->jc; i++)
-        beam_draw(rend, base->jv[i].p, jump_c[gd->jump_e ? 0 : 1],
-                        base->jv[i].r, 2.0f);
+    for (int i = 0; i < base->jc; i++) {
+        beam_draw(rend, base->jv[i].p, jump_c[gd->jump_e ? 0 : 1], base->jv[i].r, 2.0f);
+    }
 
     /* Switch beams */
-
-    for (i = 0; i < base->xc; i++)
-        if (!vary->xv[i].base->i)
-            beam_draw(rend, base->xv[i].p, swch_c[vary->xv[i].f][vary->xv[i].e],
-                            base->xv[i].r, 2.0f);
+    for (int i = 0; i < base->xc; i++) {
+        if (!vary->xv[i].base->i) {
+            beam_draw(rend, base->xv[i].p, swch_c[vary->xv[i].f][vary->xv[i].e], base->xv[i].r, 2.0f);
+        }
+    }
 }
 
 static void game_draw_goals(struct s_rend *rend,
                             const struct game_draw *gd, float t)
 {
     const struct s_base *base = gd->vary.base;
-
-    int i;
-
-    if (gd->goal_e)
-        for (i = 0; i < base->zc; i++)
+    if (gd->goal_e) {
+        for (int i = 0; i < base->zc; i++) {
             goal_draw(rend, base->zv[i].p, base->zv[i].r, gd->goal_k, t);
+        }
+    }
 }
 
 static void game_draw_jumps(struct s_rend *rend,
                             const struct game_draw *gd, float t)
 {
     const struct s_base *base = gd->vary.base;
-
-    int i;
-
-    for (i = 0; i < base->jc; i++)
+    for (int i = 0; i < base->jc; i++) {
         jump_draw(rend, base->jv[i].p, base->jv[i].r, 1.0f);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -155,33 +129,10 @@ static void game_draw_tilt(const struct game_draw *gd, int d)
 {
     const struct game_tilt *tilt = &gd->tilt;
     const float *ball_p = gd->vary.uv[0].p;
-
-    /* Rotate the environment about the position of the ball. */
-
-    //glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    //glRotatef(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
-    //glRotatef(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
-    //glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
-
     ptransformer->translate(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
     ptransformer->rotate(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
     ptransformer->rotate(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
     ptransformer->translate(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
-}
-
-static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
-{
-    //glPushMatrix();
-    //{
-        ptransformer->push();
-        game_draw_tilt(gd, 1);
-
-        /* Draw the floor. */
-
-        sol_refl(&gd->draw, rend);
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -189,13 +140,7 @@ static void game_refl_all(struct s_rend *rend, const struct game_draw *gd)
 static void game_draw_light(const struct game_draw *gd, int d, float t)
 {
     GLfloat p[4];
-
-    /* Configure the lighting. */
-
     light_conf();
-
-    /* Overrride light 2 position. */
-
     p[0] = cosf(t);
     p[1] = 0.0f;
     p[2] = sinf(t);
@@ -206,56 +151,38 @@ static void game_draw_back(struct s_rend *rend,
                            const struct game_draw *gd,
                            int pose, int d, float t)
 {
-    if (pose == POSE_BALL)
-        return;
+    if (pose == POSE_BALL) return;
 
-    //glPushMatrix();
-    //{
-        ptransformer->push();
-        const struct game_view *view = &gd->view;
+    ptransformer->push();
+    if (d < 0)
+    {
+        const struct game_tilt *tilt = &gd->tilt;
+        ptransformer->rotate(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
+        ptransformer->rotate(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
+    }
 
-        if (d < 0)
-        {
-            const struct game_tilt *tilt = &gd->tilt;
-            ptransformer->rotate(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
-            ptransformer->rotate(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
+    const struct game_view *view = &gd->view;
+    ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
+    ptransformer->voffsetAccum = 0.0f;
 
-            //glRotatef(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
-            //glRotatef(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
-        }
+    currentIntersector = intersectorBillboard;
 
-        //glTranslatef(view->p[0], view->p[1] * d, view->p[2]);
-        ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
+    back_draw(rend);
+    if (config_get_d(CONFIG_BACKGROUND))
+    {
+        sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
+    }
 
-        ptransformer->voffsetAccum = 0.0f;
+    currentIntersector = intersector;
 
-        currentIntersector = intersectorBillboard;
-        if (config_get_d(CONFIG_BACKGROUND))
-        {
-            back_draw(rend);
-            sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
-        }
-        else back_draw(rend);
-        currentIntersector = intersector;
+    ptransformer->voffsetAccum = 0.0f;
+    ptransformer->pop();
 
-        ptransformer->voffsetAccum = 0.0f;
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
-}
-
-static void game_clip_refl(int d)
-{
-    /* Fudge to eliminate the floor from reflection. */
-
-    glClipPlane4f_(GL_CLIP_PLANE0, 0, 1, 0, -0.00001);
 }
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
 {
     GLfloat r, c[3], pz[4], nz[4];
-
-    /* Compute the plane giving the front of the ball, as seen from view.p. */
 
     c[0] = p[0];
     c[1] = p[1] * d;
@@ -274,20 +201,13 @@ static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
               pz[1] * c[1] +
               pz[2] * c[2]);
 
-    /* Find the plane giving the back of the ball, as seen from view.p. */
-
     nz[0] = -pz[0];
     nz[1] = -pz[1];
     nz[2] = -pz[2];
     nz[3] = -pz[3];
 
-    /* Reflect these planes as necessary, and store them in the GL state. */
-
     pz[1] *= d;
     nz[1] *= d;
-
-    glClipPlane4f_(GL_CLIP_PLANE1, nz[0], nz[1], nz[2], nz[3]);
-    glClipPlane4f_(GL_CLIP_PLANE2, pz[0], pz[1], pz[2], pz[3]);
 }
 
 static void game_draw_fore(struct s_rend *rend,
@@ -298,12 +218,9 @@ static void game_draw_fore(struct s_rend *rend,
     const float *ball_p = gd->vary.uv[0].p;
 
     struct s_draw *draw = &gd->draw;
-
-    //glPushMatrix();
     ptransformer->push();
     {
         game_draw_tilt(gd, d);
-        game_clip_refl(d);
         game_clip_ball(gd, d, ball_p);
 
         switch (pose)
@@ -313,16 +230,13 @@ static void game_draw_fore(struct s_rend *rend,
             break;
 
         case POSE_BALL:
-            if (curr_tex_env == &tex_env_pose)
-            {
-                sol_draw(draw, rend, 0, 1);
-            }
+            sol_draw(draw, rend, 0, 1);
             game_draw_balls(rend, draw->vary, M, t);
             break;
 
         case POSE_NONE:
-            game_draw_items(rend, draw->vary, M, t);
             sol_draw(draw, rend, 0, 1);
+            game_draw_items(rend, draw->vary, M, t);
             game_draw_balls(rend, draw->vary, M, t);
             break;
         }
@@ -332,51 +246,37 @@ static void game_draw_fore(struct s_rend *rend,
         part_draw_coin(rend);
         game_draw_goals(rend, gd, t);
         game_draw_jumps(rend, gd, t);
-
     }
     ptransformer->pop();
-    //glPopMatrix();
+}
+
+static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, const glm::mat4 persp) {
+    pmaterials->loadToVGA();
+    ptracer->camera(eye, target, persp);
+
+    for (int j = 0;j < 16;j++) {
+        if (ptracer->getRayCount() <= 0) break;
+        ptracer->resetHits();
+        ptracer->intersection(intersectorBillboard);
+        ptracer->intersection(intersector);
+        ptracer->intersection(intersectorBall);
+        ptracer->missing();
+        if (ptracer->getRayCount() <= 0) break;
+        ptracer->shade(pmaterials);
+        ptracer->reclaim();
+        if (ptracer->getRayCount() <= 0) break;
+    }
+
+    ptracer->clearSampler();
+    ptracer->sample();
+    ptracer->render();
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void game_shadow_conf(int pose, int enable)
-{
-    if (enable && config_get_d(CONFIG_SHADOW))
-    {
-        switch (pose)
-        {
-        case POSE_LEVEL:
-            /* No shadow. */
-            tex_env_active(&tex_env_default);
-            break;
-
-        case POSE_BALL:
-            /* Shadow only. */
-            tex_env_select(&tex_env_pose,
-                           &tex_env_default,
-                           NULL);
-            break;
-
-        default:
-            /* Regular shadow. */
-            tex_env_select(&tex_env_shadow_clip,
-                           &tex_env_shadow,
-                           &tex_env_default,
-                           NULL);
-            break;
-        }
-    }
-    else
-    {
-        tex_env_active(&tex_env_default);
-    }
-}
-
 void game_draw(struct game_draw *gd, int pose, float t)
 {
     float fov = (float) config_get_d(CONFIG_VIEW_FOV);
-
     if (gd->jump_b) fov *= 2.f * fabsf(gd->jump_dt - 0.5f);
 
     if (gd->state)
@@ -385,8 +285,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
         struct s_rend rend;
 
         gd->draw.shadow_ui = 0;
-
-        game_shadow_conf(pose, 1);
         r_draw_enable(&rend);
 
         pgl::floatv3 eye = pgl::floatv3(0.0f);
@@ -408,80 +306,41 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glPushMatrix();
 
         pmaterials->submats.resize(0);
+        ptransformer->voffsetAccum = 0.0f;
         ptransformer->reset();
-        //ptransformer->push();
+        ptransformer->push();
         {
-            float T[16], U[16], M[16], v[3];
-
+            float T[16], v[3];
             v[0] = +view->p[0];
             v[1] = -view->p[1];
             v[2] = +view->p[2];
-
             video_calc_view(T, view->c, view->p, view->e[1]);
-            video_calc_view(U, view->c, v, view->e[1]);
-
-            m_xps(M, T);
-
-            eye = *(pgl::floatv3 *)view->p;
-            target = *(pgl::floatv3 *)view->c;
 
             game_draw_back(&rend, gd, pose, +1, t);
             game_draw_fore(&rend, gd, pose, T, +1, t);
         }
-        //ptransformer->pop();
+        ptransformer->pop();
+
         glPopMatrix();
 
         glEnable(GL_TEXTURE_2D);
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-        pmaterials->loadToVGA();
-        ptracer->camera(eye, target, persp);
-
-        for (int j = 0;j < 16;j++) {
-            if (ptracer->getRayCount() <= 0) break;
-
-            ptracer->resetHits();
-            ptracer->intersection(intersectorBillboard);
-            ptracer->intersection(intersector);
-            ptracer->intersection(intersectorBall);
-            ptracer->missing();
-            if (ptracer->getRayCount() <= 0) break;
-            ptracer->shade(pmaterials);
-            ptracer->reclaim();
-            if (ptracer->getRayCount() <= 0) break;
-        }
-
-        ptracer->clearSampler();
-        ptracer->sample();
-
-        video_push_FX();
-        {
-            ptracer->render();
-
-            glcontext->cullFace(pgl::Cullface::Back);
-            glcontext->enable(pgl::Feature::Blend);
-            glcontext->disable(pgl::Feature::DepthTest);
-        }
-        video_pop_matrix();
-
-
+        eye = *(pgl::floatv3 *)view->p;
+        target = *(pgl::floatv3 *)view->c;
+        game_raytrace(eye, target, persp);
 
         glBindVertexArray(0);
         glUseProgram(0);
         glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+        glCullFace(GL_BACK);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         
-
-        /* Draw the fade overlay. */
-
-        sol_fade(&gd->draw, &rend, gd->fade_k);
-
         r_draw_disable(&rend);
-
-        game_shadow_conf(pose, 0);
-
     }
 }
 

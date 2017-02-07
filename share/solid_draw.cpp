@@ -157,16 +157,6 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 /* Thus the "default" VBO state retained by billboard rendering is the       */
 /* state appropriate for normal SOL rendering.                               */
 
-static void sol_bill_enable(const struct s_draw *draw)
-{
-
-}
-
-static void sol_bill_disable(void)
-{
-
-}
-
 /*---------------------------------------------------------------------------*/
 
 static int sol_test_mtrl(int mi, int p)
@@ -336,11 +326,7 @@ static void sol_load_mesh(struct d_mesh *mp,
 
 static void sol_free_mesh(struct d_mesh *mp)
 {
-    //glDeleteBuffers_(1, &mp->ebo);
-    //glDeleteBuffers_(1, &mp->vbo);
 }
-
-
 
 void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
@@ -428,26 +414,10 @@ int sol_load_draw(struct s_draw *draw, struct s_vary *vary, int s)
 
     draw->vary = vary;
     draw->base = vary->base;
-
-    /* Determine whether this file has reflective materials. */
-
-    //for (i = 0; i < draw->base->mc; i++)
-    //    if (draw->base->mv[i].fl & M_REFLECTIVE)
-    //    {
-    //        draw->reflective = 1;
-    //        break;
-    //    }
-
-    /* Cache all materials for this file. */
-
     mtrl_cache_sol(draw->base);
-
-    /* Initialize shadow state. */
 
     draw->shadow_ui = -1;
     draw->shadowed = s;
-
-    /* Initialize all bodies for this file. */
 
     if (draw->base->bc)
     {
@@ -461,7 +431,6 @@ int sol_load_draw(struct s_draw *draw, struct s_vary *vary, int s)
     }
 
     sol_load_bill(draw);
-
     return 1;
 }
 
@@ -486,15 +455,10 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
     for (int bi = 0; bi < draw->bc; bi++) {
         if (draw->bv[bi].pass[p])
         {
-            //glPushMatrix();
-            //{
             ptransformer->push();
             sol_transform(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
             sol_draw_body(draw->bv + bi, rend, p);
             ptransformer->pop();
-
-            //}
-            //glPopMatrix();
         }
     }
 }
@@ -503,20 +467,11 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
 {
-    //rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
     sol_draw_all(draw, rend, PASS_OPAQUE);
     sol_draw_all(draw, rend, PASS_OPAQUE_DECAL);
     sol_draw_all(draw, rend, PASS_REFLECTIVE);
     sol_draw_all(draw, rend, PASS_TRANSPARENT_DECAL);
     sol_draw_all(draw, rend, PASS_TRANSPARENT);
-    //rend->skip_flags = 0;
-}
-
-void sol_refl(const struct s_draw *draw, struct s_rend *rend)
-{
-//    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
-//    sol_draw_all(draw, rend, PASS_REFLECTIVE);
-//    rend->skip_flags = 0;
 }
 
 void sol_back(const struct s_draw *draw,
@@ -543,45 +498,23 @@ void sol_back(const struct s_draw *draw,
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                 float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                //glMatrixMode(GL_MODELVIEW);
-                //glLoadIdentity();
-                //glPushMatrix();
-
                 ptransformer->push();
                 {
-                    //if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
-                    //if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
-                    //glTranslatef(0.0f, 0.0f, -rp->d);
-                    //if (rp->fl & B_FLAT)
-                    //{
-                    //    glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
-                    //    glRotatef(-ry, 0.0f, 0.0f, 1.0f);
-                    //}
-                    //if (rp->fl & B_EDGE) glRotatef(-rx, 1.0f, 0.0f, 0.0f);
-                    //if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
-                    //glScalef(w, h, 1.0f);
-
-                    if (ry != 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
-                    if (rx != 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+                    if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+                    if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
                     ptransformer->translate(0.0f, 0.0f, -rp->d);
                     if (rp->fl & B_FLAT)
                     {
                         ptransformer->rotate(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
                         ptransformer->rotate(-ry,         0.0f, 0.0f, 1.0f);
                     }
-                    if (rp->fl & B_EDGE) {
-                        ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
-                    }
-                    if (rz != 0.0f) {
-                        ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
-                    }
+                    if (rp->fl & B_EDGE)  ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
+                    if (fabsf(rz) > 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
                     ptransformer->scale(w, h, 1.0f);
 
                     sol_draw_bill(draw, draw->base->mtrls[rp->mi], (rp->fl & B_EDGE));
                 }
                 ptransformer->pop();
-
-                //glPopMatrix();
             }
         }
     }
@@ -606,36 +539,21 @@ void sol_bill(const struct s_draw *draw,
         float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
         float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
-        //glMatrixMode(GL_MODELVIEW);
-        //glLoadIdentity();
-        //glPushMatrix();
         ptransformer->push();
         {
-            //glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
-            //if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
-            //if (fabsf(rx) > 0.0f) glRotatef(rx, 1.0f, 0.0f, 0.0f);
-            //if (fabsf(ry) > 0.0f) glRotatef(ry, 0.0f, 1.0f, 0.0f);
-            //if (fabsf(rz) > 0.0f) glRotatef(rz, 0.0f, 0.0f, 1.0f);
-            //glScalef(w, h, 1.0f);
-
             ptransformer->translate(rp->p[0], rp->p[1], rp->p[2]);
             if (M && ((rp->fl & B_NOFACE) == 0)) {
                 ptransformer->multiply(M);
             }
-            if (rx != 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
-            if (ry != 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
-            if (rz != 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+            if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+            if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+            if (fabsf(rz) > 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
             ptransformer->scale(w, h, 1.0f);
 
             sol_draw_bill(draw, draw->base->mtrls[rp->mi], GL_FALSE);
         }
         ptransformer->pop();
-        //glPopMatrix();
     }
-}
-
-void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
-{
 }
 
 /*---------------------------------------------------------------------------*/

@@ -208,8 +208,6 @@ static int back_state = 0;
 
 void geom_init(void)
 {
-    int i;
-
     sol_load_full(&beam, "geom/beam/beam.sol", 0);
     sol_load_full(&jump, "geom/jump/jump.sol", 0);
     sol_load_full(&goal, "geom/goal/goal.sol", 0);
@@ -217,14 +215,13 @@ void geom_init(void)
     sol_load_full(&mark, "geom/mark/mark.sol", 0);
     sol_load_full(&vect, "geom/vect/vect.sol", 0);
 
-    for (i = 0; i < GEOM_MAX; i++)
+    for (int i = 0; i < GEOM_MAX; i++) {
         sol_load_full(&item[i], item_sols[i], 0);
+    }
 }
 
 void geom_free(void)
 {
-    int i;
-
     sol_free_full(&vect);
     sol_free_full(&mark);
     sol_free_full(&flag);
@@ -232,19 +229,19 @@ void geom_free(void)
     sol_free_full(&jump);
     sol_free_full(&beam);
 
-    for (i = 0; i < GEOM_MAX; i++)
+    for (int i = 0; i < GEOM_MAX; i++) {
         sol_free_full(&item[i]);
+    }
 }
 
 void geom_step(float dt)
 {
-    int i;
-
     sol_move(&goal.vary, NULL, dt);
     sol_move(&jump.vary, NULL, dt);
 
-    for (i = 0; i < GEOM_MAX; i++)
+    for (int i = 0; i < GEOM_MAX; i++) {
         sol_move(&item[i].vary, NULL, dt);
+    }
 
     ball_step(dt);
 }
@@ -303,33 +300,25 @@ void item_draw(struct s_rend *rend,
 
     struct s_draw *draw = item_file(hp);
 
-    //glPushMatrix();
-    //{
-    //    glScalef(s, s, s);
+    ptransformer->push();
+    ptransformer->scale(s, s, s);
 
-        ptransformer->push();
-        ptransformer->scale(s, s, s);
+    sol_bill(draw, rend, M, t);
+    sol_draw(draw, rend, 0, 1);
 
-        sol_bill(draw, rend, M, t);
-        sol_draw(draw, rend, 0, 1);
-
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->pop();
 }
 
 /*---------------------------------------------------------------------------*/
 
 void back_init(const char *name)
 {
-    if (back_state)
-        back_free();
+    back_free();
 
     /* Load the background SOL and modify its material in-place to use the   */
     /* named gradient texture.                                               */
 
-    if (sol_load_full(&back, "geom/back/back.sol", 0))
-    {
+    if (sol_load_full(&back, "geom/back/back.sol", 0)) {
         struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
         mp->po = make_image_from_file_pgl(name, IF_MIPMAP);
         mp->base.d[0] = 1.0f;
@@ -342,16 +331,15 @@ void back_init(const char *name)
             mp->po->wrap<0>(pgl::TextureWrap::Repeat);
         }
 
-        //pt_cache_texture(back.base.mtrls[0], mp);
         back_state = 1;
     }
 }
 
 void back_free(void)
 {
-    if (back_state)
+    if (back_state) {
         sol_free_full(&back);
-
+    }
     back_state = 0;
 }
 
@@ -362,21 +350,15 @@ void back_free(void)
 void beam_draw(struct s_rend *rend, const GLfloat *p,
                                     const GLfloat *c, GLfloat r, GLfloat h)
 {
-    //glPushMatrix();
-    //{
-        //glTranslatef(p[0], p[1], p[2]);
-        //glScalef(r, h, r);
-        ptransformer->push();
-        ptransformer->translate(p[0], p[1], p[2]);
-        ptransformer->scale(r, h, r);
-        ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
-        ptransformer->flags |= M_TRANSPARENT;
-        sol_draw(&beam.draw, rend, 1, 1);
-        ptransformer->flags = 0;
-        ptransformer->colormod = pgl::floatv4(1.0f);
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->push();
+    ptransformer->translate(p[0], p[1], p[2]);
+    ptransformer->scale(r, h, r);
+    ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
+    ptransformer->flags |= M_TRANSPARENT;
+    sol_draw(&beam.draw, rend, 1, 1);
+    ptransformer->flags = 0;
+    ptransformer->colormod = pgl::floatv4(1.0f);
+    ptransformer->pop();
 }
 
 void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfloat t)
@@ -385,19 +367,13 @@ void goal_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h, GLfl
 
     glPointSize(height / 6);
 
-    //glPushMatrix();
-    //{
-    //    glTranslatef(p[0], p[1], p[2]);
-    //    glScalef(r, h, r);
-        ptransformer->push();
-        ptransformer->translate(p[0], p[1], p[2]);
-        ptransformer->scale(r, h, r);
+    ptransformer->push();
+    ptransformer->translate(p[0], p[1], p[2]);
+    ptransformer->scale(r, h, r);
 
-        sol_draw(&goal.draw, rend, 1, 1);
+    sol_draw(&goal.draw, rend, 1, 1);
 
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->pop();
 }
 
 void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
@@ -406,35 +382,22 @@ void jump_draw(struct s_rend *rend, const GLfloat *p, GLfloat r, GLfloat h)
 
     glPointSize(height / 12);
 
-    //glPushMatrix();
-    //{
-        //glTranslatef(p[0], p[1], p[2]);
-        //glScalef(r, h, r);
-        ptransformer->push();
-        ptransformer->translate(p[0], p[1], p[2]);
-        ptransformer->scale(r, h, r);
+    ptransformer->push();
+    ptransformer->translate(p[0], p[1], p[2]);
+    ptransformer->scale(r, h, r);
 
-        sol_draw(&jump.draw, rend, 1, 1);
+    sol_draw(&jump.draw, rend, 1, 1);
 
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->pop();
 }
 
 void flag_draw(struct s_rend *rend, const GLfloat *p)
 {
-    //glPushMatrix();
-    //{
-        //glTranslatef(p[0], p[1], p[2]);
-        ptransformer->push();
-        ptransformer->translate(p[0], p[1], p[2]);
-
-        ptransformer->colormod = pgl::floatv4(1.0f);
-        sol_draw(&flag.draw, rend, 1, 1);
-
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->push();
+    ptransformer->translate(p[0], p[1], p[2]);
+    ptransformer->colormod = pgl::floatv4(1.0f);
+    sol_draw(&flag.draw, rend, 1, 1);
+    ptransformer->pop();
 }
 
 void mark_draw(struct s_rend *rend)
@@ -450,17 +413,12 @@ void vect_draw(struct s_rend *rend)
 
 void back_draw(struct s_rend *rend)
 {
-    //glPushMatrix();
-    //{
-    //    glScalef(-BACK_DIST, BACK_DIST, -BACK_DIST);
-        ptransformer->push();
-        ptransformer->scale(-BACK_DIST, BACK_DIST, -BACK_DIST);
-        ptransformer->flags |= M_TRANSPARENT;
-        sol_draw(&back.draw, rend, 1, 1);
-        ptransformer->flags = 0;
-        ptransformer->pop();
-    //}
-    //glPopMatrix();
+    ptransformer->push();
+    ptransformer->scale(-BACK_DIST, BACK_DIST, -BACK_DIST);
+    ptransformer->flags |= M_TRANSPARENT;
+    sol_draw(&back.draw, rend, 1, 1);
+    ptransformer->flags = 0;
+    ptransformer->pop();
 }
 
 void back_draw_easy(void)
@@ -494,34 +452,10 @@ static GLubyte clip_data[] = { 0xff, 0xff, 0x0, 0x0 };
 
 void shad_init(void)
 {
-    shad_text = make_image_from_file(IMG_SHAD, IF_MIPMAP);
-
-    if (config_get_d(CONFIG_SHADOW) == 2)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    }
-
-    /* Create the clip texture. */
-
-    glGenTextures(1, &clip_text);
-    glBindTexture(GL_TEXTURE_2D, clip_text);
-
-    glTexImage2D(GL_TEXTURE_2D, 0,
-                 GL_LUMINANCE_ALPHA, 1, 2, 0,
-                 GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, clip_data);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 void shad_free(void)
 {
-    glDeleteTextures(1, &shad_text);
-    glDeleteTextures(1, &clip_text);
 }
 
 void shad_draw_set(void)
@@ -585,19 +519,6 @@ void light_reset(void)
 
 void light_conf(void)
 {
-    int i;
-
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
-
-    for (i = 0; i < ARRAYSIZE(lights); i++)
-    {
-        GLenum light = GL_LIGHT0 + i;
-
-        glLightfv(light, GL_POSITION, lights[i].p);
-        glLightfv(light, GL_DIFFUSE,  lights[i].d);
-        glLightfv(light, GL_AMBIENT,  lights[i].a);
-        glLightfv(light, GL_SPECULAR, lights[i].s);
-    }
 }
 
 void light_load(void)

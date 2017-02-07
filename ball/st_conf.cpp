@@ -223,7 +223,6 @@ static void null_leave(struct state *st, struct state *next, int id)
 {
     mtrl_load_objects();
     part_init();
-    shad_init();
     ball_init();
     geom_init();
     gui_init();
