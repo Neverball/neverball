@@ -42,6 +42,7 @@ static void game_draw_balls(struct s_rend *rend,
     ptransformer->push();
     ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
     ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
+    ptransformer->voffsetAccum = 0.0f;
 
     currentIntersector = intersectorBall;
 
@@ -174,8 +175,6 @@ static void game_draw_back(struct s_rend *rend,
     }
 
     currentIntersector = intersector;
-
-    ptransformer->voffsetAccum = 0.0f;
     ptransformer->pop();
 
 }
