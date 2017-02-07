@@ -201,6 +201,8 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
     submat.specular = *(pgl::floatv4 *)base->s;
     submat.reflectivity = *(pgl::floatv *)base->h;
     submat.flags = base->fl | ptransformer->flags;
+    submat.alpharef = base->alpha_ref;
+    submat.alphafunc = base->alpha_func;
 
     if (mi >= pmaterials->submats.size()) {
         pmaterials->submats.resize(mi + 1);

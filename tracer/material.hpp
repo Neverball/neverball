@@ -17,7 +17,7 @@ namespace PathTracer {
             pgl::floatv4 emissive = pgl::floatv4(0.0f);
             pgl::floatv ior = 1.0f;
             pgl::floatv reflectivity = 0.0001f;
-            pgl::floatv s1;
+            pgl::floatv alpharef = 0.0f;
             pgl::floatv s2;
 
             pgl::uint64v diffusePart = 0xFFFFFFFFFFFFFFFF;
@@ -26,7 +26,7 @@ namespace PathTracer {
             pgl::uint64v emissivePart = 0xFFFFFFFFFFFFFFFF;
 
             pgl::intv flags = 0;
-            pgl::intv nkvd0 = 0;
+            pgl::intv alphafunc = 0;
             pgl::intv nkvd1 = 0;
             pgl::intv nkvd2 = 0;
         };
