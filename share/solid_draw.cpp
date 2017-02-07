@@ -338,9 +338,6 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     if (sol_test_mtrl(mp->mtrl, p))
     {
-        pgl::uintv mid = pmaterials->submats.size();
-        pt_cache_texture(mid, mtrl_get(mp->mtrl));
-
         meshloader->setColorModifier(pgl::floatv4(1.0f));
         meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
         meshloader->setVertices(mp->vertBuf);
@@ -349,14 +346,17 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         meshloader->setIndices(mp->idcBuf);
         meshloader->setLoadingOffset(0);
         meshloader->setTransform(ptransformer->getCurrent());
-        meshloader->setMaterialOffset(mid);
+        meshloader->setMaterialOffset(0);
         meshloader->triangleCount = mp->ebc / 3;
 
-        if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) {
+        if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) { //TODO
             meshloader->setIndexed(false);
         }
         else {
+            pgl::uintv mid = pmaterials->submats.size();
+            pt_cache_texture(mid, mtrl_get(mp->mtrl));
             meshloader->setIndexed(true);
+            meshloader->setMaterialOffset(mid);
             currentIntersector->loadMesh(meshloader);
         }
     }

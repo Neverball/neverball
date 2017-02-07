@@ -157,10 +157,7 @@ static void load_mtrl_objects(struct mtrl *mp)
  */
 static void free_mtrl_objects(struct mtrl *mp)
 {
-    if (mp->po)
-    {
-        mp->po = 0;
-    }
+    mp->po = nullptr;
 }
 
 /*
@@ -391,13 +388,13 @@ void mtrl_load_objects(void)
 void mtrl_free_objects(void)
 {
     int i, c = array_len(mtrls);
-
     for (i = 0; i < c; i++)
     {
         struct mtrl *mp = (mtrl *)array_get(mtrls, i);
 
-        if (mp->refc > 0)
+        if (mp->refc > 0) {
             free_mtrl_objects(mp);
+        }
     }
 }
 
