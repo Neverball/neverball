@@ -507,9 +507,8 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
     vec4 result = vec4(0.0f);
 
     if((mat . flags & M_ENVIRONMENT)> 0){
-        vec4 reflected = vec4(normalize(reflect(normalize(direct), normal)), 0.0f);
+        vec4 reflected = vec4(reflect(normalize(direct), normal), 0.0f);
         reflected = inverse(cameraUniform . camInv)* reflected;
-        reflected . xyz = normalize(reflected . xyz);
         reflected . z += 1.0f;
 
         float m = 1.0f /(2.0f * length(reflected));
