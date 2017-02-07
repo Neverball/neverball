@@ -64,7 +64,7 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
         reflected = inverse(cameraUniform.camInv) * reflected;
         reflected.z += 1.0f;
         
-        float m = 1.0f / (2.0f * length(reflected));
+        float m = 1.0f / (2.0f * length(reflected.xyz));
         texcoord.s = reflected.x * m + 0.5f;
         texcoord.t = reflected.y * m + 0.5f;
     }
