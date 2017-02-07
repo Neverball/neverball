@@ -798,7 +798,7 @@ void main(){
 
     if(newRay . params . w < 1){
         float lspc = aspic * trns;
-        if(lspc > 0.0){
+        if(lspc > 0.0 && mlength(tx . xyz)>= 0.0001f){
             if(shadowed){
                 if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal, lspc * unShadowIntense, false);
                 if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal, lspc * shadowIntense, false);

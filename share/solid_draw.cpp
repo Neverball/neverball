@@ -126,11 +126,17 @@ static void sol_free_bill(const s_draw *draw)
 
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 {
-    ptransformer->voffsetAccum += 0.0001f;
+    const mtrl * mat = mtrl_get(mi);
+
+    // Don't add fully transparent modifiers to map
+    if (mat->base.d[3] * ptransformer->colormod.w < 0.0001f) {
+        return;
+    }
 
     pgl::uintv mid = pmaterials->submats.size();
-    pt_cache_texture(mid, mtrl_get(mi));
+    pt_cache_texture(mid, mat);
 
+    ptransformer->voffsetAccum += 0.0001f;
     meshloader->setColorModifier(pgl::floatv4(1.0f));
     meshloader->setVerticeOffset(ptransformer->voffsetAccum);
     meshloader->setVertices(draw->billVert);

@@ -60,7 +60,7 @@ bool ism(in int bits, in int mask){
 
 const int STACK_SIZE = 16;
 shared int stack[64][16];
-shared int ptr[64];
+//shared int ptr[64];
 
 TResult traverse(in float distn, in vec3 origin, in vec3 direct){
     TResult lastRes;
@@ -78,14 +78,14 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
     const uint l = gl_LocalInvocationID.x;
     float prevd = lastRes.dist;
     
+    
     if (
         (d > 0.0f && d < INFINITY) && 
         (lastRes.dist > 0.0f) && 
         (lastRes.dist >= dst)
     ) {
-        ptr[l] = 0;
-        int pt = ptr[l];
-        stack[l][pt] = -1;
+        int ptr = 0;
+        stack[l][ptr] = -1;
         
         HlbvhNode node;
         int idx = 0;
@@ -132,9 +132,8 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                 
                 if (leftOverlap && rightOverlap) {
                     bool leftNear = lefthit <= righthit;
-                    if (ptr[l] < STACK_SIZE) {
-                        int pt = ptr[l]++;
-                        stack[l][pt] = leftNear ? node.right : node.left;
+                    if (ptr < STACK_SIZE) {
+                        stack[l][ptr++] = leftNear ? node.right : node.left;
                     }
                     idx = leftNear ? node.left : node.right;
                     continue;
@@ -143,14 +142,17 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                     idx = leftOverlap ? node.left : node.right;
                     continue;
                 }
+                
             }
             
-            int pt = --ptr[l];
-            if (pt >= 0 && pt < STACK_SIZE) {
-                idx = stack[l][pt];
-                stack[l][pt] = -1;
+            {
+                int pt = --ptr;
+                if (pt >= 0 && pt < STACK_SIZE) {
+                    idx = stack[l][pt];
+                    stack[l][pt] = -1;
+                }
+                if ( idx < 0 || pt < 0 ) break;
             }
-            if ( idx < 0 || pt < 0 ) break;
         }
     }
     return loadInfo(lastRes);
