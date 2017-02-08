@@ -136,24 +136,23 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     pgl::uintv mid = pmaterials->submats.size();
     pt_cache_texture(mid, mat);
 
-    //ptransformer->voffsetAccum += 0.0001f;
-    meshloader->setColorModifier(pgl::floatv4(1.0f));
-    //meshloader->setVerticeOffset(ptransformer->voffsetAccum);
-    meshloader->setVerticeOffset(0.0f);
-    meshloader->setVertices(draw->billVert);
-    meshloader->setTexcoords(draw->billTex);
-    meshloader->setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
-    meshloader->setIndexed(false);
-    meshloader->setTransform(ptransformer->getCurrent());
-    meshloader->setMaterialOffset(mid);
-    meshloader->setLoadingOffset(0);
-    meshloader->triangleCount = 2;
+    PathTracer::Mesh meshloader(glcontext);
+    meshloader.setColorModifier(pgl::floatv4(1.0f));
+    meshloader.setVerticeOffset(0.0f);
+    meshloader.setVertices(draw->billVert);
+    meshloader.setTexcoords(draw->billTex);
+    //meshloader.setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
+    meshloader.setIndexed(false);
+    meshloader.setTransform(ptransformer->getCurrent());
+    meshloader.setMaterialOffset(mid);
+    meshloader.setLoadingOffset(0);
+    meshloader.triangleCount = 2;
 
     if (!edge) {
-        meshloader->setLoadingOffset(2);
+        meshloader.setLoadingOffset(2);
     }
 
-    currentIntersector->loadMesh(meshloader);
+    currentIntersector->loadMesh(&meshloader);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -339,26 +338,27 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     if (sol_test_mtrl(mp->mtrl, p))
     {
-        meshloader->setColorModifier(pgl::floatv4(1.0f));
-        meshloader->setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
-        meshloader->setVertices(mp->vertBuf);
-        meshloader->setTexcoords(mp->texBuf);
-        meshloader->setNormals(mp->normBuf);
-        meshloader->setIndices(mp->idcBuf);
-        meshloader->setLoadingOffset(0);
-        meshloader->setTransform(ptransformer->getCurrent());
-        meshloader->setMaterialOffset(0);
-        meshloader->triangleCount = mp->ebc / 3;
+        PathTracer::Mesh meshloader(glcontext);
+        meshloader.setColorModifier(pgl::floatv4(1.0f));
+        meshloader.setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
+        meshloader.setVertices(mp->vertBuf);
+        meshloader.setTexcoords(mp->texBuf);
+        meshloader.setNormals(mp->normBuf);
+        meshloader.setIndices(mp->idcBuf);
+        meshloader.setLoadingOffset(0);
+        meshloader.setTransform(ptransformer->getCurrent());
+        meshloader.setMaterialOffset(0);
+        meshloader.triangleCount = mp->ebc / 3;
 
         if (mtrl_get(mp->mtrl)->base.fl & M_PARTICLE) { //TODO
-            meshloader->setIndexed(false);
+            meshloader.setIndexed(false);
         }
         else {
             pgl::uintv mid = pmaterials->submats.size();
             pt_cache_texture(mid, mtrl_get(mp->mtrl));
-            meshloader->setIndexed(true);
-            meshloader->setMaterialOffset(mid);
-            currentIntersector->loadMesh(meshloader);
+            meshloader.setIndexed(true);
+            meshloader.setMaterialOffset(mid);
+            currentIntersector->loadMesh(&meshloader);
         }
     }
 }
@@ -487,8 +487,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    //for (int ri = 0; ri < draw->base->rc; ri++)
-    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    for (int ri = 0; ri < draw->base->rc; ri++)
+    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
@@ -503,7 +503,11 @@ void sol_back(const struct s_draw *draw,
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                 float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
+                ptransformer->voffsetAccum += 0.0001f;
+                float scl = 1.0f / (1.0f + ptransformer->voffsetAccum);
+
                 ptransformer->push();
+                ptransformer->scale(scl, scl, scl);
                 {
                     if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
                     if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);

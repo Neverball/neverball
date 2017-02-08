@@ -14,6 +14,7 @@ namespace PathTracer {
     public:
         Mesh(pgl::Context ctx) {
             context = ctx;
+            /*
             vbo_triangle_ssbo = context->createBuffer<pgl::floatv>();
             norm_triangle_ssbo = context->createBuffer<pgl::floatv>();
             tex_triangle_ssbo = context->createBuffer<pgl::floatv>();
@@ -21,6 +22,7 @@ namespace PathTracer {
             vebo_triangle_ssbo = context->createBuffer<pgl::intv>();
             nebo_triangle_ssbo = context->createBuffer<pgl::intv>();
             tebo_triangle_ssbo = context->createBuffer<pgl::intv>();
+            */
         }
 
     private:

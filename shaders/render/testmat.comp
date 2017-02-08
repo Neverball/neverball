@@ -687,7 +687,7 @@ Ray promised(in Ray newRay, in Hit hit, in vec3 normal){
     return newRay;
 }
 
-Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
+Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in bool additive){
     if(newRay . params . w == 1)return newRay;
 
     vec3 lightCenter = normalize(lightUniform . lightVector . xyz)* lightUniform . lightDistance;
@@ -836,9 +836,9 @@ void main(){
         if(lspc > 0.0 && mlength(tx . xyz)>= 0.0001f){
             if(shadowed){
                 if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal, lspc * unShadowIntense, false);
-                if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal, lspc * shadowIntense, false);
+                if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal, isAdditive), hit, normal, lspc * shadowIntense, false);
             } else {
-                emitRay(newRay, emissive(newRay, hit, tx . xyz, normal), hit, normal, lspc, false);
+                emitRay(newRay, emissive(newRay, hit, tx . xyz, normal, isAdditive), hit, normal, lspc, false);
             }
         }
 
@@ -863,7 +863,7 @@ void main(){
         if(atrns > 0.0f && random()< atrns || isAdditive){
             newRay = promised(newRay, hit, normal);
         } else {
-            newRay = emissive(newRay, hit, tx . xyz, normal);
+            newRay = emissive(newRay, hit, tx . xyz, normal, false);
         }
     }
 
