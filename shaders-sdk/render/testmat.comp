@@ -406,7 +406,7 @@ void main() {
         float absor = isAdditive ? 1.0f : alspc;
         
         newRay.color.xyz *= absor;
-        if (shadowed && absor < 0.0001f) {
+        if (absor < 0.0001f) {
             newRay.actived = 0;
         }
     } else 

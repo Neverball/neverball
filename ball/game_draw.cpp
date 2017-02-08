@@ -332,6 +332,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         eye = *(pgl::floatv3 *)view->p;
         target = *(pgl::floatv3 *)view->c;
+        //target = eye + pgl::floatv3(0.001f, -1.0f, 0.0f);
         game_raytrace(eye, target, persp);
 
         glBindVertexArray(0);

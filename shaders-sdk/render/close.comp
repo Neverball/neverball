@@ -69,7 +69,7 @@ void main() {
         //ray.final.xyz = ray.color.xyz * /*pow(texture(cubeTex, ray.direct.xyz).xyz, vec3(GAMMA))*/vec3(1.0f, 0.0f, 1.0f);
         
         // Release
-        ray.final.xyz = ray.color.xyz * /*pow(texture(cubeTex, ray.direct.xyz).xyz, vec3(GAMMA))*/vec3(0.0f, 0.0f, 0.0f);
+        ray.final.xyz = ray.color.xyz * /*pow(texture(cubeTex, ray.direct.xyz).xyz, vec3(GAMMA))*/vec3(0.0f);
 
         //ray.final.xyz = ray.color.xyz;
         ray.actived = 0;

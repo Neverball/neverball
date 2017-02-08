@@ -447,7 +447,7 @@ void main(){
 
 
 
-        ray . final . xyz = ray . color . xyz * vec3(0.0f, 0.0f, 0.0f);
+        ray . final . xyz = ray . color . xyz * vec3(0.0f);
 
 
         ray . actived = 0;
