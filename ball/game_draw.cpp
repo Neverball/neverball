@@ -46,6 +46,8 @@ static void game_draw_balls(struct s_rend *rend,
 
     currentIntersector = intersectorBall;
 
+    //currentIntersector = intersector;
+
     ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
     ball_draw(rend, ball_M, pend_M, bill_M, t);
     ptransformer->colormod = pgl::floatv4(1.0f);
@@ -172,6 +174,7 @@ static void game_draw_back(struct s_rend *rend,
     if (config_get_d(CONFIG_BACKGROUND))
     {
         currentIntersector = intersectorBillboard;
+        //currentIntersector = intersector;
         sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
     }
 
@@ -298,6 +301,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         intersectorBillboard->clearTribuffer();
         intersectorBall->clearTribuffer();
         intersectorBack->clearTribuffer();
+        currentIntersector = intersector;
 
         glBindVertexArray(0);
         glUseProgram(0);
