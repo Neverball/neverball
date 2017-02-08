@@ -59,7 +59,7 @@ void main() {
             
             hit.triangle = 0;
             hit.dist = dt;
-            hit.materialID = -1;
+            hit.materialID = LONGEST;
             hit.shaded = 1;
         }
     }
@@ -76,7 +76,7 @@ void main() {
 
         hit.triangle = 0;
         hit.dist = INFINITY;
-        hit.materialID = -1;
+        hit.materialID = LONGEST;
         hit.shaded = 1;
     }
     

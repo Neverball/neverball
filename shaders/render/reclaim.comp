@@ -414,7 +414,7 @@ void main()
 
         hit . triangle = 0;
         hit . dist = 0.0000001f;
-        hit . materialID = - 1;
+        hit . materialID = LONGEST;
         hit . shaded = 1;
     }
 

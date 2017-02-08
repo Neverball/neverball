@@ -487,8 +487,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    for (int ri = 0; ri < draw->base->rc; ri++)
-    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    //for (int ri = 0; ri < draw->base->rc; ri++)
+    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
@@ -497,20 +497,20 @@ void sol_back(const struct s_draw *draw,
             float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
             float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
 
-            if (w >= 0.0f && h >= 0.0f)
+            if (w > 0.0f && h > 0.0f)
             {
                 float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                 float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                ptransformer->voffsetAccum += 0.0001f;
-                float scl = 1.0f / (1.0f + ptransformer->voffsetAccum);
+                //ptransformer->voffsetAccum += 0.0001f;
+                //float scl = 1.0f / (1.0f + ptransformer->voffsetAccum);
 
                 ptransformer->push();
-                ptransformer->scale(scl, scl, scl);
+                //ptransformer->scale(scl, scl, scl);
                 {
-                    if (fabsf(ry) > 0.0f) ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
-                    if (fabsf(rx) > 0.0f) ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
+                    ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
+                    ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
                     ptransformer->translate(0.0f, 0.0f, -(rp->d));
                     if (rp->fl & B_FLAT)
                     {
@@ -518,7 +518,7 @@ void sol_back(const struct s_draw *draw,
                         ptransformer->rotate(-ry,         0.0f, 0.0f, 1.0f);
                     }
                     if (rp->fl & B_EDGE)  ptransformer->rotate(-rx, 1.0f, 0.0f, 0.0f);
-                    if (fabsf(rz) > 0.0f) ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
+                    ptransformer->rotate(rz, 0.0f, 0.0f, 1.0f);
                     ptransformer->scale(w, h, 1.0f);
 
                     sol_draw_bill(draw, draw->base->mtrls[rp->mi], (rp->fl & B_EDGE));

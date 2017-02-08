@@ -772,7 +772,7 @@ void main(){
 
     uint l = gl_LocalInvocationID . x;
 
-    if(hit . materialID == - 1 || hit . materialID == LONGEST)return;
+    if(hit . materialID < 0 || hit . materialID == LONGEST)return;
     Submat material = submats[hit . materialID];
 
     hit . shaded = 1;
