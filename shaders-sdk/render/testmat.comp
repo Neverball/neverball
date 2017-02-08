@@ -324,8 +324,8 @@ void main() {
     if (hit.shaded > 0 || hit.dist >= INFINITY) return;
     
     uint l = gl_LocalInvocationID.x;
-    if (hit.materialID < 0) return;
-    
+
+    if (hit.materialID == -1 || hit.materialID == LONGEST) return;
     Submat material = submats[hit.materialID];
     
     hit.shaded = 1;
