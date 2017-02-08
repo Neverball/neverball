@@ -127,15 +127,6 @@ static void sol_free_bill(const s_draw *draw)
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 {
     const mtrl * mat = mtrl_get(mi);
-    glm::mat4 transf = ptransformer->getCurrent();
-
-    if (std::string(mat->base.f).find("v-floor") != std::string::npos) {
-        int debug = 0;
-    }
-    else {
-        //return;
-    }
-
 
     // Don't add fully transparent modifiers to map
     if (mat->base.d[3] * ptransformer->colormod.w < 0.0001f) {
@@ -152,7 +143,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader.setTexcoords(draw->billTex);
     //meshloader.setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
     meshloader.setIndexed(false);
-    meshloader.setTransform(transf);
+    meshloader.setTransform(ptransformer->getCurrent());
     meshloader.setMaterialOffset(mid);
     meshloader.setLoadingOffset(0);
     meshloader.triangleCount = 2;

@@ -110,9 +110,10 @@ namespace PathTracer {
             }));
             idcBuf = context->createBuffer<pgl::intv>()->data(std::vector<pgl::intv>({ 0, 1, 2, 3, 2, 1 }));
 
-            posattr = renderProgram->attribute<pgl::floatv2>(0)->offset(0);
+            
             vao = context->createVertexArray();
-            vao->element(idcBuf)->binding(0)->buffer(posBuf, 0)->attribute(posattr);
+            auto binding = vao->element(idcBuf)->binding(0)->buffer(posBuf, 0);
+            posattr = renderProgram->attribute<pgl::floatv2>(0)->offset(0)->binding(binding);
 
             arcounter->storage(3);
             arcounterTemp->data(std::vector<pgl::intv>({ 0 }));
