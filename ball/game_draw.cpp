@@ -315,8 +315,17 @@ void game_draw(struct game_draw *gd, int pose, float t)
         ptransformer->reset();
         ptransformer->push();
         {
-            float T[16];
+            float T[16], U[16], M[16], v[3];
+            v[0] = +view->p[0];
+            v[1] = -view->p[1];
+            v[2] = +view->p[2];
+
             video_calc_view(T, view->c, view->p, view->e[1]);
+            video_calc_view(U, view->c, v, view->e[1]);
+
+            m_xps(M, T);
+            v_sub(v, view->c, view->p);
+
             game_draw_back(&rend, gd, pose, +1, t);
             game_draw_fore(&rend, gd, pose, T, +1, t);
         }
