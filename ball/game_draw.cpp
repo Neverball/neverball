@@ -234,7 +234,6 @@ static void game_draw_fore(struct s_rend *rend,
             break;
 
         case POSE_BALL:
-            sol_draw(draw, rend, 0, 1);
             game_draw_balls(rend, draw->vary, M, t);
             break;
 
@@ -348,6 +347,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glCullFace(GL_BACK);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         
+        sol_fade(&gd->draw, &rend, gd->fade_k);
         r_draw_disable(&rend);
     }
 }

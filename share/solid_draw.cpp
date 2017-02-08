@@ -630,20 +630,259 @@ static void assert_mtrl(const struct mtrl *mp)
 }
 #endif
 
+
+static void sol_bill_enable(const struct s_draw *draw)
+{
+    const size_t s = sizeof(GLfloat);
+    glDisableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->billVert->glID());
+    glVertexPointer(3, GL_FLOAT, s * 3, (GLvoid *)(0));
+
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->billTex->glID());
+    glTexCoordPointer(2, GL_FLOAT, s * 2, (GLvoid *)(0));
+}
+
+static void sol_bill_disable(void)
+{
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+}
+
+void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
+{
+    if (k > 0.0f)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        {
+            glDisable(GL_LIGHTING);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_TEXTURE_2D);
+
+            glColor4f(0.0f, 0.0f, 0.0f, k);
+
+            sol_bill_enable(draw);
+            r_apply_mtrl(rend, default_mtrl);
+            glScalef(2.0f, 2.0f, 1.0f);
+            glDrawArrays(GL_TRIANGLES, 6, 6);
+            sol_bill_disable();
+
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_LIGHTING);
+        }
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+    }
+}
+
 void r_color_mtrl(struct s_rend *rend, int enable)
 {
+    if (enable)
+    {
+        glEnable(GL_COLOR_MATERIAL);
+
+        rend->color_mtrl = 1;
+    }
+    else
+    {
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        glDisable(GL_COLOR_MATERIAL);
+
+        /* Keep material tracking synchronized with GL state. */
+
+        rend->curr_mtrl.d = 0xffffffff;
+        rend->curr_mtrl.a = 0xffffffff;
+
+        rend->color_mtrl = 0;
+    }
 }
 
 void r_apply_mtrl(struct s_rend *rend, int mi)
 {
+    struct mtrl *mp = mtrl_get(mi);
+    struct mtrl *mq = &rend->curr_mtrl;
+
+    /* Mask ignored flags. */
+
+    int mp_flags = mp->base.fl & ~rend->skip_flags;
+    int mq_flags = mq->base.fl;
+
+#if DEBUG_MTRL
+    assert_mtrl(&rend->curr_mtrl);
+#endif
+
+    /* Bind the texture. */
+
+    if (mp->o != mq->o)
+        glBindTexture(GL_TEXTURE_2D, mp->o);
+
+    /* Set material properties. */
+
+    if (mp->d != mq->d && !rend->color_mtrl)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mp->base.d);
+    if (mp->a != mq->a && !rend->color_mtrl)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mp->base.a);
+    if (mp->s != mq->s)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mp->base.s);
+    if (mp->e != mq->e)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mp->base.e);
+    if (mp->h != mq->h)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->base.h);
+
+    /* Ball shadow. */
+
+    if ((mp_flags & M_SHADOWED) ^ (mq_flags & M_SHADOWED))
+    {
+        if (mp_flags & M_SHADOWED)
+            shad_draw_set();
+        else
+            shad_draw_clr();
+    }
+
+    /* Environment mapping. */
+
+#if !ENABLE_OPENGLES
+    if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
+    {
+        if (mp_flags & M_ENVIRONMENT)
+        {
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
+
+            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+        }
+    }
+#endif
+
+    /* Additive blending. */
+
+    if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
+    {
+        if (mp_flags & M_ADDITIVE)
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        else
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    /* Visibility-from-behind. */
+
+    if ((mp_flags & M_TWO_SIDED) ^ (mq_flags & M_TWO_SIDED))
+    {
+        if (mp_flags & M_TWO_SIDED)
+        {
+            glDisable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1);
+        }
+        else
+        {
+            glEnable(GL_CULL_FACE);
+            glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 0);
+        }
+    }
+
+    /* Decal offset. */
+
+    if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
+    {
+        if (mp_flags & M_DECAL)
+        {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glPolygonOffset(-1.0f, -2.0f);
+        }
+        else
+            glDisable(GL_POLYGON_OFFSET_FILL);
+    }
+
+    /* Alpha test. */
+
+    if ((mp_flags & M_ALPHA_TEST) ^ (mq_flags & M_ALPHA_TEST))
+    {
+        if (mp_flags & M_ALPHA_TEST)
+        {
+            glAlphaFunc(mtrl_func(mp->base.alpha_func), mp->base.alpha_ref);
+
+            glEnable(GL_ALPHA_TEST);
+        }
+        else
+            glDisable(GL_ALPHA_TEST);
+    }
+
+    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_func !=
+        mq->base.alpha_func ||
+        mp->base.alpha_ref !=
+        mq->base.alpha_ref))
+    {
+        /* Update alpha function. */
+
+        glAlphaFunc(mtrl_func(mp->base.alpha_func), mp->base.alpha_ref);
+    }
+
+    /* Point sprite. */
+
+    if ((mp_flags & M_PARTICLE) ^ (mq_flags & M_PARTICLE))
+    {
+        if (mp_flags & M_PARTICLE)
+        {
+            const int s = video.device_h / 4;
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+
+            glEnable(GL_POINT_SPRITE);
+            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
+            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointParameterf_(GL_POINT_SIZE_MIN, 1);
+            glPointParameterf_(GL_POINT_SIZE_MAX, s);
+        }
+        else
+        {
+            glDisable(GL_POINT_SPRITE);
+        }
+    }
+
+    /* Update current material state. */
+
+    memcpy(mq, mp, sizeof(struct mtrl));
+
+    mq->base.fl = mp_flags;
 }
 
 void r_draw_enable(struct s_rend *rend)
 {
+    memset(rend, 0, sizeof(*rend));
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    rend->curr_mtrl = *mtrl_get(default_mtrl);
 }
 
 void r_draw_disable(struct s_rend *rend)
 {
+    r_apply_mtrl(rend, default_mtrl);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 /*---------------------------------------------------------------------------*/
