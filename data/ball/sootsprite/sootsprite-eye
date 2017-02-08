@@ -3,6 +3,6 @@ ambient    0.0 0.0 0.0 1.0
 specular   0.0 0.0 0.0 1.0
 emissive   0.0 0.0 0.0 1.0
 shininess  0.0
-flags      clamp-t transparent
+flags      clamp-t transparent 
 alpha-test gequal 0.5
 angle      45.0

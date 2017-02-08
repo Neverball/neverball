@@ -227,6 +227,7 @@ static void game_draw_fore(struct s_rend *rend,
         game_clip_ball(gd, d, ball_p);
 
         currentIntersector = intersector;
+
         switch (pose)
         {
         case POSE_LEVEL:

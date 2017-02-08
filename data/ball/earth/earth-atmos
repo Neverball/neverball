@@ -3,6 +3,6 @@ ambient    0.0 0.0 0.0 1.0
 specular   0.0 0.0 0.0 1.0
 emissive   0.0 0.0 0.0 1.0
 shininess  0.0
-flags      transparent
+flags      transparent shadowed
 alpha-test gequal 0.01
 angle      45.0
