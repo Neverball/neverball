@@ -3,6 +3,7 @@
 #extension GL_ARB_separate_shader_objects : require
 #extension GL_ARB_shading_language_420pack : require
 
+#define CLEARCOLOR vec3(0.1f, 0.5f, 0.8f)
 
 #include "../include/structs.glsl"
 #include "../include/constants.glsl"
@@ -69,7 +70,7 @@ void main() {
         //ray.final.xyz = ray.color.xyz * vec3(1.0f, 0.0f, 1.0f);
         
         // Release
-        ray.final.xyz = ray.color.xyz * vec3(0.0f);
+        ray.final.xyz = ray.color.xyz * pow(vec3(CLEARCOLOR), vec3(GAMMA));
 
         //ray.final.xyz = ray.color.xyz;
         ray.actived = 0;

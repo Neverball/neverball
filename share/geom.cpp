@@ -425,9 +425,9 @@ void back_draw_easy(void)
 {
     struct s_rend rend;
 
-    r_draw_enable(&rend);
-    back_draw(&rend);
-    r_draw_disable(&rend);
+    // Unsupported by ray tracer renderer, sorry
+    glClearColor(0.1f, 0.5f, 0.8f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 /*---------------------------------------------------------------------------*/

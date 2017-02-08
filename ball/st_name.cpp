@@ -160,11 +160,11 @@ static void name_paint(int id, float t)
 {
     if (draw_back)
     {
-        //video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-        //{
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
             back_draw_easy();
-        //}
-        //video_pop_matrix();
+        }
+        video_pop_matrix();
     }
     else
         game_client_draw(0, t);
