@@ -201,10 +201,14 @@ namespace PathTracer {
         void loadMesh(Mesh * gobject) {
             if (gobject->triangleCount <= 0) return;
 
+            pgl::intv trioff = triangleCount;
+            triangleCount += gobject->triangleCount;
+            verticeCount = triangleCount * 3;
+
             geometryUniformData.unindexed = gobject->unindexed;
             geometryUniformData.loadOffset = gobject->offset;
             geometryUniformData.materialID = gobject->materialID;
-            geometryUniformData.triangleOffset = triangleCount;
+            geometryUniformData.triangleOffset = trioff;
             geometryUniformData.triangleCount = gobject->triangleCount;
             geometryUniformData.transform = gobject->trans;
             geometryUniformData.transformInv = glm::inverse(gobject->trans);
@@ -217,9 +221,6 @@ namespace PathTracer {
             syncUniforms();
 
             context->flush()->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
-
-            triangleCount += gobject->triangleCount;
-            verticeCount = triangleCount * 3;
             markDirty();
         }
 
@@ -247,18 +248,15 @@ namespace PathTracer {
             cdesc.writeOffset = 0;
             cdesc.readSize = 1;
 
-            const pgl::intv heap = 1;
             const pgl::floatv prec = 10000.0f;
             minmaxBufRef->copydata(minmaxBuf, cdesc);
             geometryUniformData.triangleOffset = 0;
             geometryUniformData.triangleCount = triangleCount;
-
-            minmaxUniformData.heap = heap;
             minmaxUniformData.prec = prec;
             syncUniforms();
 
             context->binding(10)->target(pgl::BufferTarget::ShaderStorage)->buffer(minmaxBuf);
-            context->useProgram(minmaxProgram2)->dispatchCompute(tiled(triangleCount, worksize * heap))->flush();
+            context->useProgram(minmaxProgram2)->dispatchCompute(tiled(triangleCount, worksize))->flush();
 
             Minmaxi bound = minmaxBuf->subdata(0, 1)[0];
             pgl::floatv3 mn = pgl::floatv3(bound.mn.x, bound.mn.y, bound.mn.z) / prec - pgl::floatv3(0.001f);

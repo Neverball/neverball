@@ -31,27 +31,27 @@ void main() {
     int t = int(gl_GlobalInvocationID.x);
 	Mortoncodes[t] = ivec2(0xFFFFFFFF);
 	
-    if (t < geometryUniform.triangleCount) {
-        vec4 mn = vec4(INFINITY);
-        vec4 mx = vec4(-INFINITY);
-        vec3 triverts[3];
+    if (t >= geometryUniform.triangleCount) return;
+    
+    vec4 mn = vec4(INFINITY);
+    vec4 mx = vec4(-INFINITY);
+    vec3 triverts[3];
 
-        int tri3 = t * 3;
-        for (int x=0;x<3;x++) {
-            int j = indics[tri3 + x];
-            triverts[x] = (octreeUniform.project * vec4(toVec3(verts[j]), 1.0f)).xyz;
-        }
-
-        mn.xyz = min(triverts[0], min(triverts[1], triverts[2])) - 0.0001f;
-        mx.xyz = max(triverts[0], max(triverts[1], triverts[2])) + 0.0001f;
-        
-        vec3 center = (triverts[0] + triverts[1] + triverts[2]) * 0.3333333333f;
-        //vec3 center = (mn.xyz + mx.xyz) * 0.5f;
-        Mortoncodes[t].x = t;
-        Mortoncodes[t].y = CalculateMortonCode(center);
-        
-        OutLeafs[t].box.pmin = mn;
-        OutLeafs[t].box.pmax = mx;
-        OutLeafs[t].parent = -1;
+    int tri3 = t * 3;
+    for (int x=0;x<3;x++) {
+        int j = indics[tri3 + x];
+        triverts[x] = (octreeUniform.project * vec4(toVec3(verts[j]), 1.0f)).xyz;
     }
+
+    mn.xyz = min(triverts[0], min(triverts[1], triverts[2])) - 0.0001f;
+    mx.xyz = max(triverts[0], max(triverts[1], triverts[2])) + 0.0001f;
+    
+    vec3 center = (triverts[0] + triverts[1] + triverts[2]) * 0.3333333333f;
+    //vec3 center = (mn.xyz + mx.xyz) * 0.5f;
+    Mortoncodes[t].x = t;
+    Mortoncodes[t].y = CalculateMortonCode(center);
+    
+    OutLeafs[t].box.pmin = mn;
+    OutLeafs[t].box.pmax = mx;
+    OutLeafs[t].parent = -1;
 }

@@ -23,7 +23,8 @@ void main()
 {
     if (gl_GlobalInvocationID.x >= geometryUniform.triangleCount) return;
     
-    int ctriangle = geometryUniform.loadOffset + int(gl_GlobalInvocationID.x);
+    int crt = int(gl_GlobalInvocationID.x);
+    int ctriangle = geometryUniform.loadOffset + crt;
     int matID = /*imats[ctriangle] +*/ geometryUniform.materialID;
     vec3 vertice[3];
     vec3 normal[3];
@@ -47,7 +48,7 @@ void main()
     
     vec3 offsetnormal = normalize(cross(vertice[1] - vertice[0], vertice[2] - vertice[0]));
 
-    int ntriangle = geometryUniform.triangleOffset + ctriangle;
+    int ntriangle = geometryUniform.triangleOffset + crt;
     mats[ntriangle] = matID;
     for (int i=0;i<3;i++) {
         int idc = ntriangle*3 + i;

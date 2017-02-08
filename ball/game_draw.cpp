@@ -292,7 +292,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         r_draw_enable(&rend);
 
         pgl::floatv3 eye = pgl::floatv3(0.0f);
-        pgl::floatv3 target = pgl::floatv3(1.0f, 0.0f, -1.0f);
+        pgl::floatv3 target = pgl::floatv3(0.0f, 0.0f, -1.0f);
         pgl::floatv3 up = pgl::floatv3(0.0f, 1.0f, 0.0f);
         glm::mat4 persp = glm::perspective(fov / 180.f * ((pgl::floatv)M_PI * 1.0f), (pgl::floatv)video.window_w / (pgl::floatv)video.window_h, 0.01f, 1000.0f);
 
@@ -302,8 +302,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         intersectorBack->clearTribuffer();
         currentIntersector = intersector;
 
-        glBindVertexArray(0);
-        glUseProgram(0);
+        glMemoryBarrier(GL_ALL_BARRIER_BITS);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         ptransformer->colormod = pgl::floatv4(1.0f);
 
@@ -316,12 +315,8 @@ void game_draw(struct game_draw *gd, int pose, float t)
         ptransformer->reset();
         ptransformer->push();
         {
-            float T[16], v[3];
-            v[0] = +view->p[0];
-            v[1] = -view->p[1];
-            v[2] = +view->p[2];
+            float T[16];
             video_calc_view(T, view->c, view->p, view->e[1]);
-
             game_draw_back(&rend, gd, pose, +1, t);
             game_draw_fore(&rend, gd, pose, T, +1, t);
         }
@@ -330,12 +325,9 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glPopMatrix();
 
         glEnable(GL_TEXTURE_2D);
-        glMemoryBarrier(GL_ALL_BARRIER_BITS);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
         eye = *(pgl::floatv3 *)view->p;
         target = *(pgl::floatv3 *)view->c;
-        //target = eye + pgl::floatv3(0.001f, -1.0f, 0.0f);
         game_raytrace(eye, target, persp);
 
         glBindVertexArray(0);

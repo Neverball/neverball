@@ -41,6 +41,7 @@
 static int init_title_level(void)
 {
     if (game_client_init("map-medium/title.sol"))
+    //if(game_client_init("map-hard/frogger.sol"))
     {
         union cmd cmd;
 

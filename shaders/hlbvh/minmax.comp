@@ -280,16 +280,14 @@ void main(){
     barrier();
 
     int idx = int(gl_GlobalInvocationID . x);
-    int idxh = idx * minmaxUniform . heap;
-    if(idxh < geometryUniform . triangleCount){
+    if(idx < geometryUniform . triangleCount){
         Minmax mnmx;
         mnmx . mn = vec4(INFINITY);
         mnmx . mx = vec4(- INFINITY);
 
         for(int i = 0;i < 256;i ++){
-            if(i >= minmaxUniform . heap)break;
             vec3 triverts[3];
-            int tri = idxh + i;
+            int tri = idx + i;
             if(tri < geometryUniform . triangleCount){
                 int tri3 = tri * 3;
                 for(int x = 0;x < 3;x ++){

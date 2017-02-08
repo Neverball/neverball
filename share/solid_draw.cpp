@@ -96,7 +96,7 @@ static void sol_load_bill(struct s_draw *draw)
 
         -0.5f, 0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f
     }));
 
     draw->billTex = glcontext->createBuffer<pgl::floatv>()->data(std::vector<pgl::floatv>({
@@ -127,6 +127,15 @@ static void sol_free_bill(const s_draw *draw)
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 {
     const mtrl * mat = mtrl_get(mi);
+    glm::mat4 transf = ptransformer->getCurrent();
+
+    if (std::string(mat->base.f).find("v-floor") != std::string::npos) {
+        int debug = 0;
+    }
+    else {
+        //return;
+    }
+
 
     // Don't add fully transparent modifiers to map
     if (mat->base.d[3] * ptransformer->colormod.w < 0.0001f) {
@@ -143,7 +152,7 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
     meshloader.setTexcoords(draw->billTex);
     //meshloader.setNormals(glcontext->createBuffer<pgl::floatv>()->storage(3));
     meshloader.setIndexed(false);
-    meshloader.setTransform(ptransformer->getCurrent());
+    meshloader.setTransform(transf);
     meshloader.setMaterialOffset(mid);
     meshloader.setLoadingOffset(0);
     meshloader.triangleCount = 2;
@@ -338,6 +347,12 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
     if (sol_test_mtrl(mp->mtrl, p))
     {
+        // Don't add fully transparent modifiers to map
+        const mtrl * mat = mtrl_get(mp->mtrl);
+        if (mat->base.d[3] * ptransformer->colormod.w < 0.0001f) {
+            return;
+        }
+
         PathTracer::Mesh meshloader(glcontext);
         meshloader.setColorModifier(pgl::floatv4(1.0f));
         meshloader.setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
@@ -355,7 +370,8 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         }
         else {
             pgl::uintv mid = pmaterials->submats.size();
-            pt_cache_texture(mid, mtrl_get(mp->mtrl));
+            pt_cache_texture(mid, mat);
+
             meshloader.setIndexed(true);
             meshloader.setMaterialOffset(mid);
             currentIntersector->loadMesh(&meshloader);
@@ -487,8 +503,8 @@ void sol_back(const struct s_draw *draw,
 {
     if (!(draw && draw->base && draw->base->rc)) return;
 
-    //for (int ri = 0; ri < draw->base->rc; ri++)
-    for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
+    for (int ri = 0; ri < draw->base->rc; ri++)
+    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)

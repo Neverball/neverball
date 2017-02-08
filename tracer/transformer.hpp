@@ -7,8 +7,8 @@
 namespace PathTracer {
     class Transformer : public PTObject {
         protected:
-        std::vector<glm::mat4> stack;
-        glm::mat4 current;
+        std::vector<glm::dmat4> stack;
+        glm::dmat4 current;
         
         public:
             pgl::floatv voffsetAccum;
@@ -16,7 +16,7 @@ namespace PathTracer {
             pgl::floatv4 colormod = pgl::floatv4(1.0f);
 
             Transformer(){
-                current = glm::mat4(1.0f);
+                current = glm::dmat4(1.0);
             }
         
             glm::mat4 getCurrent(){
@@ -25,43 +25,47 @@ namespace PathTracer {
         
             void reset() {
                 stack.resize(0);
-                current = glm::mat4(1.0f);
+                current = glm::dmat4(1.0);
+            }
+
+            void multiply(glm::dmat4 mat) {
+                current = current * mat;
             }
 
             void multiply(glm::mat4 mat) {
-                current = current * mat;
+                current = current * glm::dmat4(mat);
             }
 
             void multiply(const pgl::floatv * m) {
                 multiply(*(glm::mat4 *)m);
             }
 
-            void rotate(pgl::floatv angle, pgl::floatv3 rot){
+            void rotate(pgl::doublev angle, pgl::doublev3 rot){
                 current = glm::rotate(current, angle, rot);
             }
 
-            void rotate(pgl::floatv angle, pgl::floatv x, pgl::floatv y, pgl::floatv z) {
-                rotate(angle * M_PI / 180.0f, pgl::floatv3(x, y, z));
+            void rotate(pgl::doublev angle, pgl::doublev x, pgl::doublev y, pgl::doublev z) {
+                rotate(angle * M_PI / 180.0, pgl::doublev3(x, y, z));
             }
         
-            void translate(pgl::floatv3 offset){
+            void translate(pgl::doublev3 offset){
                 current = glm::translate(current, offset);
             }
 
-            void translate(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
-                translate(pgl::floatv3(x, y, z));
+            void translate(pgl::doublev x, pgl::doublev y, pgl::doublev z) {
+                translate(pgl::doublev3(x, y, z));
             }
         
-            void scale(pgl::floatv3 size){
+            void scale(pgl::doublev3 size){
                 current = glm::scale(current, size);
             }
 
-            void scale(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
-                scale(pgl::floatv3(x, y, z));
+            void scale(pgl::doublev x, pgl::doublev y, pgl::doublev z) {
+                scale(pgl::doublev3(x, y, z));
             }
         
             void identity(){
-                current = glm::mat4(1.0f);
+                current = glm::dmat4(1.0);
             }
         
             void push(){
@@ -71,7 +75,7 @@ namespace PathTracer {
         
             void pop(){
                 if (stack.size() <= 0) {
-                    current = glm::mat4(1.0f);
+                    current = glm::dmat4(1.0);
                 }
                 else {
                     current = stack[stack.size() - 1];
