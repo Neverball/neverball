@@ -267,12 +267,15 @@ namespace PathTracer {
             scale = full;
             offset = mn;
 
-            glm::mat4 mat;
-            mat = glm::translate(mat, offset);
-            mat = glm::scale(mat, scale);
+            glm::mat4 mat(1.0f);
+            mat = glm::scale(mat, 1.0f / scale);
+            mat = glm::translate(mat, -offset);
 
-            octreeUniformData.project = glm::inverse(mat);
-            octreeUniformData.unproject = mat;
+            //mat = glm::translate(mat, offset);
+            //mat = glm::scale(mat, scale);
+
+            octreeUniformData.project = mat;//glm::inverse(mat);
+            //octreeUniformData.unproject = mat;
            
             syncUniforms();
 

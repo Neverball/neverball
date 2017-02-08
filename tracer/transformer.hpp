@@ -8,7 +8,7 @@ namespace PathTracer {
     class Transformer : public PTObject {
         protected:
         std::vector<glm::mat4> stack;
-        glm::mat4 * current;
+        glm::mat4 current;
         
         public:
             pgl::floatv voffsetAccum;
@@ -16,20 +16,20 @@ namespace PathTracer {
             pgl::floatv4 colormod = pgl::floatv4(1.0f);
 
             Transformer(){
-                current = new glm::mat4(1.0f);
+                current = glm::mat4(1.0f);
             }
         
             glm::mat4 getCurrent(){
-                return *current;
+                return current;
             }
         
             void reset() {
                 stack.resize(0);
-                *current = glm::mat4(1.0f);
+                current = glm::mat4(1.0f);
             }
 
             void multiply(glm::mat4 mat) {
-                *current = (*current) * mat;
+                current = current * mat;
             }
 
             void multiply(const pgl::floatv * m) {
@@ -37,7 +37,7 @@ namespace PathTracer {
             }
 
             void rotate(pgl::floatv angle, pgl::floatv3 rot){
-                *current = glm::rotate(*current, angle, rot);
+                current = glm::rotate(current, angle, rot);
             }
 
             void rotate(pgl::floatv angle, pgl::floatv x, pgl::floatv y, pgl::floatv z) {
@@ -45,7 +45,7 @@ namespace PathTracer {
             }
         
             void translate(pgl::floatv3 offset){
-                *current = glm::translate(*current, offset);
+                current = glm::translate(current, offset);
             }
 
             void translate(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
@@ -53,7 +53,7 @@ namespace PathTracer {
             }
         
             void scale(pgl::floatv3 size){
-                *current = glm::scale(*current, size);
+                current = glm::scale(current, size);
             }
 
             void scale(pgl::floatv x, pgl::floatv y, pgl::floatv z) {
@@ -61,20 +61,20 @@ namespace PathTracer {
             }
         
             void identity(){
-                *current = glm::mat4(1.0f);
+                current = glm::mat4(1.0f);
             }
         
             void push(){
-                stack.push_back(*current);
+                stack.push_back(current);
                 //current = new glm::mat4();
             }
         
             void pop(){
                 if (stack.size() <= 0) {
-                    *current = glm::mat4(1.0f);
+                    current = glm::mat4(1.0f);
                 }
                 else {
-                    *current = stack[stack.size() - 1];
+                    current = stack[stack.size() - 1];
                 }
                 stack.pop_back();
             }

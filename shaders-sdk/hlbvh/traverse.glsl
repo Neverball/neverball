@@ -28,7 +28,7 @@ vec3 projectVoxels(in vec3 orig) {
 }
 
 vec3 unprojectVoxels(in vec3 orig) {
-    return (octreeUniform.unproject * vec4(orig, 1.0f)).xyz;
+    return (inverse(octreeUniform.project) * vec4(orig, 1.0f)).xyz;
 }
 
 float intersectCubeSingle(in vec3 origin, in vec3 ray, in vec3 cubeMin, in vec3 cubeMax, inout float near) {
