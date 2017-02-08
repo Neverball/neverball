@@ -491,7 +491,7 @@ void sol_back(const struct s_draw *draw,
     for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
-        //if (n <= rp->d && rp->d < f)
+        if (n <= rp->d && rp->d < f)
         {
             float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2.0f) : 0.0f;
             float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
