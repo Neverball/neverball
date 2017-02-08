@@ -166,11 +166,12 @@ static void game_draw_back(struct s_rend *rend,
     ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
     ptransformer->voffsetAccum = 0.0f;
 
-    currentIntersector = intersectorBillboard;
+    currentIntersector = intersectorBack;
 
     back_draw(rend);
     if (config_get_d(CONFIG_BACKGROUND))
     {
+        currentIntersector = intersectorBillboard;
         sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
     }
 
@@ -222,6 +223,7 @@ static void game_draw_fore(struct s_rend *rend,
         game_draw_tilt(gd, d);
         game_clip_ball(gd, d, ball_p);
 
+        currentIntersector = intersector;
         switch (pose)
         {
         case POSE_LEVEL:
@@ -253,10 +255,11 @@ static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, con
     pmaterials->loadToVGA();
     ptracer->camera(eye, target, persp);
 
-    for (int j = 0;j < 12;j++) {
+    for (int j = 0;j < 16;j++) {
         if (ptracer->getRayCount() <= 0) break;
         ptracer->resetHits();
         ptracer->intersection(intersectorBillboard);
+        ptracer->intersection(intersectorBack);
         ptracer->intersection(intersector);
         ptracer->intersection(intersectorBall);
         ptracer->missing();
@@ -294,6 +297,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         intersector->clearTribuffer();
         intersectorBillboard->clearTribuffer();
         intersectorBall->clearTribuffer();
+        intersectorBack->clearTribuffer();
 
         glBindVertexArray(0);
         glUseProgram(0);

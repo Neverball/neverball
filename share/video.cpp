@@ -34,6 +34,7 @@ PathTracer::Mesh * meshloader;
 PathTracer::Intersector * currentIntersector;
 PathTracer::Intersector * intersector;
 PathTracer::Intersector * intersectorBillboard;
+PathTracer::Intersector * intersectorBack;
 PathTracer::Intersector * intersectorBall;
 PathTracer::Material * pmaterials;
 PathTracer::Transformer * ptransformer;
@@ -330,6 +331,7 @@ int video_mode(int f, int w, int h)
             meshloader = new PathTracer::Mesh(glcontext);
             intersector = new PathTracer::Intersector(glcontext, api);
             intersectorBillboard = new PathTracer::Intersector(glcontext, api);
+            intersectorBack = new PathTracer::Intersector(glcontext, api);
             intersectorBall = new PathTracer::Intersector(glcontext, api);
             currentIntersector = intersector;
             pmaterials = new PathTracer::Material(glcontext, api);
@@ -340,6 +342,7 @@ int video_mode(int f, int w, int h)
 
             intersector->allocate(1024 * 1024 * 1);
             intersectorBillboard->allocate(1024 * 128);
+            intersectorBack->allocate(1024 * 64);
             intersectorBall->allocate(1024 * 256);
         }
 

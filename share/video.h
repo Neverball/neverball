@@ -33,6 +33,7 @@ extern PathTracer::Intersector * currentIntersector;
 extern PathTracer::Intersector * intersector;
 extern PathTracer::Intersector * intersectorBillboard;
 extern PathTracer::Intersector * intersectorBall;
+extern PathTracer::Intersector * intersectorBack;
 extern PathTracer::Material * pmaterials;
 extern PathTracer::Transformer * ptransformer;
 
