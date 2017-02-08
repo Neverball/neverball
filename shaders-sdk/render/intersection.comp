@@ -45,13 +45,12 @@ float intersectTriangle(in vec3 orig, in vec3 dir, inout vec3 ve[3], inout vec2 
     
     vec3 p = -cross(dirc, e2);
     float det = dot(e1, p);
-    if (abs(det) < 0.000001f) return INFINITY;
+    if (abs(det) < 0.0000001f) return INFINITY;
 
     vec3 n = normalize(cross(e1, e2));
     float ls = dot(dirc, n);
-    if (abs(ls) < 0.000001f) return INFINITY;
-    //if (abs(ls) < 0.000001f || ls > 0.0f) return INFINITY;
-    
+    if (abs(ls) < 0.0000001f) return INFINITY;
+
     vec3 T = origc - vec3(ve[0]);
     float pt = dot(T, n) / ls;
     if (pt > 0.0f) return INFINITY;
@@ -136,9 +135,48 @@ TResult loadInfo(inout TResult res) {
     return res;
 }
 
+
+TResult traverseDirectly(in float distn, in vec3 origin, in vec3 direct){
+    TResult lastRes;
+    lastRes.triangle = LONGEST;
+    lastRes.dist = distn;
+    
+    for(int i=0;i<10000;i++){
+        if (i >= geometryUniform.triangleCount) break;
+    
+        int tri = i;
+        vec3 triverts[3];
+        for (int x=0;x<3;x++) {
+            int j = indics[tri * 3 + x];
+            triverts[x] = toVec3(verts[j]);
+        }
+        vec2 uv = vec2(0.0f);
+        vec3 n = vec3(0.0f);
+        float _d = intersectTriangle(origin, direct, triverts, uv, n);
+        
+        if (_d < INFINITY && _d >= 0.0f && _d <= lastRes.dist) {
+            lastRes.dist = _d;
+            lastRes.triangle = tri;
+            lastRes.uv = uv;
+            lastRes.normal = n;
+        }
+    
+        if (lastRes.dist <= 0.0f) break;
+    }
+    
+    return loadInfo(lastRes);
+}
+
+
 #include "../hlbvh/traverse.glsl"
 
 layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+
+uniform int directTraverse;
+
+
+
 
 void main() {
     int offT = int(gl_GlobalInvocationID.x);
@@ -150,7 +188,13 @@ void main() {
     if (ray.actived < 1) return;
 
     Hit hit = fetchHitDirect(t);
-    TResult res = traverse(hit.dist, ray.origin.xyz, ray.direct.xyz);
+    TResult res;
+    
+    if (directTraverse > 0){
+        res = traverseDirectly(hit.dist, ray.origin.xyz, ray.direct.xyz);
+    } else {
+        res = traverse(hit.dist, ray.origin.xyz, ray.direct.xyz);
+    }
     
     if (
         res.dist >= 0.0f && 

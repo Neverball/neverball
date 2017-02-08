@@ -456,7 +456,7 @@ namespace PathTracer {
             //context->flush();
         }
 
-        void intersection(Intersector * obj) {
+        void intersection(Intersector * obj, const int directly = 0) {
             pgl::intv rsize = getRayCount();
             if (rsize <= 0 || obj->triangleCount <= 0) return;
 
@@ -466,6 +466,7 @@ namespace PathTracer {
             obj->bindBVH();
             obj->bindUniforms();
             bind();
+            intersectionProgram->uniform<pgl::intv>("directTraverse")->set(directly);
             context->useProgram(intersectionProgram)->dispatchCompute(tiled(rsize, worksize))->flush();
             context->flush();
 

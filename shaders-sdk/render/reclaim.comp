@@ -35,7 +35,7 @@ void main()
         ray.actived = 0;
 
         hit.triangle = 0;
-        hit.dist = 0.001f;
+        hit.dist = 0.0000001f;
         hit.materialID = -1;
         hit.shaded = 1;
     }
