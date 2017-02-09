@@ -569,7 +569,7 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
     }
 
     bool reflfilter =((mat . flags & M_REFLECTIVE)> 0 ||(mat . flags & M_ENVIRONMENT)> 0)&&(mat . flags & M_TRANSPARENT)< 1;
-    result . xyz = reflfilter ?((mat . flags & M_REFLECTIVE)> 0 ? vec3(0.6f): vec3(0.2f)): vec3(0.0f);
+    result . xyz = reflfilter ?((mat . flags & M_REFLECTIVE)> 0 ? vec3(0.5f): vec3(0.2f)): vec3(0.0f);
 
 
     return result;

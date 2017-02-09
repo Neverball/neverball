@@ -409,7 +409,7 @@ void main()
     Hit hit = fetchHitDirect(t);
 
     if(ray . params . w > 0 && ray . params . y <= 0){
-        ray . final . xyz = ray . color . xyz /(lightUniform . lightRadius * lightUniform . lightRadius)* lightUniform . lightColor . xyz * 0.0f;
+        ray . final . xyz = ray . color . xyz * 0.0f;
         ray . actived = 0;
 
         hit . triangle = 0;
@@ -425,9 +425,8 @@ void main()
         }
     }
 
-    if(ray . actived > 0 && hit . shaded <= 0){
+    if(ray . actived > 0 &&(hit . shaded <= 0 || mlength(ray . color . xyz)< 0.0001f)){
         ray . actived = 0;
-        ray . final = vec4(0.0f);
     }
 
     if(ray . actived > 0){
