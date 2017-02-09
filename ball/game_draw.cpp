@@ -43,16 +43,13 @@ static void game_draw_balls(struct s_rend *rend,
     ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
     ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
     ptransformer->voffsetAccum = 0.0f;
+    ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
 
     currentIntersector = intersectorBall;
-
-    //currentIntersector = intersector;
-
-    ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
     ball_draw(rend, ball_M, pend_M, bill_M, t);
-    ptransformer->colormod = pgl::floatv4(1.0f);
-
     currentIntersector = intersector;
+
+    ptransformer->colormod = pgl::floatv4(1.0f);
     ptransformer->pop();
 }
 
@@ -66,10 +63,16 @@ static void game_draw_items(struct s_rend *rend,
 
         if (hp->t == ITEM_NONE) continue;
 
+        
         ptransformer->push();
         ptransformer->translate(hp->p[0], hp->p[1], hp->p[2]);
+        ptransformer->flags |= M_REFLECTIVE | M_SHADOWED; //Reflective
         item_draw(rend, hp, bill_M, t);
+        ptransformer->flags &= ~(M_REFLECTIVE | M_SHADOWED);
         ptransformer->pop();
+
+        
+
     }
 }
 
@@ -85,6 +88,8 @@ static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
 
     const struct s_base *base =  gd->vary.base;
     const struct s_vary *vary = &gd->vary;
+
+    ptransformer->exflags |= M_SHADOWED;
 
     /* Goal beams */
     if (gd->goal_e) {
@@ -104,26 +109,36 @@ static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
             beam_draw(rend, base->xv[i].p, swch_c[vary->xv[i].f][vary->xv[i].e], base->xv[i].r, 2.0f);
         }
     }
+
+    ptransformer->exflags &= ~M_SHADOWED;
 }
 
 static void game_draw_goals(struct s_rend *rend,
                             const struct game_draw *gd, float t)
 {
+    ptransformer->exflags |= M_SHADOWED;
+
     const struct s_base *base = gd->vary.base;
     if (gd->goal_e) {
         for (int i = 0; i < base->zc; i++) {
             goal_draw(rend, base->zv[i].p, base->zv[i].r, gd->goal_k, t);
         }
     }
+
+    ptransformer->exflags &= ~M_SHADOWED;
 }
 
 static void game_draw_jumps(struct s_rend *rend,
                             const struct game_draw *gd, float t)
 {
+    ptransformer->exflags |= M_SHADOWED;
+
     const struct s_base *base = gd->vary.base;
     for (int i = 0; i < base->jc; i++) {
         jump_draw(rend, base->jv[i].p, base->jv[i].r, 1.0f);
     }
+
+    ptransformer->exflags &= ~M_SHADOWED;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -156,6 +171,7 @@ static void game_draw_back(struct s_rend *rend,
 {
     if (pose == POSE_BALL) return;
 
+    ptransformer->exflags |= M_SHADOWED | M_REFLECTIVE;
     ptransformer->push();
     if (d < 0)
     {
@@ -180,6 +196,7 @@ static void game_draw_back(struct s_rend *rend,
 
     currentIntersector = intersector;
     ptransformer->pop();
+    ptransformer->exflags &= ~(M_SHADOWED | M_REFLECTIVE);
 
 }
 
@@ -245,7 +262,10 @@ static void game_draw_fore(struct s_rend *rend,
             break;
         }
 
+        ptransformer->flags |= M_SHADOWED;
         sol_bill(draw, rend, M, t);
+        ptransformer->flags &= ~M_SHADOWED;
+
         game_draw_beams(rend, gd);
         part_draw_coin(rend);
         game_draw_goals(rend, gd, t);
@@ -315,6 +335,8 @@ void game_draw(struct game_draw *gd, int pose, float t)
         ptransformer->voffsetAccum = 0.0f;
         ptransformer->reset();
         ptransformer->push();
+        ptransformer->flags = 0;
+        ptransformer->exflags = 0;
         {
             float T[16], U[16], M[16], v[3];
             v[0] = +view->p[0];

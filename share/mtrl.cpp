@@ -198,7 +198,7 @@ int pt_cache_texture(const int mi, const struct mtrl *mp) {
     submat.emissive = *(pgl::floatv4 *)base->e;
     submat.specular = *(pgl::floatv4 *)base->s;
     submat.reflectivity = *(pgl::floatv *)base->h;
-    submat.flags = base->fl | ptransformer->flags;
+    submat.flags = (base->fl | ptransformer->flags) & (~ptransformer->exflags);
     submat.alpharef = base->alpha_ref;
     submat.alphafunc = base->alpha_func;
 
