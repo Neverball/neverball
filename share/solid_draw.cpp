@@ -348,9 +348,13 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
             return;
         }
 
+        float voff = 0.0f;
+        if (PASS_OPAQUE_DECAL == p) voff += 0.00011f;
+        if (PASS_TRANSPARENT_DECAL == p) voff += 0.00012f;
+
         PathTracer::Mesh meshloader(glcontext);
         meshloader.setColorModifier(pgl::floatv4(1.0f));
-        meshloader.setVerticeOffset((PASS_OPAQUE_DECAL == p || PASS_TRANSPARENT_DECAL == p) ? 0.0002f : 0.0f);
+        meshloader.setVerticeOffset(voff);
         meshloader.setVertices(mp->vertBuf);
         meshloader.setTexcoords(mp->texBuf);
         meshloader.setNormals(mp->normBuf);
