@@ -446,18 +446,18 @@ static int play_loop_click(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            rot_set(DIR_R, 1.0f, 0);
-        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
             rot_set(DIR_L, 1.0f, 0);
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
+            rot_set(DIR_R, 1.0f, 0);
 
         click_camera(b);
     }
     else
     {
         if (config_tst_d(CONFIG_MOUSE_CAMERA_R, b))
-            rot_clr(DIR_R);
-        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
             rot_clr(DIR_L);
+        if (config_tst_d(CONFIG_MOUSE_CAMERA_L, b))
+            rot_clr(DIR_R);
     }
 
     return 1;
