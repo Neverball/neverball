@@ -376,7 +376,7 @@ void main() {
         float aspic = 1.0f - spic;
         
         bool isAdditive = (material.flags & M_ADDITIVE) > 0;
-        bool shadowed = (material.flags & M_SHADOWED) > 0 && !((material.flags & M_ENVIRONMENT) > 0 && (material.flags & M_TRANSPARENT) > 0);
+        bool shadowed = (material.flags & M_SHADOWED) > 0;
         
         const float shadowIntense = 0.4f;
         const float unShadowIntense = 1.0f - shadowIntense;

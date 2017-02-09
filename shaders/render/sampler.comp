@@ -427,7 +427,7 @@ void main(){
                     ){
                         Ray ray = fetchRay(ts);
                         vec4 samp = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-                        for(int i = 0;i < 64;i ++){
+                        for(int i = 0;i < 128;i ++){
                             Hit hit = fetchHit(ray);
                             if(ray . actived < 1 && hit . shaded > 0){
                                 vec4 smp = max(ray . final, vec4(0.0f));
