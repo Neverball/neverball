@@ -26,14 +26,14 @@ namespace PathTracer {
         }
 
     private:
-        pgl::Context context;
-        pgl::Buffer<pgl::floatv> vbo_triangle_ssbo;
-        pgl::Buffer<pgl::floatv>norm_triangle_ssbo;
-        pgl::Buffer<pgl::floatv> tex_triangle_ssbo;
-        pgl::Buffer<pgl::intv>  mat_triangle_ssbo;
-        pgl::Buffer<pgl::intv> vebo_triangle_ssbo;
-        pgl::Buffer<pgl::intv> nebo_triangle_ssbo;
-        pgl::Buffer<pgl::intv> tebo_triangle_ssbo;
+        pgl::Context context = nullptr;
+        pgl::Buffer<pgl::floatv> vbo_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::floatv>norm_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::floatv> tex_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::intv>  mat_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::intv> vebo_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::intv> nebo_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::intv> tebo_triangle_ssbo = nullptr;
 
     public:
         glm::mat4 trans;

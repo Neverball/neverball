@@ -29,15 +29,15 @@ extern const char ICON[];
 
 struct video video;
 
-PathTracer::Tracer * ptracer;
-PathTracer::Mesh * meshloader;
-PathTracer::Intersector * currentIntersector;
-PathTracer::Intersector * intersector;
-PathTracer::Intersector * intersectorBillboard;
-PathTracer::Intersector * intersectorBack;
-PathTracer::Intersector * intersectorBall;
-PathTracer::Material * pmaterials;
-PathTracer::Transformer * ptransformer;
+PathTracer::Tracer * ptracer = nullptr;
+PathTracer::Mesh * meshloader = nullptr;
+PathTracer::Intersector * currentIntersector = nullptr;
+PathTracer::Intersector * intersector = nullptr;
+PathTracer::Intersector * intersectorBillboard = nullptr;
+PathTracer::Intersector * intersectorBack = nullptr;
+PathTracer::Intersector * intersectorBall = nullptr;
+PathTracer::Material * pmaterials = nullptr;
+PathTracer::Transformer * ptransformer = nullptr;
 
 /*---------------------------------------------------------------------------*/
 

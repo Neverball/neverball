@@ -152,7 +152,11 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
         meshloader.setLoadingOffset(2);
     }
 
-    currentIntersector->loadMesh(&meshloader);
+    if (currentIntersector != nullptr) {
+        currentIntersector->loadMesh(&meshloader);
+    }
+
+    return;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -365,8 +369,11 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 
             meshloader.setIndexed(true);
             meshloader.setMaterialOffset(mid);
-            currentIntersector->loadMesh(&meshloader);
+            if (currentIntersector != nullptr) {
+                currentIntersector->loadMesh(&meshloader);
+            }
         }
+        return;
     }
 }
 

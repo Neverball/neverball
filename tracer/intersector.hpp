@@ -24,32 +24,32 @@ namespace PathTracer {
         pgl::Program minmaxProgram2;
         //pgl::Program sortProgram;
 
-        pgl::Buffer<pgl::floatv> temp_vbo;
-        pgl::Buffer<pgl::intv> temp_srt;
-        pgl::Buffer<pgl::floatv> temp_rvbo;
-        pgl::Buffer<pgl::intv> ebo_triangle_ssbo;
-        pgl::Buffer<pgl::floatv> vbo_triangle_ssbo;
-        pgl::Buffer<pgl::floatv> norm_triangle_ssbo;
-        pgl::Buffer<pgl::floatv> tex_triangle_ssbo;
-        pgl::Buffer<pgl::intv> mat_triangle_ssbo;
+        pgl::Buffer<pgl::floatv> temp_vbo = nullptr;
+        pgl::Buffer<pgl::intv> temp_srt = nullptr;
+        pgl::Buffer<pgl::floatv> temp_rvbo = nullptr;
+        pgl::Buffer<pgl::intv> ebo_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::floatv> vbo_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::floatv> norm_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::floatv> tex_triangle_ssbo = nullptr;
+        pgl::Buffer<pgl::intv> mat_triangle_ssbo = nullptr;
 
-        pgl::Buffer<MinmaxUniformStruct> minmaxUniform;
-        pgl::Buffer<HelperUniformStruct> helperUniform;
-        pgl::Buffer<OctreeUniformStruct> octreeUniform;
-        pgl::Buffer<GeometryUniformStruct> geometryUniform;
+        pgl::Buffer<MinmaxUniformStruct> minmaxUniform = nullptr;
+        pgl::Buffer<HelperUniformStruct> helperUniform = nullptr;
+        pgl::Buffer<OctreeUniformStruct> octreeUniform = nullptr;
+        pgl::Buffer<GeometryUniformStruct> geometryUniform = nullptr;
         //pgl::VertexArray vao;
 
-        pgl::Buffer<pgl::uintv> nodeCounter;
-        pgl::Buffer<pgl::uintv2> numBuffer;
-        pgl::Buffer<Leaf> leafBuffer;
-        pgl::Buffer<Leaf> leafBufferSorted;
-        pgl::Buffer<HlbvhNode> bvhnodesBuffer;
-        pgl::Buffer<glm::uvec2> mortonBuffer;
-        pgl::Buffer<glm::uvec2> mortonBufferSorted;
-        pgl::Buffer<pgl::uintv> bvhflagsBuffer;
-        pgl::Buffer<pgl::intv> lscounterTemp;
-        pgl::Buffer<Minmaxi> minmaxBuf;
-        pgl::Buffer<Minmaxi> minmaxBufRef;
+        pgl::Buffer<pgl::uintv> nodeCounter = nullptr;
+        pgl::Buffer<pgl::uintv2> numBuffer = nullptr;
+        pgl::Buffer<Leaf> leafBuffer = nullptr;
+        pgl::Buffer<Leaf> leafBufferSorted = nullptr;
+        pgl::Buffer<HlbvhNode> bvhnodesBuffer = nullptr;
+        pgl::Buffer<glm::uvec2> mortonBuffer = nullptr;
+        pgl::Buffer<glm::uvec2> mortonBufferSorted = nullptr;
+        pgl::Buffer<pgl::uintv> bvhflagsBuffer = nullptr;
+        pgl::Buffer<pgl::intv> lscounterTemp = nullptr;
+        pgl::Buffer<Minmaxi> minmaxBuf = nullptr;
+        pgl::Buffer<Minmaxi> minmaxBufRef = nullptr;
 
     private:
         void initShaderCompute(std::string str, pgl::Program& prog) {
@@ -199,7 +199,7 @@ namespace PathTracer {
         }
 
         void loadMesh(Mesh * gobject) {
-            if (gobject->triangleCount <= 0) return;
+            if (gobject->triangleCount <= 0 || gobject == nullptr) return;
 
             pgl::intv trioff = triangleCount;
             triangleCount += gobject->triangleCount;
