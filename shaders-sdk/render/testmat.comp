@@ -416,7 +416,7 @@ void main() {
         
         // Shadow overlapping
         {
-            if (atrns > 0.0f && random() < atrns || isAdditive) {
+            if (atrns > 0.0f && random() < atrns || isAdditive || (material.flags & M_DECAL) > 0) {
                 newRay = promised(newRay, hit, normal);
             } else {
                 newRay = emissive(newRay, hit, tx.xyz, normal, false);
