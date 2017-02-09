@@ -50,6 +50,7 @@ namespace PathTracer {
         pgl::Buffer<pgl::intv> lscounterTemp = nullptr;
         pgl::Buffer<Minmaxi> minmaxBuf = nullptr;
         pgl::Buffer<Minmaxi> minmaxBufRef = nullptr;
+        pgl::Uniform<pgl::intv> fresetRangeUniform = nullptr;
 
     private:
         void initShaderCompute(std::string str, pgl::Program& prog) {
@@ -70,6 +71,7 @@ namespace PathTracer {
             initShaderCompute("./shaders/hlbvh/aabbmaker.comp", aabbMakerProgramH);
             initShaderCompute("./shaders/hlbvh/minmax.comp", minmaxProgram2);
             initShaderCompute("./shaders/tools/loader.comp", geometryLoaderProgram2);
+            fresetRangeUniform = fresetProgramH->uniform<pgl::intv>("flagLen");
         }
 
     public:
@@ -310,7 +312,7 @@ namespace PathTracer {
                 if (range.y <= range.x) break;
             }
 
-            *fresetProgramH->uniform<pgl::intv>("flagLen") = range.y;
+            *fresetRangeUniform = range.y;
             context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
         }
