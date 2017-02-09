@@ -60,7 +60,6 @@ namespace PathTracer {
 
         void loadToVGA() {
             mats->data(submats);
-            context->flush();
         }
 
         void bindWithContext() {

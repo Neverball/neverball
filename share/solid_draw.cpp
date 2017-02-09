@@ -349,8 +349,12 @@ void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
         }
 
         float voff = 0.0f;
-        if (PASS_OPAQUE_DECAL == p) voff += 0.00011f;
-        if (PASS_TRANSPARENT_DECAL == p) voff += 0.00012f;
+        if (PASS_OPAQUE_DECAL == p) {
+            voff = 0.00011f;
+        }
+        if (PASS_TRANSPARENT_DECAL == p) {
+            voff = 0.00022f;
+        }
 
         PathTracer::Mesh meshloader(glcontext);
         meshloader.setColorModifier(pgl::floatv4(1.0f));

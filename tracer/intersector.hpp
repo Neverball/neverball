@@ -220,7 +220,7 @@ namespace PathTracer {
             bindUniforms();
             syncUniforms();
 
-            context->flush()->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
+            context->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
             markDirty();
         }
 
@@ -269,13 +269,9 @@ namespace PathTracer {
             mat = glm::scale(mat, 1.0f / scale);
             mat = glm::translate(mat, -offset);
 
-            //mat = glm::translate(mat, offset);
-            //mat = glm::scale(mat, scale);
-
-            octreeUniformData.project = mat;//glm::inverse(mat);
-            //octreeUniformData.unproject = mat;
-           
-            syncUniforms();
+            octreeUniformData.project = mat;
+            octreeUniformData.unproject = glm::inverse(mat);
+            octreeUniform->subdata(&octreeUniformData);
 
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBuffer);
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
@@ -302,10 +298,13 @@ namespace PathTracer {
 
             lscounterTemp->copydata(nodeCounter, cdesc);
             pgl::intv2 range = { 0, 1 };
+
+            context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
-                octreeUniformData.currentDepth = i; octreeUniform->subdata(&octreeUniformData);//syncUniforms();
-                context->useProgram(buildProgramH)->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
+                octreeUniformData.currentDepth = i; 
+                octreeUniform->subdata(&octreeUniformData);//syncUniforms();
+                context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
                 range.y = 1 + nodeCounter->subdata(0, 1)[0] * 2;
                 if (range.y <= range.x) break;
