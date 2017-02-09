@@ -8,6 +8,9 @@ layout ( binding=0, offset=4) uniform atomic_uint rcounter;
 layout ( binding=0, offset=8) uniform atomic_uint qcounter;
 
 void storeHit(in int hitIndex, inout Hit hit) {
+    if (hitIndex == -1 || hitIndex == LONGEST || hitIndex >= samplerUniform.currentRayLimit) {
+        return;
+    }
     hits[hitIndex] = hit;
 }
 
@@ -16,6 +19,9 @@ void storeHit(inout Ray ray, inout Hit hit) {
 }
 
 void storeRay(in int rayIndex, inout Ray ray) {
+    if (rayIndex == -1 || rayIndex == LONGEST || rayIndex >= samplerUniform.currentRayLimit) {
+        return;
+    }
     ray.idx = rayIndex;
     rays[rayIndex] = ray;
 }
@@ -38,6 +44,10 @@ void restoreRay(inout Ray ray){
 }
 
 int createRayStrict(inout Ray original, in int idx, in int rayIndex) {
+    if (rayIndex == -1 || rayIndex == LONGEST || rayIndex >= samplerUniform.currentRayLimit) {
+        return rayIndex;
+    }
+    
     int prev = atomicExchange(texelInfo[idx].last, rayIndex);
     atomicAdd(texelInfo[idx].count, 1);
     

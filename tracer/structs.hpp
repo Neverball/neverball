@@ -83,11 +83,14 @@ namespace PathTracer {
         pgl::floatv2 sceneRes;
         pgl::intv samplecount;
         pgl::intv rayCount;
+
         pgl::intv iteration;
         pgl::intv phase;
+
         pgl::intv maxSamples;
         pgl::intv currentSample;
         pgl::intv maxFilters;
+        pgl::intv currentRayLimit;
     };
 
     struct LightUniformStruct {

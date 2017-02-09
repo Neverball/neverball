@@ -53,6 +53,8 @@ namespace PathTracer {
         pgl::Buffer<pgl::intv> idcBuf;
         pgl::Attribute<pgl::floatv2> posattr;
 
+        pgl::intv currentRayLimit = 0;
+
     public:
 
         //RadeonRays::Buffer * raysRAD;
@@ -190,13 +192,15 @@ namespace PathTracer {
             const pgl::intv wrsize = width * height;
             const pgl::intv raylimit = 4096 * 4096;
 
-            rays = context->createBuffer<Ray>()->storage(std::min(wrsize * 16, raylimit));//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
-            hits = context->createBuffer<Hit>()->storage(std::min(wrsize * 16, raylimit));//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            currentRayLimit = std::min(wrsize * 16, raylimit);
+            rays = context->createBuffer<Ray>()->storage(currentRayLimit);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
+            hits = context->createBuffer<Hit>()->storage(currentRayLimit);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             activel = context->createBuffer<pgl::intv>()->storage(std::min(wrsize * 16, raylimit));
             activenl = context->createBuffer<pgl::intv>()->storage(std::min(wrsize * 16, raylimit));
             texels = context->createBuffer<Texel>()->storage(wrsize);
 
             samplerUniformData.sceneRes = pgl::floatv2(width, height); 
+            samplerUniformData.currentRayLimit = currentRayLimit;
 
             clearRays();
             syncUniforms();

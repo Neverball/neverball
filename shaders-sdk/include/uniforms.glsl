@@ -20,11 +20,14 @@ struct SamplerUniformStruct {
     vec2 sceneRes;
     int samplecount;
     int rayCount;
+    
     int iteration;
     int phase;
+    
     int maxSamples;
     int currentSample;
     int maxFilters;
+    int currentRayLimit;
 };
 
 struct LightUniformStruct {
