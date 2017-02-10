@@ -80,12 +80,11 @@ namespace PathTracer {
 
             //vao = context->createVertexArray();
             pgl::BufferStorageDescriptor desc;
-            desc.size = 1;
+            desc.storageFlags = pgl::BufferStorageFlags::Dynamic;
 
             minmaxBufRef = context->createBuffer<Minmaxi>()->storage(1, desc);
             minmaxBuf = context->createBuffer<Minmaxi>()->storage(1, desc);
-            lscounterTemp = context->createBuffer<pgl::intv>()->storage(1, desc);
-            lscounterTemp->subdata(std::vector<pgl::intv>({ 0 }));
+            lscounterTemp = context->createBuffer<pgl::intv>()->storage(1, desc)->subdata(std::vector<pgl::intv>({ 0 }));
 
             minmaxUniform = context->createBuffer<MinmaxUniformStruct>()->storage(1, desc);
             helperUniform = context->createBuffer<HelperUniformStruct>()->storage(1, desc);
@@ -304,8 +303,9 @@ namespace PathTracer {
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
-                octreeUniformData.currentDepth = i; 
-                octreeUniform->subdata(&octreeUniformData);//syncUniforms();
+                octreeUniformData.currentDepth = i;
+                octreeUniform->subdata(&octreeUniformData);
+
                 context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
                 range.y = 1 + nodeCounter->subdata(0, 1)[0] * 2;

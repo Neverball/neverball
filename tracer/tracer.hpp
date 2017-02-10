@@ -99,13 +99,18 @@ namespace PathTracer {
         void init() {
             initShaders();
 
-            arcounter = context->createBuffer<pgl::intv>();
-            arcounterTemp = context->createBuffer<pgl::intv>()->storage(1);
-            randomUniform = context->createBuffer<RandomUniformStruct>()->storage(1);
-            lightUniform = context->createBuffer<LightUniformStruct>()->storage(1);
-            materialUniform = context->createBuffer<MaterialUniformStruct>()->storage(1);
-            samplerUniform = context->createBuffer<SamplerUniformStruct>()->storage(1);
-            cameraUniform = context->createBuffer<CameraUniformStruct>()->storage(1);
+
+            pgl::BufferStorageDescriptor mpd;
+            mpd.storageFlags = pgl::BufferStorageFlags::Dynamic;
+
+
+            arcounter = context->createBuffer<pgl::intv>()->storage(3, mpd);
+            arcounterTemp = context->createBuffer<pgl::intv>()->storage(1, mpd)->subdata(std::vector<pgl::intv>({ 0 }));
+            randomUniform = context->createBuffer<RandomUniformStruct>()->storage(1, mpd);
+            lightUniform = context->createBuffer<LightUniformStruct>()->storage(1, mpd);
+            materialUniform = context->createBuffer<MaterialUniformStruct>()->storage(1, mpd);
+            samplerUniform = context->createBuffer<SamplerUniformStruct>()->storage(1, mpd);
+            cameraUniform = context->createBuffer<CameraUniformStruct>()->storage(1, mpd);
 
             posBuf = context->createBuffer<pgl::floatv2>()->data(std::vector<pgl::floatv2>({
                 { -1.0f, -1.0f },{ 1.0f, -1.0f },{ -1.0f, 1.0f },{ 1.0f, 1.0f } 
@@ -116,9 +121,6 @@ namespace PathTracer {
             vao = context->createVertexArray();
             auto binding = vao->element(idcBuf)->binding(0)->buffer(posBuf, 0);
             posattr = renderProgram->attribute<pgl::floatv2>(0)->offset(0)->binding(binding);
-
-            arcounter->storage(3);
-            arcounterTemp->data(std::vector<pgl::intv>({ 0 }));
 
             lightUniformData.lightColor = lightColor;
             lightUniformData.lightVector = lightVector;
@@ -496,7 +498,7 @@ namespace PathTracer {
 
         pgl::intv getRayCount() {
             if (raycountCacheClear) {
-                raycountCache = arcounter->subdata( 0, 1 )[0];
+                raycountCache = arcounter->subdata(0, 1)[0];
                 if (raycountCache < 0) raycountCache = 0; //don't need trace with few rays
                 raycountCacheClear = false;
                 samplerUniformData.rayCount = raycountCache;
