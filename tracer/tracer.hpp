@@ -197,8 +197,8 @@ namespace PathTracer {
             currentRayLimit = std::min(wrsize * 16, raylimit);
             rays = context->createBuffer<Ray>()->storage(currentRayLimit);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             hits = context->createBuffer<Hit>()->storage(currentRayLimit);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
-            activel = context->createBuffer<pgl::intv>()->storage(std::min(wrsize * 16, raylimit));
-            activenl = context->createBuffer<pgl::intv>()->storage(std::min(wrsize * 16, raylimit));
+            activel = context->createBuffer<pgl::intv>()->storage(currentRayLimit);
+            activenl = context->createBuffer<pgl::intv>()->storage(currentRayLimit);
             texels = context->createBuffer<Texel>()->storage(wrsize);
 
             samplerUniformData.sceneRes = pgl::floatv2(width, height); 
