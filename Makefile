@@ -191,7 +191,7 @@ OGG_LIBS := -lvorbisfile
 TTF_LIBS := -lSDL2_ttf
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS) -ldl -lstdc++ -lcudart
+	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS) -ldl -lstdc++ 
 
 MAPC_LIBS := $(BASE_LIBS)
 
