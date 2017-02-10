@@ -403,7 +403,7 @@ bool haveChain(in Ray ray){
 
 layout(binding = 0, rgba32f)uniform image2DArray samples;
 layout(binding = 1, rgba32f)uniform image2DArray filtered;
-layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
 float v4g(in vec4 a, in int b){
     if(b == 0)return a . x;else

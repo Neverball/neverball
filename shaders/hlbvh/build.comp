@@ -232,7 +232,7 @@ layout(std140, binding = 7)uniform ubo7 { OctreeUniformStruct octreeUniform;};
 layout(std140, binding = 8)uniform ubo8 { CameraUniformStruct cameraUniform;};
 #line 5 "./hlbvh/build.comp"
 #line 1 "./hlbvh/./includes.glsl"
-layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
 layout(std430, binding = 0)buffer NumBlock {
     ivec2 Range;

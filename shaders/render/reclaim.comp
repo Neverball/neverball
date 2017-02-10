@@ -403,7 +403,7 @@ bool haveChain(in Ray ray){
 
 
 
-layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
 float mlength(vec3 mcolor){
     return max(mcolor . x, max(mcolor . y, mcolor . z));

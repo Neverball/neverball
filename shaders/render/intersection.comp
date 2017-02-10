@@ -674,7 +674,7 @@ bool ism(in int bits, in int mask){
 }
 
 const int STACK_SIZE = 16;
-shared int stack[64][16];
+shared int stack[256][16];
 
 
 TResult traverse(in float distn, in vec3 origin, in vec3 direct){
@@ -775,7 +775,7 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
 }
 #line 173 "./render/intersection.comp"
 
-layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
 
 uniform int directTraverse;

@@ -68,8 +68,8 @@ bool ism(in int bits, in int mask){
 }
 
 const int STACK_SIZE = 16;
-shared int stack[64][16];
-//shared int ptr[64];
+shared int stack[256][16];
+//shared int ptr[256];
 
 TResult traverse(in float distn, in vec3 origin, in vec3 direct){
     TResult lastRes;

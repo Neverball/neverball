@@ -471,7 +471,7 @@ vec3 randomDirectionInSphere(){
 }
 #line 13 "./render/camera.comp"
 
-layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
 int part1By1(in int x){
     x &= 0x0000ffff;

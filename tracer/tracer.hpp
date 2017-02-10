@@ -216,7 +216,7 @@ namespace PathTracer {
             cameraUniform->subdata(&cameraUniformData);
         }
 
-        pgl::intv worksize = 64;
+        pgl::intv worksize = 256;
         RandomUniformStruct randomUniformData;
         LightUniformStruct lightUniformData;
         MaterialUniformStruct materialUniformData;

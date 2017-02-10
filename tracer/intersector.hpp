@@ -119,7 +119,7 @@ namespace PathTracer {
         HelperUniformStruct helperUniformData;
         OctreeUniformStruct octreeUniformData;
         GeometryUniformStruct geometryUniformData;
-        pgl::intv worksize = 64;
+        pgl::intv worksize = 256;
 
         Intersector(pgl::Context ctx, CLTracerAPI api = CLTracerAPI()) {
             context = ctx;
