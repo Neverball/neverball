@@ -3,7 +3,13 @@
 //#define WIN32_LEAN_AND_MEAN 1
 //#define WIN32_EXTRA_LEAN
 //#include <windows.h>
+
+#ifdef GLAD_SUPPORT
 #include "glad/glad.h"
+#else 
+#include "GL/glew.h"
+#endif
+
 //#include <GL/gl.h>
 //#include <GL/glext.h>
 

@@ -130,7 +130,6 @@
     <ClInclude Include="..\..\ball\util.h" />
     <ClInclude Include="..\..\glad\glad.h" />
     <ClInclude Include="..\..\glad\khrplatform.h" />
-    <ClInclude Include="..\..\radix\GL\wglext.h" />
     <ClInclude Include="..\..\radix\opengl.hh" />
     <ClInclude Include="..\..\radix\radix-sort.hh" />
     <ClInclude Include="..\..\share\array.h" />
@@ -177,7 +176,6 @@
     <ClInclude Include="..\..\share\version.h" />
     <ClInclude Include="..\..\share\version.in.h" />
     <ClInclude Include="..\..\share\video.h" />
-    <ClInclude Include="..\..\sorter\sorter.h" />
     <ClInclude Include="..\..\tracer\controller.hpp" />
     <ClInclude Include="..\..\tracer\includes.hpp" />
     <ClInclude Include="..\..\tracer\intersector.hpp" />
@@ -191,12 +189,6 @@
   <ItemGroup>
     <None Include="..\..\ball\Makefile" />
     <None Include="..\..\share\Makefile" />
-  </ItemGroup>
-  <ItemGroup>
-    <CudaCompile Include="..\..\sorter\sorter.cu">
-      <TargetMachinePlatform Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">64</TargetMachinePlatform>
-      <CodeGeneration Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">compute_52,sm_52</CodeGeneration>
-    </CudaCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6D45A17-DD39-4D0E-A6D7-5A210346E543}</ProjectGuid>

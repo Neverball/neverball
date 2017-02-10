@@ -25,14 +25,8 @@
     <Filter Include="Файлы исходного кода\glad">
       <UniqueIdentifier>{2cca8c96-120e-4e49-995f-7a195e74c57b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\sorter">
-      <UniqueIdentifier>{753e43df-9e5b-430b-a3f1-2ded6ec06a52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Файлы исходного кода\radix">
       <UniqueIdentifier>{a4e259ea-38d9-4f7e-87db-02ccc338701b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Файлы исходного кода\radix\GL">
-      <UniqueIdentifier>{f008c985-1402-48ee-93db-6e322a9f929a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -521,9 +515,6 @@
     <ClInclude Include="..\..\glad\khrplatform.h">
       <Filter>Файлы исходного кода\glad</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sorter\sorter.h">
-      <Filter>Файлы исходного кода\sorter</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tracer\transformer.hpp">
       <Filter>Файлы исходного кода\tracer</Filter>
     </ClInclude>
@@ -533,9 +524,6 @@
     <ClInclude Include="..\..\radix\radix-sort.hh">
       <Filter>Файлы исходного кода\radix</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\radix\GL\wglext.h">
-      <Filter>Файлы исходного кода\radix\GL</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\ball\Makefile">
@@ -544,10 +532,5 @@
     <None Include="..\..\share\Makefile">
       <Filter>Файлы исходного кода\share</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <CudaCompile Include="..\..\sorter\sorter.cu">
-      <Filter>Файлы исходного кода\sorter</Filter>
-    </CudaCompile>
   </ItemGroup>
 </Project>
