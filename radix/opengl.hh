@@ -9,6 +9,12 @@
 
 //#pragma comment(lib, "opengl32.lib")
 
+#ifndef ARRAYSIZE
+#define IS_INDEXABLE(arg) (sizeof(arg[0]))
+#define IS_ARRAY(arg) (IS_INDEXABLE(arg) && (((void *) &arg) == ((void *) arg)))
+#define ARRAYSIZE(arr) (IS_ARRAY(arr) ? (sizeof(arr) / sizeof(arr[0])) : 0)
+#endif
+
 #define EACH(i, size) for (GLsizeiptr i = 0; i < size; i++)
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
