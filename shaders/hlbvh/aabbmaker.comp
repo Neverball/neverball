@@ -305,7 +305,11 @@ layout(std430, binding = 0)buffer OutLeafBlock {
 };
 
 layout(std430, binding = 1)buffer MortoncodesBlock {
-    ivec2 Mortoncodes[];
+    int Mortoncodes[];
+};
+
+layout(std430, binding = 2)buffer IndicesBlock {
+    int MortoncodesIndices[];
 };
 
 int CalculateMortonCode(in vec3 p){
@@ -319,7 +323,8 @@ layout(local_size_x = 64, local_size_y = 1, local_size_z = 1)in;
 
 void main(){
     int t = int(gl_GlobalInvocationID . x);
- Mortoncodes[t]= ivec2(0xFFFFFFFF);
+ Mortoncodes[t]= 0xFFFFFFFF;
+    MortoncodesIndices[t]= 0xFFFFFFFF;
 
     if(t >= geometryUniform . triangleCount)return;
 
@@ -338,8 +343,8 @@ void main(){
 
     vec3 center =(triverts[0]+ triverts[1]+ triverts[2])* 0.3333333333f;
 
-    Mortoncodes[t]. x = t;
-    Mortoncodes[t]. y = CalculateMortonCode(center);
+    MortoncodesIndices[t]= t;
+    Mortoncodes[t]= CalculateMortonCode(center);
 
     OutLeafs[t]. box . pmin = mn;
     OutLeafs[t]. box . pmax = mx;

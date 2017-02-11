@@ -51,6 +51,8 @@
     <ClCompile Include="..\..\ball\st_title.cpp" />
     <ClCompile Include="..\..\ball\util.cpp" />
     <ClCompile Include="..\..\glad\glad.cpp" />
+    <ClCompile Include="..\..\radix\opengl.cpp" />
+    <ClCompile Include="..\..\radix\radix-sort.cpp" />
     <ClCompile Include="..\..\share\array.cpp" />
     <ClCompile Include="..\..\share\audio.cpp" />
     <ClCompile Include="..\..\share\ball.cpp" />
@@ -128,6 +130,9 @@
     <ClInclude Include="..\..\ball\util.h" />
     <ClInclude Include="..\..\glad\glad.h" />
     <ClInclude Include="..\..\glad\khrplatform.h" />
+    <ClInclude Include="..\..\radix\GL\wglext.h" />
+    <ClInclude Include="..\..\radix\opengl.hh" />
+    <ClInclude Include="..\..\radix\radix-sort.hh" />
     <ClInclude Include="..\..\share\array.h" />
     <ClInclude Include="..\..\share\audio.h" />
     <ClInclude Include="..\..\share\ball.h" />
@@ -320,7 +325,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>GLM_FORCE_SWIZZLE;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;NDEBUG;_CONSOLE;USE_EXTERNAL_GL;GLAD_SUPPORT;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLM_FORCE_SWIZZLE;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES;_CONSOLE;USE_EXTERNAL_GL;GLAD_SUPPORT;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>

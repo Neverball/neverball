@@ -44,8 +44,10 @@ namespace PathTracer {
         pgl::Buffer<Leaf> leafBuffer = nullptr;
         pgl::Buffer<Leaf> leafBufferSorted = nullptr;
         pgl::Buffer<HlbvhNode> bvhnodesBuffer = nullptr;
-        pgl::Buffer<glm::uvec2> mortonBuffer = nullptr;
-        pgl::Buffer<glm::uvec2> mortonBufferSorted = nullptr;
+        pgl::Buffer<pgl::uintv> mortonBuffer = nullptr;
+        pgl::Buffer<pgl::uintv> mortonBufferIndex = nullptr;
+        pgl::Buffer<pgl::uintv> mortonBufferSorted = nullptr;
+
         pgl::Buffer<pgl::uintv> bvhflagsBuffer = nullptr;
         pgl::Buffer<pgl::intv> lscounterTemp = nullptr;
         pgl::Buffer<Minmaxi> minmaxBuf = nullptr;
@@ -155,8 +157,9 @@ namespace PathTracer {
             numBuffer = context->createBuffer<pgl::uintv2>()->storage(1);
             numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
-            mortonBuffer = context->createBuffer<pgl::uintv2>()->storage(maxt);
-            mortonBufferSorted = context->createBuffer<pgl::uintv2>()->storage(maxt);
+            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(maxt);
+            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(maxt);
+            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(maxt);
 
             bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3);
             bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3);
@@ -191,6 +194,7 @@ namespace PathTracer {
         void bindBVH() {
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhnodesBuffer);
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
+            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
         }
 
         void clearTribuffer() {
@@ -276,8 +280,17 @@ namespace PathTracer {
 
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBuffer);
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
-            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
+            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
+            //context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
+            //context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferSorted);
             context->useProgram(aabbMakerProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
+
+            pgl::BufferCopyDataDescriptor ccd;
+            ccd.readOffset = 0;
+            ccd.readSize = triangleCount;
+            ccd.writeOffset = 0;
+
+            //mortonBuffer->copydata(mortonBufferSorted, ccd);
 
 #ifdef OPENCL_SUPPORT
             context->flush();
@@ -286,16 +299,29 @@ namespace PathTracer {
             clEnqueueReleaseGLObjects(clapi.queue, 1, &clMorton, 0, 0, 0);
             clFinish(clapi.queue);
 #else 
-            sortPair(mortonBuffer->glID(), triangleCount);
+            //sortPair(mortonBuffer->glID(), triangleCount);
+            //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
+            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
 #endif
+            context->flush();
+
+            context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBuffer);
+            context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
+            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
+            context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
+            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(nullptr);
             context->useProgram(resortProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
+            //mortonBufferSorted->copydata(mortonBuffer, ccd);
+
+            //std::vector<pgl::uintv> debugidc = mortonBuffer->subdata(0, triangleCount);
 
             context->binding(0)->target(pgl::BufferTarget::AtomicCounter)->buffer(nodeCounter);
-            context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
-            context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(numBuffer);
-            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhnodesBuffer);
+            context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(numBuffer);
+            context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
+            context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
             context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
-            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhflagsBuffer);
+            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhnodesBuffer);
+            context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhflagsBuffer);
 
             lscounterTemp->copydata(nodeCounter, cdesc);
             pgl::intv2 range = { 0, 1 };

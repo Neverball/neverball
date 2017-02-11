@@ -1,5 +1,14 @@
-layout( std430, binding = 0 ) buffer NodesBlock {HlbvhNode Nodes[];};
-layout( std430, binding = 1 ) buffer MortoncodesBlock {ivec2 Mortoncodes[];};
+layout( std430, binding = 0 ) buffer NodesBlock {
+    HlbvhNode Nodes[];
+};
+
+layout( std430, binding = 1 ) buffer MortoncodesBlock {
+    int Mortoncodes[];
+};
+
+layout( std430, binding = 2 ) buffer IndicesBlock {
+    int MortoncodesIndices[];
+};
 
 #define LEAFNODE(x) (((x).left) == ((x).right))
 
@@ -97,7 +106,7 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
             
             if (LEAFNODE(node)) {
                 prevd = lastRes.dist;
-                testIntersection(lastRes, origin, direct, Mortoncodes[node.left].x);
+                testIntersection(lastRes, origin, direct, MortoncodesIndices[node.left]);
                 if (lastRes.dist <= 0.0f) break;
             } else {
             

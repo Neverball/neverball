@@ -67,7 +67,7 @@ ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 SDL_CPPFLAGS := $(shell sdl2-config --cflags)
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 
-ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Isorter -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
+ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Iradix -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
 
 ALL_CPPFLAGS += \
 	-DCONFIG_USER=\"$(USERDIR)\" \
@@ -232,7 +232,8 @@ MAPC_OBJS := \
 	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
-	sorter/sorter.o		\
+	radix/opengl.o		\
+    radix/radix-sort.o	\
 	glad/glad.o         \
 	share/lang.o        \
 	share/st_common.o   \
@@ -416,8 +417,8 @@ WINDRES ?= windres
 	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
 
-%.o : %.cu
-	nvcc -c $< -o $@ -arch=sm_52
+#%.o : %.cu
+#	nvcc -c $< -o $@ -arch=sm_52
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data
