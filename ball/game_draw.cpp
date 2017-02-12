@@ -61,9 +61,9 @@ static void game_draw_items(struct s_rend *rend,
     for (int hi = 0; hi < vary->hc; hi++)
     {
         struct v_item *hp = &vary->hv[hi];
-
-        if (hp->t == ITEM_NONE) continue;
-
+        if (hp->t == ITEM_NONE) {
+            continue;
+        }
         
         ptransformer->push();
         ptransformer->translate(hp->p[0], hp->p[1], hp->p[2]);
@@ -71,9 +71,6 @@ static void game_draw_items(struct s_rend *rend,
         item_draw(rend, hp, bill_M, t);
         ptransformer->flags &= ~(M_REFLECTIVE | M_SHADOWED);
         ptransformer->pop();
-
-        
-
     }
 }
 
@@ -170,8 +167,6 @@ static void game_draw_back(struct s_rend *rend,
                            const struct game_draw *gd,
                            int pose, int d, float t)
 {
-    currentIntersector = intersectorBack;
-
     ptransformer->exflags |= M_SHADOWED | M_REFLECTIVE;
     ptransformer->push();
     if (d < 0)
@@ -191,18 +186,19 @@ static void game_draw_back(struct s_rend *rend,
 
     ptransformer->voffsetAccum = 0.0f;
 
+    currentIntersector = intersectorBack;
     back_draw(rend);
     if (config_get_d(CONFIG_BACKGROUND))
     {
         currentIntersector = intersectorBillboard;
-        //currentIntersector = intersector;
         sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
     }
+    currentIntersector = intersector;
 
     ptransformer->pop();
     ptransformer->exflags &= ~(M_SHADOWED | M_REFLECTIVE);
     
-    currentIntersector = intersector;
+    
 }
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
@@ -243,6 +239,8 @@ static void game_draw_fore(struct s_rend *rend,
     const float *ball_p = gd->vary.uv[0].p;
 
     struct s_draw *draw = &gd->draw;
+
+    currentIntersector = intersector;
     ptransformer->push();
     {
         game_draw_tilt(gd, d);
