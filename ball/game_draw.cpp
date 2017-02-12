@@ -41,6 +41,7 @@ static void game_draw_balls(struct s_rend *rend,
 
     ptransformer->push();
     ptransformer->flags &= ~M_SHADOWED;
+    ptransformer->exflags |= M_REFLECTIVE;
     ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
     ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
     ptransformer->voffsetAccum = 0.0f;
@@ -50,6 +51,7 @@ static void game_draw_balls(struct s_rend *rend,
     ball_draw(rend, ball_M, pend_M, bill_M, t);
     currentIntersector = intersector;
 
+    ptransformer->exflags &= ~M_REFLECTIVE;
     ptransformer->colormod = pgl::floatv4(1.0f);
     ptransformer->pop();
 }

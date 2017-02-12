@@ -573,17 +573,30 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
 }
 
 vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
-    vec4 result = vec4(0.0f);
+    vec4 specular = vec4(0.0f);
+    vec4 diffusal = vec4(0.0f);
 
     if(mat . specularPart == NOT_EXIST){
-        result = mat . specular;
+        specular = mat . specular;
     } else {
-        result = fetchPart(mat . specularPart, texcoord);
+        specular = mat . specular * fetchPart(mat . specularPart, texcoord);
     }
 
-    bool reflfilter =(mat . flags & M_REFLECTIVE)> 0 ||(mat . flags & M_ENVIRONMENT)> 0 &&(mat . flags & M_TRANSPARENT)< 1;
-    result . xyz = reflfilter ?((mat . flags & M_REFLECTIVE)> 0 &&(mat . flags & M_TRANSPARENT)< 1 ? vec3(0.5f): vec3(0.2f)): vec3(0.0f);
+    if(mat . diffusePart == NOT_EXIST){
+        diffusal = mat . diffuse;
+    } else {
+        diffusal = fetchPart(mat . diffusePart, texcoord)* clamp(mat . diffuse *(1.25f), vec4(0.0f), vec4(1.0f));
+    }
 
+    vec4 result = vec4(0.0f);
+
+    if((mat . flags & M_ENVIRONMENT)> 0 &&(mat . flags & M_TRANSPARENT)< 1){
+        result . xyz = min(specular . xyz, vec3(0.2f));
+    }
+
+    if((mat . flags & M_REFLECTIVE)> 0){
+        result . xyz = max(vec3(1.0f - diffusal . w), vec3(0.2f));
+    }
 
     return result;
 }

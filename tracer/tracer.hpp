@@ -192,7 +192,7 @@ namespace PathTracer {
             height = h;
 
             const pgl::intv wrsize = width * height;
-            const pgl::intv raylimit = 4096 * 4096;
+            const pgl::intv raylimit = 4096 * 8192;
 
             currentRayLimit = std::min(wrsize * 16, raylimit);
             rays = context->createBuffer<Ray>()->storage(currentRayLimit);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
