@@ -224,8 +224,56 @@ void part_step(const float *g, float dt)
 
 /*---------------------------------------------------------------------------*/
 
+void part_draw_coin_gl(struct s_rend *rend)
+{
+    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
+
+    r_apply_mtrl(rend, coin_mtrl);
+
+    /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
+
+#ifdef PARTICLEVBO
+    glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
+#else
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+#endif
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    {
+#ifdef PARTICLEVBO
+        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw),
+            (GLvoid *)offsetof(struct part_draw, c));
+        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw),
+            (GLvoid *)offsetof(struct part_draw, p));
+#else
+        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].c);
+        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].p);
+#endif
+
+        glEnable(GL_POINT_SPRITE);
+        {
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+
+            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
+            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointSize(height / 6);
+
+            glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);
+        }
+        glDisable(GL_POINT_SPRITE);
+    }
+    glDisableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
 void part_draw_coin(struct s_rend *rend)
 {
+
 }
 
 /*---------------------------------------------------------------------------*/

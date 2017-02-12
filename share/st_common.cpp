@@ -212,11 +212,11 @@ void conf_common_leave(struct state *st, struct state *next, int id)
 
 void conf_common_paint(int id, float t)
 {
-    //video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    //{
-        back_draw_easy();
-    //}
-    //video_pop_matrix();
+    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    {
+        back_draw_easy_gl();
+    }
+    video_pop_matrix();
 
     gui_paint(id);
 }

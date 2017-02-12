@@ -297,6 +297,40 @@ static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, con
     ptracer->render();
 }
 
+static void game_shadow_conf(int pose, int enable)
+{
+    if (enable && config_get_d(CONFIG_SHADOW))
+    {
+        switch (pose)
+        {
+        case POSE_LEVEL:
+            /* No shadow. */
+            tex_env_active(&tex_env_default);
+            break;
+
+        case POSE_BALL:
+            /* Shadow only. */
+            tex_env_select(&tex_env_pose,
+                &tex_env_default,
+                NULL);
+            break;
+
+        default:
+            /* Regular shadow. */
+            tex_env_select(&tex_env_shadow_clip,
+                &tex_env_shadow,
+                &tex_env_default,
+                NULL);
+            break;
+        }
+    }
+    else
+    {
+        tex_env_active(&tex_env_default);
+    }
+}
+
+
 /*---------------------------------------------------------------------------*/
 
 void game_draw(struct game_draw *gd, int pose, float t)
@@ -310,6 +344,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
         struct s_rend rend;
 
         gd->draw.shadow_ui = 0;
+        game_shadow_conf(pose, 1);
         r_draw_enable(&rend);
 
         pgl::floatv3 eye = pgl::floatv3(0.0f);
@@ -371,8 +406,9 @@ void game_draw(struct game_draw *gd, int pose, float t)
         glCullFace(GL_BACK);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         
-        sol_fade(&gd->draw, &rend, gd->fade_k);
+        sol_fade_gl(&gd->draw, &rend, gd->fade_k);
         r_draw_disable(&rend);
+        game_shadow_conf(pose, 0);
     }
 }
 

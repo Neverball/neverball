@@ -77,6 +77,89 @@ static void sol_transform(const struct s_vary *vary,
     }
 }
 
+static void sol_transform_gl(const struct s_vary *vary,
+    const struct v_body *bp, int ui)
+{
+    float a;
+    float e[4];
+    float p[3];
+    float v[3];
+
+    /* Apply the body position and rotation to the model-view matrix. */
+
+    sol_body_p(p, vary, bp, 0.0f);
+    sol_body_e(e, vary, bp, 0.0f);
+
+    q_as_axisangle(e, v, &a);
+
+    if (!(p[0] == 0 && p[1] == 0 && p[2] == 0))
+        glTranslatef(p[0], p[1], p[2]);
+
+    if (!((v[0] == 0 && v[1] == 0 && v[2] == 0) || a == 0))
+        glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+    /* Apply the shadow transform to the texture matrix. */
+
+    if (ui >= 0 && ui < vary->uc && vary->uv[ui].r > 0.0f)
+    {
+        struct v_ball *up = vary->uv + ui;
+
+        if (tex_env_stage(TEX_STAGE_SHADOW))
+        {
+            glMatrixMode(GL_TEXTURE);
+            {
+                float k = 0.25f / up->r;
+
+                glLoadIdentity();
+
+                /* Center the shadow texture on the ball. */
+
+                glTranslatef(0.5f, 0.5f, 0.0f);
+
+                /* Transform ball XZ position to ST texture coordinate. */
+
+                glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+
+                /* Scale the shadow texture to the radius of the ball. */
+
+                glScalef(k, k, k);
+
+                /* Move the shadow texture under the ball. */
+
+                glTranslatef(-up->p[0], -up->p[1], -up->p[2]);
+
+                /* Apply the body position and rotation. */
+
+                glTranslatef(p[0], p[1], p[2]);
+                glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+                /* Vertically center clipper texture on ball position. */
+
+                if (tex_env_stage(TEX_STAGE_CLIP))
+                {
+                    glLoadIdentity();
+                    glTranslatef(p[0] - up->p[0],
+                        p[1] - up->p[1] + 0.5f,
+                        p[2] - up->p[2]);
+                    glRotatef(V_DEG(a), v[0], v[1], v[2]);
+
+                }
+            }
+            glMatrixMode(GL_MODELVIEW);
+
+            tex_env_stage(TEX_STAGE_TEXTURE);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 /*---------------------------------------------------------------------------*/
 
 static void sol_load_bill(struct s_draw *draw)
@@ -158,6 +241,39 @@ static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)
 
     return;
 }
+
+static void sol_draw_bill_gl(GLboolean edge)
+{
+    if (edge) {
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    } 
+    else
+    {
+        glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
+    }
+}
+
+static void sol_bill_enable(const struct s_draw *draw)
+{
+    const size_t s = sizeof(GLfloat);
+    glDisableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->billVert->glID());
+    glVertexPointer(3, GL_FLOAT, s * 3, (GLvoid *)(0));
+
+    glBindBuffer_(GL_ARRAY_BUFFER, draw->billTex->glID());
+    glTexCoordPointer(2, GL_FLOAT, s * 2, (GLvoid *)(0));
+}
+
+static void sol_bill_disable(void)
+{
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+}
+
+
+
 
 /*---------------------------------------------------------------------------*/
 
@@ -336,7 +452,47 @@ static void sol_load_mesh(struct d_mesh *mp,
 
 static void sol_free_mesh(struct d_mesh *mp)
 {
+    //TODO
+
 }
+
+void sol_draw_mesh_gl(const struct d_mesh *mp, struct s_rend *rend, int p)
+{
+    if (sol_test_mtrl(mp->mtrl, p))
+    {
+        r_apply_mtrl(rend, mp->mtrl);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mp->idcBuf->glID());
+
+        glBindBuffer(GL_ARRAY_BUFFER, mp->normBuf->glID());
+        glNormalPointer(GL_FLOAT, sizeof(float) * 3, 0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, mp->vertBuf->glID());
+        glVertexPointer(3, GL_FLOAT, sizeof(float) * 3, 0);
+
+        if (tex_env_stage(TEX_STAGE_SHADOW))
+        {
+            glTexCoordPointer(3, GL_FLOAT, sizeof(float) * 3, 0);
+
+            if (tex_env_stage(TEX_STAGE_CLIP)) {
+                glTexCoordPointer(3, GL_FLOAT, sizeof(float) * 3, 0);
+            }
+
+            tex_env_stage(TEX_STAGE_TEXTURE);
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, mp->texBuf->glID());
+        glTexCoordPointer(2, GL_FLOAT, sizeof(float) * 2, 0);
+
+        if (rend->curr_mtrl.base.fl & M_PARTICLE)
+            glDrawArrays(GL_POINTS, 0, mp->vbc);
+        else {
+            glDrawElements(GL_TRIANGLES, mp->ebc, GL_UNSIGNED_INT, 0);
+        }
+    }
+}
+
+
 
 void sol_draw_mesh(const struct d_mesh *mp, struct s_rend *rend, int p)
 {
@@ -492,6 +648,48 @@ static void sol_draw_all(const struct s_draw *draw, struct s_rend *rend, int p)
     }
 }
 
+static void sol_draw_body_gl(const struct d_body *bp, struct s_rend *rend, int p)
+{
+    for (int i = 0; i < bp->mc; ++i) {
+        sol_draw_mesh_gl(bp->mv + i, rend, p);
+    }
+}
+
+static void sol_draw_all_gl(const struct s_draw *draw, struct s_rend *rend, int p)
+{
+    for (int bi = 0; bi < draw->bc; ++bi) {
+        if (draw->bv[bi].pass[p]) {
+            glPushMatrix();
+            {
+                sol_transform_gl(draw->vary, draw->vary->bv + bi, draw->shadow_ui);
+                sol_draw_body_gl(draw->bv + bi, rend, p);
+            }
+            glPopMatrix();
+        }
+    }
+}
+
+void sol_draw_gl(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
+{
+    rend->skip_flags |= (draw->shadowed ? 0 : M_SHADOWED);
+    sol_draw_all_gl(draw, rend, PASS_OPAQUE);
+    sol_draw_all_gl(draw, rend, PASS_OPAQUE_DECAL);
+
+    if (!test) glDisable(GL_DEPTH_TEST);
+    if (!mask) glDepthMask(GL_FALSE);
+    {
+        sol_draw_all_gl(draw, rend, PASS_TRANSPARENT_DECAL);
+        sol_draw_all_gl(draw, rend, PASS_TRANSPARENT);
+    }
+    if (!mask) glDepthMask(GL_TRUE);
+    if (!test) glEnable(GL_DEPTH_TEST);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    rend->skip_flags = 0;
+}
+
 /*---------------------------------------------------------------------------*/
 
 void sol_draw(const struct s_draw *draw, struct s_rend *rend, int mask, int test)
@@ -507,10 +705,11 @@ void sol_back(const struct s_draw *draw,
               struct s_rend *rend,
               float n, float f, float t)
 {
-    if (!(draw && draw->base && draw->base->rc)) return;
+    if (!(draw && draw->base && draw->base->rc)) {
+        return;
+    }
 
     for (int ri = 0; ri < draw->base->rc; ri++)
-    //for (int ri = draw->base->rc - 1;ri >= 0;ri--) 
     {
         const struct b_bill *rp = draw->base->rv + ri;
         if (n <= rp->d && rp->d < f)
@@ -525,11 +724,7 @@ void sol_back(const struct s_draw *draw,
                 float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
                 float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
 
-                //ptransformer->voffsetAccum += 0.0001f;
-                //float scl = 1.0f / (1.0f + ptransformer->voffsetAccum);
-
                 ptransformer->push();
-                //ptransformer->scale(scl, scl, scl);
                 {
                     ptransformer->rotate(ry, 0.0f, 1.0f, 0.0f);
                     ptransformer->rotate(rx, 1.0f, 0.0f, 0.0f);
@@ -549,6 +744,68 @@ void sol_back(const struct s_draw *draw,
             }
         }
     }
+}
+
+void sol_back_gl(const struct s_draw *draw,
+    struct s_rend *rend,
+    float n, float f, float t
+) {
+    if (!(draw && draw->base && draw->base->rc)) {
+        return;
+    }
+
+    glDisable(GL_LIGHTING);
+    glDepthMask(GL_FALSE);
+
+    sol_bill_enable(draw);
+    {
+        for (int ri = 0; ri < draw->base->rc; ri++)
+        {
+            const struct b_bill *rp = draw->base->rv + ri;
+            if (n <= rp->d && rp->d < f)
+            {
+                float T = (rp->t > 0.0f) ? (fmodf(t, rp->t) - rp->t / 2) : 0;
+
+                float w = rp->w[0] + rp->w[1] * T + rp->w[2] * T * T;
+                float h = rp->h[0] + rp->h[1] * T + rp->h[2] * T * T;
+                if (w > 0 && h > 0)
+                {
+                    float rx = rp->rx[0] + rp->rx[1] * T + rp->rx[2] * T * T;
+                    float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * T * T;
+                    float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * T * T;
+
+                    r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
+
+                    glPushMatrix();
+                    {
+                        if (ry) glRotatef(ry, 0.0f, 1.0f, 0.0f);
+                        if (rx) glRotatef(rx, 1.0f, 0.0f, 0.0f);
+
+                        glTranslatef(0.0f, 0.0f, -rp->d);
+
+                        if (rp->fl & B_FLAT)
+                        {
+                            glRotatef(-rx - 90.0f, 1.0f, 0.0f, 0.0f);
+                            glRotatef(-ry, 0.0f, 0.0f, 1.0f);
+                        }
+                        if (rp->fl & B_EDGE)
+                            glRotatef(-rx, 1.0f, 0.0f, 0.0f);
+
+                        if (rz) glRotatef(rz, 0.0f, 0.0f, 1.0f);
+
+                        glScalef(w, h, 1.0f);
+
+                        sol_draw_bill_gl(rp->fl & B_EDGE);
+                    }
+                    glPopMatrix();
+                }
+            }
+        }
+    }
+    sol_bill_disable();
+
+    glDepthMask(GL_TRUE);
+    glEnable(GL_LIGHTING);
 }
 
 void sol_bill(const struct s_draw *draw,
@@ -652,27 +909,7 @@ static void assert_mtrl(const struct mtrl *mp)
 }
 #endif
 
-
-static void sol_bill_enable(const struct s_draw *draw)
-{
-    const size_t s = sizeof(GLfloat);
-    glDisableClientState(GL_NORMAL_ARRAY);
-
-    glBindBuffer_(GL_ARRAY_BUFFER, draw->billVert->glID());
-    glVertexPointer(3, GL_FLOAT, s * 3, (GLvoid *)(0));
-
-    glBindBuffer_(GL_ARRAY_BUFFER, draw->billTex->glID());
-    glTexCoordPointer(2, GL_FLOAT, s * 2, (GLvoid *)(0));
-}
-
-static void sol_bill_disable(void)
-{
-    glEnableClientState(GL_NORMAL_ARRAY);
-
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
-}
-
-void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
+void sol_fade_gl(const struct s_draw *draw, struct s_rend *rend, float k)
 {
     if (k > 0.0f)
     {
@@ -713,20 +950,15 @@ void r_color_mtrl(struct s_rend *rend, int enable)
     if (enable)
     {
         glEnable(GL_COLOR_MATERIAL);
-
         rend->color_mtrl = 1;
     }
     else
     {
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
         glDisable(GL_COLOR_MATERIAL);
-
-        /* Keep material tracking synchronized with GL state. */
 
         rend->curr_mtrl.d = 0xffffffff;
         rend->curr_mtrl.a = 0xffffffff;
-
         rend->color_mtrl = 0;
     }
 }
@@ -736,8 +968,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     struct mtrl *mp = mtrl_get(mi);
     struct mtrl *mq = &rend->curr_mtrl;
 
-    /* Mask ignored flags. */
-
     int mp_flags = mp->base.fl & ~rend->skip_flags;
     int mq_flags = mq->base.fl;
 
@@ -745,12 +975,13 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     assert_mtrl(&rend->curr_mtrl);
 #endif
 
-    /* Bind the texture. */
+    //if (mp->o != mq->o) {
+    //    glBindTexture(GL_TEXTURE_2D, mp->o);
+    //}
 
-    if (mp->o != mq->o)
-        glBindTexture(GL_TEXTURE_2D, mp->o);
-
-    /* Set material properties. */
+    if (mp->po && mp->po != mq->po) {
+        glBindTexture(GL_TEXTURE_2D, mp->po->glID());
+    }
 
     if (mp->d != mq->d && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mp->base.d);
@@ -763,8 +994,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     if (mp->h != mq->h)
         glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, mp->base.h);
 
-    /* Ball shadow. */
-
     if ((mp_flags & M_SHADOWED) ^ (mq_flags & M_SHADOWED))
     {
         if (mp_flags & M_SHADOWED)
@@ -772,8 +1001,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         else
             shad_draw_clr();
     }
-
-    /* Environment mapping. */
 
 #if !ENABLE_OPENGLES
     if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
@@ -794,8 +1021,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     }
 #endif
 
-    /* Additive blending. */
-
     if ((mp_flags & M_ADDITIVE) ^ (mq_flags & M_ADDITIVE))
     {
         if (mp_flags & M_ADDITIVE)
@@ -803,8 +1028,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         else
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
-
-    /* Visibility-from-behind. */
 
     if ((mp_flags & M_TWO_SIDED) ^ (mq_flags & M_TWO_SIDED))
     {
@@ -820,8 +1043,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         }
     }
 
-    /* Decal offset. */
-
     if ((mp_flags & M_DECAL) ^ (mq_flags & M_DECAL))
     {
         if (mp_flags & M_DECAL)
@@ -832,8 +1053,6 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         else
             glDisable(GL_POLYGON_OFFSET_FILL);
     }
-
-    /* Alpha test. */
 
     if ((mp_flags & M_ALPHA_TEST) ^ (mq_flags & M_ALPHA_TEST))
     {
@@ -847,17 +1066,10 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
             glDisable(GL_ALPHA_TEST);
     }
 
-    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_func !=
-        mq->base.alpha_func ||
-        mp->base.alpha_ref !=
-        mq->base.alpha_ref))
+    if (((mp_flags & mq_flags) & M_ALPHA_TEST) && (mp->base.alpha_func != mq->base.alpha_func || mp->base.alpha_ref != mq->base.alpha_ref))
     {
-        /* Update alpha function. */
-
         glAlphaFunc(mtrl_func(mp->base.alpha_func), mp->base.alpha_ref);
     }
-
-    /* Point sprite. */
 
     if ((mp_flags & M_PARTICLE) ^ (mq_flags & M_PARTICLE))
     {
@@ -878,10 +1090,7 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         }
     }
 
-    /* Update current material state. */
-
     memcpy(mq, mp, sizeof(struct mtrl));
-
     mq->base.fl = mp_flags;
 }
 

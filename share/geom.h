@@ -9,7 +9,7 @@
 #define IMG_SHAD "png/shadow.png"
 
 #define BACK_DIST   1024.0f
-#define FAR_DIST    1024.0f
+#define FAR_DIST    2048.0f
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
@@ -38,6 +38,7 @@ void item_draw(struct s_rend *, const struct v_item *, const GLfloat *, float);
 void back_init(const char *s);
 void back_free(void);
 void back_draw_easy(void);
+void back_draw_easy_gl(void);
 
 /*---------------------------------------------------------------------------*/
 
