@@ -40,6 +40,7 @@ static void game_draw_balls(struct s_rend *rend,
     m_basis(pend_M, vary->uv[0].E[0], vary->uv[0].E[1], vary->uv[0].E[2]);
 
     ptransformer->push();
+    ptransformer->flags &= ~M_SHADOWED;
     ptransformer->translate(vary->uv[0].p[0], vary->uv[0].p[1] + BALL_FUDGE, vary->uv[0].p[2]);
     ptransformer->scale(vary->uv[0].r, vary->uv[0].r, vary->uv[0].r);
     ptransformer->voffsetAccum = 0.0f;
@@ -169,7 +170,7 @@ static void game_draw_back(struct s_rend *rend,
                            const struct game_draw *gd,
                            int pose, int d, float t)
 {
-    if (pose == POSE_BALL) return;
+    currentIntersector = intersectorBack;
 
     ptransformer->exflags |= M_SHADOWED | M_REFLECTIVE;
     ptransformer->push();
@@ -181,10 +182,14 @@ static void game_draw_back(struct s_rend *rend,
     }
 
     const struct game_view *view = &gd->view;
-    ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
-    ptransformer->voffsetAccum = 0.0f;
+    if (pose == POSE_BALL) {
+        ptransformer->multiply(glm::inverse(glm::lookAt(*(pgl::floatv3 *)view->p, *(pgl::floatv3 *)view->c, pgl::floatv3(0.0f, 1.0f, 0.0f))));
+    }
+    else {
+        ptransformer->translate(view->p[0], view->p[1] * d, view->p[2]);
+    }
 
-    currentIntersector = intersectorBack;
+    ptransformer->voffsetAccum = 0.0f;
 
     back_draw(rend);
     if (config_get_d(CONFIG_BACKGROUND))
@@ -194,10 +199,10 @@ static void game_draw_back(struct s_rend *rend,
         sol_back(&gd->back.draw, rend, 0, FAR_DIST, t);
     }
 
-    currentIntersector = intersector;
     ptransformer->pop();
     ptransformer->exflags &= ~(M_SHADOWED | M_REFLECTIVE);
-
+    
+    currentIntersector = intersector;
 }
 
 static void game_clip_ball(const struct game_draw *gd, int d, const float *p)
