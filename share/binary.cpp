@@ -16,7 +16,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL_endian.h>
+//#include <SDL_endian.h>
+#define SDL_BYTEORDER 0
+#define SDL_LITTLE_ENDIAN 0
+#define SDL_BIG_ENDIAN 1
 
 #include "fs.h"
 

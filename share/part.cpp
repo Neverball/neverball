@@ -27,9 +27,8 @@
 #include "video.h"
 
 /*---------------------------------------------------------------------------*/
-/*
+
 #define PARTICLEVBO 1
-*/
 
 struct part_vary
 {
@@ -233,9 +232,9 @@ void part_draw_coin_gl(struct s_rend *rend)
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
 #ifdef PARTICLEVBO
-    glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
 #else
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 #endif
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -257,7 +256,7 @@ void part_draw_coin_gl(struct s_rend *rend)
             const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
 
             glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
-            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, c);
             glPointSize(height / 6);
 
             glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);

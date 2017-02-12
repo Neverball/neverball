@@ -270,7 +270,6 @@ static void game_draw_fore(struct s_rend *rend,
         ptransformer->flags &= ~M_SHADOWED;
 
         game_draw_beams(rend, gd);
-        part_draw_coin(rend);
         game_draw_goals(rend, gd, t);
         game_draw_jumps(rend, gd, t);
     }
