@@ -362,13 +362,13 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        ptransformer->colormod = pgl::floatv4(1.0f);
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glPushMatrix();
 
         pmaterials->submats.resize(0);
+        ptransformer->colormod = pgl::floatv4(1.0f);
         ptransformer->voffsetAccum = 0.0f;
         ptransformer->reset();
         ptransformer->push();
