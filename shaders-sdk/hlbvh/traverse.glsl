@@ -86,8 +86,6 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
     float dst = near * dirlen;
 
     const uint l = gl_LocalInvocationID.x;
-    float prevd = lastRes.dist;
-    
     
     if (
         (d > 0.0f && d < INFINITY) && 
@@ -105,24 +103,14 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
             node = Nodes[idx];
             
             if (LEAFNODE(node)) {
-                prevd = lastRes.dist;
                 testIntersection(lastRes, origin, direct, MortoncodesIndices[node.left]);
                 if (lastRes.dist <= 0.0f) break;
             } else {
-            
-                bool selfOverlap = prevd <= lastRes.dist ? true : false;
-                float selfhit = 0.0f;
-                if (!selfOverlap) {
-                    float near = 0.0f;
-                    bbox lbox = node.box;
-                    selfhit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
-                    float dst = near * dirlen;
-                    selfOverlap = (  selfhit < INFINITY && selfhit  > 0.0f) && (dst <= lastRes.dist);
-                }
-            
-                bool leftOverlap = false;
-                float lefthit = 0.0f;
-                if (selfOverlap) {
+
+                bool leftOverlap = false, rightOverlap = false;
+                float lefthit = 0.0f, righthit = 0.0f;
+
+                {
                     float near = 0.0f;
                     bbox lbox = Nodes[node.left].box;
                     lefthit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
@@ -130,9 +118,7 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                     leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (dst <= lastRes.dist);
                 }
                 
-                bool rightOverlap = false;
-                float righthit = 0.0f;
-                if (selfOverlap) {
+                {
                     float near = 0.0f;
                     bbox rbox = Nodes[node.right].box;
                     righthit = intersectCubeSingle(torig, dirproj, rbox.pmin.xyz, rbox.pmax.xyz, near);
