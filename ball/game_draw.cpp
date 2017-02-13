@@ -414,7 +414,7 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         video_push_persp((float)config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
         {
-            part_draw_coin(&rend, glm::lookAt(eye, target, pgl::floatv3(0.0f, 1.0f, 0.0f)));
+            part_draw_coin(&rend, glm::lookAt(eye, target, pgl::floatv3(0.0f, 1.0f, 0.0f)) * ptransformer->getCurrent());
         }
         video_pop_matrix();
 

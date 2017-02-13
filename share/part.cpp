@@ -272,7 +272,6 @@ void part_draw_coin(struct s_rend *rend, const glm::mat4 vm)
     glPushMatrix();
     glLoadIdentity();
     glMultMatrixf((pgl::floatv *)&vm);
-    glMultMatrixf((pgl::floatv *)&ptransformer->getCurrent());
 
     r_apply_mtrl(rend, coin_mtrl);
 
