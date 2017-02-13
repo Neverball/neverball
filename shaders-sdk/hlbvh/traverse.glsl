@@ -104,7 +104,6 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
             
             if (LEAFNODE(node)) {
                 testIntersection(lastRes, origin, direct, MortoncodesIndices[node.left]);
-                if (lastRes.dist <= 0.0f) break;
             } else {
 
                 bool leftOverlap = false, rightOverlap = false;
@@ -114,16 +113,14 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                     float near = 0.0f;
                     bbox lbox = Nodes[node.left].box;
                     lefthit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
-                    float dst = near * dirlen;
-                    leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (dst <= lastRes.dist);
+                    leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (near * dirlen < lastRes.dist);
                 }
                 
                 {
                     float near = 0.0f;
                     bbox rbox = Nodes[node.right].box;
                     righthit = intersectCubeSingle(torig, dirproj, rbox.pmin.xyz, rbox.pmax.xyz, near);
-                    float dst = near * dirlen;
-                    rightOverlap = (righthit < INFINITY && righthit > 0.0f) && (dst <= lastRes.dist);
+                    rightOverlap = (righthit < INFINITY && righthit > 0.0f) && (near * dirlen < lastRes.dist);
                 }
                 
                 if (leftOverlap && rightOverlap) {
