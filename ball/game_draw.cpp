@@ -48,6 +48,7 @@ static void game_draw_balls(struct s_rend *rend,
     ptransformer->colormod = pgl::floatv4(c[0], c[1], c[2], c[3]);
 
     currentIntersector = intersectorBall;
+    //currentIntersector = intersector;
     ball_draw(rend, ball_M, pend_M, bill_M, t);
     currentIntersector = intersector;
 
