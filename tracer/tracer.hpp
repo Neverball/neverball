@@ -117,6 +117,9 @@ namespace PathTracer {
             }));
             idcBuf = context->createBuffer<pgl::intv>()->data(std::vector<pgl::intv>({ 0, 1, 2, 3, 2, 1 }));
 
+
+            materialUniformData.f_reflections = 0;
+            materialUniformData.f_shadows = 0;
             
             vao = context->createVertexArray();
             auto binding = vao->element(idcBuf)->binding(0)->buffer(posBuf, 0);
@@ -236,6 +239,14 @@ namespace PathTracer {
             context = ctx;  
             clapi = api;
             init();
+        }
+
+        void enableReflections(const pgl::intv flag) {
+            materialUniformData.f_reflections = flag;
+        }
+
+        void enableShadows(const pgl::intv flag) {
+            materialUniformData.f_shadows = flag;
         }
 
         void includeCubemap(pgl::TextureCube cube) { cubeTex = cube; }

@@ -281,8 +281,11 @@ static void game_draw_fore(struct s_rend *rend,
 
 static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, const glm::mat4 persp) {
     pmaterials->loadToVGA();
-    ptracer->camera(eye, target, persp);
 
+    ptracer->enableShadows(config_get_d(CONFIG_SHADOW));
+    ptracer->enableReflections(config_get_d(CONFIG_REFLECTION));
+
+    ptracer->camera(eye, target, persp);
     for (int j = 0;j < 12;j++) {
         if (ptracer->getRayCount() <= 0) break;
         ptracer->resetHits();
@@ -290,6 +293,7 @@ static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, con
         ptracer->intersection(intersectorBack);
         ptracer->intersection(intersector);
         ptracer->intersection(intersectorBall);
+
         ptracer->missing();
         if (ptracer->getRayCount() <= 0) break;
         ptracer->shade(pmaterials);

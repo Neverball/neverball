@@ -147,7 +147,7 @@ int video_mode(int f, int w, int h)
     //glewExperimental = GL_TRUE;
 
     int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
-    int stencil = config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
+    int stencil = 0;//config_get_d(CONFIG_REFLECTION)  ? 1 : 0;
     int buffers = config_get_d(CONFIG_MULTISAMPLE) ? 1 : 0;
     int samples = config_get_d(CONFIG_MULTISAMPLE);
     int vsync   = config_get_d(CONFIG_VSYNC)       ? 1 : 0;
@@ -622,8 +622,8 @@ void video_clear(void)
 {
     if (config_get_d(CONFIG_REFLECTION))
         glClear(GL_COLOR_BUFFER_BIT |
-                GL_DEPTH_BUFFER_BIT |
-                GL_STENCIL_BUFFER_BIT);
+                GL_DEPTH_BUFFER_BIT /*|
+                GL_STENCIL_BUFFER_BIT*/);
     else
         glClear(GL_COLOR_BUFFER_BIT |
                 GL_DEPTH_BUFFER_BIT);

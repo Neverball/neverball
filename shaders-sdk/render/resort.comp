@@ -26,7 +26,7 @@ void main()
     if (ray.actived < 1) return;
     
     Hit hit = fetchHitDirect(t);
-    if (hit.materialID == materialUniform.materialID /*&& hit.triangle != LONGEST*/ && hit.dist < INFINITY) {
+    if (hit.materialID == materialUniform.materialID && hit.dist < INFINITY) {
         int act = int(atomicCounterIncrement(qcounter));
         qrays[act] = t;
     }

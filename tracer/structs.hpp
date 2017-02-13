@@ -71,12 +71,19 @@ namespace PathTracer {
     };
 
     struct MaterialUniformStruct {
+        /*
         pgl::intv materialID;
         pgl::intv doubleSide;
         pgl::floatv reflectivity;
         pgl::floatv dissolve;
         pgl::floatv illumPower;
         pgl::floatv ior;
+        */
+
+        pgl::intv materialID;
+        pgl::intv f_shadows;
+        pgl::intv f_reflections;
+        pgl::intv unk0;
     };
 
     struct SamplerUniformStruct {

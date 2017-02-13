@@ -8,12 +8,19 @@ struct MinmaxUniformStruct {
 };
 
 struct MaterialUniformStruct {
+/*
     int materialID;
     int doubleSide;
     float reflectivity;
     float dissolve;
     float illumPower;
     float ior;
+    */
+    
+    int materialID;
+    int f_shadows;
+    int f_reflections;
+    int unk0;
 };
 
 struct SamplerUniformStruct {

@@ -267,7 +267,7 @@ static int video_action(int tok, int val)
     case VIDEO_REFLECTION:
         goto_state(&st_null);
         config_set_d(CONFIG_REFLECTION, val);
-        r = video_mode(f, w, h);
+        //r = video_mode(f, w, h);
         goto_state(&st_video);
         break;
 

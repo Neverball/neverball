@@ -171,12 +171,19 @@ struct MinmaxUniformStruct {
 };
 
 struct MaterialUniformStruct {
+
+
+
+
+
+
+
+
+
     int materialID;
-    int doubleSide;
-    float reflectivity;
-    float dissolve;
-    float illumPower;
-    float ior;
+    int f_shadows;
+    int f_reflections;
+    int unk0;
 };
 
 struct SamplerUniformStruct {
@@ -676,8 +683,11 @@ Ray reflection(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in floa
         newRay . direct . xyz = reflect(newRay . direct . xyz, normal);
         newRay . color . xyz *= pow(color, vec3(GAMMA))* nearone;
         newRay . extended . x = 0;
-
         newRay . params . y = min(1, newRay . params . y);
+
+        if(materialUniform . f_reflections < 1){
+            newRay . params . y = 0;
+        }
     }
     return newRay;
 }
@@ -727,18 +737,18 @@ Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in bool a
     return newRay;
 }
 
-Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
+Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in float intense, in vec3 normal){
     if(newRay . params . w == 1)return newRay;
 
+    vec3 ambient = max(newRay . color . xyz * pow(color, vec3(GAMMA))* nearone, vec3(0.0f));
     vec3 lightCenter = normalize(lightUniform . lightVector . xyz)* lightUniform . lightDistance;
     vec3 ldiff = lightCenter - newRay . origin . xyz;
-    float intensivity = max((lightUniform . lightRadius * lightUniform . lightRadius)/ dot(ldiff, ldiff)* clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
 
-    newRay . final . xyz = max(newRay . color . xyz * pow(color, vec3(GAMMA))* nearone * intensivity, vec3(0.0f));
-    newRay . final . xyz = newRay . final . xyz /(lightUniform . lightRadius * lightUniform . lightRadius)* lightUniform . lightColor . xyz;
-
+    newRay . final . xyz = pow(color, vec3(GAMMA))* clamp(dot(normalize(ldiff), normal), 0.0f, 1.0f)* newRay . color . xyz;
+    newRay . final . xyz = mix(newRay . final . xyz, ambient, vec3(intense));
     newRay . final = max(newRay . final, vec4(0.0f));
     newRay . actived = 0;
+
     newRay . extended . x = 1;
     return newRay;
 }
@@ -771,14 +781,14 @@ vec3 sLight(){
 Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
     if(directRay . params . w == 1)return directRay;
 
+    vec3 lightCenter = normalize(lightUniform . lightVector . xyz)* lightUniform . lightDistance;
+    vec3 ldiff = lightCenter - directRay . origin . xyz;
+
     directRay . params . y = 1;
     directRay . actived = 1;
     directRay . params . w = 1;
     directRay . direct . xyz = normalize(sLight()- directRay . origin . xyz);
     directRay . extended . x = 0;
-
-    vec3 lightCenter = normalize(lightUniform . lightVector . xyz)* lightUniform . lightDistance;
-    vec3 ldiff = lightCenter - directRay . origin . xyz;
 
     directRay . color . xyz *= pow(color, vec3(GAMMA))* clamp(dot(directRay . direct . xyz, normal), 0.0f, 1.0f);
     return directRay;
@@ -864,8 +874,12 @@ void main(){
             float lspc = aspic * trns;
             if(lspc > 0.0 && mlength(tx . xyz)>= 0.0001f){
                 if(shadowed){
-                    if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal, lspc * unShadowIntense, false);
-                    if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal, isAdditive), hit, normal, lspc * shadowIntense, false);
+                    if(materialUniform . f_shadows > 0){
+                        if(unShadowIntense > 0.0f)emitRay(newRay, directLight(newRay, hit, tx . xyz, normal), hit, normal, lspc * unShadowIntense, false);
+                        if(shadowIntense > 0.0f)emitRay(newRay, emissive(newRay, hit, tx . xyz, normal, isAdditive), hit, normal, lspc * shadowIntense, false);
+                    } else {
+                        emitRay(newRay, lighted(newRay, hit, tx . xyz, shadowIntense, normal), hit, normal, lspc, false);
+                    }
                 } else {
                     emitRay(newRay, emissive(newRay, hit, tx . xyz, normal, isAdditive), hit, normal, lspc, false);
                 }
