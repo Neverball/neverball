@@ -309,28 +309,23 @@ static void game_shadow_conf(int pose, int enable)
         {
         case POSE_LEVEL:
             /* No shadow. */
-            tex_env_active(&tex_env_default);
+            //tex_env_active(&tex_env_default);
             break;
 
         case POSE_BALL:
             /* Shadow only. */
-            tex_env_select(&tex_env_pose,
-                &tex_env_default,
-                NULL);
+            //tex_env_select(&tex_env_pose, &tex_env_default, NULL);
             break;
 
         default:
             /* Regular shadow. */
-            tex_env_select(&tex_env_shadow_clip,
-                &tex_env_shadow,
-                &tex_env_default,
-                NULL);
+            //tex_env_select(&tex_env_shadow_clip, &tex_env_shadow, &tex_env_default, NULL);
             break;
         }
     }
     else
     {
-        tex_env_active(&tex_env_default);
+        //tex_env_active(&tex_env_default);
     }
 }
 
@@ -363,8 +358,6 @@ void game_draw(struct game_draw *gd, int pose, float t)
         currentIntersector = intersector;
 
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glPushMatrix();
@@ -395,21 +388,31 @@ void game_draw(struct game_draw *gd, int pose, float t)
 
         glPopMatrix();
 
+        glDisable(GL_LIGHTING);
+        glDisable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         eye = *(pgl::floatv3 *)view->p;
         target = *(pgl::floatv3 *)view->c;
         game_raytrace(eye, target, persp);
 
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindVertexArray(0);
         glUseProgram(0);
         glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
         glCullFace(GL_BACK);
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        
+
+        video_push_persp((float)config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            part_draw_coin(&rend, view);
+        }
+        video_pop_matrix();
+
         sol_fade_gl(&gd->draw, &rend, gd->fade_k);
         r_draw_disable(&rend);
         game_shadow_conf(pose, 0);

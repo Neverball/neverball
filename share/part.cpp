@@ -25,6 +25,7 @@
 #include "geom.h"
 #include "hmd.h"
 #include "video.h"
+#include "game_draw.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,7 +52,7 @@ static GLuint coin_vbo;
 
 static struct b_mtrl coin_base_mtrl =
 {
-    { 1.0f, 1.0f, 1.0f, 1.0f },
+    { 0.8f, 0.8f, 0.8f, 1.0f },
     { 0.2f, 0.2f, 0.2f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
     { 0.0f, 0.0f, 0.0f, 1.0f },
@@ -105,22 +106,21 @@ void part_lerp_burst(int i)
 
 void part_lerp_apply(float a)
 {
-    int i;
-
-    for (i = 0; i < PART_MAX_COIN; i++)
-        if (coin_draw[i].t > 0.0f)
+    for (int i = 0; i < PART_MAX_COIN; i++)
+        if (coin_draw[i].t > 0.0f) {
             v_lerp(coin_draw[i].p,
-                   part_lerp_coin[i].p[PREV],
-                   part_lerp_coin[i].p[CURR], a);
+                part_lerp_coin[i].p[PREV],
+                part_lerp_coin[i].p[CURR], a);
+        }
 
     /* Upload the current state of the particles. It would be best to limit  */
     /* this upload to only active particles, but it's more important to do   */
     /* it all in a single call.                                              */
 
 #ifdef PARTICLEVBO
-    glBindBuffer_   (GL_ARRAY_BUFFER, coin_vbo);
-    glBufferSubData_(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
-    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
+    glBindBuffer   (GL_ARRAY_BUFFER, coin_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(part_draw) * PART_MAX_COIN, coin_draw);
+    glBindBuffer   (GL_ARRAY_BUFFER, 0);
 #endif
 }
 
@@ -130,8 +130,9 @@ void part_reset(void)
 {
     int i;
 
-    for (i = 0; i < PART_MAX_COIN; i++)
+    for (i = 0; i < PART_MAX_COIN; i++) {
         coin_draw[i].t = 0.0f;
+    }
 
     part_lerp_init();
 }
@@ -144,11 +145,10 @@ void part_init(void)
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
 
 #ifdef PARTICLEVBO
-    glGenBuffers_(1,              &coin_vbo);
-    glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
-    glBufferData_(GL_ARRAY_BUFFER, sizeof (coin_draw),
-                                          coin_draw, GL_DYNAMIC_DRAW);
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glGenBuffers(1,              &coin_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof (coin_draw), coin_draw, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 #endif
 
     part_reset();
@@ -242,10 +242,8 @@ void part_draw_coin_gl(struct s_rend *rend)
     glEnableClientState(GL_COLOR_ARRAY);
     {
 #ifdef PARTICLEVBO
-        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw),
-            (GLvoid *)offsetof(struct part_draw, c));
-        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw),
-            (GLvoid *)offsetof(struct part_draw, p));
+        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw), (GLvoid *)offsetof(struct part_draw, c));
+        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw), (GLvoid *)offsetof(struct part_draw, p));
 #else
         glColorPointer(4, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].c);
         glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].p);
@@ -270,9 +268,55 @@ void part_draw_coin_gl(struct s_rend *rend)
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void part_draw_coin(struct s_rend *rend)
+void part_draw_coin(struct s_rend *rend, const game_view *view)
 {
+    glPushMatrix();
+    glLoadIdentity();
+    glMultMatrixf((pgl::floatv *)&glm::lookAt(*(pgl::floatv3 *)view->p, *(pgl::floatv3 *)view->c, pgl::floatv3(0.0f, 1.0f, 0.0f)));
+    glMultMatrixf((pgl::floatv *)&ptransformer->getCurrent());
 
+    r_apply_mtrl(rend, coin_mtrl);
+
+#ifdef PARTICLEVBO
+    glBindBuffer(GL_ARRAY_BUFFER, coin_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(part_draw) * PART_MAX_COIN, coin_draw);
+#else
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+#endif
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    {
+#ifdef PARTICLEVBO
+        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw), (GLvoid *)offsetof(struct part_draw, c));
+        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw), (GLvoid *)offsetof(struct part_draw, p));
+#else
+        glColorPointer(4, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].c);
+        glVertexPointer(3, GL_FLOAT, sizeof(struct part_draw), coin_draw[0].p);
+#endif
+
+        glEnable(GL_POINT_SPRITE);
+        {
+            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+            const GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
+
+            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
+            glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, c);
+            glPointSize(height / 6);
+
+            glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);
+        }
+        glDisable(GL_POINT_SPRITE);
+    }
+    glDisableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glPopMatrix();
+
+    r_apply_mtrl(rend, default_mtrl);
 }
 
 /*---------------------------------------------------------------------------*/

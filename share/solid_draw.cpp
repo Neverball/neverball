@@ -975,14 +975,14 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     assert_mtrl(&rend->curr_mtrl);
 #endif
 
-    //if (mp->o != mq->o) {
-    //    glBindTexture(GL_TEXTURE_2D, mp->o);
-    //}
-
-    if (mp->po && mp->po != mq->po) {
+    if (mp->po) {
         glBindTexture(GL_TEXTURE_2D, mp->po->glID());
     }
+    else {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
+    /*
     if (mp->d != mq->d && !rend->color_mtrl)
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mp->base.d);
     if (mp->a != mq->a && !rend->color_mtrl)
@@ -1001,6 +1001,7 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         else
             shad_draw_clr();
     }
+    */
 
 #if !ENABLE_OPENGLES
     if ((mp_flags & M_ENVIRONMENT) ^ (mq_flags & M_ENVIRONMENT))
