@@ -212,15 +212,15 @@ vec3 glossy(in vec3 dir, in vec3 normal, in float refli) {
 }
 
 Ray reflection(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in float glossiness){
-    if (newRay.params.w < 1) {
-        newRay.direct.xyz = reflect(newRay.direct.xyz, normal);
-        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
-        newRay.extended.x = 0;
-        newRay.params.y = min(1, newRay.params.y);
-        
-        if (materialUniform.f_reflections < 1) {
-            newRay.params.y = 0;
-        }
+    if (newRay.params.w == 1) return newRay;
+
+    newRay.direct.xyz = reflect(newRay.direct.xyz, normal);
+    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    newRay.extended.x = 0;
+    newRay.params.y = min(1, newRay.params.y);
+    
+    if (materialUniform.f_reflections < 1) {
+        newRay.params.y = 0;
     }
     return newRay;
 }
@@ -241,13 +241,13 @@ Ray refraction(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in floa
 }
 
 Ray diffuse(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
-    if (newRay.params.w < 1) {
-        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
-        newRay.direct.xyz = randomCosine(normal);
-        newRay.params.y = min(2, newRay.params.y);
-        newRay.params.z = 1;
-        newRay.extended.x = 0;
-    }
+    if (newRay.params.w == 1) return newRay;
+
+    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    newRay.direct.xyz = randomCosine(normal);
+    newRay.params.y = min(2, newRay.params.y);
+    newRay.params.z = 1;
+    newRay.extended.x = 0;
     return newRay;
 }
 
@@ -403,7 +403,8 @@ void main() {
         } else 
         
         // Solid (reflection priority)
-        if (newRay.params.w < 1) {
+        
+        {
             float lspc = aspic * trns;
             if (lspc > 0.0 && mlength(tx.xyz) >= 0.0001f) {
                 if (shadowed) {
@@ -431,15 +432,6 @@ void main() {
             newRay.color.xyz *= absor;
             if (absor < 0.0001f) {
                 newRay.actived = 0;
-            }
-        } else 
-        
-        // Shadow overlapping
-        {
-            if (atrns > 0.0f && random() < atrns || isAdditive || (material.flags & M_DECAL) > 0) {
-                newRay = promised(newRay, hit, normal);
-            } else {
-                newRay = emissive(newRay, hit, tx.xyz, normal, false);
             }
         }
     }
