@@ -76,6 +76,7 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
     lastRes.triangle = LONGEST;
     lastRes.dist = distn;
     lastRes.materialID = LONGEST;
+    float prevdist = distn;
     
     vec3 torig = projectVoxels(origin);
     vec3 dirproj = (vec4(direct, 0.0) * octreeUniform.project).xyz;
@@ -103,24 +104,37 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
             node = Nodes[idx];
             
             if (LEAFNODE(node)) {
+                prevdist = lastRes.dist;
                 testIntersection(lastRes, origin, direct, MortoncodesIndices[node.left]);
             } else {
-
-                bool leftOverlap = false, rightOverlap = false;
+                bool leftOverlap = false, rightOverlap = false, selfOverlap = false;
                 float lefthit = 0.0f, righthit = 0.0f;
 
-                {
+                // check if nearest changed
+                selfOverlap = prevdist > lastRes.dist ? false : true;
+
+                // check for nearest box before testing
+                if (!selfOverlap) {
                     float near = 0.0f;
-                    bbox lbox = Nodes[node.left].box;
-                    lefthit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
-                    leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (near * dirlen < lastRes.dist);
+                    bbox lbox = node.box;
+                    float selfhit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
+                    selfOverlap = (  selfhit < INFINITY && selfhit  > 0.0f) && (near * dirlen < lastRes.dist);
                 }
                 
-                {
-                    float near = 0.0f;
-                    bbox rbox = Nodes[node.right].box;
-                    righthit = intersectCubeSingle(torig, dirproj, rbox.pmin.xyz, rbox.pmax.xyz, near);
-                    rightOverlap = (righthit < INFINITY && righthit > 0.0f) && (near * dirlen < lastRes.dist);
+                if (selfOverlap) {
+                    {
+                        float near = 0.0f;
+                        bbox lbox = Nodes[node.left].box;
+                        lefthit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
+                        leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (near * dirlen < lastRes.dist);
+                    }
+                    
+                    {
+                        float near = 0.0f;
+                        bbox rbox = Nodes[node.right].box;
+                        righthit = intersectCubeSingle(torig, dirproj, rbox.pmin.xyz, rbox.pmax.xyz, near);
+                        rightOverlap = (righthit < INFINITY && righthit > 0.0f) && (near * dirlen < lastRes.dist);
+                    }
                 }
                 
                 if (leftOverlap && rightOverlap) {
