@@ -25,7 +25,6 @@
 #include "geom.h"
 #include "hmd.h"
 #include "video.h"
-#include "game_draw.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -268,11 +267,11 @@ void part_draw_coin_gl(struct s_rend *rend)
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void part_draw_coin(struct s_rend *rend, const game_view *view)
+void part_draw_coin(struct s_rend *rend, const glm::mat4 vm)
 {
     glPushMatrix();
     glLoadIdentity();
-    glMultMatrixf((pgl::floatv *)&glm::lookAt(*(pgl::floatv3 *)view->p, *(pgl::floatv3 *)view->c, pgl::floatv3(0.0f, 1.0f, 0.0f)));
+    glMultMatrixf((pgl::floatv *)&vm);
     glMultMatrixf((pgl::floatv *)&ptransformer->getCurrent());
 
     r_apply_mtrl(rend, coin_mtrl);
