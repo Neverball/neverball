@@ -104,8 +104,11 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
             node = Nodes[idx];
             
             if (LEAFNODE(node)) {
-                prevdist = lastRes.dist;
+                float cecheddist = lastRes.dist;
                 testIntersection(lastRes, origin, direct, MortoncodesIndices[node.left]);
+                if (lastRes.dist < cecheddist) {
+                    prevdist = cecheddist;
+                }
             } else {
                 bool leftOverlap = false, rightOverlap = false, selfOverlap = false;
                 float lefthit = 0.0f, righthit = 0.0f;
