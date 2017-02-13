@@ -3,7 +3,7 @@
 #line 1 "./render/testmat.comp"
 
 
-#extension GL_ARB_gpu_shader_int64 : require
+
 #extension GL_ARB_separate_shader_objects : require
 #extension GL_ARB_shading_language_420pack : require
 #extension GL_ARB_bindless_texture : require
@@ -484,7 +484,7 @@ vec3 randomDirectionInSphere(){
 
 layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
 
-const uint64_t NOT_EXIST = 0xFFFFFFFFFFFFFFFFul;
+const uvec2 NOT_EXIST = uvec2(0xFFFFFFFF);
 
 const int M_ADDITIVE =(1 << 2);
 const int M_TWO_SIDED =(1 << 3);
@@ -531,10 +531,10 @@ struct Submat {
     float reflectivity;
     float alpharef;
     float s2;
-    uint64_t diffusePart;
-    uint64_t specularPart;
-    uint64_t bumpPart;
-    uint64_t emissivePart;
+    uvec2 diffusePart;
+    uvec2 specularPart;
+    uvec2 bumpPart;
+    uvec2 emissivePart;
     int flags;
     int alphafunc;
     int nkvd1;
@@ -543,11 +543,11 @@ struct Submat {
 
 layout(std430, binding = 0)buffer ssbo0 { Submat submats[];};
 
-vec4 fetchPart(in uint64_t binding, in vec2 texcoord){
+vec4 fetchPart(in uvec2 binding, in vec2 texcoord){
     return texture(sampler2D(binding), texcoord);
 }
 
-vec4 fetchPart(in uint64_t binding, in vec2 texcoord, in ivec2 offset){
+vec4 fetchPart(in uvec2 binding, in vec2 texcoord, in ivec2 offset){
     return textureOffset(sampler2D(binding), texcoord, offset);
 }
 
@@ -565,7 +565,7 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
         texcoord . t = reflected . y * m + 0.5f;
     }
 
-    if(mat . diffusePart == NOT_EXIST){
+    if(all(equal(mat . diffusePart, NOT_EXIST))){
         result = mat . diffuse;
     } else {
         result = fetchPart(mat . diffusePart, texcoord)* clamp(mat . diffuse *(1.25f), vec4(0.0f), vec4(1.0f));
@@ -583,13 +583,13 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
     vec4 specular = vec4(0.0f);
     vec4 diffusal = vec4(0.0f);
 
-    if(mat . specularPart == NOT_EXIST){
+    if(all(equal(mat . specularPart, NOT_EXIST))){
         specular = mat . specular;
     } else {
         specular = mat . specular * fetchPart(mat . specularPart, texcoord);
     }
 
-    if(mat . diffusePart == NOT_EXIST){
+    if(all(equal(mat . diffusePart, NOT_EXIST))){
         diffusal = mat . diffuse;
     } else {
         diffusal = fetchPart(mat . diffusePart, texcoord)* clamp(mat . diffuse *(1.25f), vec4(0.0f), vec4(1.0f));
@@ -609,7 +609,7 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
 }
 
 vec4 fetchEmissive(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
-    if(mat . emissivePart == NOT_EXIST){
+    if(all(equal(mat . emissivePart, NOT_EXIST))){
         return mat . emissive;
     } else {
         return fetchPart(mat . emissivePart, texcoord);
@@ -623,7 +623,7 @@ vec4 fetchTransmission(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 
 
 
 vec4 fetchNormal(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
-    if(mat . bumpPart == NOT_EXIST){
+    if(all(equal(mat . bumpPart, NOT_EXIST))){
         return vec4(0.5f, 0.5f, 1.0f, 1.0f);
     } else {
         return fetchPart(mat . bumpPart, texcoord);
@@ -632,7 +632,7 @@ vec4 fetchNormal(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal
 }
 
 vec4 fetchNormal(in Submat mat, in vec2 texcoord, in ivec2 offset, in vec3 direct, in vec3 normal){
-    if(mat . bumpPart == NOT_EXIST){
+    if(all(equal(mat . bumpPart, NOT_EXIST))){
         return vec4(0.5f, 0.5f, 1.0f, 1.0f);
     } else {
         return fetchPart(mat . bumpPart, texcoord, offset);
