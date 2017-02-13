@@ -58,7 +58,7 @@ void main() {
             //Link
             Nodes[globalID].left  = c1idx;
             Nodes[globalID].right = c2idx;
-            
+
             //Left
             Nodes[c1idx].parent = globalID;
             Nodes[c1idx].left = Nodes[c1idx].right = node.range.x;
