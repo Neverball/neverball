@@ -242,7 +242,7 @@ namespace PathTracer {
         }
 
         void build() {
-            if (triangleCount <= 0 || mortonBuffer->size() <= 0) return;
+            if (triangleCount <= 0 || mortonBuffer->size() <= 0 || !dirty) return;
 
             bind();
             bindUniforms();
@@ -341,6 +341,9 @@ namespace PathTracer {
             *fresetRangeUniform = range.y;
             context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
+
+            // For phantom...
+            this->resolve();
         }
     };
 }

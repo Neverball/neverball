@@ -466,10 +466,17 @@ namespace PathTracer {
         }
 
         void intersection(Intersector * obj, const int directly = 0) {
-            pgl::intv rsize = getRayCount();
-            if (rsize <= 0 || obj->triangleCount <= 0) return;
+            if (!obj) return;
 
-            if (obj->isDirty()) obj->build();
+            pgl::intv rsize = getRayCount();
+            if (rsize <= 0 || obj->triangleCount <= 0) {
+                obj->resolve();
+                return;
+            }
+
+            if (obj->isDirty()) {
+                obj->build();
+            }
 
             obj->bind();
             obj->bindBVH();
