@@ -22,7 +22,7 @@ void sortByKey(unsigned mortonBuffer, unsigned triangleCount, unsigned indicesBu
     cudaGraphicsMapResources(1, &mortonRes, 0);
     cudaGraphicsResourceGetMappedPointer((void **)&devPtr, &size, mortonRes);
 
-    cudaGraphicsGLRegisterBuffer(&indicesRes, mortonBuffer, cudaGraphicsMapFlagsNone);
+    cudaGraphicsGLRegisterBuffer(&indicesRes, indicesBuffer, cudaGraphicsMapFlagsNone);
     cudaGraphicsMapResources(1, &indicesRes, 0);
     cudaGraphicsResourceGetMappedPointer((void **)&idcPtr, &size, indicesRes);
 
