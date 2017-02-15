@@ -246,7 +246,7 @@ layout(std430, binding = 0)buffer NumBlock {
 };
 
 layout(std430, binding = 1)buffer MortoncodesBlock {
-    int Mortoncodes[];
+    uint Mortoncodes[];
 };
 
 layout(std430, binding = 2)buffer IndicesBlock {
@@ -268,7 +268,7 @@ layout(std430, binding = 5)buffer FlagsBlock {
 
 layout(binding = 0)uniform atomic_uint NodeCounter;
 
-int clzm(in int x){
+int clzm(in uint x){
     return(31 - findMSB(x));
 }
 
@@ -278,8 +278,8 @@ int delta(in int i1, in int i2){
     if(left < 0 || right >= geometryUniform . triangleCount){
         return - 1;
     }
-    int leftcode = Mortoncodes[left];
-    int rightcode = Mortoncodes[right];
+    uint leftcode = Mortoncodes[left];
+    uint rightcode = Mortoncodes[right];
     return leftcode != rightcode ? clzm(leftcode ^ rightcode):(32 + clzm(left ^ right));
 }
 
@@ -305,7 +305,7 @@ void main(){
 
         if(octreeUniform . currentDepth == 1){
             Nodes[0]. parent = - 1;
-            Nodes[0]. range = ivec2(0, geometryUniform . triangleCount);
+            Nodes[0]. range = ivec2(0, geometryUniform . triangleCount - 1);
             Nodes[0]. left = Nodes[0]. range . x;
             Nodes[0]. right = Nodes[0]. range . y;
         }

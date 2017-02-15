@@ -15,18 +15,18 @@ layout( std430, binding = 0 ) buffer OutLeafBlock {
 };
 
 layout( std430, binding = 1 ) buffer MortoncodesBlock {
-    int Mortoncodes[];
+    uint Mortoncodes[];
 };
 
 layout( std430, binding = 2 ) buffer IndicesBlock {
     int MortoncodesIndices[];
 };
 
-int CalculateMortonCode( in vec3 p) {
+uint CalculateMortonCode( in vec3 p) {
     float x = round(min(max(p.x * 1024.0f, 0.0f), 1023.0f));
     float y = round(min(max(p.y * 1024.0f, 0.0f), 1023.0f));
     float z = round(min(max(p.z * 1024.0f, 0.0f), 1023.0f));
-    return encodeMorton3_64(ivec3(x, y, z));
+    return encodeMorton3_64(uvec3(x, y, z));
 }
 
 layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
@@ -34,7 +34,7 @@ layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
 void main() {
     int t = int(gl_GlobalInvocationID.x);
 	Mortoncodes[t] = 0xFFFFFFFF;
-    MortoncodesIndices[t] = 0xFFFFFFFF;
+    MortoncodesIndices[t] = t;
 	
     if (t >= geometryUniform.triangleCount) return;
     

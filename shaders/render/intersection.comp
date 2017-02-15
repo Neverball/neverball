@@ -414,8 +414,8 @@ layout(std430, binding = 6)buffer ssbo6 { Stride2f texcs[];};
 layout(std430, binding = 7)buffer ssbo7 { int mats[];};
 #line 12 "./render/intersection.comp"
 #line 1 "./render/../include/morton.glsl"
-int part1By2_64(in int a){
-    int x = a & 0x000003ff;
+uint part1By2_64(in uint a){
+    uint x = a & 0x000003ff;
     x =(x |(x << 16))& 0xff0000ff;
     x =(x |(x << 8))& 0x0300f00f;
     x =(x |(x << 4))& 0x030c30c3;
@@ -423,14 +423,14 @@ int part1By2_64(in int a){
     return x;
 }
 
-int encodeMorton3_64(in ivec3 a)
+uint encodeMorton3_64(in uvec3 a)
 {
     return part1By2_64(a . x)|(part1By2_64(a . y)<< 1)|(part1By2_64(a . z)<< 2);
 }
 
-int compact1By2_64(in int a)
+uint compact1By2_64(in uint a)
 {
-    int x = a & 0x09249249;
+    uint x = a & 0x09249249;
     x =(x |(x >> 2))& 0x030c30c3;
     x =(x |(x >> 4))& 0x0300f00f;
     x =(x |(x >> 8))& 0xff0000ff;
@@ -438,9 +438,9 @@ int compact1By2_64(in int a)
     return x;
 }
 
-ivec3 decodeMorton3_64(in int code)
+uvec3 decodeMorton3_64(in uint code)
 {
-    return ivec3(compact1By2_64(code >> 0), compact1By2_64(code >> 1), compact1By2_64(code >> 2));
+    return uvec3(compact1By2_64(code >> 0), compact1By2_64(code >> 1), compact1By2_64(code >> 2));
 }
 
 ivec2 decodeDepthLeaf(int dl){
@@ -616,7 +616,7 @@ TResult traverseDirectly(in float distn, in vec3 origin, in vec3 direct){
 };
 
 layout(std430, binding = 1)buffer MortoncodesBlock {
-    int Mortoncodes[];
+    uint Mortoncodes[];
 };
 
 layout(std430, binding = 2)buffer IndicesBlock {
@@ -680,8 +680,8 @@ bool ism(in int bits, in int mask){
     return bits >= 0 ?((bits & mask)> 0): false;
 }
 
-const int STACK_SIZE = 16;
-shared int stack[256][16];
+const int STACK_SIZE = 32;
+shared int stack[256][32];
 
 
 TResult traverse(in float distn, in vec3 origin, in vec3 direct){

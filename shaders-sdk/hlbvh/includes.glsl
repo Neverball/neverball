@@ -5,7 +5,7 @@ layout( std430, binding = 0 ) buffer NumBlock {
 };
 
 layout( std430, binding = 1 ) buffer MortoncodesBlock {
-    int Mortoncodes[];
+    uint Mortoncodes[];
 };
 
 layout( std430, binding = 2 ) buffer IndicesBlock {

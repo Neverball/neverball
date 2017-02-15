@@ -3,7 +3,7 @@ layout( std430, binding = 0 ) buffer NodesBlock {
 };
 
 layout( std430, binding = 1 ) buffer MortoncodesBlock {
-    int Mortoncodes[];
+    uint Mortoncodes[];
 };
 
 layout( std430, binding = 2 ) buffer IndicesBlock {
@@ -67,8 +67,8 @@ bool ism(in int bits, in int mask){
     return bits >= 0 ? ((bits & mask) > 0) : false;
 }
 
-const int STACK_SIZE = 16;
-shared int stack[256][16];
+const int STACK_SIZE = 32;
+shared int stack[256][32];
 //shared int ptr[256];
 
 TResult traverse(in float distn, in vec3 origin, in vec3 direct){

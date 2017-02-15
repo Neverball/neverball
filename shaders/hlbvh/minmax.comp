@@ -295,19 +295,13 @@ void main(){
         mnmx . mn = vec4(INFINITY);
         mnmx . mx = vec4(- INFINITY);
 
-        for(int i = 0;i < 256;i ++){
-            vec3 triverts[3];
-            int tri = idx + i;
-            if(tri < geometryUniform . triangleCount){
-                int tri3 = tri * 3;
-                for(int x = 0;x < 3;x ++){
-                    int j = indics[tri3 + x];
-                    triverts[x]= toVec3(verts[j]);
-                }
-                mnmx . mn . xyz = min(mnmx . mn . xyz, min(triverts[0], min(triverts[1], triverts[2])));
-                mnmx . mx . xyz = max(mnmx . mx . xyz, max(triverts[0], max(triverts[1], triverts[2])));
-            }
+        vec3 triverts[3];
+        for(int x = 0;x < 3;x ++){
+            int j = indics[idx * 3 + x];
+            triverts[x]= toVec3(verts[j]);
         }
+        mnmx . mn . xyz = min(mnmx . mn . xyz, min(triverts[0], min(triverts[1], triverts[2])));
+        mnmx . mx . xyz = max(mnmx . mx . xyz, max(triverts[0], max(triverts[1], triverts[2])));
 
         atomicMin(minmax_l[0], int(floor(mnmx . mn . x * minmaxUniform . prec)));
         atomicMin(minmax_l[1], int(floor(mnmx . mn . y * minmaxUniform . prec)));

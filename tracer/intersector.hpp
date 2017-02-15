@@ -157,9 +157,9 @@ namespace PathTracer {
             numBuffer = context->createBuffer<pgl::uintv2>()->storage(1);
             numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
-            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(maxt);
-            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(maxt);
-            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(maxt);
+            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
+            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
+            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
 
             bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3);
             bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3);
@@ -244,10 +244,6 @@ namespace PathTracer {
         void build() {
             if (triangleCount <= 0 || mortonBuffer->size() <= 0 || !dirty) return;
 
-            bind();
-            bindUniforms();
-            syncUniforms();
-
             pgl::BufferCopyDataDescriptor cdesc;
             cdesc.readOffset = 0;
             cdesc.writeOffset = 0;
@@ -258,7 +254,16 @@ namespace PathTracer {
             geometryUniformData.triangleOffset = 0;
             geometryUniformData.triangleCount = triangleCount;
             minmaxUniformData.prec = prec;
+            minmaxUniformData.heap = 1;
+
+            bindUniforms();
             syncUniforms();
+
+            context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(vbo_triangle_ssbo);
+            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(ebo_triangle_ssbo);
+            context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(norm_triangle_ssbo);
+            context->binding(6)->target(pgl::BufferTarget::ShaderStorage)->buffer(tex_triangle_ssbo);
+            context->binding(7)->target(pgl::BufferTarget::ShaderStorage)->buffer(mat_triangle_ssbo);
 
             context->binding(10)->target(pgl::BufferTarget::ShaderStorage)->buffer(minmaxBuf);
             context->useProgram(minmaxProgram2)->dispatchCompute(tiled(triangleCount, worksize))->flush();
@@ -301,7 +306,7 @@ namespace PathTracer {
 #else 
             //sortPair(mortonBuffer->glID(), triangleCount);
             //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
-            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
+            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() }, false, false);
 #endif
             context->flush();
 
@@ -309,7 +314,7 @@ namespace PathTracer {
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
             context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
             context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
-            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(nullptr);
+            //context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(nullptr);
             context->useProgram(resortProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
             //mortonBufferSorted->copydata(mortonBuffer, ccd);
 
@@ -341,6 +346,9 @@ namespace PathTracer {
             *fresetRangeUniform = range.y;
             context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
+
+            //std::vector<HlbvhNode> bvh = bvhnodesBuffer->subdata(0, triangleCount * 3);
+
 
             // For phantom...
             this->resolve();
