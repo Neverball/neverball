@@ -286,7 +286,7 @@ static void game_raytrace(const pgl::floatv3 eye, const pgl::floatv3 target, con
     ptracer->enableReflections(config_get_d(CONFIG_REFLECTION));
 
     ptracer->camera(eye, target, persp);
-    for (int j = 0;j < 12;j++) {
+    for (int j = 0;j < 16;j++) {
         if (ptracer->getRayCount() <= 0) break;
         ptracer->resetHits();
         ptracer->intersection(intersectorBillboard);
