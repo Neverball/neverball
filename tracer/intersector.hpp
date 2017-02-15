@@ -334,8 +334,8 @@ namespace PathTracer {
             context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhnodesBuffer);
             context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhflagsBuffer);
 
-            //lscounterTemp->copydata(nodeCounter, cdesc);
-            nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
+            lscounterTemp->copydata(nodeCounter, cdesc);
+            //nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
             pgl::uintv2 range = { 0, 1 };
 
             context->useProgram(buildProgramH);
