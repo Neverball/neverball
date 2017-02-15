@@ -134,11 +134,6 @@ namespace PathTracer {
         pgl::uintv triangleCount = 0;
         pgl::uintv verticeCount = 0;
 
-#ifdef OPENCL_SUPPORT
-        cl_mem clMorton;
-        vex::vector<cl_ulong> * vexMorton;
-#endif
-
         void allocate(pgl::intv count, pgl::intv d = 1) {
             maxDepth = d;
             pgl::uintv size_r = pow(2, maxDepth - 1);
@@ -161,19 +156,14 @@ namespace PathTracer {
             numBuffer = context->createBuffer<pgl::uintv2>()->storage(1, desc);
             numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
-            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
-            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
-            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
+            mortonBuffer = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
+            mortonBufferIndex = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
+            mortonBufferSorted = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
 
             bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3, desc);
             bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3, desc);
             leafBufferSorted = context->createBuffer<Leaf>()->storage(maxt, desc);
             leafBuffer = context->createBuffer<Leaf>()->storage(maxt, desc);
-
-#ifdef OPENCL_SUPPORT
-            clMorton = clCreateFromGLBuffer(clapi.ctx, CL_MEM_READ_WRITE, mortonBuffer->glID(), 0);
-            vexMorton = new vex::vector<cl_ulong>(cl::CommandQueue(clapi.queue), cl::Buffer(clMorton));
-#endif
         }
 
         void setMaterialID(pgl::intv id) {
@@ -245,7 +235,15 @@ namespace PathTracer {
         }
 
         void build() {
-            if (triangleCount <= 0 || mortonBuffer->size() <= 0 || !dirty) return;
+            if (triangleCount <= 0 || !dirty) return;
+
+            pgl::BufferDataDescriptor pd;
+            pd.size = triangleCount;
+            pd.data = nullptr;
+
+            mortonBuffer->data(pd);
+            mortonBufferSorted->data(pd);
+            mortonBufferIndex->data(pd);
 
             pgl::BufferCopyDataDescriptor cdesc;
             cdesc.readOffset = 0;
@@ -300,27 +298,20 @@ namespace PathTracer {
 
             //mortonBuffer->copydata(mortonBufferSorted, ccd);
 
-#ifdef OPENCL_SUPPORT
-            context->flush();
-            clEnqueueAcquireGLObjects(clapi.queue, 1, &clMorton, 0, 0, 0);
-            vex::sort(*vexMorton);
-            clEnqueueReleaseGLObjects(clapi.queue, 1, &clMorton, 0, 0, 0);
-            clFinish(clapi.queue);
-#else 
             //sortPair(mortonBuffer->glID(), triangleCount);
             //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
-            //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() }, false, false);
+            //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
 
             sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
 
-#endif
             context->flush();
 
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBuffer);
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);
             context->binding(2)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferIndex);
             context->binding(3)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBufferSorted);
-            //context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(nullptr);
+            context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(nullptr);
+            //context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBufferSorted);
             context->useProgram(resortProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
             //mortonBufferSorted->copydata(mortonBuffer, ccd);
 

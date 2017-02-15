@@ -25,8 +25,8 @@
     <Filter Include="Файлы исходного кода\glad">
       <UniqueIdentifier>{2cca8c96-120e-4e49-995f-7a195e74c57b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\sorter">
-      <UniqueIdentifier>{d5b4ce45-abdb-4cb9-ad67-317681b11e9c}</UniqueIdentifier>
+    <Filter Include="Файлы исходного кода\cl-sorter">
+      <UniqueIdentifier>{73c9a2ea-ee45-42b2-b4b9-bf0898904a78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="..\..\glad\glad.cpp">
       <Filter>Файлы исходного кода\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cl-sorter\sorter.cpp">
+      <Filter>Файлы исходного кода\cl-sorter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -512,8 +515,8 @@
     <ClInclude Include="..\..\tracer\transformer.hpp">
       <Filter>Файлы исходного кода\tracer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sorter\sorter.h">
-      <Filter>Файлы исходного кода\sorter</Filter>
+    <ClInclude Include="..\..\cl-sorter\sorter.h">
+      <Filter>Файлы исходного кода\cl-sorter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -522,9 +525,6 @@
     </None>
     <None Include="..\..\share\Makefile">
       <Filter>Файлы исходного кода\share</Filter>
-    </None>
-    <None Include="..\..\sorter\sorter.cu">
-      <Filter>Файлы исходного кода\sorter</Filter>
     </None>
   </ItemGroup>
 </Project>

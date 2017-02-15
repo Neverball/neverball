@@ -67,7 +67,7 @@ ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 SDL_CPPFLAGS ?= $(shell sdl2-config --cflags)
 PNG_CPPFLAGS ?= $(shell libpng-config --cflags)
 
-ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Isorter -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
+ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Ivexcl -Icl-sorter -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
 
 ALL_CPPFLAGS += \
 	-DCONFIG_USER=\"$(USERDIR)\" \
@@ -191,7 +191,7 @@ OGG_LIBS ?= -lvorbisfile
 TTF_LIBS ?= -lSDL2_ttf
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS) -ldl -lstdc++ -cudart
+	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS) -ldl -lstdc++ -OpenCL -lboost_system
 
 MAPC_LIBS := $(BASE_LIBS)
 
@@ -232,7 +232,7 @@ MAPC_OBJS := \
 	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
-	sorter/sorter.o		\
+	cl-sorter/sorter.o	\
 	glad/glad.o         \
 	share/lang.o        \
 	share/st_common.o   \

@@ -24,12 +24,4 @@
 
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
-
-#ifdef OPENCL_SUPPORT
-#define USE_OPENCL 1
-#include <vexcl/vexcl.hpp>
-#include <vexcl/vector.hpp>
-#else
-#include <sorter/sorter.h>
-//#include <../radix/radix-sort.hh>
-#endif
+#include <cl-sorter/sorter.h>
