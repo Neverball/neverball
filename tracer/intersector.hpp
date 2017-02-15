@@ -351,7 +351,7 @@ namespace PathTracer {
             }
 
             *fresetRangeUniform = range.y;
-            context->dispatchCompute(tiled(range.y, worksize))->flush();
+            context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
 
             //std::vector<HlbvhNode> bvh = bvhnodesBuffer->subdata(0, triangleCount * 3);
