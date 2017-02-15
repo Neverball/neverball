@@ -24,14 +24,14 @@ namespace PathTracer {
         pgl::Program filterProgram;
         pgl::Program intersectionProgram;
         
-        pgl::Context context;
-        pgl::Buffer<pgl::intv> activenl;
-        pgl::Buffer<pgl::intv> activel;
-        pgl::Buffer<Ray> rays;
-        pgl::Buffer<Hit> hits;
-        pgl::Buffer<Texel> texels;
-        pgl::Buffer<pgl::intv> arcounter;
-        pgl::Buffer<pgl::intv> arcounterTemp;
+        pgl::Context context = nullptr;
+        pgl::Buffer<pgl::intv> activenl = nullptr;
+        pgl::Buffer<pgl::intv> activel = nullptr;
+        pgl::Buffer<Ray> rays = nullptr;
+        pgl::Buffer<Hit> hits = nullptr;
+        pgl::Buffer<Texel> texels = nullptr;
+        pgl::Buffer<pgl::intv> arcounter = nullptr;
+        pgl::Buffer<pgl::intv> arcounterTemp = nullptr;
 
         pgl::Buffer<RandomUniformStruct> randomUniform;
         pgl::Buffer<LightUniformStruct> lightUniform;
@@ -43,15 +43,15 @@ namespace PathTracer {
         pgl::intv maxSamples = 4;
         pgl::intv maxFilters = 1;
 
-        pgl::Texture2D presampled;
-        pgl::Texture2D samples;
-        pgl::Texture2D sampleflags;
+        pgl::Texture2D presampled = nullptr;
+        pgl::Texture2D samples = nullptr;
+        pgl::Texture2D sampleflags = nullptr;
         pgl::TextureCube cubeTex = nullptr;
-        pgl::VertexArray vao;
+        pgl::VertexArray vao = nullptr;
 
-        pgl::Buffer<pgl::floatv2> posBuf;
-        pgl::Buffer<pgl::intv> idcBuf;
-        pgl::Attribute<pgl::floatv2> posattr;
+        pgl::Buffer<pgl::floatv2> posBuf = nullptr;
+        pgl::Buffer<pgl::intv> idcBuf = nullptr;
+        pgl::Attribute<pgl::floatv2> posattr = nullptr;
 
         pgl::intv currentRayLimit = 0;
 
@@ -154,6 +154,10 @@ namespace PathTracer {
             displayWidth = w;
             displayHeight = h;
 
+            if (samples) delete samples;
+            if (sampleflags) delete sampleflags;
+            if (presampled) delete presampled;
+
             samples = context->createTexture2D();
             sampleflags = context->createTexture2D();
             presampled = context->createTexture2D();
@@ -196,6 +200,12 @@ namespace PathTracer {
 
             const pgl::intv wrsize = width * height;
             const pgl::intv raylimit = 4096 * 8192;
+
+            if (rays) delete rays;
+            if (hits) delete hits;
+            if (activel) delete activel;
+            if (activenl) delete activenl;
+            if (texels) delete texels;
 
             currentRayLimit = std::min(wrsize * 16, raylimit);
             rays = context->createBuffer<Ray>()->storage(currentRayLimit);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
