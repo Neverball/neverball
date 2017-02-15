@@ -4,6 +4,8 @@
 //#define WIN32_EXTRA_LEAN
 //#include <windows.h>
 
+#include <iostream>
+
 #ifdef GLAD_SUPPORT
 #include "glad/glad.h"
 #else 
@@ -165,7 +167,7 @@ template<GLuint TYPE, typename... Sources>
 program<TYPE>
 make_program(GL const & gl, Sources... sources) {
   GLchar const * array_sources[] = {
-    "#version 430 core\n"
+    "#version 450\n"
     GLSL(
     precision highp float;
     precision highp int;
@@ -181,6 +183,7 @@ make_program(GL const & gl, Sources... sources) {
     glGetProgramInfoLog(id, sizeof(info), nullptr, info);
     glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_ERROR,
       GL_LINK_STATUS, GL_DEBUG_SEVERITY_HIGH, -1, info);
+    std::cerr << info << std::endl;
   }
   return program<TYPE> { id };
 }

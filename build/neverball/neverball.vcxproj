@@ -50,8 +50,9 @@
     <ClCompile Include="..\..\ball\st_start.cpp" />
     <ClCompile Include="..\..\ball\st_title.cpp" />
     <ClCompile Include="..\..\ball\util.cpp" />
-    <ClCompile Include="..\..\cl-sorter\sorter.cpp" />
     <ClCompile Include="..\..\glad\glad.cpp" />
+    <ClCompile Include="..\..\radix\opengl.cpp" />
+    <ClCompile Include="..\..\radix\radix-sort.cpp" />
     <ClCompile Include="..\..\share\array.cpp" />
     <ClCompile Include="..\..\share\audio.cpp" />
     <ClCompile Include="..\..\share\ball.cpp" />
@@ -127,9 +128,10 @@
     <ClInclude Include="..\..\ball\st_start.h" />
     <ClInclude Include="..\..\ball\st_title.h" />
     <ClInclude Include="..\..\ball\util.h" />
-    <ClInclude Include="..\..\cl-sorter\sorter.h" />
     <ClInclude Include="..\..\glad\glad.h" />
     <ClInclude Include="..\..\glad\khrplatform.h" />
+    <ClInclude Include="..\..\radix\opengl.hh" />
+    <ClInclude Include="..\..\radix\radix-sort.hh" />
     <ClInclude Include="..\..\share\array.h" />
     <ClInclude Include="..\..\share\audio.h" />
     <ClInclude Include="..\..\share\ball.h" />
@@ -222,9 +224,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -245,9 +245,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <ExecutablePath>$(SolutionDir)..\..\install\bin;C:\local\boost_1_63_0\lib64-msvc-14.0;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;C:\local\boost_1_63_0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\..\install\lib;C:\local\boost_1_63_0\lib64-msvc-14.0;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir)..\..\install\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\install\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -255,9 +255,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <ExecutablePath>$(SolutionDir)..\..\install\bin;C:\local\boost_1_63_0\lib64-msvc-14.0;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;C:\local\boost_1_63_0;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\..\install\lib;C:\local\boost_1_63_0\lib64-msvc-14.0;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir)..\..\install\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\install\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -286,7 +286,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;OpenGL32.lib;user32.lib;OpenCL.lib;boost_system-vc140-mt-gd-1_63.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;OpenGL32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -323,13 +323,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;OpenGL32.lib;user32.lib;glew32.lib;OpenCL.lib;boost_system-vc140-mt-1_63.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>turbojpeg.lib;jpeg.lib;libogg.lib;libpng16.lib;libvorbis.lib;libvorbisfile.lib;zlibstatic.lib;x64/SDL2.lib;x64/SDL2_ttf.lib;x64/physfs.lib;Ws2_32.lib;OpenGL32.lib;user32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

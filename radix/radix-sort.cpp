@@ -46,7 +46,7 @@ https://github.com/HSA-Libraries/Bolt
 #define VALUE_IN 2
 #define VALUE_OUT 3
 
-#define WG_COUNT 64
+#define WG_COUNT 16
 #define WG_SIZE 256
 #define BLOCK_SIZE 1024  // (4 * WG_SIZE)
 #define BITS_PER_PASS 4
@@ -68,14 +68,14 @@ GLSL_DEFINE(EACH(i, count), for (int i = 0; i < count; i++))
 GLSL_DEFINE(TO_MASK(n), ((1 << (n)) - 1))
 GLSL_DEFINE(BFE(src, s, n), ((src >> s) & TO_MASK(n)))
 GLSL_DEFINE(BFE_SIGN(src, s, n),
-  (((((src >> s) & TO_MASK(n - 1))
-                 ^ TO_MASK(n - 1))
-                 & TO_MASK(n - 1))
-   | ((src >> s) &  (1 << (n - 1)))))
+(((((src >> s) & TO_MASK(n - 1))
+    ^ TO_MASK(n - 1))
+    & TO_MASK(n - 1))
+    | ((src >> s) &  (1 << (n - 1)))))
 GLSL_DEFINE(BARRIER, groupMemoryBarrier(); barrier())
-GLSL_DEFINE(LC_IDX, gl_LocalInvocationIndex)
+GLSL_DEFINE(LC_IDX, gl_LocalInvocationID.x)
 GLSL_DEFINE(WG_IDX, gl_WorkGroupID.x)
-GLSL_DEFINE(MIX(T, x, y, a), (x) * T(a) + (y) * (1 - T(a)))
+GLSL_DEFINE(MIX(T, x, y, a), /*(x) * T(a) + (y) * (1 - T(a))*/mix(T(y), T(x), a))
 GLSL_DEFINE(GET_BY4(T, src, idx), T(src[idx.x], src[idx.y], src[idx.z], src[idx.w]))
 GLSL_DEFINE(SET_BY4(dest, idx, val), do {
   dest[idx.x] = val.x;

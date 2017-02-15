@@ -156,9 +156,9 @@ namespace PathTracer {
             numBuffer = context->createBuffer<pgl::uintv2>()->storage(1, desc);
             numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
-            mortonBuffer = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
-            mortonBufferIndex = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
-            mortonBufferSorted = context->createBuffer<pgl::uintv>();//->storage(maxt, desc);
+            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(maxt, desc);
+            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(maxt, desc);
+            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(maxt, desc);
 
             bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3, desc);
             bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3, desc);
@@ -241,9 +241,9 @@ namespace PathTracer {
             pd.size = triangleCount;
             pd.data = nullptr;
 
-            mortonBuffer->data(pd);
-            mortonBufferSorted->data(pd);
-            mortonBufferIndex->data(pd);
+            //mortonBuffer->data(pd);
+            //mortonBufferSorted->data(pd);
+            //mortonBufferIndex->data(pd);
 
             pgl::BufferCopyDataDescriptor cdesc;
             cdesc.readOffset = 0;
@@ -300,9 +300,9 @@ namespace PathTracer {
 
             //sortPair(mortonBuffer->glID(), triangleCount);
             //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
-            //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
+            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
 
-            sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
+            //sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
 
             context->flush();
 

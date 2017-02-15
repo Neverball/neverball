@@ -25,8 +25,8 @@
     <Filter Include="Файлы исходного кода\glad">
       <UniqueIdentifier>{2cca8c96-120e-4e49-995f-7a195e74c57b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы исходного кода\cl-sorter">
-      <UniqueIdentifier>{73c9a2ea-ee45-42b2-b4b9-bf0898904a78}</UniqueIdentifier>
+    <Filter Include="Файлы исходного кода\radix">
+      <UniqueIdentifier>{e77e3e12-edfd-4c2b-8566-99d5aa1c4e83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,8 +255,11 @@
     <ClCompile Include="..\..\glad\glad.cpp">
       <Filter>Файлы исходного кода\glad</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cl-sorter\sorter.cpp">
-      <Filter>Файлы исходного кода\cl-sorter</Filter>
+    <ClCompile Include="..\..\radix\opengl.cpp">
+      <Filter>Файлы исходного кода\radix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\radix\radix-sort.cpp">
+      <Filter>Файлы исходного кода\radix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,8 +518,11 @@
     <ClInclude Include="..\..\tracer\transformer.hpp">
       <Filter>Файлы исходного кода\tracer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cl-sorter\sorter.h">
-      <Filter>Файлы исходного кода\cl-sorter</Filter>
+    <ClInclude Include="..\..\radix\opengl.hh">
+      <Filter>Файлы исходного кода\radix</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\radix\radix-sort.hh">
+      <Filter>Файлы исходного кода\radix</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
