@@ -202,9 +202,15 @@ static void sol_load_bill(struct s_draw *draw)
 
 }
 
-static void sol_free_bill(const s_draw *draw)
+static void sol_free_bill(s_draw *draw)
 {
     //glDeleteBuffers_(1, &draw->bill);
+
+    if (draw->billTex) delete draw->billTex;
+    if (draw->billVert) delete draw->billVert;
+
+    draw->billTex = nullptr;
+    draw->billVert = nullptr;
 }
 
 static void sol_draw_bill(const s_draw *draw, const int mi, GLboolean edge)

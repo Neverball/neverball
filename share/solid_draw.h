@@ -96,8 +96,8 @@ struct s_draw
 
     GLuint bill;
 
-    pgl::Buffer<pgl::floatv> billVert;
-    pgl::Buffer<pgl::floatv> billTex;
+    pgl::Buffer<pgl::floatv> billVert = nullptr;
+    pgl::Buffer<pgl::floatv> billTex = nullptr;
 
     unsigned int reflective:1;
     unsigned int shadowed:1;
