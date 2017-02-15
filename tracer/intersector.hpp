@@ -49,7 +49,7 @@ namespace PathTracer {
         pgl::Buffer<pgl::uintv> mortonBufferSorted = nullptr;
 
         pgl::Buffer<pgl::uintv> bvhflagsBuffer = nullptr;
-        pgl::Buffer<pgl::intv> lscounterTemp = nullptr;
+        pgl::Buffer<pgl::uintv> lscounterTemp = nullptr;
         pgl::Buffer<Minmaxi> minmaxBuf = nullptr;
         pgl::Buffer<Minmaxi> minmaxBufRef = nullptr;
         pgl::Uniform<pgl::intv> fresetRangeUniform = nullptr;
@@ -86,7 +86,7 @@ namespace PathTracer {
 
             minmaxBufRef = context->createBuffer<Minmaxi>()->storage(1, desc);
             minmaxBuf = context->createBuffer<Minmaxi>()->storage(1, desc);
-            lscounterTemp = context->createBuffer<pgl::intv>()->storage(1, desc)->subdata(std::vector<pgl::intv>({ 0 }));
+            lscounterTemp = context->createBuffer<pgl::uintv>()->storage(1, desc)->subdata(std::vector<pgl::intv>({ 0 }));
 
             minmaxUniform = context->createBuffer<MinmaxUniformStruct>()->storage(1, desc);
             helperUniform = context->createBuffer<HelperUniformStruct>()->storage(1, desc);
@@ -145,26 +145,30 @@ namespace PathTracer {
             maxt = count;
             octreeUniformData.maxDepth = maxDepth - 1;
 
-            //Geometry
-            ebo_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt * 3);
-            vbo_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9);
-            norm_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9);
-            tex_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 6);
-            mat_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt);
+            pgl::BufferStorageDescriptor desc;
+            desc.storageFlags = pgl::BufferStorageFlags::Dynamic;
 
-            nodeCounter = context->createBuffer<pgl::uintv>()->storage(1);
+
+            //Geometry
+            ebo_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt * 3, desc);
+            vbo_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9, desc);
+            norm_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 9, desc);
+            tex_triangle_ssbo = context->createBuffer < pgl::floatv >()->storage(maxt * 6, desc);
+            mat_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt, desc);
+
+            nodeCounter = context->createBuffer<pgl::uintv>()->storage(1, desc);
             nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
-            numBuffer = context->createBuffer<pgl::uintv2>()->storage(1);
+            numBuffer = context->createBuffer<pgl::uintv2>()->storage(1, desc);
             numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
-            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
-            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
-            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256);
+            mortonBuffer = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
+            mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
+            mortonBufferSorted = context->createBuffer<pgl::uintv>()->storage(tiled(maxt, 256) * 256, desc);
 
-            bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3);
-            bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3);
-            leafBufferSorted = context->createBuffer<Leaf>()->storage(maxt);
-            leafBuffer = context->createBuffer<Leaf>()->storage(maxt);
+            bvhnodesBuffer = context->createBuffer<HlbvhNode>()->storage(maxt * 3, desc);
+            bvhflagsBuffer = context->createBuffer<pgl::uintv>()->storage(maxt * 3, desc);
+            leafBufferSorted = context->createBuffer<Leaf>()->storage(maxt, desc);
+            leafBuffer = context->createBuffer<Leaf>()->storage(maxt, desc);
 
 #ifdef OPENCL_SUPPORT
             clMorton = clCreateFromGLBuffer(clapi.ctx, CL_MEM_READ_WRITE, mortonBuffer->glID(), 0);
@@ -206,14 +210,10 @@ namespace PathTracer {
         void loadMesh(Mesh * gobject) {
             if (gobject->triangleCount <= 0 || gobject == nullptr) return;
 
-            pgl::intv trioff = triangleCount;
-            triangleCount += gobject->triangleCount;
-            verticeCount = triangleCount * 3;
-
             geometryUniformData.unindexed = gobject->unindexed;
             geometryUniformData.loadOffset = gobject->offset;
             geometryUniformData.materialID = gobject->materialID;
-            geometryUniformData.triangleOffset = trioff;
+            geometryUniformData.triangleOffset = triangleCount;
             geometryUniformData.triangleCount = gobject->triangleCount;
             geometryUniformData.transform = gobject->trans;
             geometryUniformData.transformInv = glm::inverse(gobject->trans);
@@ -227,6 +227,9 @@ namespace PathTracer {
 
             context->useProgram(geometryLoaderProgram2)->dispatchCompute(tiled(gobject->triangleCount, worksize))->flush();
             markDirty();
+
+            triangleCount += gobject->triangleCount;
+            verticeCount = triangleCount * 3;
         }
 
         bool isDirty() const {
@@ -306,7 +309,10 @@ namespace PathTracer {
 #else 
             //sortPair(mortonBuffer->glID(), triangleCount);
             //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
-            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() }, false, false);
+            //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() }, false, false);
+
+            sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
+
 #endif
             context->flush();
 
@@ -328,8 +334,9 @@ namespace PathTracer {
             context->binding(4)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhnodesBuffer);
             context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhflagsBuffer);
 
-            lscounterTemp->copydata(nodeCounter, cdesc);
-            pgl::intv2 range = { 0, 1 };
+            //lscounterTemp->copydata(nodeCounter, cdesc);
+            nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
+            pgl::uintv2 range = { 0, 1 };
 
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
@@ -337,14 +344,15 @@ namespace PathTracer {
                 octreeUniformData.currentDepth = i;
                 octreeUniform->subdata(&octreeUniformData);
 
-                context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
+                context->useProgram(buildProgramH)->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
-                range.y = 1 + nodeCounter->subdata(0, 1)[0] * 2;
+                range.y = std::max(1 + (nodeCounter->subdata(0, 1)[0]) * 2, range.x);
                 if (range.y <= range.x) break;
             }
 
+            context->useProgram(fresetProgramH);
             *fresetRangeUniform = range.y;
-            context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
+            context->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
 
             //std::vector<HlbvhNode> bvh = bvhnodesBuffer->subdata(0, triangleCount * 3);

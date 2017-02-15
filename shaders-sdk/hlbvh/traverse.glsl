@@ -50,7 +50,7 @@ float intersectCubeSingle(in vec3 origin, in vec3 ray, in vec3 cubeMin, in vec3 
     float tFar  = min(min(t2.x, t2.y), t2.z);
     float t = (tFar > tNear && tFar > 0.f) ? (tNear > 0.f ? min(tNear, tFar) : max(tNear, tFar)) : INFINITY;
     near    = (tFar > tNear) ? max(tNear, 0.f) : INFINITY;
-    return t > 0.f ? t : INFINITY;
+    return t >= 0.f ? t : INFINITY;
 }
 
 const float precerr = 0.0001f;
@@ -94,12 +94,12 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
         (lastRes.dist >= dst)
     ) {
         int ptr = 0;
-        stack[l][ptr] = -1;
+        stack[l][ptr++] = -1;
         
         HlbvhNode node;
         int idx = 0;
         
-        for(int i=0;i<2048;i++) {
+        for(int i=0;i<4096;i++) {
             if (lastRes.dist <= 0.0f) break;
             node = Nodes[idx];
             
@@ -121,7 +121,7 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                     float near = 0.0f;
                     bbox lbox = node.box;
                     float selfhit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
-                    selfOverlap = (  selfhit < INFINITY && selfhit  > 0.0f) && (near * dirlen < lastRes.dist);
+                    selfOverlap = (  selfhit < INFINITY && selfhit  >= 0.0f) && (near * dirlen <= lastRes.dist);
                 }
                 
                 if (selfOverlap) {
@@ -129,14 +129,14 @@ TResult traverse(in float distn, in vec3 origin, in vec3 direct){
                         float near = 0.0f;
                         bbox lbox = Nodes[node.left].box;
                         lefthit  = intersectCubeSingle(torig, dirproj, lbox.pmin.xyz, lbox.pmax.xyz, near);
-                        leftOverlap = (  lefthit < INFINITY && lefthit  > 0.0f) && (near * dirlen < lastRes.dist);
+                        leftOverlap = (  lefthit < INFINITY && lefthit  >= 0.0f) && (near * dirlen <= lastRes.dist);
                     }
                     
                     {
                         float near = 0.0f;
                         bbox rbox = Nodes[node.right].box;
                         righthit = intersectCubeSingle(torig, dirproj, rbox.pmin.xyz, rbox.pmax.xyz, near);
-                        rightOverlap = (righthit < INFINITY && righthit > 0.0f) && (near * dirlen < lastRes.dist);
+                        rightOverlap = (righthit < INFINITY && righthit >= 0.0f) && (near * dirlen <= lastRes.dist);
                     }
                 }
                 

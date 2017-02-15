@@ -30,6 +30,6 @@
 #include <vexcl/vexcl.hpp>
 #include <vexcl/vector.hpp>
 #else
-//#include <sorter.h>
-#include <../radix/radix-sort.hh>
+#include <sorter/sorter.h>
+//#include <../radix/radix-sort.hh>
 #endif
