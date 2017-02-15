@@ -344,13 +344,12 @@ namespace PathTracer {
                 octreeUniformData.currentDepth = i;
                 octreeUniform->subdata(&octreeUniformData);
 
-                context->useProgram(buildProgramH)->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
+                context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
                 range.y = std::max(1 + (nodeCounter->subdata(0, 1)[0]) * 2, range.x);
                 if (range.y <= range.x) break;
             }
 
-            context->useProgram(fresetProgramH);
             *fresetRangeUniform = range.y;
             context->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
