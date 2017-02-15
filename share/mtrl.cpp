@@ -157,6 +157,7 @@ static void load_mtrl_objects(struct mtrl *mp)
  */
 static void free_mtrl_objects(struct mtrl *mp)
 {
+    if (mp->po) delete mp->po;
     mp->po = nullptr;
 }
 

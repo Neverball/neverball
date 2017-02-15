@@ -61,18 +61,18 @@ struct d_geom
 
 struct d_mesh
 {
-    int mtrl;                                  /* Cached material            */
+    int mtrl = 0;                                  /* Cached material            */
 
-    GLuint vbo;                                /* Vertex  buffer object      */
-    GLuint vbc;                                /* Vertex  buffer count       */
-    GLuint ebo;                                /* Element buffer object      */
-    GLuint ebc;                                /* Element buffer count       */
+    GLuint vbo = 0;                                /* Vertex  buffer object      */
+    GLuint vbc = 0;                                /* Vertex  buffer count       */
+    GLuint ebo = 0;                                /* Element buffer object      */
+    GLuint ebc = 0;                                /* Element buffer count       */
 
-    pgl::Buffer<pgl::intv> idcBuf;
-    pgl::Buffer<pgl::intv> ridcBuf;
-    pgl::Buffer<pgl::floatv> vertBuf;
-    pgl::Buffer<pgl::floatv> normBuf;
-    pgl::Buffer<pgl::floatv> texBuf;
+    pgl::Buffer<pgl::intv> idcBuf = nullptr;
+    pgl::Buffer<pgl::intv> ridcBuf = nullptr;
+    pgl::Buffer<pgl::floatv> vertBuf = nullptr;
+    pgl::Buffer<pgl::floatv> normBuf = nullptr;
+    pgl::Buffer<pgl::floatv> texBuf = nullptr;
 };
 
 struct d_body

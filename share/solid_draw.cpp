@@ -454,6 +454,20 @@ static void sol_free_mesh(struct d_mesh *mp)
 {
     //TODO
 
+    if (mp->ridcBuf) delete mp->ridcBuf;
+    if (mp->idcBuf) delete mp->idcBuf;
+    if (mp->vertBuf) delete mp->vertBuf;
+    if (mp->normBuf) delete mp->normBuf;
+    if (mp->texBuf) delete mp->texBuf;
+
+    mp->ridcBuf = nullptr;
+    mp->idcBuf = nullptr;
+    mp->vertBuf = nullptr;
+    mp->normBuf = nullptr;
+    mp->texBuf = nullptr;
+
+    mp->ebc = 0;
+    mp->vbc = 0;
 }
 
 void sol_draw_mesh_gl(const struct d_mesh *mp, struct s_rend *rend, int p)
