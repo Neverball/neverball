@@ -234,8 +234,8 @@ MAPC_OBJS := \
 	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
-	#cl-sorter/sorter.o	\
-    radix/radix.o
+    radix/radix-sort.o	\
+	radix/opengl.o		\
 	glad/glad.o         \
 	share/lang.o        \
 	share/st_common.o   \
