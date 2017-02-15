@@ -6,6 +6,9 @@
 
 #ifdef _WIN32
 #include "windows.h"
+#else
+#include <X11/X.h>
+#include <X11/Xlib.h>
 #endif
 
 #define USE_OPENCL 1
@@ -34,12 +37,21 @@ void init() {
     cl_context selected_context = 0;
     cl_device_id selected_device = 0;
     for (int i = 0; i < device.size();i++) {
+#ifdef _WIN32
         cl_context_properties properties[] = {
             CL_GL_CONTEXT_KHR, (cl_context_properties)wglGetCurrentContext(),
             CL_WGL_HDC_KHR, (cl_context_properties)wglGetCurrentDC(),
             CL_CONTEXT_PLATFORM, (cl_context_properties)device[i].getInfo<CL_DEVICE_PLATFORM>(),
             0
         };
+#else 
+        cl_context_properties properties[] = {
+            CL_GL_CONTEXT_KHR, (cl_context_properties)glXGetCurrentContext(),
+            CL_WGL_HDC_KHR, (cl_context_properties)glXGetCurrentDisplay(),
+            CL_CONTEXT_PLATFORM, (cl_context_properties)device[i].getInfo<CL_DEVICE_PLATFORM>(),
+            0
+        };
+#endif
 
         cl_int ret = 0;
         cl_device_id device_id = device[i]();
