@@ -304,7 +304,8 @@ namespace PathTracer {
 
             //sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
 
-            context->flush();
+            bindUniforms();
+
 
             context->binding(0)->target(pgl::BufferTarget::ShaderStorage)->buffer(leafBuffer);
             context->binding(1)->target(pgl::BufferTarget::ShaderStorage)->buffer(mortonBuffer);

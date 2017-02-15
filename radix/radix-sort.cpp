@@ -46,7 +46,7 @@ https://github.com/HSA-Libraries/Bolt
 #define VALUE_IN 2
 #define VALUE_OUT 3
 
-#define WG_COUNT 8
+#define WG_COUNT 15
 #define WG_SIZE 256
 #define BLOCK_SIZE 1024  // (4 * WG_SIZE)
 #define BITS_PER_PASS 4
