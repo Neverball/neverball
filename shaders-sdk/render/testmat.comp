@@ -64,10 +64,16 @@ struct Submat {
     float reflectivity;
     float alpharef;
     float s2;
-    uvec2 diffusePart;
-    uvec2 specularPart;
-    uvec2 bumpPart;
-    uvec2 emissivePart;
+    //uvec2 diffusePart;
+    //uvec2 specularPart;
+    //uvec2 bumpPart;
+    //uvec2 emissivePart;
+    
+    sampler2D diffusePart;
+    sampler2D specularPart;
+    sampler2D bumpPart;
+    sampler2D emissivePart;
+    
     int flags;
     int alphafunc;
     int nkvd1;
@@ -76,12 +82,22 @@ struct Submat {
 
 layout ( std430, binding=0) buffer ssbo0 {Submat submats[];};
 
+/*
 vec4 fetchPart(in uvec2 binding, in vec2 texcoord){
     return texture(sampler2D(binding), texcoord);
 }
 
 vec4 fetchPart(in uvec2 binding, in vec2 texcoord, in ivec2 offset){
     return textureOffset(sampler2D(binding), texcoord, offset);
+}
+*/
+
+vec4 fetchPart(in sampler2D binding, in vec2 texcoord){
+    return texture(binding, texcoord);
+}
+
+vec4 fetchPart(in sampler2D binding, in vec2 texcoord, in ivec2 offset){
+    return textureOffset(binding, texcoord, offset);
 }
 
 
@@ -98,7 +114,8 @@ vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norma
         texcoord.t = reflected.y * m + 0.5f;
     }
     
-    if(all(equal(mat.diffusePart, NOT_EXIST))){
+    //if(all(equal(mat.diffusePart, NOT_EXIST))){
+    if(textureSize(mat.diffusePart, 0).x <= 0) {
         result = mat.diffuse;
     } else {
         result = fetchPart(mat.diffusePart, texcoord) * clamp(mat.diffuse * (1.25f), vec4(0.0f), vec4(1.0f));
@@ -116,13 +133,15 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
     vec4 specular = vec4(0.0f);
     vec4 diffusal = vec4(0.0f);
     
-    if(all(equal(mat.specularPart, NOT_EXIST))){
+    //if(all(equal(mat.specularPart, NOT_EXIST))){
+    if(textureSize(mat.specularPart, 0).x <= 0) {
         specular= mat.specular;
     } else {
         specular= mat.specular * fetchPart(mat.specularPart, texcoord);
     }
     
-    if(all(equal(mat.diffusePart, NOT_EXIST))){
+    //if(all(equal(mat.diffusePart, NOT_EXIST))){
+    if(textureSize(mat.diffusePart, 0).x <= 0) {
         diffusal = mat.diffuse;
     } else {
         diffusal = fetchPart(mat.diffusePart, texcoord) * clamp(mat.diffuse * (1.25f), vec4(0.0f), vec4(1.0f));
@@ -142,7 +161,8 @@ vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 norm
 }
 
 vec4 fetchEmissive(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
-    if(all(equal(mat.emissivePart, NOT_EXIST))){
+    //if(all(equal(mat.emissivePart, NOT_EXIST))){
+    if(textureSize(mat.emissivePart, 0).x <= 0) {
         return mat.emissive;
     } else {
         return fetchPart(mat.emissivePart, texcoord);
@@ -156,7 +176,8 @@ vec4 fetchTransmission(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 
 
 
 vec4 fetchNormal(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
-    if(all(equal(mat.bumpPart, NOT_EXIST))){
+    //if(all(equal(mat.bumpPart, NOT_EXIST))){
+    if(textureSize(mat.bumpPart, 0).x <= 0) {
         return vec4(0.5f, 0.5f, 1.0f, 1.0f);
     } else {
         return fetchPart(mat.bumpPart, texcoord);
@@ -165,7 +186,8 @@ vec4 fetchNormal(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal
 }
 
 vec4 fetchNormal(in Submat mat, in vec2 texcoord, in ivec2 offset, in vec3 direct, in vec3 normal){
-    if(all(equal(mat.bumpPart, NOT_EXIST))){
+    //if(all(equal(mat.bumpPart, NOT_EXIST))){
+    if(textureSize(mat.bumpPart, 0).x <= 0) {
         return vec4(0.5f, 0.5f, 1.0f, 1.0f);
     } else {
         return fetchPart(mat.bumpPart, texcoord, offset);
