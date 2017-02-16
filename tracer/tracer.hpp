@@ -199,7 +199,7 @@ namespace PathTracer {
             height = h;
 
             const pgl::intv wrsize = width * height;
-            const pgl::intv raylimit = 4096 * 8192;
+            const pgl::intv raylimit = 4096 * 4096;
 
             if (rays) delete rays;
             if (hits) delete hits;
@@ -207,7 +207,7 @@ namespace PathTracer {
             if (activenl) delete activenl;
             if (texels) delete texels;
 
-            currentRayLimit = std::min(wrsize * 16, raylimit);
+            currentRayLimit = std::min(wrsize * 12, raylimit);
             rays = context->createBuffer<Ray>()->storage(currentRayLimit);//new pgl::Buffer<Ray>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             hits = context->createBuffer<Hit>()->storage(currentRayLimit);//new pgl::Buffer<Hit>(pgl::BufferTarget::ShaderStorage)->storage(wrsize * 8);
             activel = context->createBuffer<pgl::intv>()->storage(currentRayLimit);
