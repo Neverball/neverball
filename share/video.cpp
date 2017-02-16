@@ -230,7 +230,7 @@ int video_mode(int f, int w, int h)
 
 #ifdef GLAD_SUPPORT
     if (!gladLoadGL()) {
-        printf("Something went wrong!\n");
+        printf("Oh my god! You are using a bad GPU?\n");
         exit(-1);
     }
 #else 
