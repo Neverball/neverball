@@ -53,6 +53,8 @@ namespace PathTracer {
         pgl::Buffer<Minmaxi> minmaxBuf = nullptr;
         pgl::Buffer<Minmaxi> minmaxBufRef = nullptr;
         pgl::Uniform<pgl::intv> fresetRangeUniform = nullptr;
+        pgl::Uniform<pgl::intv> currentDepthUniform = nullptr;
+        
 
     private:
         void initShaderCompute(std::string str, pgl::Program& prog) {
@@ -74,6 +76,7 @@ namespace PathTracer {
             initShaderCompute("./shaders/hlbvh/minmax.comp", minmaxProgram2);
             initShaderCompute("./shaders/tools/loader.comp", geometryLoaderProgram2);
             fresetRangeUniform = fresetProgramH->uniform<pgl::intv>("flagLen");
+            currentDepthUniform = buildProgramH->uniform<pgl::intv>("currentDepth");
         }
 
     public:
@@ -333,8 +336,7 @@ namespace PathTracer {
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
-                octreeUniformData.currentDepth = i;
-                octreeUniform->subdata(&octreeUniformData);
+                octreeUniform->subdata<pgl::intv>(&i, offsetof(OctreeUniformStruct, currentDepth));
 
                 context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
@@ -342,12 +344,8 @@ namespace PathTracer {
                 if (range.y <= range.x) break;
             }
 
-            *fresetRangeUniform = range.y;
             context->useProgram(fresetProgramH)->dispatchCompute(tiled(range.y, worksize))->flush();
             context->useProgram(refitProgramH)->dispatchCompute(tiled(triangleCount, worksize))->flush();
-
-            //std::vector<HlbvhNode> bvh = bvhnodesBuffer->subdata(0, triangleCount * 3);
-
 
             // For phantom...
             this->resolve();
