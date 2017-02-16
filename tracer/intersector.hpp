@@ -336,7 +336,10 @@ namespace PathTracer {
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
                 numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
-                octreeUniform->subdata<pgl::intv>(&i, offsetof(OctreeUniformStruct, currentDepth));
+                //octreeUniform->subdata<pgl::intv>(&i, offsetof(OctreeUniformStruct, currentDepth));
+
+                octreeUniformData.currentDepth = i;
+                octreeUniform->subdata(&octreeUniformData);
 
                 context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
