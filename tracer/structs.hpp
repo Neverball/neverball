@@ -131,6 +131,7 @@ namespace PathTracer {
         pgl::intv maxDepth;
         pgl::intv currentDepth;
         pgl::intv nodeCount;
+        pgl::intv unk0;
     };
 
     struct CameraUniformStruct {
@@ -141,6 +142,8 @@ namespace PathTracer {
         pgl::floatv4 view;
         pgl::floatv prob;
         pgl::intv enable360;
+        pgl::intv unk0;
+        pgl::intv unk1;
     };
 
     struct bbox

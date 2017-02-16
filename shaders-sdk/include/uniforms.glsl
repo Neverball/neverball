@@ -69,6 +69,7 @@ struct OctreeUniformStruct {
     int maxDepth;
     int currentDepth;
     int nodeCount;
+    int unk0;
 };
 
 struct CameraUniformStruct {
@@ -79,6 +80,8 @@ struct CameraUniformStruct {
     vec4 view;
     float prob;
     int enable360;
+    int unk0;
+    int unk1;
 };
 
 layout ( std140, binding=0) uniform ubo0 {RandomUniformStruct randomUniform;};
