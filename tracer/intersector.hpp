@@ -335,7 +335,7 @@ namespace PathTracer {
 
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
-                numBuffer->subdata(std::vector<pgl::intv2>({ range }), 0);
+                numBuffer->subdata(&range, 1, 0);
                 //octreeUniform->subdata<pgl::intv>(&i, offsetof(OctreeUniformStruct, currentDepth));
 
                 if (i <= 2) { //Dirty hack for speed-up
