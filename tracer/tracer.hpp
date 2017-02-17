@@ -125,7 +125,7 @@ namespace PathTracer {
             
             vao = context->createVertexArray();
             auto binding = vao->element(idcBuf)->binding(0)->buffer(posBuf, 0);
-            posattr = renderProgram->attribute<pgl::floatv2>(0)->offset(0)->binding(binding);
+            posattr = renderProgram->attribute<pgl::floatv2>(0)->binding(binding);
 
             lightUniformData.lightColor = lightColor;
             lightUniformData.lightVector = lightVector;
