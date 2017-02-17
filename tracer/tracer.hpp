@@ -62,6 +62,8 @@ namespace PathTracer {
         //RadeonRays::Buffer * activesRAD;
 
     private:
+        const pgl::intv zero[1] = { 0 };
+
         void initShaderCompute(std::string str, pgl::Program& prog) {
             pgl::Shader comp = context->createShader(pgl::ShaderType::Compute);
 
@@ -105,7 +107,7 @@ namespace PathTracer {
 
 
             arcounter = context->createBuffer<pgl::intv>()->storage(3, mpd);
-            arcounterTemp = context->createBuffer<pgl::intv>()->storage(1, mpd)->subdata(std::vector<pgl::intv>({ 0 }));
+            arcounterTemp = context->createBuffer<pgl::intv>()->storage(1, mpd)->subdata(zero);
             randomUniform = context->createBuffer<RandomUniformStruct>()->storage(1, mpd);
             lightUniform = context->createBuffer<LightUniformStruct>()->storage(1, mpd);
             materialUniform = context->createBuffer<MaterialUniformStruct>()->storage(1, mpd);

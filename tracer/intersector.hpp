@@ -55,6 +55,7 @@ namespace PathTracer {
         pgl::Uniform<pgl::intv> fresetRangeUniform = nullptr;
         pgl::Uniform<pgl::intv> currentDepthUniform = nullptr;
         
+        const pgl::intv zero[1] = { 0 };
 
     private:
         void initShaderCompute(std::string str, pgl::Program& prog) {
@@ -89,7 +90,7 @@ namespace PathTracer {
 
             minmaxBufRef = context->createBuffer<Minmaxi>()->storage(1, desc);
             minmaxBuf = context->createBuffer<Minmaxi>()->storage(1, desc);
-            lscounterTemp = context->createBuffer<pgl::uintv>()->storage(1, desc)->subdata(std::vector<pgl::intv>({ 0 }));
+            lscounterTemp = context->createBuffer<pgl::uintv>()->storage(1, desc)->subdata(zero);
 
             minmaxUniform = context->createBuffer<MinmaxUniformStruct>()->storage(1, desc);
             helperUniform = context->createBuffer<HelperUniformStruct>()->storage(1, desc);
@@ -155,9 +156,8 @@ namespace PathTracer {
             mat_triangle_ssbo = context->createBuffer<pgl::intv>()->storage(maxt, desc);
 
             nodeCounter = context->createBuffer<pgl::uintv>()->storage(1, desc);
-            nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
+            nodeCounter->subdata(zero, 0);
             numBuffer = context->createBuffer<pgl::uintv2>()->storage(1, desc);
-            numBuffer->subdata(std::vector<pgl::uintv2>({ { 0, 1 } }), 0);
 
             mortonBuffer = context->createBuffer<pgl::uintv>()->storage(maxt, desc);
             mortonBufferIndex = context->createBuffer<pgl::uintv>()->storage(maxt, desc);
@@ -330,19 +330,17 @@ namespace PathTracer {
             context->binding(5)->target(pgl::BufferTarget::ShaderStorage)->buffer(bvhflagsBuffer);
 
             lscounterTemp->copydata(nodeCounter, cdesc);
-            //nodeCounter->subdata(std::vector<pgl::uintv>({ 0 }), 0);
             pgl::uintv2 range = { 0, 1 };
 
             context->useProgram(buildProgramH);
             for (pgl::intv i = 1;i < 200;i++) {
                 numBuffer->subdata(&range, 1, 0);
-                //octreeUniform->subdata<pgl::intv>(&i, offsetof(OctreeUniformStruct, currentDepth));
 
-                if (i <= 2) { //Dirty hack for speed-up
+                if (i <= 2) {
                     octreeUniformData.currentDepth = i;
                     octreeUniform->subdata(&octreeUniformData);
                 }
-
+                
                 context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();
                 range.x = range.y;
                 range.y = std::max(1 + (nodeCounter->subdata(0, 1)[0]) * 2, range.x);
