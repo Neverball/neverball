@@ -68,7 +68,8 @@ void main(){
         }
     }
     
+    newc.xyz /= (aspect.x * aspect.y);
     vec4 xsample = imageLoad(samples, xyl.xy) + newc;
     imageStore(samples, xyl.xy, xsample);
-    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 1.00f), 1.0f));
+    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 1.0f), 1.0f));
 }
