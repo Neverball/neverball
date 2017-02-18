@@ -51,7 +51,7 @@ namespace PathTracer {
 
         pgl::Buffer<pgl::floatv2> posBuf = nullptr;
         pgl::Buffer<pgl::intv> idcBuf = nullptr;
-        pgl::Attribute<pgl::floatv2> posattr = nullptr;
+        pgl::Attribute posattr = nullptr;
 
         pgl::intv currentRayLimit = 0;
 
