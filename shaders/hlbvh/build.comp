@@ -283,7 +283,7 @@ int delta(in int i1, in int i2){
     }
     uint leftcode = Mortoncodes[left];
     uint rightcode = Mortoncodes[right];
-    return leftcode != rightcode ? clzm(leftcode ^ rightcode):(32 + clzm(left ^ right));
+    return leftcode != rightcode ? clzm(leftcode ^ rightcode): 32;
 }
 
 int findSplit(in int left, in int right){
