@@ -64,8 +64,8 @@ void main() {
     mn.xyz = min(triverts[0], min(triverts[1], triverts[2])) - 0.0001f;
     mx.xyz = max(triverts[0], max(triverts[1], triverts[2])) + 0.0001f;
     
-    //vec3 center = (triverts[0] + triverts[1] + triverts[2]) * 0.3333333333f;
-    vec3 center = (mn.xyz + mx.xyz) * 0.5f;
+    vec3 center = (triverts[0] + triverts[1] + triverts[2]) * 0.3333333333f;
+    //vec3 center = (mn.xyz + mx.xyz) * 0.5f;
     MortoncodesIndices[t] = t;
     Mortoncodes[t] = morton3D(center.x,center.y,center.z);
     
