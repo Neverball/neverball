@@ -337,8 +337,9 @@ namespace PathTracer {
                 numBuffer->subdata(&range, 1, 0);
 
                 if (i <= 2) {
-                    octreeUniformData.currentDepth = i;
-                    octreeUniform->subdata(&octreeUniformData);
+                    //octreeUniformData.currentDepth = i;
+                    //octreeUniform->subdata(&octreeUniformData);
+                    *currentDepthUniform = i;
                 }
                 
                 context->dispatchCompute(tiled(range.y - range.x, worksize))->flush();

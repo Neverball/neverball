@@ -271,6 +271,8 @@ layout(std430, binding = 5)buffer FlagsBlock {
 
 layout(binding = 0)uniform atomic_uint NodeCounter;
 
+uniform int currentDepth;
+
 int clzm(in uint x){
     return(31 - findMSB(x));
 }
@@ -345,7 +347,8 @@ void main(){
     if(globalID < Range . y){
 
 
-        if(octreeUniform . currentDepth == 1){
+
+        if(currentDepth == 1){
             Nodes[0]. parent = - 1;
             Nodes[0]. range = ivec2(0, geometryUniform . triangleCount - 1);
             Nodes[0]. left = Nodes[0]. range . x;
