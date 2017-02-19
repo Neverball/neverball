@@ -24,3 +24,7 @@ This is fork of Neverball that adds ray tracing rendering.
   database)
 * [#neverball on chat.freenode.net](http://webchat.freenode.net/)
 * [Ray tracing](https://en.wikipedia.org/wiki/Ray_tracing_(graphics))
+
+## Also (by acterhd)
+
+Needs https://github.com/acterhd/phantomGL headers for build. 
