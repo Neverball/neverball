@@ -279,14 +279,20 @@ int delta(in int i1, in int i2){
     int left = min(i1, i2);
     int right = max(i1, i2);
     if(left < 0 || right >= geometryUniform . triangleCount){
-        return - 1;
+        return 32;
     }
     uint leftcode = Mortoncodes[left];
     uint rightcode = Mortoncodes[right];
-    return leftcode != rightcode ? clzm(leftcode ^ rightcode): 32;
+    return clzm(leftcode ^ rightcode);
 }
 
 int findSplit(in int left, in int right){
+    uint leftcode = Mortoncodes[left];
+    uint rightcode = Mortoncodes[right];
+    if(leftcode == rightcode){
+        return(left + right)>> 1;
+    }
+
     int numidentical = delta(left, right);
     for(int i = 0;i < 10000;i ++){
         int newsplit =(right + left)/ 2;
