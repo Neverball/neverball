@@ -486,6 +486,62 @@ layout(location = 0)uniform sampler2D samples;
 uniform vec2 viewport;
 in vec2 texcoord;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vec4 filtered(in vec2 tx){
+    ivec2 center_pix = ivec2(tx * textureSize(samples, 0));
+    vec4 center_pix_cache = texelFetch(samples, center_pix, 0);
+
+    ivec2 offsets[8]= {
+                (ivec2(- 1, - 1)),(ivec2(0, - 1)),(ivec2(1, - 1)),
+                (ivec2(- 1, 0)),(ivec2(1, 0)),
+                (ivec2(- 1, 1)),(ivec2(0, 1)),(ivec2(1, 1))
+    };
+
+    vec4 metric_reference[(8 / 2)];
+    for(int axis = 0;axis <(8 / 2);axis ++){
+        vec4 before_pix = texelFetch(samples, center_pix + offsets[axis], 0);
+        vec4 after_pix = texelFetch(samples, center_pix + offsets[(8 -(axis)- 1)], 0);
+        metric_reference[axis]=(((center_pix_cache)* vec4(2.0f)-(before_pix)-(after_pix))*((center_pix_cache)* vec4(2.0f)-(before_pix)-(after_pix)));
+    }
+
+    vec4 sum = center_pix_cache;
+    vec4 cur = center_pix_cache;
+    ivec4 count = ivec4(1);
+
+    for(int direction = 0;direction < 8;direction ++){
+        vec4 pix = texelFetch(samples, center_pix + offsets[direction], 0);
+        vec4 value =(pix + cur)*(0.5f);
+        ivec4 mask = { 1, 1, 1, 0 };
+        for(int axis = 0;axis <(8 / 2);axis ++){
+            vec4 before_pix = texelFetch(samples, center_pix + offsets[axis], 0);
+            vec4 after_pix = texelFetch(samples, center_pix + offsets[(8 -(axis)- 1)], 0);
+            vec4 metric_new =(((value)* vec4(2.0f)-(before_pix)-(after_pix))*((value)* vec4(2.0f)-(before_pix)-(after_pix)));
+            mask = ivec4((lessThan(metric_new, metric_reference[axis])))& mask;
+        }
+        sum += mix(vec4(0.0f), value, bvec4(mask));
+        count += mix(ivec4(0), ivec4(1), bvec4(mask));
+    }
+
+    return(sum / vec4(count));
+}
+
+
+
 void main(){
     vec2 screensizep = textureSize(samples, 0);
     vec2 samplesizep = ivec2(samplerUniform . sceneRes . xy);
@@ -495,7 +551,7 @@ void main(){
     ivec2 samplecount = ivec2(ceil(rates));
 
     float empty = 0.0f;
-    vec4 color = texture(samples, texcoord);
-    outFragColor = vec4(pow(clamp(color . xyz, vec3(0.0f), vec3(1.0f)), vec3(1.0f / GAMMA)), color . w);
+    vec4 color = filtered(texcoord);
+    outFragColor = vec4(pow(clamp(color . xyz, vec3(0.0f), vec3(1.0f)), vec3(1.0f / GAMMA)), 1.0f);
 
 }

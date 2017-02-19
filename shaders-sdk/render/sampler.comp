@@ -28,6 +28,7 @@ void main(){
     if(imageLoad(sampleflags, xyl.xy).x > 0) {
         imageStore(sampleflags, xyl.xy, uvec4(0));
         imageStore(samples, xyl.xy, vec4(0.0f));
+        imageStore(presampled, xyl.xy, vec4(0.0f));
     }
     
     ivec2 basis = ivec2(vec2(xyl.xy) * aspect);
@@ -69,7 +70,14 @@ void main(){
     }
     
     newc.xyz /= (aspect.x * aspect.y);
-    vec4 xsample = imageLoad(samples, xyl.xy) + newc;
-    imageStore(samples, xyl.xy, xsample);
-    imageStore(presampled, xyl.xy, vec4(xsample.xyz / max(xsample.w, 1.0f), 1.0f));
+    
+    vec4 xsample = imageLoad(presampled, xyl.xy);
+    float next = xsample.w + newc.w;
+    float prev = max(xsample.w, 1.0f);
+    float divisor = prev / next;
+    
+    xsample.xyz = xsample.xyz * divisor + newc.xyz / next;
+    xsample.w += newc.w;
+    
+    imageStore(presampled, xyl.xy, vec4(xsample));
 }
