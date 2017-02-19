@@ -275,36 +275,69 @@ int clzm(in uint x){
     return(31 - findMSB(x));
 }
 
-int delta(in int i1, in int i2){
-    int left = min(i1, i2);
-    int right = max(i1, i2);
-    if(left < 0 || right >= geometryUniform . triangleCount){
-        return 32;
-    }
-    uint leftcode = Mortoncodes[left];
-    uint rightcode = Mortoncodes[right];
-    return clzm(leftcode ^ rightcode);
-}
 
-int findSplit(in int left, in int right){
-    uint leftcode = Mortoncodes[left];
-    uint rightcode = Mortoncodes[right];
-    if(leftcode == rightcode){
-        return(left + right)>> 1;
-    }
 
-    int numidentical = delta(left, right);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int findSplit(in int first, in int last){
+    uint firstCode = Mortoncodes[first];
+    uint lastCode = Mortoncodes[last];
+
+    if(firstCode == lastCode)
+        return(first + last)>> 1;
+
+    int commonPrefix = clzm(firstCode ^ lastCode);
+    int split = first;
+    int step = last - first;
+
     for(int i = 0;i < 10000;i ++){
-        int newsplit =(right + left)/ 2;
-        if(delta(left, newsplit)> numidentical){
-            left = newsplit;
-        } else {
-            right = newsplit;
+        step =(step + 1)>> 1;
+        int newSplit = split + step;
+
+        if(newSplit < last)
+        {
+            uint splitCode = Mortoncodes[newSplit];
+            int splitPrefix = clzm(firstCode ^ splitCode);
+            if(splitPrefix > commonPrefix)
+                split = newSplit;
         }
-        if(right <= left + 1)break;
+
+        if(step <= 1)break;
     }
-    return left;
+
+    return split;
 }
+
 
 void main(){
 

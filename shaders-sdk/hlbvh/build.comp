@@ -10,6 +10,7 @@ int clzm(in uint x){
     return (31-findMSB(x));
 }
 
+/*
 int delta(in int i1, in int i2) {
     int left  = min(i1, i2);
     int right = max(i1, i2);
@@ -40,6 +41,38 @@ int findSplit(in int left, in int right){
     }
     return left;
 }
+*/
+
+
+int findSplit(in int first, in int last){
+    uint firstCode = Mortoncodes[first];
+    uint lastCode = Mortoncodes[last];
+
+    if (firstCode == lastCode)
+        return (first + last) >> 1;
+
+    int commonPrefix = clzm(firstCode ^ lastCode);
+    int split = first; // initial guess
+    int step = last - first;
+
+    for(int i=0;i<10000;i++){
+        step = (step + 1) >> 1; // exponential decrease
+        int newSplit = split + step; // proposed new position
+
+        if (newSplit < last)
+        {
+            uint splitCode = Mortoncodes[newSplit];
+            int splitPrefix = clzm(firstCode ^ splitCode);
+            if (splitPrefix > commonPrefix)
+                split = newSplit; // accept proposal
+        }
+        
+        if (step <= 1) break;
+    }
+    
+    return split;
+}
+    
 
 void main() {
     //Start from next childs
