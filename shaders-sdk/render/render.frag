@@ -17,30 +17,23 @@ uniform vec2 viewport;
 in vec2 texcoord;
 
 
-
-
 #define NEIGHBOURS 8
 #define AXES       (NEIGHBOURS/2)
-
 #define POW2(a) ((a)*(a))
-
 #define GEN_METRIC(before, center, after) POW2((center) * vec4(2.0f) - (before) - (after))
-
 #define BAIL_CONDITION(new,original) (lessThan(new, original))
-
 #define SYMMETRY(a)  (NEIGHBOURS - (a) - 1)
-
 #define O(u,v) (ivec2(u, v))
+
+const ivec2 offsets[NEIGHBOURS] = {
+    O(-1, -1), O( 0, -1), O( 1, -1),
+    O(-1,  0),            O( 1,  0),
+    O(-1,  1), O( 0,  1), O( 1,  1)
+};
 
 vec4 filtered(in vec2 tx){
     ivec2 center_pix = ivec2(tx * textureSize(samples, 0));
     vec4 center_pix_cache = texelFetch(samples, center_pix, 0);
-    
-    ivec2 offsets[NEIGHBOURS] = {
-        O(-1, -1), O( 0, -1), O( 1, -1),
-        O(-1,  0),            O( 1,  0),
-        O(-1,  1), O( 0,  1), O( 1,  1)
-    };
     
     vec4 metric_reference[AXES];
     for (int axis = 0; axis < AXES; axis++) {
@@ -69,7 +62,6 @@ vec4 filtered(in vec2 tx){
     
     return (sum/vec4(count));
 }
-
 
 
 void main() {

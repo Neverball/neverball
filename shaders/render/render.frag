@@ -495,22 +495,15 @@ in vec2 texcoord;
 
 
 
-
-
-
-
-
-
+const ivec2 offsets[8]= {
+            (ivec2(- 1, - 1)),(ivec2(0, - 1)),(ivec2(1, - 1)),
+            (ivec2(- 1, 0)),(ivec2(1, 0)),
+            (ivec2(- 1, 1)),(ivec2(0, 1)),(ivec2(1, 1))
+};
 
 vec4 filtered(in vec2 tx){
     ivec2 center_pix = ivec2(tx * textureSize(samples, 0));
     vec4 center_pix_cache = texelFetch(samples, center_pix, 0);
-
-    ivec2 offsets[8]= {
-                (ivec2(- 1, - 1)),(ivec2(0, - 1)),(ivec2(1, - 1)),
-                (ivec2(- 1, 0)),(ivec2(1, 0)),
-                (ivec2(- 1, 1)),(ivec2(0, 1)),(ivec2(1, 1))
-    };
 
     vec4 metric_reference[(8 / 2)];
     for(int axis = 0;axis <(8 / 2);axis ++){
@@ -539,7 +532,6 @@ vec4 filtered(in vec2 tx){
 
     return(sum / vec4(count));
 }
-
 
 
 void main(){
