@@ -256,7 +256,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <ExecutablePath>$(SolutionDir)..\..\install\bin;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\install\include\SDL2;$(SolutionDir)..\..\install\include;$(SolutionDir)..\contrib;$(SolutionDir)..\share;$(SolutionDir)..;$(SolutionDir)..\ball;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\..\install\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\</OutDir>
   </PropertyGroup>
