@@ -1,0 +1,23 @@
+<application>
+  <id type="desktop">neverball.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <license>GPL-2.0</license>
+  <name>Neverball</name>
+  <summary>Deftly Guide a Rolling Ball through Many Slick 3D Levels</summary>
+  <description>
+    <p>
+      Guide a rolling ball through dangerous territory that you control by
+      tilting the floor. Balance on narrow bridges, navigate mazes, ride
+      moving platforms, and dodge pushers and shovers to get to the goal.
+      Race against the clock to collect coins to earn extra balls. With nice
+      physics and very clean and appealing 3D graphics, this is definitely a
+      must play.
+    </p>
+  </description>
+  <url type="homepage">http://neverball.org/</url>
+  <screenshots>
+    <screenshot type="default">http://neverball.org/images/shots/01-neverball-easy/easy-07-01.jpg</screenshot>
+    <screenshot>http://neverball.org/images/shots/01-neverball-easy/easy-12-01.jpg</screenshot>
+    <screenshot>http://neverball.org/images/shots/04-neverball-mym1/mym1-13-04.jpg</screenshot>
+  </screenshots>
+</application>
