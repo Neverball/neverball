@@ -53,6 +53,8 @@ https://github.com/HSA-Libraries/Bolt
 #define RADICES 16       // (1 << BITS_PER_PASS)
 #define RADICES_MASK 0xf // (RADICES - 1)
 
+using namespace gl;
+
 static GLchar const * prolog = GLSL(
 layout(local_size_x = WG_SIZE) in;
 layout(binding = CONSTS) uniform Consts {
@@ -294,7 +296,7 @@ void swap(T& a, T& b) { auto tmp = a; a = b; b = tmp; }
 #define EACH(i, count) for (auto i = decltype(count)(0); i < count; i++)
 
 namespace parallel {
-namespace gl {
+namespace rgl {
 
 struct { compute_program histogram_count, prefix_scan, permute, flip_float; } static kernels;
 struct { buffer consts, histogram, output[2]; } static buffers;

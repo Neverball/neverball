@@ -2,7 +2,7 @@
 //#include "GL/wglext.h"
 
 namespace parallel {
-namespace gl {
+namespace rgl {
 
 static GL gl;
 

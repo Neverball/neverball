@@ -6,10 +6,15 @@
 
 #include <iostream>
 
-#ifdef GLAD_SUPPORT
-#include "glad/glad.h"
-#else 
-#include "GL/glew.h"
+#ifdef GLBINDING_SUPPORT
+#include <glbinding/Binding.h>
+#include <glbinding/gl45ext/gl.h>
+#elif EPOXY_SUPPORT
+#include <epoxy/gl.h>
+#elif GLAD_SUPPORT
+#include <glad/glad.h>
+#elif GLEW_SUPPORT
+#include <GL/glew.h>
 #endif
 
 //#include <GL/gl.h>
@@ -33,6 +38,7 @@
 #define GLSL(...) STR(__VA_ARGS__) "\n"
 #define GLSL_DEFINE(name, ...) "#define " STR(name) " " GLSL(__VA_ARGS__)
 
+/*
 #define GL_FUNCTIONS(FUNCTION)                         \
   FUNCTION(BindBuffer,           BINDBUFFER)           \
   FUNCTION(BindBufferBase,       BINDBUFFERBASE)       \
@@ -57,15 +63,18 @@
   FUNCTION(UnmapBuffer,          UNMAPBUFFER)          \
   FUNCTION(UseProgram,           USEPROGRAM)           \
   FUNCTION(UseProgramStages,     USEPROGRAMSTAGES)
+*/
 
 namespace parallel {
-namespace gl {
+namespace rgl {
+
+    using namespace gl;
 
 struct GL {
-#define FUNCTION(name, NAME) \
-PFNGL ## NAME ## PROC name;
-  GL_FUNCTIONS(FUNCTION)
-#undef FUNCTION
+//#define FUNCTION(name, NAME) \
+//PFNGL ## NAME ## PROC name;
+//  GL_FUNCTIONS(FUNCTION)
+//#undef FUNCTION
   GLint alignment;
   GL & initialize(/*HDC device, GLDEBUGPROC debug_message_callback,*/ bool debug = false);
   void deinitialize();
@@ -149,7 +158,7 @@ struct buffer
   }
 };
 
-template<GLuint TYPE>
+template<GLenum TYPE>
 struct program  {
   GLuint id;
 };
@@ -163,7 +172,7 @@ struct program<GL_COMPUTE_SHADER> {
   }
 };
 
-template<GLuint TYPE, typename... Sources>
+template<GLenum TYPE, typename... Sources>
 program<TYPE>
 make_program(GL const & gl, Sources... sources) {
   GLchar const * array_sources[] = {

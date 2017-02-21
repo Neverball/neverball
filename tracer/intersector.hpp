@@ -303,7 +303,7 @@ namespace PathTracer {
 
             //sortPair(mortonBuffer->glID(), triangleCount);
             //parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBufferIndex->glID() }, triangleCount );
-            parallel::gl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
+            parallel::rgl::radix_sort(parallel::gl::GL::instance(), { mortonBuffer->glID() }, triangleCount, { mortonBufferIndex->glID() });
 
             //sortByKey(mortonBuffer->glID(), triangleCount, mortonBufferIndex->glID());
 
