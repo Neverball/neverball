@@ -53,7 +53,9 @@ https://github.com/HSA-Libraries/Bolt
 #define RADICES 16       // (1 << BITS_PER_PASS)
 #define RADICES_MASK 0xf // (RADICES - 1)
 
+#ifdef GLBINDING_SUPPORT
 using namespace gl;
+#endif
 
 static GLchar const * prolog = GLSL(
 layout(local_size_x = WG_SIZE) in;

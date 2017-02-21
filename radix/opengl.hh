@@ -68,7 +68,9 @@
 namespace parallel {
 namespace rgl {
 
+#ifdef GLBINDING_SUPPORT
     using namespace gl;
+#endif
 
 struct GL {
 //#define FUNCTION(name, NAME) \
