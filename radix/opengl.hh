@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+/*
 #ifdef GLBINDING_SUPPORT
 #include <glbinding/Binding.h>
 #include <glbinding/gl45ext/gl.h>
@@ -16,6 +17,9 @@
 #elif GLEW_SUPPORT
 #include <GL/glew.h>
 #endif
+*/
+
+#include "phantom/phantom.hpp"
 
 //#include <GL/gl.h>
 //#include <GL/glext.h>
