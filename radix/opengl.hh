@@ -196,8 +196,7 @@ make_program(GL const & gl, Sources... sources) {
   if (GL_TRUE != status) {
     char info[1024];
     glGetProgramInfoLog(id, sizeof(info), nullptr, info);
-    glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_ERROR,
-      GL_LINK_STATUS, GL_DEBUG_SEVERITY_HIGH, -1, info);
+    glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_ERROR, (GLuint)GL_LINK_STATUS, GL_DEBUG_SEVERITY_HIGH, -1, info);
     std::cerr << info << std::endl;
   }
   return program<TYPE> { id };
