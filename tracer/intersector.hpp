@@ -86,7 +86,7 @@ namespace PathTracer {
 
             //vao = context->createVertexArray();
             pgl::BufferStorageDescriptor desc;
-            desc.storageFlags = pgl::BufferStorageFlags::Dynamic;
+            desc.storageFlags = pgl::BufferStorageBits::Dynamic;
 
             minmaxBufRef = context->createBuffer<Minmaxi>()->storage(1, desc);
             minmaxBuf = context->createBuffer<Minmaxi>()->storage(1, desc);
@@ -145,7 +145,7 @@ namespace PathTracer {
             octreeUniformData.maxDepth = maxDepth - 1;
 
             pgl::BufferStorageDescriptor desc;
-            desc.storageFlags = pgl::BufferStorageFlags::Dynamic;
+            desc.storageFlags = pgl::BufferStorageBits::Dynamic;
 
 
             //Geometry

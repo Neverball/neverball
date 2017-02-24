@@ -103,7 +103,7 @@ namespace PathTracer {
 
 
             pgl::BufferStorageDescriptor mpd;
-            mpd.storageFlags = pgl::BufferStorageFlags::Dynamic;
+            mpd.storageFlags = pgl::BufferStorageBits::Dynamic;
 
 
             arcounter = context->createBuffer<pgl::intv>()->storage(3, mpd);
