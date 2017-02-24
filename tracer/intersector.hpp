@@ -225,7 +225,7 @@ namespace PathTracer {
             verticeCount = triangleCount * 3;
         }
 
-        bool isDirty() const {
+        pgl::boolv isDirty() const {
             return dirty;
         }
 
