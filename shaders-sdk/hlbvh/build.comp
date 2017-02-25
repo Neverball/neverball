@@ -1,0 +1,120 @@
+#version 450
+
+#include "../include/structs.glsl"
+#include "../include/uniforms.glsl"
+#include "./includes.glsl"
+
+layout(binding=0) uniform atomic_uint NodeCounter;
+
+uniform int currentDepth;
+
+int clzm(in uint x){
+    return (31-findMSB(x));
+}
+
+/*
+int delta(in int i1, in int i2) {
+    int left  = min(i1, i2);
+    int right = max(i1, i2);
+    if (left < 0 || right >= geometryUniform.triangleCount) {
+        return 32;
+    }
+    uint leftcode = Mortoncodes[left];
+    uint rightcode = Mortoncodes[right];
+    return clzm(leftcode ^ rightcode);
+}
+
+int findSplit(in int left, in int right){
+    uint leftcode = Mortoncodes[left];
+    uint rightcode = Mortoncodes[right];
+    if (leftcode == rightcode) {
+        return (left + right) >> 1;
+    }
+
+    int numidentical = delta(left, right);
+    for(int i=0;i<10000;i++){
+        int newsplit = (right + left) / 2;
+        if (delta(left, newsplit) > numidentical) {
+            left = newsplit;
+        } else {
+            right = newsplit;
+        }
+        if(right <= left + 1) break;
+    }
+    return left;
+}
+*/
+
+
+int findSplit(in int first, in int last){
+    uint firstCode = Mortoncodes[first];
+    uint lastCode = Mortoncodes[last];
+
+    if (firstCode == lastCode)
+        return (first + last) >> 1;
+
+    int commonPrefix = clzm(firstCode ^ lastCode);
+    int split = first; // initial guess
+    int step = last - first;
+
+    for(int i=0;i<10000;i++){
+        step = (step + 1) >> 1; // exponential decrease
+        int newSplit = split + step; // proposed new position
+
+        if (newSplit < last)
+        {
+            uint splitCode = Mortoncodes[newSplit];
+            int splitPrefix = clzm(firstCode ^ splitCode);
+            if (splitPrefix > commonPrefix)
+                split = newSplit; // accept proposal
+        }
+        
+        if (step <= 1) break;
+    }
+    
+    return split;
+}
+    
+
+void main() {
+    //Start from next childs
+    int globalID = int(gl_GlobalInvocationID.x) + Range.x;
+    if (globalID < Range.y) {
+
+        //If begun
+        //if (octreeUniform.currentDepth == 1) {
+        if (currentDepth == 1) {
+            Nodes[0].parent = -1;
+            Nodes[0].range = ivec2(0, geometryUniform.triangleCount-1);
+            Nodes[0].left  = Nodes[0].range.x;
+            Nodes[0].right = Nodes[0].range.y;
+        }
+
+        HlbvhNode node = Nodes[globalID];
+        if (node.range.x != node.range.y) {
+            int split = findSplit(node.range.x, node.range.y);
+            int childOffset = 1 + int(atomicCounterIncrement(NodeCounter)) * 2;
+            int c1idx = childOffset;
+            int c2idx = childOffset + 1;
+
+            //Link
+            Nodes[globalID].left  = c1idx;
+            Nodes[globalID].right = c2idx;
+
+            //Left
+            Nodes[c1idx].parent = globalID;
+            Nodes[c1idx].left = Nodes[c1idx].right = node.range.x;
+            Nodes[c1idx].range = ivec2(node.range.x, split);
+
+            //Right
+            Nodes[c2idx].parent = globalID;
+            Nodes[c2idx].left = Nodes[c2idx].right = node.range.y;
+            Nodes[c2idx].range = ivec2(split + 1, node.range.y);
+        } else {
+
+            //Link with leafs and triangles
+            Leafs[node.range.x].parent = globalID;
+            Nodes[globalID].box = Leafs[node.range.x].box;
+        }
+    }
+}

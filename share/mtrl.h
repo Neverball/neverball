@@ -24,6 +24,8 @@ struct mtrl
     GLuint h;                              /* 32-bit specular exponent cache */
     GLuint o;                              /* OpenGL texture object          */
 
+    pgl::Texture2D po = nullptr;
+
     unsigned int refc;
 };
 
@@ -35,7 +37,7 @@ void mtrl_quit(void);
 int  mtrl_cache(const struct b_mtrl *);
 void mtrl_free (int);
 
-struct mtrl *mtrl_get(int);
+mtrl *mtrl_get(int);
 
 void mtrl_cache_sol(struct s_base *);
 void mtrl_free_sol (struct s_base *);
@@ -44,6 +46,8 @@ void mtrl_load_objects(void);
 void mtrl_free_objects(void);
 
 void mtrl_reload(void);
+
+int pt_cache_texture(const int mi, const struct mtrl *mp);
 
 /*---------------------------------------------------------------------------*/
 

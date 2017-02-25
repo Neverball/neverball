@@ -21,8 +21,8 @@ endif
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
 
 USERDIR   := .neverball
-DATADIR   := ./data
-LOCALEDIR := ./locale
+DATADIR   ?= ./data
+LOCALEDIR ?= ./locale
 
 ifeq ($(PLATFORM),mingw)
 	USERDIR := Neverball
@@ -64,10 +64,10 @@ ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 
 # Preprocessor...
 
-SDL_CPPFLAGS := $(shell sdl2-config --cflags)
-PNG_CPPFLAGS := $(shell libpng-config --cflags)
+SDL_CPPFLAGS ?= $(shell sdl2-config --cflags)
+PNG_CPPFLAGS ?= $(shell libpng-config --cflags)
 
-ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -Ishare
+ALL_CPPFLAGS := $(SDL_CPPFLAGS) $(PNG_CPPFLAGS) -std=c++11 -Ishare -Ivexcl -Iradix -Itracer -Iphantom -I. -DGLM_FORCE_SWIZZLE -DGLM_SWIZZLE -DGLAD_SUPPORT 
 
 ALL_CPPFLAGS += \
 	-DCONFIG_USER=\"$(USERDIR)\" \
@@ -128,8 +128,8 @@ ALL_CPPFLAGS += $(HMD_CPPFLAGS)
 #------------------------------------------------------------------------------
 # Libraries
 
-SDL_LIBS := $(shell sdl2-config --libs)
-PNG_LIBS := $(shell libpng-config --libs)
+SDL_LIBS ?= $(shell sdl2-config --libs)
+PNG_LIBS ?= $(shell libpng-config --libs)
 
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
@@ -187,11 +187,13 @@ ifeq ($(PLATFORM),darwin)
 	                                           /usr/local/lib))
 endif
 
-OGG_LIBS := -lvorbisfile
-TTF_LIBS := -lSDL2_ttf
+OGG_LIBS ?= -lvorbisfile
+TTF_LIBS ?= -lSDL2_ttf
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS) -ldl -lstdc++ 
+    
+#ALL_LIBS += -OpenCL -lboost_system
 
 MAPC_LIBS := $(BASE_LIBS)
 
@@ -212,7 +214,7 @@ PUTT_TARG := neverputt$(EXT)
 ifeq ($(PLATFORM),mingw)
 	MAPC := $(WINE) ./$(MAPC_TARG)
 else
-	MAPC := ./$(MAPC_TARG)
+	MAPC ?= ./$(MAPC_TARG)
 endif
 
 #------------------------------------------------------------------------------
@@ -232,6 +234,9 @@ MAPC_OBJS := \
 	share/list.o        \
 	share/mapc.o
 BALL_OBJS := \
+    radix/radix-sort.o	\
+	radix/opengl.o		\
+	glad/glad.o         \
 	share/lang.o        \
 	share/st_common.o   \
 	share/vec3.o        \
@@ -413,6 +418,9 @@ WINDRES ?= windres
 %.o : %.cpp
 	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
 	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+
+%.o : %.cu
+	nvcc -c $< -o $@ -arch=sm_52
 
 %.sol : %.map $(MAPC_TARG)
 	$(MAPC) $< data

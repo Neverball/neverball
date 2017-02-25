@@ -1,0 +1,273 @@
+#version 450
+#extension GL_GOOGLE_include_directive : enable
+#line 1 "./hlbvh/resort.comp"
+
+
+#line 1 "./hlbvh/../include/structs.glsl"
+struct Minmax {
+    vec4 mn;
+    vec4 mx;
+};
+
+struct Thash {
+    int triangle;
+    int previous;
+};
+
+struct Voxel {
+    int depthLeaf;
+    int parent;
+    int last;
+    int suboff;
+    int coord;
+    int count;
+    int _t0;
+};
+
+struct Ray {
+    int idx;
+    int prev;
+    int texel;
+    int actived;
+    vec4 origin;
+    vec4 direct;
+    vec4 color;
+    vec4 final;
+    ivec4 params;
+    ivec4 extended;
+};
+
+struct Hit {
+    vec4 normal;
+    vec4 tangent;
+    vec2 texcoord;
+    float dist;
+    float _t0;
+    int triangle;
+    int materialID;
+    int shaded;
+    int _t2;
+};
+
+struct Texel {
+    int last;
+    int count;
+    float x;
+    float y;
+};
+
+struct Stride2f {
+    float x;
+    float y;
+};
+
+struct Stride3f {
+    float x;
+    float y;
+    float z;
+};
+
+struct Stride3i {
+    int x;
+    int y;
+    int z;
+};
+
+struct Stride4f {
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
+vec2 toVec2(in Stride2f a){
+    return vec2(a . x, a . y);
+}
+
+vec3 toVec3(in Stride3f a){
+    return vec3(a . x, a . y, a . z);
+}
+
+vec4 toVec4(in Stride4f a){
+    return vec4(a . x, a . y, a . z, a . w);
+}
+
+ivec3 toVec3(in Stride3i a){
+    return ivec3(a . x, a . y, a . z);
+}
+
+Stride2f toStride2(in vec2 a){
+    Stride2f o;
+    o . x = a . x;
+    o . y = a . y;
+    return o;
+}
+
+Stride3f toStride3(in vec3 a){
+    Stride3f o;
+    o . x = a . x;
+    o . y = a . y;
+    o . z = a . z;
+    return o;
+}
+
+Stride4f toStride4(in vec4 a){
+    Stride4f o;
+    o . x = a . x;
+    o . y = a . y;
+    o . z = a . z;
+    o . w = a . w;
+    return o;
+}
+
+struct bbox {
+    vec4 pmin;
+    vec4 pmax;
+};
+
+struct Leaf {
+    bbox box;
+    int parent;
+    int _t0;
+    int _t1;
+    int _t2;
+};
+
+struct HlbvhNode {
+    bbox box;
+    ivec2 range;
+    int parent;
+    int left;
+    int right;
+    int _t0;
+    int _t1;
+    int _t2;
+};
+#line 4 "./hlbvh/resort.comp"
+#line 1 "./hlbvh/../include/uniforms.glsl"
+struct RandomUniformStruct {
+    float time;
+};
+
+struct MinmaxUniformStruct {
+    int heap;
+    float prec;
+};
+
+struct MaterialUniformStruct {
+
+
+
+
+
+
+
+
+
+    int materialID;
+    int f_shadows;
+    int f_reflections;
+    int unk0;
+};
+
+struct SamplerUniformStruct {
+    vec2 sceneRes;
+    int samplecount;
+    int rayCount;
+
+    int iteration;
+    int phase;
+
+    int maxSamples;
+    int currentSample;
+    int maxFilters;
+    int currentRayLimit;
+};
+
+struct LightUniformStruct {
+    vec4 lightVector;
+    vec4 lightColor;
+    float lightRadius;
+    float lightDistance;
+};
+
+struct GeometryUniformStruct {
+    mat4 transform;
+    mat4 transformInv;
+    vec4 colormod;
+    float offset;
+
+    int materialID;
+    int triangleCount;
+    int triangleOffset;
+    int unindexed;
+    int loadOffset;
+    int NB_mode;
+    int unk1;
+};
+
+struct HelperUniformStruct {
+    ivec4 range;
+};
+
+struct OctreeUniformStruct {
+    mat4 project;
+    mat4 unproject;
+    int maxDepth;
+    int currentDepth;
+    int nodeCount;
+    int unk0;
+};
+
+struct CameraUniformStruct {
+    mat4 projInv;
+    mat4 camInv;
+    mat4 camInv2;
+    vec4 eye;
+    vec4 view;
+    float prob;
+    int enable360;
+    int unk0;
+    int unk1;
+};
+
+layout(std140, binding = 0)uniform ubo0 { RandomUniformStruct randomUniform;};
+layout(std140, binding = 1)uniform ubo1 { MinmaxUniformStruct minmaxUniform;};
+layout(std140, binding = 2)uniform ubo2 { MaterialUniformStruct materialUniform;};
+layout(std140, binding = 3)uniform ubo3 { SamplerUniformStruct samplerUniform;};
+layout(std140, binding = 4)uniform ubo4 { LightUniformStruct lightUniform;};
+layout(std140, binding = 5)uniform ubo5 { GeometryUniformStruct geometryUniform;};
+layout(std140, binding = 6)uniform ubo6 { HelperUniformStruct helperUniform;};
+layout(std140, binding = 7)uniform ubo7 { OctreeUniformStruct octreeUniform;};
+layout(std140, binding = 8)uniform ubo8 { CameraUniformStruct cameraUniform;};
+#line 5 "./hlbvh/resort.comp"
+
+layout(std430, binding = 0)buffer LeafBlock {
+    Leaf Leafs[];
+};
+
+layout(std430, binding = 1)buffer MortoncodesBlock {
+    uint Mortoncodes[];
+};
+
+layout(std430, binding = 2)buffer IndicesBlock {
+    int MortoncodesIndices[];
+};
+
+layout(std430, binding = 3)buffer OutLeafBlock {
+    Leaf OutLeafs[];
+};
+
+layout(std430, binding = 4)buffer MortoncodesSortedBlock {
+    uint MortoncodesSorted[];
+};
+
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1)in;
+
+void main(){
+    int globalID = int(gl_GlobalInvocationID . x);
+    if(globalID < geometryUniform . triangleCount){
+        OutLeafs[globalID]= Leafs[MortoncodesIndices[globalID]];
+
+    }
+}

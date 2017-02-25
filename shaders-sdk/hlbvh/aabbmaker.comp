@@ -1,0 +1,75 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+#include "../include/structs.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/constants.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/vertex.glsl"
+
+layout( std430, binding = 0 ) buffer OutLeafBlock {
+    Leaf OutLeafs[];
+};
+
+layout( std430, binding = 1 ) buffer MortoncodesBlock {
+    uint Mortoncodes[];
+};
+
+layout( std430, binding = 2 ) buffer IndicesBlock {
+    int MortoncodesIndices[];
+};
+
+uint expandBits(in uint v)
+{
+    v = (v * 0x00010001u) & 0xFF0000FFu;
+    v = (v * 0x00000101u) & 0x0F00F00Fu;
+    v = (v * 0x00000011u) & 0xC30C30C3u;
+    v = (v * 0x00000005u) & 0x49249249u;
+    return v;
+}
+
+uint morton3D(in float x, in float y, in float z)
+{
+    x = min(max(x * 1024.0f, 0.0f), 1023.0f);
+    y = min(max(y * 1024.0f, 0.0f), 1023.0f);
+    z = min(max(z * 1024.0f, 0.0f), 1023.0f);
+    uint xx = expandBits(uint(x));
+    uint yy = expandBits(uint(y));
+    uint zz = expandBits(uint(z));
+    
+    return ((zz << 2) | (yy << 1) | (xx << 0));
+}
+
+layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+void main() {
+    int t = int(gl_GlobalInvocationID.x);
+	Mortoncodes[t] = 0xFFFFFFFF;
+    MortoncodesIndices[t] = t;
+	
+    if (t >= geometryUniform.triangleCount) return;
+    
+    vec4 mn = vec4(INFINITY);
+    vec4 mx = vec4(-INFINITY);
+    vec3 triverts[3];
+
+    int tri3 = t * 3;
+    for (int x=0;x<3;x++) {
+        int j = indics[tri3 + x];
+        triverts[x] = (octreeUniform.project * vec4(toVec3(verts[j]), 1.0f)).xyz;
+    }
+
+    mn.xyz = min(triverts[0], min(triverts[1], triverts[2])) - 0.0001f;
+    mx.xyz = max(triverts[0], max(triverts[1], triverts[2])) + 0.0001f;
+    
+    vec3 center = (triverts[0] + triverts[1] + triverts[2]) * 0.3333333333f;
+    //vec3 center = (mn.xyz + mx.xyz) * 0.5f;
+    MortoncodesIndices[t] = t;
+    Mortoncodes[t] = morton3D(center.x,center.y,center.z);
+    
+    OutLeafs[t].box.pmin = mn;
+    OutLeafs[t].box.pmax = mx;
+    OutLeafs[t].parent = -1;
+}

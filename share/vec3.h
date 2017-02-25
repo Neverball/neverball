@@ -15,7 +15,7 @@
 #ifndef VEC_H
 #define VEC_H
 
-#include <math.h>
+#include <cmath>
 
 #define V_PI 3.1415927f
 

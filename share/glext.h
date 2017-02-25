@@ -23,25 +23,15 @@
 #include <windows.h>
 #endif
 
-#if ENABLE_OPENGLES
-
-#include <GLES/gl.h>
-
-#else  /* ENABLE_OPENGLES */
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
-#ifdef _WIN32
-#include <GL/glext.h>
-#endif
-
-#endif  /* ENABLE_OPENGLES */
-
-/* Windows calling convention cruft. */
+#include "phantom/phantom.hpp"
+#include "tracer/includes.hpp"
+#include "tracer/utils.hpp"
+#include "tracer/controller.hpp"
+#include "tracer/tracer.hpp"
+#include "tracer/intersector.hpp"
+#include "tracer/mesh.hpp"
+#include "tracer/material.hpp"
+#include "tracer/transformer.hpp"
 
 #ifndef APIENTRY
 #define APIENTRY
@@ -304,6 +294,7 @@ struct gl_info
 };
 
 extern struct gl_info gli;
+extern pgl::Context glcontext;
 
 /*---------------------------------------------------------------------------*/
 #endif

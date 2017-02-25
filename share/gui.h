@@ -56,7 +56,7 @@ extern const GLubyte gui_grn[4];
 extern const GLubyte gui_blk[4];
 extern const GLubyte gui_gry[4];
 
-enum trunc
+enum trunc_n
 {
     TRUNC_NONE,
     TRUNC_HEAD,
@@ -77,7 +77,7 @@ void gui_set_multi(int, const char *);
 void gui_set_count(int, int);
 void gui_set_clock(int, int);
 void gui_set_color(int, const GLubyte *, const GLubyte *);
-void gui_set_trunc(int, enum trunc);
+void gui_set_trunc(int, enum trunc_n);
 void gui_set_fill(int);
 int  gui_set_state(int, int, int);
 void gui_set_hilite(int, int);

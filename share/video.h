@@ -15,6 +15,8 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
+#include "glext.h"
+
 /*---------------------------------------------------------------------------*/
 
 struct video
@@ -24,6 +26,16 @@ struct video
 
     float device_scale;
 };
+
+extern PathTracer::Tracer * ptracer;
+extern PathTracer::Mesh * meshloader;
+extern PathTracer::Intersector * currentIntersector;
+extern PathTracer::Intersector * intersector;
+extern PathTracer::Intersector * intersectorBillboard;
+extern PathTracer::Intersector * intersectorBall;
+extern PathTracer::Intersector * intersectorBack;
+extern PathTracer::Material * pmaterials;
+extern PathTracer::Transformer * ptransformer;
 
 extern struct video video;
 
@@ -54,6 +66,7 @@ void video_calc_view(float *, const float *,
 
 void video_push_persp(float, float, float);
 void video_push_ortho(void);
+void video_push_FX(void);
 void video_pop_matrix(void);
 void video_clear(void);
 

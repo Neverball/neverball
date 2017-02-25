@@ -49,21 +49,30 @@ struct d_vert
 
 struct d_geom
 {
-    GLushort i;
-    GLushort j;
-    GLushort k;
+    //GLushort i;
+    //GLushort j;
+    //GLushort k;
+    GLint i;
+    GLint j;
+    GLint k;
 };
 
 /*---------------------------------------------------------------------------*/
 
 struct d_mesh
 {
-    int mtrl;                                  /* Cached material            */
+    int mtrl = 0;                                  /* Cached material            */
 
-    GLuint vbo;                                /* Vertex  buffer object      */
-    GLuint vbc;                                /* Vertex  buffer count       */
-    GLuint ebo;                                /* Element buffer object      */
-    GLuint ebc;                                /* Element buffer count       */
+    GLuint vbo = 0;                                /* Vertex  buffer object      */
+    GLuint vbc = 0;                                /* Vertex  buffer count       */
+    GLuint ebo = 0;                                /* Element buffer object      */
+    GLuint ebc = 0;                                /* Element buffer count       */
+
+    pgl::Buffer<pgl::intv> idcBuf = nullptr;
+    pgl::Buffer<pgl::intv> ridcBuf = nullptr;
+    pgl::Buffer<pgl::floatv> vertBuf = nullptr;
+    pgl::Buffer<pgl::floatv> normBuf = nullptr;
+    pgl::Buffer<pgl::floatv> texBuf = nullptr;
 };
 
 struct d_body
@@ -86,6 +95,9 @@ struct s_draw
     struct d_body *bv;
 
     GLuint bill;
+
+    pgl::Buffer<pgl::floatv> billVert = nullptr;
+    pgl::Buffer<pgl::floatv> billTex = nullptr;
 
     unsigned int reflective:1;
     unsigned int shadowed:1;
@@ -121,10 +133,13 @@ int  sol_load_draw(struct s_draw *, struct s_vary *, int);
 void sol_free_draw(struct s_draw *);
 
 void sol_back(const struct s_draw *, struct s_rend *, float, float, float);
-void sol_refl(const struct s_draw *, struct s_rend *);
+void sol_back_gl(const struct s_draw *, struct s_rend *, float, float, float);
+
 void sol_draw(const struct s_draw *, struct s_rend *, int, int);
+void sol_draw_gl(const struct s_draw *, struct s_rend *, int, int);
+
 void sol_bill(const struct s_draw *, struct s_rend *, const float *, float);
-void sol_fade(const struct s_draw *, struct s_rend *, float);
+void sol_fade_gl(const struct s_draw *, struct s_rend *, float);
 
 /*---------------------------------------------------------------------------*/
 
@@ -137,6 +152,8 @@ struct s_full
 
 int  sol_load_full(struct s_full *, const char *, int);
 void sol_free_full(struct s_full *);
+
+
 
 /*---------------------------------------------------------------------------*/
 

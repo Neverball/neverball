@@ -18,3 +18,4 @@
 /mapc.exe
 /contrib/curve.exe
 /*.dll
+*.db

@@ -1,0 +1,33 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+
+
+#include "../include/structs.glsl"
+#include "../include/constants.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/rays.glsl"
+#include "../include/random.glsl"
+
+layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+void main()
+{
+    int offT = int(gl_GlobalInvocationID.x);
+    int it = offT;
+    
+    if (it >= samplerUniform.rayCount) return;
+    
+    int t = actived[it];
+    Ray ray = fetchRayDirect(t);
+    
+    if (ray.actived < 1) return;
+    
+    Hit hit = fetchHitDirect(t);
+    if (hit.materialID == materialUniform.materialID && hit.dist < INFINITY) {
+        int act = int(atomicCounterIncrement(qcounter));
+        qrays[act] = t;
+    }
+}

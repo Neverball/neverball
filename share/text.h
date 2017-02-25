@@ -15,7 +15,7 @@ int text_length(const char *);
 
 /*---------------------------------------------------------------------------*/
 
-char text_input[MAXSTR];
+extern char text_input[MAXSTR];
 
 void text_input_start(void (*cb)(int typing));
 void text_input_stop(void);

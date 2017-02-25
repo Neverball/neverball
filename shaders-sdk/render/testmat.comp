@@ -1,0 +1,464 @@
+#version 450
+
+//#extension GL_ARB_gpu_shader_int64 : require
+#extension GL_ARB_separate_shader_objects : require
+#extension GL_ARB_shading_language_420pack : require
+#extension GL_ARB_bindless_texture : require
+
+#include "../include/structs.glsl"
+#include "../include/constants.glsl"
+#include "../include/uniforms.glsl"
+#include "../include/fast_math.glsl"
+#include "../include/rays.glsl"
+#include "../include/random.glsl"
+
+#define DIRECT_LIGHT
+#define REFLECTION_TEST
+
+layout (local_size_x = RENDERER_CU, local_size_y = 1, local_size_z = 1) in;
+
+const uvec2 NOT_EXIST = uvec2(0xFFFFFFFF);
+
+const int M_ADDITIVE = (1 << 2);
+const int M_TWO_SIDED = (1 << 3);
+const int M_ENVIRONMENT = (1 << 4);
+const int M_DECAL = (1 << 5);
+const int M_SHADOWED = (1 << 6);
+const int M_TRANSPARENT = (1 << 7);
+const int M_REFLECTIVE = (1 << 8);
+const int M_ALPHA_TEST = (1 << 9);
+const int M_PARTICLE = (1 << 10);
+
+
+
+const int GL_ALWAYS = 0;
+const int GL_EQUAL = 1;
+const int GL_GEQUAL = 2;
+const int GL_GREATER = 3;
+const int GL_LEQUAL = 4;
+const int GL_LESS = 5;
+const int GL_NEVER = 6;
+const int GL_NOTEQUAL = 7;
+
+
+
+bool alphaTest(in int func, in float ref, in float alpha) {
+    if (func == GL_EQUAL) return alpha == ref;
+    if (func == GL_GEQUAL) return alpha >= ref;
+    if (func == GL_GREATER) return alpha > ref;
+    if (func == GL_LEQUAL) return alpha <= ref;
+    if (func == GL_LESS) return alpha < ref;
+    if (func == GL_NEVER) return false;
+    if (func == GL_NOTEQUAL) return alpha != ref;
+    return true;
+}
+
+
+
+struct Submat {
+    vec4 diffuse;
+    vec4 specular;
+    vec4 transmission;
+    vec4 emissive;
+    float ior;
+    float reflectivity;
+    float alpharef;
+    float s2;
+    //uvec2 diffusePart;
+    //uvec2 specularPart;
+    //uvec2 bumpPart;
+    //uvec2 emissivePart;
+    
+    sampler2D diffusePart;
+    sampler2D specularPart;
+    sampler2D bumpPart;
+    sampler2D emissivePart;
+    
+    int flags;
+    int alphafunc;
+    int nkvd1;
+    int nkvd2;
+};
+
+layout ( std430, binding=0) buffer ssbo0 {Submat submats[];};
+
+/*
+vec4 fetchPart(in uvec2 binding, in vec2 texcoord){
+    return texture(sampler2D(binding), texcoord);
+}
+
+vec4 fetchPart(in uvec2 binding, in vec2 texcoord, in ivec2 offset){
+    return textureOffset(sampler2D(binding), texcoord, offset);
+}
+*/
+
+vec4 fetchPart(in sampler2D binding, in vec2 texcoord){
+    return texture(binding, texcoord);
+}
+
+vec4 fetchPart(in sampler2D binding, in vec2 texcoord, in ivec2 offset){
+    return textureOffset(binding, texcoord, offset);
+}
+
+
+vec4 fetchDiffuse(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
+    vec4 result = vec4(0.0f);
+
+    if((mat.flags & M_ENVIRONMENT) > 0){
+        vec4 reflected = vec4(reflect(normalize(direct), normal), 0.0f);
+        reflected = inverse(cameraUniform.camInv) * reflected;
+        reflected.z += 1.0f;
+        
+        float m = 1.0f / (2.0f * length(reflected.xyz));
+        texcoord.s = reflected.x * m + 0.5f;
+        texcoord.t = reflected.y * m + 0.5f;
+    }
+    
+    //if(all(equal(mat.diffusePart, NOT_EXIST))){
+    if(textureSize(mat.diffusePart, 0).x <= 0) {
+        result = mat.diffuse;
+    } else {
+        result = fetchPart(mat.diffusePart, texcoord) * clamp(mat.diffuse * (1.25f), vec4(0.0f), vec4(1.0f));
+    }
+    
+    if ((mat.flags & M_REFLECTIVE) > 0) {
+        result.w = 1.0f;
+    }
+    
+    //result.w = ((mat.flags & M_REFLECTIVE) > 0 && (mat.flags & M_TRANSPARENT) < 1) ? 1.0f : result.w;
+    return result;
+}
+
+vec4 fetchSpecular(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
+    vec4 specular = vec4(0.0f);
+    vec4 diffusal = vec4(0.0f);
+    
+    //if(all(equal(mat.specularPart, NOT_EXIST))){
+    if(textureSize(mat.specularPart, 0).x <= 0) {
+        specular= mat.specular;
+    } else {
+        specular= mat.specular * fetchPart(mat.specularPart, texcoord);
+    }
+    
+    //if(all(equal(mat.diffusePart, NOT_EXIST))){
+    if(textureSize(mat.diffusePart, 0).x <= 0) {
+        diffusal = mat.diffuse;
+    } else {
+        diffusal = fetchPart(mat.diffusePart, texcoord) * clamp(mat.diffuse * (1.25f), vec4(0.0f), vec4(1.0f));
+    }
+    
+    vec4 result = vec4(0.0f);
+    
+    if ((mat.flags & M_ENVIRONMENT) > 0 && (mat.flags & M_TRANSPARENT) < 1) {
+        result.xyz = min(specular.xyz, vec3(0.2f));
+    }
+    
+    if ((mat.flags & M_REFLECTIVE) > 0) {
+        result.xyz = max(vec3(1.0f - diffusal.w), vec3(0.2f));
+    }
+
+    return result;
+}
+
+vec4 fetchEmissive(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
+    //if(all(equal(mat.emissivePart, NOT_EXIST))){
+    if(textureSize(mat.emissivePart, 0).x <= 0) {
+        return mat.emissive;
+    } else {
+        return fetchPart(mat.emissivePart, texcoord);
+    }
+    return vec4(0.0f);
+}
+
+vec4 fetchTransmission(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
+    return mat.transmission;
+}
+
+
+vec4 fetchNormal(in Submat mat, in vec2 texcoord, in vec3 direct, in vec3 normal){
+    //if(all(equal(mat.bumpPart, NOT_EXIST))){
+    if(textureSize(mat.bumpPart, 0).x <= 0) {
+        return vec4(0.5f, 0.5f, 1.0f, 1.0f);
+    } else {
+        return fetchPart(mat.bumpPart, texcoord);
+    }
+    return vec4(0.0f);
+}
+
+vec4 fetchNormal(in Submat mat, in vec2 texcoord, in ivec2 offset, in vec3 direct, in vec3 normal){
+    //if(all(equal(mat.bumpPart, NOT_EXIST))){
+    if(textureSize(mat.bumpPart, 0).x <= 0) {
+        return vec4(0.5f, 0.5f, 1.0f, 1.0f);
+    } else {
+        return fetchPart(mat.bumpPart, texcoord, offset);
+    }
+    return vec4(0.0f);
+}
+
+
+
+const float nearone  = 0.9999f;
+const float nearzero = 0.0001f;
+
+vec3 getNormalMapping(in Submat mat, vec2 texcoordi, in vec3 direct, in vec3 normal) {
+    vec3 tc = fetchNormal(mat, texcoordi, direct, normal).xyz;
+    if(abs(tc.x - tc.y) < nearzero && abs(tc.x - tc.z) < nearzero){
+        const ivec3 off = ivec3(-1,0,1);
+        const float size = 1.0f;
+        const float pike = 2.0f;
+        vec3 p00 = vec3(0.0f, 0.0f, fetchNormal(mat, texcoordi, off.yy, direct, normal).x * pike);
+        vec3 p01 = vec3(size, 0.0f, fetchNormal(mat, texcoordi, off.zy, direct, normal).x * pike);
+        vec3 p10 = vec3(0.0f, size, fetchNormal(mat, texcoordi, off.yz, direct, normal).x * pike);
+        return normalize(cross(p01 - p00, p10 - p00));
+    } else {
+        return normalize(fma(tc, vec3(2.0f), vec3(-1.0f)));
+    }
+    return vec3(0.0, 0.0, 1.0);
+}
+
+float computeFresnel(in vec3 normal, in vec3 indc, in float n1, in float n2){
+    //float cosi = dot(normal,  normalize(reflect(indc, normal)));
+    float cosi = dot(normal,  normalize(indc));
+    float cost = dot(normal,  normalize(refract(indc, normal, n1 / n2)));
+    float Rs = fma(n1, cosi, - n2 * cost) / fma(n1, cosi, n2 * cost);
+    float Rp = fma(n1, cost, - n2 * cosi) / fma(n1, cost, n2 * cosi);
+    return clamp(fma(Rs,Rs, Rp*Rp) / 2.0f, 0.0f, 1.0f);
+}
+
+float mlength(vec3 mcolor){
+    return max(mcolor.x, max(mcolor.y, mcolor.z));
+}
+
+vec3 glossy(in vec3 dir, in vec3 normal, in float refli) {
+    return mix(normalize(dir), randomCosine(normal), clamp(sqrt(random()) * refli, 0.0f, 1.0f));
+}
+
+Ray reflection(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in float glossiness){
+    if (newRay.params.w == 1) return newRay;
+
+    newRay.direct.xyz = reflect(newRay.direct.xyz, normal);
+    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    newRay.extended.x = 0;
+    newRay.params.y = min(1, newRay.params.y);
+    
+    if (materialUniform.f_reflections < 1) {
+        newRay.params.y = 0;
+    }
+    return newRay;
+}
+
+Ray refraction(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in float inior, in float outior, in float glossiness){
+    if (newRay.params.w < 1) {
+        newRay.direct.xyz = normalize(  glossy(refract(newRay.direct.xyz, normal, inior / outior), -normal, glossiness)   );
+        newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    }
+
+    if (abs(inior - outior) < 0.0001f || newRay.params.w < 1) {
+        newRay.params.y += 1;
+    } else {
+        newRay.extended.x = 0;
+    }
+    
+    return newRay;
+}
+
+Ray diffuse(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal){
+    if (newRay.params.w == 1) return newRay;
+
+    newRay.color.xyz *= pow(color, vec3(GAMMA)) * nearone;
+    newRay.direct.xyz = randomCosine(normal);
+    newRay.params.y = min(2, newRay.params.y);
+    newRay.params.z = 1;
+    newRay.extended.x = 0;
+    return newRay;
+}
+
+Ray promised(in Ray newRay, in Hit hit, in vec3 normal){
+    newRay.params.y += 1;
+    return newRay;
+}
+
+Ray emissive(in Ray newRay, in Hit hit, in vec3 color, in vec3 normal, in bool additive){
+    if (newRay.params.w == 1) return newRay;
+    
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - newRay.origin.xyz;
+    float intensivity = max((lightUniform.lightRadius * lightUniform.lightRadius) / dot(ldiff, ldiff) * clamp(dot(normalize(ldiff), normal), 0.6f, 1.0f), 0.0f);
+
+    newRay.final.xyz = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
+    newRay.final = max(newRay.final, vec4(0.0f));
+    newRay.actived = 0;
+    newRay.extended.x = 1;
+    return newRay;
+}
+
+Ray lighted(in Ray newRay, in Hit hit, in vec3 color, in float intense, in vec3 normal){
+    if (newRay.params.w == 1) return newRay;
+    
+    vec3 ambient = max(newRay.color.xyz * pow(color, vec3(GAMMA)) * nearone, vec3(0.0f));
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - newRay.origin.xyz;
+    
+    newRay.final.xyz = pow(color, vec3(GAMMA)) * clamp(dot(normalize(ldiff), normal), 0.0f, 1.0f) * newRay.color.xyz;
+    newRay.final.xyz = mix(newRay.final.xyz, ambient, vec3(intense));
+    newRay.final = max(newRay.final, vec4(0.0f));
+    newRay.actived = 0;
+    
+    newRay.extended.x = 1;
+    return newRay;
+}
+
+int applyLight(in Ray directRay, inout Ray newRay, in Hit hit, in vec3 normal){
+    if (newRay.params.w == 1) return -1;
+    
+    newRay.params.x = createRay(directRay);
+    newRay.extended.x = 1;
+    storeHit(newRay.params.x, hit);
+    return newRay.params.x;
+}
+
+int emitRay(in Ray originRay, in Ray directRay, in Hit hit, in vec3 normal, in float coef, in bool additive){
+    if (originRay.params.w == 1) return -1;
+    
+    directRay.color.xyz *= coef;
+    directRay.final.xyz *= coef;
+
+    int ps = createRay(directRay);
+    storeHit(ps, hit);
+    return ps;
+}
+
+vec3 sLight(){
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    return fma(randomDirectionInSphere(), vec3(lightUniform.lightRadius), lightCenter);
+}
+
+Ray directLight(in Ray directRay, in Hit hit, in vec3 color, in vec3 normal){
+    if (directRay.params.w == 1) return directRay;
+
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    vec3 ldiff = lightCenter - directRay.origin.xyz;
+    
+    directRay.params.y = 1;
+    directRay.actived = 1;
+    directRay.params.w = 1;
+    directRay.direct.xyz = normalize(sLight() - directRay.origin.xyz);//normalize(ldiff);
+    directRay.extended.x = 0;
+    
+    directRay.color.xyz *= pow(color, vec3(GAMMA)) * clamp(dot(directRay.direct.xyz, normal), 0.0f, 1.0f);
+    return directRay;
+}
+
+void main() {
+    int offT = int(gl_GlobalInvocationID.x);
+    int it = offT;
+    if (it >= samplerUniform.rayCount) return;
+    int t = actived[it];
+    
+    Ray newRay = fetchRayDirect(t);
+    if (newRay.actived < 1) return;
+    
+    Hit hit = fetchHitDirect(t);
+    if (hit.shaded > 0 || hit.dist >= INFINITY) return;
+    
+    uint l = gl_LocalInvocationID.x;
+
+    if (hit.materialID < 0 || hit.materialID == LONGEST) return;
+    Submat material = submats[hit.materialID];
+    
+    hit.shaded = 1;
+    globalInvocationSMP = int(t);
+    
+    vec3 dir = normalize(newRay.direct.xyz);
+    vec3 prenormal = normalize(hit.normal.xyz);
+
+    float inior = 1.0f;
+    float outior = material.ior;
+    const float inside = dot(prenormal, dir);
+    if (inside >= 0.0f) {
+        float tmp = inior;
+        inior = outior;
+        outior = tmp;
+    }
+    
+    vec3 normal = normalize(faceforward(prenormal, dir, prenormal));
+    vec3 tan = normalize(hit.tangent.xyz);
+    mat3 tbn = mat3(tan, cross(normal, tan), normal);
+    normal = normalize(tbn * getNormalMapping(material, hit.texcoord, newRay.direct.xyz, normal));
+    normal = faceforward(normal, dir, normal);
+    
+    const float glossiness = clamp(1.0f / log2(material.reflectivity), 0.0f, 1.0f);
+    vec4 tx = fetchDiffuse(material, hit.texcoord, newRay.direct.xyz, normal);
+    vec4 tts = 1.0f - clamp(fetchTransmission(material, hit.texcoord, newRay.direct.xyz, normal), vec4(0.0f), vec4(1.0f));
+    vec4 emi = fetchEmissive(material, hit.texcoord, newRay.direct.xyz, normal);
+    emi.xyz = emi.xyz / max(mlength(emi.xyz), 0.0001f) * 10.0f;
+    vec4 sp = fetchSpecular(material, hit.texcoord, newRay.direct.xyz, normal);
+    vec4 rc = vec4(sp.xyz, 1.0f);//vec4(mix(sp.xyz, tx.xyz, glossiness), 1.0f);
+    
+    //const float trns = clamp(mlength(tts.xyz), 0.0f, 1.0f);
+    const float emis = clamp(mlength(emi.xyz), 0.0f, 1.0f) * (newRay.params.w < 1 ? 1.0f : 0.0f);
+    const float spic = mlength(rc.xyz);
+    const float prom = tx.a; 
+    const float fres = computeFresnel(hit.normal.xyz, newRay.direct.xyz, inior, outior) * (inside <= 0.0f ? 1.0f : 0.0f);
+    
+    vec3 lightCenter = normalize(lightUniform.lightVector.xyz) * lightUniform.lightDistance;
+    float intensivity = max(clamp(dot(normalize(lightCenter - newRay.origin.xyz), normal), 0.0f, 1.0f), 0.0f);
+
+    //newRay.final.xyz = hit.normal.xyz * 0.5f + 0.5f;
+    //newRay.final.xyz = vec3(hit.texcoord.xy, -1.0f) * 0.5f + 0.5f;
+    //newRay.actived = 0;
+    
+    if (newRay.actived > 0) {
+        float trns = prom;
+        float atrns = 1.0f - prom;
+        float aspic = 1.0f - spic;
+        
+        bool isAdditive = (material.flags & M_ADDITIVE) > 0;
+        bool shadowed = (material.flags & M_SHADOWED) > 0;
+        
+        const float shadowIntense = 0.5f;
+        const float unShadowIntense = 1.0f - shadowIntense;
+        
+        // If alpha test not passing
+        if ((material.flags & M_ALPHA_TEST) > 0 && !alphaTest(material.alphafunc, material.alpharef, trns)){
+            newRay = promised(newRay, hit, normal);
+        } else 
+        
+        // Solid (reflection priority)
+        
+        {
+            float lspc = aspic * trns;
+            if (lspc > 0.0 && mlength(tx.xyz) >= 0.0001f) {
+                if (shadowed) {
+                    if (materialUniform.f_shadows > 0){
+                        if (unShadowIntense > 0.0f) emitRay(newRay, directLight(newRay, hit, tx.xyz, normal), hit, normal, lspc * unShadowIntense, false);
+                        if (  shadowIntense > 0.0f) emitRay(newRay, emissive(newRay, hit, tx.xyz, normal, isAdditive), hit, normal, lspc * shadowIntense, false);
+                    } else {
+                        emitRay(newRay, lighted(newRay, hit, tx.xyz, shadowIntense, normal), hit, normal, lspc, false);
+                    }
+                } else {
+                    emitRay(newRay, emissive(newRay, hit, tx.xyz, normal, isAdditive), hit, normal, lspc, false);
+                }
+            }
+
+            float spc = clamp(spic / atrns, 0.0f, 1.0f);
+            if (spc > 0.0f && random() < spc) {
+                newRay = reflection(newRay, hit, vec3(1.0f), normal, 0.0f);
+            } else {
+                newRay = promised(newRay, hit, normal);
+            }
+            
+            float alspc = 1.0f - lspc;
+            float absor = isAdditive ? 1.0f : alspc;
+            
+            newRay.color.xyz *= absor;
+            if (absor < 0.0001f) {
+                newRay.actived = 0;
+            }
+        }
+    }
+
+    storeHit(t, hit);
+    storeRay(t, newRay);
+
+}
