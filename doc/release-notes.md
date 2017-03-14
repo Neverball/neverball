@@ -64,7 +64,7 @@ After a long wait since Neverball 1.5.4 (released way back in 2009), we're final
 * Countless translation updates.
 * Language selection screen.
 
-[tx]: http://forum.nevercorner.net/viewtopic.php?id=2741
+[tx]: http://neverforum.com/fmpbo/viewtopic.php?id=2741
 
 ## Other noteworthy changes
 
