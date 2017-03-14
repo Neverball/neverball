@@ -35,4 +35,4 @@ Neverball uses the gettext approach to translations. We're always
 interested in covering more languages. We have a project on Transifex
 (see [instructions on the forum][tx]) and we also accept PO files.
 
-[tx]: http://forum.nevercorner.net/viewtopic.php?id=2741
+[tx]: http://neverforum.com/fmpbo/viewtopic.php?id=2741
