@@ -24,7 +24,7 @@ Release highlights can be found in [doc/release-notes.md](doc/release-notes.md).
 
 * [Website](http://neverball.org/)
 * [Development](http://github.com/Neverball)
-* [Neverforum](http://forum.nevercorner.net/)
+* [Neverforum](http://neverforum.com/)
 * [Nevertable](http://table.nevercorner.net/) (high-score and replay
   database)
 * [#neverball on chat.freenode.net](http://webchat.freenode.net/)
