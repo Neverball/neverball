@@ -5,7 +5,7 @@
 
 extern struct state st_title;
 extern struct state st_course;
-extern struct state st_party;
+extern struct state st_setup;
 extern struct state st_next;
 extern struct state st_poser;
 extern struct state st_flyby;

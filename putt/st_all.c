@@ -53,13 +53,18 @@ static int score_card(const char  *title,
                       const GLubyte *c1)
 {
     int id, jd, kd, ld;
-
-    int p1 = (curr_party() >= 1) ? 1 : 0;
-    int p2 = (curr_party() >= 2) ? 1 : 0;
-    int p3 = (curr_party() >= 3) ? 1 : 0;
-    int p4 = (curr_party() >= 4) ? 1 : 0;
+    const GLubyte *const player_colors[] = {
+        gui_wht,  /* Par */
+        gui_red,  /* Player 1 */
+        gui_grn,  /* Player 2 */
+        gui_blu,  /* Player 3 */
+        gui_yel   /* Player 4 */
+    };
+    /* We list the par followed by each player's score. */
+    int score_rows = 1 + curr_party();
 
     int i;
+    int p;
     int n = curr_count() - 1;
     int m = curr_count() / 2;
 
@@ -70,46 +75,40 @@ static int score_card(const char  *title,
 
         if ((jd = gui_hstack(id)))
         {
+            /* First half totals */
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, _("O"),      0, 0, 0);
-                if (p1) gui_label(kd, hole_out(0), 0, gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_out(1), 0, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_out(2), 0, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_out(3), 0, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_out(4), 0, gui_yel, gui_wht);
-
+                gui_label(kd, _("O"), 0, 0, 0);
+                for (p = 0; p < score_rows; p++)
+                    gui_label(kd, hole_out(p), GUI_SML, player_colors[p], gui_wht);
                 gui_set_rect(kd, GUI_RGT);
             }
 
+            /* Per-hole scores */
             if ((kd = gui_harray(jd)))
             {
                 for (i = m; i > 0; i--)
                     if ((ld = gui_varray(kd)))
                     {
-                        if (p1) gui_label(ld, number(i), 0, 0, 0);
-                        if (p1) gui_label(ld, hole_score(i, 0), 0, gui_wht, gui_wht);
-                        if (p1) gui_label(ld, hole_score(i, 1), 0, gui_red, gui_wht);
-                        if (p2) gui_label(ld, hole_score(i, 2), 0, gui_grn, gui_wht);
-                        if (p3) gui_label(ld, hole_score(i, 3), 0, gui_blu, gui_wht);
-                        if (p4) gui_label(ld, hole_score(i, 4), 0, gui_yel, gui_wht);
+                        const GLubyte *color = hole_is_selected(i) ? NULL : gui_gry;
+                        
+                        gui_label(ld, number(i), GUI_SML, color, color);
+                        for (p = 0; p < score_rows; p++)
+                            gui_label(ld, hole_score(i, p), GUI_SML, player_colors[p], gui_wht);
                     }
 
                 gui_set_rect(kd, GUI_LFT);
             }
 
+            /* Player labels */
             if ((kd = gui_vstack(jd)))
             {
                 gui_space(kd);
 
                 if ((ld = gui_varray(kd)))
                 {
-                    if (p1) gui_label(ld, _("Par"), 0, gui_wht, gui_wht);
-                    if (p1) gui_label(ld, _("P1"),  0, gui_red, gui_wht);
-                    if (p2) gui_label(ld, _("P2"),  0, gui_grn, gui_wht);
-                    if (p3) gui_label(ld, _("P3"),  0, gui_blu, gui_wht);
-                    if (p4) gui_label(ld, _("P4"),  0, gui_yel, gui_wht);
-
+                    for (p = 0; p < score_rows; p++)
+                        gui_label(ld, hole_player(p), GUI_SML, player_colors[p], gui_wht);
                     gui_set_rect(ld, GUI_ALL);
                 }
             }
@@ -119,58 +118,49 @@ static int score_card(const char  *title,
 
         if ((jd = gui_hstack(id)))
         {
+            /* Grand totals */
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, _("Tot"),    0, 0, 0);
-                if (p1) gui_label(kd, hole_tot(0), 0, gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_tot(1), 0, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_tot(2), 0, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_tot(3), 0, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_tot(4), 0, gui_yel, gui_wht);
-
+                gui_label(kd, _("Tot"), 0, 0, 0);
+                for (p = 0; p < score_rows; p++)
+                    gui_label(kd, hole_tot(p), GUI_SML, player_colors[p], gui_wht);
                 gui_set_rect(kd, GUI_ALL);
             }
 
+            /* Second half totals */
             if ((kd = gui_varray(jd)))
             {
-                if (p1) gui_label(kd, _("I"),     0, 0, 0);
-                if (p1) gui_label(kd, hole_in(0), 0, gui_wht, gui_wht);
-                if (p1) gui_label(kd, hole_in(1), 0, gui_red, gui_wht);
-                if (p2) gui_label(kd, hole_in(2), 0, gui_grn, gui_wht);
-                if (p3) gui_label(kd, hole_in(3), 0, gui_blu, gui_wht);
-                if (p4) gui_label(kd, hole_in(4), 0, gui_yel, gui_wht);
-
+                gui_label(kd, _("I"), 0, 0, 0);
+                for (p = 0; p < score_rows; p++)
+                    gui_label(kd, hole_in(p), GUI_SML, player_colors[p], gui_wht);
                 gui_set_rect(kd, GUI_RGT);
             }
 
+            /* Per-hole scores */
             if ((kd = gui_harray(jd)))
             {
                 for (i = n; i > m; i--)
                     if ((ld = gui_varray(kd)))
                     {
-                        if (p1) gui_label(ld, number(i), 0, 0, 0);
-                        if (p1) gui_label(ld, hole_score(i, 0), 0, gui_wht, gui_wht);
-                        if (p1) gui_label(ld, hole_score(i, 1), 0, gui_red, gui_wht);
-                        if (p2) gui_label(ld, hole_score(i, 2), 0, gui_grn, gui_wht);
-                        if (p3) gui_label(ld, hole_score(i, 3), 0, gui_blu, gui_wht);
-                        if (p4) gui_label(ld, hole_score(i, 4), 0, gui_yel, gui_wht);
+                        const GLubyte *color = hole_is_selected(i) ? NULL : gui_gry;
+                        
+                        gui_label(ld, number(i), GUI_SML, color, color);
+                        for (p = 0; p < score_rows; p++)
+                            gui_label(ld, hole_score(i, p), GUI_SML, player_colors[p], gui_wht);
                     }
 
                 gui_set_rect(kd, GUI_LFT);
             }
 
+            /* Player labels */
             if ((kd = gui_vstack(jd)))
             {
                 gui_space(kd);
 
                 if ((ld = gui_varray(kd)))
                 {
-                    if (p1) gui_label(ld, _("Par"), 0, gui_wht, gui_wht);
-                    if (p1) gui_label(ld, _("P1"),  0, gui_red, gui_wht);
-                    if (p2) gui_label(ld, _("P2"),  0, gui_grn, gui_wht);
-                    if (p3) gui_label(ld, _("P3"),  0, gui_blu, gui_wht);
-                    if (p4) gui_label(ld, _("P4"),  0, gui_yel, gui_wht);
-
+                    for (p = 0; p < score_rows; p++)
+                        gui_label(ld, hole_player(p), GUI_SML, player_colors[p], gui_wht);
                     gui_set_rect(ld, GUI_ALL);
                 }
             }
@@ -317,7 +307,7 @@ static int course_action(int i)
     if (course_exists(i))
     {
         course_goto(i);
-        goto_state(&st_party);
+        goto_state(&st_setup);
     }
     if (i == COURSE_BACK)
         goto_state(&st_title);
@@ -481,75 +471,153 @@ static int course_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-#define PARTY_T 0
-#define PARTY_1 1
-#define PARTY_2 2
-#define PARTY_3 3
-#define PARTY_4 4
-#define PARTY_B 5
+#define SETUP_T 0
+#define SETUP_P1 1
+#define SETUP_P2 2
+#define SETUP_P3 3
+#define SETUP_P4 4
+#define SETUP_BACK 5
+#define SETUP_START 6
+#define SETUP_SEL_ALL 7
+#define SETUP_CLR_ALL 8
+#define SETUP_HOLE 9
 
-static int party_action(int i)
+static int num_players;
+static int player_btns[MAXPLY];
+static int hole_btns[MAXHOL];
+static int start_btn;
+
+static int setup_action(int i)
 {
+    int holecount;
+    
     switch (i)
     {
-    case PARTY_1:
+    case SETUP_P1:
+    case SETUP_P2:
+    case SETUP_P3:
+    case SETUP_P4:
         audio_play(AUD_MENU, 1.f);
-        if (hole_goto(1, 1))
-            goto_state(&st_next);
+        i = 1 + i - SETUP_P1;
+        if (i != num_players)
+        {
+            gui_set_hilite(player_btns[num_players - 1], 0);
+            gui_set_hilite(player_btns[i - 1], 1);
+            num_players = i;
+        }
         break;
-    case PARTY_2:
-        audio_play(AUD_MENU, 1.f);
-        if (hole_goto(1, 2))
-            goto_state(&st_next);
-        break;
-    case PARTY_3:
-        audio_play(AUD_MENU, 1.f);
-        if (hole_goto(1, 3))
-            goto_state(&st_next);
-        break;
-    case PARTY_4:
-        audio_play(AUD_MENU, 1.f);
-        if (hole_goto(1, 4))
-            goto_state(&st_next);
-        break;
-    case PARTY_B:
+    case SETUP_BACK:
         audio_play(AUD_MENU, 1.f);
         goto_state(&st_course);
         break;
+    case SETUP_START:
+        if ((i = hole_get_first()) != 0 && hole_goto(i, num_players))
+            goto_state(&st_next);
+        break;
+    case SETUP_SEL_ALL:
+        holecount = curr_count() - 1;
+        hole_set_select(~1);
+        for (i = 0; i < holecount; i++)
+            gui_set_hilite(hole_btns[i], 1);
+        break;
+    case SETUP_CLR_ALL:
+        holecount = curr_count() - 1;
+        hole_set_select(0);
+        for (i = 0; i < holecount; i++)
+            gui_set_hilite(hole_btns[i], 0);
+        break;
+    default:
+        if (i >= SETUP_HOLE && i < SETUP_HOLE + MAXHOL)
+        {
+            unsigned long holes_mask = hole_get_select();
+
+            i = 1 + i - SETUP_HOLE;
+            if (holes_mask & (1 << i))
+            {
+                /* Deselect */
+                hole_set_select(holes_mask & ~(1 << i));
+                gui_set_hilite(hole_btns[i - 1], 0);
+            }
+            else
+            {
+                /* Select */
+                hole_set_select(holes_mask | (1 << i));
+                gui_set_hilite(hole_btns[i - 1], 1);
+            }
+        }
     }
     return 1;
 }
 
-static int party_enter(struct state *st, struct state *prev)
+static int setup_enter(struct state *st, struct state *prev)
 {
-    int id, jd;
+    int id, jd, r, c, holecount;
+
+    num_players = 1;
 
     if ((id = gui_vstack(0)))
     {
-        gui_label(id, _("Players?"), GUI_MED, 0, 0);
+        gui_label(id, _("Game Settings"), GUI_MED, 0, 0);
         gui_space(id);
-
+        
+        gui_label(id, _("Players"), GUI_SML, 0, 0);
         if ((jd = gui_harray(id)))
         {
-            int p4 = gui_state(jd, "4", GUI_LRG, PARTY_4, 0);
-            int p3 = gui_state(jd, "3", GUI_LRG, PARTY_3, 0);
-            int p2 = gui_state(jd, "2", GUI_LRG, PARTY_2, 0);
-            int p1 = gui_state(jd, "1", GUI_LRG, PARTY_1, 0);
+            int p4 = gui_state(jd, "4", GUI_LRG, SETUP_P4, 0);
+            int p3 = gui_state(jd, "3", GUI_LRG, SETUP_P3, 0);
+            int p2 = gui_state(jd, "2", GUI_LRG, SETUP_P2, 0);
+            int p1 = gui_state(jd, "1", GUI_LRG, SETUP_P1, 0);
 
+            player_btns[0] = p1;
+            player_btns[1] = p2;
+            player_btns[2] = p3;
+            player_btns[3] = p4;
+            
             gui_set_color(p1, gui_red, gui_wht);
             gui_set_color(p2, gui_grn, gui_wht);
             gui_set_color(p3, gui_blu, gui_wht);
             gui_set_color(p4, gui_yel, gui_wht);
 
             gui_focus(p1);
+            gui_set_hilite(p1, 1);
         }
+        gui_space(id);
+        
+        gui_label(id, _("Holes"), GUI_SML, 0, 0);
+        holecount = curr_count() - 1;
+        hole_set_select(~1);  /* Enable all holes by default */
+        for (r = 0; r * 9 < holecount; r++)
+        {
+            if ((jd = gui_harray(id)))
+            {
+                for (c = 8; c >= 0; c--)
+                {
+                    int i = r * 9 + c;
 
+                    if (i < holecount)
+                    {
+                        int kd = gui_state(jd, number(1 + i), GUI_SML, SETUP_HOLE + i, 0);
+
+                        gui_set_hilite(kd, 1);
+                        hole_btns[i] = kd;
+                    }
+                    else
+                        gui_label(jd, NULL, GUI_SML, 0, 0);
+                }
+            }
+        }
+        if ((jd = gui_harray(id)))
+        {
+            gui_state(jd, _("Clear All"), GUI_SML, SETUP_CLR_ALL, 0);
+            gui_state(jd, _("Select All"), GUI_SML, SETUP_SEL_ALL, 0);
+        }
         gui_space(id);
 
         if ((jd = gui_hstack(id)))
         {
+            start_btn = gui_state(jd, _("Start"), GUI_SML, SETUP_START, 0);
             gui_filler(jd);
-            gui_state(jd, _("Back"), GUI_SML, PARTY_B, 0);
+            gui_state(jd, _("Back"), GUI_SML, SETUP_BACK, 0);
         }
 
         gui_layout(id, 0, 0);
@@ -558,40 +626,40 @@ static int party_enter(struct state *st, struct state *prev)
     return id;
 }
 
-static void party_leave(struct state *st, struct state *next, int id)
+static void setup_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 }
 
-static void party_paint(int id, float t)
+static void setup_paint(int id, float t)
 {
     game_draw(0, t);
     gui_paint(id);
 }
 
-static void party_timer(int id, float dt)
+static void setup_timer(int id, float dt)
 {
     gui_timer(id, dt);
 }
 
-static void party_point(int id, int x, int y, int dx, int dy)
+static void setup_point(int id, int x, int y, int dx, int dy)
 {
     gui_pulse(gui_point(id, x, y), 1.2f);
 }
 
-static int party_click(int b, int d)
+static int setup_click(int b, int d)
 {
-    return gui_click(b, d) ? party_action(gui_token(gui_active())) : 1;
+    return gui_click(b, d) ? setup_action(gui_token(gui_active())) : 1;
 }
 
-static int party_buttn(int b, int d)
+static int setup_buttn(int b, int d)
 {
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return party_action(gui_token(gui_active()));
+            return setup_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return party_action(PARTY_B);
+            return setup_action(SETUP_BACK);
     }
     return 1;
 }
@@ -1409,17 +1477,17 @@ struct state st_course = {
     course_buttn
 };
 
-struct state st_party = {
-    party_enter,
-    party_leave,
-    party_paint,
-    party_timer,
-    party_point,
+struct state st_setup = {
+    setup_enter,
+    setup_leave,
+    setup_paint,
+    setup_timer,
+    setup_point,
     shared_stick,
     NULL,
-    party_click,
+    setup_click,
     NULL,
-    party_buttn
+    setup_buttn
 };
 
 struct state st_next = {
