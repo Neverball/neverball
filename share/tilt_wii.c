@@ -168,7 +168,7 @@ void tilt_init(void)
     memset(&state, 0, sizeof (struct tilt_state));
 
     mutex  = SDL_CreateMutex();
-    thread = SDL_CreateThread(tilt_func, NULL);
+    thread = SDL_CreateThread(tilt_func, "", NULL);
 }
 
 void tilt_free(void)
@@ -184,13 +184,12 @@ void tilt_free(void)
         state.status = 0;
         SDL_mutexV(mutex);
 
-        /* Kill the thread and destroy the mutex. */
+        /* Destroy the mutex and terminate the thread. */
 
-        SDL_KillThread(thread);
         SDL_DestroyMutex(mutex);
-
         mutex  = NULL;
         thread = NULL;
+        SDL_WaitThread(thread, NULL);
     }
 }
 
@@ -214,17 +213,17 @@ int tilt_get_button(int *b, int *s)
             }
             else if ((ch = get_button(&state.plus)))
             {
-                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R);
+                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_R1);
                 *s = (ch == BUTTON_DN);
             }
             else if ((ch = get_button(&state.minus)))
             {
-                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L);
+                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_L1);
                 *s = (ch == BUTTON_DN);
             }
             else if ((ch = get_button(&state.home)))
             {
-                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_EXIT);
+                *b = config_get_d(CONFIG_JOYSTICK_BUTTON_START);
                 *s = (ch == BUTTON_DN);
             }
             else if ((ch = get_button(&state.L)))
