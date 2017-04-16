@@ -173,14 +173,11 @@ void tilt_init(void)
 
 void tilt_free(void)
 {
-    int b = 0;
-
     if (mutex)
     {
         /* Get/set the status of the tilt sensor thread. */
 
         SDL_mutexP(mutex);
-        b = state.status;
         state.status = 0;
         SDL_mutexV(mutex);
 
