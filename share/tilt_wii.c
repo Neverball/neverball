@@ -184,12 +184,12 @@ void tilt_free(void)
         state.status = 0;
         SDL_mutexV(mutex);
 
-        /* Destroy the mutex and terminate the thread. */
+        /* Wait for the thread to terminate and destroy the mutex. */
 
+        SDL_WaitThread(thread, NULL);
         SDL_DestroyMutex(mutex);
         mutex  = NULL;
         thread = NULL;
-        SDL_WaitThread(thread, NULL);
     }
 }
 
