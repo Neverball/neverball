@@ -202,7 +202,7 @@ msgstr "Beenden"
 
 #: ball/st_fail.c:101 ball/st_goal.c:220
 msgid "Next Level"
-msgstr "Nächster Level"
+msgstr "Nächstes Level"
 
 #: ball/st_fail.c:104 ball/st_goal.c:223
 msgid "Retry Level"
@@ -316,7 +316,7 @@ msgstr "Bewegen Sie Maus oder Joystick\\oder drücken Sie die Pfeiltasten,\\um d
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr "Rollen Sie über Münzen, um sie\\aufzusammeln. Haben Sie genug\\Münzen gesammelt, öffnet sich\\das Ziel und Sie können\\den Level beenden."
+msgstr "Rollen Sie über Münzen, um sie\\aufzusammeln. Haben Sie genug\\Münzen gesammelt, öffnet sich\\das Ziel und Sie können\\das Level beenden."
 
 #: ball/st_help.c:177
 msgid ""
@@ -348,7 +348,7 @@ msgstr "Screenshot"
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
-msgstr "Beenden Sie den Level, bevor die Zeit abläuft.\\Sie müssen Münzen sammeln, um das Ziel zu öffnen."
+msgstr "Beenden Sie das Level, bevor die Zeit abläuft.\\Sie müssen Münzen sammeln, um das Ziel zu öffnen."
 
 #: ball/st_help.c:261
 msgid ""
@@ -442,7 +442,7 @@ msgstr "Level %s"
 #: ball/st_level.c:64
 #, c-format
 msgid "Standalone level"
-msgstr "Einzelner Level"
+msgstr "Einzelnes Level"
 
 #: ball/st_level.c:181
 msgid ""
@@ -802,7 +802,7 @@ msgstr "Wie zuvor, doch diesmal ohne Stützräder.\\Halten Sie den Ball auf flac
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Bewegen Sie die Maus, um den Boden zu kippen.\\Sammeln Sie 10 Münzen, um das Ziel zu öffnen.\\Bringen Sie den Ball ins Ziel,\\um den Level zu meistern.\\\\Klicken Sie, um zu beginnen.\\"
+msgstr "Bewegen Sie die Maus, um den Boden zu kippen.\\Sammeln Sie 10 Münzen, um das Ziel zu öffnen.\\Bringen Sie den Ball ins Ziel,\\um das Level zu meistern.\\\\Klicken Sie, um zu beginnen.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
@@ -1462,7 +1462,7 @@ msgid ""
 "This level is full of challenges:\\understand the level's "
 "functioning,\\learn to fly and to survive,\\grab half of all coins to open "
 "the goal,\\find and reach the goal,\\and more..."
-msgstr "Dieser Level ist voller Herausforderungen:\\Verstehen Sie, wie er funktioniert;\\lernen Sie zu fliegen und zu überleben;\\holen Sie sich die Hälfte der Münzen,\\um das Ziel zu öffnen;\\finden und erreichen Sie das Ziel,\\und und und..."
+msgstr "Dieses Level ist voller Herausforderungen:\\Verstehen Sie, wie er funktioniert;\\lernen Sie zu fliegen und zu überleben;\\holen Sie sich die Hälfte der Münzen,\\um das Ziel zu öffnen;\\finden und erreichen Sie das Ziel,\\und und und..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
