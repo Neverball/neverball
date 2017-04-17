@@ -39,7 +39,7 @@ msgstr "Nom du film"
 
 #: ball/st_save.c:111
 msgid "Save"
-msgstr "Sauver"
+msgstr "Enregistrer"
 
 #: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
 msgid "Cancel"
@@ -209,7 +209,7 @@ msgstr "Retenter"
 
 #: ball/st_fail.c:107 ball/st_goal.c:226
 msgid "Save Replay"
-msgstr "Sauver un film"
+msgstr "Enregistrer un film"
 
 #: ball/st_name.c:110
 msgid "OK"
@@ -846,7 +846,7 @@ msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr "Restez loin des bords !\\Ralentissez très tôt lorsque\\vous vous approchez d'un précipice.\\Il vous faut autant de temps pour ralentir que\\le temps qu'il vous a fallut pour accélérer."
+msgstr "Restez loin des bords !\\Ralentissez très tôt lorsque\\vous vous approchez d'un précipice.\\Il vous faut autant de temps pour ralentir que\\le temps qu'il vous a fallu pour accélérer."
 
 #: data/map-easy/lollipop.map
 msgid ""
@@ -901,7 +901,7 @@ msgstr "Suivez la trainée de pièces pour atteindre la sortie.\\Si vous butez s
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Les colines requièrent une vitesse\\suffisante pour les franchir.\\Attention cependant à ne pas aller trop vite !"
+msgstr "Les collines requièrent une vitesse\\suffisante pour les franchir.\\Attention cependant à ne pas aller trop vite !"
 
 #: data/map-easy/speedbumps.map
 msgid ""
@@ -912,7 +912,7 @@ msgstr "Lorsque la balle est sur une plate-forme mobile,\\elle est entraînée p
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr "Collectez toutes les pièces...\\mais attention à ne pas être bousculés !"
+msgstr "Collectez toutes les pièces...\\mais attention à ne pas être bousculé !"
 
 #: data/map-easy/wakka.map
 msgid ""
@@ -926,7 +926,7 @@ msgstr "=Aventure=\\Plein d'activités à faire, récupérer des pièces,\\prend
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr "=Atrium=\\Enlevez les pièces de leur colonne."
+msgstr "=Atrium=\\Enlevez les pièces de leurs colonnes."
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
@@ -978,7 +978,7 @@ msgstr "=Anneaux=\\Roulez à travers ce piège."
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=Pente=\\Essayez de ne pas devenir\\un Sisyphus des temps modernes."
+msgstr "=Pente=\\Essayez de ne pas devenir\\un Sisyphe des temps modernes."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
@@ -1012,7 +1012,7 @@ msgstr "Il n'y a pas suffisamment de sol ici.\\Heureusement, ce n'est pas un pro
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "Afin de progresser ici vous allez devoir heurter\\les angles et contrôler tes rebonds.\\Il est souvent plus facile de viser les coins.\\"
+msgstr "Afin de progresser ici vous allez devoir heurter\\les angles et contrôler vos rebonds.\\Il est souvent plus facile de viser les coins.\\"
 
 #: data/map-hard/flip.map
 msgid ""
@@ -1077,7 +1077,7 @@ msgstr "Lent mais ferme.\\"
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr "Vous avez environ 15 secondes par étage,\\ne vous retardez donc pas. Récupérez les pièces et\\accèdez au prochain interrupteur.\\"
+msgstr "Vous avez environ 15 secondes par étage,\\ne prenez donc pas de retard. Récupérez les pièces\\et accèdez au prochain interrupteur.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1140,13 +1140,13 @@ msgstr "Beaucoup de pièces à prendre.\\Parviendrez-vous à toutes les récupé
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "Utilisez l'élan pour atteindre\\les plates-formes supérieures,\\mais gardez le contrôle\\de la balle pour bien attérir.\\\\La vue manuelle peut aider ici.\\"
+msgstr "Utilisez l'élan pour atteindre\\les plates-formes supérieures,\\mais gardez le contrôle\\de la balle pour bien atterrir.\\\\La vue manuelle peut aider ici.\\"
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "N'oubliez pas de garder un oeil sur l'ombre\\de la balle afin de mieux contrôler ses rebonds.\\Et n'oubliez pas de tourner la caméra\\afin de garder la balle à vue.\\"
+msgstr "N'oubliez pas de garder un oeil sur l'ombre\\de la balle afin de mieux contrôler ses rebonds.\\Et n'oubliez pas de tourner la caméra\\afin de garder la balle en vue.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
@@ -1254,7 +1254,7 @@ msgstr "Il y a plein de pièces ici si vous\\prenez le temps de les ramasser.\\"
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces bleu est un bon défi."
+msgstr "Prisonnier de la boule.\\Vivre dans une sphère.\\Récupérer toutes les pièces bleues est un bon défi."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1268,11 +1268,11 @@ msgstr "Bloquez autour de l'horloge."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr "Suivez les pièces bleus...\\et apprenez à controler votre rebond !\\Astuce : utilisez le mode de caméra 'poursuite'."
+msgstr "Suivez les pièces bleues...\\et apprenez à controler votre rebond !\\Astuce : utilisez le mode de caméra 'poursuite'."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
-msgstr "Suivez les flèches"
+msgstr "Suivez les flèches."
 
 #: data/map-misc/checkers.map
 msgid ""
@@ -1383,7 +1383,7 @@ msgstr "Les boucles renversantes.\\La tête à l'envers !"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.\\Trouvez le bon angle pour tourner,\\sauter et attérir..."
+msgstr "Le contrôle des courbes.\\Trouvez le bon angle pour tourner,\\sauter et atterrir..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
@@ -1611,7 +1611,7 @@ msgstr "Ce qui va en bas doit aller en haut !\\"
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr "Soyez-sûr d'être en sûreté\\sur une plateforme violette avant\\que 20 secondes ne soient écoulés!"
+msgstr "Soyez-sûr d'être en sûreté\\sur une plateforme violette avant\\que 20 secondes ne soient écoulées!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
