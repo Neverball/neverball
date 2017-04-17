@@ -17,6 +17,10 @@ ifeq ($(shell uname), Darwin)
 	PLATFORM := darwin
 endif
 
+ifeq ($(shell uname), FreeBSD)
+	PLATFORM := freebsd
+endif
+
 #------------------------------------------------------------------------------
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
 
@@ -36,13 +40,13 @@ endif
 # Optional flags (CFLAGS, CPPFLAGS, ...)
 
 ifeq ($(DEBUG),1)
-	CFLAGS   := -g
-	CXXFLAGS := -g
-	CPPFLAGS :=
+	CFLAGS   ?= -g
+	CXXFLAGS ?= -g
+	CPPFLAGS +=
 else
-	CFLAGS   := -O2
-	CXXFLAGS := -O2
-	CPPFLAGS := -DNDEBUG
+	CFLAGS   ?= -O2
+	CXXFLAGS ?= -O2
+	CPPFLAGS += -DNDEBUG
 endif
 
 #------------------------------------------------------------------------------
@@ -185,6 +189,15 @@ BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 ifeq ($(PLATFORM),darwin)
 	BASE_LIBS += $(patsubst %, -L%, $(wildcard /opt/local/lib \
 	                                           /usr/local/lib))
+endif
+
+ifeq ($(PLATFORM),freebsd)
+	LOCALBASE ?= /usr/local
+	BASE_LIBS += -L${LOCALBASE}/lib
+
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
 endif
 
 OGG_LIBS := -lvorbisfile
