@@ -554,3 +554,30 @@ contrib:
 endif
 
 #------------------------------------------------------------------------------
+
+.PHONY: install
+install:
+	install -D -m 00755 neverball $(DESTDIR)/usr/bin/neverball
+	install -D -m 00755 neverputt $(DESTDIR)/usr/bin/neverputt
+	install -D -m 00755 mapc $(DESTDIR)/usr/bin/mapc
+	install -D -m 00644 dist/neverball.desktop $(DESTDIR)/usr/share/applications/neverball.desktop
+	install -D -m 00644 dist/neverputt.desktop $(DESTDIR)/usr/share/applications/neverputt.desktop
+	install -d $(DESTDIR)/usr/share/doc/neverball
+	for f in `find doc/ -type f -mindepth 1 -printf '%P '`; do \
+	    install -D -m 00644 doc/$$f $(DESTDIR)/usr/share/doc/neverball/$$f; \
+	done
+	for i in 16 24 32 48 64 128 256 512; do \
+	    install -D -m 00644 dist/neverball_$$i.png "$(DESTDIR)/usr/share/icons/hicolor/$${i}x$$i/apps/neverball.png"; \
+	    install -D -m 00644 dist/neverputt_$$i.png "$(DESTDIR)/usr/share/icons/hicolor/$${i}x$$i/apps/neverputt.png"; \
+	done
+	for f in `find locale/ -type f -mindepth 1 -printf '%P '`; do \
+	    install -D -m 00644 locale/$$f $(DESTDIR)/usr/share/$$f; \
+	done
+	install -D -m 00644 dist/mapc.1 $(DESTDIR)/usr/share/man/man1/mapc.1
+	install -D -m 00644 dist/neverball.6 $(DESTDIR)/usr/share/man/man6/neverball.6
+	install -D -m 00644 dist/neverputt.6 $(DESTDIR)/usr/share/man/man6/neverputt.6
+	for f in `find data/  -type f -mindepth 1 -printf '%P '`; do \
+	    install -D -m 00644 "data/$$f" "$(DESTDIR)/usr/share/neverball/$$f"; \
+	done
+
+#------------------------------------------------------------------------------
