@@ -470,87 +470,10 @@ clean : clean-src
 	$(RM) $(DESKTOPS)
 	$(MAKE) -C po clean
 
-test : all
-	./neverball
-
-TAGS :
-	$(RM) $@
-	find . -name '*.[ch]' | xargs etags -a
-
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales clean-src clean test TAGS
+.PHONY : all sols locales desktops clean-src clean
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
-
-#------------------------------------------------------------------------------
-
-ifeq ($(PLATFORM),mingw)
-
-#------------------------------------------------------------------------------
-
-INSTALLER := ../neverball-$(VERSION)-setup.exe
-
-MAKENSIS := makensis
-MAKENSIS_FLAGS := -DVERSION=$(VERSION) -DOUTFILE=$(INSTALLER)
-
-TODOS   := todos
-FROMDOS := fromdos
-
-CP := cp
-
-TEXT_DOCS := \
-	doc/AUTHORS \
-	doc/MANUAL  \
-	CHANGES     \
-	COPYING     \
-	README
-
-TXT_DOCS := $(TEXT_DOCS:%=%.txt)
-
-#------------------------------------------------------------------------------
-
-.PHONY: setup
-setup: $(INSTALLER)
-
-$(INSTALLER): install-dlls convert-text-files all contrib
-	$(MAKENSIS) $(MAKENSIS_FLAGS) -nocd scripts/neverball.nsi
-
-$(INSTALLER): LDFLAGS := -s $(LDFLAGS)
-
-.PHONY: clean-setup
-clean-setup: clean
-	$(RM) install-dlls.sh *.dll $(TXT_DOCS)
-	find data -name "*.txt" -exec $(FROMDOS) {} \;
-	$(MAKE) -C contrib EXT=$(EXT) clean
-
-#------------------------------------------------------------------------------
-
-.PHONY: install-dlls
-install-dlls: install-dlls.sh
-	sh $<
-
-install-dlls.sh: $(MAPC_TARG) $(BALL_TARG) $(PUTT_TARG)
-	mingw-list-dlls --format=shell $^ > $@
-
-#------------------------------------------------------------------------------
-
-.PHONY: convert-text-files
-convert-text-files: $(TXT_DOCS)
-	find data -name "*.txt" -exec $(TODOS) {} \;
-
-%.txt: %
-	$(CP) $< $@
-	$(TODOS) $@
-
-#------------------------------------------------------------------------------
-
-.PHONY: contrib
-contrib:
-	$(MAKE) -C contrib EXT=$(EXT)
-
-#------------------------------------------------------------------------------
-
-endif
 
 #------------------------------------------------------------------------------
