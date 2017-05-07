@@ -17,6 +17,10 @@ ifeq ($(shell uname), Darwin)
 	PLATFORM := darwin
 endif
 
+ifeq ($(shell uname -o),Msys)
+	PLATFORM := mingw
+endif
+
 #------------------------------------------------------------------------------
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
 
