@@ -16,7 +16,7 @@ while read line; do
         for i in po/*.po; do
             lang=`basename $i | sed 's/\.po//'`
             msgstr=`msgattrib --translated --no-obsolete --no-fuzzy $i \
-                    | msggrep --no-location --no-wrap --msgid -F -e "$msgid" \
+                    | msggrep --no-location --no-wrap --msgid -F -e "$msgid" 2> /dev/null \
                     | tail -n 1 | sed 's/^msgstr "\(.*\)"$/\1/'`
             if [ "$msgstr" != "" ]; then
                 echo "Comment[$lang]=$msgstr"
