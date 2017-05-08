@@ -25,6 +25,12 @@
 #include <stdarg.h>
 #include <assert.h>
 
+/*
+ * No platform checking, relying on MinGW to provide.
+ */
+#include <sys/stat.h> /* stat() */
+#include <unistd.h>   /* access() */
+
 #include "common.h"
 #include "fs.h"
 
@@ -154,16 +160,9 @@ const char *date_to_str(time_t i)
     return str;
 }
 
-int file_exists(const char *name)
+int file_exists(const char *path)
 {
-    FILE *fp;
-
-    if ((fp = fopen(name, "r")))
-    {
-        fclose(fp);
-        return 1;
-    }
-    return 0;
+    return (access(path, F_OK) == 0);
 }
 
 int file_rename(const char *src, const char *dst)
@@ -173,6 +172,14 @@ int file_rename(const char *src, const char *dst)
         remove(dst);
 #endif
     return rename(src, dst);
+}
+
+int file_size(const char *path)
+{
+    struct stat buf;
+    if (stat(path, &buf) == 0)
+        return (int) buf.st_size;
+    return 0;
 }
 
 void file_copy(FILE *fin, FILE *fout)

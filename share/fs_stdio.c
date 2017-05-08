@@ -362,15 +362,17 @@ int fs_eof(fs_file fh)
     return feof(fh->handle);
 }
 
-int fs_length(fs_file fh)
+int fs_size(const char *path)
 {
-    long len, cur = ftell(fh->handle);
+    int size = 0;
+    char *real;
 
-    fseek(fh->handle, 0, SEEK_END);
-    len = ftell(fh->handle);
-    fseek(fh->handle, cur, SEEK_SET);
-
-    return len;
+    if ((real = real_path(path)))
+    {
+        size = file_size(real);
+        free(real);
+    }
+    return size;
 }
 
 /*---------------------------------------------------------------------------*/

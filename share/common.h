@@ -99,6 +99,7 @@ const char *date_to_str(time_t);
 
 int  file_exists(const char *);
 int  file_rename(const char *, const char *);
+int  file_size(const char *);
 void file_copy(FILE *fin, FILE *fout);
 
 /* Paths. */
