@@ -135,9 +135,11 @@ ALL_CPPFLAGS += $(HMD_CPPFLAGS)
 SDL_LIBS := $(shell sdl2-config --libs)
 PNG_LIBS := $(shell libpng-config --libs)
 
+ENABLE_FS := stdio
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
-else
+endif
+ifeq ($(ENABLE_FS),physfs)
 FS_LIBS := -lphysfs
 endif
 
@@ -355,7 +357,8 @@ ifeq ($(ENABLE_FS),stdio)
 BALL_OBJS += share/fs_stdio.o
 PUTT_OBJS += share/fs_stdio.o
 MAPC_OBJS += share/fs_stdio.o
-else
+endif
+ifeq ($(ENABLE_FS),physfs)
 BALL_OBJS += share/fs_physfs.o
 PUTT_OBJS += share/fs_physfs.o
 MAPC_OBJS += share/fs_physfs.o
