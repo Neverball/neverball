@@ -271,7 +271,6 @@ BALL_OBJS := \
 	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
-	share/fs_rwops.o    \
 	share/fs_ov.o       \
 	share/log.o         \
 	ball/hud.o          \
@@ -335,7 +334,6 @@ PUTT_OBJS := \
 	share/fs_common.o   \
 	share/fs_png.o      \
 	share/fs_jpg.o      \
-	share/fs_rwops.o    \
 	share/fs_ov.o       \
 	share/dir.o         \
 	share/fbo.o         \
