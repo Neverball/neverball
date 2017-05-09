@@ -208,12 +208,12 @@ endif
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)
-	EXT := .exe
+X := .exe
 endif
 
-MAPC_TARG := mapc$(EXT)
-BALL_TARG := neverball$(EXT)
-PUTT_TARG := neverputt$(EXT)
+MAPC_TARG := mapc$(X)
+BALL_TARG := neverball$(X)
+PUTT_TARG := neverputt$(X)
 
 ifeq ($(PLATFORM),mingw)
 	MAPC := $(WINE) ./$(MAPC_TARG)
