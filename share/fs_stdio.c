@@ -217,42 +217,18 @@ static char *real_path(const char *path)
 
 /*---------------------------------------------------------------------------*/
 
-fs_file fs_open(const char *path, const char *mode)
+fs_file fs_open_read(const char *path)
 {
     fs_file fh;
 
-    assert((mode[0] == 'r' && !mode[1]) ||
-           (mode[0] == 'w' && (!mode[1] || mode[1] == '+')));
-
-    if ((fh = malloc(sizeof (*fh))))
+    if ((fh = calloc(1, sizeof (*fh))))
     {
         char *real;
 
-        fh->handle = NULL;
-
-        switch (mode[0])
+        if ((real = real_path(path)))
         {
-        case 'r':
-            if ((real = real_path(path)))
-            {
-                fh->handle = fopen(real, "rb");
-                free(real);
-            }
-
-            break;
-
-        case 'w':
-            if (fs_dir_write)
-            {
-                real = path_join(fs_dir_write, path);
-
-                fh->handle = (mode[1] == '+' ?
-                              fopen(real, "wb") :
-                              fopen(real, "wb+"));
-
-                free(real);
-            }
-            break;
+            fh->handle = fopen(real, "rb");
+            free(real);
         }
 
         if (!fh->handle)
@@ -261,8 +237,43 @@ fs_file fs_open(const char *path, const char *mode)
             fh = NULL;
         }
     }
-
     return fh;
+}
+
+static fs_file fs_open_write_flags(const char *path, int append)
+{
+    fs_file fh = NULL;
+
+    if (fs_dir_write && path && *path)
+    {
+        if ((fh = calloc(1, sizeof (*fh))))
+        {
+            char *real;
+
+            if ((real = path_join(fs_dir_write, path)))
+            {
+                fh->handle = fopen(real, append ? "ab" : "wb");
+                free(real);
+            }
+
+            if (!fh->handle)
+            {
+                free(fh);
+                fh = NULL;
+            }
+        }
+    }
+    return fh;
+}
+
+fs_file fs_open_write(const char *path)
+{
+    return fs_open_write_flags(path, 0);
+}
+
+fs_file fs_open_append(const char *path)
+{
+    return fs_open_write_flags(path, 1);
 }
 
 int fs_close(fs_file fh)

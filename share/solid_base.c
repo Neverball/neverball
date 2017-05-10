@@ -486,7 +486,7 @@ int sol_load_base(struct s_base *fp, const char *filename)
 
     memset(fp, 0, sizeof (*fp));
 
-    if ((fin = fs_open(filename, "r")))
+    if ((fin = fs_open_read(filename)))
     {
         res = sol_load_file(fin, fp);
         fs_close(fin);
@@ -501,7 +501,7 @@ int sol_load_meta(struct s_base *fp, const char *filename)
 
     memset(fp, 0, sizeof (*fp));
 
-    if ((fin = fs_open(filename, "r")))
+    if ((fin = fs_open_read(filename)))
     {
         res = sol_load_head(fin, fp);
         fs_close(fin);
@@ -762,7 +762,7 @@ int sol_stor_base(struct s_base *fp, const char *filename)
 {
     fs_file fout;
 
-    if ((fout = fs_open(filename, "w")))
+    if ((fout = fs_open_write(filename)))
     {
         sol_stor_file(fout, fp);
         fs_close(fout);
@@ -849,7 +849,7 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
         {
             CONCAT_PATH(line, &mtrl_paths[i], name);
 
-            if ((fp = fs_open(line, "r")))
+            if ((fp = fs_open_read(line)))
                 break;
         }
 

@@ -18,7 +18,9 @@ int fs_exists(const char *);
 int fs_remove(const char *);
 int fs_rename(const char *, const char *);
 
-fs_file fs_open(const char *path, const char *mode);
+fs_file fs_open_read(const char *);
+fs_file fs_open_write(const char *);
+fs_file fs_open_append(const char *);
 int     fs_close(fs_file);
 
 int  fs_read(void *data, int size, int count, fs_file);

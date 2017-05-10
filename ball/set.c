@@ -103,7 +103,7 @@ void set_store_hs(void)
     const struct set *s = SET_GET(sets, curr);
     fs_file fp;
 
-    if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "w")))
+    if ((fp = fs_open_write(config_cheat() ? s->cheat_scores : s->user_scores)))
     {
         int i;
 
@@ -234,7 +234,7 @@ static void set_load_hs(void)
     struct set *s = SET_GET(sets, curr);
     fs_file fp;
 
-    if ((fp = fs_open(config_cheat() ? s->cheat_scores : s->user_scores, "r")))
+    if ((fp = fs_open_read(config_cheat() ? s->cheat_scores : s->user_scores)))
     {
         char buf[MAXSTR];
 
@@ -269,7 +269,7 @@ static int set_load(struct set *s, const char *filename)
     if (strcmp(filename, SET_MISC) == 0 && !config_cheat())
         return 0;
 
-    fin = fs_open(filename, "r");
+    fin = fs_open_read(filename);
 
     if (!fin)
     {
@@ -388,7 +388,7 @@ int set_init()
      * First, load the sets listed in the set file, preserving order.
      */
 
-    if ((fin = fs_open(SET_FILE, "r")))
+    if ((fin = fs_open_read(SET_FILE)))
     {
         while (read_line(&name, fin))
         {

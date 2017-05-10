@@ -151,7 +151,7 @@ int demo_load(struct demo *d, const char *path)
 
         memset(d, 0, sizeof (*d));
 
-        if ((fp = fs_open(path, "r")))
+        if ((fp = fs_open_read(path)))
         {
             SAFECPY(d->path, path);
             SAFECPY(d->name, demo_name(path));
@@ -289,7 +289,7 @@ int demo_play_init(const char *name, const struct level *level,
     d->balls = balls;
     d->times = times;
 
-    if ((demo_fp = fs_open(d->path, "w")))
+    if ((demo_fp = fs_open_write(d->path)))
     {
         demo_header_write(demo_fp, d);
         return 1;
@@ -395,7 +395,7 @@ int demo_replay_init(const char *path, int *g, int *m, int *b, int *s, int *tt)
 {
     lockstep_clr(&update_step);
 
-    if ((demo_fp = fs_open(path, "r")))
+    if ((demo_fp = fs_open_read(path)))
     {
         if (demo_header_read(demo_fp, &demo_replay))
         {

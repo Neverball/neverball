@@ -255,7 +255,7 @@ void *fs_load(const char *path, int *datalen)
 
     data = NULL;
 
-    if ((fh = fs_open(path, "r")))
+    if ((fh = fs_open_read(path)))
     {
         if ((*datalen = fs_length(fh)) > 0)
         {

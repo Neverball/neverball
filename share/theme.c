@@ -102,7 +102,7 @@ int theme_load(struct theme *theme, const char *name)
 
         /* Load description. */
 
-        if ((fp = fs_open(theme_path(name, "theme.txt"), "r")))
+        if ((fp = fs_open_read(theme_path(name, "theme.txt"))))
         {
             while ((fs_gets(buff, sizeof (buff), fp)))
             {

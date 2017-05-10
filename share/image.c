@@ -45,7 +45,7 @@ void image_snap(const char *filename)
 
     /* Initialize all PNG export data structures. */
 
-    if (!(filep = fs_open(filename, "w")))
+    if (!(filep = fs_open_write(filename)))
         return;
     if (!(writep = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
         return;

@@ -50,7 +50,7 @@ static int course_load(struct course *crs, const char *filename)
 
     strncpy(crs->holes, filename, MAXSTR - 1);
 
-    if ((fin = fs_open(filename, "r")))
+    if ((fin = fs_open_read(filename)))
     {
         if (fs_gets(crs->shot, sizeof (crs->shot), fin) &&
             fs_gets(crs->desc, sizeof (crs->desc), fin))
@@ -104,7 +104,7 @@ void course_init()
 
     count = 0;
 
-    if ((fin = fs_open(COURSE_FILE, "r")))
+    if ((fin = fs_open_read(COURSE_FILE)))
     {
         while (count < MAXCRS && read_line(&line, fin))
         {

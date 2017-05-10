@@ -730,7 +730,7 @@ void light_load(void)
 
     light_reset();
 
-    if ((fp = fs_open("lights.txt", "r")))
+    if ((fp = fs_open_read("lights.txt")))
     {
         while (fs_gets(buf, sizeof (buf), fp))
         {

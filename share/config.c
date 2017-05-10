@@ -344,7 +344,7 @@ void config_load(void)
 
     SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
 
-    if ((fh = fs_open(USER_CONFIG_FILE, "r")))
+    if ((fh = fs_open_read(USER_CONFIG_FILE)))
     {
         char *line, *key, *val;
 
@@ -421,7 +421,7 @@ void config_save(void)
 
     SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
 
-    if (dirty && (fh = fs_open(USER_CONFIG_FILE, "w")))
+    if (dirty && (fh = fs_open_write(USER_CONFIG_FILE)))
     {
         int i;
 
