@@ -322,9 +322,6 @@ static void sol_load_mesh(struct d_mesh *mp,
                           const struct b_body *bp,
                           const struct s_draw *draw, int mi)
 {
-    const size_t vs = sizeof (struct d_vert);
-    const size_t gs = sizeof (struct d_geom);
-
     struct d_vert *vv = 0;
     struct d_geom *gv = 0;
     int           *iv = 0;
@@ -337,8 +334,8 @@ static void sol_load_mesh(struct d_mesh *mp,
 
     /* Get temporary storage for vertex and element array creation. */
 
-    if ((vv = (struct d_vert *) calloc(oc, vs)) &&
-        (gv = (struct d_geom *) calloc(gc, gs)) &&
+    if ((vv = (struct d_vert *) calloc(oc, sizeof (*vv))) &&
+        (gv = (struct d_geom *) calloc(gc, sizeof (*gv))) &&
         (iv = (int           *) calloc(oc, sizeof (int))))
     {
         int li, i;
@@ -362,12 +359,14 @@ static void sol_load_mesh(struct d_mesh *mp,
 
         glGenBuffers_(1, &mp->vbo);
         glBindBuffer_(GL_ARRAY_BUFFER,         mp->vbo);
-        glBufferData_(GL_ARRAY_BUFFER,         vn * vs, vv, GL_STATIC_DRAW);
+        glBufferData_(GL_ARRAY_BUFFER,         vn * sizeof (*vv), vv,
+                      GL_STATIC_DRAW);
         glBindBuffer_(GL_ARRAY_BUFFER,         0);
 
         glGenBuffers_(1, &mp->ebo);
         glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, mp->ebo);
-        glBufferData_(GL_ELEMENT_ARRAY_BUFFER, gn * gs, gv, GL_STATIC_DRAW);
+        glBufferData_(GL_ELEMENT_ARRAY_BUFFER, gn * sizeof (*gv), gv,
+                      GL_STATIC_DRAW);
         glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         /* Note cached material index. */
