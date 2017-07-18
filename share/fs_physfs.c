@@ -116,27 +116,57 @@ void fs_dir_free(Array items)
 
 /*---------------------------------------------------------------------------*/
 
-fs_file fs_open(const char *path, const char *mode)
+fs_file fs_open_read(const char *path)
 {
     fs_file fh;
 
-    assert((mode[0] == 'r' && !mode[1]) ||
-           (mode[0] == 'w' && (!mode[1] || mode[1] == '+')));
+    if ((fh = malloc(sizeof (*fh))))
+    {
+        fh->handle = PHYSFS_openRead(path);
+
+        if (fh->handle)
+        {
+            PHYSFS_setBuffer(fh->handle, 0x2000);
+        }
+        else
+        {
+            free(fh);
+            fh = NULL;
+        }
+    }
+
+    return fh;
+}
+
+fs_file fs_open_write(const char *path)
+{
+    fs_file fh;
 
     if ((fh = malloc(sizeof (*fh))))
     {
-        switch (mode[0])
-        {
-        case 'r':
-            fh->handle = PHYSFS_openRead(path);
-            break;
+        fh->handle = PHYSFS_openWrite(path);
 
-        case 'w':
-            fh->handle = (mode[1] == '+' ?
-                          PHYSFS_openAppend(path) :
-                          PHYSFS_openWrite(path));
-            break;
+        if (fh->handle)
+        {
+            PHYSFS_setBuffer(fh->handle, 0x2000);
         }
+        else
+        {
+            free(fh);
+            fh = NULL;
+        }
+    }
+
+    return fh;
+}
+
+fs_file fs_open_append(const char *path)
+{
+    fs_file fh;
+
+    if ((fh = malloc(sizeof (*fh))))
+    {
+        fh->handle = PHYSFS_openAppend(path);
 
         if (fh->handle)
         {
@@ -234,9 +264,11 @@ int fs_eof(fs_file fh)
     return PHYSFS_eof(fh->handle);
 }
 
-int fs_length(fs_file fh)
+int fs_size(const char *path)
 {
-    return PHYSFS_fileLength(fh->handle);
+    PHYSFS_file *fp = PHYSFS_openRead(path);
+
+    return fp ? (int) PHYSFS_fileLength(fp) : 0;
 }
 
 /*---------------------------------------------------------------------------*/
