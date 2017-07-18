@@ -46,7 +46,7 @@
 
 #define CLAMP(a, b, c) MIN(MAX(a, b), c)
 
-#define SIGN(n) ((n) < 0 ? -1 : ((n) ? +1 : 0))
+#define SIGN(n) ((n) < 0 ? -1 : ((n) > 0 ? +1 : 0))
 #define ROUND(f) ((int) ((f) + 0.5f * SIGN(f)))
 
 #define TIME_TO_MS(t) ROUND((t) * 1000.0f)
