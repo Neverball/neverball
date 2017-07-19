@@ -266,9 +266,15 @@ int fs_eof(fs_file fh)
 
 int fs_size(const char *path)
 {
+    int size = 0;
     PHYSFS_file *fp = PHYSFS_openRead(path);
 
-    return fp ? (int) PHYSFS_fileLength(fp) : 0;
+    if (fp)
+    {
+        size = (int) PHYSFS_fileLength(fp);
+        PHYSFS_close(fp);
+    }
+    return size;
 }
 
 /*---------------------------------------------------------------------------*/
