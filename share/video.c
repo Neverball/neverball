@@ -271,7 +271,6 @@ int video_mode(int f, int w, int h)
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
         glEnable(GL_BLEND);
 
 #if !ENABLE_OPENGLES

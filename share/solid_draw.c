@@ -622,7 +622,6 @@ void sol_back(const struct s_draw *draw,
     if (!(draw && draw->base && draw->base->rc))
         return;
 
-    glDisable(GL_LIGHTING);
     glDepthMask(GL_FALSE);
 
     sol_bill_enable(draw);
@@ -683,7 +682,6 @@ void sol_back(const struct s_draw *draw,
     sol_bill_disable();
 
     glDepthMask(GL_TRUE);
-    glEnable(GL_LIGHTING);
 }
 
 void sol_bill(const struct s_draw *draw,
@@ -742,7 +740,6 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
         glPushMatrix();
         glLoadIdentity();
         {
-            glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_TEXTURE_2D);
 
@@ -758,7 +755,6 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 
             glEnable(GL_TEXTURE_2D);
             glEnable(GL_DEPTH_TEST);
-            glEnable(GL_LIGHTING);
         }
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
@@ -1002,6 +998,16 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
         {
             glDisable(GL_POINT_SPRITE);
         }
+    }
+
+    /* Lighting. */
+
+    if ((mp_flags & M_LIT) ^ (mq_flags & M_LIT))
+    {
+        if (mp_flags & M_LIT)
+            glEnable(GL_LIGHTING);
+        else
+            glDisable(GL_LIGHTING);
     }
 
     /* Update current material state. */

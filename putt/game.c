@@ -130,7 +130,6 @@ static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
 {
     if (view_m > 0.f)
     {
-        glDisable(GL_LIGHTING);
         glPushMatrix();
         {
             glTranslatef(fp->uv[ball].p[0],
@@ -143,7 +142,6 @@ static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
             vect_draw(rend);
         }
         glPopMatrix();
-        glEnable(GL_LIGHTING);
     }
 }
 
@@ -337,14 +335,12 @@ void game_draw(int pose, float t)
             game_draw_vect(&rend, fp->vary);
         }
 
-        glDisable(GL_LIGHTING);
         glDepthMask(GL_FALSE);
         {
             game_draw_flags(&rend, fp->base);
             game_draw_beams(&rend, fp->base, fp->vary);
         }
         glDepthMask(GL_TRUE);
-        glEnable(GL_LIGHTING);
 
         glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
