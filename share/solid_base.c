@@ -817,6 +817,7 @@ static const struct
     { "transparent", M_TRANSPARENT },
     { "two-sided",   M_TWO_SIDED },
     { "particle",    M_PARTICLE },
+    { "lit",         M_LIT },
 };
 
 int mtrl_read(struct b_mtrl *mp, const char *name)

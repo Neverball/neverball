@@ -138,11 +138,9 @@ static void ball_draw_solid(struct s_rend *rend,
             {
                 if (test == 0) glDisable(GL_DEPTH_TEST);
                 if (mask == 0) glDepthMask(GL_FALSE);
-                glDisable(GL_LIGHTING);
                 {
                     sol_bill(&solid.draw, rend, ball_bill_M, t);
                 }
-                glEnable(GL_LIGHTING);
                 if (mask == 0) glDepthMask(GL_TRUE);
                 if (test == 0) glEnable(GL_DEPTH_TEST);
             }
@@ -184,15 +182,12 @@ static void ball_draw_inner(struct s_rend *rend,
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
             if (mask == 0) glDepthMask(GL_FALSE);
-            glDisable(GL_LIGHTING);
             {
                 if (pend)
                     sol_bill(&inner.draw, rend, pend_bill_M, t);
                 else
                     sol_bill(&inner.draw, rend, bill_M,      t);
             }
-
-            glEnable(GL_LIGHTING);
             if (mask == 0) glDepthMask(GL_TRUE);
             if (test == 0) glEnable(GL_DEPTH_TEST);
         }
@@ -231,14 +226,12 @@ static void ball_draw_outer(struct s_rend *rend,
         {
             if (test == 0) glDisable(GL_DEPTH_TEST);
             if (mask == 0) glDepthMask(GL_FALSE);
-            glDisable(GL_LIGHTING);
             {
                 if (pend)
                     sol_bill(&outer.draw, rend, pend_bill_M, t);
                 else
                     sol_bill(&outer.draw, rend, bill_M,      t);
             }
-            glEnable(GL_LIGHTING);
             if (mask == 0) glDepthMask(GL_TRUE);
             if (test == 0) glEnable(GL_DEPTH_TEST);
         }

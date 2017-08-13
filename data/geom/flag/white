@@ -1,7 +1,7 @@
-diffuse   0.8 0.8 0.8 0.75
+diffuse   0.7 0.7 0.7 1.0
 ambient   0.2 0.2 0.2 1.0
 specular  1.0 1.0 1.0 1.0
 emissive  0.0 0.0 0.0 1.0
-shininess 60.0
-flags     transparent lit
+shininess 10.0
+flags     
 angle     45.0

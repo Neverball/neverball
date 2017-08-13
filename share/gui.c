@@ -1710,7 +1710,6 @@ void gui_paint(int id)
     {
         video_push_ortho();
         {
-            glDisable(GL_LIGHTING);
             glDisable(GL_DEPTH_TEST);
             {
                 draw_enable(GL_FALSE, GL_TRUE, GL_TRUE);
@@ -1726,7 +1725,6 @@ void gui_paint(int id)
                 glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
             }
             glEnable(GL_DEPTH_TEST);
-            glEnable(GL_LIGHTING);
         }
         video_pop_matrix();
     }
