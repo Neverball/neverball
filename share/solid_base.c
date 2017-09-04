@@ -451,6 +451,17 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
         fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
     }
 
+    /* Add lit flag to old materials. */
+
+    if (sol_version <= SOL_VERSION_1_6)
+    {
+        for (i = 0; i < fp->mc; ++i)
+            fp->mv[i].fl |= M_LIT;
+
+        for (i = 0; i < fp->rc; ++i)
+          fp->mv[fp->rv[i].mi].fl &= ~M_LIT;
+    }
+
     return 1;
 }
 
