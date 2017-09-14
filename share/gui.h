@@ -117,6 +117,8 @@ int  gui_point(int, int, int);
 int  gui_stick(int, int, float, int);
 int  gui_click(int, int);
 void gui_focus(int);
+void gui_freeze(void);
+void gui_unfreeze(void);
 
 int  gui_active(void);
 int  gui_token(int);

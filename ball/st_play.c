@@ -426,6 +426,10 @@ static void play_loop_point(int id, int x, int y, int dx, int dy)
 
 static void play_loop_stick(int id, int a, float v, int bump)
 {
+    if (v == 0)
+        gui_unfreeze();
+    else
+        gui_freeze();
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_X0, a))
         game_set_z(v);
     if (config_tst_d(CONFIG_JOYSTICK_AXIS_Y0, a))
