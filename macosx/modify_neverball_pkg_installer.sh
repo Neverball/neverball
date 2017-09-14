@@ -1,5 +1,5 @@
 #!/bin/sh
-# Usage: `sh modify_neverball_pkg_installer.sh Neverball-v1.5.x.mpkg`
+# Usage: `sh modify_neverball_pkg_installer.sh Neverball-v1.x.x.mpkg`
 # Please run this script on the .mpkg installer after building.
 # PackageMaker doesn't seem to generate suitable sub-package names.
 # This changes the .pkg 'receipts' to have meaningful names (Neverball_Docs.pkg vs. docs.pkg).
