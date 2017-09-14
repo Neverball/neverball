@@ -534,6 +534,16 @@ static void demo_play_wheel(int x, int y)
     if (y < 0) set_speed(-1);
 }
 
+static int demo_play_click(int b, int d)
+{
+    if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        demo_paused = 1;
+        return goto_state(&st_demo_end);
+    }
+    return 1;
+}
+
 static int demo_play_keybd(int c, int d)
 {
     if (d)
@@ -832,7 +842,7 @@ struct state st_demo_play = {
     NULL,
     demo_play_stick,
     NULL,
-    NULL,
+    demo_play_click,
     demo_play_keybd,
     demo_play_buttn,
     demo_play_wheel

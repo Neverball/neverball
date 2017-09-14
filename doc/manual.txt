@@ -231,6 +231,11 @@ values follow.
         seconds,  so the  actual rotation  rate depends  upon view_dz,
         above.  The fast rate is used when the Shift key is held down.
 
+    rotate_timeout 3500
+
+        Timeout in milliseconds before right button performs Escape.
+        The default is 3500 milliseconds (3.5 seconds).  0 is off.
+
     fps 0
 
         This key enables an on-screen frames-per-second counter. Press

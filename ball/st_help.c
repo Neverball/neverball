@@ -427,6 +427,15 @@ static void help_demo_timer(int id, float dt)
     game_client_blend(demo_replay_blend());
 }
 
+static int help_demo_click(int b, int d)
+{
+    if (b == SDL_BUTTON_RIGHT && d == 1)
+    {
+        return goto_state(&st_help);
+    }
+    return 1;
+}
+
 static int help_demo_keybd(int c, int d)
 {
     if (d)
@@ -469,7 +478,7 @@ struct state st_help_demo = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    help_demo_click,
     help_demo_keybd,
     help_demo_buttn
 };

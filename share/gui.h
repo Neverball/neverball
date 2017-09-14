@@ -116,6 +116,7 @@ void gui_timer(int, float);
 int  gui_point(int, int, int);
 int  gui_stick(int, int, float, int);
 int  gui_click(int, int);
+int  gui_click_right(int, int);
 void gui_focus(int);
 
 int  gui_active(void);

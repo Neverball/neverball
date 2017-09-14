@@ -99,6 +99,7 @@ extern int CONFIG_VIEW_DC;
 extern int CONFIG_VIEW_DZ;
 extern int CONFIG_ROTATE_FAST;
 extern int CONFIG_ROTATE_SLOW;
+extern int CONFIG_ROTATE_TIMEOUT;
 extern int CONFIG_CHEAT;
 extern int CONFIG_STATS;
 extern int CONFIG_SCREENSHOT;

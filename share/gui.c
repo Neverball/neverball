@@ -2168,6 +2168,15 @@ int gui_click(int b, int d)
     return 0;
 }
 
+int gui_click_right(int b, int d)
+{
+    if (b == SDL_BUTTON_RIGHT && d)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int gui_navig(int id, int total, int first, int step)

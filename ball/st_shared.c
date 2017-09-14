@@ -90,6 +90,8 @@ int shared_click(int b, int d)
 
     if (gui_click(b, d))
         return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
+    else if(gui_click_right(b, d))
+        return st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
     else
         return 1;
 }

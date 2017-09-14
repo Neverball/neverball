@@ -167,6 +167,10 @@ int common_click(int b, int d)
         int active = gui_active();
         return common_action(gui_token(active), gui_value(active));
     }
+    else if (gui_click_right(b, d))
+    {
+        return common_action(GUI_BACK, 0);
+    }
     return 1;
 }
 

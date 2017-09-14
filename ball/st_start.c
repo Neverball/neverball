@@ -336,6 +336,10 @@ static int start_click(int b, int d)
     {
         return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
     }
+    else if (gui_click_right(b, d))
+    {
+        return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
+    }
     return 1;
 }
 
