@@ -80,6 +80,7 @@ static int handle_key_dn(SDL_Event *e)
 {
     int d = 1;
     int c = e->key.keysym.sym;
+    int r = e->key.repeat;
 
     /* SDL made me do it. */
 #ifdef __APPLE__
@@ -120,13 +121,21 @@ static int handle_key_dn(SDL_Event *e)
 
     default:
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), -1.0f);
+        {
+            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), -1.0f);
+        }
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), +1.0f);
+        {
+            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), +1.0f);
+        }
         else if (config_tst_d(CONFIG_KEY_LEFT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), -1.0f);
+        {
+            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), -1.0f);
+        }
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), +1.0f);
+        {
+            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), +1.0f);
+        }
         else
             d = st_keybd(e->key.keysym.sym, 1);
     }
