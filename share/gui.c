@@ -101,6 +101,7 @@ struct widget
 
 static struct widget widget[WIDGET_MAX];
 static int           active;
+static int           frozen;
 static int           hovered;
 static int           clicked;
 static int           padding;
@@ -566,6 +567,7 @@ void gui_init(void)
         gui_layout(cursor_id, 0, 0);
 
     active = 0;
+    frozen = 0;
 }
 
 void gui_free(void)
@@ -1839,6 +1841,16 @@ int gui_active(void)
     return active;
 }
 
+void gui_freeze(void)
+{
+    frozen = 1;
+}
+
+void gui_unfreeze(void)
+{
+    frozen = 0;
+}
+
 int gui_token(int id)
 {
     return id ? widget[id].token : 0;
@@ -2124,6 +2136,13 @@ static int gui_wrap_D(int id, int dd)
 int gui_stick(int id, int a, float v, int bump)
 {
     int jd = 0;
+
+    if (frozen)
+    {
+        if (v == 0)
+            gui_unfreeze();
+        return 0;
+    }
 
     if (!bump)
         return 0;
