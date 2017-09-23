@@ -63,8 +63,7 @@ static int timer = 0;
 static int goal   = 0; /* Current goal value. */
 static int goal_i = 0; /* Initial goal value. */
 
-static int goal_e      = 0; /* Goal enabled flag                */
-static int same_goal_e = 0; /* Reuse existing goal enabled flag */
+static int goal_e = 0; /* Goal enabled flag   */
 
 static int time_rank = RANK_LAST;
 static int goal_rank = RANK_LAST;
@@ -125,11 +124,8 @@ int  progress_play(struct level *l)
         timer  = 0;
         goal   = goal_i = level_goal(level);
 
-        if (same_goal_e)
-            same_goal_e = 0;
-        else
-            goal_e = (mode != MODE_CHALLENGE && level_completed(level) &&
-                      config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0;
+        goal_e = (mode != MODE_CHALLENGE && level_completed(level) &&
+                  config_get_d(CONFIG_LOCK_GOALS) == 0) || goal == 0;
 
         prev = curr;
 
@@ -323,8 +319,6 @@ int  progress_same(void)
 
     if (status == GAME_GOAL)
         curr = prev;
-
-    same_goal_e = 1;
 
     return progress_play(level);
 }

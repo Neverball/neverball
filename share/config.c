@@ -211,7 +211,7 @@ static struct
     { &CONFIG_CHEAT,       "cheat",       0 },
     { &CONFIG_STATS,       "stats",       0 },
     { &CONFIG_SCREENSHOT,  "screenshot",  0 },
-    { &CONFIG_LOCK_GOALS,  "lock_goals",  0 },
+    { &CONFIG_LOCK_GOALS,  "lock_goals",  1 },
 
     { &CONFIG_CAMERA_1_SPEED, "camera_1_speed", 250 },
     { &CONFIG_CAMERA_2_SPEED, "camera_2_speed", 0 },
