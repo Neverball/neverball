@@ -99,9 +99,11 @@ int glext_assert(const char *ext)
 
 /*---------------------------------------------------------------------------*/
 
-#define SDL_GL_GFPA(fun, str) do {       \
-    ptr = SDL_GL_GetProcAddress(str);    \
-    memcpy(&fun, &ptr, sizeof (void *)); \
+#define SDL_GL_GFPA(fun, str) do {                       \
+    ptr = SDL_GL_GetProcAddress(str);                    \
+    if (!ptr)                                            \
+        log_printf("Missing OpenGL function %s\n", str); \
+    memcpy(&fun, &ptr, sizeof (void *));                 \
 } while(0)
 
 /*---------------------------------------------------------------------------*/
@@ -111,7 +113,7 @@ static void log_opengl(void)
     log_printf("GL vendor: %s\n"
                "GL renderer: %s\n"
                "GL version: %s\n"
-               "GL extensions: %s",
+               "GL extensions: %s\n",
                glGetString(GL_VENDOR),
                glGetString(GL_RENDERER),
                glGetString(GL_VERSION),

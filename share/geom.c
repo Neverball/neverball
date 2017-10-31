@@ -445,6 +445,8 @@ void back_init(const char *name)
     {
         struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
         mp->o = make_image_from_file(name, IF_MIPMAP);
+        if (!mp->o)
+            log_printf("failed to load background image \"%s\"\n", name);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         back_state = 1;
     }
