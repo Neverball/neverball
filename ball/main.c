@@ -327,7 +327,7 @@ static char *opt_level;
     "  -h, --help                show this usage message.\n"          \
     "  -v, --version             show version.\n"                     \
     "  -d, --data <dir>          use 'dir' as game data directory.\n" \
-    "  -d, --user <dir>          use 'dir' as user data directory.\n" \
+    "  -u, --user <dir>          use 'dir' as user data directory.\n" \
     "  -r, --replay <file>       play the replay 'file'.\n"           \
     "  -l, --level <file>        load the level 'file'\n"
 
