@@ -317,6 +317,7 @@ static int loop(void)
 /*---------------------------------------------------------------------------*/
 
 static char *opt_data;
+static char *opt_user;
 static char *opt_replay;
 static char *opt_level;
 
@@ -326,6 +327,7 @@ static char *opt_level;
     "  -h, --help                show this usage message.\n"          \
     "  -v, --version             show version.\n"                     \
     "  -d, --data <dir>          use 'dir' as game data directory.\n" \
+    "  -d, --user <dir>          use 'dir' as user data directory.\n" \
     "  -r, --replay <file>       play the replay 'file'.\n"           \
     "  -l, --level <file>        load the level 'file'\n"
 
@@ -360,6 +362,17 @@ static void opt_parse(int argc, char **argv)
                 exit(EXIT_FAILURE);
             }
             opt_data = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "-u") == 0 || strcmp(argv[i], "--user")    == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_user = argv[++i];
             continue;
         }
 
@@ -490,7 +503,7 @@ int main(int argc, char *argv[])
 
     opt_parse(argc, argv);
 
-    config_paths(opt_data);
+    config_paths(opt_data, opt_user);
     log_init("Neverball", "neverball.log");
     make_dirs_and_migrate();
 
