@@ -94,13 +94,13 @@ void config_paths(const char *arg_data_path, const char *arg_user_path)
 
     /* User directory. */
 
-	if (arg_user_path)
-		user = arg_user_path;
-	else
-	{
-		home = pick_home_path();
-		user = concat_string(home, "/", CONFIG_USER, NULL);
-	}
+    if (arg_user_path)
+        user = arg_user_path;
+    else
+    {
+        home = pick_home_path();
+        user = concat_string(home, "/", CONFIG_USER, NULL);
+    }
 
     /* Set up directory for writing, create if needed. */
 
