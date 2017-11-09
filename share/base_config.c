@@ -48,11 +48,8 @@ static const char *pick_data_path(const char *arg_data_path)
     return dir;
 }
 
-static const char *pick_home_path(const char *arg_user_path)
+static const char *pick_home_path(void)
 {
-    if (arg_user_path)
-        return arg_user_path;
-
 #ifdef _WIN32
     static char path[MAX_PATH];
 
@@ -97,8 +94,13 @@ void config_paths(const char *arg_data_path, const char *arg_user_path)
 
     /* User directory. */
 
-    home = pick_home_path(arg_user_path);
-    user = concat_string(home, "/", CONFIG_USER, NULL);
+	if (arg_user_path)
+		user = arg_user_path;
+	else
+	{
+		home = pick_home_path();
+		user = concat_string(home, "/", CONFIG_USER, NULL);
+	}
 
     /* Set up directory for writing, create if needed. */
 
