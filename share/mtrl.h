@@ -8,6 +8,8 @@
 
 #define tobyte(f) ((GLubyte) (f * 255.0f))
 
+#define toushort(f) ((int) (f) << 8 | tobyte((f) - (int) (f)))
+
 #define touint(v) ((GLuint) (tobyte((v)[0])       | \
                              tobyte((v)[1]) << 8  | \
                              tobyte((v)[2]) << 16 | \
