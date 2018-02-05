@@ -89,6 +89,8 @@ void log_quit(void)
     if (log_fp)
     {
         fs_close(log_fp);
+        log_fp = NULL;
+
         log_header[0] = 0;
     }
 }
