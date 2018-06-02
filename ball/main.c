@@ -180,6 +180,8 @@ static int loop(void)
 
     int ax, ay, dx, dy;
 
+    int c, r;
+
     /* Process SDL events. */
 
     while (d && SDL_PollEvent(&e))
@@ -218,10 +220,25 @@ static int loop(void)
             break;
 
         case SDL_KEYDOWN:
+            c = e.key.keysym.sym;
+            r = e.key.repeat;
+            if (config_tst_d(CONFIG_KEY_FORWARD, c) || config_tst_d(CONFIG_KEY_BACKWARD, c)) {
+                if (!r) st_set_last_axis_key(1, c);
+            }
+            else if (config_tst_d(CONFIG_KEY_LEFT, c) || config_tst_d(CONFIG_KEY_RIGHT, c)) {
+                if (!r) st_set_last_axis_key(0, c);
+            }
             d = handle_key_dn(&e);
             break;
 
         case SDL_KEYUP:
+            c = e.key.keysym.sym;
+            if (config_tst_d(CONFIG_KEY_FORWARD, c) || config_tst_d(CONFIG_KEY_BACKWARD, c)) {
+                if (!st_is_last_axis_key(1, c)) break;
+            }
+            else if (config_tst_d(CONFIG_KEY_LEFT, c) || config_tst_d(CONFIG_KEY_RIGHT, c)) {
+                if (!st_is_last_axis_key(0, c)) break;
+            }
             d = handle_key_up(&e);
             break;
 

@@ -248,6 +248,25 @@ void st_wheel(int x, int y)
         state->wheel(x, y);
 }
 
+void st_set_last_axis_key(int axis, int key) {
+    if (state) {
+        if (axis == 0) // x axis
+            state->last_xaxis_key = key;
+        if (axis == 1) // y axis
+            state->last_yaxis_key = key;
+    }
+}
+
+int st_is_last_axis_key(int axis, int key) {
+    if (state) {
+        if (axis == 0)
+            return (state->last_xaxis_key == key);
+        if (axis == 1)
+            return (state->last_yaxis_key == key);
+    }
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 int st_click(int b, int d)

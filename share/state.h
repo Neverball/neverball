@@ -18,6 +18,9 @@ struct state
     void (*wheel)(int x,  int y);
 
     int gui_id;
+
+    int last_xaxis_key;
+    int last_yaxis_key;
 };
 
 struct state *curr_state(void);
@@ -32,10 +35,12 @@ void st_point(int, int, int, int);
 void st_stick(int, float);
 void st_angle(float, float);
 void st_wheel(int, int);
+void st_set_last_axis_key(int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);
 int  st_buttn(int, int);
 
+int st_is_last_axis_key(int, int);
 /*---------------------------------------------------------------------------*/
 
 #endif
