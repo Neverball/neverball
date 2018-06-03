@@ -76,11 +76,28 @@ static void toggle_wire(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Track held direction keys.
+ */
+static char key_pressed[4];
+
+static const int key_other[4] = { 1, 0, 3, 2 };
+
+static const int *key_axis[4] = {
+    &CONFIG_JOYSTICK_AXIS_Y0,
+    &CONFIG_JOYSTICK_AXIS_Y0,
+    &CONFIG_JOYSTICK_AXIS_X0,
+    &CONFIG_JOYSTICK_AXIS_X0
+};
+
+static const float key_tilt[4] = { -1.0f, +1.0f, -1.0f, +1.0f };
+
 static int handle_key_dn(SDL_Event *e)
 {
     int d = 1;
     int c = e->key.keysym.sym;
-    int r = e->key.repeat;
+
+    int dir = -1;
 
     /* SDL made me do it. */
 #ifdef __APPLE__
@@ -120,21 +137,24 @@ static int handle_key_dn(SDL_Event *e)
         break;
 
     default:
-        if (config_tst_d(CONFIG_KEY_FORWARD, c))
-        {
-            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), -1.0f);
-        }
+        if (config_tst_d(CONFIG_KEY_FORWARD,  c))
+            dir = 0;
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-        {
-            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), +1.0f);
-        }
+            dir = 1;
         else if (config_tst_d(CONFIG_KEY_LEFT, c))
-        {
-            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), -1.0f);
-        }
+            dir = 2;
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
+            dir = 3;
+
+        if (dir != -1)
         {
-            if (!r) st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), +1.0f);
+            /* Ignore auto-repeat on direction keys. */
+
+            if (e->key.repeat)
+                break;
+
+            key_pressed[dir] = 1;
+            st_stick(config_get_d(*key_axis[dir]), key_tilt[dir]);
         }
         else
             d = st_keybd(e->key.keysym.sym, 1);
@@ -148,6 +168,8 @@ static int handle_key_up(SDL_Event *e)
     int d = 1;
     int c = e->key.keysym.sym;
 
+    int dir = -1;
+
     switch (c)
     {
     case SDLK_RETURN:
@@ -159,13 +181,23 @@ static int handle_key_up(SDL_Event *e)
         break;
     default:
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0);
+            dir = 0;
         else if (config_tst_d(CONFIG_KEY_BACKWARD, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_Y0), 0);
+            dir = 1;
         else if (config_tst_d(CONFIG_KEY_LEFT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0);
+            dir = 2;
         else if (config_tst_d(CONFIG_KEY_RIGHT, c))
-            st_stick(config_get_d(CONFIG_JOYSTICK_AXIS_X0), 0);
+            dir = 3;
+
+        if (dir != -1)
+        {
+            key_pressed[dir] = 0;
+
+            if (key_pressed[key_other[dir]])
+                st_stick(config_get_d(*key_axis[dir]), -key_tilt[dir]);
+            else
+                st_stick(config_get_d(*key_axis[dir]), 0.0f);
+        }
         else
             d = st_keybd(e->key.keysym.sym, 0);
     }
