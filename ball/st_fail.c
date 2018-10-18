@@ -34,9 +34,8 @@
 
 enum
 {
-    FAIL_NEXT = GUI_LAST,
+    /* Some enumerations were removed in this future !*/
     FAIL_SAME,
-    FAIL_SAVE,
     FAIL_OVER
 };
 
@@ -47,21 +46,13 @@ static int fail_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
 
+    /* Some tokens were removed in this future! */
     switch (tok)
     {
     case GUI_BACK:
     case FAIL_OVER:
         progress_stop();
         return goto_state(&st_exit);
-
-    case FAIL_SAVE:
-        progress_stop();
-        return goto_save(&st_fail, &st_fail);
-
-    case FAIL_NEXT:
-        if (progress_next())
-            return goto_state(&st_level);
-        break;
 
     case FAIL_SAME:
         if (progress_same())
@@ -94,17 +85,12 @@ static int fail_gui(void)
 
         if ((jd = gui_harray(id)))
         {
+            /* Some buttons were removed in this future! */
             if (progress_dead())
                 gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
 
-            if (progress_next_avail())
-                gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
-
             if (progress_same_avail())
                 gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
-
-            if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
         }
 
         gui_space(id);
