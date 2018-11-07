@@ -34,7 +34,8 @@
 
 enum
 {
-    /* Some enumerations were removed in this future !*/
+    /* Some enumerations were removed in this future! */
+    GUI_BACK,
     FAIL_SAME,
     FAIL_OVER
 };
