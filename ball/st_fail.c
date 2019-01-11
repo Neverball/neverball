@@ -35,8 +35,7 @@
 enum
 {
     /* Some enumerations were removed in this future! */
-    GUI_BACK,
-    FAIL_SAME,
+    FAIL_SAME = GUI_LAST,
     FAIL_OVER
 };
 
