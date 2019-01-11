@@ -23,6 +23,7 @@
 #include "video.h"
 
 #include "st_conf.h"
+#include "st_name.h"
 #include "st_all.h"
 #include "st_common.h"
 
@@ -162,7 +163,7 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _(" "), GUI_SML, CONF_PLAYER, 0);
+            gui_state(kd, _("Change"), GUI_SML, CONF_PLAYER, 0);
             gui_label(jd, _("Player Name"),  GUI_SML, 0, 0);
             
             gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
