@@ -18,8 +18,6 @@ extern struct state st_score;
 extern struct state st_over;
 extern struct state st_pause;
 
-void set_joystick(SDL_Joystick *);
-
 int goto_pause(struct state *);
 
 #endif

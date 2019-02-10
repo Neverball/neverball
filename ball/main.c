@@ -35,6 +35,7 @@
 #include "text.h"
 #include "mtrl.h"
 #include "geom.h"
+#include "joy.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -291,15 +292,23 @@ static int loop(void)
             break;
 
         case SDL_JOYAXISMOTION:
-            st_stick(e.jaxis.axis, JOY_VALUE(e.jaxis.value));
+            joy_axis(e.jaxis.which, e.jaxis.axis, JOY_VALUE(e.jaxis.value));
             break;
 
         case SDL_JOYBUTTONDOWN:
-            d = st_buttn(e.jbutton.button, 1);
+            d = joy_button(e.jbutton.which, e.jbutton.button, 1);
             break;
 
         case SDL_JOYBUTTONUP:
-            d = st_buttn(e.jbutton.button, 0);
+            d = joy_button(e.jbutton.which, e.jbutton.button, 0);
+            break;
+
+        case SDL_JOYDEVICEADDED:
+            joy_add(e.jdevice.which);
+            break;
+
+        case SDL_JOYDEVICEREMOVED:
+            joy_remove(e.jdevice.which);
             break;
 
         case SDL_MOUSEWHEEL:
@@ -519,7 +528,6 @@ static void make_dirs_and_migrate(void)
 
 int main(int argc, char *argv[])
 {
-    SDL_Joystick *joy = NULL;
     int t1, t0;
 
     if (!fs_init(argv[0]))
@@ -543,6 +551,10 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    /* Enable joystick events. */
+
+    joy_init();
+
     /* Intitialize configuration. */
 
     config_init();
@@ -551,15 +563,6 @@ int main(int argc, char *argv[])
     /* Initialize localization. */
 
     lang_init();
-
-    /* Initialize joystick. */
-
-    if (config_get_d(CONFIG_JOYSTICK) && SDL_NumJoysticks() > 0)
-    {
-        joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
-        if (joy)
-            SDL_JoystickEventState(SDL_ENABLE);
-    }
 
     /* Initialize audio. */
 
@@ -646,11 +649,9 @@ int main(int argc, char *argv[])
 
     mtrl_quit();
 
-    if (joy)
-        SDL_JoystickClose(joy);
-
     tilt_free();
     hmd_free();
+    joy_quit();
     SDL_Quit();
 
     return 0;

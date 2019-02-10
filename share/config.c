@@ -58,7 +58,6 @@ int CONFIG_FPS;
 int CONFIG_SOUND_VOLUME;
 int CONFIG_MUSIC_VOLUME;
 int CONFIG_JOYSTICK;
-int CONFIG_JOYSTICK_DEVICE;
 int CONFIG_JOYSTICK_RESPONSE;
 int CONFIG_JOYSTICK_AXIS_X0;
 int CONFIG_JOYSTICK_AXIS_Y0;
@@ -163,7 +162,6 @@ static struct
     { &CONFIG_MUSIC_VOLUME, "music_volume", 6 },
 
     { &CONFIG_JOYSTICK,                "joystick",                1 },
-    { &CONFIG_JOYSTICK_DEVICE,         "joystick_device",         0 },
     { &CONFIG_JOYSTICK_RESPONSE,       "joystick_response",       250 },
     { &CONFIG_JOYSTICK_AXIS_X0,        "joystick_axis_x0",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y0,        "joystick_axis_y0",        1 },
