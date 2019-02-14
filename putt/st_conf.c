@@ -23,7 +23,7 @@
 #include "video.h"
 
 #include "st_conf.h"
-#include "st_name.h"
+//#include "st_name.h"
 #include "st_all.h"
 #include "st_common.h"
 
@@ -33,7 +33,7 @@ enum
 {
     CONF_VIDEO = 1,
     CONF_LANG,
-    CONF_PLAYER,
+    //CONF_PLAYER,
     CONF_BACK
 };
 
@@ -62,9 +62,9 @@ static int conf_action(int i)
         goto_state(&st_lang);
         break;
     
-    case CONF_PLAYER:
+    /*case CONF_PLAYER:
         goto_name(&st_conf, &st_conf, 1);
-        break;
+        break;*/
 
     default:
         if (100 <= i && i <= 110)
@@ -163,8 +163,8 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            gui_state(kd, _("Change"), GUI_SML, CONF_PLAYER, 0);
-            gui_label(jd, _("Player Name"),  GUI_SML, 0, 0);
+            //gui_state(kd, _("Change"), GUI_SML, CONF_PLAYER, 0);
+            //gui_label(jd, _("Player Name"),  GUI_SML, 0, 0);
             
             gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
             gui_label(jd, _("Language"),  GUI_SML, 0, 0);
