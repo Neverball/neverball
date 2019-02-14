@@ -328,12 +328,6 @@ values follow.
         control  is enabled.   However,  random noise  from an  analog
         controller at rest can disrupt normal mouse input.
 
-    joystick_device 0
-
-        This  number selects  which joystick  to use if  more than one
-        joystick is  found. 0 is the first  joystick, 1 is the  second
-        and so on.
-
     joystick_axis_x 0
 
         Joystick horizontal axis number

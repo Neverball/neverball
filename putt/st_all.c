@@ -30,15 +30,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static SDL_Joystick *joystick = NULL;
-
-void set_joystick(SDL_Joystick *j)
-{
-    joystick = j;
-}
-
-/*---------------------------------------------------------------------------*/
-
 static char *number(int i)
 {
     static char str[MAXSTR];
@@ -934,7 +925,8 @@ static int flyby_buttn(int b, int d)
 /*---------------------------------------------------------------------------*/
 
 static int stroke_rotate = 0;
-static int stroke_mag    = 0;
+static int stroke_rotate_alt = 0;
+static int stroke_mag = 0;
 
 static int stroke_enter(struct state *st, struct state *prev)
 {
@@ -970,9 +962,7 @@ static void stroke_timer(int id, float dt)
 
     float k;
 
-    if (SDL_GetModState() & KMOD_SHIFT ||
-        (joystick && SDL_JoystickGetButton(joystick,
-                                           config_get_d(CONFIG_JOYSTICK_BUTTON_X))))
+    if (SDL_GetModState() & KMOD_SHIFT || stroke_rotate_alt)
         k = 0.25;
     else
         k = 1.0;
@@ -1007,10 +997,17 @@ static int stroke_buttn(int b, int d)
 {
     if (d)
     {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_X, b))
+            stroke_rotate_alt = 1;
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_roll);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
             return goto_pause(&st_over);
+    }
+    else
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_X, b))
+            stroke_rotate_alt = 0;
     }
     return 1;
 }

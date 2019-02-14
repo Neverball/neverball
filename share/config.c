@@ -58,7 +58,6 @@ int CONFIG_FPS;
 int CONFIG_SOUND_VOLUME;
 int CONFIG_MUSIC_VOLUME;
 int CONFIG_JOYSTICK;
-int CONFIG_JOYSTICK_DEVICE;
 int CONFIG_JOYSTICK_RESPONSE;
 int CONFIG_JOYSTICK_AXIS_X0;
 int CONFIG_JOYSTICK_AXIS_Y0;
@@ -77,6 +76,7 @@ int CONFIG_JOYSTICK_BUTTON_L1;
 int CONFIG_JOYSTICK_BUTTON_R1;
 int CONFIG_JOYSTICK_BUTTON_L2;
 int CONFIG_JOYSTICK_BUTTON_R2;
+int CONFIG_JOYSTICK_BUTTON_SELECT;
 int CONFIG_JOYSTICK_BUTTON_START;
 int CONFIG_JOYSTICK_DPAD_L;
 int CONFIG_JOYSTICK_DPAD_R;
@@ -163,12 +163,11 @@ static struct
     { &CONFIG_MUSIC_VOLUME, "music_volume", 6 },
 
     { &CONFIG_JOYSTICK,                "joystick",                1 },
-    { &CONFIG_JOYSTICK_DEVICE,         "joystick_device",         0 },
     { &CONFIG_JOYSTICK_RESPONSE,       "joystick_response",       250 },
     { &CONFIG_JOYSTICK_AXIS_X0,        "joystick_axis_x0",        0 },
     { &CONFIG_JOYSTICK_AXIS_Y0,        "joystick_axis_y0",        1 },
-    { &CONFIG_JOYSTICK_AXIS_X1,        "joystick_axis_x1",        2 },
-    { &CONFIG_JOYSTICK_AXIS_Y1,        "joystick_axis_y1",        3 },
+    { &CONFIG_JOYSTICK_AXIS_X1,        "joystick_axis_x1",        3 },
+    { &CONFIG_JOYSTICK_AXIS_Y1,        "joystick_axis_y1",        4 },
     { &CONFIG_JOYSTICK_AXIS_X0_INVERT, "joystick_axis_x0_invert", 0 },
     { &CONFIG_JOYSTICK_AXIS_Y0_INVERT, "joystick_axis_y0_invert", 0 },
     { &CONFIG_JOYSTICK_AXIS_X1_INVERT, "joystick_axis_x1_invert", 0 },
@@ -180,9 +179,10 @@ static struct
     { &CONFIG_JOYSTICK_BUTTON_Y,      "joystick_button_y",      3 },
     { &CONFIG_JOYSTICK_BUTTON_L1,     "joystick_button_l1",     4 },
     { &CONFIG_JOYSTICK_BUTTON_R1,     "joystick_button_r1",     5 },
-    { &CONFIG_JOYSTICK_BUTTON_L2,     "joystick_button_l2",     6 },
-    { &CONFIG_JOYSTICK_BUTTON_R2,     "joystick_button_r2",     7 },
-    { &CONFIG_JOYSTICK_BUTTON_START,  "joystick_button_start",  8 },
+    { &CONFIG_JOYSTICK_BUTTON_L2,     "joystick_button_l2",     -1 },
+    { &CONFIG_JOYSTICK_BUTTON_R2,     "joystick_button_r2",     -1 },
+    { &CONFIG_JOYSTICK_BUTTON_SELECT, "joystick_button_select", 6 },
+    { &CONFIG_JOYSTICK_BUTTON_START,  "joystick_button_start",  7 },
     { &CONFIG_JOYSTICK_DPAD_L,        "joystick_dpad_l",       -1 },
     { &CONFIG_JOYSTICK_DPAD_R,        "joystick_dpad_r",       -1 },
     { &CONFIG_JOYSTICK_DPAD_U,        "joystick_dpad_u",       -1 },

@@ -35,6 +35,7 @@
 #include "gui.h"
 #include "hmd.h"
 #include "fs.h"
+#include "joy.h"
 
 #include "st_conf.h"
 #include "st_all.h"
@@ -219,15 +220,23 @@ static int loop(void)
             break;
 
         case SDL_JOYAXISMOTION:
-            st_stick(e.jaxis.axis, JOY_VALUE(e.jaxis.value));
+            joy_axis(e.jaxis.which, e.jaxis.axis, JOY_VALUE(e.jaxis.value));
             break;
 
         case SDL_JOYBUTTONDOWN:
-            d = st_buttn(e.jbutton.button, 1);
+            d = joy_button(e.jbutton.which, e.jbutton.button, 1);
             break;
 
         case SDL_JOYBUTTONUP:
-            d = st_buttn(e.jbutton.button, 0);
+            d = joy_button(e.jbutton.which, e.jbutton.button, 0);
+            break;
+
+        case SDL_JOYDEVICEADDED:
+            joy_add(e.jdevice.which);
+            break;
+
+        case SDL_JOYDEVICEREMOVED:
+            joy_remove(e.jdevice.which);
             break;
         }
     }
@@ -279,7 +288,6 @@ static void opt_parse(int argc, char **argv)
 int main(int argc, char *argv[])
 {
     int camera = 0;
-    SDL_Joystick *joy = NULL;
 
     if (!fs_init(argv[0]))
     {
@@ -298,6 +306,8 @@ int main(int argc, char *argv[])
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
     {
+        joy_init();
+
         config_init();
         config_load();
 
@@ -308,18 +318,6 @@ int main(int argc, char *argv[])
         /* Cache Neverball's camera setting. */
 
         camera = config_get_d(CONFIG_CAMERA);
-
-        /* Initialize the joystick. */
-
-        if (config_get_d(CONFIG_JOYSTICK) && SDL_NumJoysticks() > 0)
-        {
-            joy = SDL_JoystickOpen(config_get_d(CONFIG_JOYSTICK_DEVICE));
-            if (joy)
-            {
-                SDL_JoystickEventState(SDL_ENABLE);
-                set_joystick(joy);
-            }
-        }
 
         /* Initialize the audio. */
 
@@ -384,6 +382,8 @@ int main(int argc, char *argv[])
 
         config_set_d(CONFIG_CAMERA, camera);
         config_save();
+
+        joy_quit();
 
         SDL_Quit();
     }

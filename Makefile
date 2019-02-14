@@ -275,6 +275,7 @@ BALL_OBJS := \
 	share/fs_jpg.o      \
 	share/fs_ov.o       \
 	share/log.o         \
+	share/joy.o         \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
@@ -342,6 +343,7 @@ PUTT_OBJS := \
 	share/glsl.o        \
 	share/array.o       \
 	share/log.o         \
+	share/joy.o         \
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
