@@ -86,7 +86,7 @@ static int fail_gui(void)
         if ((jd = gui_harray(id)))
         {
             /* Some buttons were removed in this future! */
-            if (progress_dead())
+            //if (progress_dead())
                 gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
 
             if (progress_same_avail())
