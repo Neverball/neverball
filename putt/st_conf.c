@@ -22,6 +22,8 @@
 #include "config.h"
 #include "video.h"
 
+#include "st_restart_required.h"
+
 #include "st_conf.h"
 //#include "st_name.h"
 #include "st_all.h"
@@ -33,12 +35,29 @@ enum
 {
     CONF_VIDEO = 1,
     CONF_LANG,
-    //CONF_PLAYER,
+    CONF_PLAYER,
     CONF_BACK
 };
 
+static int changed;
+
 static int music_id[11];
 static int sound_id[11];
+
+static int is_value_changed(void)
+{
+    return changed;
+}
+
+static void set_changed_value(void)
+{
+    changed = 1;
+}
+
+static void init_changed_value(void)
+{
+    changed = 0;
+}
 
 static int conf_action(int i)
 {
@@ -51,7 +70,10 @@ static int conf_action(int i)
     switch (i)
     {
     case CONF_BACK:
-        goto_state(&st_title);
+        if (is_value_changed())
+            goto_state(&st_restart_required);
+        else
+            goto_state(&st_title);
         break;
 
     case CONF_VIDEO:
@@ -61,7 +83,7 @@ static int conf_action(int i)
     case CONF_LANG:
         goto_state(&st_lang);
         break;
-    
+
     /*case CONF_PLAYER:
         goto_name(&st_conf, &st_conf, 1);
         break;*/
@@ -77,6 +99,8 @@ static int conf_action(int i)
 
             gui_toggle(sound_id[n]);
             gui_toggle(sound_id[s]);
+
+            set_changed_value();
         }
         if (200 <= i && i <= 210)
         {
@@ -88,6 +112,8 @@ static int conf_action(int i)
 
             gui_toggle(music_id[n]);
             gui_toggle(music_id[m]);
+
+            set_changed_value();
         }
     }
 
@@ -96,6 +122,9 @@ static int conf_action(int i)
 
 static int conf_enter(struct state *st, struct state *prev)
 {
+    if (prev == &st_title)
+        init_changed_value();
+
     int id, jd, kd;
     int i;
 
@@ -105,8 +134,6 @@ static int conf_enter(struct state *st, struct state *prev)
 
     if ((id = gui_vstack(0)))
     {
-        int name_id;
-        
         if ((jd = gui_harray(id)))
         {
             gui_label(jd, _("Options"), GUI_SML, 0, 0);
@@ -163,9 +190,9 @@ static int conf_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)) &&
             (kd = gui_harray(jd)))
         {
-            //gui_state(kd, _("Change"), GUI_SML, CONF_PLAYER, 0);
-            //gui_label(jd, _("Player Name"),  GUI_SML, 0, 0);
-            
+            /*gui_state(kd, _("Change"), GUI_SML, CONF_PLAYER, 0);
+            gui_label(jd, _("Player Name"),  GUI_SML, 0, 0);*/
+
             gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
             gui_label(jd, _("Language"),  GUI_SML, 0, 0);
         }
@@ -219,7 +246,7 @@ static int conf_click(int b, int d)
 
 static int conf_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? conf_action(CONF_BACK) : 1;
 }
 
 static int conf_buttn(int b, int d)
@@ -229,7 +256,7 @@ static int conf_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return conf_action(gui_token(gui_active()));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
+            return conf_action(CONF_BACK);
     }
     return 1;
 }
