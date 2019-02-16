@@ -304,6 +304,7 @@ BALL_OBJS := \
 	ball/st_help.o      \
 	ball/st_name.o      \
 	ball/st_shared.o    \
+	ball/st_shop.o      \
 	ball/st_pause.o     \
 	ball/st_ball.o      \
 	ball/main.o
@@ -344,6 +345,7 @@ PUTT_OBJS := \
 	share/array.o       \
 	share/log.o         \
 	share/joy.o         \
+	putt/st_restart_required.o\
 	putt/hud.o          \
 	putt/game.o         \
 	putt/hole.o         \
