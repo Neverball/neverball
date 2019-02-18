@@ -47,7 +47,7 @@ static const char products[][16] = {
 enum
 {
     SHOP_BACK = GUI_LAST,
-    SHOP_IMPORT,
+    SHOP_GETCOINS,
     SHOP_BUY
 };
 
@@ -59,6 +59,9 @@ static int shop_action(int tok, int val)
     {
     case SHOP_BACK:
         return goto_state(&st_title);
+        break;
+    case SHOP_GETCOINS:
+        return goto_state(&st_shop_getcoins);
         break;
     case SHOP_BUY:
         set_product_key(val);
@@ -76,12 +79,12 @@ static int shop_gui(void)
 	int w = video.device_w;
 	int h = video.device_h;	
 
-	int id, jd, kd, ld, md;
+	int id, jd, kd, ld;
 	if ((id = gui_vstack(0)))
 	{
 		if ((jd = gui_hstack(id)))
 		{
-			gui_state(jd, "+", GUI_SML, gui_grn, SHOP_IMPORT);
+			gui_state(jd, "+", GUI_SML, SHOP_GETCOINS, 0);
 			char coinsattr[MAXSTR];
 			sprintf(coinsattr, "%s: %i", _("Coins"), 0);
 			gui_label(jd, coinsattr, GUI_SML, gui_wht, gui_yel);
@@ -219,7 +222,7 @@ static int shop_buttn(int b, int d)
 enum
 {
 	SHOP_UNREGISTERED_YES,
-	SHOP_UNREGISTERED_CANCEL
+	SHOP_UNREGISTERED_CANCEL = GUI_LAST
 };
 
 static int shop_unregistered_action(int tok, int val)
@@ -240,7 +243,7 @@ static int shop_unregistered_action(int tok, int val)
 
 static int shop_unregistered_gui(void)
 {
-	int id, jd, kd, ld, md;
+	int id, jd;
 	if ((id = gui_vstack(0)))
 	{
 		gui_label(id, _("Unregistered!"), GUI_MED, gui_gry, gui_red);
@@ -293,6 +296,116 @@ static int shop_unregistered_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+// IAP included (25 coins = 1,29 €)
+static const char iapcoin[][16] = {
+    "tier1",
+    "tier2",
+    "tier3",
+    "tier4",
+    "tier5"
+};
+
+static const char iaplabel[][16] = {
+    "3.69 $",
+    "11.19 $",
+    "17.59 $",
+    "35.19 $",
+    "79.99 $"
+};
+
+enum
+{
+	SHOP_GETCOINS_BUY,
+	SHOP_GETCOINS_CANCEL = GUI_LAST
+};
+
+static int shop_getcoins_action(int tok, int val)
+{
+    audio_play(AUD_MENU, 1.0f);
+    
+    switch (tok)
+    {
+    case SHOP_GETCOINS_CANCEL:
+        return goto_state(&st_shop);
+        break;
+    }
+    return 1;
+}
+
+static int shop_getcoins_gui(void)
+{
+	int w = video.device_w;
+	int h = video.device_h;
+
+	int multiply;
+
+	int id, jd, kd;
+	if ((id = gui_vstack(0)))
+	{
+		if ((jd = gui_hstack(id)))
+		{
+			char walletattr[MAXSTR];
+			sprintf(walletattr, _("You have %i %s!"), 0, _("Coins"));
+
+			gui_label(jd, walletattr, GUI_SML, gui_yel, gui_red);
+			gui_filler(jd);
+			gui_state(jd, _("Back"), GUI_SML, SHOP_BACK, 0);
+		}
+
+		gui_space(id);
+
+		if ((jd = gui_hstack(id)))
+		{
+			for (multiply = 5; multiply > 0 /*sizeof iapcoin*/; multiply--)
+			{
+				if ((kd = gui_vstack(jd)))
+				{
+					char iapattr[MAXSTR];
+					sprintf(iapattr, "%s", iaplabel[multiply - 1]);
+					
+					gui_image(kd, "gui/shop/iap/placeholder.jpg", w / 7, h / 6);
+					gui_state(kd, iapattr, GUI_SML, 0, 0);
+					gui_filler(kd);
+					gui_set_state(kd, SHOP_GETCOINS_BUY, multiply - 1);
+				}
+			}
+		}
+		gui_layout(id, 0, 0);
+	}
+	return id;
+}
+
+static int shop_getcoins_enter(struct state *st, struct state *prev)
+{
+	return shop_getcoins_gui();
+}
+
+static int shop_getcoins_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return shop_getcoins_action(SHOP_GETCOINS_CANCEL, 0);
+    }
+    return 1;
+}
+
+static int shop_getcoins_buttn(int b, int d)
+{
+    if (d)
+    {
+        int active = gui_active();
+
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return shop_getcoins_action(gui_token(active), gui_value(active));
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            return shop_getcoins_action(SHOP_GETCOINS_CANCEL, 0);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 void set_product_key(int newkey) {
 	productkey = newkey;
 }
@@ -300,7 +413,7 @@ void set_product_key(int newkey) {
 enum
 {
 	SHOP_BUY_YES,
-	SHOP_BUY_CANCEL
+	SHOP_BUY_CANCEL = GUI_LAST
 };
 
 static int shop_buy_action(int tok, int val)
@@ -423,6 +536,19 @@ struct state st_shop_unregistered = {
 	shared_click,
 	shop_unregistered_keybd,
 	shop_unregistered_buttn
+};
+
+struct state st_shop_getcoins = {
+	shop_getcoins_enter,
+	shared_leave,
+	shared_paint,
+	shared_timer,
+	shared_point,
+	shared_stick,
+	shared_angle,
+	shared_click,
+	shop_getcoins_keybd,
+	shop_getcoins_buttn
 };
 
 struct state st_shop_buy = {
