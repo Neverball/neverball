@@ -40,7 +40,7 @@ static int restart_required_enter(struct state *st, struct state *prev)
     {
         gui_label(id, _("Restart required!"), GUI_MED, gui_red, gui_red);
         gui_space(id);
-        gui_multi(id, _("Please restart Sunnyball after exit\\to change this affects!"), GUI_SML, gui_wht, gui_wht);
+        gui_multi(id, _("Please restart Neverball after exit\\to change this affects!"), GUI_SML, gui_wht, gui_wht);
         gui_space(id);
         gui_state(id, _("Exit"), GUI_SML, RESTART_REQUIRED_OK, 0);
         gui_layout(id, 0, 0);
