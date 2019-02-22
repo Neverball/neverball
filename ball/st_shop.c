@@ -48,7 +48,8 @@ enum
 {
     SHOP_BACK = GUI_LAST,
     SHOP_GETCOINS,
-    SHOP_BUY
+    SHOP_BUY,
+    SHOP_PURCHASED
 };
 
 static int shop_action(int tok, int val)
@@ -77,7 +78,12 @@ static int shop_action(int tok, int val)
 static int shop_gui(void)
 {
 	int w = video.device_w;
-	int h = video.device_h;	
+	int h = video.device_h;
+
+	int p0 = config_get_d(PRODUCT_ACCOUNT_LEVELS) ? gui_gry : gui_wht;
+	int p1 = config_get_d(PRODUCT_ACCOUNT_BALLS) ? gui_gry : gui_wht;
+	int p2 = config_get_d(PRODUCT_ACCOUNT_BONUS) ? gui_gry : gui_wht;
+	int p3 = config_get_d(PRODUCT_ACCOUNT_MEDIATION) ? gui_gry : gui_wht;
 
 	int id, jd, kd, ld;
 	if ((id = gui_vstack(0)))
@@ -144,19 +150,19 @@ static int shop_gui(void)
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Bonus Pack"), GUI_SML, 0, 0);
+					gui_state(ld, _("Bonus Pack"), GUI_SML, p2, p2);
 					gui_image(ld, "gui/shop/bonus.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, SHOP_BUY, 2);
+					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_BONUS) ? SHOP_PURCHASED : SHOP_BUY), 2);
 				}
 
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Mediation"), GUI_SML, 0, 0);
+					gui_state(ld, _("Mediation"), GUI_SML, p3, p3);
 					gui_image(ld, "gui/shop/mediation.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, SHOP_BUY, 3);
+					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_MEDIATION) ? SHOP_PURCHASED : SHOP_BUY), 3);
 				}
 			}
 
@@ -166,19 +172,19 @@ static int shop_gui(void)
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Extra Levels"), GUI_SML, 0, 0);
+					gui_state(ld, _("Extra Levels"), GUI_SML, p0, p0);
 					gui_image(ld, "gui/shop/levels.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, SHOP_BUY, 0);
+					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_LEVELS) ? SHOP_PURCHASED : SHOP_BUY), 0);
 				}
 
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Online Balls"), GUI_SML, 0, 0);
+					gui_state(ld, _("Online Balls"), GUI_SML, p1, p1);
 					gui_image(ld, "gui/shop/balls.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, SHOP_BUY, 1);
+					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_BALLS) ? SHOP_PURCHASED : SHOP_BUY), 1);
 				}
 			}
 		}
@@ -422,6 +428,40 @@ static int shop_buy_action(int tok, int val)
     
     switch (tok)
     {
+    case SHOP_BUY_YES:
+        coinwallet -= val;
+        config_set_d(CONFIG_ACCOUNT_WALLET, coinwallet);
+
+	audio_play("snd/buy.ogg", 1.0f);
+
+        switch (productkey) {
+            case 0:
+                config_set_d(PRODUCT_ACCOUNT_LEVELS, 1);
+                break;
+
+            case 1:
+                config_set_d(PRODUCT_ACCOUNT_BALLS, 1);
+                break;
+
+            case 2:
+                config_set_d(PRODUCT_ACCOUNT_BONUS, 1);
+                break;
+
+            case 3:
+                config_set_d(PRODUCT_ACCOUNT_MEDIATION, 1);
+                break;
+
+            case 4:
+                break;
+
+            case 5:
+                break;
+
+            case 6:
+                break;
+		}
+
+        break;
     case SHOP_BUY_CANCEL:
         return goto_state(&st_shop);
         break;
