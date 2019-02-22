@@ -27,6 +27,12 @@
 
 /* Integer options. */
 
+int CONFIG_ACCOUNT_WALLET;
+int PRODUCT_ACCOUNT_LEVELS;
+int PRODUCT_ACCOUNT_BALLS;
+int PRODUCT_ACCOUNT_BONUS;
+int PRODUCT_ACCOUNT_MEDIATION;
+
 int CONFIG_FULLSCREEN;
 int CONFIG_DISPLAY;
 int CONFIG_WIDTH;
@@ -129,6 +135,11 @@ static struct
     const int   def;
     int         cur;
 } option_d[] = {
+    { &CONFIG_ACCOUNT_WALLET,          "wallet",                 1490 },
+    { &PRODUCT_ACCOUNT_LEVELS,         "product_levels",         0 },
+    { &PRODUCT_ACCOUNT_BALLS,          "product_balls",          0 },
+    { &PRODUCT_ACCOUNT_BONUS,          "product_bonus",          0 },
+    { &PRODUCT_ACCOUNT_MEDIATION,      "product_mediation",      0 },
     { &CONFIG_FULLSCREEN,   "fullscreen",   0 },
     { &CONFIG_DISPLAY,      "display",      0 },
     { &CONFIG_WIDTH,        "width",        800 },
