@@ -24,6 +24,12 @@
 
 /* Integer options. */
 
+extern int CONFIG_ACCOUNT_WALLET;
+extern int PRODUCT_ACCOUNT_LEVELS;
+extern int PRODUCT_ACCOUNT_BALLS;
+extern int PRODUCT_ACCOUNT_BONUS;
+extern int PRODUCT_ACCOUNT_MEDIATION;
+
 extern int CONFIG_FULLSCREEN;
 extern int CONFIG_DISPLAY;
 extern int CONFIG_WIDTH;
