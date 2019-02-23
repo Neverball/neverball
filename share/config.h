@@ -15,7 +15,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 
 #include "base_config.h"
 #include "lang.h"
@@ -29,6 +33,13 @@ extern int PRODUCT_ACCOUNT_LEVELS;
 extern int PRODUCT_ACCOUNT_BALLS;
 extern int PRODUCT_ACCOUNT_BONUS;
 extern int PRODUCT_ACCOUNT_MEDIATION;
+
+extern int CONSUMEABLE_ACCOUNT_EARNINATOR;
+extern int CONSUMEABLE_ACCOUNT_FLOATIFIER;
+extern int CONSUMEABLE_ACCOUNT_SPEEDIFIER;
+
+extern int CONFIG_ACCOUNT_SAVE;
+extern int CONFIG_ACCOUNT_LOAD;
 
 extern int CONFIG_FULLSCREEN;
 extern int CONFIG_DISPLAY;

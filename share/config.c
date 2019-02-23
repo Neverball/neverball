@@ -12,7 +12,11 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -32,6 +36,13 @@ int PRODUCT_ACCOUNT_LEVELS;
 int PRODUCT_ACCOUNT_BALLS;
 int PRODUCT_ACCOUNT_BONUS;
 int PRODUCT_ACCOUNT_MEDIATION;
+
+int CONSUMEABLE_ACCOUNT_EARNINATOR;
+int CONSUMEABLE_ACCOUNT_FLOATIFIER;
+int CONSUMEABLE_ACCOUNT_SPEEDIFIER;
+
+int CONFIG_ACCOUNT_SAVE;
+int CONFIG_ACCOUNT_LOAD;
 
 int CONFIG_FULLSCREEN;
 int CONFIG_DISPLAY;
@@ -140,6 +151,12 @@ static struct
     { &PRODUCT_ACCOUNT_BALLS,          "product_balls",          0 },
     { &PRODUCT_ACCOUNT_BONUS,          "product_bonus",          0 },
     { &PRODUCT_ACCOUNT_MEDIATION,      "product_mediation",      0 },
+    { &CONSUMEABLE_ACCOUNT_EARNINATOR, "consumeable_earninator", 0 },
+    { &CONSUMEABLE_ACCOUNT_FLOATIFIER, "consumeable_floatifier", 0 },
+    { &CONSUMEABLE_ACCOUNT_SPEEDIFIER, "consumeable_speedifier", 0 },
+    { &CONFIG_ACCOUNT_SAVE,   "save_replay",       0 },
+    { &CONFIG_ACCOUNT_LOAD,   "load_filter",       2 },
+
     { &CONFIG_FULLSCREEN,   "fullscreen",   0 },
     { &CONFIG_DISPLAY,      "display",      0 },
     { &CONFIG_WIDTH,        "width",        800 },
@@ -150,7 +167,7 @@ static struct
     { &CONFIG_REFLECTION,   "reflection",   1 },
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       1 },
-    { &CONFIG_ANISO,        "aniso",        8 },
+    { &CONFIG_ANISO,        "aniso",        0 },
     { &CONFIG_BACKGROUND,   "background",   1 },
     { &CONFIG_SHADOW,       "shadow",       1 },
     { &CONFIG_AUDIO_BUFF,   "audio_buff",   AUDIO_BUFF_HI },
@@ -190,9 +207,9 @@ static struct
     { &CONFIG_JOYSTICK_BUTTON_Y,      "joystick_button_y",      3 },
     { &CONFIG_JOYSTICK_BUTTON_L1,     "joystick_button_l1",     4 },
     { &CONFIG_JOYSTICK_BUTTON_R1,     "joystick_button_r1",     5 },
-    { &CONFIG_JOYSTICK_BUTTON_L2,     "joystick_button_l2",     -1 },
-    { &CONFIG_JOYSTICK_BUTTON_R2,     "joystick_button_r2",     -1 },
-    { &CONFIG_JOYSTICK_BUTTON_SELECT, "joystick_button_select", 6 },
+    { &CONFIG_JOYSTICK_BUTTON_L2,     "joystick_button_l2",    -1 },
+    { &CONFIG_JOYSTICK_BUTTON_R2,     "joystick_button_r2",    -1 },
+    { &CONFIG_JOYSTICK_BUTTON_START,  "joystick_button_select", 6 },
     { &CONFIG_JOYSTICK_BUTTON_START,  "joystick_button_start",  7 },
     { &CONFIG_JOYSTICK_DPAD_L,        "joystick_dpad_l",       -1 },
     { &CONFIG_JOYSTICK_DPAD_R,        "joystick_dpad_r",       -1 },
@@ -222,7 +239,7 @@ static struct
     { &CONFIG_CHEAT,       "cheat",       0 },
     { &CONFIG_STATS,       "stats",       0 },
     { &CONFIG_SCREENSHOT,  "screenshot",  0 },
-    { &CONFIG_LOCK_GOALS,  "lock_goals",  1 },
+    { &CONFIG_LOCK_GOALS,  "lock_goals",  0 },
 
     { &CONFIG_CAMERA_1_SPEED, "camera_1_speed", 250 },
     { &CONFIG_CAMERA_2_SPEED, "camera_2_speed", 0 },
@@ -237,7 +254,7 @@ static struct
     char       *cur;
 } option_s[] = {
     { &CONFIG_PLAYER,       "player",       "" },
-    { &CONFIG_BALL_FILE,    "ball_file",    "ball/basic-ball/basic-ball" },
+    { &CONFIG_BALL_FILE,    "ball_file",    "ball/legacy-ball/legacy-ball" },
     { &CONFIG_WIIMOTE_ADDR, "wiimote_addr", "" },
     { &CONFIG_REPLAY_NAME,  "replay_name",  "%s-%l" },
     { &CONFIG_LANGUAGE,     "language",     "" },
@@ -355,7 +372,7 @@ void config_load(void)
 
     SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
 
-    if ((fh = fs_open_read(USER_CONFIG_FILE)))
+    if ((fh = fs_open(USER_CONFIG_FILE, "r")))
     {
         char *line, *key, *val;
 
@@ -432,7 +449,7 @@ void config_save(void)
 
     SDL_assert(SDL_WasInit(SDL_INIT_VIDEO));
 
-    if (dirty && (fh = fs_open_write(USER_CONFIG_FILE)))
+    if (dirty && (fh = fs_open(USER_CONFIG_FILE, "w")))
     {
         int i;
 
