@@ -3,6 +3,7 @@
 
 #include "state.h"
 
+extern struct state st_conf_account;
 extern struct state st_conf;
 extern struct state st_null;
 

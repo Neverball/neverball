@@ -38,15 +38,140 @@ extern const char ICON[];
 
 /*---------------------------------------------------------------------------*/
 
+int save_id, load_id;
+
+// Accounts
 enum
 {
-    CONF_VIDEO = GUI_LAST,
+    CONF_ACCOUNT_PLAYER = GUI_LAST,
+    CONF_ACCOUNT_BALL,
+    CONF_ACCOUNT_SAVE,
+    CONF_ACCOUNT_LOAD
+};
+
+static int conf_account_action(int tok, int val)
+{
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (tok)
+    {
+    case GUI_BACK:
+        goto_state(&st_conf);
+        break;
+
+    case CONF_ACCOUNT_PLAYER:
+        goto_name(&st_conf_account, &st_conf_account, 1);
+        break;
+
+    case CONF_ACCOUNT_BALL:
+        goto_state(&st_ball);
+        break;
+
+    case CONF_ACCOUNT_SAVE:
+        if (config_get_d(CONFIG_ACCOUNT_SAVE) == 3)
+            {gui_set_label(save_id, _("Off")); config_set_d(CONFIG_ACCOUNT_SAVE, 0);}
+        else if (config_get_d(CONFIG_ACCOUNT_SAVE) == 2)
+            {gui_set_label(save_id, _("Always active")); config_set_d(CONFIG_ACCOUNT_SAVE, 3);}
+        else if (config_get_d(CONFIG_ACCOUNT_SAVE) == 1)
+            {gui_set_label(save_id, _("Keep on board")); config_set_d(CONFIG_ACCOUNT_SAVE, 2);}
+        else if (config_get_d(CONFIG_ACCOUNT_SAVE) == 0)
+            {gui_set_label(save_id, _("Only Finish")); config_set_d(CONFIG_ACCOUNT_SAVE, 1);}
+        break;
+
+    case CONF_ACCOUNT_LOAD:
+        if (config_get_d(CONFIG_ACCOUNT_LOAD) == 3)
+            {gui_set_label(load_id, _("Only Finish")); config_set_d(CONFIG_ACCOUNT_LOAD, 1);}
+        else if (config_get_d(CONFIG_ACCOUNT_LOAD) == 2)
+            {gui_set_label(load_id, _("Keep on board")); config_set_d(CONFIG_ACCOUNT_LOAD, 3);}
+        else if (config_get_d(CONFIG_ACCOUNT_LOAD) == 1)
+            {gui_set_label(load_id, _("All")); config_set_d(CONFIG_ACCOUNT_LOAD, 2);}
+        break;
+    }
+
+    return 1;
+}
+
+static int conf_account_gui(void)
+{
+    int id;
+
+    /* Initialize the configuration GUI. */
+
+    if ((id = gui_vstack(0)))
+    {
+        const char *player = config_get_s(CONFIG_PLAYER);
+        const char *ball   = config_get_s(CONFIG_BALL_FILE);
+
+        int save = config_get_d(CONFIG_ACCOUNT_SAVE);
+        int load = config_get_d(CONFIG_ACCOUNT_LOAD);
+
+        int name_id, ball_id;
+
+        conf_header(id, _("Account"), GUI_BACK);
+
+        name_id = conf_state(id, _("Player Name"), " ", CONF_ACCOUNT_PLAYER);
+        ball_id = conf_state(id, _("Ball Model"), " ", CONF_ACCOUNT_BALL);
+
+        gui_space(id);
+
+        // Those filters will use some replays
+        char * savefilter;
+        switch (save)
+        {
+        case 3: savefilter = _("Always active"); break; // All save filters: Goal, Aborted, Time-out, Fall-out
+        case 2: savefilter = _("Keep on board"); break; // Keep filters: Goal, Aborted, Time-out
+        case 1: savefilter = _("Only Finish"); break; // Only Goal filters: Goal
+        case 0: savefilter = _("Off"); break;
+        }
+
+        char * loadfilter;
+        switch (load)
+        {
+        case 3: loadfilter = _("All"); break; // All save filters: Goal, Aborted, Time-out, Fall-out
+        case 2: loadfilter = _("Keep on board"); break; // Keep filters: Goal, Aborted, Time-out
+        case 1: loadfilter = _("Only Finish"); break; // Only Goal filters: Goal
+        }
+
+        save_id = conf_state(id, _("Save Replay"), " ", CONF_ACCOUNT_SAVE);
+        load_id = conf_state(id, _("Replay Filter"), " ", CONF_ACCOUNT_LOAD);
+
+        gui_layout(id, 0, 0);
+
+        gui_set_trunc(name_id, TRUNC_TAIL);
+        gui_set_trunc(ball_id, TRUNC_TAIL);
+
+        gui_set_label(name_id, player);
+        gui_set_label(ball_id, base_name(ball));
+
+        gui_set_label(save_id, savefilter);
+        gui_set_label(load_id, loadfilter);
+    }
+
+    return id;
+}
+
+static int conf_account_enter(struct state *st, struct state *prev)
+{
+    game_client_free(NULL);
+    conf_common_init(conf_account_action);
+    return conf_account_gui();
+}
+
+static void conf_account_leave(struct state *st, struct state *next, int id)
+{
+    conf_common_leave(st, next, id);
+}
+
+/*---------------------------------------------------------------------------*/
+
+enum
+{
+    CONF_MANAGE_ACCOUNT = GUI_LAST,
+    CONF_VIDEO,
     CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
     CONF_SOUND_VOLUME,
-    CONF_MUSIC_VOLUME,
-    CONF_PLAYER,
-    CONF_BALL
+    CONF_MUSIC_VOLUME
 };
 
 static int mouse_id[11];
@@ -90,20 +215,16 @@ static int conf_action(int tok, int val)
         goto_state(&st_title);
         break;
 
+    case CONF_MANAGE_ACCOUNT:
+        goto_state(&st_conf_account);
+        break;
+
     case CONF_VIDEO:
         goto_state(&st_video);
         break;
 
     case CONF_LANGUAGE:
         goto_state(&st_lang);
-        break;
-
-    case CONF_PLAYER:
-        goto_name(&st_conf, &st_conf, 1);
-        break;
-
-    case CONF_BALL:
-        goto_state(&st_ball);
         break;
 
     case CONF_MOUSE_SENSE:
@@ -148,12 +269,13 @@ static int conf_gui(void)
         int music = config_get_d(CONFIG_MUSIC_VOLUME);
         int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
 
-        const char *player = config_get_s(CONFIG_PLAYER);
-        const char *ball   = config_get_s(CONFIG_BALL_FILE);
-
         int name_id, ball_id, lang_id;
 
         conf_header(id, _("Options"), GUI_BACK);
+
+        conf_state(id, _("Account"), _("Manage"), CONF_MANAGE_ACCOUNT);
+
+        gui_space(id);
 
         conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
 
@@ -171,18 +293,11 @@ static int conf_gui(void)
 
         gui_space(id);
 
-        name_id = conf_state(id, _("Player Name"), " ", CONF_PLAYER);
-        ball_id = conf_state(id, _("Ball Model"), " ", CONF_BALL);
         lang_id = conf_state(id, _("Language"), " ", CONF_LANGUAGE);
 
         gui_layout(id, 0, 0);
 
         gui_set_trunc(lang_id, TRUNC_TAIL);
-        gui_set_trunc(name_id, TRUNC_TAIL);
-        gui_set_trunc(ball_id, TRUNC_TAIL);
-
-        gui_set_label(name_id, player);
-        gui_set_label(ball_id, base_name(ball));
 
         if (*config_get_s(CONFIG_LANGUAGE))
             gui_set_label(lang_id, lang_name(&curr_lang));
@@ -232,7 +347,20 @@ static void null_leave(struct state *st, struct state *next, int id)
 
 /*---------------------------------------------------------------------------*/
 
- struct state st_conf = {
+struct state st_conf_account = {
+    conf_account_enter,
+    conf_account_leave,
+    conf_common_paint,
+    common_timer,
+    common_point,
+    common_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    common_buttn
+};
+
+struct state st_conf = {
     conf_enter,
     conf_leave,
     conf_common_paint,
