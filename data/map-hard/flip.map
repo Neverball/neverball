@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -7,10 +8,10 @@
 "time_hs" "2000 3000"
 "goal_hs" "2000 3000"
 "coin_hs" "0 0"
-"song" "bgm/track4.ogg"
-"shot" "shot-hard/flip.jpg"
-"grad" "back/space.png"
-"back" "map-back/jupiter.sol"
+"song" "bgm/track1.ogg"
+"shot" "shot-hard/flip.png"
+"grad" "back/land.png"
+"back" "map-back/clouds.sol"
 "version" "1.1"
 "author" "Mehdi Yousfi-Monod"
 "bonus" "1"

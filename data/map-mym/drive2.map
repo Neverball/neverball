@@ -6,7 +6,7 @@
 "version" "1.1"
 "back" "map-back/ocean.sol"
 "grad" "back/ocean.png"
-"shot" "shot-mym/drive2.jpg"
+"shot" "shot-mym/drive2.png"
 "song" "bgm/track2.ogg"
 "time" "5000"
 "goal" "50"
@@ -14,6 +14,7 @@
 "goal_hs" "3300 3800"
 "coin_hs" "75 55"
 "message" "La conduite dangereuse.\The platform under the ball moves quickly forward.\You would do well to advance."
+"bonus" "1"
 // brush 0
 {
 ( -56 5244 8 ) ( -56 5248 8 ) ( -60 5248 8 ) mtrl/invisible 0 0 0 0.5 0.5 0 0 0

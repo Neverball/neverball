@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -7,10 +8,10 @@
 "goal_hs" "3000 5250"
 "goal" "5"
 "time" "6000"
-"song" "bgm/track5.ogg"
-"shot" "shot-hard/poker.jpg"
-"grad" "back/alien.png"
-"back" "map-back/alien.sol"
+"song" "bgm/track4.ogg"
+"shot" "shot-hard/poker.png"
+"grad" "back/space.png"
+"back" "map-back/jupiter.sol"
 "version" "1.1"
 "author" "Robert Kooima"
 // brush 0

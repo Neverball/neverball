@@ -4,16 +4,17 @@
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
-"shot" "shot-mym/climb.jpg"
-"song" "bgm/track2.ogg"
+"back" "map-back/city.sol"
+"grad" "back/city.png"
+"shot" "shot-mym/climb.png"
+"song" "bgm/track3.ogg"
 "time" "12000"
 "goal" "100"
 "time_hs" "5000 5500"
 "goal_hs" "5200 5700"
 "coin_hs" "150 130"
 "message" "L'escalade ardue.\Do you suffer from vertigo?"
+"bonus" "1"
 // brush 0
 {
 ( 64 896 568 ) ( -64 896 568 ) ( -64 512 568 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0

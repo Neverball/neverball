@@ -1,13 +1,14 @@
+
 // entity 0
 {
 "classname" "worldspawn"
 "message" "Plenty of coins for the taking.\Can you take them all?"
 "author" "Mehdi Yousfi-Monod"
 "version" "1.1"
-"back" "map-back/alien.sol"
-"grad" "back/alien.png"
-"shot" "shot-medium/coneskeleton.jpg"
-"song" "bgm/track5.ogg"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"shot" "shot-medium/coneskeleton.png"
+"song" "bgm/track4.ogg"
 "time" "6000"
 "goal" "100"
 "bonus" "1"

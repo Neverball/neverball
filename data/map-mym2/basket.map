@@ -1,12 +1,13 @@
+
 // entity 0
 {
 "classname" "worldspawn"
 "author" "Mehdi Yousfi-Monod"
 "version" "1"
-"back" "map-back/ocean.sol"
-"grad" "back/ocean.png"
-"song" "bgm/track2.ogg"
-"shot" "shot-mym2/basket.jpg"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
+"shot" "shot-mym2/basket.png"
 "time" "18000"
 "goal" "15"
 "time_hs" "3200 4000"

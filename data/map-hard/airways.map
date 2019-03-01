@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -8,11 +9,11 @@
 "time_hs" "12000 15000"
 "coin_hs" "217 100"
 "goal_hs" "12000 15000"
-"song" "bgm/track5.ogg"
-"shot" "shot-hard/airways.jpg"
-"grad" "back/alien.png"
-"back" "map-back/alien.sol"
-"version" "1.2"
+"song" "bgm/track4.ogg"
+"shot" "shot-hard/airways.png"
+"grad" "back/space.png"
+"back" "map-back/jupiter.sol"
+"version" "1.1"
 "author" "Mehdi Yousfi-Monod"
 // brush 0
 {
@@ -4346,7 +4347,7 @@
 "classname" "info_camp"
 "target" "path_corner6"
 "origin" "-1024 0 128"
-"timer" "600"
+"timer" "999"
 }
 // entity 12
 {
@@ -4398,14 +4399,14 @@
 "classname" "info_camp"
 "target" "path_corner8"
 "origin" "1024 0 128"
-"timer" "600"
+"timer" "999"
 }
 // entity 20
 {
 "classname" "info_camp"
 "target" "path_corner3"
 "origin" "-1024 0 0"
-"timer" "600"
+"timer" "999"
 }
 // entity 21
 {
@@ -7729,7 +7730,6 @@
 "invisible" "1"
 "target" "path_corner16"
 "origin" "-1024 0 128"
-"timer" "600"
 }
 // entity 131
 {

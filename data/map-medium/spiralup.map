@@ -1,12 +1,13 @@
+
 // entity 0
 {
 "classname" "worldspawn"
 "author" "Robert Kooima"
 "version" "1.1"
-"shot" "shot-medium/spiralup.jpg"
-"back" "map-back/alien.sol"
-"grad" "back/alien.png"
-"song" "bgm/track5.ogg"
+"shot" "shot-medium/spiralup.png"
+"back" "map-back/jupiter.sol"
+"grad" "back/space.png"
+"song" "bgm/track4.ogg"
 "time" "4500"
 "goal" "30"
 "time_hs" "2400 3500"

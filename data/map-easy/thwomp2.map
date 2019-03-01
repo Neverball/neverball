@@ -1,3 +1,4 @@
+
 // entity 0
 {
 "classname" "worldspawn"
@@ -6,7 +7,7 @@
 "version" "1.1"
 "back" "map-back/city.sol"
 "grad" "back/city.png"
-"shot" "shot-easy/thwomp2.jpg"
+"shot" "shot-easy/thwomp2.png"
 "song" "bgm/track3.ogg"
 "coin_hs" "155 85"
 "time_hs" "1000 2000"
@@ -9259,4 +9260,18 @@
 "classname" "info_player_intermission"
 "target" "target_position1"
 "origin" "1392 -528 0"
+}
+// entity 64
+{
+"classname" "func_train"
+"target" "t1"
+// brush 0
+{
+( 1088 1216 0 ) ( 1088 1088 0 ) ( 960 1216 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 1088 1216 0 ) ( 960 1216 0 ) ( 1088 1216 -128 ) mtrl/thwomp 128 0 0 0.5 0.5 134217728 0 0
+( 1088 1216 0 ) ( 1088 1216 -128 ) ( 1088 1088 0 ) mtrl/thwomp 128 0 0 0.5 0.5 134217728 0 0
+( 960 1088 -128 ) ( 1088 1088 -128 ) ( 960 1216 -128 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 960 1088 -128 ) ( 960 1088 0 ) ( 1088 1088 -128 ) mtrl/thwomp 128 0 0 0.5 0.5 134217728 0 0
+( 960 1088 -128 ) ( 960 1216 -128 ) ( 960 1088 0 ) mtrl/thwomp 128 0 0 0.5 0.5 134217728 0 0
+}
 }
