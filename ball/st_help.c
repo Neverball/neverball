@@ -153,18 +153,23 @@ static int page_rules(int id)
 
         if ((kd = gui_varray(jd)))
         {
+            // This rules contains replays and is used with Premium
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help1.jpg", 5 * w / 16, 5 * h / 16);
+                gui_image(ld, "gui/help1.jpg", w / 4, h / 4);
+                gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
+                gui_set_state(ld, HELP_RULES_PREMIUM, 0);
             }
 
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help2.jpg", 5 * w / 16, 5 * h / 16);
+                gui_image(ld, "gui/help2.jpg", w / 4, h / 4);
+                gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
+                gui_set_state(ld, HELP_RULES_PREMIUM, 1);
             }
         }
 
