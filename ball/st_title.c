@@ -160,8 +160,20 @@ static int title_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
-            gui_set_fill(jd);
+        if (config_cheat())
+        {
+            if ((jd = gui_vstack(id)))
+            {
+                gui_label(jd, "  Neverball  ", GUI_LRG, 0, 0);
+                gui_label(jd, _("Developer Mode"), GUI_SML, gui_wht, gui_wht);
+                gui_set_rect(jd, GUI_ALL);
+            }
+        }
+        else
+        {
+            if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
+                gui_set_fill(jd);
+        }
 
         gui_space(id);
 
