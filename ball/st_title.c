@@ -28,6 +28,7 @@
 #include "game_client.h"
 #include "game_proxy.h"
 
+#include "st_shop.h"
 #include "st_title.h"
 #include "st_help.h"
 #include "st_demo.h"
@@ -82,6 +83,7 @@ static int play_id = 0;
 enum
 {
     TITLE_PLAY = GUI_LAST,
+    TITLE_SHOP,
     TITLE_HELP,
     TITLE_DEMO,
     TITLE_CONF
@@ -89,7 +91,7 @@ enum
 
 static int title_action(int tok, int val)
 {
-    static const char keyphrase[] = "xyzzy";
+    static const char keyphrase[] = "ecldev";
     static char queue[sizeof (keyphrase)] = "";
 
     size_t queue_len = strlen(queue);
@@ -109,6 +111,7 @@ static int title_action(int tok, int val)
             return goto_state(&st_set);
         break;
 
+    case TITLE_SHOP: return goto_state(&st_shop); break;
     case TITLE_HELP: return goto_state(&st_help); break;
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
@@ -160,19 +163,29 @@ static int title_gui(void)
 
     if ((id = gui_vstack(0)))
     {
+
         if (config_cheat())
         {
             if ((jd = gui_vstack(id)))
             {
-                gui_label(jd, "  Neverball  ", GUI_LRG, 0, 0);
-                gui_label(jd, _("Developer Mode"), GUI_SML, gui_wht, gui_wht);
+                gui_label(jd, "  Sunnyball  ", GUI_LRG, 0, 0);
+                gui_label(jd, _("Linux Mint Edition / Developer Mode"), GUI_SML, gui_wht, gui_wht);
                 gui_set_rect(jd, GUI_ALL);
             }
         }
         else
         {
-            if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
-                gui_set_fill(jd);
+            if ((jd = gui_vstack(id)))
+            {
+                // Use with edition below title
+                gui_label(jd, "  Sunnyball  ", GUI_LRG, 0, 0);
+                gui_label(jd, _("Linux Mint Edition"), GUI_SML, gui_wht, gui_wht);
+                gui_set_rect(jd, GUI_ALL);
+
+                // ...or use title only
+                /*if ((jd = gui_label(id, "  Sunnyball  ", GUI_LRG, 0, 0)))
+                    gui_set_fill(jd);*/
+            }
         }
 
         gui_space(id);
@@ -184,12 +197,11 @@ static int title_gui(void)
             if ((kd = gui_varray(jd)))
             {
                 if (config_cheat())
-                    play_id = gui_start(kd, gt_prefix("menu^Cheat"),
-                                        GUI_MED, TITLE_PLAY, 0);
+                    play_id = gui_start(kd, gt_prefix("menu^Cheat"), GUI_MED, TITLE_PLAY, 0);
                 else
-                    play_id = gui_start(kd, gt_prefix("menu^Play"),
-                                        GUI_MED, TITLE_PLAY, 0);
+                    play_id = gui_start(kd, gt_prefix("menu^Play"), GUI_MED, TITLE_PLAY, 0);
 
+                gui_state(kd, gt_prefix("menu^Shop"),    GUI_MED, TITLE_SHOP, 0);
                 gui_state(kd, gt_prefix("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
                 gui_state(kd, gt_prefix("menu^Help"),    GUI_MED, TITLE_HELP, 0);
                 gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
@@ -275,15 +287,30 @@ static void title_timer(int id, float dt)
             if (!items)
                 items = demo_dir_scan();
 
-            if ((demo = pick_demo(items)))
+            /* It tooks very complicated using filters.
+               I'll install the replay filter next time */
+            if ((demo = pick_demo(items)) && config_get_d(CONFIG_ACCOUNT_LOAD) >= 3)
             {
-                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL);
+                demo_replay_init(demo, NULL, NULL, NULL, NULL, NULL, NULL);
                 game_client_fly(0.0f);
                 real_time = 0.0f;
                 mode = MODE_DEMO;
             }
             else
             {
+                /*if (demo_replay_init("gui/title_l.nbr", NULL, NULL, NULL, NULL, NULL))
+                {
+                    game_client_fly(0.0f);
+                    real_time = 0.0f;
+                    mode = MODE_DEMO;
+                }
+                else
+                {
+                    game_fade(-1.0f);
+                    real_time = 0.0f;
+                    mode = MODE_LEVEL;
+                }*/
+
                 game_fade(-1.0f);
                 real_time = 0.0f;
                 mode = MODE_LEVEL;

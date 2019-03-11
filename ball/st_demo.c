@@ -74,11 +74,18 @@ static int demo_action(int tok, int val)
         break;
 
     case DEMO_SELECT:
-        if (progress_replay(DIR_ITEM_GET(items, val)->path))
+        if (get_max_status() > get_limit_status())
         {
-            last_viewed = val;
-            demo_play_goto(0);
-            return goto_state(&st_demo_play);
+            return goto_state(&st_demo_restricted);
+        }
+        else
+        {
+            if (progress_replay(DIR_ITEM_GET(items, val)->path))
+            {
+                last_viewed = val;
+                demo_play_goto(0);
+                return goto_state(&st_demo_play);
+            }
         }
         break;
     }
@@ -255,6 +262,7 @@ static void gui_demo_update_status(int i)
     if (!total)
         return;
 
+    /* They must be selected into the replay */
     d = DEMO_GET(items, i < total ? i : 0);
 
     if (!d)
@@ -272,6 +280,124 @@ static void gui_demo_update_status(int i)
     gui_set_label(status_id, status_to_str(d->status));
     gui_set_count(coin_id, d->coins);
     gui_set_clock(time_id, d->timer);
+
+    /* Switch the current status before gets reached into the status limit,
+       so they can be use to open. */
+    set_limit_status(config_get_d(CONFIG_ACCOUNT_LOAD));
+
+    if (status_to_str(d->status) == _("Fall-out"))
+       set_max_status(3);
+    else if (status_to_str(d->status) == _("Aborted") || status_to_str(d->status) == _("Time-out"))
+       set_max_status(2);
+    else
+       set_max_status(1);
+
+    /* Make sure, that the limit is supported. */
+    if (get_max_status() > get_limit_status())
+    {
+        /* Status exeeded! Restrict some filters. */
+        gui_set_color(name_id, gui_gry, gui_red);
+        gui_set_color(date_id, gui_gry, gui_red);
+        gui_set_color(player_id, gui_gry, gui_red);
+    }
+    else
+    {
+        gui_set_color(name_id, gui_yel, gui_red);
+        gui_set_color(date_id, gui_yel, gui_red);
+        gui_set_color(player_id, gui_yel, gui_red);
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+int stat_max = 0;
+int stat_limit = 0;
+
+int get_max_status()
+{
+    return stat_max;
+}
+
+int get_limit_status()
+{
+    return stat_limit;
+}
+
+void set_max_status(int currstat)
+{
+    stat_max = currstat;
+}
+
+void set_limit_status(int limitstat)
+{
+    stat_limit = limitstat;
+}
+
+static int demo_restricted_gui(void)
+{
+    int id, kd;
+
+    if ((id = gui_vstack(0)))
+    {
+        kd = gui_label(id, _("Filters restricted!"), GUI_MED, gui_gry, gui_red);
+        gui_pulse(kd, 1.2f);
+
+        gui_space(id);
+
+        gui_multi(id, _("You can't open selected replay,\\because it was restricted for you!"), GUI_SML, gui_wht, gui_wht);
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int demo_restricted_enter(struct state *st, struct state *prev)
+{
+    audio_play(AUD_INTRO_SHATTER, 1.0f);
+    return demo_restricted_gui();
+}
+
+static void demo_restricted_timer(int id, float dt)
+{
+    game_step_fade(dt);
+    gui_timer(id, dt);
+}
+
+static int demo_restricted_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            /*if (standalone)
+                return goto_state(&st_demo);
+            else
+                return goto_state(&st_demo);*/
+            return goto_state(&st_demo);
+    }
+    return 1;
+}
+
+static int demo_restricted_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            /*if (standalone)
+                return goto_state(&st_demo);
+            else
+                return goto_state(&st_demo);*/
+
+            return goto_state(&st_demo);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            /*if (standalone)
+                return goto_state(&st_demo);
+            else
+                return goto_state(&st_demo);*/
+
+            return goto_state(&st_demo);
+    }
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -304,6 +430,8 @@ static int demo_gui(void)
     else
     {
         gui_label(id, _("No Replays"), GUI_MED, 0, 0);
+        gui_space(id);
+        gui_multi(id, _("Your Replays will appear here\\once you've recorded."), GUI_SML, gui_wht, gui_wht);
         gui_space(id);
         gui_state(id, _("Back"), GUI_SML, GUI_BACK, 0);
 
@@ -448,6 +576,12 @@ static int demo_play_enter(struct state *st, struct state *prev)
      * line is currently left in for compatibility with older replays.
      */
     game_client_fly(0.0f);
+
+    if (get_max_status() > get_limit_status())
+    {
+        goto_state(&st_demo_restricted);
+        return 0;
+    }
 
     if (check_compat && !game_compat_map)
     {
@@ -625,7 +759,10 @@ static int demo_end_gui(void)
             }
 
             if (demo_paused)
+            {
+                gui_state(jd, _("Repeat"),   GUI_SML, DEMO_REPLAY,   0);
                 gui_start(jd, _("Continue"), GUI_SML, DEMO_CONTINUE, 0);
+            }
             else
                 gui_state(jd, _("Repeat"),   GUI_SML, DEMO_REPLAY,   0);
         }
@@ -657,13 +794,8 @@ static int demo_end_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == KEY_EXIT)
-        {
-            if (demo_paused)
-                return demo_end_action(DEMO_CONTINUE, 0);
-            else
-                return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP, 0);
-        }
+        if (demo_paused && c == KEY_EXIT)
+            return demo_end_action(DEMO_CONTINUE, 0);
     }
     return 1;
 }
@@ -810,6 +942,19 @@ static int demo_compat_buttn(int b, int d)
 }
 
 /*---------------------------------------------------------------------------*/
+
+struct state st_demo_restricted = {
+    demo_restricted_enter,
+    shared_leave,
+    shared_paint,
+    demo_restricted_timer,
+    shared_point,
+    shared_stick,
+    shared_angle,
+    shared_click_basic,
+    demo_restricted_keybd,
+    demo_restricted_buttn
+};
 
 struct state st_demo = {
     demo_enter,
