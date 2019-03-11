@@ -81,10 +81,10 @@ static int conf_account_action(int tok, int val)
     case CONF_ACCOUNT_LOAD:
         if (config_get_d(CONFIG_ACCOUNT_LOAD) == 3)
             {gui_set_label(load_id, _("Only Finish")); config_set_d(CONFIG_ACCOUNT_LOAD, 1);}
-        else if (config_get_d(CONFIG_ACCOUNT_LOAD) == 2)
-            {gui_set_label(load_id, _("Keep on board")); config_set_d(CONFIG_ACCOUNT_LOAD, 3);}
         else if (config_get_d(CONFIG_ACCOUNT_LOAD) == 1)
-            {gui_set_label(load_id, _("All")); config_set_d(CONFIG_ACCOUNT_LOAD, 2);}
+            {gui_set_label(load_id, _("Keep on board")); config_set_d(CONFIG_ACCOUNT_LOAD, 2);}
+        else if (config_get_d(CONFIG_ACCOUNT_LOAD) == 2)
+            {gui_set_label(load_id, _("All")); config_set_d(CONFIG_ACCOUNT_LOAD, 3);}
         break;
     }
 
