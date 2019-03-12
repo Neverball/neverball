@@ -32,6 +32,12 @@
 
 static int productkey;
 
+static int coinwallet;
+
+static int evalue;
+static int fvalue;
+static int svalue;
+
 // The enumerations was merged together into products: Extra Levels, Extra Balls, Bonus Pack, Mediation
 // incl. (Earninator, Floatifier, Speedifier)
 static const char products[][16] = {
@@ -77,13 +83,19 @@ static int shop_action(int tok, int val)
 
 static int shop_gui(void)
 {
+	coinwallet = config_get_d(CONFIG_ACCOUNT_WALLET);
+
+	evalue = config_get_d(CONSUMEABLE_ACCOUNT_EARNINATOR);
+	fvalue = config_get_d(CONSUMEABLE_ACCOUNT_FLOATIFIER);
+	svalue = config_get_d(CONSUMEABLE_ACCOUNT_SPEEDIFIER);
+
 	int w = video.device_w;
 	int h = video.device_h;
 
-	int p0 = config_get_d(PRODUCT_ACCOUNT_LEVELS) ? gui_gry : gui_wht;
-	int p1 = config_get_d(PRODUCT_ACCOUNT_BALLS) ? gui_gry : gui_wht;
-	int p2 = config_get_d(PRODUCT_ACCOUNT_BONUS) ? gui_gry : gui_wht;
-	int p3 = config_get_d(PRODUCT_ACCOUNT_MEDIATION) ? gui_gry : gui_wht;
+    int p0 = (config_get_d(PRODUCT_ACCOUNT_LEVELS) == 1) ? gui_gry : gui_wht;
+    int p1 = (config_get_d(PRODUCT_ACCOUNT_BALLS) == 1) ? gui_gry : gui_wht;
+    int p2 = (config_get_d(PRODUCT_ACCOUNT_BONUS) == 1) ? gui_gry : gui_wht;
+    int p3 = (config_get_d(PRODUCT_ACCOUNT_MEDIATION) == 1) ? gui_gry : gui_wht;
 
 	int id, jd, kd, ld;
 	if ((id = gui_vstack(0)))
@@ -92,7 +104,7 @@ static int shop_gui(void)
 		{
 			gui_state(jd, "+", GUI_SML, SHOP_GETCOINS, 0);
 			char coinsattr[MAXSTR];
-			sprintf(coinsattr, "%s: %i", _("Coins"), 0);
+			sprintf(coinsattr, "%s: %i", _("Coins"), coinwallet);
 			gui_label(jd, coinsattr, GUI_SML, gui_wht, gui_yel);
 			gui_filler(jd);
 			gui_state(jd, _("Back"), GUI_SML, SHOP_BACK, 0);
@@ -150,19 +162,19 @@ static int shop_gui(void)
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Bonus Pack"), GUI_SML, p2, p2);
+					if (config_get_d(PRODUCT_ACCOUNT_BONUS) == 0) gui_state(ld, _("Bonus Pack"), GUI_SML, 0, 0); else gui_label(ld, _("Bonus Pack"), GUI_SML, gui_gry, gui_gry);
 					gui_image(ld, "gui/shop/bonus.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_BONUS) ? SHOP_PURCHASED : SHOP_BUY), 2);
+					gui_set_state(ld, ((config_get_d(PRODUCT_ACCOUNT_BONUS) == 1) ? SHOP_PURCHASED : SHOP_BUY), 2);
 				}
 
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Mediation"), GUI_SML, p3, p3);
+                    if (config_get_d(PRODUCT_ACCOUNT_MEDIATION) == 0) gui_state(ld, _("Mediation"), GUI_SML, 0, 0); else gui_label(ld, _("Mediation"), GUI_SML, gui_gry, gui_gry);
 					gui_image(ld, "gui/shop/mediation.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_MEDIATION) ? SHOP_PURCHASED : SHOP_BUY), 3);
+					gui_set_state(ld, ((config_get_d(PRODUCT_ACCOUNT_MEDIATION) == 1) ? SHOP_PURCHASED : SHOP_BUY), 3);
 				}
 			}
 
@@ -172,19 +184,19 @@ static int shop_gui(void)
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Extra Levels"), GUI_SML, p0, p0);
+                    if (config_get_d(PRODUCT_ACCOUNT_LEVELS) == 0) gui_state(ld, _("Extra Levels"), GUI_SML, 0, 0); else gui_label(ld, _("Extra Levels"), GUI_SML, gui_gry, gui_gry);
 					gui_image(ld, "gui/shop/levels.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_LEVELS) ? SHOP_PURCHASED : SHOP_BUY), 0);
+					gui_set_state(ld, ((config_get_d(PRODUCT_ACCOUNT_LEVELS) == 1) ? SHOP_PURCHASED : SHOP_BUY), 0);
 				}
 
 				if ((ld = gui_vstack(kd)))
 				{
 					gui_space(ld);
-					gui_state(ld, _("Online Balls"), GUI_SML, p1, p1);
+                    if (config_get_d(PRODUCT_ACCOUNT_BALLS) == 0) gui_state(ld, _("Online Balls"), GUI_SML, 0, 0); else gui_label(ld, _("Online Balls"), GUI_SML, gui_gry, gui_gry);
 					gui_image(ld, "gui/shop/balls.jpg", w / 6, h / 6);
 					gui_filler(ld);
-					gui_set_state(ld, (config_get_d(PRODUCT_ACCOUNT_BALLS) ? SHOP_PURCHASED : SHOP_BUY), 1);
+					gui_set_state(ld, ((config_get_d(PRODUCT_ACCOUNT_BALLS) == 1) ? SHOP_PURCHASED : SHOP_BUY), 1);
 				}
 			}
 		}
@@ -196,6 +208,7 @@ static int shop_gui(void)
 
 static int shop_enter(struct state *st, struct state *prev)
 {
+        coinwallet = config_get_d(CONFIG_ACCOUNT_WALLET);
 	return shop_gui();
 }
 
@@ -351,7 +364,7 @@ static int shop_getcoins_gui(void)
 		if ((jd = gui_hstack(id)))
 		{
 			char walletattr[MAXSTR];
-			sprintf(walletattr, _("You have %i %s!"), 0, _("Coins"));
+			sprintf(walletattr, _("You have %i %s!"), coinwallet, _("Coins"));
 
 			gui_label(jd, walletattr, GUI_SML, gui_yel, gui_red);
 			gui_filler(jd);
@@ -429,39 +442,52 @@ static int shop_buy_action(int tok, int val)
     switch (tok)
     {
     case SHOP_BUY_YES:
+        audio_play("snd/buyproduct.ogg", 1.0f);
         coinwallet -= val;
         config_set_d(CONFIG_ACCOUNT_WALLET, coinwallet);
 
-	audio_play("snd/buy.ogg", 1.0f);
-
-        switch (productkey) {
+        switch (productkey)
+        {
             case 0:
                 config_set_d(PRODUCT_ACCOUNT_LEVELS, 1);
+                return goto_state(&st_shop);
                 break;
 
             case 1:
                 config_set_d(PRODUCT_ACCOUNT_BALLS, 1);
+                return goto_state(&st_shop);
                 break;
 
             case 2:
                 config_set_d(PRODUCT_ACCOUNT_BONUS, 1);
+                return goto_state(&st_shop);
                 break;
 
             case 3:
                 config_set_d(PRODUCT_ACCOUNT_MEDIATION, 1);
+                return goto_state(&st_shop);
                 break;
 
             case 4:
+                evalue += 1;
+                config_set_d(CONSUMEABLE_ACCOUNT_EARNINATOR, evalue);
+                return goto_state(&st_shop);
                 break;
 
             case 5:
+                fvalue += 1;
+                config_set_d(CONSUMEABLE_ACCOUNT_FLOATIFIER, fvalue);
+                return goto_state(&st_shop);
                 break;
 
             case 6:
+                svalue += 1;
+                config_set_d(CONSUMEABLE_ACCOUNT_SPEEDIFIER, svalue);
+                return goto_state(&st_shop);
                 break;
-		}
-
+        }
         break;
+
     case SHOP_BUY_CANCEL:
         return goto_state(&st_shop);
         break;
@@ -469,14 +495,17 @@ static int shop_buy_action(int tok, int val)
     return 1;
 }
 
-static int has_enough_coins() {
+static int has_enough_coins(int wprodcost) {
 	int enough = 0;
+        int currentwallet = config_get_d(CONFIG_ACCOUNT_WALLET);
+        if (currentwallet >= wprodcost) { enough = 1; }
+
 	return enough;
 }
 
 static int shop_buy_gui(void)
 {
-	int id, jd, kd, ld, md;
+	int id, jd;
 	if ((id = gui_vstack(0)))
 	{
 		gui_label(id, _("Buy Products?"), GUI_MED, gui_yel, gui_red);
@@ -498,7 +527,7 @@ static int shop_buy_gui(void)
 		}
 
 		char prodattr[MAXSTR];
-		if (has_enough_coins())
+		if (has_enough_coins(prodcost))
 			sprintf(prodattr, _("Would you like buy this Products?\\%s costs %i coins."), prodname, prodcost);
 		else
 			sprintf(prodattr, _("You need at least %i coins\\to buy %s!"), prodcost, prodname);
@@ -509,9 +538,9 @@ static int shop_buy_gui(void)
 
 		if ((jd = gui_harray(id)))
 		{
-			if (has_enough_coins()) {
+			if (has_enough_coins(prodcost)) {
 				gui_state(jd, _("No, thanks!"), GUI_SML, SHOP_BUY_CANCEL, 0);
-				gui_state(jd, _("Yes, buy products!"), GUI_SML, SHOP_BUY_YES, 0);
+				gui_state(jd, _("Yes, buy products!"), GUI_SML, SHOP_BUY_YES, prodcost);
 			} else {
 				gui_state(jd, _("Back"), GUI_SML, SHOP_BUY_CANCEL, 0);
 			}
