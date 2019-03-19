@@ -168,7 +168,7 @@ static int title_gui(void)
         {
             if ((jd = gui_vstack(id)))
             {
-                gui_label(jd, "  Sunnyball  ", GUI_LRG, 0, 0);
+                gui_label(jd, "  Neverball  ", GUI_LRG, 0, 0);
                 gui_label(jd, _("Linux Mint Edition / Developer Mode"), GUI_SML, gui_wht, gui_wht);
                 gui_set_rect(jd, GUI_ALL);
             }
