@@ -80,6 +80,29 @@ static int demo_action(int tok, int val)
         }
         else
         {
+            const struct demo *df;
+            df = DEMO_GET(items, val < total ? val : 0);
+
+            /* Switch the current status before gets reached into the status limit,
+               so they can be use to open. */
+            set_limit_status(config_get_d(CONFIG_ACCOUNT_LOAD));
+
+            if (status_to_str(df->status) == _("Fall-out"))
+                set_max_status(3);
+            else if (status_to_str(df->status) == _("Aborted") || status_to_str(df->status) == _("Time-out"))
+               set_max_status(2);
+            else
+               set_max_status(1);
+
+            /* Make sure, that the limit is supported. */
+            if (get_max_status() > get_limit_status())
+            {
+                /* Status exeeded! Set reported replay and stop execution. */
+                set_replay_report(df->player, status_to_str(df->status));
+
+                return goto_state(&st_demo_restricted);
+            }
+
             if (progress_replay(DIR_ITEM_GET(items, val)->path))
             {
                 last_viewed = val;
@@ -299,6 +322,8 @@ static void gui_demo_update_status(int i)
         gui_set_color(name_id, gui_gry, gui_red);
         gui_set_color(date_id, gui_gry, gui_red);
         gui_set_color(player_id, gui_gry, gui_red);
+
+        set_replay_report(d->player, status_to_str(d->status));
     }
     else
     {
@@ -333,15 +358,32 @@ void set_limit_status(int limitstat)
     stat_limit = limitstat;
 }
 
+char * reported_player_name;
+char * reported_status;
+
+void set_replay_report(char * target_player_name, char * target_status)
+{
+    reported_player_name = target_player_name;
+    reported_status = target_status;
+}
+
 static int demo_restricted_gui(void)
 {
-    int id, kd;
+    int id, jd, kd, ld;
 
     if ((id = gui_vstack(0)))
     {
-        kd = gui_label(id, _("Filters restricted!"), GUI_MED, gui_gry, gui_red);
-        gui_pulse(kd, 1.2f);
+        if ((jd = gui_vstack(id)))
+        {
+            char infoattr[MAXSTR];
+            sprintf(infoattr, "%s: %s > %s", _("Player"), reported_player_name, reported_status);
 
+            kd = gui_label(jd, _("Filters restricted!"), GUI_MED, gui_gry, gui_red);
+            ld = gui_label(jd, infoattr, GUI_SML, gui_red, gui_red);
+            gui_pulse(kd, 1.2f);
+            gui_pulse(ld, 1.2f);
+            gui_set_rect(jd, GUI_ALL);
+        }
         gui_space(id);
 
         gui_multi(id, _("You can't open selected replay,\\because it was restricted for you!"), GUI_SML, gui_wht, gui_wht);
@@ -360,7 +402,7 @@ static int demo_restricted_enter(struct state *st, struct state *prev)
 
 static void demo_restricted_timer(int id, float dt)
 {
-    game_step_fade(dt);
+    //game_step_fade(dt);
     gui_timer(id, dt);
 }
 
@@ -369,11 +411,10 @@ static int demo_restricted_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-            /*if (standalone)
-                return goto_state(&st_demo);
+            if (is_opened)
+                return goto_state(&st_demo_end);
             else
-                return goto_state(&st_demo);*/
-            return goto_state(&st_demo);
+                return goto_state(&st_demo);
     }
     return 1;
 }
@@ -383,19 +424,15 @@ static int demo_restricted_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            /*if (standalone)
-                return goto_state(&st_demo);
+            if (is_opened)
+                return goto_state(&st_demo_end);
             else
-                return goto_state(&st_demo);*/
-
-            return goto_state(&st_demo);
+                return goto_state(&st_demo);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            /*if (standalone)
-                return goto_state(&st_demo);
+            if (is_opened)
+                return goto_state(&st_demo_end);
             else
-                return goto_state(&st_demo);*/
-
-            return goto_state(&st_demo);
+                return goto_state(&st_demo);
     }
     return 1;
 }
