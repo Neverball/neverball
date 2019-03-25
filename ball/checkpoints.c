@@ -18,10 +18,10 @@
 
 int last_active;
 
-int last_position_x;
-int last_position_y;
-int last_position_z;
-int last_r;
+float last_position_x;
+float last_position_y;
+float last_position_z;
+float last_r;
 
 int last_time;
 int last_coins;
