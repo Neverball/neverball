@@ -3,10 +3,10 @@
 
 extern int last_active;
 
-extern int last_position_x;
-extern int last_position_y;
-extern int last_position_z;
-extern int last_r;
+extern float last_position_x;
+extern float last_position_y;
+extern float last_position_z;
+extern float last_r;
 
 extern int last_time;
 extern int last_coins;
