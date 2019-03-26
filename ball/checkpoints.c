@@ -39,9 +39,9 @@ void set_active_checkpoint(int new_active)
 void set_last_transform(float x, float y, float z, float radius)
 {
     /* Set the last transform */
-    last_pos_x = x;
-    last_pos_y = y;
-    last_pos_z = z;
+    last_position_x = x;
+    last_position_y = y;
+    last_position_z = z;
     last_r = radius;
 }
 
