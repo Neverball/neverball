@@ -16,6 +16,8 @@ extern int last_timer_down;
 
 /*---------------------------------------------------------------------------*/
 
+void checkpoints_stop(void)
+
 void set_active_checkpoint(int);
 
 void set_last_transform(float, float, float, float);
