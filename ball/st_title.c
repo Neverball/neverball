@@ -178,12 +178,12 @@ static int title_gui(void)
             if ((jd = gui_vstack(id)))
             {
                 // Use with edition below title
-                gui_label(jd, "  Sunnyball  ", GUI_LRG, 0, 0);
+                gui_label(jd, "  Neverball  ", GUI_LRG, 0, 0);
                 gui_label(jd, _("Linux Mint Edition"), GUI_SML, gui_wht, gui_wht);
                 gui_set_rect(jd, GUI_ALL);
 
                 // ...or use title only
-                /*if ((jd = gui_label(id, "  Sunnyball  ", GUI_LRG, 0, 0)))
+                /*if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
                     gui_set_fill(jd);*/
             }
         }
