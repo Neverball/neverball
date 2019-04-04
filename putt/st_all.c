@@ -958,7 +958,7 @@ static void stroke_paint(int id, float t)
 
 static void stroke_timer(int id, float dt)
 {
-    float g[3] = { 0.f, 0.f, 0.f };
+    float g[3] = { 0.f, -9.8f, 0.f };
 
     float k;
 
