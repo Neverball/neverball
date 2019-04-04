@@ -16,6 +16,7 @@
 #include <math.h>
 #include <assert.h>
 
+#include "checkpoints.h" // New: Checkpoints
 #include "vec3.h"
 #include "geom.h"
 #include "config.h"
@@ -438,9 +439,13 @@ int game_server_init(const char *file_name, int t, int e)
     struct { int x, y; } version;
     int i;
 
-    timer      = (float) t / 100.f;
-    timer_down = (t > 0);
-    coins      = 0;
+    /*
+     * If you haven’t saved data value for each checkpoints,
+     * datas for your default values will be used.
+     */
+    timer      = last_active ? last_time : (float) t / 100.f;
+    timer_down = last_active ? last_timer_down : (t > 0);
+    coins      = last_active ? last_coins : 0;
     status     = GAME_NONE;
 
     game_server_free(file_name);
@@ -496,6 +501,18 @@ int game_server_init(const char *file_name, int t, int e)
 
     got_orig = 0;
     grow = 0;
+    
+    /*
+     * If you haven’t saved transform for each checkpoints,
+     * transform for your default values will be used.
+     */
+    if (last_active)
+    {
+        vary.uv[0].p[0] = last_position_x;
+        vary.uv[0].p[1] = last_position_y;
+        vary.uv[0].p[2] = last_position_z;
+        vary.uv[0].r = last_r;
+    }
 
     /* Initialize simulation. */
 
