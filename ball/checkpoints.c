@@ -23,13 +23,29 @@ float last_position_y;
 float last_position_z;
 float last_r;
 
-int last_time;
+float last_time;
 int last_coins;
 int last_goal;
 
 int last_timer_down;
 
 /*---------------------------------------------------------------------------*/
+
+void checkpoints_stop(void)
+{
+    last_active = 0;
+
+    last_position_x = 0.f;
+    last_position_y = 0.f;
+    last_position_z = 0.f;
+    last_r = 1.f;
+
+    last_time = 0.f;
+    last_coins = 0;
+    last_goal = 0;
+
+    last_timer_down = 0;
+}
 
 void set_active_checkpoint(int new_active)
 {
@@ -45,7 +61,7 @@ void set_last_transform(float x, float y, float z, float radius)
     last_r = radius;
 }
 
-void set_last_data(int time, int coins, int goal)
+void set_last_data(float time, int coins, int goal)
 {
     /* Set the last level data */
     last_time = time;
