@@ -12,6 +12,7 @@
  * General Public License for more details.
  */
 
+#include "checkpoints.h" // New: Checkpoints
 #include "util.h"
 #include "progress.h"
 #include "demo.h"
@@ -35,7 +36,8 @@
 enum
 {
     /* Some enumerations were removed in this future! */
-    FAIL_SAME = GUI_LAST,
+    CHECKPOINTS_RESPAWN = GUI_LAST, // New: Checkpoints
+    FAIL_SAME,
     FAIL_OVER
 };
 
@@ -51,10 +53,21 @@ static int fail_action(int tok, int val)
     {
     case GUI_BACK:
     case FAIL_OVER:
+    {
+        checkpoints_stop();
         progress_stop();
         return goto_state(&st_exit);
+    }
 
     case FAIL_SAME:
+    {
+        checkpoints_stop();
+        if (progress_same())
+            return goto_state(&st_level);
+        break;
+    }
+
+    case CHECKPOINTS_RESPAWN:
         if (progress_same())
             return goto_state(&st_level);
         break;
@@ -91,6 +104,10 @@ static int fail_gui(void)
 
             if (progress_same_avail())
                 gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
+
+            // New: Checkpoints
+            if (last_active && progress_same_avail())
+                gui_start(jd, _("Respawn"), GUI_SML, CHECKPOINTS_RESPAWN, 0);
         }
 
         gui_space(id);
