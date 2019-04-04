@@ -31,7 +31,8 @@
 enum
 {
     HELP_PAGE = GUI_LAST,
-    HELP_DEMO
+    HELP_DEMO,
+    HELP_RULES_PREMIUM
 };
 
 enum
@@ -45,6 +46,11 @@ enum
 static const char demos[][16] = {
     "gui/demo1.nbr",
     "gui/demo2.nbr"
+};
+
+static const char rules_premium[][16] = {
+    "gui/rules1.nbr",
+    "gui/rules2.nbr"
 };
 
 static int page = PAGE_RULES;
@@ -63,6 +69,11 @@ static int help_action(int tok, int val)
 
     case HELP_DEMO:
         if (demo_replay_init(demos[val], NULL, NULL, NULL, NULL, NULL))
+            return goto_state(&st_help_demo);
+        break;
+            
+    case HELP_RULES_PREMIUM:
+        if (demo_replay_init(rules_premium[val], NULL, NULL, NULL, NULL, NULL))
             return goto_state(&st_help_demo);
         break;
 
