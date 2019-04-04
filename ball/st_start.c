@@ -66,7 +66,11 @@ static void gui_level(int id, int i)
         back = level_completed(l) ? fore    : gui_yel;
     }
 
-    jd = gui_label(id, level_name(l), GUI_SML, back, fore);
+    if (i == 0) {
+        jd = gui_start(id, level_name(l), GUI_SML, back, fore);
+    } else {
+        jd = gui_label(id, level_name(l), GUI_SML, back, fore);
+    }
 
     if (level_opened(l) || config_cheat())
         gui_set_state(jd, START_LEVEL, i);
@@ -171,7 +175,7 @@ static int start_gui(void)
 
             gui_label(jd, set_name(curr_set()), GUI_SML, gui_yel, gui_red);
             gui_filler(jd);
-            gui_start(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
+            gui_state(jd, _("Back"),  GUI_SML, GUI_BACK, 0);
         }
 
         gui_space(id);
