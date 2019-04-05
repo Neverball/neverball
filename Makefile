@@ -276,6 +276,7 @@ BALL_OBJS := \
 	share/fs_ov.o       \
 	share/log.o         \
 	share/joy.o         \
+	ball/checkpoints.o  \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
