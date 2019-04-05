@@ -20,7 +20,7 @@ endif
 #------------------------------------------------------------------------------
 # Paths (packagers might want to set DATADIR and LOCALEDIR)
 
-USERDIR   := .neverball
+USERDIR   := neverball
 DATADIR   := ./data
 LOCALEDIR := ./locale
 

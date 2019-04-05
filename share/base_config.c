@@ -70,7 +70,12 @@ static const char *pick_home_path(void)
 #else
     const char *path;
 
-    return (path = getenv("HOME")) ? path : fs_base_dir();
+    path = getenv("XDG_DATA_HOME");
+    if (!path)
+        path = getenv("HOME");
+    if (!path)
+        path = fs_base_dir();
+    return path;
 #endif
 }
 

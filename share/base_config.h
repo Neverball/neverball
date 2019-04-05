@@ -43,7 +43,7 @@
 #ifdef _WIN32
 #define CONFIG_USER   "Neverball"
 #else
-#define CONFIG_USER   ".neverball"
+#define CONFIG_USER   "neverball"
 #endif
 #endif
 
