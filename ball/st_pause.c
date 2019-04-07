@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include "checkpoints.h" // New: Checkpoints
+
 #include "gui.h"
 #include "config.h"
 #include "video.h"
@@ -52,6 +54,7 @@ static int pause_action(int tok, int val)
     case PAUSE_RESTART:
         if (progress_same())
         {
+            checkpoints_stop();
             SDL_PauseAudio(0);
             video_set_grab(1);
             return goto_state(&st_play_ready);
@@ -59,6 +62,7 @@ static int pause_action(int tok, int val)
         break;
 
     case PAUSE_EXIT:
+        checkpoints_stop();
         progress_stat(GAME_NONE);
         progress_stop();
         SDL_PauseAudio(0);
@@ -79,7 +83,7 @@ static int pause_gui(void)
 
     if ((id = gui_vstack(0)))
     {
-        title_id = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
+        title_id = gui_label(id, _("Paused"), GUI_LRG, gui_gry, gui_red);
 
         gui_space(id);
 

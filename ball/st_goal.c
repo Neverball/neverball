@@ -14,6 +14,8 @@
 
 #include <stdio.h>
 
+#include "checkpoints.h" // New: Checkpoints
+
 #include "gui.h"
 #include "util.h"
 #include "progress.h"
@@ -47,6 +49,8 @@ enum
 static int balls_id;
 static int coins_id;
 static int score_id;
+
+int wallet_id;
 
 static int resume;
 
@@ -116,7 +120,7 @@ static int goal_gui(void)
 
         gui_space(id);
 
-        if (curr_mode() == MODE_CHALLENGE)
+        if (curr_mode() == MODE_CHALLENGE || curr_mode() == MODE_BOOST_RUSH)
         {
             int coins, score, balls;
             int i;
@@ -172,7 +176,7 @@ static int goal_gui(void)
                         gui_set_count(coins_id, coins);
                     }
 
-                    if ((ld = gui_harray(kd)))
+                    if ((ld = gui_harray(kd)) && config_get_d(PRODUCT_ACCOUNT_BONUS) == 0)
                     {
                         const struct level *l;
 
@@ -200,7 +204,44 @@ static int goal_gui(void)
         }
         else
         {
-            balls_id = score_id = coins_id = 0;
+            balls_id = score_id = 0;
+
+            int coins, wallet;
+
+            if (!resume) {
+                coins = curr_coins();
+                wallet = config_get_d(CONFIG_ACCOUNT_WALLET);
+            } else {
+            	coins = 0;
+            	wallet = config_get_d(CONFIG_ACCOUNT_WALLET);
+            }
+
+            if ((jd = gui_hstack(id)))
+            {
+            	gui_filler(jd);
+
+        	    if ((kd = gui_harray(jd)))
+            	{
+                    wallet_id = gui_count(kd, 100, GUI_MED);
+                    gui_label(kd, _("Wallet"), GUI_SML,
+                    gui_wht, gui_wht);
+            	}
+                if ((kd = gui_harray(jd)))
+                {
+                    coins_id = gui_count(kd, 100, GUI_MED);
+                    gui_label(kd, _("Coins"), GUI_SML,
+                    gui_wht, gui_wht);
+                }
+
+                gui_set_count(coins_id, coins);
+                gui_set_count(wallet_id, wallet);
+
+                gui_filler(jd);
+
+                gui_set_rect(jd, GUI_ALL);
+            }
+
+            gui_space(id);
         }
 
         gui_score_board(id, (GUI_SCORE_COIN |
@@ -222,12 +263,18 @@ static int goal_gui(void)
             if (progress_same_avail())
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
-            if (demo_saved())
+            int save = config_get_d(CONFIG_ACCOUNT_SAVE);
+            if (demo_saved() && save >= 1)
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
         }
 
-        if (!resume)
+        if (!resume) {
             gui_pulse(gid, 1.2f);
+            if (curr_mode() == MODE_NORMAL) {
+                int curr_wallet = config_get_d(CONFIG_ACCOUNT_WALLET) + curr_coins();
+                config_set_d(CONFIG_ACCOUNT_WALLET, curr_wallet);
+            }
+        }
 
         gui_layout(id, 0, 0);
 
@@ -248,6 +295,10 @@ static int goal_enter(struct state *st, struct state *prev)
     audio_music_fade_out(2.0f);
     video_clr_grab();
     resume = (prev == &st_goal || prev == &st_name || prev == &st_save);
+
+    if (!resume)
+        checkpoints_stop();
+
     return goal_gui();
 }
 
@@ -273,12 +324,18 @@ static void goal_timer(int id, float dt)
             {
                 int score = gui_value(score_id);
                 int balls = gui_value(balls_id);
+                int wallet = gui_value(wallet_id);
 
                 gui_set_count(coins_id, coins - 1);
                 gui_pulse(coins_id, 1.1f);
 
                 gui_set_count(score_id, score + 1);
                 gui_pulse(score_id, 1.1f);
+
+                if (curr_mode() == MODE_NORMAL) {
+                    gui_set_count(wallet_id, wallet + 1);
+                    gui_pulse(wallet_id, 1.1f);
+                }
 
                 if (progress_reward_ball(score + 1))
                 {

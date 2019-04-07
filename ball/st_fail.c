@@ -12,6 +12,8 @@
  * General Public License for more details.
  */
 
+#include "checkpoints.h" // New: Checkpoints
+
 #include "util.h"
 #include "progress.h"
 #include "demo.h"
@@ -19,6 +21,7 @@
 #include "gui.h"
 #include "config.h"
 #include "video.h"
+#include "hud.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -30,14 +33,15 @@
 #include "st_play.h"
 #include "st_shared.h"
 
-/*---------------------------------------------------------------------------*/
+ /*---------------------------------------------------------------------------*/
 
 enum
 {
-    FAIL_NEXT = GUI_LAST,
-    FAIL_SAME,
-    FAIL_SAVE,
-    FAIL_OVER
+	/* Some enumerations were removed in this future! */
+	FAIL_SAME = GUI_LAST,
+	CHECKPOINT_RESPAWN,
+	FAIL_SAVE, // We were just reverted back for you!
+	FAIL_OVER
 };
 
 static int resume;
@@ -45,151 +49,182 @@ static int status;
 
 static int fail_action(int tok, int val)
 {
-    audio_play(AUD_MENU, 1.0f);
+	audio_play(AUD_MENU, 1.0f);
 
-    switch (tok)
-    {
-    case GUI_BACK:
-    case FAIL_OVER:
-        progress_stop();
-        return goto_state(&st_exit);
+	/* Some tokens were removed in this future! */
+	switch (tok)
+	{
+	case GUI_BACK:
+	case FAIL_OVER:
+	    checkpoints_stop();
+		progress_stop();
+		return goto_state(&st_exit);
 
+	// We were just reverted back for you!
     case FAIL_SAVE:
-        progress_stop();
-        return goto_save(&st_fail, &st_fail);
+		progress_stop();
+		return goto_save(&st_fail, &st_fail);
 
-    case FAIL_NEXT:
-        if (progress_next())
-            return goto_state(&st_level);
+	// New: Checkpoints
+    case CHECKPOINT_RESPAWN:
+        if (progress_same() && last_active)
+        {
+        	return goto_state(&st_level);
+        }
         break;
 
-    case FAIL_SAME:
-        if (progress_same())
-            return goto_state(&st_level);
-        break;
-    }
+	case FAIL_SAME:
+		if (progress_same())
+		{
+			checkpoints_stop();
+			return goto_state(&st_level);
+		}
+		break;
+	}
 
-    return 1;
+	return 1;
 }
 
 static int fail_gui(void)
 {
-    int id, jd, kd;
+	int id, jd, kd;
 
-    const char *label = "";
+	const char *label = "";
 
-    if (status == GAME_FALL)
-        label = _("Fall-out!");
-    else if (status == GAME_TIME)
-        label = _("Time's Up!");
+	if (status == GAME_FALL)
+		label = _("Fall-out!");
+	else if (status == GAME_TIME)
+		label = _("Time's Up!");
 
-    if ((id = gui_vstack(0)))
-    {
-        if (gui_measure(label, GUI_LRG).w >= config_get_d(CONFIG_WIDTH))
-            kd = gui_label(id, label, GUI_MED, gui_gry, gui_red);
-        else
-            kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
+	if ((id = gui_vstack(0)))
+	{
+		if (gui_measure(label, GUI_LRG).w >= config_get_d(CONFIG_WIDTH))
+			kd = gui_label(id, label, GUI_MED, gui_gry, gui_red);
+		else
+			kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
 
-        gui_space(id);
+		gui_space(id);
 
-        if ((jd = gui_harray(id)))
-        {
-            if (progress_dead())
-                gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
+		if ((jd = gui_harray(id)))
+		{
+			/* Some buttons were removed in this future (e.g. death_screen.json in Minecraft Android, iOS or Windows 10)! */
+			//if (progress_dead())
+				gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
 
-            if (progress_next_avail())
-                gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
+			if (progress_same_avail())
+				gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
 
-            if (progress_same_avail())
-                gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
+			// New: Checkpoints; An optional can be respawn last location
+			if (progress_same_avail() && last_active)
+				gui_start(jd, _("Respawn"), GUI_SML, CHECKPOINT_RESPAWN, 0);
 
-            if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
-        }
+			// We were just reverted back for you!
+			if (demo_saved())
+			{
+				/* ...but unfortunately, we have removed "Save Replay" button in this future,
+				once we installed save filters. */
+				int save = config_get_d(CONFIG_ACCOUNT_SAVE);
 
-        gui_space(id);
+				if (save == 3 && status == GAME_FALL)
+					gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
 
-        gui_pulse(kd, 1.2f);
-        gui_layout(id, 0, 0);
-    }
+				if (save == 2 && status == GAME_TIME)
+					gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+			}
+		}
 
-    return id;
+		gui_space(id);
+
+		gui_pulse(kd, 1.2f);
+		gui_layout(id, 0, 0);
+	}
+
+	return id;
 }
 
 static int fail_enter(struct state *st, struct state *prev)
 {
-    audio_music_fade_out(2.0f);
-    video_clr_grab();
+	audio_music_fade_out(2.0f);
+	video_clr_grab();
 
-    /* Check if we came from a known previous state. */
+	/* Check if we came from a known previous state. */
 
-    resume = (prev == &st_fail || prev == &st_save);
+	resume = (prev == &st_fail || prev == &st_save);
 
-    /* Note the current status if we got here from elsewhere. */
+	/* Note the current status if we got here from elsewhere. */
 
-    if (!resume)
-        status = curr_status();
+	if (!resume)
+		status = curr_status();
 
-    return fail_gui();
+	return fail_gui();
+}
+
+static void fail_paint(int id, float t)
+{
+    game_client_draw(0, t);
+
+    hud_paint();
+
+    gui_paint(id);
 }
 
 static void fail_timer(int id, float dt)
 {
-    if (status == GAME_FALL)
-    {
-        if (!resume && time_state() < 2.f)
-        {
-            game_server_step(dt);
-            game_client_sync(demo_fp);
-            game_client_blend(game_server_blend());
-        }
-    }
+	if (status == GAME_FALL)
+	{
+        /* Comment it, if you want to stop permanently */
+		/*if (!resume && time_state() < 2.f)
+		{
+			game_server_step(dt);
+			game_client_sync(demo_fp);
+			game_client_blend(game_server_blend());
+		}*/
+	}
 
-    gui_timer(id, dt);
+	gui_timer(id, dt);
 }
 
 static int fail_keybd(int c, int d)
 {
-    if (d)
-    {
-        if (c == KEY_EXIT)
-            return fail_action(GUI_BACK, 0);
+	if (d)
+	{
+		if (c == KEY_EXIT)
+			return fail_action(GUI_BACK, 0);
 
-        if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
-        {
-            if (progress_same())
-                goto_state(&st_play_ready);
-        }
-    }
-    return 1;
+		if (config_tst_d(CONFIG_KEY_RESTART, c) && progress_same_avail())
+		{
+			if (progress_same())
+				goto_state(&st_play_ready);
+		}
+	}
+	return 1;
 }
 
 static int fail_buttn(int b, int d)
 {
-    if (d)
-    {
-        int active = gui_active();
+	if (d)
+	{
+		int active = gui_active();
 
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return fail_action(gui_token(active), gui_value(active));
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return fail_action(GUI_BACK, 0);
-    }
-    return 1;
+		if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+			return fail_action(gui_token(active), gui_value(active));
+		if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+			return fail_action(GUI_BACK, 0);
+	}
+	return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
 struct state st_fail = {
-    fail_enter,
-    shared_leave,
-    shared_paint,
-    fail_timer,
-    shared_point,
-    shared_stick,
-    shared_angle,
-    shared_click,
-    fail_keybd,
-    fail_buttn
+	fail_enter,
+	shared_leave,
+	fail_paint, // Default: shared_paint
+	fail_timer,
+	shared_point,
+	shared_stick,
+	shared_angle,
+	shared_click,
+	fail_keybd,
+	fail_buttn
 };
-
