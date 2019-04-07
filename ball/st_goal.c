@@ -120,7 +120,7 @@ static int goal_gui(void)
 
         gui_space(id);
 
-        if (curr_mode() == MODE_CHALLENGE || curr_mode() == MODE_BOOST_RUSH)
+        if (curr_mode() == MODE_CHALLENGE)
         {
             int coins, score, balls;
             int i;
@@ -176,7 +176,7 @@ static int goal_gui(void)
                         gui_set_count(coins_id, coins);
                     }
 
-                    if ((ld = gui_harray(kd)) && config_get_d(PRODUCT_ACCOUNT_BONUS) == 0)
+                    if ((ld = gui_harray(kd)))
                     {
                         const struct level *l;
 
@@ -226,8 +226,7 @@ static int goal_gui(void)
             if (progress_same_avail())
                 gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
-            int save = config_get_d(CONFIG_ACCOUNT_SAVE);
-            if (demo_saved() && save >= 1)
+            if (demo_saved())
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
         }
 
@@ -287,7 +286,6 @@ static void goal_timer(int id, float dt)
             {
                 int score = gui_value(score_id);
                 int balls = gui_value(balls_id);
-                int wallet = gui_value(wallet_id);
 
                 gui_set_count(coins_id, coins - 1);
                 gui_pulse(coins_id, 1.1f);
