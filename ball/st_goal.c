@@ -204,44 +204,7 @@ static int goal_gui(void)
         }
         else
         {
-            balls_id = score_id = 0;
-
-            int coins, wallet;
-
-            if (!resume) {
-                coins = curr_coins();
-                wallet = config_get_d(CONFIG_ACCOUNT_WALLET);
-            } else {
-            	coins = 0;
-            	wallet = config_get_d(CONFIG_ACCOUNT_WALLET);
-            }
-
-            if ((jd = gui_hstack(id)))
-            {
-            	gui_filler(jd);
-
-        	    if ((kd = gui_harray(jd)))
-            	{
-                    wallet_id = gui_count(kd, 100, GUI_MED);
-                    gui_label(kd, _("Wallet"), GUI_SML,
-                    gui_wht, gui_wht);
-            	}
-                if ((kd = gui_harray(jd)))
-                {
-                    coins_id = gui_count(kd, 100, GUI_MED);
-                    gui_label(kd, _("Coins"), GUI_SML,
-                    gui_wht, gui_wht);
-                }
-
-                gui_set_count(coins_id, coins);
-                gui_set_count(wallet_id, wallet);
-
-                gui_filler(jd);
-
-                gui_set_rect(jd, GUI_ALL);
-            }
-
-            gui_space(id);
+            balls_id = score_id = coins_id = 0;
         }
 
         gui_score_board(id, (GUI_SCORE_COIN |
@@ -331,11 +294,6 @@ static void goal_timer(int id, float dt)
 
                 gui_set_count(score_id, score + 1);
                 gui_pulse(score_id, 1.1f);
-
-                if (curr_mode() == MODE_NORMAL) {
-                    gui_set_count(wallet_id, wallet + 1);
-                    gui_pulse(wallet_id, 1.1f);
-                }
 
                 if (progress_reward_ball(score + 1))
                 {
