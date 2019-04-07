@@ -49,6 +49,7 @@
  *     x  Switch        (struct b_swch)
  *     r  Billboard     (struct b_bill)
  *     u  User          (struct b_ball)
+ *     c  Checkpoints   (struct b_chkp) New: Checkpoints
  *     w  Viewpoint     (struct b_view)
  *     d  Dictionary    (struct b_dict)
  *     i  Index         (int)
@@ -84,7 +85,6 @@
 
 /* Material type flags */
 
-#define M_LIT         (1 << 11)
 #define M_PARTICLE    (1 << 10)
 #define M_ALPHA_TEST  (1 <<  9)
 #define M_REFLECTIVE  (1 <<  8)
@@ -272,6 +272,12 @@ struct b_ball
     float r;                                   /* radius                     */
 };
 
+struct b_chkp // New: Checkpoints
+{
+    float p[3];                                /* position vector            */
+    float r;                                   /* radius                     */
+};
+
 struct b_view
 {
     float p[3];
@@ -304,6 +310,7 @@ struct s_base
     int xc;
     int rc;
     int uc;
+    int cc; // New: Checkpoints
     int wc;
     int dc;
     int ic;
@@ -326,6 +333,7 @@ struct s_base
     struct b_swch *xv;
     struct b_bill *rv;
     struct b_ball *uv;
+    struct b_chkp *cv; // New: Checkpoints
     struct b_view *wv;
     struct b_dict *dv;
     int           *iv;

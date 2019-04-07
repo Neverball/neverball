@@ -235,6 +235,7 @@ static void bcast_quit(void)
 #define MAXX    1024
 #define MAXR    2048
 #define MAXU    1024
+#define MAXC    1024 // New: Checkpoints
 #define MAXW    1024
 #define MAXD    1024
 #define MAXA    16384
@@ -334,6 +335,11 @@ static int incu(struct s_base *fp)
     return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
 }
 
+static int incc(struct s_base *fp)
+{
+    return (fp->cc < MAXC) ? fp->cc++ : overflow("chkp"); // New: Checkpoints
+}
+
 static int incw(struct s_base *fp)
 {
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
@@ -368,6 +374,7 @@ static void init_file(struct s_base *fp)
     fp->xc = 0;
     fp->rc = 0;
     fp->uc = 0;
+    fp->cc = 0;
     fp->wc = 0;
     fp->dc = 0;
     fp->ac = 0;
@@ -390,6 +397,7 @@ static void init_file(struct s_base *fp)
     fp->xv = (struct b_swch *) calloc(MAXX, sizeof (*fp->xv));
     fp->rv = (struct b_bill *) calloc(MAXR, sizeof (*fp->rv));
     fp->uv = (struct b_ball *) calloc(MAXU, sizeof (*fp->uv));
+    fp->cv = (struct b_chkp *) calloc(MAXC, sizeof (*fp->cv)); // New: Checkpoints
     fp->wv = (struct b_view *) calloc(MAXW, sizeof (*fp->wv));
     fp->dv = (struct b_dict *) calloc(MAXD, sizeof (*fp->dv));
     fp->av = (char *)          calloc(MAXA, sizeof (*fp->av));
@@ -786,7 +794,7 @@ static void read_obj(struct s_base *fp, const char *name, int mi)
     int t0 = fp->tc;
     int s0 = fp->sc;
 
-    if ((fin = fs_open_read(name)))
+    if ((fin = fs_open(name, "r")))
     {
         while (fs_gets(line, MAXSTR, fin))
         {
@@ -1480,6 +1488,37 @@ static void make_ball(struct s_base *fp,
     up->p[1] += up->r + SMALL;
 }
 
+// New: Checkpoints
+static void make_chkp(struct s_base *fp,
+		              char k[][MAXSTR],
+					  char v[][MAXSTR], int c)
+{
+    int i, ci = incc(fp);
+
+    struct b_chkp *cp = fp->cv + ci;
+
+    cp->p[0] = 0.f;
+    cp->p[1] = 0.f;
+    cp->p[2] = 0.f;
+    cp->r    = 0.5;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "radius") == 0)
+    	    sscanf(v[i], "%f", &cp->r);
+        if (strcmp(k[i], "origin") == 0)
+        {
+            float x = 0.f, y = 0.f, z = 0.f;
+
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
+
+            cp->p[0] = +(x)      / SCALE;
+            cp->p[1] = +(z - 24) / SCALE;
+            cp->p[2] = -(y)      / SCALE;
+        }
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void read_ent(struct s_base *fp, fs_file fin)
@@ -1509,6 +1548,7 @@ static void read_ent(struct s_base *fp, fs_file fin)
     if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
     if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
+    if (!strcmp(v[i], "info_player_checkpoint"))   make_chkp(fp, k, v, c);
     if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);
     if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
     if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);
@@ -2714,6 +2754,7 @@ static struct dump_stats stats[] = {
     { offsetof (struct s_base, xc), "swch", "switches" },
     { offsetof (struct s_base, rc), "bill", "billboards" },
     { offsetof (struct s_base, uc), "ball", "balls" },
+	{ offsetof (struct s_base, cc), "chkp", "checkpoints" }, // New: Checkpoints
     { offsetof (struct s_base, ac), "char", "chars" },
     { offsetof (struct s_base, dc), "dict", "dicts" },
     { offsetof (struct s_base, ic), "indx", "indices" }
@@ -2849,7 +2890,7 @@ int main(int argc, char *argv[])
         fs_add_path     (dir_name(src));
         fs_set_write_dir(dir_name(dst));
 
-        if ((fin = fs_open_read(base_name(src))))
+        if ((fin = fs_open(base_name(src), "r")))
         {
             if (!fs_add_path_with_archives(argv[2]))
             {
