@@ -66,14 +66,15 @@ static void gui_level(int id, int i)
         back = level_completed(l) ? fore    : gui_yel;
     }
 
-    if (i == 0) {
-        jd = gui_start(id, level_name(l), GUI_SML, back, fore);
-    } else {
-        jd = gui_label(id, level_name(l), GUI_SML, back, fore);
-    }
+    jd = gui_label(id, level_name(l), GUI_SML, back, fore);
 
     if (level_opened(l) || config_cheat())
+    {
         gui_set_state(jd, START_LEVEL, i);
+
+        if (i == 0)
+            gui_focus(jd);
+    }
 }
 
 static void start_over_level(int i)
