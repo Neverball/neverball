@@ -60,11 +60,6 @@ static int fail_action(int tok, int val)
 		progress_stop();
 		return goto_state(&st_exit);
 
-	// We were just reverted back for you!
-    case FAIL_SAVE:
-		progress_stop();
-		return goto_save(&st_fail, &st_fail);
-
 	// New: Checkpoints
     case CHECKPOINT_RESPAWN:
         if (progress_same() && last_active)
@@ -117,20 +112,6 @@ static int fail_gui(void)
 			// New: Checkpoints; An optional can be respawn last location
 			if (progress_same_avail() && last_active)
 				gui_start(jd, _("Respawn"), GUI_SML, CHECKPOINT_RESPAWN, 0);
-
-			// We were just reverted back for you!
-			if (demo_saved())
-			{
-				/* ...but unfortunately, we have removed "Save Replay" button in this future,
-				once we installed save filters. */
-				int save = config_get_d(CONFIG_ACCOUNT_SAVE);
-
-				if (save == 3 && status == GAME_FALL)
-					gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
-
-				if (save == 2 && status == GAME_TIME)
-					gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
-			}
 		}
 
 		gui_space(id);
