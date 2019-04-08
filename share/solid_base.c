@@ -26,6 +26,7 @@
 enum
 {
     SOL_VERSION_1_5 = 6,
+    SOL_VERSION_1_6 = 7,
     SOL_VERSION_DEV
 };
 
@@ -67,7 +68,7 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
     fs_read(mp->f, 1, PATHMAX, fin);
 
-    if (sol_version >= SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_1_6)
     {
         if (mp->fl & M_ALPHA_TEST)
         {
@@ -145,7 +146,7 @@ static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
 {
     gp->mi = get_index(fin);
 
-    if (sol_version >= SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_1_6)
     {
         gp->oi = get_index(fin);
         gp->oj = get_index(fin);
@@ -232,7 +233,7 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     pp->tm = TIME_TO_MS(pp->t);
     pp->t  = MS_TO_TIME(pp->tm);
 
-    if (sol_version >= SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_1_6)
         pp->fl = get_index(fin);
 
     pp->e[0] = 1.0f;
@@ -248,7 +249,7 @@ static void sol_load_body(fs_file fin, struct b_body *bp)
 {
     bp->pi = get_index(fin);
 
-    if (sol_version >= SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_1_6)
     {
         bp->pj = get_index(fin);
 
@@ -356,7 +357,7 @@ static void sol_load_indx(fs_file fin, struct s_base *fp)
     fp->sc = get_index(fin);
     fp->tc = get_index(fin);
 
-    if (sol_version >= SOL_VERSION_DEV)
+    if (sol_version >= SOL_VERSION_1_6)
         fp->oc = get_index(fin);
 
     fp->gc = get_index(fin);
@@ -460,6 +461,17 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     {
         fp->uc = 1;
         fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
+    }
+    
+    /* Add lit flag to old materials. */	
+
+    if (sol_version <= SOL_VERSION_1_6)	
+    {	
+        for (i = 0; i < fp->mc; ++i)	
+            fp->mv[i].fl |= M_LIT;	
+
+         for (i = 0; i < fp->rc; ++i)	
+          fp->mv[fp->rv[i].mi].fl &= ~M_LIT;	
     }
 
     return 1;
