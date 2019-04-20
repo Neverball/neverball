@@ -90,6 +90,10 @@ static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
                                              { 1.0f, 0.0f, 0.0f, 0.8f }},
                                             {{ 0.0f, 1.0f, 0.0f, 0.5f },
                                              { 0.0f, 1.0f, 0.0f, 0.8f }}};
+    static const GLfloat chkp_c[2][2][4] = {{{ 0.0f, 0.0f, 1.0f, 0.5f },
+                                             { 0.0f, 0.0f, 1.0f, 0.8f }},
+                                            {{ 1.0f, 1.0f, 0.0f, 0.5f },
+                                             { 1.0f, 1.0f, 0.0f, 0.8f }}};
 
     const struct s_base *base =  gd->vary.base;
     const struct s_vary *vary = &gd->vary;
@@ -115,6 +119,12 @@ static void game_draw_beams(struct s_rend *rend, const struct game_draw *gd)
         if (!vary->xv[i].base->i)
             beam_draw(rend, base->xv[i].p, swch_c[vary->xv[i].f][vary->xv[i].e],
                             base->xv[i].r, 2.0f);
+
+    /* Checkpoint beams */
+
+    for (i = 0; i < base->cc; i++)
+        beam_draw(rend, base->cv[i].p, chkp_c[vary->cv[i].f][vary->cv[i].e],
+                        base->cv[i].r, 2.0f);
 }
 
 static void game_draw_goals(struct s_rend *rend,
