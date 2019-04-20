@@ -75,6 +75,14 @@ struct v_ball
     float r;                                   /* radius                     */
 };
 
+struct v_chkp // New: Checkpoints
+{
+    const struct b_chkp *base;
+
+    int   f;                                   /* current state              */
+    int   e;                                   /* is a ball inside it?       */
+};
+
 struct s_vary
 {
     struct s_base *base;
@@ -85,6 +93,7 @@ struct s_vary
     int hc;
     int xc;
     int uc;
+    int cc;
 
     struct v_path *pv;
     struct v_body *bv;
@@ -92,6 +101,7 @@ struct s_vary
     struct v_item *hv;
     struct v_swch *xv;
     struct v_ball *uv;
+    struct v_chkp *cv;
 
     /* Accumulator for tracking time in integer milliseconds. */
 
