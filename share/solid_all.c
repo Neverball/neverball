@@ -600,4 +600,86 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
     return rc;
 }
 
+/*
+ * New: Checkpoints; Test for a ball entering a checkpoints.
+ */
+int sol_chkp_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
+{
+    const float *ball_p = vary->uv[ui].p;
+    const float  ball_r = vary->uv[ui].r;
+
+    int xi, rc = CHKP_OUTSIDE;
+
+    for (xi = 0; xi < vary->xc; xi++)
+    {
+        struct v_chkp *cp = vary->xv + xi;
+
+            float d, r[3];
+
+            r[0] = ball_p[0] - cp->base->p[0];
+            r[1] = ball_p[2] - cp->base->p[2];
+            r[2] = 0;
+
+            /* Distance of the far side from the edge of the halo. */
+
+            d = v_len(r) + ball_r - cp->base->r;
+
+            /*
+             * The  "touch"  distance, which  must  be cleared  before
+             * being able to trigger a switch, is the ball's diameter.
+             * (This is different from teleporters.)
+             */
+
+            if (d <= ball_r * 2 &&
+                ball_p[1] > cp->base->p[1] &&
+                ball_p[1] < cp->base->p[1] + CHKP_HEIGHT / 2)
+            {
+                if (!cp->e && d <= 0.0f)
+                {
+                    /* The ball enters. */
+
+                    cp->e = 1;
+
+                    if (cmd_func)
+                    {
+                        union cmd cmd = { CMD_CHKP_ENTER };
+                        cmd.chkpenter.xi = xi;
+                        cmd_func(&cmd);
+                    }
+
+                    /* Toggle the state, update the path. */
+
+                    cp->f = cp->f ? 0 : 1;
+
+                    if (cmd_func)
+                    {
+                        union cmd cmd = { CMD_CHKP_TOGGLE };
+                        cmd.chkptoggle.xi = xi;
+                        cmd_func(&cmd);
+                    }
+
+                    /* If visible, set the result. */
+
+                    /*if (!cp->base->i)*/
+                        rc = CHKP_INSIDE;
+                }
+            }
+
+            /* The ball exits. */
+
+            else if (cp->e)
+            {
+                cp->e = 0;
+
+                if (cmd_func)
+                {
+                    union cmd cmd = { CMD_CHKP_EXIT };
+                    cmd.chkpexit.xi = xi;
+                    cmd_func(&cmd);
+                }
+            }
+    }
+    return rc;
+}
+
 /*---------------------------------------------------------------------------*/
