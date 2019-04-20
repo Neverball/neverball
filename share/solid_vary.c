@@ -146,6 +146,20 @@ int sol_load_vary(struct s_vary *fp, struct s_base *base)
             up->E[2][2] = up->e[2][2] = 1.0f;
         }
     }
+    
+    if (fp->base->cc)
+    {
+        fp->cv = calloc(fp->base->cc, sizeof (*fp->cv));
+        fp->cc = fp->base->cc;
+
+        for (i = 0; i < fp->base->cc; i++)
+        {
+            struct v_chkp *cp = fp->cv + i;
+            struct b_chkp *cq = fp->base->cv + i;
+
+            cp->base = cq;
+        }
+    }
 
     return 1;
 }
@@ -158,6 +172,7 @@ void sol_free_vary(struct s_vary *fp)
     free(fp->hv);
     free(fp->xv);
     free(fp->uv);
+    free(fp->cv);
 
     memset(fp, 0, sizeof (*fp));
 }
