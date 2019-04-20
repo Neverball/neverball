@@ -65,6 +65,9 @@ enum cmd_type
     CMD_TILT_AXES,
     CMD_MOVE_PATH,
     CMD_MOVE_TIME,
+    CMD_CHKP_ENTER,
+    CMD_CHKP_TOGGLE,
+    CMD_CHKP_EXIT,
 
     CMD_MAX
 };
@@ -289,6 +292,24 @@ struct cmd_move_time
     float t;
 };
 
+struct cmd_chkp_enter
+{
+    CMD_HEADER;
+    int xi;
+};
+
+struct cmd_chkp_toggle
+{
+    CMD_HEADER;
+    int xi;
+};
+
+struct cmd_chkp_exit
+{
+    CMD_HEADER;
+    int xi;
+};
+
 union cmd
 {
     enum cmd_type type;
@@ -329,6 +350,9 @@ union cmd
     struct cmd_tilt_axes          tiltaxes;
     struct cmd_move_path          movepath;
     struct cmd_move_time          movetime;
+    struct cmd_chkp_enter         chkpenter;
+    struct cmd_chkp_toggle        chkptoggle;
+    struct cmd_chkp_exit          chkpexit;
 };
 
 #undef CMD_HEADER
