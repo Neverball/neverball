@@ -367,7 +367,7 @@ msgstr "Lutning i 2 riktningar ökar\\lutningen. Använd den manuella kameran\\o
 
 #: ball/st_help.c:301 ball/st_help.c:311
 msgid "Watch demo"
-msgstr "Se demo"
+msgstr "Se på demo"
 
 #: ball/game_common.c:28
 msgid "Aborted"
@@ -489,7 +489,7 @@ msgstr "SPELET ÄR ÖVER"
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
-msgstr "manu^Fuska"
+msgstr "menu^Fuska"
 
 #: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
 msgid "menu^Play"
@@ -497,7 +497,7 @@ msgstr "menu^Spela"
 
 #: ball/st_title.c:181
 msgid "menu^Replay"
-msgstr "Inspelning"
+msgstr "menu^Inspelning"
 
 #: ball/st_title.c:182
 msgid "menu^Help"
