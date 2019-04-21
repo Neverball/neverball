@@ -87,7 +87,7 @@ msgstr "snd/over.ogg"
 #: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
 #: putt/st_all.c:404 putt/st_all.c:552
 msgid "Back"
-msgstr "Tillbaka"
+msgstr "Bakåt"
 
 #: ball/st_start.c:203 ball/progress.c:417
 msgid "Challenge"
@@ -307,7 +307,7 @@ msgstr "Regler"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr "Rör musen eller styrspaken\\eller använd piltangenterna för\\att tilta golvet vilket\\får bollen att rulla.\\"
+msgstr "Rör musen eller styrspaken\\eller använd piltangenterna för\\att luta golvet vilket\\får bollen att rulla.\\"
 
 #: ball/st_help.c:121
 msgid ""
@@ -323,7 +323,7 @@ msgstr "Vänster och höger musknapp roterar vyn.\\Håll Skift för snabbare vyr
 
 #: ball/st_help.c:180
 msgid "Exit / Pause"
-msgstr "Avsluta / Paus"
+msgstr "Avsluta / Pausa"
 
 #: ball/st_help.c:181 ball/game_common.c:46
 msgid "Chase Camera"
@@ -367,7 +367,7 @@ msgstr "Lutning i 2 riktningar ökar\\lutningen. Använd den manuella kameran\\o
 
 #: ball/st_help.c:301 ball/st_help.c:311
 msgid "Watch demo"
-msgstr "Se på demo"
+msgstr "Se demo"
 
 #: ball/game_common.c:28
 msgid "Aborted"
@@ -489,11 +489,11 @@ msgstr "SPELET ÄR ÖVER"
 
 #: ball/st_title.c:140 ball/st_title.c:175
 msgid "menu^Cheat"
-msgstr "Fuska"
+msgstr "manu^Fuska"
 
 #: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
 msgid "menu^Play"
-msgstr "Spela"
+msgstr "menu^Spela"
 
 #: ball/st_title.c:181
 msgid "menu^Replay"
@@ -501,15 +501,15 @@ msgstr "Inspelning"
 
 #: ball/st_title.c:182
 msgid "menu^Help"
-msgstr "Hjälp"
+msgstr "menu^Hjälp"
 
 #: ball/st_title.c:183 putt/st_all.c:239
 msgid "menu^Options"
-msgstr "Menyalternativ"
+msgstr "menu^Alternativ"
 
 #: ball/st_title.c:184 putt/st_all.c:240
 msgid "menu^Exit"
-msgstr "Avsluta"
+msgstr "menu^Avsluta"
 
 #: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
@@ -683,7 +683,7 @@ msgstr "Svårighet: Experter till Galet svårt\\\\25 nivåer med ännu mera utma
 
 #: data/set-mym2.txt
 msgid "Retour de force"
-msgstr "Retour de force"
+msgstr "Kraft återkoppling"
 
 #: data/set-mym2.txt
 msgid ""
@@ -779,7 +779,7 @@ msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr "Denna gång måste du få 50 mynt för att låsa upp målet.\\Röda mynt är värda 5, blå mynt är värda 10.\\Ta dig till målet innan tiden tar slut!\\\\Klicka för att börja.\\"
+msgstr "Denna gång måste du få 50 mynt för att låsa upp målet.\\Röda mynt är värda 5, blåa mynt är värda 10.\\Ta dig till målet innan tiden tar slut!\\\\Klicka för att börja.\\"
 
 #: data/map-easy/corners.map
 msgid ""
@@ -830,7 +830,7 @@ msgstr "Luta golvet så lite som möjligt.\\Mindre lutning innebär lägre hasti
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr "Varje bro är smalare än den tidigare.\\Men varje betalar bättre än den sista också!\\ Du får bestämma hur långt du går på den här.\\"
+msgstr "Varje bro är smalare än den tidigare.\\Men varje betalar bättre än den sista också!\\Du får bestämma hur långt du går på den här.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
@@ -851,7 +851,7 @@ msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr "Följ den gula slicka vägen!\\\\Blå mynt är särskilt utmanande,\\men med vissa experiment och praxis,\\kommer du att kunna samla dem alla."
+msgstr "Följ den gula slicka vägen!\\\\Blåa mynt är särskilt utmanande,\\men med vissa experiment och praxis,\\kommer du att kunna samla dem alla."
 
 #: data/map-easy/maze.map
 msgid ""
@@ -1097,7 +1097,7 @@ msgstr "Åk med hissarna till toppen.\\De rör sig snabbt,\\så vela inte för l
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Ha kul att plocka upp dessa\\röda och blå mynt.\\"
+msgstr "Ha kul att plocka upp dessa\\röda och blåa mynt.\\"
 
 #: data/map-hard/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
