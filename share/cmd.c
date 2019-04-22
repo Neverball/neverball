@@ -338,6 +338,57 @@ END_FUNC;
 #undef BYTES
 #define BYTES INDEX_BYTES
 
+PUT_FUNC(CMD_CHKP_ENTER)
+{
+    put_index(fp, cmd->chkpenter.xi);
+}
+END_FUNC;
+
+GET_FUNC(CMD_CHKP_ENTER)
+{
+    cmd->chkpenter.xi = get_index(fp);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
+#undef BYTES
+#define BYTES INDEX_BYTES
+
+PUT_FUNC(CMD_CHKP_TOGGLE)
+{
+    put_index(fp, cmd->chkpenter.xi);
+}
+END_FUNC;
+
+GET_FUNC(CMD_CHKP_TOGGLE)
+{
+    cmd->chkpenter.xi = get_index(fp);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
+#undef BYTES
+#define BYTES INDEX_BYTES
+
+PUT_FUNC(CMD_CHKP_EXIT)
+{
+    put_index(fp, cmd->chkpenter.xi);
+}
+END_FUNC;
+
+GET_FUNC(CMD_CHKP_EXIT)
+{
+    cmd->chkpenter.xi = get_index(fp);
+}
+END_FUNC;
+
+/*---------------------------------------------------------------------------*/
+
+#undef BYTES
+#define BYTES INDEX_BYTES
+
 PUT_FUNC(CMD_UPDATES_PER_SECOND)
 {
     put_index(fp, cmd->ups.n);
@@ -678,6 +729,9 @@ int cmd_put(fs_file fp, const union cmd *cmd)
         PUT_CASE(CMD_TILT_AXES);
         PUT_CASE(CMD_MOVE_PATH);
         PUT_CASE(CMD_MOVE_TIME);
+        PUT_CASE(CMD_CHKP_ENTER);
+        PUT_CASE(CMD_CHKP_TOGGLE);
+        PUT_CASE(CMD_CHKP_EXIT);
 
     case CMD_NONE:
     case CMD_MAX:
@@ -745,6 +799,9 @@ int cmd_get(fs_file fp, union cmd *cmd)
             GET_CASE(CMD_TILT_AXES);
             GET_CASE(CMD_MOVE_PATH);
             GET_CASE(CMD_MOVE_TIME);
+            GET_CASE(CMD_CHKP_ENTER);
+            GET_CASE(CMD_CHKP_TOGGLE);
+            GET_CASE(CMD_CHKP_EXIT);
 
         case CMD_NONE:
         case CMD_MAX:
