@@ -245,6 +245,21 @@ static void game_run_cmd(const union cmd *cmd)
             if ((idx = cmd->swchexit.xi) >= 0 && idx < vary->xc)
                 vary->xv[idx].e = 0;
             break;
+                
+        case CMD_CHKP_ENTER:
+            if ((idx = cmd->chkpenter.xi) >= 0 && idx < vary->xc)
+                vary->cv[idx].e = 1;
+            break;
+
+        case CMD_CHKP_TOGGLE:
+            if ((idx = cmd->chkptoggle.xi) >= 0 && idx < vary->xc)
+                vary->cv[idx].f = !vary->xv[idx].f;
+            break;
+
+        case CMD_CHKP_EXIT:
+            if ((idx = cmd->chkpexit.xi) >= 0 && idx < vary->xc)
+                vary->cv[idx].e = 0;
+            break;
 
         case CMD_UPDATES_PER_SECOND:
             cs.ups = cmd->ups.n;
