@@ -39,7 +39,18 @@ static Array balls;
 static int   curr_ball;
 static char  ball_file[64];
 
-static int name_id;
+#define PAGE_ROWS 4
+#define PAGE_COLS 3
+#define PAGE_COUNT (PAGE_ROWS * PAGE_COLS)  /* Maximum balls per page */
+
+static int first = 0;
+
+enum
+{
+    BALL_SELECT = GUI_LAST
+};
+
+static int highlight_btn;
 
 static int has_ball_sols(struct dir_item *item)
 {
@@ -116,8 +127,6 @@ static void set_curr_ball(void)
 
     ball_free();
     ball_init();
-
-    gui_set_label(name_id, base_name(ball_file));
 }
 
 static int ball_action(int tok, int val)
@@ -126,20 +135,22 @@ static int ball_action(int tok, int val)
 
     switch (tok)
     {
-    case GUI_NEXT:
-        if (++curr_ball == array_len(balls))
-            curr_ball = 0;
-
-        set_curr_ball();
-
-        break;
-
     case GUI_PREV:
-        if (--curr_ball == -1)
-            curr_ball = array_len(balls) - 1;
+        first -= PAGE_COUNT;
+        return goto_state(&st_ball);
 
+    case GUI_NEXT:
+        first += PAGE_COUNT;
+        return goto_state(&st_ball);
+
+    case BALL_SELECT:
+        if (highlight_btn)
+            gui_set_hilite(highlight_btn, 0);
+        highlight_btn = gui_active();
+        gui_set_hilite(highlight_btn, 1);
+
+        curr_ball = val;
         set_curr_ball();
-
         break;
 
     case GUI_BACK:
@@ -168,41 +179,70 @@ static void load_ball_demo(void)
     back_init("back/gui.png");
 }
 
+static void ball_item_gui(int id, int i)
+{
+    if (i >= array_len(balls))
+    {
+        gui_label(id, "", GUI_SML, 0, 0);
+    }
+    else
+    {
+        const char *name = base_name(DIR_ITEM_GET(balls, i)->path);
+
+        if (i == curr_ball)
+        {
+            highlight_btn = gui_start(id, name, GUI_SML, BALL_SELECT, i);
+            gui_set_hilite(highlight_btn, 1);
+        }
+        else
+        {
+            gui_state(id, name, GUI_SML, BALL_SELECT, i);
+        }
+    }
+}
+
+static void ball_list_page(int id)
+{
+    int jd, kd;
+    int i, j;
+
+    if ((jd = gui_varray(id)))
+    {
+        gui_set_fill(jd);
+        for (i = 0; i < PAGE_ROWS; i++)
+        {
+            if ((kd = gui_harray(jd)))
+            {
+                for (j = PAGE_COLS - 1; j >= 0; j--)
+                    ball_item_gui(kd, first + i * PAGE_COLS + j);
+            }
+        }
+    }
+}
+
 static int ball_gui(void)
 {
-    int id, jd;
-    int i;
+    int id, jd, i;
+
+    highlight_btn = 0;
 
     if ((id = gui_vstack(0)))
     {
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_hstack(id)))
         {
             gui_label(jd, _("Ball Model"), GUI_SML, 0, 0);
-            gui_space(jd);
-            gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
+            gui_filler(jd);
+            gui_navig(jd, array_len(balls), first, PAGE_COUNT);
         }
 
         gui_space(id);
 
-        if ((jd = gui_hstack(id)))
-        {
-            gui_state(jd, " > ", GUI_SML, GUI_NEXT, 0);
+        ball_list_page(id);
 
-            name_id = gui_label(jd, "very-long-ball-name", GUI_SML,
-                                gui_wht, gui_wht);
-
-            gui_set_trunc(name_id, TRUNC_TAIL);
-            gui_set_fill(name_id);
-
-            gui_state(jd, " < ", GUI_SML, GUI_PREV, 0);
-        }
-
-        for (i = 0; i < 12; i++)
+        for (i = 0; i < 13; i++)
             gui_space(id);
 
         gui_layout(id, 0, 0);
-
-        gui_set_label(name_id, base_name(ball_file));
     }
 
     return id;
