@@ -179,6 +179,26 @@ static int title_action(int tok, int val)
     return 1;
 }
 
+static const char *pick_splash_text(void)
+{
+    static const char *const splash_texts[] = {
+        N_("Leading the fight against thwomps since 2003"),
+        N_("Over 1,000,000 fallouts... and counting"),
+        N_("Fallout 995,996,997,998,999, ***NUMERIC OVERFLOW***"),
+        N_("Not compatible with Minecraft"),
+        N_("Super Not-So-Empty Ball"),
+        N_("The monkeys ran away."),
+        N_("Press Alt+F4. I dare you."),
+    };
+
+    static int idx = -1;
+
+    if (idx < 0)
+        idx = rand() % ARRAYSIZE(splash_texts);
+
+    return splash_texts[idx];
+}
+
 static int title_gui(void)
 {
     int root_id, id, jd, kd;
@@ -193,6 +213,12 @@ static int title_gui(void)
             {
                 gui_set_fill(jd);
                 gui_set_slide(jd, GUI_N | GUI_FLING | GUI_EASE_ELASTIC, 0, 1.6f, 0);
+            }
+
+            if ((jd = gui_hstack(id)))
+            {
+                gui_label(jd, pick_splash_text(), GUI_SML, gui_yel, gui_grn);
+                gui_filler(jd);
             }
 
             gui_space(id);
