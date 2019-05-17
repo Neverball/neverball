@@ -183,7 +183,7 @@ static void ball_item_gui(int id, int i)
 {
     if (i >= array_len(balls))
     {
-        gui_label(id, "", GUI_SML, 0, 0);
+        gui_label(id, " ", GUI_SML, 0, 0);
     }
     else
     {
@@ -203,19 +203,15 @@ static void ball_item_gui(int id, int i)
 
 static void ball_list_page(int id)
 {
-    int jd, kd;
+    int jd;
     int i, j;
 
-    if ((jd = gui_varray(id)))
+    for (i = 0; i < PAGE_ROWS; i++)
     {
-        gui_set_fill(jd);
-        for (i = 0; i < PAGE_ROWS; i++)
+        if ((jd = gui_harray(id)))
         {
-            if ((kd = gui_harray(jd)))
-            {
-                for (j = PAGE_COLS - 1; j >= 0; j--)
-                    ball_item_gui(kd, first + i * PAGE_COLS + j);
-            }
+            for (j = PAGE_COLS - 1; j >= 0; j--)
+                ball_item_gui(jd, first + i * PAGE_COLS + j);
         }
     }
 }
@@ -232,6 +228,11 @@ static int ball_gui(void)
         {
             gui_label(jd, _("Ball Model"), GUI_SML, 0, 0);
             gui_filler(jd);
+
+            /* Expand the UI to prevent it from changing size when navigating pages */
+            for (i = 0; i < 10; i++)
+                gui_space(jd);
+
             gui_navig(jd, array_len(balls), first, PAGE_COUNT);
         }
 
