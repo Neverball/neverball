@@ -246,6 +246,7 @@ static int loop(void)
 /*---------------------------------------------------------------------------*/
 
 static char *opt_data;
+static char *opt_user;
 static char *opt_hole;
 
 static void opt_parse(int argc, char **argv)
@@ -258,6 +259,11 @@ static void opt_parse(int argc, char **argv)
         {
             if (++i < argc)
                 opt_data = argv[i];
+        }
+        else if (strcmp(argv[i], "-u") == 0 || strcmp(argv[i], "--user") == 0)
+        {
+            if (++i < argc)
+                opt_user = argv[i];
         }
         else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--hole") == 0)
         {
@@ -300,7 +306,7 @@ int main(int argc, char *argv[])
 
     opt_parse(argc, argv);
 
-    config_paths(opt_data);
+    config_paths(opt_data, opt_user);
     log_init("Neverputt", "neverputt.log");
     fs_mkdir("Screenshots");
 
