@@ -3,5 +3,5 @@ ambient   0.0 0.0 0.0 0.0
 specular  0.0 0.0 0.0 0.0
 emissive  0.0 0.0 0.0 0.0
 shininess 0.0
-flags     particle additive lit
+flags     additive lit particle
 angle     0.0
