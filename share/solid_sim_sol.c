@@ -664,7 +664,7 @@ static int ms_peek(float *accum, float dt)
  */
 static float sol_path_time(struct s_vary *vary, float dt)
 {
-    int mi;
+    int mi, xi;
 
     for (mi = 0; mi < vary->mc; mi++)
     {
@@ -676,6 +676,17 @@ static float sol_path_time(struct s_vary *vary, float dt)
 
         if (mp->tm + ms_peek(&vary->ms_accum, dt) > pp->base->tm)
             dt = MS_TO_TIME(pp->base->tm - mp->tm);
+    }
+
+    for (xi = 0; xi < vary->xc; xi++)
+    {
+        struct v_swch *xp = vary->xv + xi;
+
+        if (xp->tm >= xp->base->tm)
+            continue;
+
+        if (xp->tm + ms_peek(&vary->ms_accum, dt) > xp->base->tm)
+            dt = MS_TO_TIME(xp->base->tm - xp->tm);
     }
 
     return dt;
