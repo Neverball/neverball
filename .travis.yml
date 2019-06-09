@@ -1,0 +1,23 @@
+language: c
+compiler: gcc
+addons:
+  apt:
+    packages:
+      - libsdl2-dev
+      - libsdl2-ttf-dev
+      - libvorbis-dev
+      - libjpeg-dev
+matrix:
+  include:
+    - env: BINARY=neverball
+      name: neverball
+    - env: BINARY=neverputt
+      name: neverputt
+    - env: BINARY=mapc
+      name: mapc
+      addons:
+        apt:
+          packages:
+            - libsdl2-dev
+script:
+  - make -j2 $BINARY

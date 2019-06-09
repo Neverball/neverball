@@ -20,7 +20,7 @@ svn_version()
 
 git_version()
 {
-    if git_desc="$(git describe --dirty=+)"; then
+    if git_desc="$(git describe --dirty=+ --always)"; then
         echo "$git_desc" | sed -e 's/^neverball-//' -e 's/-g/-/g'
     fi
 }
