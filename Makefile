@@ -11,7 +11,7 @@ $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
 #------------------------------------------------------------------------------
 # Provide a target system hint for the Makefile.
-# Recognized PLATFORM values: darwin, mingw.
+# Recognized PLATFORM values: darwin, mingw, haiku.
 
 ifeq ($(shell uname), Darwin)
 	PLATFORM := darwin
@@ -19,6 +19,10 @@ endif
 
 ifeq ($(shell uname -o),Msys)
 	PLATFORM := mingw
+endif
+
+ifeq ($(shell uname), Haiku)
+	PLATFORM := haiku
 endif
 
 #------------------------------------------------------------------------------
@@ -30,6 +34,10 @@ LOCALEDIR := ./locale
 
 ifeq ($(PLATFORM),mingw)
 	USERDIR := Neverball
+endif
+
+ifeq ($(PLATFORM),haiku)
+	USERDIR := /config/settings/neverball
 endif
 
 ifneq ($(BUILD),release)
@@ -186,6 +194,12 @@ ifeq ($(PLATFORM),darwin)
 	OGL_LIBS  := -framework OpenGL
 endif
 
+ifeq ($(PLATFORM),haiku)
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
+endif
+
 BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
@@ -195,6 +209,10 @@ endif
 
 OGG_LIBS := -lvorbisfile
 TTF_LIBS := -lSDL2_ttf
+
+ifeq ($(PLATFORM),haiku)
+	TTF_LIBS := -lSDL2_ttf -lfreetype
+endif
 
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
 	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
