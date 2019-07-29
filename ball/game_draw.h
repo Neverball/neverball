@@ -25,6 +25,8 @@ struct game_draw
     int   jump_b;                       /* Jump-in-progress flag             */
     float jump_dt;                      /* Jump duration                     */
 
+    int   chkp_e;                       /* New: Checkpoints; Checkpoint enabled flag */
+
     float fade_k;                       /* Fade in/out level                 */
     float fade_d;                       /* Fade in/out direction             */
 };
