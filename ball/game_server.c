@@ -447,7 +447,7 @@ int game_server_init(const char *file_name, int t, int e)
      * If you haven’t loaded Level data for each checkpoints,
      * Levels for your default data will be used.
      */
-    timer      = last_active ? last_time : config_get_d(CONFIG_ACCOUNT_MAYHEM) ? ((float) mayhem_time / 100.f) : ((float) t / 100.f);
+    timer      = last_active ? last_time : ((float) t / 100.f);
     timer_down = last_active ? last_timer_down : ((t > 0));
     coins      = last_active ? last_coins : 0;
     status     = GAME_NONE;
