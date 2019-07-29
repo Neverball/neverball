@@ -44,6 +44,13 @@ enum
     SWCH_TOUCH
 };
 
+enum
+{
+    CHKP_OUTSIDE = 0,
+    CHKP_INSIDE,
+    CHKP_TOUCH
+};
+
 int            sol_item_test(struct s_vary *, float *p, float item_r);
 struct b_goal *sol_goal_test(struct s_vary *, float *p, int ui);
 int            sol_jump_test(struct s_vary *, float *p, int ui);
