@@ -13,6 +13,7 @@
 #define JUMP_HEIGHT   2.00f
 #define SWCH_HEIGHT   2.00f
 #define GOAL_HEIGHT   3.00f
+#define CHKP_HEIGHT   2.00f
 #define ITEM_RADIUS   0.15f
 #define GOAL_SPARKS  64
 
