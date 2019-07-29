@@ -12,7 +12,12 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>

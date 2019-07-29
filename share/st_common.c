@@ -12,8 +12,11 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
-
+#endif
 
 #include "config.h"
 #include "audio.h"

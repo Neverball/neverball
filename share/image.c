@@ -12,8 +12,14 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#else
 #include <SDL.h>
 #include <SDL_ttf.h>
+#endif
+
 #include <string.h>
 #include <math.h>
 #include <png.h>

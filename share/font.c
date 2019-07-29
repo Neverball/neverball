@@ -15,8 +15,13 @@
 #include <string.h>
 #include <stdlib.h>
 
+#if _WIN32
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_rwops.h>
+#else
 #include <SDL_ttf.h>
 #include <SDL_rwops.h>
+#endif
 
 #include "font.h"
 #include "common.h"

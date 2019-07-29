@@ -15,7 +15,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 
 #include "base_config.h"
 #include "lang.h"

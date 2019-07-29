@@ -14,7 +14,11 @@
 
 /*---------------------------------------------------------------------------*/
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>

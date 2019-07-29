@@ -16,7 +16,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if _WIN32
+#include <SDL2/SDL_endian.h>
+#else
 #include <SDL_endian.h>
+#endif
 
 #include "fs.h"
 

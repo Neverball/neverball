@@ -1,3 +1,6 @@
+# Don't try with the Visual Studio for the commit stash. This will be used for Msys2
+/.vs/*
+
 *.[od]
 *.sol
 *.desktop

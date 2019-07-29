@@ -1,5 +1,10 @@
+#if _WIN32
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_joystick.h>
+#else
 #include <SDL_events.h>
 #include <SDL_joystick.h>
+#endif
 
 #include "joy.h"
 #include "state.h"

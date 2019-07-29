@@ -27,11 +27,12 @@ enum
 {
     SOL_VERSION_1_5 = 6,
     SOL_VERSION_1_6 = 7,
+	SOL_VERSION_1_7 = 8,
     SOL_VERSION_DEV
 };
 
 #define SOL_VERSION_MIN  SOL_VERSION_1_5
-#define SOL_VERSION_CURR SOL_VERSION_DEV
+#define SOL_VERSION_CURR SOL_VERSION_1_7
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
 
@@ -328,12 +329,12 @@ static void sol_load_ball(fs_file fin, struct b_ball *up)
 }
 
 // New: Checkpoints
-/*static void sol_load_chkp(fs_file fin, struct b_chkp *cp)
+static void sol_load_chkp(fs_file fin, struct b_chkp *cp)
 {
     get_array(fin, cp->p, 3);
 
     cp->r = get_float(fin);
-}*/
+}
 
 static void sol_load_view(fs_file fin, struct b_view *wp)
 {
@@ -371,7 +372,7 @@ static void sol_load_indx(fs_file fin, struct s_base *fp)
     fp->xc = get_index(fin);
     fp->rc = get_index(fin);
     fp->uc = get_index(fin);
-    /*fp->cc = get_index(fin); // New: Checkpoints*/
+    fp->cc = get_index(fin); // New: Checkpoints
     fp->wc = get_index(fin);
     fp->ic = get_index(fin);
 }
@@ -421,8 +422,8 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
         fp->rv = (struct b_bill *) calloc(fp->rc, sizeof (*fp->rv));
     if (fp->uc)
         fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
-    /*if (fp->cc)
-    	fp->cv = (struct b_chkp *) calloc(fp->cc, sizeof (*fp->cv)); // New: Checkpoints*/
+    if (fp->cc)
+    	fp->cv = (struct b_chkp *) calloc(fp->cc, sizeof (*fp->cv)); // New: Checkpoints
     if (fp->wc)
         fp->wv = (struct b_view *) calloc(fp->wc, sizeof (*fp->wv));
     if (fp->dc)
@@ -451,7 +452,7 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     for (i = 0; i < fp->xc; i++) sol_load_swch(fin, fp->xv + i);
     for (i = 0; i < fp->rc; i++) sol_load_bill(fin, fp->rv + i);
     for (i = 0; i < fp->uc; i++) sol_load_ball(fin, fp->uv + i);
-    /*for (i = 0; i < fp->cc; i++) sol_load_chkp(fin, fp->cv + i); // New: Checkpoints*/
+    for (i = 0; i < fp->cc; i++) sol_load_chkp(fin, fp->cv + i); // New: Checkpoints
     for (i = 0; i < fp->wc; i++) sol_load_view(fin, fp->wv + i);
     for (i = 0; i < fp->ic; i++) fp->iv[i] = get_index(fin);
 
@@ -510,7 +511,9 @@ int sol_load_base(struct s_base *fp, const char *filename)
 
     memset(fp, 0, sizeof (*fp));
 
-    if ((fin = fs_open(filename, "r")))
+	// Changed from old (fs_open(filename, "r")) to new one (fs_open_read(filename))
+
+    if ((fin = fs_open_read(filename)))
     {
         res = sol_load_file(fin, fp);
         fs_close(fin);
@@ -525,7 +528,9 @@ int sol_load_meta(struct s_base *fp, const char *filename)
 
     memset(fp, 0, sizeof (*fp));
 
-    if ((fin = fs_open(filename, "r")))
+	// Changed from old (fs_open(filename, "r")) to new one (fs_open_read(filename))
+
+    if ((fin = fs_open_read(filename)))
     {
         res = sol_load_head(fin, fp);
         fs_close(fin);
@@ -553,7 +558,7 @@ void sol_free_base(struct s_base *fp)
     if (fp->xv) free(fp->xv);
     if (fp->rv) free(fp->rv);
     if (fp->uv) free(fp->uv);
-    /*if (fp->cv) free(fp->cv); // New: Checkpoints*/
+    if (fp->cv) free(fp->cv); // New: Checkpoints
     if (fp->wv) free(fp->wv);
     if (fp->dv) free(fp->dv);
     if (fp->iv) free(fp->iv);
@@ -795,7 +800,9 @@ int sol_stor_base(struct s_base *fp, const char *filename)
 {
     fs_file fout;
 
-    if ((fout = fs_open(filename, "w")))
+	// Changed from old (fs_open(filename, "w")) to new one (fs_open_write(filename))
+
+    if ((fout = fs_open_write(filename)))
     {
         sol_stor_file(fout, fp);
         fs_close(fout);
@@ -882,7 +889,9 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
         {
             CONCAT_PATH(line, &mtrl_paths[i], name);
 
-            if ((fp = fs_open(line, "r")))
+			// Changed from old (fs_open(line, "r")) to new one (fs_open_read(line))
+
+            if ((fp = fs_open_read(line)))
                 break;
         }
 

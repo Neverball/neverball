@@ -12,7 +12,11 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
 #include <vorbis/codec.h>

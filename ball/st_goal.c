@@ -50,8 +50,6 @@ static int balls_id;
 static int coins_id;
 static int score_id;
 
-int wallet_id;
-
 static int resume;
 
 static int goal_action(int tok, int val)
@@ -230,13 +228,7 @@ static int goal_gui(void)
                 gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
         }
 
-        if (!resume) {
-            gui_pulse(gid, 1.2f);
-            if (curr_mode() == MODE_NORMAL) {
-                int curr_wallet = config_get_d(CONFIG_ACCOUNT_WALLET) + curr_coins();
-                config_set_d(CONFIG_ACCOUNT_WALLET, curr_wallet);
-            }
-        }
+        if (!resume) gui_pulse(gid, 1.2f);
 
         gui_layout(id, 0, 0);
 

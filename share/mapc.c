@@ -794,7 +794,9 @@ static void read_obj(struct s_base *fp, const char *name, int mi)
     int t0 = fp->tc;
     int s0 = fp->sc;
 
-    if ((fin = fs_open(name, "r")))
+	// Changed from old (fs_open(name, "r")) to new one (fs_open_read(name))
+
+    if ((fin = fs_open_read(name)))
     {
         while (fs_gets(line, MAXSTR, fin))
         {
@@ -2890,7 +2892,9 @@ int main(int argc, char *argv[])
         fs_add_path     (dir_name(src));
         fs_set_write_dir(dir_name(dst));
 
-        if ((fin = fs_open(base_name(src), "r")))
+		// Changed from old (fs_open(base_name(src), "r")) to new one (fs_open_read(base_name(src)))
+
+        if ((fin = fs_open_read(base_name(src))))
         {
             if (!fs_add_path_with_archives(argv[2]))
             {

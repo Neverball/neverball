@@ -276,6 +276,7 @@ BALL_OBJS := \
 	share/fs_ov.o       \
 	share/log.o         \
 	share/joy.o         \
+	ball/checkpoints.o  \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
@@ -458,6 +459,8 @@ $(MAPC_TARG) : $(MAPC_OBJS)
 ifeq ($(PLATFORM),mingw)
 $(MAPC_TARG) : ALL_CPPFLAGS := $(ALL_CPPFLAGS) -Umain
 endif
+
+test : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
 
 sols : $(SOLS)
 

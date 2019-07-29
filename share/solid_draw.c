@@ -12,8 +12,14 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_rwops.h>
+#else
 #include <SDL.h>
 #include <SDL_rwops.h>
+#endif
+
 
 #include <stdio.h>
 #include <stdlib.h>

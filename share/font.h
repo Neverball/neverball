@@ -1,8 +1,13 @@
 #ifndef FONT_H
 #define FONT_H
 
+#if _WIN32
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_rwops.h>
+#else
 #include <SDL_ttf.h>
 #include <SDL_rwops.h>
+#endif
 
 #include "base_config.h"
 

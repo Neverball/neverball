@@ -12,7 +12,11 @@
  * General Public License for more details.
  */
 
+#if _WIN32
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 #include <math.h>
 #include <assert.h>
 
@@ -510,7 +514,7 @@ int game_server_init(const char *file_name, int t, int e)
     jump_e = 1;
     jump_b = 0;
 
-    chkp_e = 1
+	chkp_e = 1;
 
     goal_e = e ? 1 : 0;
 
@@ -742,8 +746,10 @@ static int game_update_state(int bt)
     /* New: Checkpoints */
     if (sol_chkp_test(&vary, game_proxy_enq, 0) == CHKP_INSIDE)
     {
-        checkpoints_save_game_server_step();
-        set_last_transform(vary.uv[0].p[0], vary.uv[0].p[1], vary.uv[0].p[2], vary.uv[0].r);
+		checkpoints_save_spawnpoint(vary, view);
+		set_last_data(timer, coins);
+		set_last_timer_down(timer_down);
+		set_last_transform(vary.uv[0].p, vary.uv[0].r);
         audio_play(AUD_SWITCH, 1.f);
     }
 
