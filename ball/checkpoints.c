@@ -18,18 +18,22 @@
  */
 #include "checkpoints.h"
 
+#include "game_common.h"
 #include "game_server.h"
+#include "game_client.h"
+
+#include "solid_vary.h"
 
 /*---------------------------------------------------------------------------*/
 
 int checkpoints_busy;
-
-float current_game_step;
-float saved_game_step;
-
 int last_active;
 
-/* Transforms */
+/* My struct varys */
+struct s_vary last_vary;
+struct game_view last_view;
+
+/* My transforms */
 float last_position_x;
 float last_position_y;
 float last_position_z;
@@ -38,7 +42,7 @@ float last_orientation_y;
 float last_orientation_z;
 float last_r;
 
-/* Level datas */
+/* My level datas */
 float last_time;
 int last_coins;
 int last_goal;
@@ -47,20 +51,16 @@ int last_timer_down;
 
 /*---------------------------------------------------------------------------*/
 
-void checkpoints_increment_server_step(float dt)
+void checkpoints_save_spawnpoint(struct s_vary saved_vary, struct game_view saved_view)
 {
-    current_game_step += dt;
-}
-
-void checkpoints_save_game_server_step(void)
-{
-    saved_game_step = current_game_step;
+	last_active = 1;
+	last_vary = saved_vary;
+	last_view = saved_view;
 }
 
 void checkpoints_respawn(void)
 {
     checkpoints_busy = 1;
-    game_server_step(saved_game_step);
 }
 
 void checkpoints_respawn_done(void)
@@ -70,8 +70,7 @@ void checkpoints_respawn_done(void)
 
 void checkpoints_stop(void)
 {
-    current_game_step = 0;
-    saved_game_step = 0;
+	checkpoints_busy = 0;
 
     last_active = 0;
 
@@ -85,11 +84,6 @@ void checkpoints_stop(void)
     last_goal = 0;
 
     last_timer_down = 0;
-}
-
-void set_active_checkpoint(int new_active)
-{
-    last_active = new_active;
 }
 
 void set_last_transform(float pos[3], float radius)
