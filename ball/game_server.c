@@ -62,6 +62,8 @@ static int   jump_b = 0;                /* Jump-in-progress flag             */
 static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
+static int   chkp_e = 1;                /* New: Checkpoints; Checkpoint enabled flag */
+
 /*---------------------------------------------------------------------------*/
 
 /*
@@ -445,39 +447,59 @@ int game_server_init(const char *file_name, int t, int e)
      * If you haven’t loaded Level data for each checkpoints,
      * Levels for your default data will be used.
      */
-    timer      = last_active ? last_time : ((float) t / 100.f);
+    timer      = last_active ? last_time : config_get_d(CONFIG_ACCOUNT_MAYHEM) ? ((float) mayhem_time / 100.f) : ((float) t / 100.f);
     timer_down = last_active ? last_timer_down : ((t > 0));
     coins      = last_active ? last_coins : 0;
     status     = GAME_NONE;
 
-    game_server_free(file_name);
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded game server data for each checkpoints,
+	 * Servers for your default data will be used.
+	 */
+	if (!last_active)
+		game_server_free(file_name);
 
     /* Load SOL data. */
 
-    if (!game_base_load(file_name))
-        return (server_state = 0);
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded solid data for each checkpoints,
+	 * Solid for your default data will be used.
+	 */
+	if (!last_active)
+		if (!game_base_load(file_name))
+			return (server_state = 0);
 
-    if (!sol_load_vary(&vary, &game_base))
-    {
-        game_base_free(NULL);
-        return (server_state = 0);
-    }
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded vary data for each checkpoints,
+	 * Varys for your default data will be used.
+	 */
+	if (last_active)
+	{
+		/* Not the best part, we do't want to use them. */
 
-    server_state = 1;
+		/*if (!sol_respawn_vary(&vary, &last_vary))
+		{
+			game_base_free(NULL);
+			return (server_state = 0);
+		}*/
 
-    /* Get SOL version. */
+		/* Syncronize all varys if you want to respawn from checkpoints. */
 
-    version.x = 0;
-    version.y = 0;
+		vary = last_vary;
 
-    for (i = 0; i < vary.base->dc; i++)
-    {
-        char *k = vary.base->av + vary.base->dv[i].ai;
-        char *v = vary.base->av + vary.base->dv[i].aj;
-
-        if (strcmp(k, "version") == 0)
-            sscanf(v, "%d.%d", &version.x, &version.y);
-    }
+		checkpoints_respawn_done();
+	}
+	else
+	{
+		if (!sol_load_vary(&vary, &game_base))
+		{
+			game_base_free(NULL);
+			return (server_state = 0);
+		}
+	}
 
     input_init();
 
@@ -487,6 +509,8 @@ int game_server_init(const char *file_name, int t, int e)
 
     jump_e = 1;
     jump_b = 0;
+
+    chkp_e = 1
 
     goal_e = e ? 1 : 0;
 
@@ -515,11 +539,24 @@ int game_server_init(const char *file_name, int t, int e)
         vary.uv[0].p[1] = last_position_y;
         vary.uv[0].p[2] = last_position_z;
         vary.uv[0].r = last_r;
+
+		/* Velocity must be set as zero */
+
+		vary.uv[0].v[0] = 0.0f;
+		vary.uv[0].v[1] = 0.0f;
+		vary.uv[0].v[2] = 0.0f;
     }
 
     /* Initialize simulation. */
 
-    sol_init_sim(&vary);
+    /*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded simulation data for each checkpoints,
+	 * Simulations for your default data will be used.
+	 */
+
+	if (!last_active)
+        sol_init_sim(&vary);
 
     /* Send initial update. */
 
