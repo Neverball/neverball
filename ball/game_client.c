@@ -16,6 +16,8 @@
 #include <math.h>
 #include <assert.h>
 
+#include "checkpoints.h" // New: Checkpoints
+
 #include "glext.h"
 #include "vec3.h"
 #include "geom.h"
@@ -332,6 +334,21 @@ static void game_run_cmd(const union cmd *cmd)
             v_cpy(tilt->x, cmd->tiltaxes.x);
             v_cpy(tilt->z, cmd->tiltaxes.z);
             break;
+                
+        case CMD_CHKP_ENTER:
+            if ((idx = cmd->chkpenter.xi) >= 0 && idx < vary->cc)
+                vary->cv[idx].e = 1;
+            break;
+
+        case CMD_CHKP_TOGGLE:
+            if ((idx = cmd->chkptoggle.xi) >= 0 && idx < vary->cc)
+                vary->cv[idx].f = !vary->cv[idx].f;
+            break;
+
+        case CMD_CHKP_EXIT:
+            if ((idx = cmd->chkpexit.xi) >= 0 && idx < vary->cc)
+                vary->cv[idx].e = 0;
+            break;
 
         case CMD_NONE:
         case CMD_MAX:
@@ -362,28 +379,55 @@ int  game_client_init(const char *file_name)
     char *back_name = "", *grad_name = "";
     int i;
 
-    coins  = 0;
+    /*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded transform data for each checkpoints,
+	 * transform for your default data will be used.
+	 */
+    coins  = last_active ? last_coins : 0;
     status = GAME_NONE;
 
-    game_client_free(file_name);
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded game server data for each checkpoints,
+	 * Clients for your default data will be used.
+	 */
+	if (!last_active)
+		game_client_free(file_name);
 
     /* Load SOL data. */
 
-    if (!game_base_load(file_name))
-        return (gd.state = 0);
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded solid data for each checkpoints,
+	 * Solid for your default data will be used.
+	 */
 
-    if (!sol_load_vary(&gd.vary, &game_base))
-    {
-        game_base_free(NULL);
-        return (gd.state = 0);
-    }
+	if (!last_active)
+		if (!game_base_load(file_name))
+			return (gd.state = 0);
 
-    if (!sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW)))
-    {
-        sol_free_vary(&gd.vary);
-        game_base_free(NULL);
-        return (gd.state = 0);
-    }
+	/*
+	 * --- CHECKPOINT DATA ---
+	 * If you haven’t loaded vary data for each checkpoints,
+	 * Varys for your default data will be used.
+	 */
+
+	if (!last_active)
+	{
+		if (!sol_load_vary(&gd.vary, &game_base))
+		{
+			game_base_free(NULL);
+			return (gd.state = 0);
+		}
+
+		if (!sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW)))
+		{
+			sol_free_vary(&gd.vary);
+			game_base_free(NULL);
+			return (gd.state = 0);
+		}
+	}
 
     gd.state = 1;
 
