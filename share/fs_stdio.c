@@ -42,7 +42,7 @@ static List  fs_path;
 
 int fs_init(const char *argv0)
 {
-    fs_dir_base  = strdup(dir_name(argv0));
+    fs_dir_base  = strdup(argv0 && *argv0 ? dir_name(argv0) : ".");
     fs_dir_write = NULL;
     fs_path      = NULL;
 

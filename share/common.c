@@ -299,20 +299,23 @@ const char *base_name(const char *name)
 
 const char *dir_name(const char *name)
 {
-    static char buff[MAXSTR];
-
-    char *sep;
-
-    SAFECPY(buff, name);
-
-    if ((sep = (char *) path_last_sep(buff)))
+    if (name && *name)
     {
-        if (sep == buff)
-            return "/";
+        static char buff[MAXSTR];
 
-        *sep = '\0';
+        char *sep;
 
-        return buff;
+        SAFECPY(buff, name);
+
+        if ((sep = (char *) path_last_sep(buff)))
+        {
+            if (sep == buff)
+                return "/";
+
+            *sep = '\0';
+
+            return buff;
+        }
     }
 
     return ".";
