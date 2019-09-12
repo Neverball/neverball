@@ -19,6 +19,7 @@
 
 #include "base_config.h"
 #include "common.h"
+#include "log.h"
 #include "fs.h"
 
 #ifdef _WIN32
@@ -101,8 +102,24 @@ void config_paths(const char *arg_data_path)
 
     if (!fs_set_write_dir(user))
     {
-        if (fs_set_write_dir(home) && fs_mkdir(CONFIG_USER))
-            fs_set_write_dir(user);
+        int success = 0;
+
+        log_printf("Failure to establish write directory. First run?\n");
+
+        if (fs_set_write_dir(home))
+            if (fs_mkdir(CONFIG_USER))
+                if (fs_set_write_dir(user))
+                    success = 1;
+
+        if (success)
+        {
+            log_printf("Write directory established at %s\n", user);
+        }
+        else
+        {
+            log_printf("Write directory not established at %s\n", user);
+            fs_set_write_dir(NULL);
+        }
     }
 
     fs_add_path_with_archives(user);

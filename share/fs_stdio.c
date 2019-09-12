@@ -290,14 +290,16 @@ int fs_close(fs_file fh)
 
 int fs_mkdir(const char *path)
 {
-    char *real;
-    int rc;
+    int success = 0;
 
-    real = path_join(fs_dir_write, path);
-    rc = dir_make(real);
-    free((void *) real);
+    if (fs_dir_write)
+    {
+        char *real = path_join(fs_dir_write, path);
+        success = dir_make(real) == 0;
+        free((void *) real);
+    }
 
-    return rc == 0;
+    return success;
 }
 
 int fs_exists(const char *path)
@@ -314,14 +316,16 @@ int fs_exists(const char *path)
 
 int fs_remove(const char *path)
 {
-    char *real;
-    int rc;
+    int success = 0;
 
-    real = path_join(fs_dir_write, path);
-    rc = (remove(real) == 0);
-    free(real);
+    if (fs_dir_write)
+    {
+        char *real = path_join(fs_dir_write, path);
+        success = (remove(real) == 0);
+        free(real);
+    }
 
-    return rc;
+    return success;
 }
 
 /*---------------------------------------------------------------------------*/
