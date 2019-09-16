@@ -246,6 +246,7 @@ MAPC_OBJS := \
 	share/base_image.o  \
 	share/solid_base.o  \
 	share/binary.o      \
+	share/log.o         \
 	share/base_config.o \
 	share/common.o      \
 	share/fs_common.o   \
