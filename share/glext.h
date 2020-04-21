@@ -163,7 +163,7 @@ int glext_init(void);
 /* of the extensions we use. Otherwise, GetProc them regardless of whether   */
 /* they need it or not.                                                      */
 
-#if ENABLE_OPENGLES
+#if ENABLE_OPENGLES || defined(__EMSCRIPTEN__)
 
 #define glClientActiveTexture_ glClientActiveTexture
 #define glActiveTexture_       glActiveTexture
@@ -176,7 +176,11 @@ int glext_init(void);
 #define glPointParameterfv_    glPointParameterfv
 #define glPointParameterf_     glPointParameterf
 
+#ifdef __EMSCRIPTEN__
+#define glOrtho_               glOrtho
+#else
 #define glOrtho_               glOrthof
+#endif
 
 #define glStringMarker_(s) ((void) (s))
 
@@ -287,7 +291,7 @@ extern PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
         glStringMarkerGREMEDY_(0, (s))
 
 /*---------------------------------------------------------------------------*/
-#endif /* !ENABLE_OPENGLES */
+#endif /* ENABLE_OPENGLES || defined(__EMSCRIPTEN__) */
 
 void glClipPlane4f_(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
 

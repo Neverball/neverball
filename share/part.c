@@ -67,7 +67,7 @@ static int coin_mtrl;
 
 static float rnd(float l, float h)
 {
-    return l + (h - l) * rand() / RAND_MAX;
+    return l + (h - l) * rand() / (float) RAND_MAX;
 }
 
 /*---------------------------------------------------------------------------*/

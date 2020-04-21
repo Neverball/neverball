@@ -14,6 +14,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include <SDL.h>
 #include <stdio.h>
 #include <string.h>
@@ -526,9 +530,45 @@ static void make_dirs_and_migrate(void)
 
 /*---------------------------------------------------------------------------*/
 
+struct main_loop
+{
+    Uint32 now;
+    unsigned int done:1;
+};
+
+static void step(void *data)
+{
+    struct main_loop *mainloop = (struct main_loop *) data;
+
+    int running = loop();
+
+    if (running)
+    {
+        Uint32 now = SDL_GetTicks();
+	Uint32 dt = (now - mainloop->now);
+
+        if (0 < dt && dt < 1000)
+        {
+            /* Step the game state. */
+
+            st_timer(0.001f * dt);
+
+            /* Render. */
+
+            hmd_step();
+            st_paint(0.001f * now);
+            video_swap();
+        }
+
+        mainloop->now = now;
+    }
+
+    mainloop->done = !running;
+}
+
 int main(int argc, char *argv[])
 {
-    int t1, t0;
+    struct main_loop mainloop = { 0 };
 
     if (!fs_init(argc > 0 ? argv[0] : NULL))
     {
@@ -622,28 +662,23 @@ int main(int argc, char *argv[])
 
     /* Run the main game loop. */
 
-    t0 = SDL_GetTicks();
+    mainloop.now = SDL_GetTicks();
 
-    while (loop())
-    {
-        if ((t1 = SDL_GetTicks()) > t0)
-        {
-            /* Step the game state. */
-
-            st_timer(0.001f * (t1 - t0));
-
-            t0 = t1;
-
-            /* Render. */
-
-            hmd_step();
-            st_paint(0.001f * t0);
-            video_swap();
-
-            if (config_get_d(CONFIG_NICE))
-                SDL_Delay(1);
-        }
-    }
+#ifdef __EMSCRIPTEN__
+    /*
+     * The Emscripten main loop is asynchronous. The third parameter
+     * basically just determines what happens with main() beyond this point:
+     *
+     *   0 = execution continues to the end of the function.
+     *   1 = execution stops here, the rest of the code is never reached.
+     *
+     * In either scenario, the shutdown code below is in a bad place. TODO.
+     */
+    emscripten_set_main_loop_arg(step, (void *) &mainloop, 0, 1);
+#else
+    while (!mainloop.done)
+        step(&mainloop);
+#endif
 
     config_save();
 

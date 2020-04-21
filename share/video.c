@@ -12,6 +12,10 @@
  * General Public License for more details.
  */
 
+#ifdef __EMSCRIPTEN__
+#include <gl4esinit.h>
+#endif
+
 #include <SDL.h>
 
 #include "video.h"
@@ -188,6 +192,9 @@ int video_mode(int f, int w, int h)
         if ((context = SDL_GL_CreateContext(window)))
         {
             int buf, smp;
+#ifdef __EMSCRIPTEN__
+            initialize_gl4es();
+#endif
 
             SDL_GL_GetAttribute(SDL_GL_MULTISAMPLEBUFFERS, &buf);
             SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &smp);
