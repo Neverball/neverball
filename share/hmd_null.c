@@ -24,7 +24,7 @@ void hmd_swap() { }
 void hmd_prep_left()  { }
 void hmd_prep_right() { }
 
-void hmd_persp() { }
+void hmd_persp(float n, float f) { }
 void hmd_ortho() { }
 
 /*---------------------------------------------------------------------------*/

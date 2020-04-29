@@ -1,0 +1,120 @@
+CC = emcc
+
+CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I../gl4es/include
+EM_CFLAGS := \
+	-s USE_SDL=2 \
+	-s USE_SDL_TTF=2 \
+	-s USE_VORBIS=1 \
+	-s USE_LIBPNG=1 \
+	-s USE_LIBJPEG=1 \
+	-s ALLOW_MEMORY_GROWTH=1 \
+	-s FULL_ES2=1 \
+	-s LZ4=1
+
+LDFLAGS := -L../gl4es/build/lib -lGL
+EM_LDFLAGS := \
+	--pre-js js/pre.js \
+	-lidbfs.js \
+	--preload-file data \
+	--use-preload-cache \
+	--exclude-file '*.map' \
+	--exclude-file '*.obj' \
+	--exclude-file 'holes*.txt' \
+	--exclude-file 'data/map-ckk' \
+	--exclude-file 'data/map-iCourse' \
+	--exclude-file 'data/map-misc' \
+	--exclude-file 'data/map-paxed' \
+	--exclude-file 'data/map-paxed2' \
+	--exclude-file 'data/map-paxed3' \
+	--exclude-file 'data/map-putt' \
+	--exclude-file 'data/map-slippi' \
+	--exclude-file 'data/map-vidski' \
+	--exclude-file 'data/shot-putt'
+
+BALL_SRCS := \
+	ball/demo.c \
+	ball/demo_dir.c \
+	ball/game_client.c \
+	ball/game_common.c \
+	ball/game_draw.c \
+	ball/game_proxy.c \
+	ball/game_server.c \
+	ball/hud.c \
+	ball/level.c \
+	ball/main.c \
+	ball/progress.c \
+	ball/score.c \
+	ball/set.c \
+	ball/st_ball.c \
+	ball/st_conf.c \
+	ball/st_demo.c \
+	ball/st_done.c \
+	ball/st_fail.c \
+	ball/st_goal.c \
+	ball/st_help.c \
+	ball/st_level.c \
+	ball/st_name.c \
+	ball/st_over.c \
+	ball/st_pause.c \
+	ball/st_play.c \
+	ball/st_save.c \
+	ball/st_set.c \
+	ball/st_shared.c \
+	ball/st_start.c \
+	ball/st_title.c \
+	ball/util.c \
+	share/array.c \
+	share/audio.c \
+	share/ball.c \
+	share/base_config.c \
+	share/base_image.c \
+	share/binary.c \
+	share/cmd.c \
+	share/common.c \
+	share/config.c \
+	share/dir.c \
+	share/font.c \
+	share/fs_common.c \
+	share/fs_jpg.c \
+	share/fs_ov.c \
+	share/fs_png.c \
+	share/fs_stdio.c \
+	share/geom.c \
+	share/glext.c \
+	share/gui.c \
+	share/hmd_null.c \
+	share/image.c \
+	share/joy.c \
+	share/lang.c \
+	share/list.c \
+	share/log.c \
+	share/mtrl.c \
+	share/part.c \
+	share/queue.c \
+	share/solid_all.c \
+	share/solid_base.c \
+	share/solid_draw.c \
+	share/solid_sim_sol.c \
+	share/solid_vary.c \
+	share/st_common.c \
+	share/state.c \
+	share/text.c \
+	share/theme.c \
+	share/tilt_null.c \
+	share/vec3.c \
+	share/video.c
+
+BALL_OBJS := $(BALL_SRCS:.c=.bc)
+
+%.bc: %.c
+	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
+
+neverball.html: $(BALL_OBJS)
+	$(CC) -o $@ $^ $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+.PHONY: neverball
+neverball: neverball.html
+
+.PHONY: clean
+clean:
+	$(RM) $(BALL_OBJS) neverball.html neverball.js neverball.wasm neverball.data

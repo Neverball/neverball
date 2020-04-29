@@ -71,6 +71,8 @@ static int name_action(int tok, int val)
 
         config_set_s(CONFIG_PLAYER, text_input);
 
+        config_save();
+
         return goto_state(ok_state);
 
     case GUI_CL:

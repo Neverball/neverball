@@ -136,7 +136,11 @@ static struct
     { &CONFIG_STEREO,       "stereo",       0 },
     { &CONFIG_CAMERA,       "camera",       0 },
     { &CONFIG_TEXTURES,     "textures",     1 },
+#ifdef __EMSCRIPTEN__
+    { &CONFIG_REFLECTION,   "reflection",   0 },
+#else
     { &CONFIG_REFLECTION,   "reflection",   1 },
+#endif
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       1 },
     { &CONFIG_ANISO,        "aniso",        8 },
@@ -476,6 +480,8 @@ void config_save(void)
             fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
 
         fs_close(fh);
+
+        fs_persistent_sync();
     }
 
     dirty = 0;

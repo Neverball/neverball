@@ -96,7 +96,13 @@ void config_paths(const char *arg_data_path)
     /* User directory. */
 
     home = pick_home_path();
+
+#ifdef __EMSCRIPTEN__
+    /* Force persistent store created during Module['preInit']. */
+    user = strdup("/neverball");
+#else
     user = concat_string(home, "/", CONFIG_USER, NULL);
+#endif
 
     /* Set up directory for writing, create if needed. */
 

@@ -205,6 +205,8 @@ void conf_common_init(int (*action_fn)(int, int))
 
 void conf_common_leave(struct state *st, struct state *next, int id)
 {
+    config_save();
+
     back_free();
 
     gui_delete(id);

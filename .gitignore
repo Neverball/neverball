@@ -1,4 +1,5 @@
 *.[od]
+*.bc
 *.sol
 *.desktop
 /locale
