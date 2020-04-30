@@ -1,7 +1,8 @@
 
 #------------------------------------------------------------------------------
 
-BUILD := $(shell head -n1 .build 2> /dev/null || echo release)
+# Build: devel, release
+BUILD := $(shell cat neverball-build.txt 2> /dev/null || echo release)
 
 VERSION := $(shell scripts/version.sh)
 
