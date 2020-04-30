@@ -4,7 +4,7 @@
 # Build: devel, release
 BUILD := $(shell cat neverball-build.txt 2> /dev/null || echo release)
 
-VERSION := $(shell scripts/version.sh)
+VERSION := $(shell sh scripts/version.sh)
 
 $(info Will make a "$(BUILD)" build of Neverball $(VERSION).)
 
