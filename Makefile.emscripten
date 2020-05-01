@@ -1,5 +1,8 @@
 CC = emcc
 
+# Generate share/version.h
+VERSION := $(shell sh scripts/version.sh)
+
 CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I../gl4es/include
 EM_CFLAGS := \
 	-s USE_SDL=2 \
