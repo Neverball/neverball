@@ -136,11 +136,7 @@ static struct
     { &CONFIG_STEREO,       "stereo",       0 },
     { &CONFIG_CAMERA,       "camera",       0 },
     { &CONFIG_TEXTURES,     "textures",     1 },
-#ifdef __EMSCRIPTEN__
-    { &CONFIG_REFLECTION,   "reflection",   0 },
-#else
     { &CONFIG_REFLECTION,   "reflection",   1 },
-#endif
     { &CONFIG_MULTISAMPLE,  "multisample",  0 },
     { &CONFIG_MIPMAP,       "mipmap",       1 },
     { &CONFIG_ANISO,        "aniso",        8 },

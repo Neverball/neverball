@@ -545,7 +545,7 @@ static void step(void *data)
     if (running)
     {
         Uint32 now = SDL_GetTicks();
-	Uint32 dt = (now - mainloop->now);
+        Uint32 dt = (now - mainloop->now);
 
         if (0 < dt && dt < 1000)
         {
