@@ -59,7 +59,7 @@ static int goal_action(int tok, int val)
     case GUI_BACK:
     case GOAL_OVER:
         progress_stop();
-        return goto_state(&st_exit);
+        return goto_exit();
 
     case GOAL_SAVE:
         progress_stop();
@@ -72,11 +72,11 @@ static int goal_action(int tok, int val)
     case GOAL_DONE:
         progress_stop();
         progress_exit();
-        return goto_state(&st_exit);
+        return goto_exit();
 
     case GOAL_LAST:
         progress_stop();
-        return goto_state(&st_exit);
+        return goto_exit();
 
     case GUI_SCORE:
         gui_score_set(val);

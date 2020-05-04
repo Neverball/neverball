@@ -117,7 +117,7 @@ static int level_keybd(int c, int d)
         if (c == KEY_EXIT)
         {
             progress_stop();
-            return goto_state(&st_exit);
+            return goto_exit();
         }
         if (c == KEY_POSE)
             return goto_state(&st_poser);
@@ -137,7 +137,7 @@ static int level_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
         {
             progress_stop();
-            return goto_state(&st_exit);
+            return goto_exit();
         }
     }
     return 1;
@@ -226,8 +226,9 @@ static int nodemo_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int exit_enter(struct state *st, struct state *prev)
+int goto_exit(void)
 {
+    struct state *curr = curr_state();
     struct state *dst;
 
     if (progress_done())
@@ -243,7 +244,7 @@ static int exit_enter(struct state *st, struct state *prev)
     {
         /* Visit the auxilliary screen or exit to level selection. */
 
-        goto_state(dst != prev ? dst : &st_start);
+        goto_state(dst != curr ? dst : &st_start);
     }
     else
     {
@@ -253,9 +254,7 @@ static int exit_enter(struct state *st, struct state *prev)
         SDL_PushEvent(&e);
     }
 
-    /* HACK: The GUI ID gets lost if you goto_state during a goto_state. */
-
-    return curr_state()->gui_id;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -297,17 +296,4 @@ struct state st_nodemo = {
     shared_click_basic,
     nodemo_keybd,
     nodemo_buttn
-};
-
-struct state st_exit = {
-    exit_enter,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL
 };

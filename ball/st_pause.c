@@ -63,7 +63,7 @@ static int pause_action(int tok, int val)
         progress_stop();
         SDL_PauseAudio(0);
         audio_music_stop();
-        return goto_state(&st_exit);
+        return goto_exit();
     }
 
     return 1;

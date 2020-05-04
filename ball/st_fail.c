@@ -52,7 +52,7 @@ static int fail_action(int tok, int val)
     case GUI_BACK:
     case FAIL_OVER:
         progress_stop();
-        return goto_state(&st_exit);
+        return goto_exit();
 
     case FAIL_SAVE:
         progress_stop();

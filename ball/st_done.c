@@ -40,7 +40,7 @@ static int done_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(&st_exit);
+        return goto_exit();
 
     case GUI_NAME:
         return goto_name(&st_done, &st_done, 0);

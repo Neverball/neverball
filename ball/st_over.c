@@ -54,14 +54,14 @@ static int over_enter(struct state *st, struct state *prev)
 static void over_timer(int id, float dt)
 {
     if (time_state() > 3.f)
-        goto_state(&st_exit);
+        goto_exit();
 
     gui_timer(id, dt);
 }
 
 static int over_click(int b, int d)
 {
-    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_state(&st_exit) : 1;
+    return (b == SDL_BUTTON_LEFT && d == 1) ? goto_exit() : 1;
 }
 
 static int over_keybd(int c, int d)
@@ -69,7 +69,7 @@ static int over_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-            return goto_state(&st_exit);
+            return goto_exit();
     }
     return 1;
 }
@@ -80,7 +80,7 @@ static int over_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_exit);
+            return goto_exit();
     }
     return 1;
 }
