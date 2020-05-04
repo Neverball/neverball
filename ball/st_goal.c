@@ -40,7 +40,6 @@ enum
     GOAL_SAME,
     GOAL_SAVE,
     GOAL_DONE,
-    GOAL_OVER,
     GOAL_LAST
 };
 
@@ -57,7 +56,7 @@ static int goal_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-    case GOAL_OVER:
+    case GOAL_LAST:
         progress_stop();
         return goto_exit();
 
@@ -72,10 +71,6 @@ static int goal_action(int tok, int val)
     case GOAL_DONE:
         progress_stop();
         progress_exit();
-        return goto_exit();
-
-    case GOAL_LAST:
-        progress_stop();
         return goto_exit();
 
     case GUI_SCORE:
