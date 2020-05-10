@@ -554,7 +554,8 @@ static int demo_play_buttn(int b, int d)
 {
     if (d)
     {
-        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b) ||
+            config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
         {
             demo_paused = 1;
@@ -832,7 +833,7 @@ struct state st_demo_play = {
     NULL,
     demo_play_stick,
     NULL,
-    NULL,
+    shared_click_basic,
     demo_play_keybd,
     demo_play_buttn,
     demo_play_wheel
