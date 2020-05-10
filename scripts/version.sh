@@ -5,7 +5,7 @@
     exit 1
 }
 
-# neverball-1.6.0-1234-deadbeef -> 1.6.0 (deadbeef)
+# neverball-1.6.0-1234-gdeadbeef -> 1.6.0 (deadbeef)
 version="$(git describe --tags --first-parent 2>/dev/null | sed -e 's/^neverball-//' -e 's/-[0-9]\+-g\(.*\)$/ (\1)/')"
 
 if [ -z "$version" ]; then
