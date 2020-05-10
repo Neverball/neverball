@@ -14,12 +14,53 @@ EM_CFLAGS := \
 	-s FULL_ES2=1 \
 	-s LZ4=1
 
-LDFLAGS := -L../gl4es/build/lib -lGL
-EM_LDFLAGS := \
-	--pre-js js/pre.js \
-	-lidbfs.js \
+ifeq ($(MINIMAL),1)
+EM_PRELOAD := \
+	--preload-file data/back/gui.png \
+	--preload-file data/back/space.png \
+	--preload-file data/ball/basic-ball/basic-ball.png \
+	--preload-file data/ball/basic-ball/basic-ball-solid.sol \
+	--preload-file data/bgm/inter.ogg \
+	--preload-file data/bgm/title.ogg \
+	--preload-file data/geom/back/back.sol \
+	--preload-file data/geom/beam/beam.png \
+	--preload-file data/geom/beam/beam.sol \
+	--preload-file data/geom/goal/goal.png \
+	--preload-file data/geom/goal/goal.sol \
+	--preload-file data/gui/classic/back-hilite.png \
+	--preload-file data/gui/classic/back-hilite-focus.png \
+	--preload-file data/gui/classic/back-plain.png \
+	--preload-file data/gui/classic/back-plain-focus.png \
+	--preload-file data/gui/classic/theme.txt \
+	--preload-file data/gui/cursor.png \
+	--preload-file data/item/coin/coin.png \
+	--preload-file data/item/coin/coin.sol \
+	--preload-file data/item/coin/coin10.png \
+	--preload-file data/item/coin/coin10.sol \
+	--preload-file data/item/coin/coin5.png \
+	--preload-file data/item/coin/coin5.sol \
+	--preload-file data/map-back/jupiter.sol \
+	--preload-file data/map-medium/title.sol \
+	--preload-file data/png/io.png \
+	--preload-file data/png/jupiter.png \
+	--preload-file data/png/part.png \
+	--preload-file data/png/shadow.png \
+	--preload-file data/png/stars1.png \
+	--preload-file data/png/stars2.png \
+	--preload-file data/png/stars3.png \
+	--preload-file data/png/stars4.png \
+	--preload-file data/png/sun.png \
+	--preload-file data/snd/menu.ogg \
+	--preload-file data/textures/mtrl/chrome-faceted.jpg \
+	--preload-file data/textures/mtrl/glass.png \
+	--preload-file data/textures/mtrl/goal.png \
+	--preload-file data/textures/mtrl/invisible.png \
+	--preload-file data/textures/mtrl/mirror-check.png \
+	--preload-file data/textures/mtrl/turf-green.jpg \
+	--preload-file data/ttf/DejaVuSans-Bold.ttf
+else
+EM_PRELOAD := \
 	--preload-file data \
-	--use-preload-cache \
 	--exclude-file '*.map' \
 	--exclude-file '*.obj' \
 	--exclude-file 'holes*.txt' \
@@ -33,6 +74,14 @@ EM_LDFLAGS := \
 	--exclude-file 'data/map-slippi' \
 	--exclude-file 'data/map-vidski' \
 	--exclude-file 'data/shot-putt'
+endif
+
+LDFLAGS := -L../gl4es/build/lib -lGL
+EM_LDFLAGS := \
+	--pre-js js/pre.js \
+	-lidbfs.js \
+	$(EM_PRELOAD) \
+	--use-preload-cache
 
 BALL_SRCS := \
 	ball/demo.c \
