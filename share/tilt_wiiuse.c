@@ -25,7 +25,9 @@
 #include "wiiuse.h"
 
 #define NB_WIIMOTES 1
-#define NB_WIIMOTE_BUTTONS 12
+#define NB_WIIMOTE_BUTTONS 15
+#define NUNCHUK_CAMERA_LEFT 0
+#define NUNCHUK_CAMERA_RIGHT 1
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,7 +38,7 @@ struct tilt_state
     int status;
     float x;
     float z;
-    int buttons[16];
+    int buttons[NB_WIIMOTE_BUTTONS];
 };
 
 static struct tilt_state current_state, polled_state;
@@ -72,9 +74,9 @@ static int tilt_thread(void *data)
     wm = wiimotes[0];
 
     pitch_sensitivity = ((float)config_get_d(CONFIG_WIIMOTE_PITCH_SENSITIVITY) / 100);
-    pitch_sensitivity *= ((config_get_d(CONFIG_WIIMOTE_INVERT_PITCH)) ? -1 : 1);
+    pitch_sensitivity *= (config_get_d(CONFIG_WIIMOTE_INVERT_PITCH)) ? -1 : 1;
     roll_sensitivity = ((float)config_get_d(CONFIG_WIIMOTE_ROLL_SENSITIVITY) / 100);
-    roll_sensitivity *= ((config_get_d(CONFIG_WIIMOTE_INVERT_ROLL)) ? -1 : 1);
+    roll_sensitivity *= (config_get_d(CONFIG_WIIMOTE_INVERT_ROLL)) ? -1 : 1;
     smooth_alpha = (float)config_get_d(CONFIG_WIIMOTE_SMOOTH_ALPHA) / 100;
 
     wiiuse_motion_sensing(wm, 1);
@@ -90,13 +92,25 @@ static int tilt_thread(void *data)
             switch (wm->event) {
                 case WIIUSE_EVENT:
                     SDL_mutexP(mutex);
-                    for (i = 0; wiiUseButtons[i][0] != 0; i++) {
+                    /* start on 4 because the 4 first buttons are for the nunchuk */
+                    for (i = 4; i < NB_WIIMOTE_BUTTONS; i++) {
                         current_state.buttons[i] = IS_PRESSED(wm, wiiUseButtons[i][0]);
                     }
-                    if (WIIUSE_USING_ACC(wm)) {
+                    /* if the nunchuk is connected, use it, else use the wiimote */
+                    if (wm->exp.type == EXP_NUNCHUK || wm->exp.type == EXP_MOTION_PLUS_NUNCHUK) {
+                        struct nunchuk_t* nc = (nunchuk_t*)&wm->exp.nunchuk;
+                        current_state.buttons[NUNCHUK_CAMERA_LEFT] = (nc->js.x < -0.3);
+                        current_state.buttons[NUNCHUK_CAMERA_RIGHT] = (nc->js.x > 0.3);
+                        for (i = 2; i < 4; i++) {
+                            current_state.buttons[i] = IS_PRESSED(nc, wiiUseButtons[i][0]);
+                        }
+                        current_state.x = nc->orient.pitch * pitch_sensitivity;
+                        current_state.z = nc->orient.roll * roll_sensitivity;
+                    }
+                    else if (WIIUSE_USING_ACC(wm)) {
                         if (config_get_d(CONFIG_WIIMOTE_HOLD_SIDEWAYS)) {
-                            current_state.z = -wm->orient.pitch * pitch_sensitivity;
                             current_state.x = wm->orient.roll * roll_sensitivity;
+                            current_state.z = -wm->orient.pitch * pitch_sensitivity;
                         }
                         else {
                             current_state.x = wm->orient.pitch * pitch_sensitivity;
@@ -119,6 +133,10 @@ static int tilt_thread(void *data)
 void tilt_init(void)
 {
     int wiiUseButtonsHoldNormal[NB_WIIMOTE_BUTTONS][2] = {
+        {NUNCHUK_CAMERA_LEFT    , CONFIG_JOYSTICK_BUTTON_L1},
+        {NUNCHUK_CAMERA_RIGHT   , CONFIG_JOYSTICK_BUTTON_R1},
+        {NUNCHUK_BUTTON_C       , CONFIG_JOYSTICK_BUTTON_X},
+        {NUNCHUK_BUTTON_Z       , CONFIG_JOYSTICK_BUTTON_Y},
         {WIIMOTE_BUTTON_A       , CONFIG_JOYSTICK_BUTTON_A},
         {WIIMOTE_BUTTON_B       , CONFIG_JOYSTICK_BUTTON_B},
         {WIIMOTE_BUTTON_MINUS   , CONFIG_JOYSTICK_BUTTON_L1},
@@ -129,10 +147,13 @@ void tilt_init(void)
         {WIIMOTE_BUTTON_LEFT    , CONFIG_JOYSTICK_DPAD_L},
         {WIIMOTE_BUTTON_RIGHT   , CONFIG_JOYSTICK_DPAD_R},
         {WIIMOTE_BUTTON_DOWN    , CONFIG_JOYSTICK_DPAD_D},
-        {WIIMOTE_BUTTON_UP      , CONFIG_JOYSTICK_DPAD_U},
-        {0, 0}
+        {WIIMOTE_BUTTON_UP      , CONFIG_JOYSTICK_DPAD_U}
     };
     int wiiUseButtonsHoldSideways[NB_WIIMOTE_BUTTONS][2] = {
+        {NUNCHUK_CAMERA_LEFT    , CONFIG_JOYSTICK_BUTTON_L1},
+        {NUNCHUK_CAMERA_RIGHT   , CONFIG_JOYSTICK_BUTTON_R1},
+        {NUNCHUK_BUTTON_C       , CONFIG_JOYSTICK_BUTTON_X},
+        {NUNCHUK_BUTTON_Z       , CONFIG_JOYSTICK_BUTTON_Y},
         {WIIMOTE_BUTTON_A       , CONFIG_JOYSTICK_BUTTON_A},
         {WIIMOTE_BUTTON_B       , CONFIG_JOYSTICK_BUTTON_B},
         {WIIMOTE_BUTTON_MINUS   , CONFIG_JOYSTICK_BUTTON_X},
@@ -143,8 +164,7 @@ void tilt_init(void)
         {WIIMOTE_BUTTON_LEFT    , CONFIG_JOYSTICK_DPAD_D},
         {WIIMOTE_BUTTON_RIGHT   , CONFIG_JOYSTICK_DPAD_U},
         {WIIMOTE_BUTTON_DOWN    , CONFIG_JOYSTICK_DPAD_R},
-        {WIIMOTE_BUTTON_UP      , CONFIG_JOYSTICK_DPAD_L},
-        {0, 0}
+        {WIIMOTE_BUTTON_UP      , CONFIG_JOYSTICK_DPAD_L}
     };
 
     memset(&current_state, 0, sizeof (struct tilt_state));
@@ -183,7 +203,7 @@ int tilt_get_button(int *b, int *s)
     if (mutex && current_state.status)
     {
         SDL_mutexP(mutex);
-        for (i = 0; wiiUseButtons[i][0] != 0; i++) {
+        for (i = 0; i < NB_WIIMOTE_BUTTONS; i++) {
             if (current_state.buttons[i] != polled_state.buttons[i]) {
                 *b = config_get_d(wiiUseButtons[i][1]);
                 *s = current_state.buttons[i];
@@ -194,7 +214,7 @@ int tilt_get_button(int *b, int *s)
         SDL_mutexV(mutex);
     }
 
-    return wiiUseButtons[i][0] != 0;
+    return i < NB_WIIMOTE_BUTTONS;
 }
 
 float tilt_get_x(void)
