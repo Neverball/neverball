@@ -198,17 +198,18 @@ void tilt_free(void)
 
 int tilt_get_button(int *b, int *s)
 {
-    int i = 0;
+    int i = NB_WIIMOTE_BUTTONS;
 
-    if (mutex && current_state.status)
-    {
+    if (mutex) {
         SDL_mutexP(mutex);
-        for (i = 0; i < NB_WIIMOTE_BUTTONS; i++) {
-            if (current_state.buttons[i] != polled_state.buttons[i]) {
-                *b = config_get_d(wiiUseButtons[i][1]);
-                *s = current_state.buttons[i];
-                polled_state.buttons[i] = current_state.buttons[i];
-                break;
+        if (current_state.status) {
+            for (i = 0; i < NB_WIIMOTE_BUTTONS; i++) {
+                if (current_state.buttons[i] != polled_state.buttons[i]) {
+                    *b = config_get_d(wiiUseButtons[i][1]);
+                    *s = current_state.buttons[i];
+                    polled_state.buttons[i] = current_state.buttons[i];
+                    break;
+                }
             }
         }
         SDL_mutexV(mutex);
@@ -221,7 +222,7 @@ float tilt_get_x(void)
 {
     float x = 0.0f;
 
-    if (mutex && current_state.status)
+    if (mutex)
     {
         SDL_mutexP(mutex);
         x = current_state.x;
@@ -235,7 +236,7 @@ float tilt_get_z(void)
 {
     float z = 0.0f;
 
-    if (mutex && current_state.status)
+    if (mutex)
     {
         SDL_mutexP(mutex);
         z = current_state.z;
@@ -249,7 +250,7 @@ int tilt_stat(void)
 {
     int b = 0;
 
-    if (mutex && current_state.status)
+    if (mutex)
     {
         SDL_mutexP(mutex);
         b = current_state.status;
