@@ -160,11 +160,15 @@ INTL_LIBS :=
 ifeq ($(ENABLE_TILT),wii)
 	TILT_LIBS := -lcwiimote -lbluetooth
 else
+ifeq ($(ENABLE_TILT),wiiuse)
+	TILT_LIBS := -lwiiuse
+else
 ifeq ($(ENABLE_TILT),loop)
 	TILT_LIBS := -lusb-1.0 -lfreespace
 else
 ifeq ($(ENABLE_TILT),leapmotion)
 	TILT_LIBS := /usr/lib/Leap/libLeap.so -Wl,-rpath,/usr/lib/Leap
+endif
 endif
 endif
 endif
@@ -180,7 +184,6 @@ ifeq ($(PLATFORM),mingw)
 		INTL_LIBS := -lintl
 	endif
 
-	TILT_LIBS :=
 	OGL_LIBS  := -lopengl32
 endif
 
@@ -189,7 +192,6 @@ ifeq ($(PLATFORM),darwin)
 		INTL_LIBS := -lintl
 	endif
 
-	TILT_LIBS :=
 	OGL_LIBS  := -framework OpenGL
 endif
 
@@ -386,6 +388,9 @@ endif
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o
+else 
+ifeq ($(ENABLE_TILT),wiiuse)
+BALL_OBJS += share/tilt_wiiuse.o
 else
 ifeq ($(ENABLE_TILT),loop)
 BALL_OBJS += share/tilt_loop.o
@@ -394,6 +399,7 @@ ifeq ($(ENABLE_TILT),leapmotion)
 BALL_OBJS += share/tilt_leapmotion.o
 else
 BALL_OBJS += share/tilt_null.o
+endif
 endif
 endif
 endif
