@@ -210,6 +210,15 @@ static int handle_key_up(SDL_Event *e)
     return d;
 }
 
+#ifdef __EMSCRIPTEN__
+void EMSCRIPTEN_KEEPALIVE push_user_event(int code)
+{
+    SDL_Event event = { SDL_USEREVENT };
+    event.user.code = code;
+    SDL_PushEvent(&event);
+}
+#endif
+
 static int loop(void)
 {
     SDL_Event e;
@@ -225,6 +234,13 @@ static int loop(void)
         {
         case SDL_QUIT:
             return 0;
+
+#ifdef __EMSCRIPTEN__
+        case SDL_USEREVENT:
+            if (e.user.code == -1)
+                st_keybd(KEY_EXIT, 1);
+            break;
+#endif
 
         case SDL_MOUSEMOTION:
             /* Convert to OpenGL coordinates. */

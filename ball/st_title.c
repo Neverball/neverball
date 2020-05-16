@@ -12,6 +12,10 @@
  * General Public License for more details.
  */
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include <string.h>
 #include <assert.h>
 
@@ -203,6 +207,12 @@ static int filter_cmd(const union cmd *cmd)
 
 static int title_enter(struct state *st, struct state *prev)
 {
+#ifdef __EMSCRIPTEN__
+    EM_ASM({
+        Module['neverball'].isTitleScreen = true;
+    });
+#endif
+
     game_proxy_filter(filter_cmd);
 
     /* Start the title screen music. */
@@ -223,6 +233,12 @@ static int title_enter(struct state *st, struct state *prev)
 
 static void title_leave(struct state *st, struct state *next, int id)
 {
+#ifdef __EMSCRIPTEN__
+    EM_ASM({
+        Module['neverball'].isTitleScreen = false;
+    });
+#endif
+
     if (items)
     {
         demo_dir_free(items);
