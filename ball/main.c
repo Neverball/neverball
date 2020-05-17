@@ -607,7 +607,9 @@ int main(int argc, char *argv[])
 
     /* Initialize SDL. */
 
+#ifdef SDL_HINT_TOUCH_MOUSE_EVENTS
     SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+#endif
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
