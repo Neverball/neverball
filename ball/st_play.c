@@ -537,6 +537,21 @@ static int play_loop_buttn(int b, int d)
     return 1;
 }
 
+static int play_loop_touch(const SDL_TouchFingerEvent *event)
+{
+    if (event->type == SDL_FINGERMOTION)
+    {
+        int dx = (int) ((float) video.device_w * event->dx);
+        int dy = (int) ((float) video.device_h * -event->dy);
+
+        game_set_pos(dx, dy);
+    }
+
+    // TODO: rotate camera, change camera, etc.
+
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static float phi;
@@ -629,7 +644,9 @@ struct state st_play_loop = {
     shared_angle,
     play_loop_click,
     play_loop_keybd,
-    play_loop_buttn
+    play_loop_buttn,
+
+    .touch = play_loop_touch
 };
 
 struct state st_look = {

@@ -265,4 +265,28 @@ int st_buttn(int b, int d)
     return (state && state->buttn) ? state->buttn(b, d) : 1;
 }
 
+int st_touch(const SDL_TouchFingerEvent *event)
+{
+    int d = 1;
+
+    /* If the state can handle it, do it. */
+
+    if (state && state->touch)
+        return state->touch(event);
+
+    /* Otherwise, emulate mouse events. */
+
+    st_point(video.device_w * event->x,
+             video.device_h * (1.0f - event->y),
+             video.device_w * event->dx,
+             video.device_h * -event->dy);
+
+    if (event->type == SDL_FINGERDOWN)
+        d = st_click(SDL_BUTTON_LEFT, 1);
+    else if (event->type == SDL_FINGERUP)
+        d = st_click(SDL_BUTTON_LEFT, 0);
+
+    return d;
+}
+
 /*---------------------------------------------------------------------------*/
