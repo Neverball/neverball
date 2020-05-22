@@ -270,6 +270,12 @@ static int loop(void)
             d = st_click(e.button.button, 0);
             break;
 
+        case SDL_FINGERDOWN:
+        case SDL_FINGERUP:
+        case SDL_FINGERMOTION:
+            d = st_touch(&e.tfinger);
+            break;
+
         case SDL_KEYDOWN:
             d = handle_key_dn(&e);
             break;
@@ -600,6 +606,10 @@ int main(int argc, char *argv[])
     make_dirs_and_migrate();
 
     /* Initialize SDL. */
+
+#ifdef SDL_HINT_TOUCH_MOUSE_EVENTS
+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+#endif
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {

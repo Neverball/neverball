@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include "SDL_events.h"
+
 /*---------------------------------------------------------------------------*/
 
 struct state
@@ -18,6 +20,8 @@ struct state
     void (*wheel)(int x,  int y);
 
     int gui_id;
+
+    int  (*touch)(const SDL_TouchFingerEvent *);
 };
 
 struct state *curr_state(void);
@@ -35,6 +39,7 @@ void st_wheel(int, int);
 int  st_click(int, int);
 int  st_keybd(int, int);
 int  st_buttn(int, int);
+int  st_touch(const SDL_TouchFingerEvent *);
 
 /*---------------------------------------------------------------------------*/
 
