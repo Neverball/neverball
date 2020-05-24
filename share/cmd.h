@@ -65,6 +65,7 @@ enum cmd_type
     CMD_TILT_AXES,
     CMD_MOVE_PATH,
     CMD_MOVE_TIME,
+    CMD_TILT,
 
     CMD_MAX
 };
@@ -289,6 +290,12 @@ struct cmd_move_time
     float t;
 };
 
+struct cmd_tilt
+{
+    CMD_HEADER;
+    float q[4];
+};
+
 union cmd
 {
     enum cmd_type type;
@@ -329,6 +336,7 @@ union cmd
     struct cmd_tilt_axes          tiltaxes;
     struct cmd_move_path          movepath;
     struct cmd_move_time          movetime;
+    struct cmd_tilt               tilt;
 };
 
 #undef CMD_HEADER

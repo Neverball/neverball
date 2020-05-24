@@ -367,6 +367,14 @@ DEFINE_CMD(CMD_MOVE_TIME, INDEX_BYTES + FLOAT_BYTES, {
 
 /*---------------------------------------------------------------------------*/
 
+DEFINE_CMD(CMD_TILT, ARRAY_BYTES(4), {
+    put_array(fp, cmd->tilt.q, 4);
+}, {
+    get_array(fp, cmd->tilt.q, 4);
+});
+
+/*---------------------------------------------------------------------------*/
+
 #define PUT_CASE(t) case t: cmd_put_ ## t(fp, cmd); break
 #define GET_CASE(t) case t: cmd_get_ ## t(fp, cmd); break
 
@@ -415,6 +423,7 @@ int cmd_put(fs_file fp, const union cmd *cmd)
         PUT_CASE(CMD_TILT_AXES);
         PUT_CASE(CMD_MOVE_PATH);
         PUT_CASE(CMD_MOVE_TIME);
+        PUT_CASE(CMD_TILT);
 
     case CMD_NONE:
     case CMD_MAX:
@@ -482,6 +491,7 @@ int cmd_get(fs_file fp, union cmd *cmd)
             GET_CASE(CMD_TILT_AXES);
             GET_CASE(CMD_MOVE_PATH);
             GET_CASE(CMD_MOVE_TIME);
+            GET_CASE(CMD_TILT);
 
         case CMD_NONE:
         case CMD_MAX:

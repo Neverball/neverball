@@ -163,6 +163,9 @@ static void game_run_cmd(const union cmd *cmd)
             break;
 
         case CMD_TILT_ANGLES:
+            tilt->rx = cmd->tiltangles.x;
+            tilt->rz = cmd->tiltangles.z;
+
             if (!cs.got_tilt_axes)
             {
                 /*
@@ -173,11 +176,14 @@ static void game_run_cmd(const union cmd *cmd)
                  * tilt axes, we use the view vectors.
                  */
 
-                game_tilt_axes(tilt, view->e);
+                game_tilt_calc(tilt, view->e);
             }
+            else
+            {
+                /* Use the axes we received via CMD_TILT_AXES. */
 
-            tilt->rx = cmd->tiltangles.x;
-            tilt->rz = cmd->tiltangles.z;
+                game_tilt_calc(tilt, NULL);
+            }
             break;
 
         case CMD_SOUND:
@@ -316,6 +322,10 @@ static void game_run_cmd(const union cmd *cmd)
             cs.got_tilt_axes = 1;
             v_cpy(tilt->x, cmd->tiltaxes.x);
             v_cpy(tilt->z, cmd->tiltaxes.z);
+            break;
+
+        case CMD_TILT:
+            q_cpy(tilt->q, cmd->tilt.q);
             break;
 
         case CMD_NONE:

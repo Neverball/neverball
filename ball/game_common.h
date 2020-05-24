@@ -69,10 +69,12 @@ struct game_tilt
 {
     float x[3], rx;
     float z[3], rz;
+
+    float q[4];
 };
 
 void game_tilt_init(struct game_tilt *);
-void game_tilt_axes(struct game_tilt *, float view_e[3][3]);
+void game_tilt_calc(struct game_tilt *, float view_e[3][3]);
 void game_tilt_grav(float h[3], const float g[3], const struct game_tilt *);
 
 /*---------------------------------------------------------------------------*/

@@ -82,29 +82,36 @@ void game_tilt_init(struct game_tilt *tilt)
     tilt->z[2] = 1.0f;
 
     tilt->rz = 0.0f;
+
+    tilt->q[0] = 1.0f;
+    tilt->q[1] = 0.0f;
+    tilt->q[2] = 0.0f;
+    tilt->q[3] = 0.0f;
 }
 
 /*
- * Compute appropriate tilt axes from the view basis.
+ * Compute tilt orientation from tilt angles and the view basis.
  */
-void game_tilt_axes(struct game_tilt *tilt, float view_e[3][3])
+void game_tilt_calc(struct game_tilt *tilt, float view_e[3][3])
 {
-    v_cpy(tilt->x, view_e[0]);
-    v_cpy(tilt->z, view_e[2]);
+    float qx[4], qz[4];
+
+    if (view_e)
+    {
+        v_cpy(tilt->x, view_e[0]);
+        v_cpy(tilt->z, view_e[2]);
+    }
+
+    q_by_axisangle(qx, tilt->x, V_RAD(tilt->rx));
+    q_by_axisangle(qz, tilt->z, V_RAD(tilt->rz));
+
+    q_mul(tilt->q, qz, qx);
+    q_nrm(tilt->q, tilt->q);
 }
 
 void game_tilt_grav(float h[3], const float g[3], const struct game_tilt *tilt)
 {
-    float X[16];
-    float Z[16];
-    float M[16];
-
-    /* Compute the gravity vector from the given world rotations. */
-
-    m_rot (Z, tilt->z, V_RAD(tilt->rz));
-    m_rot (X, tilt->x, V_RAD(tilt->rx));
-    m_mult(M, Z, X);
-    m_vxfm(h, M, g);
+    q_rot(h, tilt->q, g);
 }
 
 /*---------------------------------------------------------------------------*/

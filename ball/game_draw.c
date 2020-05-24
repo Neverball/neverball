@@ -147,11 +147,19 @@ static void game_draw_tilt(const struct game_draw *gd, int d)
     const struct game_tilt *tilt = &gd->tilt;
     const float *ball_p = gd->vary.uv[0].p;
 
+    float q[4], axis[3], angle;
+
+    q[0] =  tilt->q[0];
+    q[1] = -tilt->q[1] * d;
+    q[2] =  tilt->q[2];
+    q[3] = -tilt->q[3] * d;
+
+    q_as_axisangle(q, axis, &angle);
+
     /* Rotate the environment about the position of the ball. */
 
     glTranslatef(+ball_p[0], +ball_p[1] * d, +ball_p[2]);
-    glRotatef(-tilt->rz * d, tilt->z[0], tilt->z[1], tilt->z[2]);
-    glRotatef(-tilt->rx * d, tilt->x[0], tilt->x[1], tilt->x[2]);
+    glRotatef(V_DEG(angle), axis[0], axis[1], axis[2]);
     glTranslatef(-ball_p[0], -ball_p[1] * d, -ball_p[2]);
 }
 
@@ -207,9 +215,11 @@ static void game_draw_back(struct s_rend *rend,
         if (d < 0)
         {
             const struct game_tilt *tilt = &gd->tilt;
+            float axis[3], angle;
 
-            glRotatef(tilt->rz * 2, tilt->z[0], tilt->z[1], tilt->z[2]);
-            glRotatef(tilt->rx * 2, tilt->x[0], tilt->x[1], tilt->x[2]);
+            q_as_axisangle(tilt->q, axis, &angle);
+
+            glRotatef(V_DEG(angle) * 2, axis[0], axis[1], axis[2]);
         }
 
         glTranslatef(view->p[0], view->p[1] * d, view->p[2]);
@@ -563,11 +573,7 @@ void game_lerp_apply(struct game_lerp *gl, struct game_draw *gd)
 
     /* Tilt. */
 
-    v_lerp(gd->tilt.x, gl->tilt[PREV].x, gl->tilt[CURR].x, a);
-    v_lerp(gd->tilt.z, gl->tilt[PREV].z, gl->tilt[CURR].z, a);
-
-    gd->tilt.rx = flerp(gl->tilt[PREV].rx, gl->tilt[CURR].rx, a);
-    gd->tilt.rz = flerp(gl->tilt[PREV].rz, gl->tilt[CURR].rz, a);
+    q_slerp(gd->tilt.q, gl->tilt[PREV].q, gl->tilt[CURR].q, a);
 
     /* View. */
 
