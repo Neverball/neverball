@@ -195,12 +195,12 @@ static struct
     { &CONFIG_JOYSTICK_DPAD_U,        "joystick_dpad_u",       10 },
     { &CONFIG_JOYSTICK_DPAD_D,        "joystick_dpad_d",       11 },
 
-	{ &CONFIG_WIIMOTE_INVERT_PITCH,      "wiimote_invert_pitch"     , 0 },
-	{ &CONFIG_WIIMOTE_INVERT_ROLL,       "wiimote_invert_roll"      , 0 },
-	{ &CONFIG_WIIMOTE_PITCH_SENSITIVITY, "wiimote_pitch_sensitivity", 100 },
-	{ &CONFIG_WIIMOTE_ROLL_SENSITIVITY,  "wiimote_roll_sensitivity" , 100 },
-	{ &CONFIG_WIIMOTE_SMOOTH_ALPHA,      "wiimote_smooth_alpha"     , 50 },
-	{ &CONFIG_WIIMOTE_HOLD_SIDEWAYS,     "wiimote_hold_sideways"    , 0 },
+    { &CONFIG_WIIMOTE_INVERT_PITCH,      "wiimote_invert_pitch"     , 0 },
+    { &CONFIG_WIIMOTE_INVERT_ROLL,       "wiimote_invert_roll"      , 0 },
+    { &CONFIG_WIIMOTE_PITCH_SENSITIVITY, "wiimote_pitch_sensitivity", 100 },
+    { &CONFIG_WIIMOTE_ROLL_SENSITIVITY,  "wiimote_roll_sensitivity" , 100 },
+    { &CONFIG_WIIMOTE_SMOOTH_ALPHA,      "wiimote_smooth_alpha"     , 50 },
+    { &CONFIG_WIIMOTE_HOLD_SIDEWAYS,     "wiimote_hold_sideways"    , 0 },
 
     { &CONFIG_KEY_CAMERA_1,      "key_camera_1",      SDLK_1 },
     { &CONFIG_KEY_CAMERA_2,      "key_camera_2",      SDLK_2 },
