@@ -113,6 +113,7 @@
 
 void   v_nrm(float *, const float *);
 void   v_crs(float *, const float *, const float *);
+void   v_reflect(float u[3], const float v[3], const float n[3]);
 
 void   m_cpy(float *, const float *);
 void   m_xps(float *, const float *);

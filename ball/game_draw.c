@@ -144,17 +144,16 @@ static void game_draw_jumps(struct s_rend *rend,
 
 static void game_draw_tilt(const struct game_draw *gd, int d)
 {
+    static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+
     const struct game_tilt *tilt = &gd->tilt;
     const float *ball_p = gd->vary.uv[0].p;
 
-    float q[4], axis[3], angle;
+    float axis[3], angle;
 
-    q[0] =  tilt->q[0];
-    q[1] = -tilt->q[1] * d;
-    q[2] =  tilt->q[2];
-    q[3] = -tilt->q[3] * d;
+    q_as_axisangle(tilt->q, axis, &angle);
 
-    q_as_axisangle(q, axis, &angle);
+    v_reflect(axis, axis, Y);
 
     /* Rotate the environment about the position of the ball. */
 

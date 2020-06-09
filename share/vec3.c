@@ -53,6 +53,14 @@ void v_crs(float *u, const float *v, const float *w)
     u[2] = v[0] * w[1] - v[1] * w[0];
 }
 
+void v_reflect(float u[3], const float v[3], const float n[3])
+{
+    float w[3];
+
+    v_scl(w, n, 2.0f * v_dot(n, v));
+    v_sub(u, w, v);
+}
+
 /*---------------------------------------------------------------------------*/
 
 void m_cpy(float *M, const float *N)
