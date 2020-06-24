@@ -2425,6 +2425,26 @@ static void sort_file(struct s_base *fp)
                 fp->hv[j] =         t;
             }
 
+    /* Sort body lumps by flags. */
+
+    for (i = 0; i < fp->bc; i++)
+    {
+        const struct b_body *bp = &fp->bv[i];
+
+        int li, lj;
+
+        for (li = bp->l0; li < bp->l0 + bp->lc; ++li)
+            for (lj = li + 1; lj < bp->l0 + bp->lc; ++lj)
+                if (fp->lv[li].fl > fp->lv[lj].fl)
+                {
+                    struct b_lump t;
+
+                    t          = fp->lv[li];
+                    fp->lv[li] = fp->lv[lj];
+                    fp->lv[lj] = t;
+                }
+    }
+
     /* Ensure the first vertex is the lowest. */
 
     for (i = 0; i < fp->vc; i++)
@@ -2674,12 +2694,23 @@ static void node_file(struct s_base *fp)
     /* Compute a bounding sphere for each lump. */
 
     for (i = 0; i < fp->lc; i++)
-        lump_bounding_sphere(fp, fp->lv + i, bsphere[i]);
-
-    /* Sort the lumps of each body into BSP nodes. */
+        if (fp->lv[i].fl == 0)
+            lump_bounding_sphere(fp, fp->lv + i, bsphere[i]);
 
     for (i = 0; i < fp->bc; i++)
-        fp->bv[i].ni = node_node(fp, fp->bv[i].l0, fp->bv[i].lc, bsphere);
+    {
+        int lc;
+
+        /* Count solid lumps. This assumes lumps have been sorted by flags. */
+
+        for (lc = 0; lc < fp->bv[i].lc; lc++)
+            if (fp->lv[fp->bv[i].l0 + lc].fl != 0)
+                break;
+
+        /* Sort the solid lumps of each body into BSP nodes. */
+
+        fp->bv[i].ni = node_node(fp, fp->bv[i].l0, lc, bsphere);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
