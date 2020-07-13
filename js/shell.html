@@ -1,124 +1,233 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <title>Neverball</title>
-    <style>
-      .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
-      div.emscripten { text-align: center; }
-      /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas.emscripten { border: 0px none; background-color: black; }
 
-      #spinner img {
-        width: 24px;
-        height: auto;
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neverball</title>
+  <style>
+    body {
+      /* System fonts. */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      padding: 0;
+      margin: 0;
+    }
+
+    #main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #spinner {
+      padding: 20px 0 0;
+      /* Room for bounce. */
+    }
+
+    #spinner[hidden] {
+      display: none;
+    }
+
+    #spinner img {
+      width: 24px;
+      height: auto;
+      animation-name: bouncing;
+      animation-direction: alternate;
+      animation-duration: 0.27s;
+      animation-iteration-count: infinite;
+      animation-timing-function: cubic-bezier(.25, .46, .45, .94);
+    }
+
+    .toggle input[type="checkbox"] {
+      display: none;
+    }
+
+    .toggle label {
+      position: relative;
+    }
+
+    .toggle label::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid black;
+      vertical-align: middle;
+      margin-right: 0.4em;
+    }
+
+    .toggle label::after {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 8px;
+      border-bottom: 2px solid black;
+      border-right: 2px solid black;
+      position: absolute;
+      width: 4px;
+      height: 9px;
+      left: 7px;
+      top: 0;
+      transform: rotate(45deg);
+      opacity: 0;
+      transition: 0.1s ease-out all;
+    }
+
+    .toggle input:checked+label::after {
+      opacity: 1;
+      top: 6px;
+    }
+
+    .toggle input:disabled + label::before,
+    .toggle input:disabled + label::after {
+      border-color: rgba(0, 0, 0, 0.4);
+    }
+
+    @keyframes bouncing {
+      100% {
+        transform: translateY(-10px);
       }
-      #spinner {
-        display: flex;
-        justify-content: center;
-        animation-name: bouncing;
-        animation-direction: alternate;
-        animation-duration: 0.27s;
-        animation-iteration-count: infinite;
-        animation-timing-function: cubic-bezier(.25,.46,.45,.94);
-      }
-      #spinner[hidden] {
-        display: none;
-      }
-      @keyframes bouncing {
-        100% {
-          transform: translateY(-10px);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <figure id="spinner">
-      <img src="neverball-logo.svg">
-    </figure>
-    <div class="emscripten" id="status">Downloading...</div>
-    <div class="emscripten">
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <div id="spinner">
+      <img src="neverball-logo.svg" alt="">
+    </div>
+
+    <div id="status">Downloading...</div>
+
+    <div id="progress-wrapper">
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
-    <div>
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+
+    <div id="canvas-wrapper">
+      <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
     </div>
-    <script type='text/javascript'>
-      var statusElement = document.getElementById('status');
-      var progressElement = document.getElementById('progress');
-      var spinnerElement = document.getElementById('spinner');
 
-      var Module = {
-        preRun: [],
-        postRun: [],
-        print: (function() {
-          var element = document.getElementById('output');
-          if (element) element.value = ''; // clear browser cache
-          return function(text) {
-            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            // These replacements are necessary if you render to raw HTML
-            //text = text.replace(/&/g, "&amp;");
-            //text = text.replace(/</g, "&lt;");
-            //text = text.replace(/>/g, "&gt;");
-            //text = text.replace('\n', '<br>', 'g');
-            console.log(text);
-            if (element) {
-              element.value += text + "\n";
-              element.scrollTop = element.scrollHeight; // focus on bottom
-            }
-          };
-        })(),
-        printErr: function(text) {
-          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-          console.error(text);
-        },
-        canvas: (function() {
-          var canvas = document.getElementById('canvas');
+    <div id="info">
+      <div class="toggle" id="persist-toggle">
+        <input type="checkbox" id="persist-input">
+        <label for="persist-input">Enable persistent storage (clear site data to revoke)</label>
 
-          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-          // application robust, you may want to override this behavior before shipping!
-          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+        <p>This will make sure replays and settings are not deleted when browser cache is automatically cleared.</p>
+      </div>
+    </div>
+  </div>
 
-          return canvas;
-        })(),
-        setStatus: function(text) {
-          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
-          if (text === Module.setStatus.last.text) return;
-          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-          var now = Date.now();
-          if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
-          Module.setStatus.last.time = now;
-          Module.setStatus.last.text = text;
-          if (m) {
-            text = m[1];
-            progressElement.value = parseInt(m[2])*100;
-            progressElement.max = parseInt(m[4])*100;
-            progressElement.hidden = false;
-            spinnerElement.hidden = false;
-          } else {
-            progressElement.value = null;
-            progressElement.max = null;
-            progressElement.hidden = true;
-            if (!text) spinnerElement.hidden = true;
-          }
-          statusElement.innerHTML = text;
-        },
-        totalDependencies: 0,
-        monitorRunDependencies: function(left) {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+  <script>
+    (function () {
+      'use strict';
+
+      var persistInput = document.getElementById('persist-input');
+
+      if (navigator.storage) {
+
+        if (navigator.storage.persisted) {
+          navigator.storage.persisted().then(function (persistent) {
+            persistInput.checked = persistent;
+            // We have no way of revoking this, so disable the checkbox.
+            persistInput.disabled = persistent;
+          });
         }
-      };
-      Module.setStatus('Downloading...');
-      window.onerror = function() {
-        Module.setStatus('Exception thrown, see JavaScript console');
-        spinnerElement.style.display = 'none';
-        Module.setStatus = function(text) {
-          if (text) Module.printErr('[post-exception status] ' + text);
+
+        if (navigator.storage.persist) {
+          persistInput.addEventListener('change', function (event) {
+            if (this.checked) {
+              this.checked = false;
+
+              navigator.storage.persist().then(function (persistent) {
+                persistInput.checked = persistent;
+                // We have no way of revoking this, so disable the checkbox.
+                persistInput.disabled = persistent;
+              });
+            }
+          });
+        }
+      } else {
+        persistInput.disabled = true;
+      }
+    })();
+  </script>
+
+  <script type='text/javascript'>
+    var statusElement = document.getElementById('status');
+    var progressElement = document.getElementById('progress');
+    var spinnerElement = document.getElementById('spinner');
+
+    var Module = {
+      preRun: [],
+      postRun: [],
+      print: (function () {
+        var element = document.getElementById('output');
+        if (element) element.value = ''; // clear browser cache
+        return function (text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          // These replacements are necessary if you render to raw HTML
+          //text = text.replace(/&/g, "&amp;");
+          //text = text.replace(/</g, "&lt;");
+          //text = text.replace(/>/g, "&gt;");
+          //text = text.replace('\n', '<br>', 'g');
+          console.log(text);
+          if (element) {
+            element.value += text + "\n";
+            element.scrollTop = element.scrollHeight; // focus on bottom
+          }
         };
+      })(),
+      printErr: function (text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        console.error(text);
+      },
+      canvas: (function () {
+        var canvas = document.getElementById('canvas');
+
+        // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+        // application robust, you may want to override this behavior before shipping!
+        // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+        canvas.addEventListener("webglcontextlost", function (e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+        return canvas;
+      })(),
+      setStatus: function (text) {
+        if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+        if (text === Module.setStatus.last.text) return;
+        var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+        var now = Date.now();
+        if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
+        Module.setStatus.last.time = now;
+        Module.setStatus.last.text = text;
+        if (m) {
+          text = m[1];
+          progressElement.value = parseInt(m[2]) * 100;
+          progressElement.max = parseInt(m[4]) * 100;
+          progressElement.hidden = false;
+          spinnerElement.hidden = false;
+        } else {
+          progressElement.value = null;
+          progressElement.max = null;
+          progressElement.hidden = true;
+          if (!text) spinnerElement.hidden = true;
+        }
+        statusElement.innerHTML = text;
+      },
+      totalDependencies: 0,
+      monitorRunDependencies: function (left) {
+        this.totalDependencies = Math.max(this.totalDependencies, left);
+        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+      }
+    };
+    Module.setStatus('Downloading...');
+    window.onerror = function () {
+      Module.setStatus('Exception thrown, see JavaScript console');
+      spinnerElement.style.display = 'none';
+      Module.setStatus = function (text) {
+        if (text) Module.printErr('[post-exception status] ' + text);
       };
-    </script>
-    {{{ SCRIPT }}}
-  </body>
+    };
+  </script>
+  {{{ SCRIPT }}}
+</body>
 </html>
