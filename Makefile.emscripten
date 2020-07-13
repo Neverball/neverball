@@ -163,12 +163,15 @@ BALL_OBJS := $(BALL_SRCS:.c=.bc)
 %.bc: %.c
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
-neverball.html: $(BALL_OBJS) js/shell.html
+neverball.html: $(BALL_OBJS) js/shell.html neverball-logo.svg
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+neverball-logo.svg: js/neverball-logo.svg
+	cp js/neverball-logo.svg .
 
 .PHONY: neverball
 neverball: neverball.html
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) neverball.html neverball.js neverball.wasm neverball.data
+	$(RM) $(BALL_OBJS) neverball.html neverball.js neverball.wasm neverball.data neverball-logo.svg

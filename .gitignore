@@ -19,3 +19,9 @@
 /mapc.exe
 /contrib/curve.exe
 /*.dll
+
+/neverball.html
+/neverball.data
+/neverball.wasm
+/neverball.js
+/neverball-logo.svg

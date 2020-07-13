@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient2788">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <clipPath id="clipPath12952">
+   <path d="m256 187.94c-112.03 0-215.67 21.128-300 56.938v379.5h300z" color="#000000" fill-opacity=".50196" fill-rule="evenodd"/>
+  </clipPath>
+  <clipPath id="clipPath12990">
+   <circle cx="256" cy="256" r="256" color="#000000" fill-opacity=".50196" fill-rule="evenodd"/>
+  </clipPath>
+  <filter id="filter19294" x="-.22" y="-.22" width="1.44" height="1.44">
+   <feGaussianBlur stdDeviation="67.32"/>
+  </filter>
+  <filter id="filter20282" x="-.2" y="-.2" width="1.4" height="1.4">
+   <feGaussianBlur stdDeviation="51.2"/>
+  </filter>
+  <filter id="filter20286">
+   <feGaussianBlur stdDeviation="20.1375"/>
+  </filter>
+  <filter id="filter20296">
+   <feGaussianBlur stdDeviation="13.425"/>
+  </filter>
+  <clipPath id="clipPath22295">
+   <circle cx="256" cy="256" r="256" color="#000000" fill-rule="evenodd"/>
+  </clipPath>
+  <radialGradient id="radialGradient22363" cx="326.52" cy="865.25" r="241.7" gradientTransform="matrix(1 0 0 1.076 -68.868 -430.42)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2788"/>
+  <radialGradient id="radialGradient22365" cx="334.36" cy="342.63" r="138.39" gradientTransform="matrix(1.176 .0009599 0 .898 -136.59 -253.72)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient2788"/>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-54)" display="none" fill-opacity=".50196" fill-rule="evenodd">
+  <ellipse transform="translate(0 231.93)" cx="256" cy="256" rx="512" ry="300" color="#000000" display="inline"/>
+  <rect x="256" y="-128" width="300" height="752.36" color="#000000" display="inline"/>
+  <circle cx="256" cy="256" r="256" color="#000000" display="inline"/>
+ </g>
+ <g transform="translate(-54)">
+  <g transform="translate(54)">
+   <g clip-path="url(#clipPath22295)">
+    <g fill-rule="evenodd">
+     <circle cx="256" cy="256" r="256" color="#000000" display="none" fill="#f00"/>
+     <path d="m256-128v315.94c112.03 0 215.67 21.128 300 56.938v-372.88z" clip-path="url(#clipPath12990)" color="#000000"/>
+     <circle cx="256" cy="256" r="256" clip-path="url(#clipPath12952)" color="#000000"/>
+     <circle cx="256" cy="256" r="256" color="#000000" fill="url(#radialGradient22363)" opacity=".6"/>
+    </g>
+    <circle cx="256" cy="256" r="256" color="#000000" fill="none" filter="url(#filter19294)" stroke="#000" stroke-width="100"/>
+    <circle cx="256" cy="256" r="256" color="#000000" fill="#fff" fill-rule="evenodd" filter="url(#filter20282)" opacity=".2"/>
+    <circle cx="256" cy="256" r="256" color="#000000" fill="none" filter="url(#filter20286)" opacity=".16352" stroke="#000" stroke-width="25"/>
+    <circle cx="256" cy="256" r="256" color="#000000" fill="none" filter="url(#filter20296)" stroke="#000" stroke-width="25"/>
+    <ellipse transform="translate(0 14.142)" cx="256" cy="100" rx="128" ry="85" color="#000000" fill="url(#radialGradient22365)" fill-rule="evenodd" opacity=".75"/>
+   </g>
+  </g>
+ </g>
+</svg>
