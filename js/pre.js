@@ -2,17 +2,25 @@
   /**
    * Initialize persistent store.
    *
-   * Trying to do this as early as possible to sidestep the async nature of it.
+   * Adding as run dependency, because this is an async operation.
    */
   function initPersistentStore() {
+    // Create the user folder and mount IndexedDB on it.
     FS.mkdir('/neverball');
     FS.mount(IDBFS, {}, '/neverball');
+
+    // Tell Emscripten to wait for us.
+    Module.addRunDependency('neverball:persistent-store');
+
     console.log('Synchronizing from persistent storage...');
     FS.syncfs(true, function (err) {
       if (err)
         console.error('Failure to synchronize from persistent storage: ' + err);
       else
         console.log('Successfully synced from persistent storage.');
+
+      // Tell Emscripten to stop waiting.
+      Module.removeRunDependency('neverball:persistent-store');
     });
   }
 
@@ -53,5 +61,8 @@
 
   initBackButton();
 
-  Module['preInit'] = [initPersistentStore];
+  if (Module['preRun'] === undefined) {
+    Module['preRun'] = [];
+  }
+  Module['preRun'].push(initPersistentStore);
 })();
