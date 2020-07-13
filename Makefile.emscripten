@@ -76,7 +76,7 @@ EM_PRELOAD := \
 	--exclude-file 'data/shot-putt'
 endif
 
-LDFLAGS := -L../gl4es/build/lib -lGL
+LDFLAGS := -L../gl4es/lib -lGL
 EM_LDFLAGS := \
 	--pre-js js/pre.js \
 	-lidbfs.js \
