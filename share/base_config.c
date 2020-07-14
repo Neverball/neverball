@@ -98,7 +98,7 @@ void config_paths(const char *arg_data_path)
     home = pick_home_path();
 
 #ifdef __EMSCRIPTEN__
-    /* Force persistent store created during Module['preInit']. */
+    /* Force IndexedDB-backed location created during Module['preRun']. */
     user = strdup("/neverball");
 #else
     user = concat_string(home, "/", CONFIG_USER, NULL);

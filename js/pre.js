@@ -1,26 +1,27 @@
 (function () {
   /**
-   * Initialize persistent store.
+   * Set up the user folder with a backing store.
    *
    * Adding as run dependency, because this is an async operation.
    */
-  function initPersistentStore() {
+  function initUserFolder() {
     // Create the user folder and mount IndexedDB on it.
     FS.mkdir('/neverball');
     FS.mount(IDBFS, {}, '/neverball');
 
     // Tell Emscripten to wait for us.
-    Module.addRunDependency('neverball:persistent-store');
+    Module.addRunDependency('neverball:user-folder');
 
-    console.log('Synchronizing from persistent storage...');
+    console.log('Synchronizing from backing store...');
+
     FS.syncfs(true, function (err) {
       if (err)
-        console.error('Failure to synchronize from persistent storage: ' + err);
+        console.error('Failure to synchronize from backing store: ' + err);
       else
-        console.log('Successfully synced from persistent storage.');
+        console.log('Successfully synced from backing store.');
 
       // Tell Emscripten to stop waiting.
-      Module.removeRunDependency('neverball:persistent-store');
+      Module.removeRunDependency('neverball:user-folder');
     });
   }
 
@@ -64,5 +65,5 @@
   if (Module['preRun'] === undefined) {
     Module['preRun'] = [];
   }
-  Module['preRun'].push(initPersistentStore);
+  Module['preRun'].push(initUserFolder);
 })();
