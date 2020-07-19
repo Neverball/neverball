@@ -120,50 +120,45 @@ const char *fs_get_write_dir(void)
 /*---------------------------------------------------------------------------*/
 
 /*
- * Enumerate files in a system directory and insert them into the given List.
+ * Uniquely insert strings from a List into another List.
  *
- * List is sorted (implicitly). List may be modified at any point, including its
- * head, so it is passed by address. If a given filename is already in the List,
- * it is not added a second time.
+ * Target List is assumed to be pre-sorted.
+ *
+ * String data is assumed to be heap-allocated.
  */
-static void add_files(List *items, const char *real)
+static void insert_strings_into_list(List *items, List strings)
 {
-    List files, file;
+    List str;
 
-    if ((files = dir_list_files(real)))
+    for (str = strings; str; str = str->next)
     {
-        for (file = files; file; file = file->next)
+        int skip = 0;
+        List p, l;
+
+        /* "Inspired" by PhysicsFS file enumeration code. */
+
+        for (p = NULL, l = *items; l; p = l, l = l->next)
         {
-            int skip = 0;
-            List p, l;
+            int cmp;
 
-            /* "Inspired" by PhysicsFS file enumeration code. */
-
-            for (p = NULL, l = *items; l; p = l, l = l->next)
+            if ((cmp = strcmp(l->data, str->data)) >= 0)
             {
-                int cmp;
-
-                if ((cmp = strcmp(l->data, file->data)) >= 0)
-                {
-                    skip = (cmp == 0);
-                    break;
-                }
-            }
-
-            if (!skip)
-            {
-                if (p)
-                    p->next = list_cons(file->data, p->next);
-                else
-                    *items = list_cons(file->data, *items);
-
-                /* Take over memory management duties. */
-
-                file->data = NULL;
+                skip = (cmp == 0);
+                break;
             }
         }
 
-        dir_list_free(files);
+        if (!skip)
+        {
+            if (p)
+                p->next = list_cons(str->data, p->next);
+            else
+                *items = list_cons(str->data, *items);
+
+            /* We will free the string data ourselves. */
+
+            str->data = NULL;
+        }
     }
 }
 
@@ -173,17 +168,27 @@ static void add_files(List *items, const char *real)
  */
 static List list_files(const char *path)
 {
-    List files = NULL;
+    List all_files = NULL;
     List p;
 
     for (p = fs_path; p; p = p->next)
     {
         char *real = path_join(p->data, path);
-        add_files(&files, real);
+        List path_files;
+
+        if ((path_files = dir_list_files(real)))
+        {
+            insert_strings_into_list(&all_files, path_files);
+
+            /* Free any leftover string data and List cells. */
+
+            dir_list_free(path_files);
+        }
+
         free(real);
     }
 
-    return files;
+    return all_files;
 }
 
 /*
