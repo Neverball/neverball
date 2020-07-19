@@ -132,6 +132,7 @@ BALL_SRCS := \
 	share/fs_ov.c \
 	share/fs_png.c \
 	share/fs_stdio.c \
+	share/miniz.c \
 	share/geom.c \
 	share/glext.c \
 	share/gui.c \
