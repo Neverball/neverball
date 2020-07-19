@@ -119,6 +119,13 @@ const char *fs_get_write_dir(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Enumerate files in a system directory and insert them into the given List.
+ *
+ * List is sorted (implicitly). List may be modified at any point, including its
+ * head, so it is passed by address. If a given filename is already in the List,
+ * it is not added a second time.
+ */
 static void add_files(List *items, const char *real)
 {
     List files, file;
@@ -160,6 +167,10 @@ static void add_files(List *items, const char *real)
     }
 }
 
+/*
+ * Enumerate the files at `path` for every FS path location. FS path priority
+ * is observed. Duplicates are skipped. Returns a List of allocated filenames.
+ */
 static List list_files(const char *path)
 {
     List files = NULL;
@@ -175,6 +186,9 @@ static List list_files(const char *path)
     return files;
 }
 
+/*
+ * Free the List of allocated filenames.
+ */
 static void free_files(List files)
 {
     while (files)
@@ -184,11 +198,17 @@ static void free_files(List files)
     }
 }
 
+/*
+ * Enumerate files in the given FS directory. Returns an Array of struct dir_item.
+ */
 Array fs_dir_scan(const char *path, int (*filter)(struct dir_item *))
 {
     return dir_scan(path, filter, list_files, free_files);
 }
 
+/*
+ * Free the Array of struct dir_item.
+ */
 void fs_dir_free(Array items)
 {
     dir_free(items);
@@ -196,6 +216,9 @@ void fs_dir_free(Array items)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Get a system filename from a FS filename.
+ */
 static char *real_path(const char *path)
 {
     char *real = NULL;
@@ -288,6 +311,9 @@ int fs_close(fs_file fh)
 
 /*----------------------------------------------------------------------------*/
 
+/*
+ * Create a directory in the FS write location.
+ */
 int fs_mkdir(const char *path)
 {
     int success = 0;
