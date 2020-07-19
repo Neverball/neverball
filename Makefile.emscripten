@@ -32,7 +32,6 @@ EM_PRELOAD := \
 
 LDFLAGS := -L../gl4es/lib -lGL
 EM_LDFLAGS := \
-	--pre-js js/pre.js \
 	-lidbfs.js \
 	$(EM_PRELOAD) \
 	--use-preload-cache
