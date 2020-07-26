@@ -318,6 +318,8 @@ static int set_load(struct set *s, const char *filename)
         return 1;
     }
 
+    log_printf("Failure to load set file %s\n", filename);
+
     free(s->name);
     free(s->desc);
     free(s->id);
