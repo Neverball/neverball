@@ -23,6 +23,8 @@
 #include "array.h"
 #include "list.h"
 #include "common.h"
+#include "log.h"
+#include "zip.h"
 
 /*
  * This file implements the low-level virtual file system routines
@@ -31,9 +33,24 @@
 
 /*---------------------------------------------------------------------------*/
 
+enum fs_path_type
+{
+    FS_PATH_DIRECTORY,
+    FS_PATH_ZIP,
+};
+
 struct fs_file_s
 {
     FILE *handle;
+    mz_zip_reader_extract_iter_state *zip_handle;
+    enum fs_path_type path_type;
+};
+
+struct fs_path_item
+{
+    void *data;
+    char *path;
+    enum fs_path_type type;
 };
 
 static char *fs_dir_base;
@@ -65,7 +82,27 @@ int fs_quit(void)
 
     while (fs_path)
     {
-        free(fs_path->data);
+        struct fs_path_item *path_item = fs_path->data;
+
+        if (path_item)
+        {
+            if (path_item->path)
+                free(path_item->path);
+
+            if (path_item->type == FS_PATH_ZIP)
+            {
+                mz_zip_archive *zip = path_item->data;
+
+                if (zip)
+                {
+                    mz_zip_reader_end(zip);
+                    free(zip);
+                }
+            }
+
+            free(path_item);
+        }
+
         fs_path = list_rest(fs_path);
     }
 
@@ -86,13 +123,51 @@ const char *fs_base_dir(void)
 
 int fs_add_path(const char *path)
 {
-    /* TODO: ZIP archive support. */
+    struct fs_path_item *path_item = malloc(sizeof (*path_item));
+
+    if (!path_item)
+        return 0;
 
     if (dir_exists(path))
     {
-        fs_path = list_cons(strdup(path), fs_path);
+        log_printf("FS: reading from \"%s\" (directory)\n", path);
+
+        path_item->type = FS_PATH_DIRECTORY;
+        path_item->path = strdup(path);
+        path_item->data = NULL;
+
+        fs_path = list_cons(path_item, fs_path);
+
         return 1;
     }
+    else
+    {
+        mz_zip_archive *zip;
+
+        if ((zip = malloc(sizeof (*zip))))
+        {
+            mz_zip_zero_struct(zip);
+
+            if (mz_zip_reader_init_file(zip, path, 0))
+            {
+                log_printf("FS: reading from \"%s\" (zip)\n", path);
+
+                path_item->type = FS_PATH_ZIP;
+                path_item->path = strdup(path);
+                path_item->data = zip;
+
+                fs_path = list_cons(path_item, fs_path);
+
+                return 1;
+            }
+
+            free(zip);
+            zip = NULL;
+        }
+
+    }
+
+    free(path_item);
     return 0;
 }
 
@@ -106,6 +181,7 @@ int fs_set_write_dir(const char *path)
             fs_dir_write = NULL;
         }
 
+        log_printf("FS: writing to \"%s\"\n", path);
         fs_dir_write = strdup(path);
         return 1;
     }
@@ -115,6 +191,54 @@ int fs_set_write_dir(const char *path)
 const char *fs_get_write_dir(void)
 {
     return fs_dir_write;
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Like dir_list_files, but for ZIP archives.
+ */
+static List zip_list_files(mz_zip_archive *zip, const char *path)
+{
+    List files = NULL;
+
+    if (zip)
+    {
+        mz_zip_archive_file_stat file_stat;
+
+        unsigned int i, n = mz_zip_reader_get_num_files(zip);
+
+        for (i = 0; i < n; ++i)
+            if (mz_zip_reader_file_stat(zip, i, &file_stat))
+            {
+                const char *dn = dir_name(file_stat.m_filename);
+
+                if (strcmp(dn, ".") == 0)
+                {
+                    /* dir_name() returns "." when it perhaps shouldn't. */
+                    dn = "";
+                }
+
+                /* Very ape? */
+
+                if (strcmp(path, dn) == 0)
+                {
+                    char *copy = strdup(base_name(file_stat.m_filename));
+                    files = list_cons(copy, files);
+                }
+            }
+    }
+
+    return files;
+}
+
+static void zip_list_free(List files)
+{
+    while (files)
+    {
+        free(files->data);
+        files = list_rest(files);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -173,19 +297,31 @@ static List list_files(const char *path)
 
     for (p = fs_path; p; p = p->next)
     {
-        char *real = path_join(p->data, path);
-        List path_files;
+        struct fs_path_item *path_item = p->data;
 
-        if ((path_files = dir_list_files(real)))
+        List path_files = NULL;
+
+        if (path_item->type == FS_PATH_DIRECTORY)
         {
-            insert_strings_into_list(&all_files, path_files);
-
-            /* Free any leftover string data and List cells. */
-
-            dir_list_free(path_files);
+            char *real = path_join(path_item->path, path);
+            path_files = dir_list_files(real);
+            free(real);
+        }
+        else if (path_item->type == FS_PATH_ZIP)
+        {
+            mz_zip_archive *zip = path_item->data;
+            path_files = zip_list_files(zip, path);
         }
 
-        free(real);
+        if (path_files)
+            insert_strings_into_list(&all_files, path_files);
+
+        /* Free any leftover string data and List cells. */
+
+        if (path_item->type == FS_PATH_DIRECTORY)
+            dir_list_free(path_files);
+        else if (path_item->type == FS_PATH_ZIP)
+            zip_list_free(path_files);
     }
 
     return all_files;
@@ -221,45 +357,44 @@ void fs_dir_free(Array items)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Get a system filename from a FS filename.
- */
-static char *real_path(const char *path)
-{
-    char *real = NULL;
-    List p;
-
-    for (p = fs_path; p; p = p->next)
-    {
-        real = path_join(p->data, path);
-
-        if (file_exists(real))
-            break;
-
-        free(real);
-        real = NULL;
-    }
-
-    return real;
-}
-
-/*---------------------------------------------------------------------------*/
-
 fs_file fs_open_read(const char *path)
 {
     fs_file fh;
 
     if ((fh = calloc(1, sizeof (*fh))))
     {
-        char *real;
+        int opened = 0;
+        List p;
 
-        if ((real = real_path(path)))
+        for (p = fs_path; p && !opened; p = p->next)
         {
-            fh->handle = fopen(real, "rb");
-            free(real);
+            struct fs_path_item *path_item = p->data;
+
+            if (path_item->type == FS_PATH_DIRECTORY)
+            {
+                char *real = path_join(path_item->path, path);
+
+                if ((fh->handle = fopen(real, "rb")))
+                {
+                    fh->path_type = FS_PATH_DIRECTORY;
+                    opened = 1;
+                }
+
+                free(real);
+            }
+            else if (path_item->type == FS_PATH_ZIP)
+            {
+                mz_zip_archive *zip = path_item->data;
+
+                if ((fh->zip_handle = mz_zip_reader_extract_file_iter_new(zip, path, 0)))
+                {
+                    fh->path_type = FS_PATH_ZIP;
+                    opened = 1;
+                }
+            }
         }
 
-        if (!fh->handle)
+        if (!opened)
         {
             free(fh);
             fh = NULL;
@@ -281,6 +416,7 @@ static fs_file fs_open_write_flags(const char *path, int append)
             if ((real = path_join(fs_dir_write, path)))
             {
                 fh->handle = fopen(real, append ? "ab" : "wb");
+                fh->path_type = FS_PATH_DIRECTORY;
                 free(real);
             }
 
@@ -306,12 +442,26 @@ fs_file fs_open_append(const char *path)
 
 int fs_close(fs_file fh)
 {
-    if (fclose(fh->handle))
+    int closed = 0;
+
+    if (fh)
     {
+        if (fh->handle)
+        {
+            if (fclose(fh->handle))
+                closed = 1;
+        }
+
+        if (fh->zip_handle)
+        {
+            if (mz_zip_reader_extract_iter_free(fh->zip_handle))
+                closed = 1;
+        }
+
         free(fh);
-        return 1;
     }
-    return 0;
+
+    return closed;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -335,11 +485,11 @@ int fs_mkdir(const char *path)
 
 int fs_exists(const char *path)
 {
-    char *real;
+    fs_file fh;
 
-    if ((real = real_path(path)))
+    if ((fh = fs_open_read(path)))
     {
-        free(real);
+        fs_close(fh);
         return 1;
     }
     return 0;
@@ -363,27 +513,53 @@ int fs_remove(const char *path)
 
 int fs_read(void *data, int size, int count, fs_file fh)
 {
-    return fread(data, size, count, fh->handle);
+    if (fh->handle)
+        return fread(data, size, count, fh->handle);
+
+    if (fh->zip_handle)
+        return mz_zip_reader_extract_iter_read(fh->zip_handle, data, size * count);
+
+    return 0;
 }
 
 int fs_write(const void *data, int size, int count, fs_file fh)
 {
-    return fwrite(data, size, count, fh->handle);
+    if (fh->handle)
+        return fwrite(data, size, count, fh->handle);
+
+    /* ZIP writing is not available. */
+
+    return 0;
 }
 
 int fs_flush(fs_file fh)
 {
-    return fflush(fh->handle);
+    if (fh->handle)
+        return fflush(fh->handle);
+
+    /* ZIP writing is not available. */
+
+    return 0;
 }
 
 long fs_tell(fs_file fh)
 {
-    return ftell(fh->handle);
+    if (fh->handle)
+        return ftell(fh->handle);
+
+    /* ZIP seeking is not available. */
+
+    return -1;
 }
 
 int fs_seek(fs_file fh, long offset, int whence)
 {
-    return fseek(fh->handle, offset, whence);
+    if (fh->handle)
+        return fseek(fh->handle, offset, whence);
+
+    /* ZIP seeking is not available. */
+
+    return -1;
 }
 
 int fs_eof(fs_file fh)
@@ -394,20 +570,51 @@ int fs_eof(fs_file fh)
      * is done to mitigate this: instead, code that relies on
      * PhysicsFS behavior should be fixed not to.
      */
-    return feof(fh->handle);
+    if (fh->handle)
+        return feof(fh->handle);
+
+
+    if (fh->zip_handle)
+    {
+        /* Not sure if this is good. */
+        return fh->zip_handle->out_buf_ofs >= fh->zip_handle->file_stat.m_uncomp_size;
+    }
+
+    return 1;
 }
 
 int fs_size(const char *path)
 {
-    int size = 0;
-    char *real;
+    List p;
 
-    if ((real = real_path(path)))
+    for (p = fs_path; p; p = p->next)
     {
-        size = file_size(real);
-        free(real);
+        struct fs_path_item *path_item = p->data;
+
+        if (path_item->type == FS_PATH_DIRECTORY)
+        {
+            char *real = path_join(path_item->path, path);
+
+            if (file_exists(real)) {
+                return file_size(real);
+            }
+        }
+        else if (path_item->type == FS_PATH_ZIP)
+        {
+            mz_zip_archive *zip = path_item->data;
+            int file_index = mz_zip_reader_locate_file(zip, path, NULL, 0);
+
+            if (file_index >= 0)
+            {
+                mz_zip_archive_file_stat file_stat;
+
+                if (mz_zip_reader_file_stat(zip, file_index, &file_stat))
+                    return file_stat.m_uncomp_size;
+            }
+        }
     }
-    return size;
+
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

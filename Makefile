@@ -146,9 +146,6 @@ ENABLE_FS := stdio
 ifeq ($(ENABLE_FS),stdio)
 FS_LIBS :=
 endif
-ifeq ($(ENABLE_FS),physfs)
-FS_LIBS := -lphysfs
-endif
 
 # The  non-conditionalised values  below  are specific  to the  native
 # system. The native system of this Makefile is Linux (or GNU+Linux if
@@ -376,19 +373,14 @@ BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
 
 ifeq ($(ENABLE_FS),stdio)
-BALL_OBJS += share/fs_stdio.o
-PUTT_OBJS += share/fs_stdio.o
-MAPC_OBJS += share/fs_stdio.o
-endif
-ifeq ($(ENABLE_FS),physfs)
-BALL_OBJS += share/fs_physfs.o
-PUTT_OBJS += share/fs_physfs.o
-MAPC_OBJS += share/fs_physfs.o
+BALL_OBJS += share/fs_stdio.o share/miniz.o
+PUTT_OBJS += share/fs_stdio.o share/miniz.o
+MAPC_OBJS += share/fs_stdio.o share/miniz.o
 endif
 
 ifeq ($(ENABLE_TILT),wii)
 BALL_OBJS += share/tilt_wii.o
-else 
+else
 ifeq ($(ENABLE_TILT),wiiuse)
 BALL_OBJS += share/tilt_wiiuse.o
 else
