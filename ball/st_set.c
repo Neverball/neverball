@@ -192,6 +192,10 @@ static int set_buttn(int b, int d)
             return set_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return set_action(GUI_BACK, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b) && first > 0)
+            return set_action(GUI_PREV, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b) && first + SET_STEP < total)
+            return set_action(GUI_NEXT, 0);
     }
     return 1;
 }

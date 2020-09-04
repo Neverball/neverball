@@ -397,6 +397,10 @@ static int demo_buttn(int b, int d)
 
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return demo_action(GUI_BACK, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b) && first > 0)
+            return demo_action(GUI_PREV, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b) && first + DEMO_STEP < total)
+            return demo_action(GUI_NEXT, 0);
     }
     return 1;
 }
