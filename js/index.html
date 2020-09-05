@@ -126,7 +126,10 @@
       if (navigator.storage) {
 
         if (navigator.storage.persisted) {
+          console.log('Storage persistence can be queried.');
+
           navigator.storage.persisted().then(function (persistent) {
+            console.log('Storage persistence query: ' + (persistent ? 'persistent' : 'non-persistent'));
             persistInput.checked = persistent;
             // We have no way of revoking this, so disable the checkbox.
             persistInput.disabled = persistent;
@@ -134,11 +137,16 @@
         }
 
         if (navigator.storage.persist) {
+          console.log('Storage persistence can be requested.');
+
           persistInput.addEventListener('change', function (event) {
             if (this.checked) {
+              // Remove the checkmark, we'll re-add it on actual success.
               this.checked = false;
 
               navigator.storage.persist().then(function (persistent) {
+                console.log('Storage persistence request: ' + (persistent ? 'persistent' : 'non-persistent'));
+
                 persistInput.checked = persistent;
                 // We have no way of revoking this, so disable the checkbox.
                 persistInput.disabled = persistent;
