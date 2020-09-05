@@ -1,5 +1,7 @@
 CC = emcc
 
+JSDIR = js
+
 # Generate share/version.h
 VERSION := $(shell sh scripts/version.sh)
 
@@ -116,17 +118,11 @@ BALL_OBJS := $(BALL_SRCS:.c=.bc)
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
 .PHONY: neverball
-neverball: neverball.html
+neverball: $(JSDIR)/neverball.js
 
-neverball.js: $(BALL_OBJS)
+$(JSDIR)/neverball.js: $(BALL_OBJS)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
-
-neverball.html: js/shell.html neverball-logo.svg neverball.js
-	cp js/shell.html neverball.html
-
-neverball-logo.svg: js/neverball-logo.svg
-	cp js/neverball-logo.svg .
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) neverball.html neverball.js neverball.wasm neverball.data neverball-logo.svg
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data neverball-logo.svg

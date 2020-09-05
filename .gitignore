@@ -20,8 +20,6 @@
 /contrib/curve.exe
 /*.dll
 
-/neverball.html
-/neverball.data
-/neverball.wasm
-/neverball.js
-/neverball-logo.svg
+/js/neverball.data
+/js/neverball.js
+/js/neverball.wasm
