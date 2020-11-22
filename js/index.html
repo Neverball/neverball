@@ -144,6 +144,12 @@
       animation-timing-function: ease-in-out;
     }
 
+    #screenshot {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+
     @keyframes pulse {
       50% {
         transform: scale(1.2);
@@ -185,6 +191,8 @@
 
     <div>
       <h2>About</h2>
+
+      <img id="screenshot" alt="Neverball in a browser frame." src="screenshot.png">
 
       <p>Neverball in the browser is <a href="https://neverball.org/">Neverball</a> compiled with Emscripten and gl4es.</p>
 
