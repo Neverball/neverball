@@ -692,7 +692,7 @@ int main(int argc, char *argv[])
 
 #ifdef __EMSCRIPTEN__
     /*
-     * The Emscripten main loop is asynchronous. The third parameter
+     * The Emscripten main loop is asynchronous. The fourth parameter
      * basically just determines what happens with main() beyond this point:
      *
      *   0 = execution continues to the end of the function.
