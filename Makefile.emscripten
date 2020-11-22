@@ -14,7 +14,9 @@ EM_CFLAGS := \
 	-s USE_LIBJPEG=1 \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s FULL_ES2=1 \
-	-s LZ4=1
+	-s LZ4=1 \
+	-s INVOKE_RUN=0 \
+	-s EXTRA_EXPORTED_RUNTIME_METHODS="['callMain']"
 
 EM_PRELOAD := \
 	--preload-file data \
