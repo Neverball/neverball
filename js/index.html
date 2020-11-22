@@ -42,6 +42,10 @@
 
     #canvas {
       display: none;
+      /* Never exceed container. */
+      max-width: 100%;
+      /* Never break aspect ratio. */
+      height: auto !important;
     }
 
     .toggle input[type="checkbox"] {
