@@ -162,6 +162,7 @@ int config_screenshot(void);
 
 #define KEY_FPS        SDLK_F9
 #define KEY_POSE       SDLK_F10
+#define KEY_FULLSCREEN SDLK_F11
 #define KEY_SCREENSHOT SDLK_F12
 
 #endif

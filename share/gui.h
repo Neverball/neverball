@@ -68,6 +68,8 @@ enum trunc
 void gui_init(void);
 void gui_free(void);
 
+void gui_resize(void);
+
 /*---------------------------------------------------------------------------*/
 
 void gui_set_label(int, const char *);
