@@ -141,8 +141,13 @@ void video_resize(int window_w, int window_h)
         video.window_w = window_w;
         video.window_h = window_h;
 
-        config_set_d(CONFIG_WIDTH, video.window_w);
-        config_set_d(CONFIG_HEIGHT, video.window_h);
+        /* User experience thing: don't save fullscreen size to config. */
+
+        if (!config_get_d(CONFIG_FULLSCREEN))
+        {
+            config_set_d(CONFIG_WIDTH, video.window_w);
+            config_set_d(CONFIG_HEIGHT, video.window_h);
+        }
 
         /* Update drawable size (for rendering). */
 
