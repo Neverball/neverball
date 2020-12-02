@@ -1,7 +1,8 @@
-<application>
-  <id type="desktop">neverball.desktop</id>
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>neverball.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <license>GPL-2.0</license>
+  <project_license>GPL-2.0-or-later</project_license>
   <name>Neverball</name>
   <summary>Deftly Guide a Rolling Ball through Many Slick 3D Levels</summary>
   <description>
@@ -14,10 +15,17 @@
       must play.
     </p>
   </description>
-  <url type="homepage">http://neverball.org/</url>
+  <url type="homepage">https://neverball.org/</url>
   <screenshots>
-    <screenshot type="default">http://neverball.org/images/shots/01-neverball-easy/easy-07-01.jpg</screenshot>
-    <screenshot>http://neverball.org/images/shots/01-neverball-easy/easy-12-01.jpg</screenshot>
-    <screenshot>http://neverball.org/images/shots/04-neverball-mym1/mym1-13-04.jpg</screenshot>
+    <screenshot type="default">
+      <image>https://neverball.org/images/shots/01-neverball-easy/easy-07-01.jpg</image>
+    </screenshot>
+    <screenshot>
+      <image>https://neverball.org/images/shots/01-neverball-easy/easy-12-01.jpg</image>
+    </screenshot>
+    <screenshot>
+      <image>https://neverball.org/images/shots/04-neverball-mym1/mym1-13-04.jpg</image>
+    </screenshot>
   </screenshots>
-</application>
+  <url type="bugtracker">https://github.com/Neverball/neverball</url>
+</component>
