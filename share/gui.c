@@ -63,6 +63,7 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 #define GUI_FILL   2
 #define GUI_HILITE 4
 #define GUI_RECT   8
+#define GUI_LAYOUT 16
 
 #define GUI_LINES 8
 
@@ -77,6 +78,14 @@ struct widget
     int     font;
     int     size;
     int     rect;
+
+    char   *text;
+
+    int     init_value;
+    char   *init_text;
+
+    int     layout_xd;
+    int     layout_yd;
 
     const GLubyte *color0;
     const GLubyte *color1;
@@ -124,14 +133,6 @@ static struct theme curr_theme;
 static int gui_hot(int id)
 {
     return (widget[id].flags & GUI_STATE);
-}
-
-static int gui_size(void)
-{
-    const int w = video.device_w;
-    const int h = video.device_h;
-
-    return MIN(w, h);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -453,14 +454,12 @@ static int gui_font_load(const char *path)
 
 static void gui_font_quit(void);
 
-static void gui_font_init(void)
+static void gui_font_init(int s)
 {
     gui_font_quit();
 
     if (font_init())
     {
-        int s = gui_size();
-
         font_sizes[0] = s / 26;
         font_sizes[1] = s / 13;
         font_sizes[2] = s /  7;
@@ -499,44 +498,13 @@ static void gui_theme_init(void)
 
 /*---------------------------------------------------------------------------*/
 
-void gui_init(void)
-{
-    const int s = gui_size();
+static void gui_glyphs_free(void);
 
+static void gui_glyphs_init(void)
+{
     int i, j;
 
-    memset(widget, 0, sizeof (struct widget) * WIDGET_MAX);
-
-    /* Compute default widget/text padding. */
-
-    padding = s / 60;
-
-    for (i = 0; i < 4; i++)
-        borders[i] = padding;
-
-    /* Initialize font rendering. */
-
-    gui_font_init();
-
-    /* Initialize GUI theme. */
-
-    gui_theme_init();
-
-    /* Initialize the VBOs. */
-
-    memset(vert_buf, 0, sizeof (vert_buf));
-
-    glGenBuffers_(1,              &vert_vbo);
-    glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
-    glBufferData_(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
-
-    glGenBuffers_(1,                      &vert_ebo);
-    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
-    glBufferData_(GL_ELEMENT_ARRAY_BUFFER,
-                  WIDGET_MAX * WIDGET_ELEM * sizeof (GLushort),
-                  NULL, GL_STATIC_DRAW);
-    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+    gui_glyphs_free();
 
     /* Cache digit glyphs for HUD rendering. */
 
@@ -564,6 +532,122 @@ void gui_init(void)
     if ((cursor_id = gui_image(0, "gui/cursor.png", widget[digit_id[1][0]].w,
                                                     widget[digit_id[1][0]].h)))
         gui_layout(cursor_id, 0, 0);
+}
+
+static void gui_glyphs_free(void)
+{
+    int i, j;
+
+    for (i = 0; i < 3; ++i)
+        for (j = 0; j < 11; ++j)
+        {
+            gui_delete(digit_id[i][j]);
+            digit_id[i][j] = 0;
+        }
+
+    gui_delete(cursor_id);
+    cursor_id = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void gui_widget_size(int);
+
+/*
+ * Load or reload everything that depends on window/drawable size.
+ */
+void gui_resize(void)
+{
+    const int s = MIN(video.device_w, video.device_h);
+
+    int i;
+
+    /* Compute default widget/text padding. */
+
+    padding = s / 60;
+
+    for (i = 0; i < 4; i++)
+        borders[i] = padding;
+
+    /* Load font sizes. */
+
+    gui_font_init(s);
+
+    /* Load theme textures. */
+
+    gui_theme_init();
+
+    /* Cache digit glyphs now because some widgets base their size on these. */ 
+
+    gui_glyphs_init();
+
+    /* Recompute widget space requirements with the new font sizes. */
+
+    for (i = 1; i < WIDGET_MAX; ++i)
+        if (widget[i].type != GUI_FREE)
+        {
+            /*
+            * Text widgets get their size from the first rendered string. To that end,
+            * we keep that initial string around and use it here to obtain the new text
+            * size with the new font size.
+            */
+
+            if (widget[i].init_text)
+            {
+                TTF_Font *ttf = fonts[widget[i].font].ttf[widget[i].size];
+
+                size_image_from_font(NULL, NULL,
+                                    &widget[i].text_w,
+                                    &widget[i].text_h,
+                                    widget[i].init_text, ttf);
+            }
+
+            /* Actually compute the stuff. */
+
+            gui_widget_size(i);
+        }
+
+    /* Re-do any saved layouts. Separate from above due to many inter-dependencies. */
+
+    for (i = 1; i < WIDGET_MAX; ++i)
+        if (widget[i].type != GUI_FREE && (widget[i].flags & GUI_LAYOUT))
+            gui_layout(i, widget[i].layout_xd, widget[i].layout_yd);
+
+    /*
+     * Finally, render the current text widget contents in the new layout with
+     * a new font size, new text truncation, etc.
+     */
+
+    for (i = 1; i < WIDGET_MAX; ++i)
+        if (widget[i].type != GUI_FREE && widget[i].text)
+            gui_set_label(i, widget[i].text);
+
+    /* Whew. */
+}
+
+void gui_init(void)
+{
+    memset(widget, 0, sizeof (struct widget) * WIDGET_MAX);
+
+    /* Initialize the VBOs. */
+
+    memset(vert_buf, 0, sizeof (vert_buf));
+
+    glGenBuffers_(1,              &vert_vbo);
+    glBindBuffer_(GL_ARRAY_BUFFER, vert_vbo);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (vert_buf), vert_buf, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers_(1,                      &vert_ebo);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, vert_ebo);
+    glBufferData_(GL_ELEMENT_ARRAY_BUFFER,
+                  WIDGET_MAX * WIDGET_ELEM * sizeof (GLushort),
+                  NULL, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    /* Initialize window size-dependent resources. */
+
+    gui_resize();
 
     active = 0;
 }
@@ -583,6 +667,18 @@ void gui_free(void)
     {
         if (widget[id].image)
             glDeleteTextures(1, &widget[id].image);
+
+        if (widget[id].init_text)
+        {
+            free(widget[id].init_text);
+            widget[id].init_text = NULL;
+        }
+
+        if (widget[id].text)
+        {
+            free(widget[id].text);
+            widget[id].text = NULL;
+        }
 
         widget[id].type  = GUI_FREE;
         widget[id].flags = 0;
@@ -617,6 +713,7 @@ static int gui_widget(int pd, int type)
             widget[id].flags  = 0;
             widget[id].token  = 0;
             widget[id].value  = 0;
+            widget[id].text   = NULL;
             widget[id].font   = 0;
             widget[id].size   = 0;
             widget[id].rect   = GUI_ALL;
@@ -629,6 +726,12 @@ static int gui_widget(int pd, int type)
             widget[id].trunc  = TRUNC_NONE;
             widget[id].text_w = 0;
             widget[id].text_h = 0;
+
+            widget[id].init_text = NULL;
+            widget[id].init_value = 0;
+
+            widget[id].layout_xd = 0;
+            widget[id].layout_yd = 0;
 
             /* Insert the new widget into the parent's widget list. */
 
@@ -773,11 +876,29 @@ void gui_set_label(int id, const char *text)
     int w = 0;
     int h = 0;
 
-    char *str;
+    char *str, *str2;
 
     glDeleteTextures(1, &widget[id].image);
 
-    str = gui_truncate(text, widget[id].w - padding, ttf, widget[id].trunc);
+    /* Create a truncated version. */
+
+    str = gui_truncate(text, widget[id].w, ttf, widget[id].trunc);
+
+    /*
+     * Save a copy of the full string in case we need to re-render.
+     * The new string COULD BE the exact same old string, so order of
+     * operation is important here: copy, free, assign.
+     */
+
+    str2 = strdup(text);
+
+    if (widget[id].text)
+    {
+        free(widget[id].text);
+        widget[id].text = NULL;
+    }
+
+    widget[id].text = str2;
 
     widget[id].image = make_image_from_font(NULL, NULL,
                                             &widget[id].text_w,
@@ -789,6 +910,8 @@ void gui_set_label(int id, const char *text)
     gui_geom_text(id, -w / 2, -h / 2, w, h,
                   widget[id].color0,
                   widget[id].color1);
+
+    /* Last but not least. */
 
     free(str);
 }
@@ -903,6 +1026,51 @@ void gui_set_cursor(int st)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Compute widget size requirements.
+ */
+static void gui_widget_size(int id)
+{
+    int i;
+
+    switch (widget[id].type)
+    {
+        case GUI_IMAGE:
+            /* Convert from integer-encoded fractions to window pixels. */
+
+            widget[id].w = ROUND(((float) widget[id].text_w / 1000.0f) * (float) video.device_w);
+            widget[id].h = ROUND(((float) widget[id].text_h / 1000.0f) * (float) video.device_h);
+
+            break;
+
+        case GUI_BUTTON:
+        case GUI_LABEL:
+            widget[id].w = widget[id].text_w;
+            widget[id].h = widget[id].text_h;
+            break;
+
+        case GUI_COUNT:
+            widget[id].w = 0;
+
+            for (i = widget[id].init_value; i; i /= 10)
+                widget[id].w += widget[digit_id[widget[id].size][0]].text_w;
+
+            widget[id].h = widget[digit_id[widget[id].size][0]].text_h;
+
+            break;
+
+        case GUI_CLOCK:
+            widget[id].w = widget[digit_id[widget[id].size][0]].text_w * 6;
+            widget[id].h = widget[digit_id[widget[id].size][0]].text_h;
+            break;
+
+        default:
+            widget[id].w = 0;
+            widget[id].h = 0;
+            break;
+    }
+}
+
 int gui_image(int pd, const char *file, int w, int h)
 {
     int id;
@@ -910,9 +1078,15 @@ int gui_image(int pd, const char *file, int w, int h)
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
         widget[id].image  = make_image_from_file(file, IF_MIPMAP);
-        widget[id].w      = w;
-        widget[id].h      = h;
+
+        /* Convert window pixels to integer-encoded fractions. */
+
+        widget[id].text_w = ROUND(((float) w / (float) video.device_w) * 1000.0f);
+        widget[id].text_h = ROUND(((float) h / (float) video.device_h) * 1000.0f);
+
         widget[id].flags |= GUI_RECT;
+
+        gui_widget_size(id);
     }
     return id;
 }
@@ -937,15 +1111,20 @@ int gui_state(int pd, const char *text, int size, int token, int value)
 
         widget[id].flags |= (GUI_STATE | GUI_RECT);
 
+        widget[id].init_text = strdup(text);
+
+        widget[id].text = strdup(text);
+
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
                                                 text, ttf, 0);
-        widget[id].w     = widget[id].text_w;
-        widget[id].h     = widget[id].text_h;
+
         widget[id].size  = size;
         widget[id].token = token;
         widget[id].value = value;
+
+        gui_widget_size(id);
     }
     return id;
 }
@@ -959,35 +1138,39 @@ int gui_label(int pd, const char *text, int size, const GLubyte *c0,
     {
         TTF_Font *ttf = fonts[widget[id].font].ttf[size];
 
+        widget[id].init_text = strdup(text);
+
+        widget[id].text = strdup(text);
+
         widget[id].image = make_image_from_font(NULL, NULL,
                                                 &widget[id].text_w,
                                                 &widget[id].text_h,
                                                 text, ttf, 0);
-        widget[id].w      = widget[id].text_w;
-        widget[id].h      = widget[id].text_h;
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
         widget[id].flags |= GUI_RECT;
+
+        gui_widget_size(id);
     }
     return id;
 }
 
 int gui_count(int pd, int value, int size)
 {
-    int i, id;
+    int id;
 
     if ((id = gui_widget(pd, GUI_COUNT)))
     {
-        for (i = value; i; i /= 10)
-            widget[id].w += widget[digit_id[size][0]].text_w;
+        widget[id].init_value = value;
 
-        widget[id].h      = widget[digit_id[size][0]].text_h;
         widget[id].value  = value;
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].flags |= GUI_RECT;
+
+        gui_widget_size(id);
     }
     return id;
 }
@@ -998,27 +1181,22 @@ int gui_clock(int pd, int value, int size)
 
     if ((id = gui_widget(pd, GUI_CLOCK)))
     {
-        widget[id].w      = widget[digit_id[size][0]].text_w * 6;
-        widget[id].h      = widget[digit_id[size][0]].text_h;
+        widget[id].init_value = value;
+
         widget[id].value  = value;
         widget[id].size   = size;
         widget[id].color0 = gui_yel;
         widget[id].color1 = gui_red;
         widget[id].flags |= GUI_RECT;
+
+        gui_widget_size(id);
     }
     return id;
 }
 
 int gui_space(int pd)
 {
-    int id;
-
-    if ((id = gui_widget(pd, GUI_SPACE)))
-    {
-        widget[id].w = 0;
-        widget[id].h = 0;
-    }
-    return id;
+    return gui_widget(pd, GUI_SPACE);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1372,6 +1550,10 @@ void gui_layout(int id, int xd, int yd)
     int w, W = video.device_w;
     int h, H = video.device_h;
 
+    widget[id].flags |= GUI_LAYOUT;
+    widget[id].layout_xd = xd;
+    widget[id].layout_yd = yd;
+
     gui_widget_up(id);
 
     w = widget[id].w;
@@ -1423,6 +1605,18 @@ int gui_delete(int id)
 
         gui_delete(widget[id].cdr);
         gui_delete(widget[id].car);
+
+        if (widget[id].text)
+        {
+            free(widget[id].text);
+            widget[id].text = NULL;
+        }
+
+        if (widget[id].init_text)
+        {
+            free(widget[id].init_text);
+            widget[id].init_text = NULL;
+        }
 
         /* Release any GL resources held by this widget. */
 

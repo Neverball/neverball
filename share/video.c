@@ -114,6 +114,53 @@ static void set_window_icon(const char *filename)
     return;
 }
 
+/*
+ * Enter/exit fullscreen mode.
+ */
+int video_fullscreen(int f)
+{
+    int code = SDL_SetWindowFullscreen(window, f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+
+    if (code == 0)
+        config_set_d(CONFIG_FULLSCREEN, f ? 1 : 0);
+    else
+        log_printf("Failure to %s fullscreen (%s)\n", f ? "enter"  : "exit", SDL_GetError());
+
+    return (code == 0);
+}
+
+/*
+ * Handle a window resize event.
+ */
+void video_resize(int window_w, int window_h)
+{
+    if (window)
+    {
+        /* Update window size (for mouse events). */
+
+        video.window_w = window_w;
+        video.window_h = window_h;
+
+        /* User experience thing: don't save fullscreen size to config. */
+
+        if (!config_get_d(CONFIG_FULLSCREEN))
+        {
+            config_set_d(CONFIG_WIDTH, video.window_w);
+            config_set_d(CONFIG_HEIGHT, video.window_h);
+        }
+
+        /* Update drawable size (for rendering). */
+
+        SDL_GL_GetDrawableSize(window, &video.device_w, &video.device_h);
+
+        video.device_scale = (float) video.device_h / (float) video.window_h;
+
+        /* Update viewport. */
+
+        glViewport(0, 0, video.device_w, video.device_h);
+    }
+}
+
 int video_display(void)
 {
     if (window)
@@ -185,7 +232,11 @@ int video_mode(int f, int w, int h)
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
                               (highdpi ? SDL_WINDOW_ALLOW_HIGHDPI : 0) |
-                              (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
+                              (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) |
+#ifndef __EMSCRIPTEN__
+                              SDL_WINDOW_RESIZABLE |
+#endif
+			      0);
 
     if (window)
     {
@@ -222,56 +273,16 @@ int video_mode(int f, int w, int h)
         set_window_title(TITLE);
         set_window_icon(ICON);
 
-        /*
-         * SDL_GetWindowSize can be unreliable when going fullscreen
-         * on OSX (and possibly elsewhere). We should really be
-         * waiting for a resize / size change event, but for now we're
-         * doing this lazy thing instead.
-         */
-
-        if (f)
-        {
-            SDL_DisplayMode dm;
-
-            if (SDL_GetDesktopDisplayMode(video_display(), &dm) == 0)
-            {
-                video.window_w = dm.w;
-                video.window_h = dm.h;
-            }
-        }
-        else
-        {
-            SDL_GetWindowSize(window, &video.window_w, &video.window_h);
-        }
-
-        if (highdpi)
-        {
-            SDL_GL_GetDrawableSize(window, &video.device_w, &video.device_h);
-        }
-        else
-        {
-            video.device_w = video.window_w;
-            video.device_h = video.window_h;
-        }
-
-        video.device_scale = (float) video.device_h / (float) video.window_h;
-
-        log_printf("Created a window (%u, %dx%d, %s)\n",
-                   SDL_GetWindowID(window),
-                   video.window_w, video.window_h,
-                   (f ? "fullscreen" : "windowed"));
-
         config_set_d(CONFIG_DISPLAY,    video_display());
         config_set_d(CONFIG_FULLSCREEN, f);
-        config_set_d(CONFIG_WIDTH,      video.window_w);
-        config_set_d(CONFIG_HEIGHT,     video.window_h);
 
         SDL_GL_SetSwapInterval(vsync);
 
         if (!glext_init())
             return 0;
 
-        glViewport(0, 0, video.device_w, video.device_h);
+        video_resize(w, h);
+
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glEnable(GL_NORMALIZE);

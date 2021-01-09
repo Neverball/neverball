@@ -44,6 +44,10 @@ void video_set_grab(int w);
 void video_clr_grab(void);
 int  video_get_grab(void);
 
+int  video_fullscreen(int);
+
+void video_resize(int, int);
+
 int  video_display();
 
 /*---------------------------------------------------------------------------*/

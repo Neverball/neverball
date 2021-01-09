@@ -268,6 +268,26 @@ GLuint make_image_from_font(int *W, int *H,
     return o;
 }
 
+/*
+ * Measure text without rendering it.
+ */
+void size_image_from_font(int *W, int *H,
+                          int *w, int *h,
+                          const char *text, TTF_Font *font)
+{
+    int text_w, text_h, w2, h2;
+
+    TTF_SizeUTF8(font, text, &text_w, &text_h);
+
+    if (w) *w = text_w;
+    if (h) *h = text_h;
+
+    image_size(&w2, &h2, text_w, text_h);
+
+    if (W) *W = w2;
+    if (H) *H = h2;
+}
+
 /*---------------------------------------------------------------------------*/
 
 /*

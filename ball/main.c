@@ -137,6 +137,9 @@ static int handle_key_dn(SDL_Event *e)
     case SDLK_KP_ENTER:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
         break;
+    case KEY_FULLSCREEN:
+        video_fullscreen(!config_get_d(CONFIG_FULLSCREEN));
+        break;
     case KEY_EXIT:
         d = st_keybd(KEY_EXIT, 1);
         break;
@@ -243,7 +246,7 @@ static int loop(void)
 #endif
 
         case SDL_MOUSEMOTION:
-            /* Convert to OpenGL coordinates. */
+            /* Convert to bottom-left origin. */
 
             ax = +e.motion.x;
             ay = -e.motion.y + video.window_h;
@@ -251,7 +254,7 @@ static int loop(void)
             dy = (config_get_d(CONFIG_MOUSE_INVERT) ?
                   +e.motion.yrel : -e.motion.yrel);
 
-            /* Convert to pixels. */
+            /* Scale to viewport pixels. */
 
             ax = ROUND(ax * video.device_scale);
             ay = ROUND(ay * video.device_scale);
@@ -309,6 +312,10 @@ static int loop(void)
                            e.window.windowID,
                            e.window.data1,
                            e.window.data2);
+
+                video_resize(e.window.data1, e.window.data2);
+                gui_resize();
+
                 break;
             }
             break;

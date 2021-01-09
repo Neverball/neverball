@@ -148,6 +148,9 @@ static int loop(void)
             case KEY_WIREFRAME:
                 toggle_wire();
                 break;
+            case KEY_FULLSCREEN:
+                video_fullscreen(!config_get_d(CONFIG_FULLSCREEN));
+                break;
             case SDLK_RETURN:
             case SDLK_KP_ENTER:
                 d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
@@ -215,6 +218,11 @@ static int loop(void)
             case SDL_WINDOWEVENT_MOVED:
                 if (config_get_d(CONFIG_DISPLAY) != video_display())
                     config_set_d(CONFIG_DISPLAY, video_display());
+                break;
+
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                video_resize(e.window.data1, e.window.data2);
+                gui_resize();
                 break;
             }
             break;
