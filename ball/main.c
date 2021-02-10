@@ -699,11 +699,13 @@ int main(int argc, char *argv[])
 
 #ifdef __EMSCRIPTEN__
     /*
-     * The Emscripten main loop is asynchronous. The fourth parameter
-     * basically just determines what happens with main() beyond this point:
+     * The Emscripten main loop is asynchronous. In other words,
+     * emscripten_set_main_loop_arg() returns immediately. The fourth
+     * parameter basically just determines what happens with main()
+     * beyond this point:
      *
-     *   0 = execution continues to the end of the function.
-     *   1 = execution stops here, the rest of the code is never reached.
+     *   0 = execution continues to the end of main().
+     *   1 = execution stops here, the rest of main() is never executed.
      *
      * In either scenario, the shutdown code below is in a bad place. TODO.
      */
