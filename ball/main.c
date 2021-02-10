@@ -595,15 +595,15 @@ static void step(void *data)
     mainloop->done = !running;
 }
 
-int main(int argc, char *argv[])
+/*
+ * Initialize all systems.
+ */
+static int main_init(int argc, char *argv[])
 {
-    struct main_loop mainloop = { 0 };
-
     if (!fs_init(argc > 0 ? argv[0] : NULL))
     {
-        fprintf(stderr, "Failure to initialize virtual file system (%s)\n",
-                fs_error());
-        return 1;
+        fprintf(stderr, "Failure to initialize file system (%s)\n", fs_error());
+        return 0;
     }
 
     opt_parse(argc, argv);
@@ -621,7 +621,7 @@ int main(int argc, char *argv[])
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
     {
         log_printf("Failure to initialize SDL (%s)\n", SDL_GetError());
-        return 1;
+        return 0;
     }
 
     /* Enable joystick events. */
@@ -645,11 +645,37 @@ int main(int argc, char *argv[])
     /* Initialize video. */
 
     if (!video_init())
-        return 1;
+        return 0;
 
     /* Material system. */
 
     mtrl_init();
+
+    return 1;
+}
+
+/*
+ * Shut down all systems.
+ */
+static void main_quit(void)
+{
+    config_save();
+
+    mtrl_quit();
+    tilt_free();
+    hmd_free();
+    joy_quit();
+    SDL_Quit();
+
+    fs_quit();
+}
+
+int main(int argc, char *argv[])
+{
+    struct main_loop mainloop = { 0 };
+
+    if (!main_init(argc, argv))
+        return 1;
 
     /* Screen states. */
 
@@ -715,14 +741,7 @@ int main(int argc, char *argv[])
         step(&mainloop);
 #endif
 
-    config_save();
-
-    mtrl_quit();
-
-    tilt_free();
-    hmd_free();
-    joy_quit();
-    SDL_Quit();
+    main_quit();
 
     return 0;
 }
