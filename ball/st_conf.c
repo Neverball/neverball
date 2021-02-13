@@ -43,6 +43,7 @@ enum
     CONF_VIDEO = GUI_LAST,
     CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
+    CONF_JOYSTICK,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
     CONF_PLAYER,
@@ -92,6 +93,10 @@ static int conf_action(int tok, int val)
 
     case CONF_VIDEO:
         goto_state(&st_video);
+        break;
+
+    case CONF_JOYSTICK:
+        goto_state(&st_joystick);
         break;
 
     case CONF_LANGUAGE:
@@ -161,6 +166,10 @@ static int conf_gui(void)
 
         conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
                     mouse_id, ARRAYSIZE(mouse_id));
+
+        gui_space(id);
+
+        conf_state(id, _("Gamepad"), _("Configure"), CONF_JOYSTICK);
 
         gui_space(id);
 

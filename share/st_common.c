@@ -754,6 +754,266 @@ static int lang_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+enum
+{
+    JOYSTICK_ASSIGN_BUTTON = GUI_LAST,
+    JOYSTICK_ASSIGN_AXIS
+};
+
+static struct state *joystick_back;
+
+static int joystick_modal_button_id;
+static int joystick_modal_axis_id;
+
+static int joystick_modal;
+
+static int joystick_option_index;
+
+static int *joystick_options[] = {
+    &CONFIG_JOYSTICK_BUTTON_A,
+    &CONFIG_JOYSTICK_BUTTON_B,
+    &CONFIG_JOYSTICK_BUTTON_X,
+    &CONFIG_JOYSTICK_BUTTON_Y,
+
+    &CONFIG_JOYSTICK_BUTTON_L1,
+    &CONFIG_JOYSTICK_BUTTON_R1,
+
+    &CONFIG_JOYSTICK_BUTTON_SELECT,
+    &CONFIG_JOYSTICK_BUTTON_START,
+
+    NULL, /* Marker to separate buttons from axes. */
+
+    &CONFIG_JOYSTICK_AXIS_X0,
+    &CONFIG_JOYSTICK_AXIS_Y0,
+    &CONFIG_JOYSTICK_AXIS_X1,
+    &CONFIG_JOYSTICK_AXIS_Y1,
+};
+
+static const char *joystick_option_names[] = {
+    N_("Button A"),
+    N_("Button B"),
+    N_("Button X"),
+    N_("Button Y"),
+    N_("Button L1"),
+    N_("Button R1"),
+    N_("Select"),
+    N_("Start"),
+
+    "",
+
+    N_("X Axis 1"),
+    N_("Y Axis 1"),
+    N_("X Axis 2"),
+    N_("Y Axis 2"),
+};
+
+static int joystick_option_ids[ARRAYSIZE(joystick_options)];
+
+static void joystick_set_label(int id, int value)
+{
+    char str[8];
+
+    sprintf(str, "%d", value % 100000);
+
+    gui_set_label(id, str);
+}
+
+static void joystick_set_option(int index, int value)
+{
+    if (index < ARRAYSIZE(joystick_options))
+    {
+        int option = *joystick_options[index];
+
+        config_set_d(option, value);
+
+        joystick_set_label(joystick_option_ids[index], value);
+
+        // Focus the next button.
+
+        if (index < ARRAYSIZE(joystick_options) - 1)
+        {
+            /* Skip over marker, if any. */
+
+            if (index < ARRAYSIZE(joystick_options) - 2 && joystick_options[index + 1] == NULL)
+                gui_focus(joystick_option_ids[index + 2]);
+            else
+                gui_focus(joystick_option_ids[index + 1]);
+        }
+    }
+}
+
+static int joystick_action(int tok, int val)
+{
+    switch (tok)
+    {
+        case GUI_BACK:
+            if (joystick_modal)
+            {
+                joystick_modal = 0;
+            }
+            else
+            {
+                goto_state(joystick_back);
+                joystick_back = NULL;
+            }
+            break;
+
+        case JOYSTICK_ASSIGN_BUTTON:
+        case JOYSTICK_ASSIGN_AXIS:
+            joystick_modal = tok;
+            joystick_option_index = val;
+            break;
+    }
+    return 1;
+}
+
+static int joystick_gui(void)
+{
+    int id;
+
+    if ((id = gui_vstack(0)))
+    {
+        int token = JOYSTICK_ASSIGN_BUTTON;
+        int i;
+
+        conf_header(id, _("Gamepad"), GUI_BACK);
+
+        for (i = 0; i < ARRAYSIZE(joystick_options); ++i)
+        {
+            int btn_id;
+            int value;
+
+            /* Check for marker. */
+
+            if (joystick_options[i] == NULL)
+            {
+                /* Switch the GUI token / assignment type. */
+                token = JOYSTICK_ASSIGN_AXIS;
+
+                gui_space(id);
+
+                continue;
+            }
+            
+            value = config_get_d(*joystick_options[i]);
+
+            if ((btn_id = conf_state(id, _(joystick_option_names[i]), "99", 0)))
+            {
+                joystick_option_ids[i] = btn_id;
+
+                gui_set_state(btn_id, token, i);
+
+                joystick_set_label(btn_id, value);
+            }
+        }
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int joystick_modal_button_gui(void)
+{
+    int id;
+
+    if ((id = gui_label(0, _("Press a button..."), GUI_MED, gui_wht, gui_wht)))
+        gui_layout(id, 0, 0);
+
+    return id;
+}
+
+static int joystick_modal_axis_gui(void)
+{
+    int id;
+
+    if ((id = gui_label(0, _("Move a stick..."), GUI_MED, gui_wht, gui_wht)))
+        gui_layout(id, 0, 0);
+
+    return id;
+}
+
+static int joystick_enter(struct state *st, struct state *prev)
+{
+    if (!joystick_back)
+        joystick_back = prev;
+
+    conf_common_init(joystick_action);
+
+    joystick_modal = 0;
+
+    joystick_modal_button_id = joystick_modal_button_gui();
+    joystick_modal_axis_id = joystick_modal_axis_gui();
+
+    return joystick_gui();
+}
+
+static void joystick_leave(struct state *st, struct state *next, int id)
+{
+    conf_common_leave(st, next, id);
+
+    gui_delete(joystick_modal_button_id);
+    gui_delete(joystick_modal_axis_id);
+}
+
+static void joystick_paint(int id, float t)
+{
+    conf_common_paint(id, t);
+
+    if (joystick_modal == JOYSTICK_ASSIGN_BUTTON)
+        gui_paint(joystick_modal_button_id);
+    
+    if (joystick_modal == JOYSTICK_ASSIGN_AXIS)
+        gui_paint(joystick_modal_axis_id);
+}
+
+static int joystick_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (joystick_modal == JOYSTICK_ASSIGN_BUTTON)
+        {
+            joystick_set_option(joystick_option_index, b);
+            joystick_modal = 0;
+            return 1;
+        }
+        else if (joystick_modal)
+        {
+            /* Allow backing out of other modal types with B. */
+
+            if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+                joystick_modal = 0;
+
+            return 1;
+        }
+    }
+
+    return common_buttn(b, d);
+}
+
+static void joystick_stick(int id, int a, float v, int bump)
+{
+    if (joystick_modal == JOYSTICK_ASSIGN_AXIS)
+    {
+        if (bump)
+        {
+            joystick_set_option(joystick_option_index, a);
+            joystick_modal = 0;
+        }
+
+        return;
+    }
+    else if (joystick_modal)
+    {
+        /* Ignore stick motion if another type of modal is active. */
+        return;
+    }
+
+    gui_pulse(gui_stick(id, a, v, bump), 1.2f);
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_video = {
     video_enter,
     conf_common_leave,
@@ -804,6 +1064,19 @@ struct state st_lang = {
     common_click,
     common_keybd,
     lang_buttn
+};
+
+struct state st_joystick = {
+    joystick_enter,
+    joystick_leave,
+    joystick_paint,
+    common_timer,
+    common_point,
+    joystick_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    joystick_buttn
 };
 
 /*---------------------------------------------------------------------------*/
