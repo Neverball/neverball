@@ -317,6 +317,17 @@ void config_init(void)
     }
 }
 
+void config_quit(void)
+{
+    int i;
+
+    for (i = 0; i < ARRAYSIZE(option_s); i++)
+    {
+        free(option_s[i].cur);
+        option_s[i].cur = NULL;
+    }
+}
+
 /*
  * Scan an option string and store pointers to the start of key and
  * value at the passed-in locations.  No memory is allocated to store

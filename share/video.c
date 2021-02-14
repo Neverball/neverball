@@ -182,6 +182,23 @@ int video_init(void)
     return 1;
 }
 
+void video_quit(void)
+{
+    if (context)
+    {
+        SDL_GL_DeleteContext(context);
+        context = NULL;
+    }
+
+    if (window)
+    {
+        SDL_DestroyWindow(window);
+        window = NULL;
+    }
+
+    hmd_free();
+}
+
 int video_mode(int f, int w, int h)
 {
     int stereo  = config_get_d(CONFIG_STEREO)      ? 1 : 0;
@@ -199,11 +216,7 @@ int video_mode(int f, int w, int h)
 
     hmd_free();
 
-    if (window)
-    {
-        SDL_GL_DeleteContext(context);
-        SDL_DestroyWindow(window);
-    }
+    video_quit();
 
 #if ENABLE_OPENGLES
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);

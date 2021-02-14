@@ -27,7 +27,8 @@ struct video
 
 extern struct video video;
 
-int video_init(void);
+int  video_init(void);
+void video_quit(void);
 
 /*---------------------------------------------------------------------------*/
 

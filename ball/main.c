@@ -674,11 +674,14 @@ static void main_quit(void)
     config_save();
 
     mtrl_quit();
+    video_quit();
     tilt_free();
-    hmd_free();
+    audio_free();
+    lang_quit();
     joy_quit();
+    config_quit();
     SDL_Quit();
-
+    log_quit();
     fs_quit();
 }
 

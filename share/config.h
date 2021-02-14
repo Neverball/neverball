@@ -126,6 +126,7 @@ extern int CONFIG_THEME;
 /*---------------------------------------------------------------------------*/
 
 void config_init(void);
+void config_quit(void);
 void config_load(void);
 void config_save(void);
 
