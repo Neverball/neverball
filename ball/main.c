@@ -559,6 +559,8 @@ static void make_dirs_and_migrate(void)
 
 /*---------------------------------------------------------------------------*/
 
+static void main_quit(void);
+
 struct main_loop
 {
     Uint32 now;
@@ -593,6 +595,16 @@ static void step(void *data)
     }
 
     mainloop->done = !running;
+
+#ifdef __EMSCRIPTEN__
+    /* On Emscripten, we never return to main(), so we have to do shutdown here. */
+
+    if (mainloop->done)
+    {
+        emscripten_cancel_main_loop();
+        main_quit();
+    }
+#endif
 }
 
 /*
@@ -732,16 +744,16 @@ int main(int argc, char *argv[])
      *
      *   0 = execution continues to the end of main().
      *   1 = execution stops here, the rest of main() is never executed.
-     *
-     * In either scenario, the shutdown code below is in a bad place. TODO.
+     * 
+     * It's best not to put anything after this.
      */
     emscripten_set_main_loop_arg(step, (void *) &mainloop, 0, 1);
 #else
     while (!mainloop.done)
         step(&mainloop);
-#endif
 
     main_quit();
+#endif
 
     return 0;
 }
