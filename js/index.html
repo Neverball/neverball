@@ -202,56 +202,152 @@
     </div>
   </div>
 
-  <script>
-    (function () {
-      'use strict';
-
-      var persistInput = document.getElementById('persist-input');
-
-      if (navigator.storage) {
-
-        if (navigator.storage.persisted) {
-          console.log('Storage persistence can be queried.');
-
-          navigator.storage.persisted().then(function (persistent) {
-            console.log('Storage persistence query: ' + (persistent ? 'persistent' : 'non-persistent'));
-            persistInput.checked = persistent;
-            // We have no way of revoking this, so disable the checkbox.
-            persistInput.disabled = persistent;
-          });
-        }
-
-        if (navigator.storage.persist) {
-          console.log('Storage persistence can be requested.');
-
-          persistInput.addEventListener('change', function (event) {
-            if (this.checked) {
-              // Remove the checkmark, we'll re-add it on actual success.
-              this.checked = false;
-
-              navigator.storage.persist().then(function (persistent) {
-                console.log('Storage persistence request: ' + (persistent ? 'persistent' : 'non-persistent'));
-
-                persistInput.checked = persistent;
-                // We have no way of revoking this, so disable the checkbox.
-                persistInput.disabled = persistent;
-              });
-            }
-          });
-        }
-      } else {
-        persistInput.disabled = true;
-      }
-    })();
-  </script>
-
   <script type='text/javascript'>
+    var Neverball = {
+      isTitleScreen: false,
+
+      _runButton: document.getElementById('run'),
+
+      ready: function () {
+        this._runButton.disabled = false;
+
+        this._runButton.addEventListener('click', function (event) {
+          Neverball.run();
+        });
+      },
+
+      run: function () {
+        this._runButton.disabled = true;
+        this._runButton.style.display = 'none';
+        Module['canvas'].style.display = 'initial';
+        Module['callMain']();
+      },
+
+      quit: function () {
+        this._runButton.disabled = false;
+        this._runButton.style.display = 'initial';
+        Module.canvas.style.display = 'none';
+      },
+
+      /**
+       * Set up the user folder with a backing store.
+       *
+       * Adding as run dependency, because this is an async operation.
+       */
+      initUserFolder: function () {
+        // Create the user folder and mount IndexedDB on it.
+        FS.mkdir('/neverball');
+        FS.mount(IDBFS, {}, '/neverball');
+
+        // Tell Emscripten to wait for us.
+        Module.addRunDependency('neverball:user-folder');
+
+        console.log('Synchronizing from backing store...');
+
+        FS.syncfs(true, function (err) {
+          if (err)
+            console.error('Failure to synchronize from backing store: ' + err);
+          else
+            console.log('Successfully synced from backing store.');
+
+          // Tell Emscripten to stop waiting.
+          Module.removeRunDependency('neverball:user-folder');
+        });
+      },
+
+      /**
+       * Detect browser back navigation via history states.
+       */
+      initBackButton: function () {
+        window.history.replaceState({ initial: true }, null);
+        window.history.pushState({ initial: false }, null);
+
+        window.addEventListener('popstate', function (event) {
+          if (event.state && event.state.initial) {
+            // Notify Neverball via our entry point.
+            Module._push_user_event(-1);
+
+            if (!Neverball.isTitleScreen) {
+              // Re-add sentinel immediately.
+              window.history.pushState({ initial: false }, null);
+            } else {
+              // User probably wants to leave.
+              window.history.back();
+            }
+          }
+        });
+
+        // Also check and re-add sentinel on user action.
+        Module['canvas'].addEventListener('click', function (event) {
+          if (window.history.state && window.history.state.initial) {
+            window.history.pushState({ initial: false }, null);
+          }
+        });
+      },
+
+      initPersistentStorage: function () {
+        'use strict';
+
+        var persistInput = document.getElementById('persist-input');
+
+        if (navigator.storage) {
+
+          if (navigator.storage.persisted) {
+            console.log('Storage persistence can be queried.');
+
+            navigator.storage.persisted().then(function (persistent) {
+              console.log('Storage persistence query: ' + (persistent ? 'persistent' : 'non-persistent'));
+              persistInput.checked = persistent;
+              // We have no way of revoking this, so disable the checkbox.
+              persistInput.disabled = persistent;
+            });
+          }
+
+          if (navigator.storage.persist) {
+            console.log('Storage persistence can be requested.');
+
+            persistInput.addEventListener('change', function (event) {
+              if (this.checked) {
+                // Remove the checkmark, we'll re-add it on actual success.
+                this.checked = false;
+
+                navigator.storage.persist().then(function (persistent) {
+                  console.log('Storage persistence request: ' + (persistent ? 'persistent' : 'non-persistent'));
+
+                  persistInput.checked = persistent;
+                  // We have no way of revoking this, so disable the checkbox.
+                  persistInput.disabled = persistent;
+                });
+              }
+            });
+          }
+        } else {
+          persistInput.disabled = true;
+        }
+      },
+
+      init: function () {
+        this.initPersistentStorage();
+      },
+
+    };
+
+    Neverball.init();
+
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
 
     var Module = {
-      preRun: [],
+      preRun: [
+        Neverball.initUserFolder,
+        Neverball.initBackButton,
+      ],
       postRun: [],
+
+      onRuntimeInitialized: function () {
+        Neverball.ready();
+      },
+
       print: (function () {
         var element = document.getElementById('output');
         if (element) element.value = ''; // clear browser cache
@@ -305,101 +401,17 @@
       monitorRunDependencies: function (left) {
         this.totalDependencies = Math.max(this.totalDependencies, left);
         Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
-      }
+      },
     };
+
     Module.setStatus('Downloading...');
+
     window.onerror = function () {
       Module.setStatus('Exception thrown, see JavaScript console');
       Module.setStatus = function (text) {
         if (text) Module.printErr('[post-exception status] ' + text);
       };
     };
-  </script>
-
-  <script>
-    (function () {
-      /**
-       * Set up the user folder with a backing store.
-       *
-       * Adding as run dependency, because this is an async operation.
-       */
-      function initUserFolder() {
-        // Create the user folder and mount IndexedDB on it.
-        FS.mkdir('/neverball');
-        FS.mount(IDBFS, {}, '/neverball');
-
-        // Tell Emscripten to wait for us.
-        Module.addRunDependency('neverball:user-folder');
-
-        console.log('Synchronizing from backing store...');
-
-        FS.syncfs(true, function (err) {
-          if (err)
-            console.error('Failure to synchronize from backing store: ' + err);
-          else
-            console.log('Successfully synced from backing store.');
-
-          // Tell Emscripten to stop waiting.
-          Module.removeRunDependency('neverball:user-folder');
-        });
-      }
-
-      /**
-       * Detect browser back navigation via history states.
-       */
-      function initBackButton() {
-        window.history.replaceState({ initial: true }, null);
-        window.history.pushState({ initial: false }, null);
-
-        window.addEventListener('popstate', function (event) {
-          if (event.state && event.state.initial) {
-            // Notify Neverball via our entry point.
-            Module._push_user_event(-1);
-
-            if (!Module['neverball'].isTitleScreen) {
-              // Re-add sentinel immediately.
-              window.history.pushState({ initial: false }, null);
-            } else {
-              // User probably wants to leave.
-              window.history.back();
-            }
-          }
-        });
-
-        // Also check and re-add sentinel on user action.
-        Module['canvas'].addEventListener('click', function (event) {
-          if (window.history.state && window.history.state.initial) {
-            window.history.pushState({ initial: false }, null);
-          }
-        });
-      }
-
-      Module['neverball'] = {
-        isTitleScreen: false
-      };
-
-      initBackButton();
-
-      if (Module['preRun'] === undefined) {
-        Module['preRun'] = [];
-      }
-      Module['preRun'].push(initUserFolder);
-    })();
-  </script>
-
-  <script>
-    var runButton = document.getElementById('run');
-
-    Module['onRuntimeInitialized'] = function () {
-      runButton.disabled = false;
-    }
-
-    runButton.addEventListener('click', function (event) {
-      runButton.disabled = true;
-      runButton.style.display = 'none';
-      Module['canvas'].style.display = 'initial';
-      Module['callMain']();
-    });
   </script>
 
   <!--

@@ -209,7 +209,7 @@ static int title_enter(struct state *st, struct state *prev)
 {
 #ifdef __EMSCRIPTEN__
     EM_ASM({
-        Module['neverball'].isTitleScreen = true;
+        Neverball.isTitleScreen = true;
     });
 #endif
 
@@ -235,7 +235,7 @@ static void title_leave(struct state *st, struct state *next, int id)
 {
 #ifdef __EMSCRIPTEN__
     EM_ASM({
-        Module['neverball'].isTitleScreen = false;
+        Neverball.isTitleScreen = false;
     });
 #endif
 

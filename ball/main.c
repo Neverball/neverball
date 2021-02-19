@@ -603,6 +603,10 @@ static void step(void *data)
     {
         emscripten_cancel_main_loop();
         main_quit();
+
+        EM_ASM({
+            Neverball.quit();
+        });
     }
 #endif
 }
