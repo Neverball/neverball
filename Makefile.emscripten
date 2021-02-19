@@ -127,4 +127,4 @@ $(JSDIR)/neverball.js: $(BALL_OBJS)
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data neverball-logo.svg
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data
