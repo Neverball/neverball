@@ -215,6 +215,10 @@
 
       _runButton: document.getElementById('run'),
 
+      pushEvent: function (code) {
+        Module._push_user_event(code);
+      },
+
       ready: function () {
         this._runButton.disabled = false;
 
@@ -227,7 +231,7 @@
         this._runButton.disabled = true;
         this._runButton.style.display = 'none';
         Module['canvas'].style.display = 'initial';
-        Module['callMain']();
+        Module.callMain();
       },
 
       quit: function () {
@@ -272,7 +276,7 @@
         window.addEventListener('popstate', function (event) {
           if (event.state && event.state.initial) {
             // Notify Neverball via our entry point.
-            Module._push_user_event(-1);
+            Neverball.pushEvent(-1);
 
             if (!Neverball.isTitleScreen) {
               // Re-add sentinel immediately.
