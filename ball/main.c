@@ -16,6 +16,7 @@
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
 
 #include <SDL.h>
@@ -228,6 +229,28 @@ static int loop(void)
     int d = 1;
 
     int ax, ay, dx, dy;
+
+#ifdef __EMSCRIPTEN__
+    /* Since we are in the browser, and want to look good on every device,
+     * naturally, we use CSS to do layout. The canvas element has two sizes:
+     * the layout size ("window") and the drawing buffer size ("resolution").
+     * Here, we get the canvas layout size and set the canvas resolution
+     * to match. To update a bunch of internal state, we use SDL_SetWindowSize
+     * to set the canvas resolution.
+     */
+
+    double clientWidth, clientHeight;
+
+    int w, h;
+
+    emscripten_get_element_css_size("#canvas", &clientWidth, &clientHeight);
+
+    w = (int) clientWidth;
+    h = (int) clientHeight;
+
+    if (w != video.window_w || h != video.window_h)
+        video_set_window_size(w, h);
+#endif
 
     /* Process SDL events. */
 

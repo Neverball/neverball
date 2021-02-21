@@ -331,18 +331,7 @@ static int video_gui(void)
         const char *display;
         int dpy = config_get_d(CONFIG_DISPLAY);
 
-        if (config_get_d(CONFIG_FULLSCREEN))
-        {
-            sprintf(resolution, "%d x %d",
-                    video.window_w,
-                    video.window_h);
-        }
-        else
-        {
-            sprintf(resolution, "%d x %d",
-                    config_get_d(CONFIG_WIDTH),
-                    config_get_d(CONFIG_HEIGHT));
-        }
+        sprintf(resolution, "%d x %d", video.window_w, video.window_h);
 
         if (!(display = SDL_GetDisplayName(dpy)))
             display = _("Unknown Display");

@@ -161,6 +161,25 @@ void video_resize(int window_w, int window_h)
     }
 }
 
+void video_set_window_size(int w, int h)
+{
+    /*
+     * On Emscripten, SDL_SetWindowSize does all of these:
+     *
+     *   1) updates SDL's cached window->w and window->h values
+     *   2) updates canvas.width and canvas.height (drawing buffer size)
+     *   3) triggers a SDL_WINDOWEVENT_SIZE_CHANGED event, which updates our viewport/UI.
+     */
+
+    /*
+     * BTW, for this to work with element.requestFullscreen(),
+     * a change needs to be applied to the SDL2 Emscripten port:
+     * https://github.com/emscripten-ports/SDL2/issues/138
+     */
+
+    SDL_SetWindowSize(window, w, h);
+}
+
 int video_display(void)
 {
     if (window)

@@ -51,6 +51,8 @@ void video_resize(int, int);
 
 int  video_display();
 
+void video_set_window_size(int w, int h);
+
 /*---------------------------------------------------------------------------*/
 
 void video_calc_view(float *, const float *,

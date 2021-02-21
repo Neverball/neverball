@@ -42,15 +42,81 @@
     }
 
     #canvas-wrapper {
-      text-align: center;
+      position: relative;
+      width: 100%;
+      padding-top: calc(9 / 16 * 100%); /* 16:9 */
+      display: none;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
+    button#fullscreen {
+      display: block;
+      width: 16px;
+      height: 16px;
+      border: 2px dashed #fff;
+      padding: 0;
+      background: none;
+      transition: 0.2s ease-in-out border-color;
+    }
+
+    button#fullscreen:hover {
+      animation: pulse 0.2s ease-in-out;
+    }
+
+    button#fullscreen:focus {
+      outline: none;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+
+    button#fullscreen span {
+      display: none;
+    }
+
+    #canvas-wrapper:fullscreen button#fullscreen {
+      display: none;
+    }
+
+    .running #canvas-wrapper {
+      display: block;
+    }
+
+    #canvas-wrapper:fullscreen {
+      padding-top: 0;
+    }
+
+    #canvas-wrapper:fullscreen #canvas {
+      position: static;
     }
 
     #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       display: none;
-      width: auto;
-      height: auto;
-      max-width: calc(100vw - var(--container-padding) * 2);
-      max-height: calc(100vh - var(--container-padding) * 2);
+      width: 100%;
+      height: 100%; /* Fill parent. */
+    }
+
+    .running #canvas {
+      display: inline;
     }
 
     .toggle input[type="checkbox"] {
@@ -151,6 +217,10 @@
       animation-timing-function: ease-in-out;
     }
 
+    .running button#run {
+      display: none;
+    }
+
     #screenshot {
       width: 100%;
       max-width: 320px;
@@ -185,6 +255,10 @@
 
     <div id="canvas-wrapper">
       <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+
+      <div id="overlay">
+        <button id="fullscreen"><span>Fullscreen</span></button>
+      </div>
     </div>
 
     <div id="settings">
@@ -214,6 +288,7 @@
       isTitleScreen: false,
 
       _runButton: document.getElementById('run'),
+      _fullscreenButton: document.getElementById('fullscreen'),
 
       pushEvent: function (code) {
         Module._push_user_event(code);
@@ -225,19 +300,26 @@
         this._runButton.addEventListener('click', function (event) {
           Neverball.run();
         });
+
+        this._fullscreenButton.addEventListener('click', function (event) {
+          var wrapper = document.getElementById('canvas-wrapper');
+          wrapper.requestFullscreen();
+        });
       },
 
       run: function () {
         this._runButton.disabled = true;
-        this._runButton.style.display = 'none';
-        Module['canvas'].style.display = 'initial';
+        document.body.classList.add('running');
         Module.callMain();
       },
 
       quit: function () {
         this._runButton.disabled = false;
-        this._runButton.style.display = 'initial';
-        Module.canvas.style.display = 'none';
+        document.body.classList.remove('running');
+
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
       },
 
       /**
