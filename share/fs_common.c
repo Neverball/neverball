@@ -95,7 +95,7 @@ int fs_getc(fs_file fh)
 {
     unsigned char c;
 
-    if (fs_read(&c, 1, 1, fh) != 1)
+    if (fs_read(&c, 1, fh) != 1)
         return -1;
 
     return (int) c;
@@ -105,7 +105,7 @@ int fs_putc(int c, fs_file fh)
 {
     unsigned char b = (unsigned char) c;
 
-    if (fs_write(&b, 1, 1, fh) != 1)
+    if (fs_write(&b, 1, fh) != 1)
         return -1;
 
     return b;
@@ -191,7 +191,7 @@ static int write_lines(const char *start, int length, fs_file fh)
         lf = strchr(start, '\n');
 
         datalen = lf ? (int) (lf - start) : length - total_written;
-        written = fs_write(start, 1, datalen, fh);
+        written = fs_write(start, datalen, fh);
 
         if (written < 0)
             break;
@@ -264,7 +264,7 @@ void *fs_load(const char *path, int *datalen)
         {
             if ((data = malloc(*datalen)))
             {
-                if (fs_read(data, 1, *datalen, fh) != *datalen)
+                if (fs_read(data, *datalen, fh) != *datalen)
                 {
                     free(data);
                     data = NULL;

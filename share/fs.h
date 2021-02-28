@@ -23,8 +23,8 @@ fs_file fs_open_write(const char *);
 fs_file fs_open_append(const char *);
 int     fs_close(fs_file);
 
-int  fs_read(void *data, int size, int count, fs_file);
-int  fs_write(const void *data, int size, int count, fs_file);
+int  fs_read(void *data, int bytes, fs_file);
+int  fs_write(const void *data, int bytes, fs_file);
 int  fs_flush(fs_file);
 long fs_tell(fs_file);
 int  fs_seek(fs_file, long offset, int whence);

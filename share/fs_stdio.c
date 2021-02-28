@@ -511,21 +511,21 @@ int fs_remove(const char *path)
 
 /*---------------------------------------------------------------------------*/
 
-int fs_read(void *data, int size, int count, fs_file fh)
+int fs_read(void *data, int bytes, fs_file fh)
 {
     if (fh->handle)
-        return fread(data, size, count, fh->handle);
+        return fread(data, 1, bytes, fh->handle);
 
     if (fh->zip_handle)
-        return mz_zip_reader_extract_iter_read(fh->zip_handle, data, size * count);
+        return mz_zip_reader_extract_iter_read(fh->zip_handle, data, bytes);
 
     return 0;
 }
 
-int fs_write(const void *data, int size, int count, fs_file fh)
+int fs_write(const void *data, int bytes, fs_file fh)
 {
     if (fh->handle)
-        return fwrite(data, size, count, fh->handle);
+        return fwrite(data, 1, bytes, fh->handle);
 
     /* ZIP writing is not available. */
 

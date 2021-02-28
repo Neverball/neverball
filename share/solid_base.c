@@ -66,7 +66,7 @@ static void sol_load_mtrl(fs_file fin, struct b_mtrl *mp)
 
     mp->fl = get_index(fin);
 
-    fs_read(mp->f, 1, PATHMAX, fin);
+    fs_read(mp->f, PATHMAX, fin);
 
     if (sol_version >= SOL_VERSION_1_6)
     {
@@ -420,7 +420,7 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
         fp->iv = (int *)           calloc(fp->ic, sizeof (*fp->iv));
 
     if (fp->ac)
-        fs_read(fp->av, 1, fp->ac, fin);
+        fs_read(fp->av, fp->ac, fin);
 
     for (i = 0; i < fp->dc; i++) sol_load_dict(fin, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_load_mtrl(fin, fp->mv + i);
@@ -475,7 +475,7 @@ static int sol_load_head(fs_file fin, struct s_base *fp)
     if (fp->ac)
     {
         fp->av = (char *) calloc(fp->ac, sizeof (*fp->av));
-        fs_read(fp->av, 1, fp->ac, fin);
+        fs_read(fp->av, fp->ac, fin);
     }
 
     if (fp->dc)
@@ -559,7 +559,7 @@ static void sol_stor_mtrl(fs_file fout, struct b_mtrl *mp)
     put_array(fout, mp->h, 1);
     put_index(fout, mp->fl);
 
-    fs_write(mp->f, 1, PATHMAX, fout);
+    fs_write(mp->f, PATHMAX, fout);
 
     if (mp->fl & M_ALPHA_TEST)
     {
@@ -746,7 +746,7 @@ static void sol_stor_file(fs_file fout, struct s_base *fp)
     put_index(fout, fp->wc);
     put_index(fout, fp->ic);
 
-    fs_write(fp->av, 1, fp->ac, fout);
+    fs_write(fp->av, fp->ac, fout);
 
     for (i = 0; i < fp->dc; i++) sol_stor_dict(fout, fp->dv + i);
     for (i = 0; i < fp->mc; i++) sol_stor_mtrl(fout, fp->mv + i);

@@ -21,7 +21,7 @@
 
 void fs_png_read(png_structp readp, png_bytep data, png_size_t length)
 {
-    int read = fs_read(data, 1, length, png_get_io_ptr(readp));
+    int read = fs_read(data, length, png_get_io_ptr(readp));
 
     if (read < length)
         memset(data + read, 0, length - read);
@@ -29,7 +29,7 @@ void fs_png_read(png_structp readp, png_bytep data, png_size_t length)
 
 void fs_png_write(png_structp writep, png_bytep data, png_size_t length)
 {
-    fs_write(data, 1, length, png_get_io_ptr(writep));
+    fs_write(data, length, png_get_io_ptr(writep));
 }
 
 void fs_png_flush(png_structp writep)
