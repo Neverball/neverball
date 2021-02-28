@@ -42,7 +42,11 @@ enum fs_path_type
 struct fs_file_s
 {
     FILE *handle;
-    mz_zip_reader_extract_iter_state *zip_handle;
+
+    void *zip_file_data;
+    size_t zip_file_pos;
+    size_t zip_file_size;
+
     enum fs_path_type path_type;
 };
 
@@ -386,8 +390,11 @@ fs_file fs_open_read(const char *path)
             {
                 mz_zip_archive *zip = path_item->data;
 
-                if ((fh->zip_handle = mz_zip_reader_extract_file_iter_new(zip, path, 0)))
+                fh->zip_file_data = mz_zip_reader_extract_file_to_heap(zip, path, &fh->zip_file_size, 0);
+
+                if (fh->zip_file_data)
                 {
+                    fh->zip_file_pos = 0;
                     fh->path_type = FS_PATH_ZIP;
                     opened = 1;
                 }
@@ -452,10 +459,15 @@ int fs_close(fs_file fh)
                 closed = 1;
         }
 
-        if (fh->zip_handle)
+        if (fh->zip_file_data)
         {
-            if (mz_zip_reader_extract_iter_free(fh->zip_handle))
-                closed = 1;
+            free(fh->zip_file_data);
+
+            fh->zip_file_data = NULL;
+            fh->zip_file_pos = 0;
+            fh->zip_file_size = 0;
+
+            closed = 1;
         }
 
         free(fh);
@@ -516,8 +528,17 @@ int fs_read(void *data, int bytes, fs_file fh)
     if (fh->handle)
         return fread(data, 1, bytes, fh->handle);
 
-    if (fh->zip_handle)
-        return mz_zip_reader_extract_iter_read(fh->zip_handle, data, bytes);
+    if (fh->zip_file_data)
+    {
+        size_t left = fh->zip_file_size - fh->zip_file_pos;
+        size_t read = MIN(left, bytes);
+
+        memcpy(data, ((unsigned char *) fh->zip_file_data) + fh->zip_file_pos, read);
+
+        fh->zip_file_pos += read;
+
+        return read;
+    }
 
     return 0;
 }
@@ -547,7 +568,8 @@ long fs_tell(fs_file fh)
     if (fh->handle)
         return ftell(fh->handle);
 
-    /* ZIP seeking is not available. */
+    if (fh->zip_file_data)
+        return fh->zip_file_pos;
 
     return -1;
 }
@@ -557,7 +579,24 @@ int fs_seek(fs_file fh, long offset, int whence)
     if (fh->handle)
         return fseek(fh->handle, offset, whence);
 
-    /* ZIP seeking is not available. */
+    if (fh->zip_file_data)
+    {
+        size_t pos = fh->zip_file_pos;
+
+        if (whence == SEEK_CUR) {
+            pos = fh->zip_file_pos + offset;
+        } else if (whence == SEEK_SET) {
+            pos = offset;
+        } else if (whence == SEEK_END) {
+            pos = fh->zip_file_size + offset;
+        }
+
+        pos = CLAMP(0, pos, fh->zip_file_size);
+
+        fh->zip_file_pos = pos;
+
+        return 0;
+    }
 
     return -1;
 }
@@ -574,11 +613,8 @@ int fs_eof(fs_file fh)
         return feof(fh->handle);
 
 
-    if (fh->zip_handle)
-    {
-        /* Not sure if this is good. */
-        return fh->zip_handle->out_buf_ofs >= fh->zip_handle->file_stat.m_uncomp_size;
-    }
+    if (fh->zip_file_data)
+        return fh->zip_file_pos >= fh->zip_file_size;
 
     return 1;
 }
