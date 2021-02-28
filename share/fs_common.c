@@ -264,7 +264,7 @@ void *fs_load(const char *path, int *datalen)
         {
             if ((data = malloc(*datalen)))
             {
-                if (fs_read(data, *datalen, 1, fh) != 1)
+                if (fs_read(data, 1, *datalen, fh) != *datalen)
                 {
                     free(data);
                     data = NULL;
