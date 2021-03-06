@@ -30,6 +30,9 @@
 
 static const char *pick_data_path(const char *arg_data_path)
 {
+#ifdef __EMSCRIPTEN__
+    return "/data";
+#else
     static char dir[MAXSTR];
     char *env;
 
@@ -47,6 +50,7 @@ static const char *pick_data_path(const char *arg_data_path)
     SAFECAT(dir, CONFIG_DATA);
 
     return dir;
+#endif
 }
 
 static const char *pick_home_path(void)

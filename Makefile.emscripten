@@ -19,21 +19,25 @@ EM_CFLAGS := \
 	-s EXTRA_EXPORTED_RUNTIME_METHODS="['callMain']" \
 	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0
 
+DATA_ZIP := data-emscripten.zip
+
 EM_PRELOAD := \
-	--preload-file data \
-	--exclude-file '*.map' \
-	--exclude-file '*.obj' \
-	--exclude-file 'holes*.txt' \
-	--exclude-file 'data/map-ckk' \
-	--exclude-file 'data/map-iCourse' \
-	--exclude-file 'data/map-misc' \
-	--exclude-file 'data/map-paxed' \
-	--exclude-file 'data/map-paxed2' \
-	--exclude-file 'data/map-paxed3' \
-	--exclude-file 'data/map-putt' \
-	--exclude-file 'data/map-slippi' \
-	--exclude-file 'data/map-vidski' \
-	--exclude-file 'data/shot-putt'
+	--preload-file $(DATA_ZIP)@/data/base.zip
+
+DATA_EXCLUDE := \
+	'*.map' \
+	'*.obj' \
+	'holes*.txt' \
+	'map-ckk/*' \
+	'map-iCourse/*' \
+	'map-misc/*' \
+	'map-paxed/*' \
+	'map-paxed2/*' \
+	'map-paxed3/*' \
+	'map-putt/*' \
+	'map-slippi/*' \
+	'map-vidski/*' \
+	'shot-putt/*'
 
 LDFLAGS := -L../gl4es/lib -lGL
 EM_LDFLAGS := \
@@ -123,9 +127,12 @@ BALL_OBJS := $(BALL_SRCS:.c=.bc)
 .PHONY: neverball
 neverball: $(JSDIR)/neverball.js
 
-$(JSDIR)/neverball.js: $(BALL_OBJS)
+$(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+$(DATA_ZIP):
+	cd data && zip -r ../$@ . -x $(DATA_EXCLUDE)
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
