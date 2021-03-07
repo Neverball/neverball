@@ -285,10 +285,37 @@
 
   <script type='text/javascript'>
     var Neverball = {
-      isTitleScreen: false,
+      EVENT_BACK: -1,
+      EVENT_PAUSE: 0,
+
+      isRunning: false,
 
       _runButton: document.getElementById('run'),
       _fullscreenButton: document.getElementById('fullscreen'),
+
+      events: {
+        runButtonClick: function (event) {
+          this.disabled = true;
+          Neverball.run();
+        },
+
+        fullscreenButtonClick: function (event) {
+          var wrapper = document.getElementById('canvas-wrapper');
+          wrapper.requestFullscreen();
+        },
+
+        fullscreenChange: function (event) {
+          if (!document.fullscreenElement) {
+            Neverball.pushEvent(Neverball.EVENT_PAUSE);
+          }
+        },
+
+        pointerLockChange: function (event) {
+          if (!document.pointerLockElement) {
+            Neverball.pushEvent(Neverball.EVENT_PAUSE);
+          }
+        }
+      },
 
       pushEvent: function (code) {
         Module._push_user_event(code);
@@ -297,23 +324,24 @@
       ready: function () {
         this._runButton.disabled = false;
 
-        this._runButton.addEventListener('click', function (event) {
-          Neverball.run();
-        });
+        this._runButton.addEventListener('click', this.events.runButtonClick);
+        this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
 
-        this._fullscreenButton.addEventListener('click', function (event) {
-          var wrapper = document.getElementById('canvas-wrapper');
-          wrapper.requestFullscreen();
-        });
+        document.addEventListener('fullscreenchange', this.events.fullscreenChange);
+        document.addEventListener('pointerlockchange', this.events.pointerLockChange);
       },
 
       run: function () {
-        this._runButton.disabled = true;
+        this.isRunning = true;
+
         document.body.classList.add('running');
+
         Module.callMain();
       },
 
       quit: function () {
+        this.isRunning = false;
+
         this._runButton.disabled = false;
         document.body.classList.remove('running');
 
@@ -358,9 +386,9 @@
         window.addEventListener('popstate', function (event) {
           if (event.state && event.state.initial) {
             // Notify Neverball via our entry point.
-            Neverball.pushEvent(-1);
+            Neverball.pushEvent(Neverball.EVENT_BACK);
 
-            if (!Neverball.isTitleScreen) {
+            if (Neverball.isRunning) {
               // Re-add sentinel immediately.
               window.history.pushState({ initial: false }, null);
             } else {

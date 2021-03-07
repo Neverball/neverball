@@ -207,12 +207,6 @@ static int filter_cmd(const union cmd *cmd)
 
 static int title_enter(struct state *st, struct state *prev)
 {
-#ifdef __EMSCRIPTEN__
-    EM_ASM({
-        Neverball.isTitleScreen = true;
-    });
-#endif
-
     game_proxy_filter(filter_cmd);
 
     /* Start the title screen music. */
@@ -233,12 +227,6 @@ static int title_enter(struct state *st, struct state *prev)
 
 static void title_leave(struct state *st, struct state *next, int id)
 {
-#ifdef __EMSCRIPTEN__
-    EM_ASM({
-        Neverball.isTitleScreen = false;
-    });
-#endif
-
     if (items)
     {
         demo_dir_free(items);

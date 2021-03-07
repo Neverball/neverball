@@ -215,6 +215,12 @@ static int handle_key_up(SDL_Event *e)
 }
 
 #ifdef __EMSCRIPTEN__
+
+enum {
+    USER_EVENT_BACK = -1,
+    USER_EVENT_PAUSE = 0
+};
+
 void EMSCRIPTEN_KEEPALIVE push_user_event(int code)
 {
     SDL_Event event = { SDL_USEREVENT };
@@ -263,8 +269,17 @@ static int loop(void)
 
 #ifdef __EMSCRIPTEN__
         case SDL_USEREVENT:
-            if (e.user.code == -1)
-                st_keybd(KEY_EXIT, 1);
+            switch (e.user.code)
+            {
+                case USER_EVENT_BACK:
+                    d = st_keybd(KEY_EXIT, 1);
+                    break;
+
+                case USER_EVENT_PAUSE:
+                    if (video_get_grab())
+                        goto_state(&st_pause);
+                    break;
+            }
             break;
 #endif
 
