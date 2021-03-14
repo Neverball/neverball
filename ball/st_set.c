@@ -87,10 +87,17 @@ static int set_action(int tok, int val)
 static void gui_set(int id, int i)
 {
     if (set_exists(i))
+    {
+        int name_id;
+
         if (i % SET_STEP == 0)
-            gui_start(id, set_name(i), GUI_SML, SET_SELECT, i);
+            name_id = gui_start(id, "IJKLMNOPQRSTUVWXYZ", GUI_SML, SET_SELECT, i);
         else
-            gui_state(id, set_name(i), GUI_SML, SET_SELECT, i);
+            name_id = gui_state(id, "IJKLMNOPQRSTUVWXYZ", GUI_SML, SET_SELECT, i);
+
+        gui_set_trunc(name_id, TRUNC_TAIL);
+        gui_set_label(name_id, set_name(i));
+    }
     else
         gui_label(id, "", GUI_SML, 0, 0);
 }
