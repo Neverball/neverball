@@ -164,6 +164,12 @@ int fs_add_path(const char *path)
 
                 return 1;
             }
+            else
+            {
+                mz_zip_error err = mz_zip_get_last_error(zip);
+                const char *str = mz_zip_get_error_string(err);
+                log_printf("FS: skipping \"%s\" (%s)\n", path, str);
+            }
 
             free(zip);
             zip = NULL;
