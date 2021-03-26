@@ -577,7 +577,7 @@ void gui_resize(void)
 
     gui_theme_init();
 
-    /* Cache digit glyphs now because some widgets base their size on these. */ 
+    /* Cache digit glyphs now because some widgets base their size on these. */
 
     gui_glyphs_init();
 
@@ -794,7 +794,7 @@ static char *gui_trunc_head(const char *text,
     {
         mid = (left + right) / 2;
 
-        str = concat_string("...", text + mid, NULL);
+        str = concat_string(GUI_ELLIPSIS, text + mid, NULL);
 
         if (gui_measure_ttf(str, font).w <= maxwidth)
             right = mid;
@@ -804,7 +804,7 @@ static char *gui_trunc_head(const char *text,
         free(str);
     }
 
-    return concat_string("...", text + right, NULL);
+    return concat_string(GUI_ELLIPSIS, text + right, NULL);
 }
 
 static char *gui_trunc_tail(const char *text,
@@ -821,10 +821,10 @@ static char *gui_trunc_tail(const char *text,
     {
         mid = (left + right) / 2;
 
-        str = malloc(mid + sizeof ("..."));
+        str = malloc(mid + sizeof (GUI_ELLIPSIS));
 
         memcpy(str,       text,  mid);
-        memcpy(str + mid, "...", sizeof ("..."));
+        memcpy(str + mid, GUI_ELLIPSIS, sizeof (GUI_ELLIPSIS));
 
         if (gui_measure_ttf(str, font).w <= maxwidth)
             left = mid;
@@ -834,10 +834,10 @@ static char *gui_trunc_tail(const char *text,
         free(str);
     }
 
-    str = malloc(left + sizeof ("..."));
+    str = malloc(left + sizeof (GUI_ELLIPSIS));
 
     memcpy(str,        text,  left);
-    memcpy(str + left, "...", sizeof ("..."));
+    memcpy(str + left, GUI_ELLIPSIS, sizeof (GUI_ELLIPSIS));
 
     return str;
 }

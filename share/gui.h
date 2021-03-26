@@ -63,6 +63,8 @@ enum trunc
     TRUNC_TAIL
 };
 
+#define GUI_ELLIPSIS "…"
+
 /*---------------------------------------------------------------------------*/
 
 void gui_init(void);
