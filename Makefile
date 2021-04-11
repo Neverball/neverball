@@ -106,6 +106,10 @@ ifeq ($(ENABLE_RADIANT_CONSOLE),1)
 	ALL_CPPFLAGS += -DENABLE_RADIANT_CONSOLE=1
 endif
 
+ifeq ($(ENABLE_FETCH),curl)
+	ALL_CPPFLAGS += $(shell curl-config --cflags)
+endif
+
 ifeq ($(PLATFORM),darwin)
 	ALL_CPPFLAGS += $(patsubst %, -I%, $(wildcard /opt/local/include \
 	                                              /usr/local/include))
@@ -212,8 +216,12 @@ ifeq ($(PLATFORM),haiku)
 	TTF_LIBS := -lSDL2_ttf -lfreetype
 endif
 
+ifeq ($(ENABLE_FETCH),curl)
+	CURL_LIBS := $(shell curl-config --libs)
+endif
+
 ALL_LIBS := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
-	$(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+	$(CURL_LIBS) $(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
 
 MAPC_LIBS := $(BASE_LIBS)
 
@@ -413,6 +421,13 @@ ifeq ($(PLATFORM),mingw)
 BALL_OBJS += neverball.ico.o
 PUTT_OBJS += neverputt.ico.o
 endif
+
+FETCH_OBJS := share/fetch_null.o
+ifeq ($(ENABLE_FETCH),curl)
+FETCH_OBJS := share/fetch_curl.o
+endif
+
+BALL_OBJS += $(FETCH_OBJS)
 
 BALL_DEPS := $(BALL_OBJS:.o=.d)
 PUTT_DEPS := $(PUTT_OBJS:.o=.d)
