@@ -23,6 +23,7 @@
 #include "set.h"
 #include "common.h"
 #include "fs.h"
+#include "package.h"
 
 #include "game_server.h"
 #include "game_client.h"
@@ -259,6 +260,29 @@ static void set_load_hs(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Create a placeholder "set" from package data.
+ *
+ * After package download, the real level set is loaded from the FS.
+ */
+static int set_package_placeholder(struct set *s, int package_id)
+{
+    if (s)
+    {
+        memset(s, 0, sizeof (*s));
+
+        SAFECPY(s->file, package_get_files(package_id));
+
+        s->name = strdup(package_get_name(package_id));
+        s->desc = strdup(package_get_desc(package_id));
+        s->shot = strdup(package_get_shot_filename(package_id));
+
+        return 1;
+    }
+
+    return 0;
+}
+
 static int set_load(struct set *s, const char *filename)
 {
     fs_file fin;
@@ -356,13 +380,7 @@ static int cmp_dir_items(const void *A, const void *B)
 
 static int set_is_loaded(const char *path)
 {
-    int i;
-
-    for (i = 0; i < array_len(sets); i++)
-        if (strcmp(SET_GET(sets, i)->file, path) == 0)
-            return 1;
-
-    return 0;
+    return (set_find(path) >= 0);
 }
 
 static int is_unseen_set(struct dir_item *item)
@@ -379,6 +397,8 @@ int set_init()
 
     Array items;
     int i;
+
+    int package_id;
 
     if (sets)
         set_quit();
@@ -424,6 +444,33 @@ int set_init()
         fs_dir_free(items);
     }
 
+    /*
+     * Add placeholders for each package that provides a level set.
+     *
+     * This is how you find a list of level sets that are downloadable
+     * and installable as packages. It's made a little confusing due
+     * to the fact that I'm piggy-backing on top of the existing level
+     * set code and set select screen. A separate "available packages" or
+     * "available levelsets" screen might be a little more straightforward.
+     * TODO
+     */
+
+    package_id = -1;
+
+    while ((package_id = package_next("set", package_id)) >= 0)
+    {
+        if (!set_is_loaded(package_get_files(package_id)))
+        {
+            struct set *s = array_add(sets);
+
+            if (s)
+            {
+                if (!set_package_placeholder(s, package_id))
+                    array_del(sets);
+            }
+        }
+    }
+
     return array_len(sets);
 }
 
@@ -440,9 +487,190 @@ void set_quit(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Figure out if a package can be downloaded for this level set.
+ */
+int set_is_downloadable(int i)
+{
+    if (set_exists(i))
+    {
+        int package_id = package_search(SET_GET(sets, i)->file);
+
+        if (package_id >= 0)
+        {
+            enum package_status status = package_get_status(package_id);
+
+            return (status == PACKAGE_AVAILABLE ||
+                    status == PACKAGE_PARTIAL ||
+                    status == PACKAGE_ERROR);
+        }
+    }
+
+    return 0;
+}
+
+/*
+ * Check package for download status.
+ */
+int set_is_downloading(int i)
+{
+    if (set_exists(i))
+    {
+        int package_id = package_search(SET_GET(sets, i)->file);
+
+        if (package_id >= 0)
+            return package_get_status(package_id) == PACKAGE_DOWNLOADING;
+    }
+
+    return 0;
+}
+
+/*
+ * Check if package for this level set is installed.
+ */
+int set_is_installed(int i)
+{
+    if (set_exists(i))
+    {
+        int package_id = package_search(SET_GET(sets, i)->file);
+
+        if (package_id >= 0)
+            return package_get_status(package_id) == PACKAGE_INSTALLED;
+
+        /* This is fine, too. */
+
+        return 1;
+    }
+
+    /* This is a problem. */
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+struct set_fetch_info
+{
+    struct fetch_callback callback;
+
+    char *set_file;
+};
+
+static struct set_fetch_info *create_sfi(const char *set_file)
+{
+    struct set_fetch_info *sfi = calloc(sizeof (*sfi), 1);
+
+    if (sfi)
+        sfi->set_file = strdup(set_file);
+
+    return sfi;
+}
+
+static void free_sfi(struct set_fetch_info *sfi)
+{
+    if (sfi)
+    {
+        if (sfi->set_file)
+        {
+            free(sfi->set_file);
+            sfi->set_file = NULL;
+        }
+
+        free(sfi);
+        sfi = NULL;
+    }
+}
+
+/*
+ * Just call the caller's callback.
+ */
+static void set_download_progress(void *data, void *extra_data)
+{
+    struct set_fetch_info *sfi = data;
+
+    if (sfi && sfi->callback.progress)
+        sfi->callback.progress(sfi->callback.data, extra_data);
+}
+
+/*
+ * Reload the level set on successful package download.
+ */
+static void set_download_done(void *data, void *extra_data)
+{
+    struct set_fetch_info *sfi = data;
+    struct fetch_done *fd = extra_data;
+
+    if (sfi)
+    {
+        if (fd->finished)
+        {
+            /* Find set index by filename, in case it has changed places. */
+
+            int set_index = set_find(sfi->set_file);
+
+            if (set_index >= 0)
+            {
+                /* Reload the level set. */
+
+                struct set *s = SET_GET(sets, set_index);
+
+                set_free(s);
+                set_load(s, sfi->set_file);
+            }
+        }
+
+        /* Also, call the caller's callback. */
+
+        if (sfi->callback.done)
+            sfi->callback.done(sfi->callback.data, extra_data);
+
+        free_sfi(sfi);
+        sfi = NULL;
+    }
+}
+
+/*
+ * Download the package for this level set.
+ */
+int set_download(int i, struct fetch_callback callback)
+{
+    if (set_exists(i))
+    {
+        const char *set_file = SET_GET(sets, i)->file;
+        int package_id = package_search(set_file);
+
+        if (package_id >= 0)
+        {
+            struct set_fetch_info *sfi = create_sfi(set_file);
+
+            if (sfi)
+            {
+                sfi->callback = callback;
+
+                /* Reuse variable. */
+
+                callback.progress = set_download_progress;
+                callback.done = set_download_done;
+                callback.data = sfi;
+
+                return (package_fetch(package_id, callback) > 0);
+            }
+        }
+    }
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int set_exists(int i)
 {
     return sets ? 0 <= i && i < array_len(sets) : 0;
+}
+
+const char *set_file(int i)
+{
+    return set_exists(i) ? SET_GET(sets, i)->file : NULL;
 }
 
 const char *set_id(int i)
@@ -525,6 +753,20 @@ void set_goto(int i)
 
     set_load_levels();
     set_load_hs();
+}
+
+int set_find(const char *file)
+{
+    if (sets)
+    {
+        int i, n;
+
+        for (i = 0, n = array_len(sets); i < n; ++i)
+            if (strcmp(SET_GET(sets, i)->file, file) == 0)
+                return i;
+    }
+
+    return -1;
 }
 
 int curr_set(void)
