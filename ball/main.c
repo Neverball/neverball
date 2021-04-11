@@ -42,6 +42,7 @@
 #include "geom.h"
 #include "joy.h"
 #include "fetch.h"
+#include "package.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -729,6 +730,8 @@ static int main_init(int argc, char *argv[])
 
     initialize_fetch();
 
+    package_init();
+
     /* Enable joystick events. */
 
     joy_init();
@@ -773,6 +776,7 @@ static void main_quit(void)
     lang_quit();
     joy_quit();
     config_quit();
+    package_quit();
     fetch_quit();
     SDL_Quit();
     log_quit();

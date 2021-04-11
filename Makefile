@@ -301,6 +301,7 @@ BALL_OBJS := \
 	share/fs_ov.o       \
 	share/log.o         \
 	share/joy.o         \
+	share/package.o     \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \
