@@ -44,7 +44,7 @@
 
 static int init_title_level(void)
 {
-    if (game_client_init("map-medium/title.sol"))
+    if (game_client_init("gui/title.sol"))
     {
         union cmd cmd;
 
