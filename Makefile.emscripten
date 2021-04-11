@@ -16,7 +16,8 @@ EM_CFLAGS := \
 	-s FULL_ES2=1 \
 	-s INVOKE_RUN=0 \
 	-s EXTRA_EXPORTED_RUNTIME_METHODS="['callMain']" \
-	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0
+	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
+	-s FETCH=1
 
 DATA_ZIP := data-emscripten.zip
 
@@ -86,6 +87,7 @@ BALL_SRCS := \
 	share/common.c \
 	share/config.c \
 	share/dir.c \
+	share/fetch_emscripten.c \
 	share/font.c \
 	share/fs_common.c \
 	share/fs_jpg.c \
