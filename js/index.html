@@ -231,7 +231,7 @@
       50% {
         transform: scale(1.2);
       }
-    }    
+    }
   </style>
 </head>
 
@@ -289,6 +289,7 @@
       EVENT_PAUSE: 0,
 
       isRunning: false,
+      pauseOnPointerRelease: true,
 
       _runButton: document.getElementById('run'),
       _fullscreenButton: document.getElementById('fullscreen'),
@@ -312,7 +313,22 @@
 
         pointerLockChange: function (event) {
           if (!document.pointerLockElement) {
-            Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            if (Neverball.pauseOnPointerRelease) {
+              Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            }
+          }
+        },
+
+        canvasTouchStart: function (event) {
+          // Normally, we pause the game on pointer lock loss. Unfortunately,
+          // there is a difference in behavior betwen Firefox and Chrome on mobile:
+          // Firefox automatically disables pointer lock when no mouse is available.
+          // As a side effect, it causes the game to pause all the time. As a workaround,
+          // we disable this pause logic when a touch device is used.
+
+          if (Neverball.pauseOnPointerRelease) {
+            console.log('Disable pause on pointer release (Firefox workaround).')
+            Neverball.pauseOnPointerRelease = false;
           }
         }
       },
@@ -329,6 +345,8 @@
 
         document.addEventListener('fullscreenchange', this.events.fullscreenChange);
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
+
+        Module['canvas'].addEventListener('touchstart', this.events.canvasTouchStart);
       },
 
       run: function () {
