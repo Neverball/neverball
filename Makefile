@@ -106,6 +106,9 @@ ifeq ($(ENABLE_RADIANT_CONSOLE),1)
 	ALL_CPPFLAGS += -DENABLE_RADIANT_CONSOLE=1
 endif
 
+# Enable libcurl by default, disable w/ ENABLE_FETCH=0.
+ENABLE_FETCH := curl
+
 ifeq ($(ENABLE_FETCH),curl)
 	ALL_CPPFLAGS += $(shell curl-config --cflags)
 endif
