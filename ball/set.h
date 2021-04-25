@@ -3,6 +3,7 @@
 
 #include "base_config.h"
 #include "level.h"
+#include "package.h"
 
 #define SET_FILE "sets.txt"
 #define SET_MISC "set-misc.txt"
@@ -18,11 +19,18 @@ void set_quit(void);
 
 int  set_exists(int);
 void set_goto(int);
+int  set_find(const char *);
 
 int  curr_set(void);
 
+int set_is_downloadable(int);
+int set_is_downloading(int);
+int set_is_installed(int);
+int set_download(int, struct fetch_callback);
+
 const char         *set_id(int);
 const char         *set_name(int);
+const char         *set_file(int);
 const char         *set_desc(int);
 const char         *set_shot(int);
 const struct score *set_score(int, int);

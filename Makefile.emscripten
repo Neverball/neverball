@@ -16,27 +16,49 @@ EM_CFLAGS := \
 	-s FULL_ES2=1 \
 	-s INVOKE_RUN=0 \
 	-s EXTRA_EXPORTED_RUNTIME_METHODS="['callMain']" \
-	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0
+	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
+	-s FETCH=1
 
 DATA_ZIP := data-emscripten.zip
 
 EM_PRELOAD := \
 	--preload-file $(DATA_ZIP)@/data/base.zip
 
+# Exclude Neverputt + everything that can be downloaded later.
 DATA_EXCLUDE := \
 	'*.map' \
 	'*.obj' \
 	'holes*.txt' \
 	'map-ckk/*' \
+	'map-fwp/*' \
+	'map-hard/*' \
 	'map-iCourse/*' \
+	'map-medium/*' \
 	'map-misc/*' \
+	'map-mym/*' \
+	'map-mym2/*' \
 	'map-paxed/*' \
 	'map-paxed2/*' \
 	'map-paxed3/*' \
 	'map-putt/*' \
 	'map-slippi/*' \
+	'map-tones/*' \
 	'map-vidski/*' \
-	'shot-putt/*'
+	'shot-fwp/*' \
+	'shot-hard/*' \
+	'shot-medium/*' \
+	'shot-misc/*' \
+	'shot-mym/*' \
+	'shot-mym2/*' \
+	'shot-putt/*' \
+	'shot-tones/*' \
+	'set-fwp.txt' \
+	'set-hard.txt' \
+	'set-medium.txt' \
+	'set-misc.txt' \
+	'set-mym.txt' \
+	'set-mym2.txt' \
+	'set-tones.txt'
 
 LDFLAGS := -L../gl4es/lib -lGL
 EM_LDFLAGS := \
@@ -86,6 +108,7 @@ BALL_SRCS := \
 	share/common.c \
 	share/config.c \
 	share/dir.c \
+	share/fetch_emscripten.c \
 	share/font.c \
 	share/fs_common.c \
 	share/fs_jpg.c \
@@ -103,6 +126,7 @@ BALL_SRCS := \
 	share/list.c \
 	share/log.c \
 	share/mtrl.c \
+	share/package.c \
 	share/part.c \
 	share/queue.c \
 	share/solid_all.c \
@@ -131,6 +155,19 @@ $(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
 
 $(DATA_ZIP):
 	cd data && zip -r ../$@ . -x $(DATA_EXCLUDE)
+
+.PHONY: packages
+packages:
+	target_dir="$$(pwd)/js/packages/"; \
+	manifest="$$target_dir/available-packages-emscripten.txt"; \
+	make_package="$$(pwd)/scripts/make-package.sh"; \
+	mkdir -p "$$target_dir" && \
+	scripts/make-data-packages.sh "data" "$$target_dir" "$$make_package" >> $$manifest; \
+	scripts/make-repo-packages.sh "../neverball-packages" "$$target_dir" "$$make_package" | tee "$$target_dir/available-packages.txt" >> "$$manifest"
+
+.PHONY: clean-packages
+clean-packages:
+	rm -r "$$(pwd)/js/packages"
 
 .PHONY: clean
 clean:

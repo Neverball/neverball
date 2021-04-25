@@ -41,6 +41,8 @@
 #include "mtrl.h"
 #include "geom.h"
 #include "joy.h"
+#include "fetch.h"
+#include "package.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -229,6 +231,47 @@ void EMSCRIPTEN_KEEPALIVE push_user_event(int code)
 }
 #endif
 
+/*---------------------------------------------------------------------------*/
+
+/*
+ * Custom SDL event code for fetch events.
+ */
+static Uint32 FETCH_EVENT = (Uint32) -1;
+
+/*
+ * Push a custom SDL event on the queue from another thread.
+ */
+static void dispatch_fetch_event(void *data)
+{
+    SDL_Event e;
+
+    memset(&e, 0, sizeof (e));
+
+    e.type = FETCH_EVENT;
+    e.user.data1 = data;
+
+    /* This is thread safe. */
+
+    SDL_PushEvent(&e);
+}
+
+/*
+ * Start the fetch thread.
+ *
+ * SDL must be initialized at this point for fetch event dispatch to work.
+ */
+static void initialize_fetch(void)
+{
+    /* Get a custom event code for fetch events. */
+    FETCH_EVENT = SDL_RegisterEvents(1);
+
+    /* Start the thread. */
+    fetch_init(dispatch_fetch_event);
+}
+
+
+/*---------------------------------------------------------------------------*/
+
 static int loop(void)
 {
     SDL_Event e;
@@ -384,6 +427,13 @@ static int loop(void)
 
         case SDL_MOUSEWHEEL:
             st_wheel(e.wheel.x, e.wheel.y);
+            break;
+
+        default:
+            if (e.type == FETCH_EVENT)
+            {
+                fetch_handle_event(e.user.data1);
+            }
             break;
         }
     }
@@ -678,6 +728,10 @@ static int main_init(int argc, char *argv[])
         return 0;
     }
 
+    initialize_fetch();
+
+    package_init();
+
     /* Enable joystick events. */
 
     joy_init();
@@ -722,6 +776,8 @@ static void main_quit(void)
     lang_quit();
     joy_quit();
     config_quit();
+    package_quit();
+    fetch_quit();
     SDL_Quit();
     log_quit();
     fs_quit();
@@ -789,7 +845,7 @@ int main(int argc, char *argv[])
      *
      *   0 = execution continues to the end of main().
      *   1 = execution stops here, the rest of main() is never executed.
-     * 
+     *
      * It's best not to put anything after this.
      */
     emscripten_set_main_loop_arg(step, (void *) &mainloop, 0, 1);
