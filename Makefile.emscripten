@@ -167,7 +167,7 @@ packages:
 
 .PHONY: clean-packages
 clean-packages:
-	rm -r "$$(pwd)/js/packages"
+	rm -rf "$$(pwd)/js/packages"
 
 .PHONY: clean
 clean:
