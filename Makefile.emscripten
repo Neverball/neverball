@@ -157,7 +157,7 @@ $(DATA_ZIP):
 	cd data && zip -r ../$@ . -x $(DATA_EXCLUDE)
 
 .PHONY: packages
-packages:
+packages: clean-packages
 	target_dir="$$(pwd)/js/packages/"; \
 	manifest="$$target_dir/available-packages-emscripten.txt"; \
 	make_package="$$(pwd)/scripts/make-package.sh"; \
