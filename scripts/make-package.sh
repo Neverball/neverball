@@ -58,9 +58,14 @@ setshot="$(sed -n '4 p' < "$setfile")" &&
 setname="$(sed -n '1 p' < "$setfile")" &&
 setdesc="$(sed -n '2 p' < "$setfile")" &&
 setshotdir="$(dirname "$setshot")" &&
-cp "$setfile" "$tempdir" && # install set file
-cp -r "$setshotdir" "$tempdir" && # install level shots
-install_with_dirs "$tempdir" $sols && # install sols
+if [ -f sets.txt ]; then
+	cp "$setfile" "$tempdir" && # install set file
+	cp -r "$setshotdir" "$tempdir" && # install level shots
+	install_with_dirs "$tempdir" $sols # install sols
+else
+	cp -r * "$tempdir"/ && # install everything
+	find "$tempdir" \( -name '*.map' -o -name 'Thumbs.db' \) -delete # but delete some things
+fi &&
 (cd "$tempdir" && touch_files && zip -X -q -r "$zipfile" .) && # build zip file
 packagesize="$(du -b "$tempdir/$zipfile" | cut -f1)" &&
 checksum=$(md5sum "$tempdir/$zipfile" | cut -d' ' -f1) &&
