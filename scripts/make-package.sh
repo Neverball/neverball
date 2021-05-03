@@ -20,28 +20,28 @@
 #
 # So, it's not actually hassle-free.
 touch_files() {
-	# May 1 2003 is puttnik-0501 release date.
-	find . \( -type f -o -type d \) -execdir touch -t 200305010000 {} \;
+    # May 1 2003 is puttnik-0501 release date.
+    find . \( -type f -o -type d \) -execdir touch -t 200305010000 {} \;
 }
 
 # Given "/tmp/destdir/" and "map-easy/easy.sol", create a copy at
 # "/tmp/destdir/map-easy/easy.sol".
 install_with_dirs() {
-	# First parameter is the destination directory.
-	destdir="$1"
-	shift
+    # First parameter is the destination directory.
+    destdir="$1"
+    shift
 
-	# Remaining parameters are the source files.
-	for f in "$@"; do
-		d="$(dirname "$f")" &&
-		mkdir -p "${destdir}/${d}" &&
-		cp "$f" "${destdir}/${d}/" # important trailing slash
-	done
+    # Remaining parameters are the source files.
+    for f in "$@"; do
+        d="$(dirname "$f")" &&
+        mkdir -p "${destdir}/${d}" &&
+        cp "$f" "${destdir}/${d}/" # important trailing slash
+    done
 }
 
 [ "$1" -a "$2" -a "$3" ] || {
-	echo "Usage: $(basename $0) [package-id] [set-easy.txt] [outdir]"
-	exit 1
+    echo "Usage: $(basename $0) [package-id] [set-easy.txt] [outdir]"
+    exit 1
 }
 
 id="$1"
@@ -59,12 +59,12 @@ setname="$(sed -n '1 p' < "$setfile")" &&
 setdesc="$(sed -n '2 p' < "$setfile")" &&
 setshotdir="$(dirname "$setshot")" &&
 if [ -f sets.txt ]; then
-	cp "$setfile" "$tempdir" && # install set file
-	cp -r "$setshotdir" "$tempdir" && # install level shots
-	install_with_dirs "$tempdir" $sols # install sols
+    cp "$setfile" "$tempdir" && # install set file
+    cp -r "$setshotdir" "$tempdir" && # install level shots
+    install_with_dirs "$tempdir" $sols # install sols
 else
-	cp -r * "$tempdir"/ && # install everything
-	find "$tempdir" \( -name '*.map' -o -name 'Thumbs.db' \) -delete # but delete some things
+    cp -r * "$tempdir"/ && # install everything
+    find "$tempdir" \( -name '*.map' -o -name 'Thumbs.db' \) -delete # but delete some things
 fi &&
 (cd "$tempdir" && touch_files && zip -X -q -r "$zipfile" .) && # build zip file
 packagesize="$(du -b "$tempdir/$zipfile" | cut -f1)" &&
