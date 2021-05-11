@@ -449,15 +449,17 @@ WINDRES ?= windres
 #------------------------------------------------------------------------------
 
 %.o : %.c
-	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
-	$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
-
+	@$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	@$(CC) $(ALL_CFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+	@echo "$(CC) $<"
 %.o : %.cpp
-	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
-	$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+	@$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -MM -MP -MF $*.d -MT "$@" $<
+	@$(CXX) $(ALL_CXXFLAGS) $(ALL_CPPFLAGS) -o $@ -c $<
+	@echo "$(CXX) $<"
 
 %.sol : %.map $(MAPC_TARG)
-	$(MAPC) $< data
+	@$(MAPC) $< data
+	@echo "$(MAPC) $<"
 
 %.desktop : %.desktop.in
 	sh scripts/translate-desktop.sh < $< > $@
