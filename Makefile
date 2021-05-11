@@ -472,23 +472,26 @@ WINDRES ?= windres
 all : $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) sols locales desktops
 
 ifeq ($(ENABLE_HMD),libovr)
-LINK := $(CXX) $(ALL_CXXFLAGS)
+LINK := $(CXX) $(ALL_CXXFLAGS) 
 else
 ifeq ($(ENABLE_TILT),leapmotion)
-LINK := $(CXX) $(ALL_CXXFLAGS)
+LINK := $(CXX) $(ALL_CXXFLAGS) 
 else
-LINK := $(CC) $(ALL_CFLAGS)
+LINK := @$(CC) $(ALL_CFLAGS)
+
 endif
 endif
 
 $(BALL_TARG) : $(BALL_OBJS)
-	$(LINK) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
-
+	@$(LINK) -o $(BALL_TARG) $(BALL_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	@echo "$(LINK) $<"
 $(PUTT_TARG) : $(PUTT_OBJS)
-	$(LINK) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	@$(LINK) -o $(PUTT_TARG) $(PUTT_OBJS) $(LDFLAGS) $(ALL_LIBS)
+	@echo "$(LINK) $<"
 
 $(MAPC_TARG) : $(MAPC_OBJS)
-	$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(MAPC_LIBS)
+	@$(CC) $(ALL_CFLAGS) -o $(MAPC_TARG) $(MAPC_OBJS) $(LDFLAGS) $(MAPC_LIBS)
+	@echo "$(CC) $<"
 
 # Work around some extremely helpful sdl-config scripts.
 
