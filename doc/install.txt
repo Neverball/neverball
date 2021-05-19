@@ -10,6 +10,8 @@
     libvorbis         http://xiph.org/vorbis/
     libpng            http://libpng.org/pub/png/libpng.html
     libjpeg           http://ijg.org/
+    gettext           https://www.gnu.org/software/gettext/
+    cURL              https://curl.se/
 
 
 * COMPILATION
