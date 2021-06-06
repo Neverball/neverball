@@ -69,8 +69,9 @@ fi &&
 (cd "$tempdir" && touch_files && zip -X -q -r "$zipfile" .) && # build zip file
 packagesize="$(du -b "$tempdir/$zipfile" | cut -f1)" &&
 checksum=$(md5sum "$tempdir/$zipfile" | cut -d' ' -f1) &&
+shotchecksum=$(md5sum "$tempdir/$setshot" | cut -d' ' -f1) &&
 packagefile="${id}-${checksum}.zip" && # construct package filename
-packageshot="${id}-${checksum}.${setshot##*.}" # construct package image filename
+packageshot="${id}-${shotchecksum}.${setshot##*.}" # construct package image filename
 cp "$tempdir/$setshot" "${outdir}/$packageshot" && # install package image
 mv "$tempdir/$zipfile" "${outdir}/${packagefile}" && # install package
 cat <<EOF
