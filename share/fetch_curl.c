@@ -29,6 +29,7 @@ struct fetch_info
     struct fetch_callback callback;
 
     CURL *handle;
+    char *dest_filename;
     fs_file dest_file;
     unsigned int fetch_id;
 };
@@ -219,6 +220,12 @@ static void free_fetch_info(struct fetch_info *fi)
         if (fi->handle)
             curl_easy_cleanup(fi->handle);
 
+        if (fi->dest_filename)
+        {
+            free(fi->dest_filename);
+            fi->dest_filename = NULL;
+        }
+
         if (fi->dest_file)
             fs_close(fi->dest_file);
 
@@ -283,8 +290,19 @@ static size_t fetch_write_func(void *buffer, size_t size, size_t nmemb, void *us
 {
     struct fetch_info *fi = user_data;
 
-    if (fi && fi->dest_file)
-        return fs_write(buffer, size * nmemb, fi->dest_file);
+    if (fi)
+    {
+        if (!fi->dest_file)
+        {
+            /* Open file on first write. TODO: write to a temporary file. */
+
+            if (fi->dest_filename && *fi->dest_filename)
+                fi->dest_file = fs_open_write(fi->dest_filename);
+        }
+
+        if (fi->dest_file)
+            return fs_write(buffer, size * nmemb, fi->dest_file);
+    }
 
     return 0;
 }
@@ -549,7 +567,7 @@ unsigned int fetch_url(const char *url,
 
             fi->callback = callback;
             fi->handle = handle;
-            fi->dest_file = fs_open_write(filename);
+            fi->dest_filename = strdup(filename);
 
             curl_easy_setopt(handle, CURLOPT_PRIVATE, fi);
             curl_easy_setopt(handle, CURLOPT_URL, url);
