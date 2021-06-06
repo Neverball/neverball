@@ -71,7 +71,7 @@ static const char *get_package_path(const char *filename)
 /*---------------------------------------------------------------------------*/
 
 /*
- * We also track the installed packages separately, just so we don't have to scan
+ * We keep a separate list of installed packages, so that we don't have to scan
  * the package directory and figure out which ZIP files can be added to the FS
  * and which ones can't.
  */
@@ -204,6 +204,8 @@ static void free_installed_packages(void)
 
 /*
  * Figure out package statuses.
+ *
+ * Packages that are found to exist are marked as installed and added to the FS.
  */
 static void load_package_statuses(Array packages)
 {
@@ -351,6 +353,9 @@ static void fetch_package_images(Array packages)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Load the list of available packages and initiate image downloads.
+ */
 static void available_packages_done(void *data, void *extra_data)
 {
     struct fetch_done *fd = extra_data;
