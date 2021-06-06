@@ -553,6 +553,7 @@ const char *package_get_shot_filename(int package_id)
 struct package_fetch_info
 {
     struct fetch_callback callback;
+    char *temp_filename;
     char *dest_filename;
     struct package *pkg;
 };
@@ -565,6 +566,7 @@ static struct package_fetch_info *create_pfi(struct package *pkg)
     {
         memset(pfi, 0, sizeof (*pfi));
 
+        pfi->temp_filename = concat_string(get_package_path(pkg->filename), ".tmp", NULL);
         pfi->dest_filename = strdup(get_package_path(pkg->filename));
 
         pfi->pkg = pkg;
@@ -577,6 +579,12 @@ static void free_pfi(struct package_fetch_info *pfi)
 {
     if (pfi)
     {
+        if (pfi->temp_filename)
+        {
+            free(pfi->temp_filename);
+            pfi->temp_filename = NULL;
+        }
+
         if (pfi->dest_filename)
         {
             free(pfi->dest_filename);
@@ -617,8 +625,17 @@ static void package_fetch_done(void *data, void *extra_data)
         pkg->status = PACKAGE_ERROR;
 
         if (dn->finished)
+        {
+            /* Rename from temporary name to destination name. */
+
+            if (pfi->temp_filename && pfi->dest_filename)
+                fs_rename(pfi->temp_filename, pfi->dest_filename);
+
+            /* Add package to installed packages and to FS. */
+
             if (add_installed_package(pkg->filename))
                 pkg->status = PACKAGE_INSTALLED;
+        }
 
         if (pfi->callback.done)
             pfi->callback.done(pfi->callback.data, extra_data);
@@ -651,7 +668,7 @@ unsigned int package_fetch(int package_id, struct fetch_callback callback)
             callback.done = package_fetch_done;
             callback.data = pfi;
 
-            fetch_id = fetch_url(url, pfi->dest_filename, callback);
+            fetch_id = fetch_url(url, pfi->temp_filename, callback);
 
             if (fetch_id)
             {
