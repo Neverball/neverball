@@ -43,6 +43,8 @@
 const char TITLE[] = "Neverputt " VERSION;
 const char ICON[] = "icon/neverputt.png";
 
+static int skip_draw = 0;
+
 /*---------------------------------------------------------------------------*/
 
 static void shot(void)
@@ -293,6 +295,13 @@ static void opt_parse(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
+void set_skipping(int s)
+{
+    skip_draw = s;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int main(int argc, char *argv[])
 {
     int camera = 0;
@@ -374,12 +383,18 @@ int main(int argc, char *argv[])
                 {
                     st_timer((t1 - t0) / 1000.f);
                     hmd_step();
-                    st_paint(0.001f * t1);
-                    video_swap();
+
+                    if (!skip_draw)
+                    {
+                        st_paint(0.001f * t1);
+                        video_swap();
+                    }
+                    else
+                        t1 -= 100;
 
                     t0 = t1;
 
-                    if (config_get_d(CONFIG_NICE))
+                    if (config_get_d(CONFIG_NICE) && !skip_draw)
                         SDL_Delay(1);
                 }
 

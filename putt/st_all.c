@@ -702,6 +702,11 @@ static int pause_buttn(int b, int d)
 
 static int shared_keybd(int c, int d)
 {
+    if (curr_state() == &st_roll)
+    {
+        set_skipping(1);
+    }
+
     if (d)
     {
         if (c == KEY_EXIT)
@@ -1045,9 +1050,9 @@ static void roll_timer(int id, float dt)
 
     switch (game_step(g, dt))
     {
-    case GAME_STOP: goto_state(&st_stop); break;
-    case GAME_GOAL: goto_state(&st_goal); break;
-    case GAME_FALL: goto_state(&st_fall); break;
+    case GAME_STOP: goto_state(&st_stop); set_skipping(0); break;
+    case GAME_GOAL: goto_state(&st_goal); set_skipping(0); break;
+    case GAME_FALL: goto_state(&st_fall); set_skipping(0); break;
     }
 }
 
