@@ -1,4 +1,5 @@
 #include "fetch.h"
+#include "common.h"
 #include "version.h"
 #include "list.h"
 #include "log.h"
