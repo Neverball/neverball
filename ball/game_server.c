@@ -662,8 +662,7 @@ static void game_update_time(float dt, int b)
 
     if (b && timer_down)
     {
-        if (timer < 600.f)
-            timer -= dt;
+        timer -= dt;
         if (timer < 0.f)
             timer = 0.f;
     }
@@ -678,7 +677,7 @@ static void game_update_time(float dt, int b)
 static int game_update_state(int bt)
 {
     struct b_goal *zp;
-    int hi;
+    int hi, gainTick;
 
     float p[3];
 
@@ -696,6 +695,18 @@ static int game_update_state(int bt)
         {
             coins += hp->n;
             game_cmd_coins();
+        }
+        else if (hp->t == ITEM_CLOCK)
+        {
+            audio_play(AUD_CLOCK, 1.f);
+
+            if (timer_down) {
+                /* Clocks are only effective on timed levels */
+                gainTick = hp->n;
+
+                game_update_time((float) -gainTick, bt);
+                incr_gained(gainTick);
+            }
         }
 
         audio_play(AUD_COIN, 1.f);

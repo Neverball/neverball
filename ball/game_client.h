@@ -19,6 +19,9 @@ void  game_client_draw(int, float);
 void  game_client_blend(float);
 
 int   curr_clock(void);
+int   curr_gained(void);
+void  incr_gained(int amt);
+void  clear_gain(void);
 int   curr_coins(void);
 int   curr_status(void);
 
