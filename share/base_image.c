@@ -224,7 +224,7 @@ void *image_load(const char *filename, int *width,
                                        int *height,
                                        int *bytes)
 {
-    if (filename)
+    if (filename && strlen(filename) > 4)
     {
         const char *ext = filename + strlen(filename) - 4;
 
