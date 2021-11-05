@@ -12,7 +12,7 @@ struct fetch_info
     struct fetch_callback callback;
 
     emscripten_fetch_t *handle;
-    fs_file dest_file;
+    char *dest_filename;
     unsigned int fetch_id;
 };
 
@@ -54,8 +54,11 @@ static void free_fetch_info(struct fetch_info *fi)
         if (fi->handle)
             emscripten_fetch_close(fi->handle);
 
-        if (fi->dest_file)
-            fs_close(fi->dest_file);
+        if (fi->dest_filename)
+        {
+            free(fi->dest_filename);
+            fi->dest_filename = NULL;
+        }
 
         free(fi);
         fi = NULL;
@@ -118,15 +121,20 @@ static void fetch_success_func(emscripten_fetch_t *handle)
     {
         int finished = 0;
 
-        if (fi->dest_file)
+        if (fi->dest_filename && *fi->dest_filename)
         {
-            if (fs_write(handle->data, handle->numBytes, fi->dest_file) == handle->numBytes)
-                finished = 1;
+            fs_file fp = fs_open_write(fi->dest_filename);
 
-            fs_close(fi->dest_file);
-            fi->dest_file = NULL;
+            if (fp)
+            {
+                if (fs_write(handle->data, handle->numBytes, fp) == handle->numBytes)
+                    finished = 1;
 
-            fs_persistent_sync();
+                fs_close(fp);
+                fp = NULL;
+
+                fs_persistent_sync();
+            }
         }
 
         if (fi->callback.done)
@@ -148,14 +156,6 @@ static void fetch_error_func(emscripten_fetch_t *handle)
 
     if (fi)
     {
-        if (fi->dest_file)
-        {
-            fs_close(fi->dest_file);
-            fi->dest_file = NULL;
-
-            /* TODO: remove the partial file. */
-        }
-
         if (fi->callback.done)
         {
             struct fetch_done extra_data = { 0 };
@@ -207,7 +207,7 @@ unsigned int fetch_url(const char *url, const char *dst, struct fetch_callback c
         attr.userData = fi;
 
         fi->callback = callback;
-        fi->dest_file = fs_open_write(dst);
+        fi->dest_filename = strdup(dst);
         fi->handle = emscripten_fetch(&attr, url);
 
         if (fi->handle)

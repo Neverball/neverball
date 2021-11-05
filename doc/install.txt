@@ -6,10 +6,11 @@
 
     SDL 2.0           http://libsdl.org/download-2.0.php
     SDL2_ttf          http://libsdl.org/projects/SDL_ttf/
-    PhysicsFS         http://icculus.org/physfs/
     libvorbis         http://xiph.org/vorbis/
     libpng            http://libpng.org/pub/png/libpng.html
     libjpeg           http://ijg.org/
+    libcurl           optional, see below
+    libintl           optional, see below
 
 
 * COMPILATION
@@ -18,14 +19,14 @@ Under Unix and Linux, simply run
 
     make
 
-For  Windows  builds,  the   MinGW  cross-compilation  environment  is
-supported. On Fedora Linux, run
+Under Windows, install the MSYS2 environment and run
+
+    make
+
+Cross-compilation for Windows is also supported. On Fedora Linux, run
 
     make sols clean-src
     mingw32-make -o sols PLATFORM=mingw
-
-Native  builds are  theoretically possible using  MinGW and
-MSYS.
 
 
 * OPTIONAL FEATURES
@@ -34,15 +35,17 @@ Optional features  can be enabled  at compile  time by passing  one or
 more additional  arguments to  make.  Most  of these  features require
 additional libraries to be installed.
 
-make ENABLE_FS=stdio
-    Alternate  file  system  backend   that  replaces  PhysicsFS  with
-    standard I/O, but lacks ZIP archive support.
-
 make ENABLE_NLS=0
     Native language support.  This is  enabled by default. Requires an
     additional library on non-GLIBC systems.
 
     libintl           http://www.gnu.org/software/gettext/
+
+make ENABLE_FETCH=curl
+    Use libcurl for package downloads. This is enabled by default. Set
+    this to any other value (e.g., ENABLE_FETCH=0) to disable downloads.
+
+    libcurl           https://curl.se/libcurl/
 
 make ENABLE_TILT=wii
     Nintendo Wii Remote support on Linux.
