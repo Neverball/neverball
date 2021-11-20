@@ -27,6 +27,7 @@
 #define AUD_OVER  _("snd/over.ogg")
 #define AUD_GROW    "snd/grow.ogg"
 #define AUD_SHRINK  "snd/shrink.ogg"
+#define AUD_CLOCK   "snd/clock.ogg"
 
 /*---------------------------------------------------------------------------*/
 

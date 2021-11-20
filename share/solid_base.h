@@ -113,6 +113,7 @@
 #define ITEM_COIN       1
 #define ITEM_GROW       2
 #define ITEM_SHRINK     3
+#define ITEM_CLOCK      4
 
 /* Path flags. */
 
