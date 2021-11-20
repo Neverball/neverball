@@ -677,7 +677,7 @@ static void game_update_time(float dt, int b)
 static int game_update_state(int bt)
 {
     struct b_goal *zp;
-    int hi, gainTick;
+    int hi;
 
     float p[3];
 
@@ -700,12 +700,16 @@ static int game_update_state(int bt)
         {
             audio_play(AUD_CLOCK, 1.f);
 
-            if (timer_down) {
-                /* Clocks are only effective on timed levels */
-                gainTick = hp->n;
+            if (timer_down)
+            {
+                /* Clock items are only effective on timed levels. */
 
-                game_update_time((float) -gainTick, bt);
-                incr_gained(gainTick);
+                int seconds = hp->n;
+
+                game_update_time((float) -seconds, bt);
+
+                /* FIXME: calling client from server is a bad idea. */
+                incr_gained(seconds);
             }
         }
 
