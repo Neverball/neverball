@@ -442,10 +442,16 @@ void audio_music_fade_to(float t, const char *filename)
     }
 }
 
+/*
+ * Logarithmic volume control.
+ */
 void audio_volume(int s, int m)
 {
-    sound_vol = (float) s / 10.0f;
-    music_vol = (float) m / 10.0f;
+    float sl = (float) s / 10.0f;
+    float ml = (float) m / 10.0f;
+
+    sound_vol = (float) pow((double) sl, 2.0);
+    music_vol = (float) pow((double) ml, 2.0);
 }
 
 /*---------------------------------------------------------------------------*/
