@@ -61,6 +61,8 @@ static ov_callbacks callbacks = {
 
 /*---------------------------------------------------------------------------*/
 
+#define LOG_VOLUME(v) ((float) pow((double) (v), 2.0))
+
 #define MIX(d, s) {                           \
         int T = (int) (d) + (int) (s);        \
         if      (T >  32767) (d) =  32767;    \
@@ -99,7 +101,7 @@ static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
             if (V->chan == 1)
                 for (i = 0; i < n / 2; i += 1)
                 {
-                    short M = (short) (V->amp * volume * buffer[i]);
+                    short M = (short) (LOG_VOLUME(V->amp) * volume * buffer[i]);
 
                     MIX(obuf[c], M); c++;
                     MIX(obuf[c], M); c++;
@@ -115,8 +117,8 @@ static int voice_step(struct voice *V, float volume, Uint8 *stream, int length)
             if (V->chan == 2)
                 for (i = 0; i < n / 2; i += 2)
                 {
-                    short L = (short) (V->amp * volume * buffer[i + 0]);
-                    short R = (short) (V->amp * volume * buffer[i + 1]);
+                    short L = (short) (LOG_VOLUME(V->amp) * volume * buffer[i + 0]);
+                    short R = (short) (LOG_VOLUME(V->amp) * volume * buffer[i + 1]);
 
                     MIX(obuf[c], L); c++;
                     MIX(obuf[c], R); c++;
@@ -450,8 +452,8 @@ void audio_volume(int s, int m)
     float sl = (float) s / 10.0f;
     float ml = (float) m / 10.0f;
 
-    sound_vol = (float) pow((double) sl, 2.0);
-    music_vol = (float) pow((double) ml, 2.0);
+    sound_vol = LOG_VOLUME(sl);
+    music_vol = LOG_VOLUME(ml);
 }
 
 /*---------------------------------------------------------------------------*/
