@@ -514,7 +514,7 @@ void fetch_init(void (*dispatch_event)(void *))
         return;
     }
 
-    /* Process FETCH_MAX connections in paraller, while the rest wait in a queue. */
+    /* Process FETCH_MAX connections in parallel, while the rest wait in a queue. */
 
     curl_multi_setopt(multi_handle, CURLMOPT_MAX_TOTAL_CONNECTIONS, FETCH_MAX);
 
