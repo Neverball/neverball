@@ -31,6 +31,9 @@
 
 #include "cmd.h"
 
+/* Do this differently ASAP. */
+void incr_gained(int);
+
 /*---------------------------------------------------------------------------*/
 
 static int server_state = 0;
