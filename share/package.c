@@ -82,7 +82,7 @@ static List installed_packages;
 /*
  * Add package file to FS path.
  */
-static int add_package_to_path(const char *filename)
+static int mount_package(const char *filename)
 {
     const char *write_dir = fs_get_write_dir();
     int added = 0;
@@ -106,7 +106,7 @@ static int add_package_to_path(const char *filename)
 /*
  * Add a package to the FS path and to the list, if not yet added.
  */
-static int add_installed_package(const char *filename)
+static int mount_installed_package(const char *filename)
 {
     List l;
 
@@ -118,7 +118,7 @@ static int add_installed_package(const char *filename)
 
     /* Attempt addition. */
 
-    if (add_package_to_path(filename))
+    if (mount_package(filename))
     {
         installed_packages = list_cons(strdup(filename), installed_packages);
         return 1;
@@ -143,7 +143,7 @@ static int load_installed_packages(void)
             strip_newline(line);
 
             if (fs_exists(get_package_path(line)))
-                add_installed_package(line);
+                mount_installed_package(line);
         }
 
         fs_close(fp);
@@ -230,7 +230,7 @@ static void load_package_statuses(Array packages)
                 {
                     pkg->status = PACKAGE_INSTALLED;
 
-                    add_installed_package(pkg->filename);
+                    mount_installed_package(pkg->filename);
                 }
             }
         }
@@ -635,7 +635,7 @@ static void package_fetch_done(void *data, void *extra_data)
 
             /* Add package to installed packages and to FS. */
 
-            if (add_installed_package(pkg->filename))
+            if (mount_installed_package(pkg->filename))
                 pkg->status = PACKAGE_INSTALLED;
         }
 
