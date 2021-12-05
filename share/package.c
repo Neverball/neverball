@@ -27,7 +27,7 @@ static Array available_packages;
 /*---------------------------------------------------------------------------*/
 
 /*
- * Get a downlaod URL.
+ * Get a download URL.
  */
 static const char *get_package_url(const char *filename)
 {
