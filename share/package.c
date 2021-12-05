@@ -22,6 +22,8 @@ static Array available_packages;
 
 #define PACKAGE_GET(a, i) ((struct package *) array_get((a), (i)))
 
+#define PACKAGE_DIR "Downloads"
+
 /*---------------------------------------------------------------------------*/
 
 /*
@@ -60,7 +62,7 @@ static const char *get_package_path(const char *filename)
 
         memset(path, 0, sizeof (path));
 
-        SAFECPY(path, "Downloads/");
+        SAFECPY(path, PACKAGE_DIR "/");
         SAFECAT(path, filename);
 
         return path;
@@ -87,7 +89,7 @@ static int add_package_to_path(const char *filename)
 
     if (write_dir)
     {
-        char *path = concat_string(write_dir, "/Downloads/", filename, NULL);
+        char *path = concat_string(write_dir, "/" PACKAGE_DIR "/", filename, NULL);
 
         if (path)
         {
@@ -421,12 +423,12 @@ void package_init(void)
 
     if (write_dir)
     {
-        char *package_dir = concat_string(write_dir, "/", "Downloads", NULL);
+        char *package_dir = concat_string(write_dir, "/", PACKAGE_DIR, NULL);
 
         if (package_dir)
         {
             if (!dir_exists(package_dir))
-                fs_mkdir("Downloads");
+                fs_mkdir(PACKAGE_DIR);
 
             free(package_dir);
             package_dir = NULL;
