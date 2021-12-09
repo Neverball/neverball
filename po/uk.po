@@ -1,54 +1,62 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Robert Kooima
 # This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# GunChleoc, 2014
+# Jānis Rūcis <parasti@gmail.com>, 2021
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Neverball\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-05-21 13:35+0300\n"
-"PO-Revision-Date: 2018-09-24 20:32+0000\n"
-"Last-Translator: Alexey Lugin <alexeylugin@gmail.com>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/neverball/neverball/language/uk/)\n"
+"POT-Creation-Date: 2021-12-09 22:48+0200\n"
+"PO-Revision-Date: 2021-12-09 20:57+0000\n"
+"Last-Translator: Jānis Rūcis <parasti@gmail.com>, 2021\n"
+"Language-Team: Ukrainian (https://www.transifex.com/neverball/teams/3458/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: ball/st_play.c:100
-msgid "Ready?"
-msgstr "Готові?"
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "Перервано"
 
-#: ball/st_play.c:184
-msgid "Set?"
-msgstr "Увага!"
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "Вийшов час"
 
-#: ball/st_play.c:325
-msgid "GO!"
-msgstr "ПОЧАЛИ!"
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "Пройдено"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Ім'я запису"
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "Падіння"
 
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Зберегти"
+#: ball/game_common.c:32 ball/progress.c:416
+msgid "Unknown"
+msgstr "Невідомий"
 
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Скасувати"
+#: ball/game_common.c:44 ball/st_help.c:183
+msgid "Manual Camera"
+msgstr "Ручна камера"
 
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Перезаписати?"
+#: ball/game_common.c:45 ball/st_help.c:182
+msgid "Lazy Camera"
+msgstr "Повільна камера"
 
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Перезаписати"
+#: ball/game_common.c:46 ball/st_help.c:181
+msgid "Chase Camera"
+msgstr "Камера стеження"
+
+#: ball/game_common.c:48
+#, c-format
+msgid "Camera %d"
+msgstr "Камера %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -82,153 +90,113 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:106
-#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Назад"
+#: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
+msgid "Coins"
+msgstr "Монет"
 
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Сеанс гри"
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "До цілі"
 
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Розблоковано"
+#: ball/hud.c:89 ball/st_goal.c:149
+msgid "Balls"
+msgstr "Спроб"
 
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Заблоковано"
+#: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
+msgid "Score"
+msgstr "Рахунок"
 
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "Цілі на завершених рівнях"
-
-#: ball/st_conf.c:156 putt/st_conf.c:104
-msgid "Options"
-msgstr "Параметри"
-
-#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Графіка"
-
-#: ball/st_conf.c:158 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Налаштувати"
-
-#: ball/st_conf.c:162
-msgid "Mouse Sensitivity"
-msgstr "Чутливість мишки"
-
-#: ball/st_conf.c:167 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Гучність звуків"
-
-#: ball/st_conf.c:169 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Гучність музики"
-
-#: ball/st_conf.c:174 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Ім'я гравця"
-
-#: ball/st_conf.c:175 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Модель м'яча"
-
-#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Мова"
-
-#: ball/st_conf.c:190 share/st_common.c:666
-msgid "Default"
-msgstr "Умовчання"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Новий рекорд набору"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Набір рівнів пройдено"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Вибрати рівень"
-
-#: ball/progress.c:417 ball/st_help.c:260
+#: ball/progress.c:413 ball/st_help.c:267
 msgid "Challenge Mode"
 msgstr "Режим сеансу гри"
 
-#: ball/progress.c:418 ball/st_help.c:247
+#: ball/progress.c:413 ball/st_start.c:208
+msgid "Challenge"
+msgstr "Сеанс гри"
+
+#: ball/progress.c:414 ball/st_help.c:254
 msgid "Normal Mode"
 msgstr "Вільний режим"
 
-#: ball/progress.c:418
+#: ball/progress.c:414
 msgid "Normal"
 msgstr "Вільний"
 
-#: ball/progress.c:419
+#: ball/progress.c:415
 msgid "Standalone Mode"
 msgstr "Автономний режим"
 
-#: ball/progress.c:419
+#: ball/progress.c:415
 msgid "Standalone"
 msgstr "Автономний"
 
-#: ball/progress.c:420
+#: ball/progress.c:416
 msgid "Unknown Mode"
 msgstr "Невідомий режим"
 
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Невідомий"
+#: ball/st_ball.c:180 ball/st_conf.c:184
+msgid "Ball Model"
+msgstr "Модель м'яча"
 
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Падіння!"
+#: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
+#: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
+#: putt/st_all.c:543 putt/st_conf.c:106
+msgid "Back"
+msgstr "Назад"
 
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Час вийшов!"
+#: ball/st_conf.c:161 putt/st_conf.c:104
+msgid "Options"
+msgstr "Параметри"
 
-#: ball/st_fail.c:98
-msgid "Exit"
-msgstr "Вихід"
+#: ball/st_conf.c:163 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Графіка"
 
-#: ball/st_fail.c:101 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Далі"
+#: ball/st_conf.c:163 ball/st_conf.c:172 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Налаштувати"
 
-#: ball/st_fail.c:104 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Знову"
+#: ball/st_conf.c:167
+msgid "Mouse Sensitivity"
+msgstr "Чутливість мишки"
 
-#: ball/st_fail.c:107 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Зберегти запис"
+#: ball/st_conf.c:172 share/st_common.c:868
+msgid "Gamepad"
+msgstr ""
 
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
+#: ball/st_conf.c:176 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Гучність звуків"
+
+#: ball/st_conf.c:178 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Гучність музики"
+
+#: ball/st_conf.c:183 ball/st_name.c:101
+msgid "Player Name"
+msgstr "Ім'я гравця"
+
+#: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Мова"
+
+#: ball/st_conf.c:199 share/st_common.c:666
+msgid "Default"
+msgstr "Умовчання"
 
 #: ball/st_demo.c:202
 msgid "Time"
 msgstr "Час"
 
-#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
-msgid "Coins"
-msgstr "Монет"
-
 #: ball/st_demo.c:204
 msgid "Status"
 msgstr "Статус"
 
-#: ball/st_demo.c:235 ball/st_demo.c:426
+#: ball/st_demo.c:235 ball/st_demo.c:430
 msgid "Replay"
 msgstr "Запис"
 
-#: ball/st_demo.c:236 putt/st_all.c:740
+#: ball/st_demo.c:236 putt/st_all.c:731
 msgid "Player"
 msgstr "Гравець"
 
@@ -244,47 +212,97 @@ msgstr "Виберіть запис"
 msgid "No Replays"
 msgstr "Немає записів"
 
-#: ball/st_demo.c:611
+#: ball/st_demo.c:616
 msgid "Replay Paused"
 msgstr "Пауза запису"
 
-#: ball/st_demo.c:613
+#: ball/st_demo.c:618
 msgid "Replay Ends"
 msgstr "Кінець запису"
 
-#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
 msgstr "Вийти"
 
-#: ball/st_demo.c:623 ball/st_demo.c:709
+#: ball/st_demo.c:628 ball/st_demo.c:719
 msgid "Keep"
 msgstr "Вийти"
 
-#: ball/st_demo.c:624 ball/st_demo.c:710
+#: ball/st_demo.c:629 ball/st_demo.c:720
 msgid "Delete"
 msgstr "Видалити"
 
-#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
 msgid "Continue"
 msgstr "Продовжити"
 
-#: ball/st_demo.c:630
+#: ball/st_demo.c:635
 msgid "Repeat"
 msgstr "Повтор"
 
-#: ball/st_demo.c:705
+#: ball/st_demo.c:715
 msgid "Delete Replay?"
 msgstr "Видалити запис?"
 
-#: ball/st_demo.c:759 ball/st_level.c:179
+#: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
 msgstr "Обережно!"
 
-#: ball/st_demo.c:761
+#: ball/st_demo.c:771
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Це відео було записане іншою\\(або невідомою) версією цього рівня.\\Можливі помилки відображення.\\"
+msgstr ""
+"Це відео було записане іншою\\(або невідомою) версією цього рівня.\\Можливі "
+"помилки відображення.\\"
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Новий рекорд набору"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Набір рівнів пройдено"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Вибрати рівень"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Падіння!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Час вийшов!"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "Вихід"
+
+#: ball/st_fail.c:101 ball/st_goal.c:215
+msgid "Next Level"
+msgstr "Далі"
+
+#: ball/st_fail.c:104 ball/st_goal.c:218
+msgid "Retry Level"
+msgstr "Знову"
+
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Save Replay"
+msgstr "Зберегти запис"
+
+#: ball/st_goal.c:96
+msgid "New Record"
+msgstr "Новий рекорд"
+
+#: ball/st_goal.c:97
+msgid "GOAL"
+msgstr "Ціль"
+
+#: ball/st_goal.c:210 ball/st_goal.c:212
+msgid "Finish"
+msgstr "Фініш"
 
 #: ball/st_help.c:102
 msgid "Tricks"
@@ -306,124 +324,72 @@ msgstr "Правила"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr "Керуйте м'ячем, нахиляючи\\платформу рухами миші або\\джойстика, або натисненнями\\стрілок на клавіатурі.\\"
+msgstr ""
+"Керуйте м'ячем, нахиляючи\\платформу рухами миші або\\джойстика, або "
+"натисненнями\\стрілок на клавіатурі.\\"
 
 #: ball/st_help.c:121
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr "Зберіть необхідну суму\\монет для відкриття цілі\\і попадіть в неї м'ячем\\за відведений час.\\"
+msgstr ""
+"Зберіть необхідну суму\\монет для відкриття цілі\\і попадіть в неї "
+"м'ячем\\за відведений час.\\"
 
 #: ball/st_help.c:178
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
-msgstr "Ліва та права кнопки миші повертають камеру.\\Утримуйте Shift для прискорення повертання."
+msgstr ""
+"Ліва та права кнопки миші повертають камеру.\\Утримуйте Shift для "
+"прискорення повертання."
 
 #: ball/st_help.c:180
 msgid "Exit / Pause"
 msgstr "Вихід / Пауза"
 
-#: ball/st_help.c:181 ball/game_common.c:46
-msgid "Chase Camera"
-msgstr "Камера стеження"
-
-#: ball/st_help.c:182 ball/game_common.c:45
-msgid "Lazy Camera"
-msgstr "Повільна камера"
-
-#: ball/st_help.c:183 ball/game_common.c:44
-msgid "Manual Camera"
-msgstr "Ручна камера"
-
 #: ball/st_help.c:184
+msgid "Restart Level"
+msgstr ""
+
+#: ball/st_help.c:185
 msgid "Screenshot"
 msgstr "Знімок екрану"
 
-#: ball/st_help.c:249
+#: ball/st_help.c:256
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
-msgstr "Пройдіть рівень до завершення часу.\\Вам потрібно зібрати монети, щоб відкрити ціль."
+msgstr ""
+"Пройдіть рівень до завершення часу.\\Вам потрібно зібрати монети, щоб "
+"відкрити ціль."
 
-#: ball/st_help.c:262
+#: ball/st_help.c:269
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Проходження всіх рівнів вибраного набору.\\За кожні 100 монет дається ще одна спроба.\\За кожні 4 пройдених рівня\\надається додатковий\\рівень (не завжди)."
+msgstr ""
+"Проходження всіх рівнів вибраного набору.\\За кожні 100 монет дається ще "
+"одна спроба.\\За кожні 4 пройдених рівня\\надається додатковий\\рівень (не "
+"завжди)."
 
-#: ball/st_help.c:276
+#: ball/st_help.c:283
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr "Підстрибуйте м'ячем,\\відштовхуючи його від кутів\\і інших виступів.\\"
 
-#: ball/st_help.c:281
+#: ball/st_help.c:288
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
-msgstr "Нахил у двох напрямках збільшує\\схил. Для оптимального прискорення\\використовуйте ручну камеру та поверніть\\її на 45 градусів.\\"
+msgstr ""
+"Нахил у двох напрямках збільшує\\схил. Для оптимального "
+"прискорення\\використовуйте ручну камеру та поверніть\\її на 45 градусів.\\"
 
-#: ball/st_help.c:301 ball/st_help.c:311
+#: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
 msgstr "Приклад"
-
-#: ball/game_common.c:28
-msgid "Aborted"
-msgstr "Перервано"
-
-#: ball/game_common.c:29
-msgid "Time-out"
-msgstr "Вийшов час"
-
-#: ball/game_common.c:30
-msgid "Success"
-msgstr "Пройдено"
-
-#: ball/game_common.c:31
-msgid "Fall-out"
-msgstr "Падіння"
-
-#: ball/game_common.c:48
-#, c-format
-msgid "Camera %d"
-msgstr "Камера %d"
-
-#: ball/st_pause.c:82 putt/st_all.c:644
-msgid "Paused"
-msgstr "Пауза"
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr "Заново"
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "До цілі"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Спроб"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Рахунок"
-
-#: ball/st_goal.c:101
-msgid "New Record"
-msgstr "Новий рекорд"
-
-#: ball/st_goal.c:102
-msgid "GOAL"
-msgstr "Ціль"
-
-#: ball/st_goal.c:215 ball/st_goal.c:217
-msgid "Finish"
-msgstr "Фініш"
-
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr "Набори рівнів"
 
 #: ball/st_level.c:56
 #, c-format
@@ -445,6 +411,94 @@ msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
 msgstr "Відеофайл не можна відкрити для запису.\\Цю гру не записано.\\"
+
+#: ball/st_name.c:112
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:114 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: ball/st_over.c:41
+msgid "GAME OVER"
+msgstr "Гру закінчено"
+
+#: ball/st_pause.c:80 putt/st_all.c:635
+msgid "Paused"
+msgstr "Пауза"
+
+#: ball/st_pause.c:89
+msgid "Restart"
+msgstr "Заново"
+
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr "Готові?"
+
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr "Увага!"
+
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr "ПОЧАЛИ!"
+
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Ім'я запису"
+
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Зберегти"
+
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Перезаписати?"
+
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Перезаписати"
+
+#: ball/st_set.c:302
+msgid "Level Set"
+msgstr "Набори рівнів"
+
+#: ball/st_start.c:228
+msgid "Unlocked"
+msgstr "Розблоковано"
+
+#: ball/st_start.c:229
+msgid "Locked"
+msgstr "Заблоковано"
+
+#: ball/st_start.c:239
+msgid "Goal State in Completed Levels"
+msgstr "Цілі на завершених рівнях"
+
+#: ball/st_title.c:144 ball/st_title.c:179
+msgid "menu^Cheat"
+msgstr "Чит-режим"
+
+#: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
+msgid "menu^Play"
+msgstr "Гра"
+
+#: ball/st_title.c:185
+msgid "menu^Replay"
+msgstr "Запис"
+
+#: ball/st_title.c:186
+msgid "menu^Help"
+msgstr "Довідка"
+
+#: ball/st_title.c:187 putt/st_all.c:230
+msgid "menu^Options"
+msgstr "Параметри"
+
+#: ball/st_title.c:188 putt/st_all.c:231
+msgid "menu^Exit"
+msgstr "Вихід"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -482,49 +536,21 @@ msgstr "Ім'я гравця"
 msgid "caps"
 msgstr "caps"
 
-#: ball/st_over.c:35
-msgid "GAME OVER"
-msgstr "Гру закінчено"
-
-#: ball/st_title.c:140 ball/st_title.c:175
-msgid "menu^Cheat"
-msgstr "Чит-режим"
-
-#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
-msgid "menu^Play"
-msgstr "Гра"
-
-#: ball/st_title.c:181
-msgid "menu^Replay"
-msgstr "Запис"
-
-#: ball/st_title.c:182
-msgid "menu^Help"
-msgstr "Довідка"
-
-#: ball/st_title.c:183 putt/st_all.c:239
-msgid "menu^Options"
-msgstr "Параметри"
-
-#: ball/st_title.c:184 putt/st_all.c:240
-msgid "menu^Exit"
-msgstr "Вихід"
-
-#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:320 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
 #: share/st_common.c:384
 msgid "Off"
 msgstr "Вимк"
 
-#: share/st_common.c:319
+#: share/st_common.c:321
 msgid "2x"
 msgstr "2x"
 
-#: share/st_common.c:320
+#: share/st_common.c:322
 msgid "4x"
 msgstr "4x"
 
-#: share/st_common.c:321
+#: share/st_common.c:323
 msgid "8x"
 msgstr "8x"
 
@@ -573,68 +599,120 @@ msgstr "Фон"
 msgid "Shadow"
 msgstr "Тінь"
 
-#: putt/st_conf.c:158
+#: share/st_common.c:782
+msgid "Button A"
+msgstr ""
+
+#: share/st_common.c:783
+msgid "Button B"
+msgstr ""
+
+#: share/st_common.c:784
+msgid "Button X"
+msgstr ""
+
+#: share/st_common.c:785
+msgid "Button Y"
+msgstr ""
+
+#: share/st_common.c:786
+msgid "Button L1"
+msgstr ""
+
+#: share/st_common.c:787
+msgid "Button R1"
+msgstr ""
+
+#: share/st_common.c:788 putt/st_conf.c:158
 msgid "Select"
 msgstr "Виберіть"
 
-#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
+#: share/st_common.c:789
+msgid "Start"
+msgstr ""
+
+#: share/st_common.c:793
+msgid "X Axis 1"
+msgstr ""
+
+#: share/st_common.c:794
+msgid "Y Axis 1"
+msgstr ""
+
+#: share/st_common.c:795
+msgid "X Axis 2"
+msgstr ""
+
+#: share/st_common.c:796
+msgid "Y Axis 2"
+msgstr ""
+
+#: share/st_common.c:909
+msgid "Press a button..."
+msgstr ""
+
+#: share/st_common.c:919
+msgid "Move a stick..."
+msgstr ""
+
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
 msgstr "Пара"
 
-#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
+#: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
 msgstr "Гравець-1"
 
-#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
+#: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
 msgid "P2"
 msgstr "Гравець-2"
 
-#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
+#: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
 msgid "P3"
 msgstr "Гравець-3"
 
-#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
+#: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
 msgid "P4"
 msgstr "Гравець-4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:66
 msgid "O"
 msgstr "O"
 
-#: putt/st_all.c:124
+#: putt/st_all.c:115
 msgid "Tot"
 msgstr "Всього"
 
-#: putt/st_all.c:136
+#: putt/st_all.c:127
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:361
+#: putt/st_all.c:352
 msgid "Select Course"
 msgstr "Набори лунок"
 
-#: putt/st_all.c:529
+#: putt/st_all.c:520
 msgid "Players?"
 msgstr "Гравців?"
 
-#: putt/st_all.c:731
+#: putt/st_all.c:722
 #, c-format
 msgid "Hole %02d"
 msgstr "Лунка %02d"
 
-#: putt/st_all.c:1073
+#: putt/st_all.c:1071
 msgid "It's In!"
 msgstr "Попадання!"
 
-#: putt/st_all.c:1216
+#: putt/st_all.c:1214
 msgid "1 Stroke Penalty"
 msgstr "Штраф за виліт"
 
-#: putt/st_all.c:1294
+#: putt/st_all.c:1292
 msgid "Scores"
 msgstr "Результати"
 
-#: putt/st_all.c:1347
+#: putt/st_all.c:1345
 msgid "Final Scores"
 msgstr "Підсумкові результати"
 
@@ -646,7 +724,9 @@ msgstr "Легкий Neverball"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Складність: низька і середня\\\\25 рівнів для вивчення основ гри.\\Читайте підказку на початку кожного рівня.\\ \\"
+msgstr ""
+"Складність: низька і середня\\\\25 рівнів для вивчення основ гри.\\Читайте "
+"підказку на початку кожного рівня.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -657,7 +737,9 @@ msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
 "balanced\\challenge for players. Try to claim\\some of the records "
 "provided.\\"
-msgstr "Складність: низька і висока.\\\\25 збалансованих за складністю рівнів.\\Постарайтеся побити деякі рекорди.\\"
+msgstr ""
+"Складність: низька і висока.\\\\25 збалансованих за складністю "
+"рівнів.\\Постарайтеся побити деякі рекорди.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -668,7 +750,9 @@ msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr "Складність: середня і висока.\\\\25 рівнів для досвічених гравців.\\Постарайтеся побити всі рекорди.\\"
+msgstr ""
+"Складність: середня і висока.\\\\25 рівнів для досвічених "
+"гравців.\\Постарайтеся побити всі рекорди.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -688,7 +772,9 @@ msgstr "Retour de force"
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Складність: трохи важче, ніж Tour de force.\\\\Особливо складний збір монет.\\Автор: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Складність: трохи важче, ніж Tour de force.\\\\Особливо складний збір "
+"монет.\\Автор: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -698,7 +784,9 @@ msgstr "Nevermania"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr "Складність: висока і гранична.\\\\Різні рівні для досвічених гравців.\\Автор: Florian Priester\\\\"
+msgstr ""
+"Складність: висока і гранична.\\\\Різні рівні для досвічених "
+"гравців.\\Автор: Florian Priester\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
@@ -720,7 +808,9 @@ msgstr "Неврегульовані рівні для тестування\\\\\
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr "Початковий\\18-ти лунковий набір Neverputt\\для вивчення основ гри.\\Складність: низька і середня\\Автор: rlk\\"
+msgstr ""
+"Початковий\\18-ти лунковий набір Neverputt\\для вивчення основ "
+"гри.\\Складність: низька і середня\\Автор: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -746,166 +836,230 @@ msgstr "Божевільний гольф\\ \\ \\Складність: низь�
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr "Спритний гольф\\18 лунок з безліччю труднощів.\\ \\Складність: висока і дуже висока\\Автор: Byron James Johnson"
+msgstr ""
+"Спритний гольф\\18 лунок з безліччю труднощів.\\ \\Складність: висока і дуже"
+" висока\\Автор: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
 "hard.\\Author: vidski\\"
-msgstr "Гольф Jambalaya\\\\Горезвісний курс Vidski.\\Складність: від середньої до важкої.\\Автор: vidski\\"
+msgstr ""
+"Гольф Jambalaya\\\\Горезвісний курс Vidski.\\Складність: від середньої до "
+"важкої.\\Автор: vidski\\"
 
-#: data/holes-easyputt.txt
+#: data/holes-iCourse.txt
 msgid ""
-"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr "Reshaun's Easy-Putt\\\\Складність: легка і висока\\Автор: Reshaun Francis"
+msgstr ""
+
+#: data/gui/title.map data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Створено Robert Kooima\\"
 
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr "Намагайтеся нікуди не врізатися, оскільки м'яч\\ може вийти з-під контролю при контакті з\\ рухомими об'єктами.\\"
+msgstr ""
+"Намагайтеся нікуди не врізатися, оскільки м'яч\\ може вийти з-під контролю "
+"при контакті з\\ рухомими об'єктами.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Потрібно навчитися контролювати стрибаючий м'яч\\щоб пройти цей рівень. М'яч приземляється\\на тінь. Якщо ви впевнені у своїх стрибках,\\ризикуйте - ви зможете дістатися до\\монет більшої вартості.\\"
+msgstr ""
+"Потрібно навчитися контролювати стрибаючий м'яч\\щоб пройти цей рівень. М'яч"
+" приземляється\\на тінь. Якщо ви впевнені у своїх стрибках,\\ризикуйте - ви "
+"зможете дістатися до\\монет більшої вартості.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr "Цього разу потрібно зібрати\\50 монет для відкриття виходу.\\Червоні монети коштують як 5 звичайних\\синіх монет вартістю 10.\\Потрібно дістатися до виходу до\\завершення часу!\\\\Клацніть мишею, коли будете готові.\\"
+msgstr ""
+"Цього разу потрібно зібрати\\50 монет для відкриття виходу.\\Червоні монети "
+"коштують як 5 звичайних\\синіх монет вартістю 10.\\Потрібно дістатися до "
+"виходу до\\завершення часу!\\\\Клацніть мишею, коли будете готові.\\"
 
 #: data/map-easy/corners.map
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the"
 " bump hard to\\grab some big coins and score a short time.\\"
-msgstr "На цьому рівні значно більше можливостей\\впасти в провалля. Щоб зібрати монети\\подорожче, що висять в повітрі, стукніться об\\бордюр на великій швидкості.\\"
+msgstr ""
+"На цьому рівні значно більше можливостей\\впасти в провалля. Щоб зібрати "
+"монети\\подорожче, що висять в повітрі, стукніться об\\бордюр на великій "
+"швидкості.\\"
 
 #: data/map-easy/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level "
 "floor\\and maintain precise control.\\Build some momentum to reach the "
 "corners.\\"
-msgstr "Як і спочатку, але тепер без поручнів.\\ Намагайтеся утримувати м'яч на одному рівні на\\ухилі. Перед тим, як забратися в кут, потрібно прискоритися.\\"
+msgstr ""
+"Як і спочатку, але тепер без поручнів.\\ Намагайтеся утримувати м'яч на "
+"одному рівні на\\ухилі. Перед тим, як забратися в кут, потрібно "
+"прискоритися.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Рухайте мишею, щоб нахилити платформу.\\Зберіть 10 монет, щоб відкрити вихід.\\Котіть м'яч до виходу, щоб\\закінчити рівень.\\\\Клацніть мишею, коли будете готові.\\"
+msgstr ""
+"Рухайте мишею, щоб нахилити платформу.\\Зберіть 10 монет, щоб відкрити "
+"вихід.\\Котіть м'яч до виходу, щоб\\закінчити рівень.\\\\Клацніть мишею, "
+"коли будете готові.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr "Пересуватися такими конструкціями\\досить захоплююче, але ще з них\\можна легко впасти в провалля. Не\\прискорюйтеся дуже сильно і будете\\контролювати м'яч."
+msgstr ""
+"Пересуватися такими конструкціями\\досить захоплююче, але ще з них\\можна "
+"легко впасти в провалля. Не\\прискорюйтеся дуже сильно і "
+"будете\\контролювати м'яч."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr "Плоскою можна зробити будь-яку платформу.\\Вам просто потрібно навчитися тримати її нахиленою\\достатньо довго. Нщобрайте швидкість\\щоб дістатися до монет подорожче.\\"
+msgstr ""
+"Плоскою можна зробити будь-яку платформу.\\Вам просто потрібно навчитися "
+"тримати її нахиленою\\достатньо довго. Нщобрайте швидкість\\щоб дістатися до"
+" монет подорожче.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr "Тут 100 монет.\\Ви легко зберете їх, якщо, звичайно\\випадково не перейдете на наступний рівень.\\"
+msgstr ""
+"Тут 100 монет.\\Ви легко зберете їх, якщо, звичайно\\випадково не перейдете "
+"на наступний рівень.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr "Рухайтеся якомога повільнішим.\\От вас потрібно добре контролювати м'яч.\\Стежте за часом, що залишився.\\Клацніть мишею, коли будете готові.\\"
+msgstr ""
+"Рухайтеся якомога повільнішим.\\От вас потрібно добре контролювати "
+"м'яч.\\Стежте за часом, що залишився.\\Клацніть мишею, коли будете готові.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr "Кожен міст вужчий, ніж попередній\\. А ще кожен подальший міст даватиме більше очок!\\Ви можете вирішувати, чи рухатися\\ далі, коли наберете мінімум очок.\\"
+msgstr ""
+"Кожен міст вужчий, ніж попередній\\. А ще кожен подальший міст даватиме "
+"більше очок!\\Ви можете вирішувати, чи рухатися\\ далі, коли наберете "
+"мінімум очок.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr "Дістатися до виходу не дуже складно\\а ось для того, щоб зібрати\\всі монети, доведеться подумати.\\\\Підказка: прагніть обходити ями\\а не падати в них - це заощадить вам час."
+msgstr ""
+"Дістатися до виходу не дуже складно\\а ось для того, щоб зібрати\\всі "
+"монети, доведеться подумати.\\\\Підказка: прагніть обходити ями\\а не падати"
+" в них - це заощадить вам час."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr "Тримаєтеся подалі від країв платформи!\\Намагайтеся гальмувати завчасно.\\ Відстань на розгін повинна приблизно\\ дорівнювати відстані на гальмування.\\"
+msgstr ""
+"Тримаєтеся подалі від країв платформи!\\Намагайтеся гальмувати завчасно.\\ "
+"Відстань на розгін повинна приблизно\\ дорівнювати відстані на "
+"гальмування.\\"
 
 #: data/map-easy/lollipop.map
 msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr "Котіться лише жовтою доріжкою!\\\\Сині монети особливо складні, але з часом\\та практикою ви зможете зібрати їх усі."
+msgstr ""
+"Котіться лише жовтою доріжкою!\\\\Сині монети особливо складні, але з "
+"часом\\та практикою ви зможете зібрати їх усі."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr "У вузькому лабіринті м'яч буде хаотично\\відштовхуватися від стін, якщо ви не будете\\контролювати його і котити дуже повільно.\\Можна зібрати усі монети за той\\час, що у вас є.\\"
+msgstr ""
+"У вузькому лабіринті м'яч буде хаотично\\відштовхуватися від стін, якщо ви "
+"не будете\\контролювати його і котити дуже повільно.\\Можна зібрати усі "
+"монети за той\\час, що у вас є.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr "Заплутаний, але прибутковий.\\\\Постарайтеся вивчити, як\\діють рухомі об'єкти."
+msgstr ""
+"Заплутаний, але прибутковий.\\\\Постарайтеся вивчити, як\\діють рухомі "
+"об'єкти."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr "Рухома платформа може бути непередбачуваною.\\Перейдіть провалля або утримайтеся на платформі\\щоб зібрати дорогі монети.\\"
+msgstr ""
+"Рухома платформа може бути непередбачуваною.\\Перейдіть провалля або "
+"утримайтеся на платформі\\щоб зібрати дорогі монети.\\"
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Кнопки миші повертають камеру.\\Натисніть Esc для призупинення гри або виходу.\\\\\\\\Клацніть мишею, коли будете готові.\\"
+msgstr ""
+"Кнопки миші повертають камеру.\\Натисніть Esc для призупинення гри або "
+"виходу.\\\\\\\\Клацніть мишею, коли будете готові.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr "Коли ви знаходитеся на ліфті\\прагніть утримати м'яч на платформі\\рухаючись при цьому якомога акуратніше."
+msgstr ""
+"Коли ви знаходитеся на ліфті\\прагніть утримати м'яч на платформі\\рухаючись"
+" при цьому якомога акуратніше."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr "Існує єдина дорога до виходу\\але способів зібрати достатню кількість\\монет існує декілька."
+msgstr ""
+"Існує єдина дорога до виходу\\але способів зібрати достатню кількість\\монет"
+" існує декілька."
 
 #: data/map-easy/slalom.map
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr "Котіться по доріжці з монет до виходу.\\Якщо ви зачепите стовпчик, то перестанете\\контролювати м'яч."
+msgstr ""
+"Котіться по доріжці з монет до виходу.\\Якщо ви зачепите стовпчик, то "
+"перестанете\\контролювати м'яч."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Постарайтеся набрати швидкість перед горбом.\\Лише не рухайтеся дуже швидко!"
+msgstr ""
+"Постарайтеся набрати швидкість перед горбом.\\Лише не рухайтеся дуже швидко!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr "Коли м'яч виявиться на плаваючій платформі,\\його сильно тягнутиме у бік руху\\платформи. Використовуйте перила, щоб\\утримати м'яч."
+msgstr ""
+"Коли м'яч виявиться на плаваючій платформі,\\його сильно тягнутиме у бік "
+"руху\\платформи. Використовуйте перила, щоб\\утримати м'яч."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
@@ -915,7 +1069,9 @@ msgstr "Зберіть всі монети...\\лише не попадіть п
 msgid ""
 "Here's another coin grab.\\Perhaps you already know a good "
 "route.\\Teleportation might come in handy.\\"
-msgstr "Нічого не нагадує? Можливо ви вже\\знаєте правильну дорогу. Може допомогти телепортація.\\"
+msgstr ""
+"Нічого не нагадує? Можливо ви вже\\знаєте правильну дорогу. Може допомогти "
+"телепортація.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
@@ -1009,13 +1165,17 @@ msgstr "У платформи не вистачає плиток.\\Сподів�
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "Щоб пройти цей рівень, потрібно на швидкості\\ударятися об перешкоди. Найлегше ударятися у кут.\\"
+msgstr ""
+"Щоб пройти цей рівень, потрібно на швидкості\\ударятися об перешкоди. "
+"Найлегше ударятися у кут.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr "Так Neverball це логічна гра?\\Видаліть червоний, щоб розблокувати ціль.\\Прямий дотик кожного перемикача переключає кольори."
+msgstr ""
+"Так Neverball це логічна гра?\\Видаліть червоний, щоб розблокувати "
+"ціль.\\Прямий дотик кожного перемикача переключає кольори."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1025,7 +1185,9 @@ msgstr "Ква!\\"
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr "Синхронізуйте рух платформ з допомогою\\кнопок на підлозі. Перебирайтеся через ці\\платформи на іншу сторону щонайшвидше.\\"
+msgstr ""
+"Синхронізуйте рух платформ з допомогою\\кнопок на підлозі. Перебирайтеся "
+"через ці\\платформи на іншу сторону щонайшвидше.\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
@@ -1035,7 +1197,9 @@ msgstr "Так, м'яч може впасти навіть через ці\\ма
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr "Стежте за своєю швидкістю і стрибками.\\Телепорти завжди переміщатимуть вас назад."
+msgstr ""
+"Стежте за своєю швидкістю і стрибками.\\Телепорти завжди переміщатимуть вас "
+"назад."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
@@ -1045,7 +1209,9 @@ msgstr "Імпульс проти вас.\\"
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "Нехай твоя жадібність веде тебе! Ви можете\\спробувати зібрати усі монети, якщо захочете.\\Це можна зробити дуже легко.\\"
+msgstr ""
+"Нехай твоя жадібність веде тебе! Ви можете\\спробувати зібрати усі монети, "
+"якщо захочете.\\Це можна зробити дуже легко.\\"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
@@ -1056,7 +1222,10 @@ msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
 "hard way.\\Of course, by going the easy way\\you can forget about all\\those"
 " red and blue coins."
-msgstr "На цьому рівні є 2 виходи. Ви можете\\завершити рівень двома способами: легеням і\\важким. Якщо ви підете легкою дорогою, то\\можете не збирати червоні і сині монети."
+msgstr ""
+"На цьому рівні є 2 виходи. Ви можете\\завершити рівень двома способами: "
+"легеням і\\важким. Якщо ви підете легкою дорогою, то\\можете не збирати "
+"червоні і сині монети."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
@@ -1074,7 +1243,9 @@ msgstr "Повільно і дуже уважно.\\"
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr "У вас є по 15 секунд на кожну сходинку\\отже покватеся. Збирайте всі монети і\\натискуйте на кнопку з годинником.\\"
+msgstr ""
+"У вас є по 15 секунд на кожну сходинку\\отже покватеся. Збирайте всі монети "
+"і\\натискуйте на кнопку з годинником.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1092,7 +1263,9 @@ msgstr "А вихід-то так близько.\\"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr "Їздіть часто на ліфтах вгору. Вони рухаються швидко\\отже не думайте дуже довго.\\"
+msgstr ""
+"Їздіть часто на ліфтах вгору. Вони рухаються швидко\\отже не думайте дуже "
+"довго.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1106,14 +1279,18 @@ msgstr "Без паніки.\\Зелена частина нікуди не по
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they "
 "come\\together in the middle.\\"
-msgstr "Використовуйте кнопки на підлозі, щоб змусити\\платформу рухатися. Ви зможете пройти\\рівень, якщо дві платформи одночасні\\підійдуть до центру.\\"
+msgstr ""
+"Використовуйте кнопки на підлозі, щоб змусити\\платформу рухатися. Ви "
+"зможете пройти\\рівень, якщо дві платформи одночасні\\підійдуть до центру.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr "М'яч повинен повністю увійти до телепорту, щоб\\той спрацював. Пам'ятайте, що телепорт\\зберігає імпульс м'яча.\\"
+msgstr ""
+"М'яч повинен повністю увійти до телепорту, щоб\\той спрацював. Пам'ятайте, "
+"що телепорт\\зберігає імпульс м'яча.\\"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
@@ -1127,7 +1304,9 @@ msgstr "Сходи в небеса"
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr "Усі мости під кутом.\\Кожен вужчий і крутіший, ніж попередній.\\Візьміть жменьку монет або йдіть до кінця для великого виграшу.\\"
+msgstr ""
+"Усі мости під кутом.\\Кожен вужчий і крутіший, ніж попередній.\\Візьміть "
+"жменьку монет або йдіть до кінця для великого виграшу.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
@@ -1137,13 +1316,17 @@ msgstr "Так багато монет! Чи зможете ви зібрати 
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "Прискортеся, щоб дістатися до верхніх платформ\\але прагніть тримати м'яч під контролем. Ручне\\керування камерою може допомогти на цій карті.\\"
+msgstr ""
+"Прискортеся, щоб дістатися до верхніх платформ\\але прагніть тримати м'яч "
+"під контролем. Ручне\\керування камерою може допомогти на цій карті.\\"
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "Дивіться на свою тінь, щоб контролювати\\підстрибуючий м'яч. Не забувайте повертати камеру\\за допомогою кнопок миші.\\"
+msgstr ""
+"Дивіться на свою тінь, щоб контролювати\\підстрибуючий м'яч. Не забувайте "
+"повертати камеру\\за допомогою кнопок миші.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
@@ -1166,7 +1349,10 @@ msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr "М'яч поміститься в нори, розкидані по всій\\карті, лише якщо ви зможете його зменшити.\\Але є такі місця, для яких м'яч потрібно збільшити.\\Одна річ певна - вам потрібен план!"
+msgstr ""
+"М'яч поміститься в нори, розкидані по всій\\карті, лише якщо ви зможете його"
+" зменшити.\\Але є такі місця, для яких м'яч потрібно збільшити.\\Одна річ "
+"певна - вам потрібен план!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
@@ -1191,7 +1377,10 @@ msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "Тут вам доведеться перемістити камеру.\\Натисніть 3, щоб вимкнути автоматичну камеру.\\Використовуйте кнопки миші, щоб повертати її вручну.\\Натисніть 1, щоб знову увімкнути автоматичну камеру.\\"
+msgstr ""
+"Тут вам доведеться перемістити камеру.\\Натисніть 3, щоб вимкнути "
+"автоматичну камеру.\\Використовуйте кнопки миші, щоб повертати її "
+"вручну.\\Натисніть 1, щоб знову увімкнути автоматичну камеру.\\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
@@ -1203,39 +1392,47 @@ msgstr "Апетитний весільний торт. Старайтеся\\с
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr "Щоб перейти на іншу лінію, удартеся об\\жовту колоду. Заберіться вгору, щоб\\зібрати більше монет!"
+msgstr ""
+"Щоб перейти на іншу лінію, удартеся об\\жовту колоду. Заберіться вгору, "
+"щоб\\зібрати більше монет!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr "Котіться повільніше, щоб не виплигнути за\\кордони. Хоча можна і по-іншому.\\"
+msgstr ""
+"Котіться повільніше, щоб не виплигнути за\\кордони. Хоча можна і по-"
+"іншому.\\"
 
 #: data/map-medium/spiralup.map
 msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
-msgstr "Як і минулого разу, але тепер потрібно рухатися\\вгору. Тепер шахраювати не можна.\\"
+msgstr ""
+"Як і минулого разу, але тепер потрібно рухатися\\вгору. Тепер шахраювати не "
+"можна.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr "Ще одна перевірка на вашу можливість\\контролювати стрибаючий м'яч. Спускатися \\сходами дуже швидко може бути небезпечно.\\"
+msgstr ""
+"Ще одна перевірка на вашу можливість\\контролювати стрибаючий м'яч. "
+"Спускатися \\сходами дуже швидко може бути небезпечно.\\"
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr "В цьому лабіринті немає стенів, але це не означає,\\що ви легко зможете знайти рішення.\\"
+msgstr ""
+"В цьому лабіринті немає стенів, але це не означає,\\що ви легко зможете "
+"знайти рішення.\\"
 
 #: data/map-medium/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr "Один перемикач управляє всіма п'ятьма\\стінами. Рухайтеся швидко, оскільки\\перемикач тримає стіни не дуже довго.\\"
-
-#: data/map-medium/title.map
-msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "Neverball\\\\http://neverball.org\\\\Створено Robert Kooima\\"
+msgstr ""
+"Один перемикач управляє всіма п'ятьма\\стінами. Рухайтеся швидко, "
+"оскільки\\перемикач тримає стіни не дуже довго.\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
@@ -1251,7 +1448,9 @@ msgstr "На цьому рівні можна зібрати безліч мон
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule.\\Ув'язнений в м'ячі.\\Збір усіх синіх монет є складним завданням."
+msgstr ""
+"Prisonnier de la boule.\\Ув'язнений в м'ячі.\\Збір усіх синіх монет є "
+"складним завданням."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1265,7 +1464,9 @@ msgstr "Блок цілодобово."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr "Дотримуйтесь синіх монет...\\і навчіться контролювати свої відскоки!\\Підказка: використовуйте режим камери \"стеження\"."
+msgstr ""
+"Дотримуйтесь синіх монет...\\і навчіться контролювати свої "
+"відскоки!\\Підказка: використовуйте режим камери \"стеження\"."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1275,7 +1476,9 @@ msgstr "Стрілки покажуть вам шлях."
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr "Це реальні шашки, але ніхто не виграє...\\Ви повинні відскочити, щоб зібрати сині монети."
+msgstr ""
+"Це реальні шашки, але ніхто не виграє...\\Ви повинні відскочити, щоб зібрати"
+" сині монети."
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -1287,7 +1490,9 @@ msgstr "Savoir chuter.\\Дотримуйтесь синіх вказників."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "Використовуйте нові монети для зміни розміру м’яча!\\Сподіваюся, вам це сподобається!\\-Dave"
+msgstr ""
+"Використовуйте нові монети для зміни розміру м’яча!\\Сподіваюся, вам це "
+"сподобається!\\-Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
@@ -1338,7 +1543,10 @@ msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.\\Танцюйте на пересувних платформах!\\Порада: після увімкнення останньої платформи,\\обертайтеся навколо Thwomp,\\поки ціль не стане доступною."
+msgstr ""
+"La ballade dansante.\\Танцюйте на пересувних платформах!\\Порада: після "
+"увімкнення останньої платформи,\\обертайтеся навколо Thwomp,\\поки ціль не "
+"стане доступною."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1354,7 +1562,9 @@ msgstr "La conduite stressante.\\Увага:\\платформа рухаєть�
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr "La conduite dangereuse.\\Платформа під м'ячем швидко рухається вперед.\\Ви повинні спробувати."
+msgstr ""
+"La conduite dangereuse.\\Платформа під м'ячем швидко рухається вперед.\\Ви "
+"повинні спробувати."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
@@ -1370,7 +1580,8 @@ msgstr "La tour de verre.\\Знайдіть шлях до виходу."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\Ви все ще стверджуєте, що Neverball дуже легкий?"
+msgstr ""
+"La maîtrise de Neverball.\\Ви все ще стверджуєте, що Neverball дуже легкий?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1380,7 +1591,9 @@ msgstr "Les boucles renversantes.\\Догори ногами!"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.\\Знайдіть правильний кут повороту,\\стрибка та посадки..."
+msgstr ""
+"Le contrôle des courbes.\\Знайдіть правильний кут повороту,\\стрибка та "
+"посадки..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
@@ -1390,13 +1603,16 @@ msgstr "Le chemin dissimulé.\\Тренуйте пам'ять."
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou.\\Ви знаєте шлях, бачите його,\\так чому вибираєте інший?"
+msgstr ""
+"Le labyrinthe fou.\\Ви знаєте шлях, бачите його,\\так чому вибираєте інший?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\Терпіння і хронометраж.\\Порада: збільшіть швидкість на першому схилі."
+msgstr ""
+"Le sentier étroit.\\Терпіння і хронометраж.\\Порада: збільшіть швидкість на "
+"першому схилі."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -1451,14 +1667,19 @@ msgstr "Les sauts du célèbre plombier.\\Дотримуйтесь монет."
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr "Savoir rebondir pour aller plus haut.\\Арена Neverball.\\Використовуйте 2 телепорти, щоб розблокувати та досягти цілі."
+msgstr ""
+"Savoir rebondir pour aller plus haut.\\Арена Neverball.\\Використовуйте 2 "
+"телепорти, щоб розблокувати та досягти цілі."
 
 #: data/map-mym2/freefall.map
 msgid ""
 "This level is full of challenges:\\understand the level's "
 "functioning,\\learn to fly and to survive,\\grab half of all coins to open "
 "the goal,\\find and reach the goal,\\and more..."
-msgstr "Цей рівень сповнений проблем:\\зрозуміти його дії, навчитися\\літати і вижити, зібрати половину\\монет, щоб відкрити ціль, знайти\\і досягти її, а далі..."
+msgstr ""
+"Цей рівень сповнений проблем:\\зрозуміти його дії, навчитися\\літати і "
+"вижити, зібрати половину\\монет, щоб відкрити ціль, знайти\\і досягти її, а "
+"далі..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1472,7 +1693,9 @@ msgstr "Ne pas se laisser emporter dans le néant.\\Не йдіть занадт
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Si si, ce tuyau a une fin.\\Життя в трубі.\\Порада: сповільніться перед останнім стрибком!"
+msgstr ""
+"Si si, ce tuyau a une fin.\\Життя в трубі.\\Порада: сповільніться перед "
+"останнім стрибком!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1562,7 +1785,9 @@ msgstr "Прокладіть свій шлях до вершини."
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr "Зберіть 45 монет, щоб розблокувати ціль.\\Використовуйте телепортер, щоб отримати достатню\\швидкість для стрибка."
+msgstr ""
+"Зберіть 45 монет, щоб розблокувати ціль.\\Використовуйте телепортер, щоб "
+"отримати достатню\\швидкість для стрибка."
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
@@ -1594,7 +1819,9 @@ msgstr "Прогулянка до дошки.\\Після телепорту н�
 
 #: data/map-tones/skiball.map
 msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
-msgstr "Ski Ball!\\\\Прокладайте собі шлях в послідовності\\ від 10 до 100 або ви випадете."
+msgstr ""
+"Ski Ball!\\\\Прокладайте собі шлях в послідовності\\ від 10 до 100 або ви "
+"випадете."
 
 #: data/map-tones/swish.map
 msgid "Timing is everything."
@@ -1608,7 +1835,9 @@ msgstr "Що йде вниз, має вийти!\\"
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr "Перед тим, як минуло 20 секунд,\\переконайтеся, що ви на безпечній ділянці\\на фіолетовій платформі!"
+msgstr ""
+"Перед тим, як минуло 20 секунд,\\переконайтеся, що ви на безпечній "
+"ділянці\\на фіолетовій платформі!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
