@@ -104,12 +104,12 @@ static void load_mtrl_objects(struct mtrl *mp)
 {
     /* Make sure not to leak an already loaded object. */
 
-    if (mp->o)
+    if (mp->o || mp->base.f[0] == '\0')
         return;
 
     /* Load the texture. */
 
-    if ((mp->o = find_texture(_(mp->base.f))))
+    if ((mp->o = find_texture(_(mp->base.f))))  /* Why is the _() needed here? */
     {
         /* Set the texture to clamp or repeat based on material type. */
 
@@ -123,6 +123,8 @@ static void load_mtrl_objects(struct mtrl *mp)
         else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
+    else
+        log_printf("failed to load texture \"%s\"\n", mp->base.f);
 }
 
 /*
