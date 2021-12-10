@@ -1,20 +1,19 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Robert Kooima
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Jānis Rūcis <parasti@gmail.com>, 2021
-# 
-#, fuzzy
+# GunChleoc, 2013-2014
+# GunChleoc, 2014
+# GunChleoc, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2021-12-09 22:48+0200\n"
-"PO-Revision-Date: 2021-12-09 20:57+0000\n"
-"Last-Translator: Jānis Rūcis <parasti@gmail.com>, 2021\n"
-"Language-Team: Gaelic, Scottish (https://www.transifex.com/neverball/teams/3458/gd/)\n"
+"PO-Revision-Date: 2021-12-10 17:16+0000\n"
+"Last-Translator: GunChleoc\n"
+"Language-Team: Gaelic, Scottish (http://www.transifex.com/neverball/neverball/language/gd/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,7 +26,7 @@ msgstr "Air a sgur dheth"
 
 #: ball/game_common.c:29
 msgid "Time-out"
-msgstr "Dh'fhalbh an ùine ort"
+msgstr "Dh’fhalbh an ùine ort"
 
 #: ball/game_common.c:30
 msgid "Success"
@@ -162,7 +161,7 @@ msgstr "Mothalachd na luchaige"
 
 #: ball/st_conf.c:172 share/st_common.c:868
 msgid "Gamepad"
-msgstr ""
+msgstr "Pada-geama"
 
 #: ball/st_conf.c:176 putt/st_conf.c:134
 msgid "Sound Volume"
@@ -174,7 +173,7 @@ msgstr "Àirde ciùil"
 
 #: ball/st_conf.c:183 ball/st_name.c:101
 msgid "Player Name"
-msgstr "Ainm a' chluicheadair"
+msgstr "Ainm a’ chluicheadair"
 
 #: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
 msgid "Language"
@@ -214,11 +213,11 @@ msgstr "Chan eil ath-chluiche ann"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
-msgstr "'Na stad"
+msgstr "’Na stad"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
-msgstr "Deireadh an ath-chluiche"
+msgstr "Deireadh na h-ath-chluiche"
 
 #: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
@@ -226,7 +225,7 @@ msgstr "Fàg an-seo"
 
 #: ball/st_demo.c:628 ball/st_demo.c:719
 msgid "Keep"
-msgstr "Cum e"
+msgstr "Cùm e"
 
 #: ball/st_demo.c:629 ball/st_demo.c:720
 msgid "Delete"
@@ -252,9 +251,7 @@ msgstr "Rabhadh!"
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr ""
-"Chaidh an ath-chluiche seo a chlàradh le tionndadh eile no neo-aithnichte "
-"aig an leibheil seo.\\'S dòcha gum bi mearachdan taisbeanaidh ann.\\"
+msgstr "Chaidh an ath-chluiche seo a chlàradh le tionndadh eile no neo-aithnichte aig an leibheil seo.\\’S dòcha gum bi mearachdan taisbeanaidh ann.\\"
 
 #: ball/st_done.c:57
 msgid "New Set Record"
@@ -274,7 +271,7 @@ msgstr "Thuit thu!"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
-msgstr "Dh'fhalbh an ùine ort!"
+msgstr "Dh’fhalbh an ùine ort!"
 
 #: ball/st_fail.c:98
 msgid "Exit"
@@ -324,25 +321,19 @@ msgstr "Riaghailtean"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr ""
-"Gluais an luchag no joystick\\no cleachd saighdean a' mheur-chlàir\\gus an "
-"làr a chlaonadh\\ach an roilig am bàla.\\"
+msgstr "Gluais an luchag no joystick\\no cleachd saighdean a’ mheur-chlàir\\gus an làr a chlaonadh\\ach an roilig am bàla.\\"
 
 #: ball/st_help.c:121
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr ""
-"Roilig thairis air buinn\\gus an cruinneachadh.\\Cruinnich buinn gus an "
-"tadhal\\fhosgladh 's an leibheil\\a chrìochnachadh.\\"
+msgstr "Roilig thairis air buinn\\gus an cruinneachadh.\\Cruinnich buinn gus an tadhal\\fhosgladh ’s an leibheil\\a chrìochnachadh.\\"
 
 #: ball/st_help.c:178
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
-msgstr ""
-"Cuairtichidh putanan na luchaige an sealladh.\\Cum shift sìos airson "
-"cuairteachadh seallaidh nas luaithe."
+msgstr "Cuairtichidh putanan na luchaige an sealladh.\\Cum shift sìos airson cuairteachadh seallaidh nas luaithe."
 
 #: ball/st_help.c:180
 msgid "Exit / Pause"
@@ -350,7 +341,7 @@ msgstr "Fàg / Stad"
 
 #: ball/st_help.c:184
 msgid "Restart Level"
-msgstr ""
+msgstr "Ath-thòisich an leibheil"
 
 #: ball/st_help.c:185
 msgid "Screenshot"
@@ -360,34 +351,25 @@ msgstr "Glacadh-sgrìn"
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
-msgstr ""
-"Crìochnaich leibheil mus falbh an ùine ort.\\Feumaidh tu buinn a "
-"chruinneachadh gus an tadhal\\fhosgladh."
+msgstr "Crìochnaich leibheil mus falbh an ùine ort.\\Feumaidh tu buinn a chruinneachadh gus an tadhal\\fhosgladh."
 
 #: ball/st_help.c:269
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr ""
-"Tòisich air cluiche o chiad leibheil an t-seata.\\Tòisichidh tu le trì "
-"bàlaichean a-mhàin, na caill iad.\\Buannaich bàla a bharrachd le gach 100 "
-"bhonn\\a chruinnicheas tu."
+msgstr "Tòisich air cluiche o chiad leibheil an t-seata.\\Tòisichidh tu le trì bàlaichean a-mhàin, na caill iad.\\Buannaich bàla a bharrachd le gach 100 bhonn\\a chruinnicheas tu."
 
 #: ball/st_help.c:283
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
-msgstr ""
-"Gabhaidh oiseanan an cleachdadh\\gus leum. Roilig is amais air.\\'S dòcha "
-"gun ruig thu\\àiteachan ùra."
+msgstr "Gabhaidh oiseanan an cleachdadh\\gus leum. Roilig is amais air.\\’S dòcha gun ruig thu\\àiteachan ùra."
 
 #: ball/st_help.c:288
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
-msgstr ""
-"Bidh an t-sliabh as caise ma\\chlaonas tu do dhà chomhair.\\Cleachd an "
-"camara a làimh\\is cuairtich e le 45 ceum\\airson nan toraidhean nas fhearr."
+msgstr "Bidh an t-sliabh as caise ma\\chlaonas tu do dhà chomhair.\\Cleachd an camara a làimh\\is cuairtich e le 45 ceum\\airson nan toraidhean nas fheàrr."
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
@@ -412,9 +394,7 @@ msgstr "Leibheil aon-seasmhach"
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
-msgstr ""
-"Cha b' urrainn dhuinn am faidhle ri sgrìobhadh fhosgladh.\\Cha tèid an geama"
-" seo a chlàradh.\\"
+msgstr "Cha b’ urrainn dhuinn am faidhle ri sgrìobhadh fhosgladh.\\Cha tèid an geama seo a chlàradh.\\"
 
 #: ball/st_name.c:112
 msgid "OK"
@@ -426,11 +406,11 @@ msgstr "Sguir dheth"
 
 #: ball/st_over.c:41
 msgid "GAME OVER"
-msgstr "CRÌOCH A' GHEAMA"
+msgstr "CRÌOCH A’ GHEAMA"
 
 #: ball/st_pause.c:80 putt/st_all.c:635
 msgid "Paused"
-msgstr "'Na stad"
+msgstr "’Na stad"
 
 #: ball/st_pause.c:89
 msgid "Restart"
@@ -526,7 +506,7 @@ msgstr "Buinn as motha"
 
 #: ball/util.c:185 ball/util.c:232
 msgid "Best Times"
-msgstr "Ùineachan as fhearr"
+msgstr "Ùineachan as fheàrr"
 
 #: ball/util.c:192 ball/util.c:236
 msgid "Fast Unlock"
@@ -605,27 +585,27 @@ msgstr "Sgàil"
 
 #: share/st_common.c:782
 msgid "Button A"
-msgstr ""
+msgstr "Putan A"
 
 #: share/st_common.c:783
 msgid "Button B"
-msgstr ""
+msgstr "Putan B"
 
 #: share/st_common.c:784
 msgid "Button X"
-msgstr ""
+msgstr "Putan X"
 
 #: share/st_common.c:785
 msgid "Button Y"
-msgstr ""
+msgstr "Putan Y"
 
 #: share/st_common.c:786
 msgid "Button L1"
-msgstr ""
+msgstr "Putan L1"
 
 #: share/st_common.c:787
 msgid "Button R1"
-msgstr ""
+msgstr "Putan R1"
 
 #: share/st_common.c:788 putt/st_conf.c:158
 msgid "Select"
@@ -633,31 +613,31 @@ msgstr "Tagh"
 
 #: share/st_common.c:789
 msgid "Start"
-msgstr ""
+msgstr "Tòisich"
 
 #: share/st_common.c:793
 msgid "X Axis 1"
-msgstr ""
+msgstr "Aiseal X 1"
 
 #: share/st_common.c:794
 msgid "Y Axis 1"
-msgstr ""
+msgstr "Aiseal Y 1"
 
 #: share/st_common.c:795
 msgid "X Axis 2"
-msgstr ""
+msgstr "Aiseal X 2"
 
 #: share/st_common.c:796
 msgid "Y Axis 2"
-msgstr ""
+msgstr "Aiseal Y 2"
 
 #: share/st_common.c:909
 msgid "Press a button..."
-msgstr ""
+msgstr "Brùth putan…"
 
 #: share/st_common.c:919
 msgid "Move a stick..."
-msgstr ""
+msgstr "Guais bata…"
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
@@ -728,10 +708,7 @@ msgstr "Neverball furasta"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr ""
-"Duilgheas: neach-tòiseachaidh gu meadhanach\\\\25 leibheil le ionnsachadh "
-"beag air bheag.\\Leugh ro-ràdh nan leibheilean airson ghliocasan\\mun "
-"gheama.\\"
+msgstr "Duilgheas: neach-tòiseachaidh gu meadhanach\\\\25 leibheil le ionnsachadh beag air bheag.\\Leugh ro-ràdh nan leibheilean airson ghliocasan\\mun gheama.\\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -742,9 +719,7 @@ msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
 "balanced\\challenge for players. Try to claim\\some of the records "
 "provided.\\"
-msgstr ""
-"Duilgheas: neach-tòiseachaidh gu adhartach\\\\25 leibheil le dùbhlan "
-"cothromach. Feuch an tèid\\d' ainm a chur ri clàr nan curaidh.\\"
+msgstr "Duilgheas: neach-tòiseachaidh gu adhartach\\\\25 leibheil le dùbhlan cothromach. Feuch an tèid\\d’ ainm a chur ri clàr nan curaidh.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -755,10 +730,7 @@ msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr ""
-"Duilgheas: meadhanach gu adhartach\\\\25 leibheil le dùbhlan nas dorra "
-"dha\\chluicheadairean eòlach. Feuch an dèan thu a' chùis air\\buinn as "
-"motha, ùineachan as fhearr is fosgladh luath.\\"
+msgstr "Duilgheas: meadhanach gu adhartach\\\\25 leibheil le dùbhlan nas dorra dha\\chluicheadairean eòlach. Feuch an dèan thu a’ chùis air\\buinn as motha, ùineachan as fhearr is fosgladh luath.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -768,9 +740,7 @@ msgstr "Tour de force"
 msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater "
 "challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Duilgheas: eòlach gu gun chiall\\\\25 leibheil le dùbhlan nas dorra "
-"buileach.\\\\Ùghdar: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Duilgheas: eòlach gu gun chiall\\\\25 leibheil le dùbhlan nas dorra buileach.\\\\Ùghdar: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
@@ -780,9 +750,7 @@ msgstr "Retour de force"
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
-"Duilgheas: beagan nas dorra na a' chiad seata agam.\\\\Barrachd dùbhlain, gu"
-" h-àraidh le greimeachadh\\air buinn.\\Ùghdar: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Duilgheas: beagan nas dorra na a’ chiad seata agam.\\\\Barrachd dùbhlain, gu h-àraidh le greimeachadh\\air buinn.\\Ùghdar: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -792,9 +760,7 @@ msgstr "Nevermania"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr ""
-"Duilgheas: eòlach gu neo-dhèanta\\\\Cruinneachadh dhe leibheilean dha "
-"chluicheadairean\\eòlach.\\Ùghdar: Florian Priester\\"
+msgstr "Duilgheas: eòlach gu neo-dhèanta\\\\Cruinneachadh dhe leibheilean dha chluicheadairean\\eòlach.\\Ùghdar: Florian Priester\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
@@ -816,9 +782,7 @@ msgstr "Leibheilean measgaichte\\airson deuchainnean\\\\\\\\"
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr ""
-"An cùrsa tùsail Neverputt le 18 tuill.\\Le astar ionnsachaidh socair.\\ "
-"\\Duilgheas: furasta gu meadhanach\\Ùghdar: rlk\\"
+msgstr "An cùrsa tùsail Neverputt le 18 tuill.\\Le astar ionnsachaidh socair.\\ \\Duilgheas: furasta gu meadhanach\\Ùghdar: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -830,11 +794,11 @@ msgstr "Cùrsa 18 tuill a bharrachd\\ \\Duilgheas: meadhanach\\Ùghdar: paxed\\"
 
 #: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Tuilleadh 's a bharrachd tuill\\ \\Duilgheas: meadhanach\\Ùghdar: paxed\\"
+msgstr "Tuilleadh ’s a bharrachd tuill\\ \\Duilgheas: meadhanach\\Ùghdar: paxed\\"
 
 #: data/holes-abc.txt
 msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr "Cùrsa 26 toll\\a' leantainn na h-aibidile\\\\Duilgheas: doirbh\\Ùghdar: paxed\\"
+msgstr "Cùrsa 26 toll\\a’ leantainn na h-aibidile\\\\Duilgheas: doirbh\\Ùghdar: paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
@@ -844,23 +808,19 @@ msgstr "Goilf craicte\\ \\\\Duilgheas: furasta gu meadhanach\\Ùghdar: slippifis
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr ""
-"Goilf seòlta\\Cùrsa 18 tuill le grunn dhùbhlan\\ \\Duilgheas: eòlaiche gu "
-"gun chiall\\Ùghdar: Byron James Johnson"
+msgstr "Goilf seòlta\\Cùrsa 18 tuill le grunn dhùbhlan\\ \\Duilgheas: eòlaiche gu gun chiall\\Ùghdar: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
 "hard.\\Author: vidski\\"
-msgstr ""
-"Jambalaya goilf\\An cùrsa curta aig Vidski.\\\\Duilgheas: meadhanach gu "
-"doirbh\\Ùghdar: vidski\\"
+msgstr "Jambalaya goilf\\An cùrsa curta aig Vidski.\\\\Duilgheas: meadhanach gu doirbh\\Ùghdar: vidski\\"
 
 #: data/holes-iCourse.txt
 msgid ""
 "Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr ""
+msgstr "Cùrsa iPutt Reshaun\\\\\\Duilgheas: furasta gu doirbh\\Ùghdar: Reshaun Francis"
 
 #: data/gui/title.map data/map-medium/title.map
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
@@ -870,220 +830,158 @@ msgstr "Neverball\\\\http://neverball.org\\\\Air a chruthachadh le Robert Kooima
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr ""
-"Feuch nach tèid do bhualadh le nithean\\a ghluaiseas.\\Chan eil ach buille a"
-" dhìth\\ach an caill thu smachd."
+msgstr "Feuch nach tèid do bhualadh le nithean\\a ghluaiseas.\\Chan eil ach buille a dhìth\\ach an caill thu smachd."
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr ""
-"Ionnsaich mar a chumas tu smachd air bàla a' bocadh.\\Seall air an sgàil ach"
-" am bi fios agad càite am buail e.\\Ma tha thu air fàs math air, 's fhiach "
-"fàs nas dàna.\\"
+msgstr "Ionnsaich mar a chumas tu smachd air bàla a’ bocadh.\\Seall air an sgàil ach am bi fios agad càite am buail e.\\Ma tha thu air fàs math air, ’s fhiach fàs nas dàna.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr ""
-"An turas seo, tha 50 bonn a dhìth ort\\gus an tadhal fhosgladh.\\Tha luach "
-"dhe 5 aig buinn dhearga is\\10 aig buinn ghorma.\\Faigh dhan tadhal mus "
-"fhalbh an ùine ort!\\\\Briog airson tòiseachadh.\\"
+msgstr "An turas seo, tha 50 bonn a dhìth ort\\gus an tadhal fhosgladh.\\Tha luach dhe 5 aig buinn dhearga is\\10 aig buinn ghorma.\\Faigh dhan tadhal mus fhalbh an ùine ort!\\\\Briog airson tòiseachadh.\\"
 
 #: data/map-easy/corners.map
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the"
 " bump hard to\\grab some big coins and score a short time.\\"
-msgstr ""
-"Seo barrachd chothroman dhut gus tuiteam dhan fhànas.\\Buail ris a' chnap gu"
-" cruaidh gus greim\\fhaighinn air buinn mhòra is crìochnachadh gu luath.\\"
+msgstr "Seo barrachd chothroman dhut gus tuiteam dhan fhànas.\\Buail ris a’ chnap gu cruaidh gus grèim\\fhaighinn air buinn mhòra is crìochnachadh gu luath.\\"
 
 #: data/map-easy/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level "
 "floor\\and maintain precise control.\\Build some momentum to reach the "
 "corners.\\"
-msgstr ""
-"Mar an rinn thu roimhe, ach nas dùbhlanaiche.\\Cum am bàla air làr rèidh is "
-"cum smachd teann air.\\Cleachd lùths gluasaid gus na h-oiseanan a ruigsinn."
+msgstr "Mar an rinn thu roimhe, ach nas dùbhlanaiche.\\Cum am bàla air làr rèidh is cum smachd teann air.\\Cleachd lùths gluasaid gus na h-oiseanan a ruigsinn."
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr ""
-"Gluais an luchag gus an làr a chlaonadh.\\Cruinnich 10 buinn gus an tadhal "
-"fosgladh.\\Stiùir am bàla dhan tadhal gus an leibheil a choileanadh.\\\\Dèan"
-" briogadh airson tòiseachadh.\\"
+msgstr "Gluais an luchag gus an làr a chlaonadh.\\Cruinnich 10 buinn gus an tadhal fosgladh.\\Stiùir am bàla dhan tadhal gus an leibheil a choileanadh.\\\\Dèan briogadh airson tòiseachadh.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr ""
-"Faodaidh half-pipes a bhith tlachdmhor,\\ach tha e furasta tuiteam asta.\\Na"
-" tèid ro luath is cumaidh tu smachd air a' bhàla."
+msgstr "Faodaidh half-pipes a bhith tlachdmhor,\\ach tha e furasta tuiteam asta.\\Na tèid ro luath is cumaidh tu smachd air a’ bhàla."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr ""
-"Dè as ciall dha \"rèidh\"?\\Ionnsaich mar a chumas tu claonadh air an "
-"làr\\ach am bi sliabh rèidh.\\Cumaidh tu smachd air a' bhàla mar "
-"sin.\\Cleachd lùths gluasaid gus faighinn suas\\dha na buinn mòra.\\"
+msgstr "Dè as ciall dha “rèidh”?\\Ionnsaich mar a chumas tu claonadh air an làr\\ach am bi sliabh rèidh.\\Cumaidh tu smachd air a’ bhàla mar sin.\\Cleachd lùths gluasaid gus faighinn suas\\dha na buinn mòra.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr ""
-"Tha 100 bhonn an-seo.\\Cha bu chòir seo a bhith ro dhoirbh\\mura buail thu "
-"air tadhal roimhe seo\\le tuiteamas.\\"
+msgstr "Tha 100 bhonn an-seo.\\Cha bu chòir seo a bhith ro dhoirbh\\mura buail thu air tadhal roimhe seo\\le tuiteamas.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr ""
-"Na dèan ach claonadh glè bheag air an làr.\\Mar as lugha an claonadh, 's an "
-"nas slaodaiche a bhios tu\\ach an cum thu smachd air a' bhàla.\\Thoir an "
-"aire air an ùine.\\"
+msgstr "Na dèan ach claonadh glè bheag air an làr.\\Mar as lugha an claonadh, ’s an nas slaodaiche a bhios tu\\ach an cùm thu smachd air a’ bhàla.\\Thoir an aire air an ùine.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr ""
-"Tha gach drochaid nas caoile na an tè roimhe.\\Ach gheibh thu barrachd aiste"
-" cuideachd!\\Tha e suas riut fhèin dè cho fad 's a thèid thu air an tè "
-"seo.\\"
+msgstr "Tha gach drochaid nas caoile na an tè roimhe.\\Ach gheibh thu barrachd aiste cuideachd!\\Tha e suas riut fhèin dè cho fad ’s a thèid thu air an tè seo.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr ""
-"Cha bu chòir dha a bhith doirbh an tadhal a ruigsinn,\\ach tha innleachd a "
-"dhìth ort gus a h-uile bonn fhaighinn.\\\\Gliocas: gu tric, tha e nas "
-"luaithe toll a sheachnadh\\na tuiteam a-steach."
+msgstr "Cha bu chòir dha a bhith doirbh an tadhal a ruigsinn,\\ach tha innleachd a dhìth ort gus a h-uile bonn fhaighinn.\\\\Gliocas: gu tric, tha e nas luaithe toll a sheachnadh\\na tuiteam a-steach."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr ""
-"Cum air falbh o na h-iomallan!\\Ma theannas tu air iomall,\\dèan maille ort "
-"fhèin gu tràth.\\Tha an aon astar a dhìth ort gus fàs nas maille\\'s a tha "
-"gus fàs nas luaithe."
+msgstr "Cùm air falbh o na h-iomallan!\\Ma theannas tu air iomall,\\dèan maille ort fhèin gu tràth.\\Tha an aon astar a dhìth ort gus fàs nas maille\\’s a tha gus fàs nas luaithe."
 
 #: data/map-easy/lollipop.map
 msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr ""
-"Lean air an rathad buidhe imlich!\\\\Tha na buinn ghorma dùbhlanach gu "
-"h-àraidh,\\ach le beagan feuchainn is cleachdaidh,\\gheibh thu iad uile."
+msgstr "Lean air an rathad buidhe imlich!\\\\Tha na buinn ghorma dùbhlanach gu h-àraidh,\\ach le beagan feuchainn is cleachdaidh,\\gheibh thu iad uile."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr ""
-"Tha am bàla ri bocadh gun cheannsachadh\\ann an trannsa cumhang.\\Cum "
-"slaodach e is air falbh bho na ballachan.\\Gabhaidh a h-uile bonn a thogail "
-"san ùine a th' agad.\\"
+msgstr "Tha am bàla ri bocadh gun cheannsachadh\\ann an trannsa cumhang.\\Cùm slaodach e is air falbh bho na ballachan.\\Gabhaidh a h-uile bonn a thogail san ùine a th’ agad.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr ""
-"Cruadalach ach torrach.\\\\Air do shocair a' sgrùdadh nam bumpairean - "
-"\\\\cuidichidh seo thu gus an tadhal a ruigsinn."
+msgstr "Cruadalach ach torrach.\\\\Air do shocair a’ sgrùdadh nam bumpairean - \\\\cuidichidh seo thu gus an tadhal a ruigsinn."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr ""
-"Faodaidh ùrlar a ghluaiseas a bhith dùbhlanach.\\Cleachd tìmeachadh pongail "
-"gus faighinn air,\\is meidh pongail gus fuireach air.\\Na leig leis gluasad "
-"air falbh bhuat.\\Siubhail air muin nan ùrlaran gus na buinn mhòra a "
-"thogail.\\"
+msgstr "Faodaidh ùrlar a ghluaiseas a bhith dùbhlanach.\\Cleachd tìmeachadh pongail gus faighinn air,\\is meidh pongail gus fuireach air.\\Na leig leis gluasad air falbh bhuat.\\Siubhail air muin nan ùrlaran gus na buinn mhòra a thogail.\\"
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr ""
-"Cleachd putanan luchaige gus an sealladh\\a chuairteachadh.\\Dèan brùthadh "
-"air Esc gus stad no fàgail.\\\\\\Briog airson tòiseachadh.\\"
+msgstr "Cleachd putanan luchaige gus an sealladh\\a chuairteachadh.\\Dèan brùthadh air Esc gus stad no fàgail.\\\\\\Briog airson tòiseachadh.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr ""
-"Nuair a bhios tu air lioft,\\dèan gleusadh gus am bàla agad a chumail air a "
-"shocair.\\'S urrainn dhut grunn bhuinn a thogail leis a' bhàla\\air an aon "
-"àite.\\Cus gluasaid is tuitidh tu."
+msgstr "Nuair a bhios tu air lioft,\\dèan gleusadh gus am bàla agad a chumail air a shocair.\\’S urrainn dhut grunn bhuinn a thogail leis a’ bhàla\\air an aon àite.\\Cus gluasaid is tuitidh tu."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr ""
-"Chan eil ach aon slighe ann gus an tadhal\\a ruigsinn, ach torr shlighean "
-"gus\\buinn a chruinneachadh.\\Dèan cinnteach gun cruinnich thu gu leòr "
-"dhiubh\\gus an tadhal fhosgladh."
+msgstr "Chan eil ach aon slighe ann gus an tadhal\\a ruigsinn, ach tòrr shlighean gus\\buinn a chruinneachadh.\\Dèan cinnteach gun cruinnich thu gu leòr dhiubh\\gus an tadhal fhosgladh."
 
 #: data/map-easy/slalom.map
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr ""
-"Lean air lorg nam bonn gus an tadhal a ruigsinn.\\Ma bhuaileas tu air post "
-"is tu a' gluasad gu luath,\\thèid do bhocadh far a' chùrsa."
+msgstr "Lean air lorg nam bonn gus an tadhal a ruigsinn.\\Ma bhuaileas tu air post is tu a’ gluasad gu luath,\\thèid do bhocadh far a’ chùrsa."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr ""
-"Tha barrachd luaths a dhìth air cnuic\\ach am faigh thu thairis orra.\\Thoir"
-" an aire nach tèid thu ro luath!"
+msgstr "Tha barrachd luaths a dhìth air cnuic\\ach am faigh thu thairis orra.\\Thoir an aire nach tèid thu ro luath!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr ""
-"Ma tha am bàla air ùrlar a ghluaiseas,\\thèid a tharraing an comhair a' "
-"ghluasaid.\\Cleachd na crainn gus do shocrachadh,\\is cruinnich na buinn a "
-"tha a dhìth ort\\gus an tadhal fhosgladh."
+msgstr "Ma tha am bàla air ùrlar a ghluaiseas,\\thèid a tharraing an comhair a’ ghluasaid.\\Cleachd na crainn gus do shocrachadh,\\is cruinnich na buinn a tha a dhìth ort\\gus an tadhal fhosgladh."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr "Tog a h-uile bonn ...\\ach nach fhaigh maoidheadh!"
+msgstr "Tog a h-uile bonn …\\ach nach fhaigh maoidheadh!"
 
 #: data/map-easy/wakka.map
 msgid ""
 "Here's another coin grab.\\Perhaps you already know a good "
 "route.\\Teleportation might come in handy.\\"
-msgstr ""
-"Seo togail bhonn eile.\\'S dòcha gu bheil rathad math fainear dhut mar-"
-"thà.\\Faodaidh tele-phortadh a bhith feumail.\\"
+msgstr "Seo togail bhonn eile.\\’S dòcha gu bheil rathad math fainear dhut mar-thà.\\Faodaidh tele-phortadh a bhith feumail.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
@@ -1091,13 +989,11 @@ msgstr "=Tachartasan=\\Iomadh rud ri dhèanamh, buinn rin togail, cunnartan."
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr "=A' cheàrnag=\\Tog na buinn bho na colbhan."
+msgstr "=A’ cheàrnag=\\Tog na buinn bho na colbhan."
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
-msgstr ""
-"=Fleodrainnean=\\Am fear aig a bheil smachd air na tìmearan,\\bidh smachd "
-"aige air na geataichean."
+msgstr "=Fleodrainnean=\\Am fear aig a bheil smachd air na tìmearan,\\bidh smachd aige air na geataichean."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
@@ -1105,15 +1001,11 @@ msgstr "=Carago=\\Leig leat giùlan."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
-msgstr ""
-"=Coinfeataidh=\\Cobhair! Feumaidh do shlighe a-mach\\às a' bhùrach a bhith "
-"ann."
+msgstr "=Coinfeataidh=\\Cobhair! Feumaidh do shlighe a-mach\\às a’ bhùrach a bhith ann."
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr ""
-"=Clàran=\\Ma chleachdas tu iad mar bu chòir,\\bheir na h-ùrlaran dhan tadhal"
-" thu."
+msgstr "=Clàran=\\Ma chleachdas tu iad mar bu chòir,\\bheir na h-ùrlaran dhan tadhal thu."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
@@ -1133,7 +1025,7 @@ msgstr "=Taigh-tasgaidh=\\Na bean ris na buill-taisbeanaidh."
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr "=Neònachas=\\Tha rudeigin cearr an-seo ..."
+msgstr "=Neònachas=\\Tha rudeigin ceàrr an-seo …"
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
@@ -1149,11 +1041,11 @@ msgstr "=Cearcaill=\\Roilig tron ribe seo."
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=Sliabh=\\Na tèid 'nad Shisyphus nua-aimsireil."
+msgstr "=Sliabh=\\Na rach ’nad Shisyphus nua-aimsireil."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=Rum is ùine=\\Chan eil mòran ruim no ùine ann."
+msgstr "=Rum is ùine=\\Chan eil mòran rùim no ùine ann."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
@@ -1161,7 +1053,7 @@ msgstr "=Sgaoth=\\Rabhadh: thèid luchd an-inntrigidh a bhualadh."
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=Teanas=\\Tha duais mhòr ri fhaighinn ma gheibh thu greim oirre."
+msgstr "=Teanas=\\Tha duais mhòr ri fhaighinn ma gheibh thu grèim oirre."
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
@@ -1173,30 +1065,23 @@ msgstr "=UFO=\\Rach air an t-soitheach-fhànais\\a tha iad airson falach bhuat."
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
-msgstr ""
-"Feumaidh tu dà shuidse a chur air\\gus an t-slighe dhan tadhal fhosgladh."
+msgstr "Feumaidh tu dà shuidse a chur air\\gus an t-slighe dhan tadhal fhosgladh."
 
 #: data/map-hard/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr "Chan eil làr gu leòr an-seo.\\An dèan thu a' chùis air co-dhiù?\\"
+msgstr "Chan eil làr gu leòr an-seo.\\An dèan thu a’ chùis air co-dhiù?\\"
 
 #: data/map-hard/curbs.map
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr ""
-"Gus adhartas fhaighinn an-seo, feumaidh tu bualadh\\ris na h-iomallan gu "
-"cruaidh is smachd a chumail\\air a' bhocadh.\\Mar as trice, tha e nas fhasa "
-"bualadh ris ann an oisean.\\"
+msgstr "Gus adhartas fhaighinn an-seo, feumaidh tu bualadh\\ris na h-iomallan gu cruaidh is smachd a chumail\\air a’ bhocadh.\\Mar as trice, tha e nas fhasa bualadh ris ann an oisean.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr ""
-"An e geama tòimhseachain a th' ann an Neverball?\\Thoir an dearg air falbh "
-"gus an tadhal fhosgladh.\\Atharraichidh gach suidse na dathan nuair a "
-"bheanas tu ris."
+msgstr "An e geama tòimhseachain a th’ ann an Neverball?\\Thoir an dearg air falbh gus an tadhal fhosgladh.\\Atharraichidh gach suidse na dathan nuair a bheanas tu ris."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1206,9 +1091,7 @@ msgstr "Gnàg!\\"
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr ""
-"Chleachd na suidsean air an àm cheart gus an\\gluasad aig na h-ùrlaran a "
-"shioncronachadh.\\Gluais gu luath thairis air na beàrnan.\\"
+msgstr "Cleachd na suidsean air an àm cheart gus an\\gluasad aig na h-ùrlaran a shioncronachadh.\\Gluais gu luath thairis air na beàrnan.\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
@@ -1218,45 +1101,36 @@ msgstr "Seadh, thèid am bàla tro\\na tuill beaga seo gun trioblaid.\\"
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr ""
-"Cum smachd air an luaths is am bocadh agad.\\Bheir tele-phortadh air ais "
-"thu\\àiteigin air an leibheil an-còmhnaidh."
+msgstr "Cùm smachd air an luaths is am bocadh agad.\\Bheir tele-phortadh air ais thu\\àiteigin air an leibheil an-còmhnaidh."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "'S dòcha gun obraich lùths gluasaid 'nad aghaidh.\\"
+msgstr "’S dòcha gun obraich lùths gluasaid ’nad aghaidh.\\"
 
 #: data/map-hard/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr ""
-"Lean air do shannt.\\Airson dùbhlain a bharrachd,\\feuch am faigh thu a "
-"h-uile bonn.\\Gabhaidh seo dèanamh gun fheum air tuairmse.\\"
+msgstr "Lean air do shannt.\\Airson dùbhlain a bharrachd,\\feuch am faigh thu a h-uile bonn.\\Gabhaidh seo dèanamh gun fheum air tuairmse.\\"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
-msgstr "Rach a' siubhal.\\"
+msgstr "Rach a shiubhal.\\"
 
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
 "hard way.\\Of course, by going the easy way\\you can forget about all\\those"
 " red and blue coins."
-msgstr ""
-"Tha dà thadhal an-seo.\\'S urrainn dhut an leibheil a choileanadh san "
-"dòigh\\fhurasta no dhoirbh.\\Gu nàdarra, ma thèid thu air an t-slighe "
-"fhurasta,\\chan fhaigh thu na buinn dhearga no ghorma."
+msgstr "Tha dà thadhal an-seo.\\’S urrainn dhut an leibheil a choileanadh san dòigh\\fhurasta no dhoirbh.\\Gu nàdarra, ma thèid thu air an t-slighe fhurasta,\\chan fhaigh thu na buinn dhearga no ghorma."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr ""
-"Tha iomadh shlighe ri gabhail ann ...\\an do dh'fheuch thu ris a h-uile gin "
-"dhiubh?"
+msgstr "Tha iomadh shlighe ri gabhail ann …\\an do dh’fheuch thu ris a h-uile gin dhiubh?"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr "Ceci n'est pas une pipe.\\"
+msgstr "Ceci n’est pas une pipe.\\"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
@@ -1266,13 +1140,11 @@ msgstr "Slaodach is gu socair.\\"
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr ""
-"Chan fhaigh thu ach 15 diogan air gach ceum,\\mar sin na dèan dàil.\\Faigh "
-"na buinn is dhan ath shuids."
+msgstr "Chan fhaigh thu ach 15 diogan air gach ceum,\\mar sin na dèan dàil.\\Faigh na buinn is tog ort dhan ath-shuids."
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
-msgstr "Nach fhaigh maoidheadh.\\"
+msgstr "Na fulaing maoidheadh.\\"
 
 #: data/map-hard/rampup.map
 msgid "I think I can.\\I think I can.\\"
@@ -1286,13 +1158,11 @@ msgstr "Cho faisg ach ro fhada.\\"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr ""
-"Siubhail air na lioftaichean dhan mhullach.\\Gluaisidh iad gu luath,\\mar "
-"sin na dèan dàil.\\"
+msgstr "Siubhail air na lioftaichean dhan mhullach.\\Gluaisidh iad gu luath,\\mar sin na dèan dàil.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Gabh tlachd a' togail\\nam bonn dearga is gorma ud.\\"
+msgstr "Gabh tlachd a’ togail\\nam bonn dearga is gorma ud.\\"
 
 #: data/map-hard/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
@@ -1302,23 +1172,18 @@ msgstr "Na gabh dragh.\\Cha tèid am pàirt uaine àite sam bith.\\"
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they "
 "come\\together in the middle.\\"
-msgstr ""
-"Chleachd na suidsean ach an gluais na h-ùrlaran.\\Dèan air an ùine cheart "
-"e\\ach an tig iad còmhla sa mheadhan.\\"
+msgstr "Chleachd na suidsean ach an gluais na h-ùrlaran.\\Dèan air an ùine cheart e\\ach an tig iad còmhla sa mheadhan.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr ""
-"Feumaidh bàla a bhith ann an\\inneal tele-phortaidh gu slàn gus an obraich "
-"e.\\Cuimhnich gun cum am bàla a' gluasad nuair a\\thèid e troimhe is dèan "
-"plana air ro làimh.\\"
+msgstr "Feumaidh bàla a bhith ann an\\inneal tele-phortaidh gu slàn gus an obraich e.\\Cuimhnich gun cùm am bàla a’ gluasad nuair a\\thèid e troimhe is dèan plana air ro làimh.\\"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "Tha an làr cho rèidh 's a nì thu e.\\"
+msgstr "Tha an làr cho rèidh ’s a nì thu e.\\"
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
@@ -1328,10 +1193,7 @@ msgstr "Staidhre dhan nèamh"
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr ""
-"Tha na drochaidean seo claon.\\Tha gach tè nas cumhainge is nas caise na an "
-"tè roimhpe.\\Faigh an t-airgead furasta no thèid gu crìoch\\an t-slighe gus "
-"duais mhòr fhaighinn.\\"
+msgstr "Tha na drochaidean seo claon.\\Tha gach tè nas cumhainge is nas caise na an tè roimhpe.\\Faigh an t-airgead furasta no thèid gu crìoch\\an t-slighe gus duais mhòr fhaighinn.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
@@ -1341,19 +1203,13 @@ msgstr "Tha grunn bhonn ri an togail ann.\\An tog thu a h-uile gin dhiubh?"
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr ""
-"Cleachd lùths gluasaid gus na h-ùrlaran as àirde a ruigsinn,\\ach cum smachd"
-" air a' bhàla gus laighe gu sàbhailte.\\Faodaidh an camara a làimh a bhith "
-"feumail an-seo."
+msgstr "Cleachd lùths gluasaid gus na h-ùrlaran as àirde a ruigsinn\\ach cùm smachd air a’ bhàla gus laighe gu sàbhailte.\\Faodaidh an camara a làimh a bhith feumail an-seo."
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr ""
-"Cuimhnich gun cum thu sùil air an sgàil\\ach an cum thu smachd air a' "
-"bhàla.\\Is na dìochuimhnich putanan na luchaige\\a chleachdadh ach am faic "
-"thu am bàla.\\"
+msgstr "Cuimhnich gun cùm thu sùil air an sgàil\\ach an cùm thu smachd air a’ bhàla.\\Is na dìochuimhnich putanan na luchaige\\a chleachdadh ach am faic thu am bàla.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
@@ -1365,9 +1221,7 @@ msgstr "Cothromaich duais is cunnart.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr ""
-"Dìrich an t-sliabh gus an tadhal a ruigsinn.\\('S fhasa comhairle a thoirt "
-"na comhairle a ghabhail.)"
+msgstr "Dìrich an t-sliabh gus an tadhal a ruigsinn.\\(’S fhasa comhairle a thoirt na comhairle a ghabhail.)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1378,10 +1232,7 @@ msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr ""
-"Thèid am bàla tro na tuill bheaga sin\\ma lorgas tu rudeigin a nì as lugha "
-"e.\\Bidh bàla as motha a dhìth air àiteachan eile.\\Chan eil dad cinnteach "
-"ach\\gum bidh feum agad air planaigeadh!"
+msgstr "Thèid am bàla tro na tuill bheaga sin\\ma lorgas tu rudeigin a nì as lugha e.\\Bidh bàla as motha a dhìth air àiteachan eile.\\Chan eil dad cinnteach ach\\gum bidh feum agad air planaigeadh!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
@@ -1391,7 +1242,7 @@ msgstr "Buail air na suidsean gus na cnapan-starra a ghluasad.\\"
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr "Na gèill ri buaireadh gus gluasad gu luath,\\no 's dòcha gun gèill?"
+msgstr "Na gèill ri buaireadh gus gluasad gu luath,\\no ’s dòcha gun gèill thu?"
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
@@ -1399,73 +1250,54 @@ msgstr "Air do shocair.\\"
 
 #: data/map-medium/qbert.map
 msgid "You can never go home again..."
-msgstr "Chan urrainn dhut tilleadh dhachaigh tuilleadh ..."
+msgstr "Chan urrainn dhut tilleadh dhachaigh tuilleadh …"
 
 #: data/map-medium/rampdn.map
 msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr ""
-"Feumaidh tu smachd a chumail air an t-sealladh an-seo.\\ Dèan brùthadh air 3"
-" gus am fèin-chuairteachadh a stad.\\Cleachd putanan na luchaige gus a "
-"chuairteachadh a làimh.\\Dèan brùthadh air 1 gus tilleadh\\dhan t-sealladh "
-"fhèin-chuairteachaidh.\\"
+msgstr "Feumaidh tu smachd a chumail air an t-sealladh an-seo.\\ Dèan brùthadh air 3 gus am fèin-chuairteachadh a stad.\\Cleachd putanan na luchaige gus a chuairteachadh a làimh.\\Dèan brùthadh air 1 gus tilleadh\\dhan t-sealladh fhèin-chuairteachaidh.\\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
 "This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
 "layer."
-msgstr ""
-"Tha a' chèic-bhainnse seo glè bhlasta,\\ach thoir an aire nuair a thèid thu "
-"sìos air gach filleadh."
+msgstr "Tha a’ chèic-bhainnse seo glè bhlasta,\\ach thoir an aire nuair a thèid thu sìos air gach filleadh."
 
 #: data/map-medium/sparselines.map
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr ""
-"Buail air na sailthean gus dol air lonaig eile.\\Feuch an ruig thu am "
-"mullach airson dùbhlain a bharrachd!"
+msgstr "Buail air na sailthean gus dol air lonaig eile.\\Feuch an ruig thu am mullach airson dùbhlain a bharrachd!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr ""
-"Air do shocair is cum air falbh bho na h-iomallan.\\No nach cum.\\'S dòcha "
-"gun obraich an dà dhòigh.\\"
+msgstr "Air do shocair is cùm air falbh bho na h-iomallan.\\No na cùm.\\’S dòcha gun obraich an dà dhòigh.\\"
 
 #: data/map-medium/spiralup.map
 msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
-msgstr ""
-"Mar a rinn thu roimhe, ach a' dol suas\\an àite a bhith a' dol sìos.\\Gun "
-"chealgaireachd an turas seo.\\"
+msgstr "Mar a rinn thu roimhe, ach a’ dol suas\\an àite a bhith a’ dol sìos.\\Gun chealgaireachd an turas seo.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr ""
-"Seo deuchainn eile air a' chomas bocaidh agad.\\Faodaidh e a bhith "
-"cunnartach\\a' dol sìos an staidhre ro luath."
+msgstr "Seo deuchainn eile air a’ chomas bocaidh agad.\\Faodaidh e a bhith cunnartach\\a’ dol sìos an staidhre ro luath."
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr ""
-"Chan eil ballachan aig a' chuartan seo.\\Ach chan eil am fuasgladh nas fhasa"
-" lorg le seo.\\"
+msgstr "Chan eil ballachan aig a’ chuartan seo.\\Ach chan eil am fuasgladh nas fhasa lorg le seo.\\"
 
 #: data/map-medium/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr ""
-"Tha smachd air an aon suids air na còig cnapan-starra.\\Bi luath oir tha "
-"tìmear aig an t-suids.\\Nuair a dh'fhalbhas an ùine air, èiridh na cnapan-"
-"starra.\\"
+msgstr "Tha smachd air an aon suids air na còig cnapan-starra.\\Bi luath oir tha tìmear aig an t-suids.\\Nuair a dh’fhalbhas an ùine air, èiridh na cnapan-starra.\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
@@ -1481,13 +1313,11 @@ msgstr "Tha grunn bhonn an-seo\\ma bheir thu an ùine gus an togail.\\"
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr ""
-"Prisonnier de la boule.\\A' fuireach ann an cruinne.\\Tha e dùbhlanach a "
-"h-uile bonn gorm a thogail."
+msgstr "Prisonnier de la boule.\\A’ fuireach ann an cruinne.\\Tha e dùbhlanach a h-uile bonn gorm a thogail."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr "Feuch an tog thu a h-uile bonn gorm ...\\cha bhi e furasta!"
+msgstr "Feuch an tog thu a h-uile bonn gorm …\\cha bhi e furasta!"
 
 #: data/map-misc/blockers.map
 msgid "Block around the clock."
@@ -1497,9 +1327,7 @@ msgstr "Blocaichean fad na h-ùine."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr ""
-"Lean air na buinn ghorma ...\\is ionnsaich mar a chumas tu smachd air "
-"bocadh!\\Gliocas: cleachd an camara sealgaidh."
+msgstr "Lean air na buinn ghorma …\\is ionnsaich mar a chumas tu smachd air bocadh!\\Gliocas: cleachd an camara sealgaidh."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1509,9 +1337,7 @@ msgstr "Lean air na saighdean."
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr ""
-"'S e fìor-gheama tàileisg a th' ann,\\ach cha bhuannaich duine ...\\Feumaidh"
-" tu bocadh gus na buinn ghorma a ruigsinn."
+msgstr "’S e fìor-gheama tàileisg a th’ ann,\\ach cha bhuannaich duine …\\Feumaidh tu bocadh gus na buinn ghorma a ruigsinn."
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -1523,9 +1349,7 @@ msgstr "Savoir chuter.\\Lean air na comharran gorma."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr ""
-"Cleachd na buinn ùra gus meud a' bhàla atharrachadh!\\Tha mi an dòchas gun "
-"còrd e riut!\\-Dave"
+msgstr "Cleachd na buinn ùra gus meud a’ bhàla atharrachadh!\\Tha mi an dòchas gun còrd e riut!\\-Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
@@ -1533,7 +1357,7 @@ msgstr "Tha buinn sònraichte ann a nì\\am bàla agad nas motha no nas lugha."
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr "Rachamaid a shnàmh ...\\tha a h-uile bonn fon uisge.\\"
+msgstr "Rachamaid a shnàmh …\\tha a h-uile bonn fon uisge.\\"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
@@ -1541,7 +1365,7 @@ msgstr "Tuit sìos staidhre.\\Oich!\\Tha seo goirt."
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr "Leig leis tachairt...\\is an uair sin gabh dragh!"
+msgstr "Leig leis tachairt…\\is an uair sin gabh dragh!"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
@@ -1549,9 +1373,7 @@ msgstr "Deuchainn eile airson pongalachd thìmeir."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr ""
-"Le parcours du combattant.\\A bheil thu deiseil airson cùrsa na "
-"h-ionnsaighe?"
+msgstr "Le parcours du combattant.\\A bheil thu deiseil airson cùrsa na h-ionnsaighe?"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
@@ -1559,29 +1381,26 @@ msgstr "La course effrénée.\\Ruitheamaid air cuairt no dhà."
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Cum smachd air an luaths."
+msgstr "Les rampes abruptes.\\Cùm smachd air an luaths."
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\A bheil tuaineal na h-àirde ort?"
+msgstr "L’escalade ardue.\\A bheil tuaineal na h-àirde ort?"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Seachnaich tele-phortadh ..."
+msgstr "Le cycle éternel.\\Seachnaich tele-phortadh …"
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Abair thusa gur e cuairt socair a th' ann."
+msgstr "La ballade tranquille.\\Abair thusa gur e cuairt shocair a th’ innte."
 
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr ""
-"La ballade dansante.\\Dannsamaid air an ùrlar ghluasaid!\\Gliocas: nuair a "
-"bhios tu air an ùrlar ghluasaid\\mu dheireadh a chur air,\\tionndadh mun "
-"bhreige gus am faigh thu dhan tadhal."
+msgstr "La ballade dansante.\\Dannsamaid air an ùrlar ghluasaid!\\Gliocas: nuair a bhios tu air an ùrlar ghluasaid\\mu dheireadh a chur air,\\tionndadh mun bhreige gus am faigh thu dhan tadhal."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1591,17 +1410,13 @@ msgstr "La descente infernale.\\Tòiseachadh furasta gu leòr, an e?"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr ""
-"La conduite stressante.\\Thoir an aire:\\gluaisidh an t-ùrlar fon bhàla an "
-"comhair a bheòil."
+msgstr "La conduite stressante.\\Thoir an aire:\\gluaisidh an t-ùrlar fon bhàla an comhair a bheòil."
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr ""
-"La conduite dangereuse.\\Gluaisidh an t-ùrlar fon bhàla an comhair a bheòil "
-"gu luath.\\B' fheairrde thu dol air adhart."
+msgstr "La conduite dangereuse.\\Gluaisidh an t-ùrlar fon bhàla an comhair a bheòil gu luath.\\B’ fheàirrde thu dol air adhart."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
@@ -1617,9 +1432,7 @@ msgstr "La tour de verre.\\Lorg an t-slighe a-mach."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
-"La maîtrise de Neverball.\\A bheil thu fhathast dhen bheachd gu "
-"bheil\\Neverball ro fhurasta?"
+msgstr "La maîtrise de Neverball.\\A bheil thu fhathast dhen bheachd gu bheil\\Neverball ro fhurasta?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1629,9 +1442,7 @@ msgstr "Les boucles renversantes.\\Bun os cionn!"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr ""
-"Le contrôle des courbes.\\Lorg an ceàrn ceart gus\\tionndadh, leum is laighe"
-" ..."
+msgstr "Le contrôle des courbes.\\Lorg an ceàrn ceart gus\\tionndadh, leum is laighe …"
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
@@ -1641,17 +1452,13 @@ msgstr "Le chemin dissimulé.\\Deuchainn air do chuimhne."
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr ""
-"Le labyrinthe fou.\\Tha thu eòlach air an t-slighe is 'ga faicinn.\\Carson "
-"a-rèist a tha thu a' dol air slighe eile?"
+msgstr "Le labyrinthe fou.\\Tha thu eòlach air an t-slighe is ’ga faicinn.\\Carson a-rèist a tha thu a’ dol air slighe eile?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr ""
-"Le sentier étroit.\\Foighidinn is tìmeachadh.\\Gliocas: faigh luaths mòr air"
-" a' chiad shliabh."
+msgstr "Le sentier étroit.\\Foighidinn is tìmeachadh.\\Gliocas: faigh luaths mòr air a’ chiad shliabh."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -1660,14 +1467,11 @@ msgstr "Les épreuves minutées.\\Ruith, a sheòid, ruith!"
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
-"Le petit cross.\\Sreapamaid!\\Cum air an t-slighe gus an luaths as fhearr "
-"fhaighinn."
+msgstr "Le petit cross.\\Sreapamaid!\\Cùm air an t-slighe gus an luaths as fheàrr fhaighinn."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr ""
-"La descente rafraîchissante.\\Na rach cho luath sin, na rach cho luath sin."
+msgstr "La descente rafraîchissante.\\Na rach cho luath sin, na rach cho luath sin."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
@@ -1679,11 +1483,11 @@ msgstr "Le sens trigonométrique.\\Tionndaidh, fuirich is leum."
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Seo an aon chomhairle dhut: na dèan stad!"
+msgstr "L’ascension pressée.\\Seo an aon chomhairle dhut: na dèan stad!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\Cuimhnich òrdugh a' ghnìomhachaidh."
+msgstr "Un va-et-vient frustrant.\\Cuimhnich òrdugh a’ ghnìomhachaidh."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
@@ -1691,16 +1495,15 @@ msgstr "Neverball sràide\\Tagh an sgioba agad is faigh 3 puingean."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr ""
-"La machine à circonvolutions.\\Furasta, tha an tadhal dìreach os do chionn."
+msgstr "La machine à circonvolutions.\\Furasta, tha an tadhal dìreach os do chionn."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr "Le grand cône.\\A' fuireach ann an còn."
+msgstr "Le grand cône.\\A’ fuireach ann an còn."
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr "Les flammes ardentes.\\A bheil seo a' toirt càil gu d' aire?"
+msgstr "Les flammes ardentes.\\A bheil seo a’ toirt càil gu d’ aire?"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
@@ -1710,19 +1513,14 @@ msgstr "Les sauts du célèbre plombier.\\Lean air na buinn."
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr ""
-"Savoir rebondir pour aller plus haut.\\An cearcall Neverball.\\Cleachd an dà"
-" inneal tele-phortaidh\\gus an tadhal fhosgladh is ruigsinn."
+msgstr "Savoir rebondir pour aller plus haut.\\An cearcall Neverball.\\Cleachd an dà inneal tele-phortaidh\\gus an tadhal fhosgladh is ruigsinn."
 
 #: data/map-mym2/freefall.map
 msgid ""
 "This level is full of challenges:\\understand the level's "
 "functioning,\\learn to fly and to survive,\\grab half of all coins to open "
 "the goal,\\find and reach the goal,\\and more..."
-msgstr ""
-"Tha an leibheil seo làn dùbhlain:\\tuig mar a dh'obraicheas an "
-"leibheil,\\ionnsaich itealaich is mairsinn beò,\\tog an dàrna leth dhe na "
-"buinn gus an tadhal fhosgladh,\\lorg is ruig an tadhal is a bharrachd ..."
+msgstr "Tha an leibheil seo làn dùbhlain:\\tuig mar a dh’obraicheas an leibheil,\\ionnsaich itealaich is mairsinn beò,\\tog an dàrna leth dhe na buinn gus an tadhal fhosgladh,\\lorg is ruig an tadhal is a bharrachd …"
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1736,9 +1534,7 @@ msgstr "Ne pas se laisser emporter dans le néant.\\Na rach ro ìosal."
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr ""
-"Si si, ce tuyau a une fin.\\A' fuireach ann am pìob.\\Gliocas: cuir maille "
-"ort airson a' chiad leum!"
+msgstr "Si si, ce tuyau a une fin.\\A’ fuireach ann am pìob.\\Gliocas: cuir maille ort airson a’ chiad leum!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1766,7 +1562,7 @@ msgstr "Le rodéo de Neverball.\\Tuitidh tu gu luath."
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ?\\Na bi le cas air falbh is cas a' fuireach."
+msgstr "J’y vais, ou j’y vais pas ?\\Na bi le cas air falbh is cas a’ fuireach."
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
@@ -1786,13 +1582,11 @@ msgstr "La danse asiatique\\Cuir earbsa sna saighdean."
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.\\Rabhadh: tha an rathad a' gluasad gu mall."
+msgstr "Suis le mouvement.\\Rabhadh: tha an rathad a’ gluasad gu mall."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr ""
-"Tranquille, mais pas trop.\\Rach aig an aon luaths 's a thèid na "
-"lioftaichean."
+msgstr "Tranquille, mais pas trop.\\Rach aig an aon luaths ’s a thèid na lioftaichean."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
@@ -1804,7 +1598,7 @@ msgstr "Nì luaths an geama."
 
 #: data/map-tones/blue.map
 msgid "Tread carefully...\\and keep moving!\\"
-msgstr "Rach gu cùramach ...\\is cum a' dol!\\"
+msgstr "Rach gu cùramach …\\is cùm a’ dol!\\"
 
 #: data/map-tones/bumperoo.map
 msgid "Who's the boss around here anyway?"
@@ -1812,12 +1606,11 @@ msgstr "Cò an ceannard an-seo co-dhiù?"
 
 #: data/map-tones/canals.map
 msgid "You might have to get wet\\if you want all the coins."
-msgstr ""
-"'S dòcha gun tèid d' fhliuchadh\\ma tha thu airson a h-uile bonn a thogail."
+msgstr "’S dòcha gun tèid d’ fhliuchadh\\ma tha thu airson a h-uile bonn a thogail."
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr "Cum do shùil air na speuran!Ach na leig leis an ùine falbh ort ...\\"
+msgstr "Cùm do shùil air na speuran!Ach na leig leis an ùine falbh ort …\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
@@ -1831,9 +1624,7 @@ msgstr "Gabh an t-slighe suas."
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr ""
-"Tog 45 bonn gus an tadhal fhosgladh.\\'S urrainn dhut tele-phortadh a "
-"chleachdadh\\gus luaths a bhuannachd airson an leum."
+msgstr "Tog 45 bonn gus an tadhal fhosgladh.\\’S urrainn dhut tele-phortadh a chleachdadh\\gus luaths a bhuannachd airson an leum."
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
@@ -1841,16 +1632,15 @@ msgstr "Cum smachd air an luaths agad\\ach gun siubhail thu gu socair."
 
 #: data/map-tones/hotwheels.map
 msgid "Learn the course and stick to the rails!"
-msgstr "Ionnsaich an cùrsa is cum ris na rèilean!"
+msgstr "Ionnsaich an cùrsa is cùm ris na rèilean!"
 
 #: data/map-tones/hurdles.map
 msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
-msgstr ""
-"Tòisicheamaid le rudeigin furasta.\\Buannaich luaths is leum dhan tadhal."
+msgstr "Tòisicheamaid le rudeigin furasta.\\Buannaich luaths is leum dhan tadhal."
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
-msgstr "Seall mus leum thu ..."
+msgstr "Seall mus leum thu …"
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
@@ -1858,11 +1648,11 @@ msgstr "An aire air do chasan!"
 
 #: data/map-tones/marble.map
 msgid "Watch your footing..."
-msgstr "An aire air do chasan ..."
+msgstr "An aire air do chasan …"
 
 #: data/map-tones/runner.map
 msgid "Walk the plank.\\After the teleport, go for speed!"
-msgstr "Rach air a' bhòrd.\\An dèidh tele-phortadh, buannaich luaths!"
+msgstr "Rach air a’ bhòrd.\\An dèidh tele-phortadh, buannaich luaths!"
 
 #: data/map-tones/skiball.map
 msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
@@ -1870,7 +1660,7 @@ msgstr "Bàla sgìthidh!\\\\Rach bho 10 gu 100\\san òrdugh cheart no tuitidh tu
 
 #: data/map-tones/swish.map
 msgid "Timing is everything."
-msgstr "Tha an ùine cheart a' cunntadh."
+msgstr "Tha an ùine cheart a’ cunntadh."
 
 #: data/map-tones/swoop.map
 msgid "What goes down must come up!\\"
@@ -1880,9 +1670,7 @@ msgstr "Feumaidh na chaidh sìos dol suas!\\"
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr ""
-"Dèan cinnteach gu bheil thu air ùrlar\\purpaidh gu sàbhailte mus falbh 20 "
-"diog!"
+msgstr "Dèan cinnteach gu bheil thu air ùrlar\\purpaidh gu sàbhailte mus falbh 20 diog!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
