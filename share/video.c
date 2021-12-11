@@ -457,7 +457,6 @@ static int grabbed = 0;
 
 void video_set_grab(int w)
 {
-#ifdef NDEBUG
     if (w)
     {
         SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
@@ -472,14 +471,12 @@ void video_set_grab(int w)
     SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_SetWindowGrab(window, SDL_TRUE);
     video_hide_cursor();
-#endif
 
     grabbed = 1;
 }
 
 void video_clr_grab(void)
 {
-#ifdef NDEBUG
     SDL_SetRelativeMouseMode(SDL_FALSE);
 
     /* Never release the grab in HMD mode. */
@@ -488,7 +485,6 @@ void video_clr_grab(void)
         SDL_SetWindowGrab(window, SDL_FALSE);
 
     video_show_cursor();
-#endif
     grabbed = 0;
 }
 
