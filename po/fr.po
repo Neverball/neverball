@@ -3,55 +3,64 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anne017, 2021
 # Calinou, 2014
-# Calinou, 2014
+# Hugo Locurcio, 2014
+# Hugo Locurcio, 2014
 # GunChleoc, 2014
 # geecko <geecko.dev@free.fr>, 2014
+# geecko <geecko.dev@free.fr>, 2014
+# GunChleoc, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-05-19 16:28+0300\n"
-"PO-Revision-Date: 2014-05-20 17:06+0000\n"
-"Last-Translator: GunChleoc\n"
-"Language-Team: French (http://www.transifex.com/projects/p/neverball/language/fr/)\n"
+"POT-Creation-Date: 2021-12-09 22:48+0200\n"
+"PO-Revision-Date: 2021-12-20 16:01+0000\n"
+"Last-Translator: Anne017\n"
+"Language-Team: French (http://www.transifex.com/neverball/neverball/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ball/st_play.c:100
-msgid "Ready?"
-msgstr "Attention !"
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "Interrompu"
 
-#: ball/st_play.c:184
-msgid "Set?"
-msgstr "Prêt ?"
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "Temps écoulé"
 
-#: ball/st_play.c:325
-msgid "GO!"
-msgstr "PARTEZ !"
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "Succès"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Nom du film"
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "Balle perdue"
 
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Sauver"
+#: ball/game_common.c:32 ball/progress.c:416
+msgid "Unknown"
+msgstr "Inconnu"
 
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Annuler"
+#: ball/game_common.c:44 ball/st_help.c:183
+msgid "Manual Camera"
+msgstr "Caméra manuelle"
 
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Écraser ?"
+#: ball/game_common.c:45 ball/st_help.c:182
+msgid "Lazy Camera"
+msgstr "Caméra paresseuse"
 
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Écraser"
+#: ball/game_common.c:46 ball/st_help.c:181
+msgid "Chase Camera"
+msgstr "Caméra poursuite"
+
+#: ball/game_common.c:48
+#, c-format
+msgid "Camera %d"
+msgstr "Caméra %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -85,153 +94,113 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Retour"
+#: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
+msgid "Coins"
+msgstr "Pièces"
 
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Challenge"
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Sortie"
 
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Déverrouillé"
+#: ball/hud.c:89 ball/st_goal.c:149
+msgid "Balls"
+msgstr "Balles"
 
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Verrouillé"
+#: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
+msgid "Score"
+msgstr "Score"
 
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "État sortie des niv. complétés"
-
-#: ball/st_conf.c:156 putt/st_conf.c:104
-msgid "Options"
-msgstr "Options"
-
-#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Graphismes"
-
-#: ball/st_conf.c:158 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Configurer"
-
-#: ball/st_conf.c:162
-msgid "Mouse Sensitivity"
-msgstr "Sensibilité de la souris"
-
-#: ball/st_conf.c:167 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Volume sons"
-
-#: ball/st_conf.c:169 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Volume musique"
-
-#: ball/st_conf.c:174 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Nom du joueur"
-
-#: ball/st_conf.c:175 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Modèle de balle"
-
-#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Langue"
-
-#: ball/st_conf.c:190 share/st_common.c:666
-msgid "Default"
-msgstr "Par défaut"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Nouveau record de collection"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Collection complétée"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Choisissez un niveau"
-
-#: ball/progress.c:417 ball/st_help.c:259
+#: ball/progress.c:413 ball/st_help.c:267
 msgid "Challenge Mode"
 msgstr "Mode Challenge"
 
-#: ball/progress.c:418 ball/st_help.c:246
+#: ball/progress.c:413 ball/st_start.c:208
+msgid "Challenge"
+msgstr "Challenge"
+
+#: ball/progress.c:414 ball/st_help.c:254
 msgid "Normal Mode"
 msgstr "Mode Normal"
 
-#: ball/progress.c:418
+#: ball/progress.c:414
 msgid "Normal"
 msgstr "Normal"
 
-#: ball/progress.c:419
+#: ball/progress.c:415
 msgid "Standalone Mode"
 msgstr "Mode Indépendant"
 
-#: ball/progress.c:419
+#: ball/progress.c:415
 msgid "Standalone"
 msgstr "Indépendant"
 
-#: ball/progress.c:420
+#: ball/progress.c:416
 msgid "Unknown Mode"
 msgstr "Mode Inconnu"
 
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Inconnu"
+#: ball/st_ball.c:180 ball/st_conf.c:184
+msgid "Ball Model"
+msgstr "Modèle de balle"
 
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Balle perdue !"
+#: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
+#: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
+#: putt/st_all.c:543 putt/st_conf.c:106
+msgid "Back"
+msgstr "Retour"
 
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Temps écoulé !"
+#: ball/st_conf.c:161 putt/st_conf.c:104
+msgid "Options"
+msgstr "Options"
 
-#: ball/st_fail.c:98
-msgid "Exit"
-msgstr "Quitter"
+#: ball/st_conf.c:163 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Graphismes"
 
-#: ball/st_fail.c:101 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Niveau suivant"
+#: ball/st_conf.c:163 ball/st_conf.c:172 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Configurer"
 
-#: ball/st_fail.c:104 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Retenter"
+#: ball/st_conf.c:167
+msgid "Mouse Sensitivity"
+msgstr "Sensibilité de la souris"
 
-#: ball/st_fail.c:107 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Sauver un film"
+#: ball/st_conf.c:172 share/st_common.c:868
+msgid "Gamepad"
+msgstr "Manette"
 
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
+#: ball/st_conf.c:176 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Volume sons"
+
+#: ball/st_conf.c:178 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Volume musique"
+
+#: ball/st_conf.c:183 ball/st_name.c:101
+msgid "Player Name"
+msgstr "Nom du joueur"
+
+#: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Langue"
+
+#: ball/st_conf.c:199 share/st_common.c:666
+msgid "Default"
+msgstr "Par défaut"
 
 #: ball/st_demo.c:202
 msgid "Time"
 msgstr "Temps"
 
-#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
-msgid "Coins"
-msgstr "Pièces"
-
 #: ball/st_demo.c:204
 msgid "Status"
 msgstr "État"
 
-#: ball/st_demo.c:235 ball/st_demo.c:426
+#: ball/st_demo.c:235 ball/st_demo.c:430
 msgid "Replay"
 msgstr "Film"
 
-#: ball/st_demo.c:236 putt/st_all.c:740
+#: ball/st_demo.c:236 putt/st_all.c:731
 msgid "Player"
 msgstr "Joueur"
 
@@ -247,186 +216,169 @@ msgstr "Choisir un film"
 msgid "No Replays"
 msgstr "Pas de film"
 
-#: ball/st_demo.c:611
+#: ball/st_demo.c:616
 msgid "Replay Paused"
 msgstr "Film en pause"
 
-#: ball/st_demo.c:613
+#: ball/st_demo.c:618
 msgid "Replay Ends"
 msgstr "Fin du film"
 
-#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
 msgstr "Quitter"
 
-#: ball/st_demo.c:623 ball/st_demo.c:709
+#: ball/st_demo.c:628 ball/st_demo.c:719
 msgid "Keep"
 msgstr "Conserver"
 
-#: ball/st_demo.c:624 ball/st_demo.c:710
+#: ball/st_demo.c:629 ball/st_demo.c:720
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
 msgid "Continue"
 msgstr "Continuer"
 
-#: ball/st_demo.c:630
+#: ball/st_demo.c:635
 msgid "Repeat"
 msgstr "Rejouer"
 
-#: ball/st_demo.c:705
+#: ball/st_demo.c:715
 msgid "Delete Replay?"
 msgstr "Supprimer le film ?"
 
-#: ball/st_demo.c:759 ball/st_level.c:179
+#: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
 msgstr "Attention !"
 
-#: ball/st_demo.c:761
+#: ball/st_demo.c:771
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
 msgstr "Ce film a été créé avec une version différente\\(ou inconnue) de ce niveau. Il se peut que\\vous observiez des incohérences visuelles.\\"
 
-#: ball/st_help.c:101
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Nouveau record de collection"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Collection complétée"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Choisissez un niveau"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Balle perdue !"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Temps écoulé !"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "Quitter"
+
+#: ball/st_fail.c:101 ball/st_goal.c:215
+msgid "Next Level"
+msgstr "Niveau suivant"
+
+#: ball/st_fail.c:104 ball/st_goal.c:218
+msgid "Retry Level"
+msgstr "Retenter"
+
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Save Replay"
+msgstr "Sauver un film"
+
+#: ball/st_goal.c:96
+msgid "New Record"
+msgstr "Nouveau record"
+
+#: ball/st_goal.c:97
+msgid "GOAL"
+msgstr "VICTOIRE"
+
+#: ball/st_goal.c:210 ball/st_goal.c:212
+msgid "Finish"
+msgstr "Terminé"
+
+#: ball/st_help.c:102
 msgid "Tricks"
 msgstr "Figures"
 
-#: ball/st_help.c:102
+#: ball/st_help.c:103
 msgid "Modes"
 msgstr "Modes"
 
-#: ball/st_help.c:103
+#: ball/st_help.c:104
 msgid "Controls"
 msgstr "Contrôles"
 
-#: ball/st_help.c:104
+#: ball/st_help.c:105
 msgid "Rules"
 msgstr "Règles"
 
-#: ball/st_help.c:115
+#: ball/st_help.c:116
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
 msgstr "Déplacez la souris ou le\\joystick ou utilisez le clavier\\pour incliner le sol et\\faire rouler la balle.\\"
 
-#: ball/st_help.c:120
+#: ball/st_help.c:121
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
 msgstr "Collectez des pièces pour\\déverrouiller la sortie\\et terminer le niveau.\\"
 
-#: ball/st_help.c:177
+#: ball/st_help.c:178
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
 msgstr "Les boutons de la souris tournent la vue.\\Maintenez Maj. pour une rotation plus rapide."
 
-#: ball/st_help.c:179
+#: ball/st_help.c:180
 msgid "Exit / Pause"
 msgstr "Quitter / Pause"
 
-#: ball/st_help.c:180 ball/game_common.c:46
-msgid "Chase Camera"
-msgstr "Caméra poursuite"
+#: ball/st_help.c:184
+msgid "Restart Level"
+msgstr "Redémarrer le niveau"
 
-#: ball/st_help.c:181 ball/game_common.c:45
-msgid "Lazy Camera"
-msgstr "Caméra paresseuse"
-
-#: ball/st_help.c:182 ball/game_common.c:44
-msgid "Manual Camera"
-msgstr "Caméra manuelle"
-
-#: ball/st_help.c:183
+#: ball/st_help.c:185
 msgid "Screenshot"
 msgstr "Captures"
 
-#: ball/st_help.c:248
+#: ball/st_help.c:256
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
 msgstr "Finissez le niveau avant que le temps ne soit écoulé.\\Vous devez récupérer des pièces pour ouvrir la sortie."
 
-#: ball/st_help.c:261
+#: ball/st_help.c:269
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgstr "Jouez à partir du premier niveau de la collection.\\Vous commencez avec seulement trois balles,\\ne les perdez pas. Gagnez une nouvelle balle\\toutes les 100 pièces récupérées."
 
-#: ball/st_help.c:275
+#: ball/st_help.c:283
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
 msgstr "Les angles peuvent être utilisés\\pour sauter. Prenez de l'élan et visez\\l'angle. Vous devriez être capable\\d'atteindre de nouveaux endroits.\\"
 
-#: ball/st_help.c:280
+#: ball/st_help.c:288
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
 msgstr "Incliner dans 2 directions augmente\\la pente. Utilisez la caméra manuelle\\et tournez-la à 45 degrés pour de\\meilleurs résultats."
 
-#: ball/st_help.c:300 ball/st_help.c:310
+#: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
 msgstr "Regardez la démo"
-
-#: ball/game_common.c:28
-msgid "Aborted"
-msgstr "Interrompu"
-
-#: ball/game_common.c:29
-msgid "Time-out"
-msgstr "Temps écoulé"
-
-#: ball/game_common.c:30
-msgid "Success"
-msgstr "Succès"
-
-#: ball/game_common.c:31
-msgid "Fall-out"
-msgstr "Balle perdue"
-
-#: ball/game_common.c:48
-#, c-format
-msgid "Camera %d"
-msgstr "Caméra %d"
-
-#: ball/st_pause.c:82 putt/st_all.c:644
-msgid "Paused"
-msgstr "Pause"
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr "Recommencer"
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "Sortie"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "Balles"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "Score"
-
-#: ball/st_goal.c:101
-msgid "New Record"
-msgstr "Nouveau record"
-
-#: ball/st_goal.c:102
-msgid "GOAL"
-msgstr "VICTOIRE"
-
-#: ball/st_goal.c:215 ball/st_goal.c:217
-msgid "Finish"
-msgstr "Terminé"
-
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr "Collection de niveaux"
 
 #: ball/st_level.c:56
 #, c-format
@@ -448,6 +400,94 @@ msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
 msgstr "Un fichier de film ne peut pas être ouvert en\\écriture. Cette partie ne sera pas enregistrée."
+
+#: ball/st_name.c:112
+msgid "OK"
+msgstr "OK"
+
+#: ball/st_name.c:114 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ball/st_over.c:41
+msgid "GAME OVER"
+msgstr "PARTIE FINIE"
+
+#: ball/st_pause.c:80 putt/st_all.c:635
+msgid "Paused"
+msgstr "Pause"
+
+#: ball/st_pause.c:89
+msgid "Restart"
+msgstr "Recommencer"
+
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr "Attention !"
+
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr "Prêt ?"
+
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr "PARTEZ !"
+
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Nom du film"
+
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Sauver"
+
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Écraser ?"
+
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Écraser"
+
+#: ball/st_set.c:302
+msgid "Level Set"
+msgstr "Collection de niveaux"
+
+#: ball/st_start.c:228
+msgid "Unlocked"
+msgstr "Déverrouillé"
+
+#: ball/st_start.c:229
+msgid "Locked"
+msgstr "Verrouillé"
+
+#: ball/st_start.c:239
+msgid "Goal State in Completed Levels"
+msgstr "État sortie des niv. complétés"
+
+#: ball/st_title.c:144 ball/st_title.c:179
+msgid "menu^Cheat"
+msgstr "Tricher"
+
+#: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
+msgid "menu^Play"
+msgstr "Jouer"
+
+#: ball/st_title.c:185
+msgid "menu^Replay"
+msgstr "Films"
+
+#: ball/st_title.c:186
+msgid "menu^Help"
+msgstr "Aide"
+
+#: ball/st_title.c:187 putt/st_all.c:230
+msgid "menu^Options"
+msgstr "Options"
+
+#: ball/st_title.c:188 putt/st_all.c:231
+msgid "menu^Exit"
+msgstr "Quitter"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -485,49 +525,21 @@ msgstr "Changez votre nom"
 msgid "caps"
 msgstr "maj"
 
-#: ball/st_over.c:35
-msgid "GAME OVER"
-msgstr "PARTIE FINIE"
-
-#: ball/st_title.c:140 ball/st_title.c:175
-msgid "menu^Cheat"
-msgstr "Tricher"
-
-#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
-msgid "menu^Play"
-msgstr "Jouer"
-
-#: ball/st_title.c:181
-msgid "menu^Replay"
-msgstr "Films"
-
-#: ball/st_title.c:182
-msgid "menu^Help"
-msgstr "Aide"
-
-#: ball/st_title.c:183 putt/st_all.c:239
-msgid "menu^Options"
-msgstr "Options"
-
-#: ball/st_title.c:184 putt/st_all.c:240
-msgid "menu^Exit"
-msgstr "Quitter"
-
-#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:320 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
 #: share/st_common.c:384
 msgid "Off"
 msgstr "Non"
 
-#: share/st_common.c:319
+#: share/st_common.c:321
 msgid "2x"
 msgstr "2x"
 
-#: share/st_common.c:320
+#: share/st_common.c:322
 msgid "4x"
 msgstr "4x"
 
-#: share/st_common.c:321
+#: share/st_common.c:323
 msgid "8x"
 msgstr "8x"
 
@@ -576,68 +588,120 @@ msgstr "Décors"
 msgid "Shadow"
 msgstr "Ombrage"
 
-#: putt/st_conf.c:158
+#: share/st_common.c:782
+msgid "Button A"
+msgstr "Bouton A"
+
+#: share/st_common.c:783
+msgid "Button B"
+msgstr "Bouton B"
+
+#: share/st_common.c:784
+msgid "Button X"
+msgstr "Bouton X"
+
+#: share/st_common.c:785
+msgid "Button Y"
+msgstr "Bouton Y"
+
+#: share/st_common.c:786
+msgid "Button L1"
+msgstr "Bouton L1"
+
+#: share/st_common.c:787
+msgid "Button R1"
+msgstr "Bouton R1"
+
+#: share/st_common.c:788 putt/st_conf.c:158
 msgid "Select"
 msgstr "Sélectionner"
 
-#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
+#: share/st_common.c:789
+msgid "Start"
+msgstr "Commencer"
+
+#: share/st_common.c:793
+msgid "X Axis 1"
+msgstr "X Axe 1"
+
+#: share/st_common.c:794
+msgid "Y Axis 1"
+msgstr "Y Axe 1"
+
+#: share/st_common.c:795
+msgid "X Axis 2"
+msgstr "X Axe 2"
+
+#: share/st_common.c:796
+msgid "Y Axis 2"
+msgstr "Y Axe 2"
+
+#: share/st_common.c:909
+msgid "Press a button..."
+msgstr "Appuyez sur un bouton..."
+
+#: share/st_common.c:919
+msgid "Move a stick..."
+msgstr "Déplacez un manche..."
+
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
+#: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
 msgstr "J1"
 
-#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
+#: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
 msgid "P2"
 msgstr "J2"
 
-#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
+#: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
 msgid "P3"
 msgstr "J3"
 
-#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
+#: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
 msgid "P4"
 msgstr "J4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:66
 msgid "O"
 msgstr "O"
 
-#: putt/st_all.c:124
+#: putt/st_all.c:115
 msgid "Tot"
 msgstr "Tot"
 
-#: putt/st_all.c:136
+#: putt/st_all.c:127
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:361
+#: putt/st_all.c:352
 msgid "Select Course"
 msgstr "Choisir un parcours"
 
-#: putt/st_all.c:529
+#: putt/st_all.c:520
 msgid "Players?"
 msgstr "Joueurs ?"
 
-#: putt/st_all.c:731
+#: putt/st_all.c:722
 #, c-format
 msgid "Hole %02d"
 msgstr "Trou %02d"
 
-#: putt/st_all.c:1073
+#: putt/st_all.c:1071
 msgid "It's In!"
 msgstr "C'est rentré !"
 
-#: putt/st_all.c:1216
+#: putt/st_all.c:1214
 msgid "1 Stroke Penalty"
 msgstr "Pénalité d'un coup"
 
-#: putt/st_all.c:1294
+#: putt/st_all.c:1292
 msgid "Scores"
 msgstr "Scores"
 
-#: putt/st_all.c:1347
+#: putt/st_all.c:1345
 msgid "Final Scores"
 msgstr "Scores finaux"
 
@@ -757,11 +821,15 @@ msgid ""
 "hard.\\Author: vidski\\"
 msgstr "Gold Jambalaya\\\\L'infâme parcours de Vidski.\\Difficulté: Moyen à Difficile.\\Auteur: vidski\\"
 
-#: data/holes-easyputt.txt
+#: data/holes-iCourse.txt
 msgid ""
-"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr ""
+msgstr "Le parcours iPutt de Reshaun\\\\\\Difficulté : Facile à Difficile\\Auteur : Reshaun Francis"
+
+#: data/gui/title.map data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Créé par Robert Kooima\\"
 
 #: data/map-easy/bumper.map
 msgid ""
@@ -1236,10 +1304,6 @@ msgid ""
 " on a timer.\\When it expires, the barriers will rise.\\"
 msgstr "Cet interrupteur contrôle les 5 barrières.\\Soyez rapide car l'interrupteur a un minuteur.\\Lorsqu'il expire, les barrières remontent.\\"
 
-#: data/map-medium/title.map
-msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "Neverball\\\\http://neverball.org\\\\Créé par Robert Kooima\\"
-
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
 msgstr "Suivez les pièces pour sortir du labyrinthe."
@@ -1649,8 +1713,6 @@ msgstr "Un jeu de minigolf en 3D"
 msgid "mtrl/words"
 msgstr "mtrl/words-fr"
 
-#. Translators,
-#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
 msgstr "item/coin/euro_coin"
 
