@@ -104,7 +104,7 @@ static void load_mtrl_objects(struct mtrl *mp)
 {
     /* Make sure not to leak an already loaded object. */
 
-    if (mp->o)
+    if (mp->o || !mp->base.f[0])
         return;
 
     /* Load the texture. */
@@ -123,6 +123,8 @@ static void load_mtrl_objects(struct mtrl *mp)
         else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
+    else
+        log_printf("Failed to load texture \"%s\"\n", _(mp->base.f));
 }
 
 /*

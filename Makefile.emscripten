@@ -11,13 +11,7 @@ EM_CFLAGS := \
 	-s USE_SDL_TTF=2 \
 	-s USE_VORBIS=1 \
 	-s USE_LIBPNG=1 \
-	-s USE_LIBJPEG=1 \
-	-s ALLOW_MEMORY_GROWTH=1 \
-	-s FULL_ES2=1 \
-	-s INVOKE_RUN=0 \
-	-s EXTRA_EXPORTED_RUNTIME_METHODS="['callMain']" \
-	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
-	-s FETCH=1
+	-s USE_LIBJPEG=1
 
 DATA_ZIP := data-emscripten.zip
 
@@ -60,8 +54,15 @@ DATA_EXCLUDE := \
 	'set-mym2.txt' \
 	'set-tones.txt'
 
-LDFLAGS := -L../gl4es/lib -lGL
+LDFLAGS := ../gl4es/lib/libGL.a
 EM_LDFLAGS := \
+	-s ALLOW_MEMORY_GROWTH=1 \
+	-s FULL_ES2=1 \
+	-s INVOKE_RUN=0 \
+	-s EXPORTED_RUNTIME_METHODS="['callMain']" \
+	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
+	-s LLD_REPORT_UNDEFINED \
+	-s FETCH=1 \
 	-lidbfs.js \
 	$(EM_PRELOAD) \
 	--use-preload-cache

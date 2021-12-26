@@ -22,3 +22,7 @@ permission from Github dated 2013-11-12. Wording of approval is in
 
 The source file `share/fs_jpg.c` is based on `jdatasrc.c` from the
 libjpeg project.
+
+The source files `share/miniz.[ch]` are included verbatim from the
+miniz project (https://github.com/richgel999/miniz) and are licensed
+under the MIT license. See `doc/legal/license-miniz.txt`.

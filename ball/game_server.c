@@ -31,6 +31,9 @@
 
 #include "cmd.h"
 
+/* Do this differently ASAP. */
+void incr_gained(int);
+
 /*---------------------------------------------------------------------------*/
 
 static int server_state = 0;
@@ -662,8 +665,7 @@ static void game_update_time(float dt, int b)
 
     if (b && timer_down)
     {
-        if (timer < 600.f)
-            timer -= dt;
+        timer -= dt;
         if (timer < 0.f)
             timer = 0.f;
     }
@@ -696,6 +698,22 @@ static int game_update_state(int bt)
         {
             coins += hp->n;
             game_cmd_coins();
+        }
+        else if (hp->t == ITEM_CLOCK)
+        {
+            audio_play(AUD_CLOCK, 1.f);
+
+            if (timer_down)
+            {
+                /* Clock items are only effective on timed levels. */
+
+                int seconds = hp->n;
+
+                game_update_time((float) -seconds, bt);
+
+                /* FIXME: calling client from server is a bad idea. */
+                incr_gained(seconds);
+            }
         }
 
         audio_play(AUD_COIN, 1.f);

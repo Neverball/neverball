@@ -283,7 +283,9 @@
     </div>
   </div>
 
-  <script type='text/javascript'>
+  <script>
+    'use strict';
+
     var Neverball = {
       EVENT_BACK: -1,
       EVENT_PAUSE: 0,
@@ -300,13 +302,32 @@
           Neverball.run();
         },
 
+        /**
+         * Request fullscreen on the container.
+         */
         fullscreenButtonClick: function (event) {
           var wrapper = document.getElementById('canvas-wrapper');
-          wrapper.requestFullscreen();
+
+          if ('webkitRequestFullscreen' in wrapper) {
+            wrapper.webkitRequestFullscreen();
+          } else {
+            wrapper.requestFullscreen();
+          }
         },
 
+        /**
+         * Pause the game upon exiting fullscreen.
+         */
         fullscreenChange: function (event) {
-          if (!document.fullscreenElement) {
+          var fullscreenElement = null;
+
+          if ('webkitFullscreenElement' in document) {
+            fullscreenElement = document.webkitFullscreenElement;
+          } else {
+            fullscreenElement = document.fullscreenElement;
+          }
+
+          if (!fullscreenElement) {
             Neverball.pushEvent(Neverball.EVENT_PAUSE);
           }
         },
@@ -363,7 +384,15 @@
         this._runButton.disabled = false;
         document.body.classList.remove('running');
 
-        if (document.fullscreenElement) {
+        var fullscreenElement = null;
+
+        if ('webkitFullscreenElement' in document) {
+          fullscreenElement = document.webkitFullscreenElement;
+        } else {
+          fullscreenElement = document.fullscreenElement;
+        }
+
+        if (fullscreenElement) {
           document.exitFullscreen();
         }
       },

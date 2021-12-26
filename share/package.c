@@ -22,10 +22,12 @@ static Array available_packages;
 
 #define PACKAGE_GET(a, i) ((struct package *) array_get((a), (i)))
 
+#define PACKAGE_DIR "Downloads"
+
 /*---------------------------------------------------------------------------*/
 
 /*
- * Get a downlaod URL.
+ * Get a download URL.
  */
 static const char *get_package_url(const char *filename)
 {
@@ -60,7 +62,7 @@ static const char *get_package_path(const char *filename)
 
         memset(path, 0, sizeof (path));
 
-        SAFECPY(path, "Downloads/");
+        SAFECPY(path, PACKAGE_DIR "/");
         SAFECAT(path, filename);
 
         return path;
@@ -80,14 +82,14 @@ static List installed_packages;
 /*
  * Add package file to FS path.
  */
-static int add_package_to_path(const char *filename)
+static int mount_package(const char *filename)
 {
     const char *write_dir = fs_get_write_dir();
     int added = 0;
 
     if (write_dir)
     {
-        char *path = concat_string(write_dir, "/Downloads/", filename, NULL);
+        char *path = concat_string(write_dir, "/" PACKAGE_DIR "/", filename, NULL);
 
         if (path)
         {
@@ -104,7 +106,7 @@ static int add_package_to_path(const char *filename)
 /*
  * Add a package to the FS path and to the list, if not yet added.
  */
-static int add_installed_package(const char *filename)
+static int mount_installed_package(const char *filename)
 {
     List l;
 
@@ -116,7 +118,7 @@ static int add_installed_package(const char *filename)
 
     /* Attempt addition. */
 
-    if (add_package_to_path(filename))
+    if (mount_package(filename))
     {
         installed_packages = list_cons(strdup(filename), installed_packages);
         return 1;
@@ -141,7 +143,7 @@ static int load_installed_packages(void)
             strip_newline(line);
 
             if (fs_exists(get_package_path(line)))
-                add_installed_package(line);
+                mount_installed_package(line);
         }
 
         fs_close(fp);
@@ -228,7 +230,7 @@ static void load_package_statuses(Array packages)
                 {
                     pkg->status = PACKAGE_INSTALLED;
 
-                    add_installed_package(pkg->filename);
+                    mount_installed_package(pkg->filename);
                 }
             }
         }
@@ -421,12 +423,12 @@ void package_init(void)
 
     if (write_dir)
     {
-        char *package_dir = concat_string(write_dir, "/", "Downloads", NULL);
+        char *package_dir = concat_string(write_dir, "/", PACKAGE_DIR, NULL);
 
         if (package_dir)
         {
             if (!dir_exists(package_dir))
-                fs_mkdir("Downloads");
+                fs_mkdir(PACKAGE_DIR);
 
             free(package_dir);
             package_dir = NULL;
@@ -633,7 +635,7 @@ static void package_fetch_done(void *data, void *extra_data)
 
             /* Add package to installed packages and to FS. */
 
-            if (add_installed_package(pkg->filename))
+            if (mount_installed_package(pkg->filename))
                 pkg->status = PACKAGE_INSTALLED;
         }
 

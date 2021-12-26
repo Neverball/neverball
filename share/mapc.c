@@ -1200,6 +1200,8 @@ static void make_item(struct s_base *fp,
                 hp->t = ITEM_GROW;
             else if (strcmp(v[i], "item_health_small") == 0)
                 hp->t = ITEM_SHRINK;
+            else if (strcmp(v[i], "item_clock") == 0)
+                hp->t = ITEM_CLOCK;
         }
 
         if (strcmp(k[i], "light") == 0)
@@ -1505,6 +1507,7 @@ static void read_ent(struct s_base *fp, fs_file fin)
     if (!strcmp(v[i], "light"))                    make_item(fp, k, v, c);
     if (!strcmp(v[i], "item_health_large"))        make_item(fp, k, v, c);
     if (!strcmp(v[i], "item_health_small"))        make_item(fp, k, v, c);
+    if (!strcmp(v[i], "item_clock"))               make_item(fp, k, v, c);
     if (!strcmp(v[i], "info_camp"))                make_swch(fp, k, v, c);
     if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);

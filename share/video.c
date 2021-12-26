@@ -264,8 +264,8 @@ int video_mode(int f, int w, int h)
     window = SDL_CreateWindow("", X, Y, w, h,
                               SDL_WINDOW_OPENGL |
                               (highdpi ? SDL_WINDOW_ALLOW_HIGHDPI : 0) |
-                              (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) |
 #ifndef __EMSCRIPTEN__
+                              (f ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0) |
                               SDL_WINDOW_RESIZABLE |
 #endif
 			      0);

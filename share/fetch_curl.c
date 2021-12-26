@@ -514,7 +514,7 @@ void fetch_init(void (*dispatch_event)(void *))
         return;
     }
 
-    /* Process FETCH_MAX connections in paraller, while the rest wait in a queue. */
+    /* Process FETCH_MAX connections in parallel, while the rest wait in a queue. */
 
     curl_multi_setopt(multi_handle, CURLMOPT_MAX_TOTAL_CONNECTIONS, FETCH_MAX);
 
@@ -581,6 +581,7 @@ unsigned int fetch_url(const char *url,
 
             curl_easy_setopt(handle, CURLOPT_BUFFERSIZE, 102400L);
             curl_easy_setopt(handle, CURLOPT_USERAGENT, "neverball/" VERSION);
+            curl_easy_setopt(handle, CURLOPT_ACCEPT_ENCODING, "");
             /* curl_easy_setopt(handle, CURLOPT_VERBOSE, 1); */
 
             curl_multi_add_handle(multi_handle, handle);

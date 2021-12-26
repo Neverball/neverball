@@ -294,6 +294,9 @@ enum
     GEOM_COIN10,
     GEOM_GROW,
     GEOM_SHRINK,
+    GEOM_CLOCK5,
+    GEOM_CLOCK15,
+    GEOM_CLOCK30,
 
     GEOM_MAX
 };
@@ -303,7 +306,10 @@ static const char item_sols[GEOM_MAX][PATHMAX] = {
     "item/coin/coin5.sol",
     "item/coin/coin10.sol",
     "item/grow/grow.sol",
-    "item/shrink/shrink.sol"
+    "item/shrink/shrink.sol",
+    "item/clock/clock5.sol",
+    "item/clock/clock15.sol",
+    "item/clock/clock30.sol"
 };
 
 static struct s_full beam;
@@ -374,6 +380,11 @@ static struct s_draw *item_file(const struct v_item *hp)
         {
         case ITEM_GROW:   g = GEOM_GROW;   break;
         case ITEM_SHRINK: g = GEOM_SHRINK; break;
+        case ITEM_CLOCK:
+            if      (hp->n >= 30) g = GEOM_CLOCK30;
+            else if (hp->n >= 15) g = GEOM_CLOCK15;
+            else                  g = GEOM_CLOCK5;
+            break;
         default:
             if      (hp->n >= 10) g = GEOM_COIN10;
             else if (hp->n >= 5)  g = GEOM_COIN5;
@@ -445,6 +456,10 @@ void back_init(const char *name)
     {
         struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
         mp->o = make_image_from_file(name, IF_MIPMAP);
+
+        if (!mp->o)
+            log_printf("Failed to load background image \"%s\"\n", name);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         back_state = 1;
     }

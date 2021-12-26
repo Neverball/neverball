@@ -188,17 +188,29 @@ void hud_update(int pulse)
     {
         gui_set_clock(time_id, clock);
 
-        if (last > clock && pulse)
+        if (pulse)
         {
-            if (clock <= 1000 && (last / 100) > (clock / 100))
+            if (last > clock)
             {
-                audio_play(AUD_TICK, 1.f);
-                gui_pulse(time_id, 1.50);
+                if (clock <= 1000 && (last / 100) > (clock / 100))
+                {
+                    audio_play(AUD_TICK, 1.f);
+                    gui_pulse(time_id, 1.50);
+                }
+                else if (clock < 500 && (last / 50) > (clock / 50))
+                {
+                    audio_play(AUD_TOCK, 1.f);
+                    gui_pulse(time_id, 1.25);
+                }
             }
-            else if (clock < 500 && (last / 50) > (clock / 50))
+            else
             {
-                audio_play(AUD_TOCK, 1.f);
-                gui_pulse(time_id, 1.25);
+                if (clock > last + 2950)
+                    gui_pulse(time_id, 2.00);
+                else if (clock > last + 1450)
+                    gui_pulse(time_id, 1.50);
+                else if (clock > last + 450)
+                    gui_pulse(time_id, 1.25);
             }
         }
     }

@@ -1,0 +1,30 @@
+{
+"classname" "worldspawn"
+"material" "item/clock/clock5"
+"model" "item/clock/clock.obj"
+"target" "rot0"
+}
+{
+"classname" "path_corner"
+"targetname" "rot0"
+"angle" "0"
+"target" "rot120"
+"speed" "0.333"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "rot120"
+"angle" "120"
+"target" "rot240"
+"speed" "0.333"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "rot240"
+"angle" "240"
+"target" "rot0"
+"speed" "0.333"
+"smooth" "0"
+}
