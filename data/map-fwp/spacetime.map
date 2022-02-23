@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "4.0"
+"version" "4.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/spacetime.png"
 "back" "map-back/jupiter.sol"
@@ -19460,6 +19460,7 @@
 "origin" "0 512 1376"
 "target" "goalBlocker1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 156

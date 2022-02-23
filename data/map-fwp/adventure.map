@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "8.2"
+"version" "8.3"
 "author" "Florian Priester"
 "shot" "shot-fwp/adventure.png"
 "back" "map-back/alien.sol"
@@ -21757,6 +21757,7 @@
 "origin" "-256 256 64"
 "target" "teleporterBlockerNW1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 17
@@ -22111,6 +22112,7 @@
 "origin" "256 256 64"
 "target" "teleporterBlockerNE1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 21
@@ -22629,6 +22631,7 @@
 "origin" "-256 -256 96"
 "target" "teleporterBlockerSW1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 25
@@ -23208,6 +23211,7 @@
 "origin" "256 -256 64"
 "target" "teleporterBlockerSE1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 29
