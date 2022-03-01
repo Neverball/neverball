@@ -188,8 +188,15 @@ static int get_attempts(fs_file fp, struct level *l)
 
     if (sscanf(line, "attmps %d %d %d", &l->attempts[SUCCESS],
                                         &l->attempts[TIMEOUT],
-                                        &l->attempts[FALLOUT]) < 2)
-        return 0;
+                                        &l->attempts[FALLOUT]) < 3) {
+        /* compatible with save files without attempts info */
+        l->attempts[SUCCESS] = 0;
+        l->attempts[TIMEOUT] = 0;
+        l->attempts[FALLOUT] = 0;
+
+        /* attmps not available, rewind file pointer */
+        fs_seek(fp, - strlen(line) - 1, SEEK_CUR);
+    }
 
     return 1;
 }
