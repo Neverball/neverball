@@ -228,6 +228,8 @@ static int goal_gui(void)
 
     }
 
+    gui_set_attempts(curr_level());
+
     set_score_board(level_score(curr_level(), SCORE_COIN), progress_coin_rank(),
                     level_score(curr_level(), SCORE_TIME), progress_time_rank(),
                     level_score(curr_level(), SCORE_GOAL), progress_goal_rank());

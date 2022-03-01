@@ -124,6 +124,9 @@ void set_store_hs(void)
 
             fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
+            fs_printf(fp, "attmps %d %d %d\n", l->attempts[SUCCESS],
+                      l->attempts[TIMEOUT], l->attempts[FALLOUT]);
+
             put_score(fp, &l->scores[SCORE_TIME]);
             put_score(fp, &l->scores[SCORE_GOAL]);
             put_score(fp, &l->scores[SCORE_COIN]);
@@ -174,6 +177,23 @@ static struct level *find_level(const struct set *s, const char *file)
     return NULL;
 }
 
+static int get_attempts(fs_file fp, struct level *l)
+{
+    char line[MAXSTR];
+
+    if (!fs_gets(line, sizeof(line), fp))
+        return 0;
+
+    strip_newline(line);
+
+    if (sscanf(line, "attmps %d %d %d", &l->attempts[SUCCESS],
+                                        &l->attempts[TIMEOUT],
+                                        &l->attempts[FALLOUT]) < 2)
+        return 0;
+
+    return 1;
+}
+
 static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
 {
     struct score time_score;
@@ -203,6 +223,7 @@ static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
 
             if ((l = find_level(s, buf + n)))
             {
+                get_attempts(fp, l);
                 /* Always prefer "locked" flag from the score file. */
 
                 l->is_locked = !!(flags & LEVEL_LOCKED);

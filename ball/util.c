@@ -57,6 +57,8 @@ static int score_coin[4];
 static int score_name[4];
 static int score_time[4];
 
+static int attempts[3];
+
 static int score_extra_row;
 
 /* Build a top three score list with default values. */
@@ -107,6 +109,24 @@ static void gui_scores(int id, int e)
                 gui_set_rect(kd, GUI_ALL);
             }
         }
+    }
+}
+
+static void gui_attempts(int id)
+{
+    int at;
+
+    if ((at = gui_vstack(id)))
+    {
+        gui_filler(at);
+        gui_label(at, "Attempts", GUI_SML, 0, 0);
+
+        attempts[SUCCESS] = gui_count(at, 0, GUI_SML);
+        attempts[TIMEOUT] = gui_count(at, 0, GUI_SML);
+        attempts[FALLOUT] = gui_count(at, 0, GUI_SML);
+
+        gui_set_rect(at, GUI_ALL);
+        gui_filler(at);
     }
 }
 
@@ -214,6 +234,8 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
 
         gui_scores(id, e);
 
+        gui_attempts(id);
+
         gui_filler(id);
     }
 }
@@ -254,6 +276,13 @@ void gui_score_set(int t)
 int  gui_score_get(void)
 {
     return score_type;
+}
+
+void gui_set_attempts(const struct level *l)
+{
+    gui_set_count(attempts[SUCCESS], l->attempts[SUCCESS]);
+    gui_set_count(attempts[TIMEOUT], l->attempts[TIMEOUT]);
+    gui_set_count(attempts[FALLOUT], l->attempts[FALLOUT]);
 }
 
 /*---------------------------------------------------------------------------*/
