@@ -13,6 +13,7 @@
 
 *.bak
 *.autosave.map
+.vscode
 
 /neverball.exe
 /neverputt.exe
