@@ -101,6 +101,7 @@ misc_model entities define visible geometry, but not physical geometry.  So, if 
 Attributes:
 * <model key="model" name="Model">Path to the model file.  The model must be in OBJ format.  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
 * <target key="target" name="Target">Can be used to attach the misc_model to a path_corner to create moving detail geometry.</target>
+* <target key="target2" name="Target (orientation)">Can optionally be used to attach the misc_model to a second path_corner that controls the orientation of the moving detail geometry. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
