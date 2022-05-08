@@ -66,16 +66,16 @@ Defines a shrink coin.
 
 <list name="clock">
   <item name="None" value="0"/>
-  <item name="Pink" value="5"/>
-  <item name="Turquoise" value="15"/>
-  <item name="Orange" value="30"/>
+  <item name="Small" value="5"/>
+  <item name="Medium" value="15"/>
+  <item name="Large" value="30"/>
 </list>
 
 <point name="item_clock" color="0.5 0.25 1" box="-16 -16 -16 16 16 16">
 Defines a clock, adding time to a level.
 
 Attributes:
-* <clock key="light" name="Preset bonus" value="0">Value of the clock.  Pink clock = 5, turquoise clock = 15, orange clock = 30.</clock>
+* <clock key="light" name="Preset bonus" value="0">Value of the clock.  Pink clock (small) = 5, turquoise clock (medium) = 15, orange clock (large) = 30.</clock>
 </point>
 
 
