@@ -5,4 +5,10 @@ set-mym.txt
 set-mym2.txt
 set-fwp.txt
 set-tones.txt
+set-iLevels.txt
+set-iLevels2.txt
+set-iLevels3.txt
+set-iLevels4.txt
+set-iLevels5.txt
+set-penscrap.txt
 set-misc.txt
