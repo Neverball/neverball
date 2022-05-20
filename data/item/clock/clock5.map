@@ -24,7 +24,31 @@
 "classname" "path_corner"
 "targetname" "rot240"
 "angle" "240"
-"target" "rot0"
+"target" "flip0"
 "speed" "0.333"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "flip0"
+"angle" "0"
+"target" "flip120"
+"speed" "0.167"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "flip120"
+"angles" "0 0 120"
+"target" "flip240"
+"speed" "0.167"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
+"targetname" "flip240"
+"angles" "0 0 240"
+"target" "rot0"
+"speed" "0.167"
 "smooth" "0"
 }
