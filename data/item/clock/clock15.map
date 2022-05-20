@@ -6,25 +6,33 @@
 }
 {
 "classname" "path_corner"
+"targetname" "delay"
+"angles" "0 0 0"
+"target" "rot0"
+"speed" "0.5"
+"smooth" "0"
+}
+{
+"classname" "path_corner"
 "targetname" "rot0"
-"angle" "0"
+"angles" "0 0 0"
 "target" "rot120"
-"speed" "0.333"
+"speed" "0.167"
 "smooth" "0"
 }
 {
 "classname" "path_corner"
 "targetname" "rot120"
-"angle" "120"
+"angles" "0 0 120"
 "target" "rot240"
-"speed" "0.333"
+"speed" "0.167"
 "smooth" "0"
 }
 {
 "classname" "path_corner"
 "targetname" "rot240"
-"angle" "240"
-"target" "rot0"
-"speed" "0.333"
+"angles" "0 0 240"
+"target" "delay"
+"speed" "0.167"
 "smooth" "0"
 }
