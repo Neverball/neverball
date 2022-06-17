@@ -1,7 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"version" "3.0"
+"version" "3.1"
 "author" "Florian Priester"
 "shot" "shot-fwp/ladybirds.png"
 "back" "map-back/city.sol"
@@ -15489,6 +15489,7 @@
 "origin" "0 384 96"
 "target" "goalBlocker1"
 "speed" "1"
+"smooth" "0"
 "state" "0"
 }
 // entity 51

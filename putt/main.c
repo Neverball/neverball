@@ -312,7 +312,7 @@ int main(int argc, char *argv[])
     log_init("Neverputt", "neverputt.log");
     fs_mkdir("Screenshots");
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)
     {
         joy_init();
 

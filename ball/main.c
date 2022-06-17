@@ -722,7 +722,7 @@ static int main_init(int argc, char *argv[])
     SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
 #endif
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) == -1)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1)
     {
         log_printf("Failure to initialize SDL (%s)\n", SDL_GetError());
         return 0;

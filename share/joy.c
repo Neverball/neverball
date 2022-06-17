@@ -1,3 +1,4 @@
+#include <SDL.h>
 #include <SDL_events.h>
 #include <SDL_joystick.h>
 
@@ -23,6 +24,12 @@ void joy_init()
 {
     size_t i = 0;
 
+    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
+    {
+        log_printf("Failure to initialize joystick (%s)\n", SDL_GetError());
+        return;
+    }
+
     for (i = 0; i < ARRAYSIZE(joysticks); ++i)
     {
         joysticks[i].joy = NULL;
@@ -42,6 +49,8 @@ void joy_quit()
     for (i = 0; i < ARRAYSIZE(joysticks); ++i)
         if (joysticks[i].joy)
             joy_remove(joysticks[i].id);
+
+    SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 }
 
 /*

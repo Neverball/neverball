@@ -53,10 +53,10 @@ zipfile="${id}.zip"
 # Create the build directory.
 tempdir="$(mktemp -d)" || exit
 
-sols="$(sed -n '6,$ p' < "$setfile")" &&
-setshot="$(sed -n '4 p' < "$setfile")" &&
-setname="$(sed -n '1 p' < "$setfile")" &&
-setdesc="$(sed -n '2 p' < "$setfile")" &&
+sols="$(sed -n '6,$ {s/\r$//;p}' < "$setfile")" &&
+setshot="$(sed -n '4 {s/\r$//;p}' < "$setfile")" &&
+setname="$(sed -n '1 {s/\r$//;p}' < "$setfile")" &&
+setdesc="$(sed -n '2 {s/\r$//;p}' < "$setfile")" &&
 setshotdir="$(dirname "$setshot")" &&
 if [ -f sets.txt ]; then
     cp "$setfile" "$tempdir" && # install set file

@@ -393,7 +393,11 @@
         }
 
         if (fullscreenElement) {
-          document.exitFullscreen();
+          if ('webkitExitFullscreen' in document) {
+            document.webkitExitFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
         }
       },
 
