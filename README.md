@@ -22,15 +22,12 @@ Release highlights can be found in [doc/release-notes.md](doc/release-notes.md).
 
 ## Resources
 
-* [Website](http://neverball.org/)
+* [Website](https://neverball.org/)
 * [Development](http://github.com/Neverball)
 * [Discord](https://discord.gg/bmBfHKZaQR)
-* [#neverball on chat.freenode.net](http://webchat.freenode.net/)
 
 ## Translation
 
 Neverball uses the gettext approach to translations. We're always
-interested in covering more languages. We have a project on Transifex
-(see [instructions on the forum][tx]) and we also accept PO files.
-
-[tx]: http://neverforum.com/fmpbo/viewtopic.php?id=2741
+interested in covering more languages. Join the
+[Neverball project on Transifex](https://www.transifex.com/neverball/neverball/).
