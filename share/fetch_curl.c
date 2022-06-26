@@ -582,6 +582,11 @@ unsigned int fetch_url(const char *url,
             curl_easy_setopt(handle, CURLOPT_BUFFERSIZE, 102400L);
             curl_easy_setopt(handle, CURLOPT_USERAGENT, "neverball/" VERSION);
             curl_easy_setopt(handle, CURLOPT_ACCEPT_ENCODING, "");
+
+            #if defined(_WIN32) && defined(CURLSSLOPT_NATIVE_CA)
+            curl_easy_setopt(handle, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+            #endif
+
             /* curl_easy_setopt(handle, CURLOPT_VERBOSE, 1); */
 
             curl_multi_add_handle(multi_handle, handle);
