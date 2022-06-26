@@ -119,9 +119,9 @@ void   m_xps(float *, const float *);
 int    m_inv(float *, const float *);
 
 void   m_ident(float *);
-void   m_basis(float *, const float *,
-                        const float *,
-                        const float *);
+void   m_basis(float *, const float e0[3],
+                        const float e1[3],
+                        const float e2[3]);
 void   m_xlt(float *, const float *);
 void   m_scl(float *, const float *);
 void   m_rot(float *, const float *, float);

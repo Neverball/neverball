@@ -13,7 +13,7 @@ void sol_body_v(float v[3],
                 const struct s_vary *,
                 const struct v_body *,
                 float);
-void sol_body_e(float e[3],
+void sol_body_e(float e[4],
                 const struct s_vary *,
                 const struct v_body *,
                 float);
