@@ -505,7 +505,8 @@ desktops : $(DESKTOPS)
 
 clean-src :
 	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
-	find . \( -name '*.o' -o -name '*.d' \) -delete
+	find ball share putt \( -name '*.o' -o -name '*.d' \) -delete
+	$(RM) neverball.ico.o neverputt.ico.o
 
 clean : clean-src
 	$(RM) $(SOLS)
