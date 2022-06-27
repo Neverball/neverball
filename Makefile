@@ -385,9 +385,9 @@ BALL_OBJS += share/solid_sim_sol.o
 PUTT_OBJS += share/solid_sim_sol.o
 
 ifeq ($(ENABLE_FS),stdio)
-BALL_OBJS += share/fs_stdio.o share/miniz.o
-PUTT_OBJS += share/fs_stdio.o share/miniz.o
-MAPC_OBJS += share/fs_stdio.o share/miniz.o
+BALL_OBJS += share/fs_stdio.o share/zip.o
+PUTT_OBJS += share/fs_stdio.o share/zip.o
+MAPC_OBJS += share/fs_stdio.o share/zip.o
 endif
 
 ifeq ($(ENABLE_TILT),wii)
