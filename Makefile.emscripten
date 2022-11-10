@@ -22,6 +22,8 @@ EM_PRELOAD := \
 DATA_EXCLUDE := \
 	'*.map' \
 	'*.obj' \
+	'*.xcf' \
+	'*.wings' \
 	'holes*.txt' \
 	'map-ckk/*' \
 	'map-fwp/*' \

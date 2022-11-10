@@ -62,10 +62,25 @@ int rand_between(int low, int high);
 
 #define MAXSTRLEN(a) (sizeof (a) - 1)
 
-#define SAFECPY(dst, src) \
-    (strncpy((dst), (src), MAXSTRLEN(dst)))
-#define SAFECAT(dst, src) \
-    (strncat((dst), (src), MAXSTRLEN(dst) - MIN(strlen(dst), MAXSTRLEN(dst))))
+/**
+ * Copy a string SRC into a zero-terminated fixed-size array of char DST.
+ */
+#define SAFECPY(dst, src) do { \
+    size_t _len = strlen(src); \
+    size_t _max = MIN(sizeof (dst) - 1, _len); \
+    memcpy((dst), (src), _max); \
+    (dst)[_max] = 0; \
+} while (0)
+
+/**
+ * Append a string SRC to a zero-terminated fixed-size array of char DST.
+ */
+#define SAFECAT(dst, src) do { \
+    size_t _len = strlen(dst); \
+    size_t _max = MIN(sizeof (dst) - 1u - _len, strlen(src)); \
+    memcpy((dst) + _len, (src), _max); \
+    (dst)[_len + _max] = 0; \
+} while (0)
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);
