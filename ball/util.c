@@ -114,16 +114,16 @@ static void gui_scores(int id, int e)
 
 static void gui_attempts(int id)
 {
-    int at;
+    int at, attempt_id;
 
     if ((at = gui_vstack(id)))
     {
         gui_filler(at);
-        gui_label(at, "Attempts", GUI_SML, 0, 0);
+        gui_label(at, _("Attempts"), GUI_SML, 0, 0);
 
-        attempts[SUCCESS] = gui_count(at, 0, GUI_SML);
-        attempts[TIMEOUT] = gui_count(at, 0, GUI_SML);
-        attempts[FALLOUT] = gui_count(at, 0, GUI_SML);
+        attempts[SUCCESS] = gui_label(at, "0", GUI_SML, gui_grn, gui_wht);
+        attempts[TIMEOUT] = gui_label(at, "0", GUI_SML, gui_yel, gui_wht);
+        attempts[FALLOUT] = gui_label(at, "0", GUI_SML, gui_red, gui_wht);
 
         gui_set_rect(at, GUI_ALL);
         gui_filler(at);
@@ -280,9 +280,13 @@ int  gui_score_get(void)
 
 void gui_set_attempts(const struct level *l)
 {
-    gui_set_count(attempts[SUCCESS], l->attempts[SUCCESS]);
-    gui_set_count(attempts[TIMEOUT], l->attempts[TIMEOUT]);
-    gui_set_count(attempts[FALLOUT], l->attempts[FALLOUT]);
+    char buffer[10];
+    sprintf(buffer, "%d", l->attempts[SUCCESS]);
+    gui_set_label(attempts[SUCCESS], buffer);
+    sprintf(buffer, "%d", l->attempts[TIMEOUT]);
+    gui_set_label(attempts[TIMEOUT], buffer);
+    sprintf(buffer, "%d", l->attempts[FALLOUT]);
+    gui_set_label(attempts[FALLOUT], buffer);
 }
 
 /*---------------------------------------------------------------------------*/
