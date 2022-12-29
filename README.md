@@ -1,5 +1,9 @@
 # Neverball
 
+Pennyball | Neverball
+----------|----------
+<a href="https://discord.gg/qnJR263Hm2"><img src="https://img.shields.io/discord/886320472088797184?logo=discord"></a> | <a href="https://discord.gg/J2a3qzZdnN"><img src="https://img.shields.io/discord/669254822758711297?logo=discord"></a>
+
 Tilt the  floor to roll a  ball through an obstacle  course within the
 given  time.  If  the  ball falls  or time  expires, a ball is lost.
 
@@ -24,7 +28,6 @@ Release highlights can be found in [doc/release-notes.md](doc/release-notes.md).
 
 * [Website](https://neverball.org/)
 * [Development](http://github.com/Neverball)
-* [Discord](https://discord.gg/bmBfHKZaQR)
 
 ## Translation
 
