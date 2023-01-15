@@ -55,8 +55,9 @@ clean:
 update-po: $(DOMAIN).pot-update $(POFILES) $(MOFILES)
 
 $(MODIR)/%/LC_MESSAGES/$(DOMAIN).mo: %.po
-	mkdir -p $(dir $@)
-	msgfmt -c --statistics -o $@ $<
+	@mkdir -p $(dir $@)
+	@msgfmt -c --statistics -o $@ $<
+	@echo "MSGFMT $<"
 
 %.po: $(DOMAIN).pot
 	msgmerge -U --previous $@ $<
