@@ -102,6 +102,22 @@
     v_nrm((e)[2], (e)[2]);         \
 } while (0)
 
+#define e_orthonrm_xz(e) do {      \
+    v_crs((e)[0], (e)[1], (e)[2]); \
+    v_crs((e)[2], (e)[0], (e)[1]); \
+    v_nrm((e)[0], (e)[0]);         \
+    v_nrm((e)[2], (e)[2]);         \
+} while (0)
+
+#define e_orthonrm_hard(e, f) do { \
+    v_crs((e)[2], (f)[0], (f)[1]); \
+    v_crs((e)[1], (f)[2], (f)[0]); \
+    v_crs((e)[0], (f)[1], (f)[2]); \
+    v_nrm((e)[0], (e)[0]);         \
+    v_nrm((e)[1], (e)[1]);         \
+    v_nrm((e)[2], (e)[2]);         \
+} while (0)
+
 #define e_lerp(c, d, e, a) do {        \
     v_lerp((c)[0], (d)[0], (e)[0], a); \
     v_lerp((c)[1], (d)[1], (e)[1], a); \
