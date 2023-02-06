@@ -630,10 +630,7 @@ static void game_update_view(float dt)
 
     /* Orthonormalize the new view reference frame. */
 
-    v_crs(view.e[0], view.e[1], view.e[2]);
-    v_crs(view.e[2], view.e[0], view.e[1]);
-    v_nrm(view.e[0], view.e[0]);
-    v_nrm(view.e[2], view.e[2]);
+    e_orthonrm_xz(multiview1.e);
 
     /* Compute the new view position. */
 
