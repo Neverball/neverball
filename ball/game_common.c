@@ -199,10 +199,7 @@ void game_view_fly(struct game_view *view, const struct s_vary *vary, float k)
     /* Orthonormalize the view basis. */
 
     v_sub(view->e[2], view->p, view->c);
-    v_crs(view->e[0], view->e[1], view->e[2]);
-    v_crs(view->e[2], view->e[0], view->e[1]);
-    v_nrm(view->e[0], view->e[0]);
-    v_nrm(view->e[2], view->e[2]);
+    e_orthonrm_xz(view->e);
 }
 
 /*---------------------------------------------------------------------------*/
