@@ -179,13 +179,7 @@ void sol_rotate(float e[3][3], const float w[3], float dt)
 
         /* Re-orthonormalize the basis. */
 
-        v_crs(e[2], f[0], f[1]);
-        v_crs(e[1], f[2], f[0]);
-        v_crs(e[0], f[1], f[2]);
-
-        v_nrm(e[0], e[0]);
-        v_nrm(e[1], e[1]);
-        v_nrm(e[2], e[2]);
+        e_orthonrm_hard(e, f);
     }
 }
 
