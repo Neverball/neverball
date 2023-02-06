@@ -398,10 +398,7 @@ void game_update_view(float dt)
 
     /* Orthonormalize the basis of the view in its new position. */
 
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
+    e_orthonrm_xz(view_e);
 
     /* The current view (dy, dz) approaches the ideal (view_dy, view_dz). */
 
@@ -663,10 +660,7 @@ void game_set_fly(float k)
     /* Orthonormalize the view basis. */
 
     v_sub(view_e[2], view_p, view_c);
-    v_crs(view_e[0], view_e[1], view_e[2]);
-    v_crs(view_e[2], view_e[0], view_e[1]);
-    v_nrm(view_e[0], view_e[0]);
-    v_nrm(view_e[2], view_e[2]);
+    e_orthonrm_xz(view_e);
 
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
