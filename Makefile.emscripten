@@ -2,10 +2,12 @@ CC = emcc
 
 JSDIR = js
 
+GL4ES_DIR ?= ../gl4es
+
 # Generate share/version.h
 VERSION := $(shell sh scripts/version.sh)
 
-CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I../gl4es/include
+CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I$(GL4ES_DIR)/include
 EM_CFLAGS := \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
@@ -56,7 +58,7 @@ DATA_EXCLUDE := \
 	'set-mym2.txt' \
 	'set-tones.txt'
 
-LDFLAGS := ../gl4es/lib/libGL.a
+LDFLAGS := $(GL4ES_DIR)/lib/libGL.a
 EM_LDFLAGS := \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s FULL_ES2=1 \

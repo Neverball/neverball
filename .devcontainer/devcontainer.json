@@ -1,0 +1,30 @@
+{
+    "name": "Emscripten",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "eamodio.gitlens"
+            ],
+            "settings": {
+                "C_Cpp.default.compilerPath": "/emsdk/upstream/emscripten/emcc",
+                "C_Cpp.default.cStandard": "c99",
+                "C_Cpp.default.systemIncludePath": [
+                    "/emsdk/upstream/emscripten/cache/sysroot/include",
+                    "/emsdk/upstream/emscripten/cache/sysroot/include/SDL2",
+                    "/opt/gl4es/include"
+                ],
+                "C_Cpp.default.defines": [
+                    "__EMSCRIPTEN__=1"
+                ],
+                "files.trimTrailingWhitespace": true,
+                "files.associations": {
+                    "Makefile.emscripten": "makefile"
+                }
+            }
+        }
+    }
+}
