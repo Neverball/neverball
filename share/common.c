@@ -307,6 +307,11 @@ const char *dir_name(const char *name)
 
         SAFECPY(buff, name);
 
+        // Remove trailing slashes.
+        while ((sep = (char *) path_last_sep(buff)) && !sep[1]) {
+            *sep = 0;
+        }
+
         if ((sep = (char *) path_last_sep(buff)))
         {
             if (sep == buff)
