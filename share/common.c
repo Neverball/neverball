@@ -293,8 +293,22 @@ const char *base_name_sans(const char *name, const char *suffix)
 
 const char *base_name(const char *name)
 {
-    const char *sep;
-    return (name && (sep = path_last_sep(name))) ? sep + 1 : name;
+    static char buff[MAXSTR];
+
+    char *sep;
+
+    if (!name) {
+        return name;
+    }
+
+    SAFECPY(buff, name);
+
+    // Remove trailing slashes.
+    while ((sep = (char *) path_last_sep(buff)) && !sep[1]) {
+        *sep = 0;
+    }
+
+    return (sep = (char *) path_last_sep(buff)) ? sep + 1 : buff;
 }
 
 const char *dir_name(const char *name)
