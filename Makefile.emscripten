@@ -147,9 +147,9 @@ BALL_SRCS := \
 	share/vec3.c \
 	share/video.c
 
-BALL_OBJS := $(BALL_SRCS:.c=.bc)
+BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 
-%.bc: %.c
+%.emscripten.o: %.c
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
 .PHONY: neverball
