@@ -7,7 +7,8 @@
         "vscode": {
             "extensions": [
                 "ms-vscode.cpptools",
-                "eamodio.gitlens"
+                "eamodio.gitlens",
+                "ritwickdey.liveserver"
             ],
             "settings": {
                 "C_Cpp.default.compilerPath": "/emsdk/upstream/emscripten/emcc",
@@ -21,9 +22,11 @@
                     "__EMSCRIPTEN__=1"
                 ],
                 "files.trimTrailingWhitespace": true,
+                "diffEditor.renderSideBySide": false,
                 "files.associations": {
                     "Makefile.emscripten": "makefile"
-                }
+                },
+                "liveServer.settings.root": "/js"
             }
         }
     }
