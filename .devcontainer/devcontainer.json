@@ -6,6 +6,13 @@
     "remoteEnv": {
         "VISUAL": "code -w"
     },
+    "mounts": [
+        {
+            "source": "${localWorkspaceFolder}/../neverball-packages",
+            "target": "/workspaces/neverball-packages",
+            "type": "bind"
+        }
+    ],
     "customizations": {
         "vscode": {
             "extensions": [
