@@ -3,6 +3,9 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
+    "remoteEnv": {
+        "VISUAL": "code -w"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
