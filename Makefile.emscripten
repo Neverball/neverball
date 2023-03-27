@@ -4,10 +4,18 @@ JSDIR = js
 
 GL4ES_DIR ?= ../gl4es
 
+# Emscripten fast linking: https://github.com/emscripten-core/emscripten/issues/17019
+BUILD ?= devel
+
 # Generate share/version.h
 VERSION := $(shell sh scripts/version.sh)
 
+ifeq ($(BUILD), devel)
+CFLAGS := -O1 -fsanitize=undefined -fsanitize=address -std=gnu99 -Wall -Ishare -DNDEBUG -I$(GL4ES_DIR)/include
+else
 CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I$(GL4ES_DIR)/include
+endif
+
 EM_CFLAGS := \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
@@ -70,6 +78,10 @@ EM_LDFLAGS := \
 	-lidbfs.js \
 	$(EM_PRELOAD) \
 	--use-preload-cache
+
+ifeq ($(BUILD), devel)
+EM_LDFLAGS += -s ERROR_ON_WASM_CHANGES_AFTER_LINK -s WASM_BIGINT
+endif
 
 BALL_SRCS := \
 	ball/demo.c \
