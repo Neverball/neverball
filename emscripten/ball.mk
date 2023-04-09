@@ -189,3 +189,10 @@ clean-packages:
 .PHONY: clean
 clean:
 	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
+
+.PHONY: watch
+watch:
+	while true; do \
+		$(MAKE) -f emscripten/ball.mk --no-print-directory --question || ( $(MAKE) -f emscripten/ball.mk --no-print-directory && echo '\e[32mok\e[0m' ); \
+		sleep 1; \
+	done
