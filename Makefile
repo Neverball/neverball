@@ -114,6 +114,7 @@ ifeq ($(ENABLE_FETCH),curl)
 endif
 
 ifeq ($(PLATFORM),darwin)
+    ALL_CFLAGS += -Wno-newline-eof
     ALL_CPPFLAGS += \
         -DGL_SILENCE_DEPRECATION=1 \
         $(patsubst %, -I%, $(wildcard /opt/local/include \
