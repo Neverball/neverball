@@ -1055,13 +1055,15 @@ static void gui_widget_size(int id)
 {
     int i;
 
+    const int s = MIN(video.device_w, video.device_h);
+
     switch (widget[id].type)
     {
         case GUI_IMAGE:
             /* Convert from integer-encoded fractions to window pixels. */
 
-            widget[id].w = ROUND(((float) widget[id].text_w / 1000.0f) * (float) video.device_w);
-            widget[id].h = ROUND(((float) widget[id].text_h / 1000.0f) * (float) video.device_h);
+            widget[id].w = ROUND(((float) widget[id].text_w / 1000.0f) * (float) s);
+            widget[id].h = ROUND(((float) widget[id].text_h / 1000.0f) * (float) s);
 
             break;
 
@@ -1097,14 +1099,16 @@ int gui_image(int pd, const char *file, int w, int h)
 {
     int id;
 
+    const int s = MIN(video.device_w, video.device_h);
+
     if ((id = gui_widget(pd, GUI_IMAGE)))
     {
         widget[id].image  = make_image_from_file(file, IF_MIPMAP);
 
         /* Convert window pixels to integer-encoded fractions. */
 
-        widget[id].text_w = ROUND(((float) w / (float) video.device_w) * 1000.0f);
-        widget[id].text_h = ROUND(((float) h / (float) video.device_h) * 1000.0f);
+        widget[id].text_w = ROUND(((float) w / (float) s) * 1000.0f);
+        widget[id].text_h = ROUND(((float) h / (float) s) * 1000.0f);
 
         widget[id].flags |= GUI_RECT;
 

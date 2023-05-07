@@ -331,7 +331,10 @@ static int package_gui(void)
 
             if ((kd = gui_vstack(jd)))
             {
-                shot_id = gui_image(kd, package_get_shot_filename(first), 7 * w / 16, 7 * h / 16);
+                const int ww = 7 * MIN(w, h) / 16;
+                const int hh = ww / 4 * 3;
+
+                shot_id = gui_image(kd, package_get_shot_filename(first), ww, hh);
                 type_id = gui_label(kd, "ABCDEF", GUI_SML, gui_yel, gui_wht);
             }
 

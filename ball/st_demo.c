@@ -118,9 +118,12 @@ static int gui_demo_thumbs(int id)
                     {
                         if ((ld = gui_vstack(kd)))
                         {
+                            const int ww = MIN(w, h) / 6;
+                            const int hh = ww / 4 * 3;
+
                             gui_space(ld);
 
-                            thumb->shot = gui_image(ld, " ", w / 6, h / 6);
+                            thumb->shot = gui_image(ld, " ", ww, hh);
                             thumb->name = gui_label(ld, " ", GUI_SML,
                                                     gui_wht, gui_wht);
 
