@@ -721,6 +721,8 @@ static int gui_widget(int pd, int type)
             widget[id].font   = 0;
             widget[id].size   = 0;
             widget[id].rect   = GUI_ALL;
+            widget[id].x      = 0;
+            widget[id].y      = 0;
             widget[id].w      = 0;
             widget[id].h      = 0;
             widget[id].image  = 0;
@@ -774,11 +776,9 @@ int gui_root()
 
     if ((id = gui_widget(0, GUI_ROOT)))
     {
-        // Get gui_search() working.
-        widget[id].x = 0;
-        widget[id].y = 0;
-        widget[id].w = video.device_w;
-        widget[id].h = video.device_h;
+        // Get gui_stick() working.
+        widget[id].w = INT_MAX;
+        widget[id].h = INT_MAX;
     }
     return id;
 }
@@ -1606,8 +1606,10 @@ int gui_search(int id, int x, int y)
 
     /* Search the hierarchy for the widget containing the given point. */
 
-    if (id && (widget[id].x <= x && x < widget[id].x + widget[id].w &&
-               widget[id].y <= y && y < widget[id].y + widget[id].h))
+    if (id &&
+        (widget[id].type == GUI_ROOT ||
+         (widget[id].x <= x && x < widget[id].x + widget[id].w &&
+          widget[id].y <= y && y < widget[id].y + widget[id].h)))
     {
         if (gui_hot(id))
             return id;
@@ -2013,6 +2015,8 @@ void gui_dump(int id, int d)
         case GUI_COUNT:  type = "count";  break;
         case GUI_CLOCK:  type = "clock";  break;
         case GUI_BUTTON: type = "button"; break;
+        case GUI_SPACE:  type = "space";  break;
+        case GUI_ROOT:   type = "root";   break;
         }
 
         for (i = 0; i < d; i++)
