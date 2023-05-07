@@ -58,6 +58,7 @@ const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 #define GUI_CLOCK  9
 #define GUI_SPACE  10
 #define GUI_BUTTON 11
+#define GUI_ROOT   12
 
 #define GUI_STATE  1
 #define GUI_FILL   2
@@ -763,6 +764,24 @@ int gui_varray(int pd) { return gui_widget(pd, GUI_VARRAY); }
 int gui_hstack(int pd) { return gui_widget(pd, GUI_HSTACK); }
 int gui_vstack(int pd) { return gui_widget(pd, GUI_VSTACK); }
 int gui_filler(int pd) { return gui_widget(pd, GUI_FILLER); }
+
+/*
+ * For when you really want to use gui_layout on multiple widgets.
+ */
+int gui_root()
+{
+    int id;
+
+    if ((id = gui_widget(0, GUI_ROOT)))
+    {
+        // Get gui_search() working.
+        widget[id].x = 0;
+        widget[id].y = 0;
+        widget[id].w = video.device_w;
+        widget[id].h = video.device_h;
+    }
+    return id;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -1719,6 +1738,7 @@ static void gui_paint_rect(int id, int st, int flags)
     case GUI_VARRAY:
     case GUI_HSTACK:
     case GUI_VSTACK:
+    case GUI_ROOT:
 
         /* Recursively paint all subwidgets. */
 
@@ -1937,6 +1957,7 @@ static void gui_paint_text(int id)
     case GUI_VARRAY: gui_paint_array(id); break;
     case GUI_HSTACK: gui_paint_array(id); break;
     case GUI_VSTACK: gui_paint_array(id); break;
+    case GUI_ROOT:   gui_paint_array(id); break;
     case GUI_IMAGE:  gui_paint_image(id); break;
     case GUI_COUNT:  gui_paint_count(id); break;
     case GUI_CLOCK:  gui_paint_clock(id); break;

@@ -3,12 +3,14 @@
 #include "common.h"
 #include "fetch.h"
 #include "fs.h"
+#include "lang.h"
 
 struct package
 {
     unsigned int size;
 
     char id[64];
+    char type[64];
     char filename[MAXSTR];
     char files[MAXSTR];
     char name[64];
@@ -265,9 +267,15 @@ static Array load_packages_from_file(const char *filename)
 
                 if (pkg)
                 {
+                    size_t prefix_len;
+
                     memset(pkg, 0, sizeof (*pkg));
 
                     SAFECPY(pkg->id, line + 8);
+
+                    prefix_len = strcspn(pkg->id, "-");
+
+                    strncpy(pkg->type, pkg->id, MIN(sizeof (pkg->type) - 1, prefix_len));
                 }
             }
             else if (strncmp(line, "filename ", 9) == 0)
@@ -456,6 +464,11 @@ void package_quit(void)
     free_installed_packages();
 }
 
+int package_count(void)
+{
+    return available_packages ? array_len(available_packages) : -1;
+}
+
 /*
  * Find a package that has FILE in its "files" string.
  */
@@ -470,6 +483,27 @@ int package_search(const char *file)
             struct package *pkg = array_get(available_packages, i);
 
             if (pkg && strcmp(pkg->files, file) == 0)
+                return i;
+        }
+    }
+
+    return -1;
+}
+
+/*
+ * Find a package by ID.
+ */
+int package_search_id(const char *package_id)
+{
+    if (available_packages)
+    {
+        int i, n;
+
+        for (i = 0, n = array_len(available_packages); i < n; ++i)
+        {
+            struct package *pkg = array_get(available_packages, i);
+
+            if (pkg && strcmp(pkg->id, package_id) == 0)
                 return i;
         }
     }
@@ -499,45 +533,58 @@ int package_next(const char *type, int start)
     return -1;
 }
 
-/*
- * Get package status.
- */
-enum package_status package_get_status(int package_id)
+enum package_status package_get_status(int pi)
 {
-    if (package_id >= 0 && package_id < array_len(available_packages))
-        return PACKAGE_GET(available_packages, package_id)->status;
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->status;
 
     return PACKAGE_NONE;
 }
 
-const char *package_get_name(int package_id)
+const char *package_get_id(int pi)
 {
-    if (package_id >= 0 && package_id < array_len(available_packages))
-        return PACKAGE_GET(available_packages, package_id)->name;
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->id;
+    
+    return NULL;
+}
+
+const char *package_get_type(int pi)
+{
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->type;
+    
+    return NULL;
+}
+
+const char *package_get_name(int pi)
+{
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->name;
 
     return NULL;
 }
 
-const char *package_get_desc(int package_id)
+const char *package_get_desc(int pi)
 {
-    if (package_id >= 0 && package_id < array_len(available_packages))
-        return PACKAGE_GET(available_packages, package_id)->desc;
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->desc;
 
     return NULL;
 }
 
-const char *package_get_shot(int package_id)
+const char *package_get_shot(int pi)
 {
-    if (package_id >= 0 && package_id < array_len(available_packages))
-        return PACKAGE_GET(available_packages, package_id)->shot;
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->shot;
 
     return NULL;
 }
 
-const char *package_get_files(int package_id)
+const char *package_get_files(int pi)
 {
-    if (package_id >= 0 && package_id < array_len(available_packages))
-        return PACKAGE_GET(available_packages, package_id)->files;
+    if (pi >= 0 && pi < array_len(available_packages))
+        return PACKAGE_GET(available_packages, pi)->files;
 
     return NULL;
 }
@@ -545,9 +592,28 @@ const char *package_get_files(int package_id)
 /*
  * Construct a package image filename relative to the write dir.
  */
-const char *package_get_shot_filename(int package_id)
+const char *package_get_shot_filename(int pi)
 {
-    return get_package_path(package_get_shot(package_id));
+    return get_package_path(package_get_shot(pi));
+}
+
+const char *package_get_formatted_type(int pi)
+{
+    const char *type = package_get_type(pi);
+
+    if (type)
+    {
+        if (strcmp(type, "set") == 0)
+            return _("Level Set");
+        else if (strcmp(type, "ball") == 0)
+            return _("Ball");
+        else if (strcmp(type, "course") == 0)
+            return _("Course");
+        else if (strcmp(type, "base") == 0)
+            return _("Base");
+    }
+
+    return type;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -647,13 +713,13 @@ static void package_fetch_done(void *data, void *extra_data)
     }
 }
 
-unsigned int package_fetch(int package_id, struct fetch_callback callback)
+unsigned int package_fetch(int pi, struct fetch_callback callback)
 {
     unsigned int fetch_id = 0;
 
-    if (package_id >= 0 && package_id < array_len(available_packages))
+    if (pi >= 0 && pi < array_len(available_packages))
     {
-        struct package *pkg = array_get(available_packages, package_id);
+        struct package *pkg = array_get(available_packages, pi);
         const char *url = get_package_url(pkg->filename);
 
         if (url)

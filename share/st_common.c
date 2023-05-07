@@ -185,6 +185,10 @@ int common_buttn(int b, int d)
             return common_action(gui_token(active), gui_value(active));
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
             return common_action(GUI_BACK, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_L1, b))
+            return common_action(GUI_PREV, 0);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_R1, b))
+            return common_action(GUI_NEXT, 0);
     }
     return 1;
 }
