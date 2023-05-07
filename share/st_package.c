@@ -359,7 +359,7 @@ static int package_enter(struct state *st, struct state *prev)
     {
         package_back = prev;
 
-        total = -1;//package_count(); // TODO: handle -1
+        total = package_count(); // TODO: handle -1
         first = MIN(first, (total - 1) - ((total - 1) % PACKAGE_STEP));
 
         audio_music_fade_to(0.5f, "bgm/inter.ogg");
