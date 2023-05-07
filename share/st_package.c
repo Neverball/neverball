@@ -15,7 +15,6 @@
 #include "gui.h"
 #include "audio.h"
 #include "config.h"
-#include "util.h"
 #include "common.h"
 #include "package.h"
 #include "geom.h"

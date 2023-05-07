@@ -152,6 +152,7 @@ BALL_SRCS := \
 	share/solid_sim_sol.c \
 	share/solid_vary.c \
 	share/st_common.c \
+	share/st_package.c \
 	share/state.c \
 	share/text.c \
 	share/theme.c \
