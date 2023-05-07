@@ -1578,8 +1578,8 @@ void gui_layout(int id, int xd, int yd)
 
     gui_widget_up(id);
 
-    w = widget[id].w;
-    h = widget[id].h;
+    w = MIN(widget[id].w, W - padding * 2);
+    h = MIN(widget[id].h, H - padding * 2);
 
     if      (xd < 0) x = 0;
     else if (xd > 0) x = (W - w);
