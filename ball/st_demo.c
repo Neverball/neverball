@@ -118,7 +118,7 @@ static int gui_demo_thumbs(int id)
                     {
                         if ((ld = gui_vstack(kd)))
                         {
-                            const int ww = MIN(w, h) / 6;
+                            const int ww = MIN(w, h) * 2 / 9;
                             const int hh = ww / 4 * 3;
 
                             gui_space(ld);

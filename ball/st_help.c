@@ -153,7 +153,7 @@ static int page_rules(int id)
 
         if ((kd = gui_varray(jd)))
         {
-            const int ww = 5 * MIN(w, h) / 16;
+            const int ww = MIN(w, h) * 5 / 12;
             const int hh = ww / 4 * 3;
 
             if ((ld = gui_vstack(kd)))
@@ -304,7 +304,7 @@ static int page_tricks(int id)
 
         if ((kd = gui_varray(jd)))
         {
-            const int ww = MIN(w, h) / 4;
+            const int ww = MIN(w, h) / 3;
             const int hh = ww / 4 * 3;
 
             if ((ld = gui_vstack(kd)))

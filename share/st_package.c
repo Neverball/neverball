@@ -331,7 +331,7 @@ static int package_gui(void)
 
             if ((kd = gui_vstack(jd)))
             {
-                const int ww = 7 * MIN(w, h) / 16;
+                const int ww = MIN(w, h) * 7 / 12;
                 const int hh = ww / 4 * 3;
 
                 shot_id = gui_image(kd, package_get_shot_filename(first), ww, hh);

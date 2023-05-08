@@ -122,7 +122,7 @@ static int set_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            const int ww = 7 * MIN(w, h) / 16;
+            const int ww = MIN(w, h) * 7 / 12;
             const int hh = ww / 4 * 3;
 
             shot_id = gui_image(jd, set_shot(first), ww, hh);

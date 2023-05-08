@@ -187,7 +187,7 @@ static int start_gui(void)
             {
                 if ((kd = gui_vstack(jd)))
                 {
-                    const int ww = 6 * MIN(w, h) / 16;
+                    const int ww = MIN(w, h) / 2;
                     const int hh = ww / 4 * 3;
 
                     shot_id = gui_image(kd, set_shot(curr_set()),
@@ -197,7 +197,7 @@ static int start_gui(void)
             }
             else
             {
-                const int ww = 7 * MIN(w, h) / 16;
+                const int ww = MIN(w, h) * 7 / 12;
                 const int hh = ww / 4 * 3;
 
                 shot_id = gui_image(jd, set_shot(curr_set()),
