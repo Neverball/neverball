@@ -26,25 +26,33 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define PACKAGE_STEP 5
+#define PACKAGE_STEP 4
 
 static int total = 0;
 static int first = 0;
+static int selected = 0;
 
 static int shot_id;
 static int desc_id;
 static int type_id;
+static int title_id;
+static int install_id;
+static int install_status_id;
+static int install_label_id;
 
 static int do_init = 1;
 
 static struct state *package_back;
 
-static int *download_ids = NULL;
+static int  button_ids[PACKAGE_STEP] = {0};
+static int *status_ids = NULL;
 static int *name_ids = NULL;
 
 enum
 {
-    PACKAGE_SELECT = GUI_LAST
+    PACKAGE_INSTALL = GUI_LAST,
+    PACKAGE_UNINSTALL,
+    PACKAGE_SELECT
 };
 
 struct download_info
@@ -88,9 +96,9 @@ static void download_progress(void *data1, void *data2)
         /* Sets may change places, so we can't keep set index around. */
         int pi = package_search_id(dli->package_id);
 
-        if (download_ids && pi >= 0 && pi < total)
+        if (status_ids && pi >= 0 && pi < total)
         {
-            int id = download_ids[pi];
+            int id = status_ids[pi];
 
             if (id)
             {
@@ -112,6 +120,8 @@ static void download_progress(void *data1, void *data2)
     }
 }
 
+static void package_select(int);
+
 static void download_done(void *data1, void *data2)
 {
     struct download_info *dli = data1;
@@ -121,17 +131,18 @@ static void download_done(void *data1, void *data2)
     {
         int pi = package_search_id(dli->package_id);
 
-        if (download_ids && pi >= 0 && pi < total)
+        if (status_ids && pi >= 0 && pi < total)
         {
-            int id = download_ids[pi];
+            int id = status_ids[pi];
+
+            package_select(pi);
 
             if (id)
             {
                 if (dn->finished)
                 {
-                    gui_remove(id);
-
-                    download_ids[pi] = 0;
+                    gui_set_label(id, GUI_CHECKMARK);
+                    gui_set_color(id, gui_grn, gui_grn);
 
                     if (name_ids && name_ids[pi])
                     {
@@ -181,13 +192,18 @@ static int package_action(int tok, int val)
         return goto_state(&st_package);
 
         break;
-
+    
     case PACKAGE_SELECT:
-        status = package_get_status(val);
+        package_select(val);
+        break;
+
+    case PACKAGE_UNINSTALL:
+    case PACKAGE_INSTALL:
+        status = package_get_status(selected);
 
         if (status == PACKAGE_INSTALLED)
         {
-            // TODO:
+            // TODO: unload from VFS, remove from installed packages, and delete ZIP.
             return 1;
         }
         else if (status == PACKAGE_AVAILABLE || status == PACKAGE_PARTIAL || status == PACKAGE_ERROR)
@@ -196,19 +212,19 @@ static int package_action(int tok, int val)
 
             callback.progress = download_progress;
             callback.done = download_done;
-            callback.data = create_download_info(package_get_id(val));
+            callback.data = create_download_info(package_get_id(selected));
 
-            if (!package_fetch(val, callback))
+            if (!package_fetch(selected, callback))
             {
                 free_download_info(callback.data);
                 callback.data = NULL;
             }
             else
             {
-                if (download_ids && download_ids[val])
+                if (status_ids && status_ids[selected])
                 {
-                    gui_set_label(download_ids[val], GUI_ELLIPSIS);
-                    gui_set_color(download_ids[val], gui_grn, gui_grn);
+                    gui_set_label(status_ids[selected], GUI_ELLIPSIS);
+                    gui_set_color(status_ids[selected], gui_grn, gui_grn);
                 }
             }
 
@@ -224,31 +240,30 @@ static int package_action(int tok, int val)
     return 1;
 }
 
-static void gui_package_download(int id, int pi)
+static int gui_package_button(int id, int pi)
 {
     int jd;
 
     if ((jd = gui_hstack(id)))
     {
-        /* Create an illusion of center alignment. */
-        char *label = concat_string("         ", package_get_name(pi), NULL);
+        int status_id, name_id;
 
-        int button_id, name_id;
+        status_id = gui_label(jd, "100%", GUI_SML, gui_grn, gui_grn);
 
-        button_id = gui_label(jd, "100%", GUI_SML, gui_grn, gui_grn);
-
-        if (package_get_status(pi) == PACKAGE_DOWNLOADING)
-            gui_set_label(button_id, GUI_ELLIPSIS);
+        if (package_get_status(pi) == PACKAGE_INSTALLED)
+            gui_set_label(status_id, GUI_CHECKMARK);
+        else if (package_get_status(pi) == PACKAGE_DOWNLOADING)
+            gui_set_label(status_id, GUI_ELLIPSIS);
         else
-            gui_set_label(button_id, GUI_ARROW_DN);
+            gui_set_label(status_id, GUI_ARROW_DN);
 
-        if (download_ids)
-            download_ids[pi] = button_id;
+        if (status_ids)
+            status_ids[pi] = status_id;
 
-        name_id = gui_label(jd, "MNOPQRSTUVWXYZ", GUI_SML, gui_wht, gui_wht);
+        name_id = gui_label(jd, "JKLMNOPQRSTUVWXYZ", GUI_SML, gui_wht, gui_wht);
 
         gui_set_trunc(name_id, TRUNC_TAIL);
-        gui_set_label(name_id, label);
+        gui_set_label(name_id, package_get_name(pi));
         gui_set_fill(name_id);
 
         if (name_ids)
@@ -256,35 +271,17 @@ static void gui_package_download(int id, int pi)
 
         gui_set_state(jd, PACKAGE_SELECT, pi);
         gui_set_rect(jd, GUI_ALL);
-
-        free(label);
     }
+
+    return jd;
 }
 
-static void gui_package(int id, int pi)
+static int gui_package(int id, int pi)
 {
     if (pi >= 0 && pi < package_count())
-        if (package_get_status(pi) == PACKAGE_INSTALLED)
-        {
-            int name_id;
-
-            if (pi % PACKAGE_STEP == 0)
-                name_id = gui_start(id, "IJKLMNOPQRSTUVWXYZ", GUI_SML, PACKAGE_SELECT, pi);
-            else
-                name_id = gui_state(id, "IJKLMNOPQRSTUVWXYZ", GUI_SML, PACKAGE_SELECT, pi);
-
-            gui_set_trunc(name_id, TRUNC_TAIL);
-            gui_set_label(name_id, package_get_name(pi));
-
-            if (name_ids)
-                name_ids[pi] = name_id;
-        }
-        else
-        {
-            gui_package_download(id, pi);
-        }
+        return gui_package_button(id, pi);
     else
-        gui_label(id, "", GUI_SML, 0, 0);
+        return gui_label(id, "", GUI_SML, 0, 0);
 }
 
 static int package_gui(void)
@@ -296,7 +293,7 @@ static int package_gui(void)
 
     int i;
 
-    if (total < 0)
+    if (total <= 0)
     {
         if ((id = gui_vstack(0)))
         {
@@ -322,34 +319,86 @@ static int package_gui(void)
 
         if ((jd = gui_harray(id)))
         {
+            const int ww = MIN(w, h) * 7 / 12;
+            const int hh = ww / 16 * 9;
+
             if ((kd = gui_varray(jd)))
             {
                 for (i = first; i < first + PACKAGE_STEP; i++)
-                    gui_package(kd, i);
+                {
+                    int button_id = gui_package(kd, i);
+
+                    button_ids[i % PACKAGE_STEP] = button_id;
+                }
             }
 
-
-            if ((kd = gui_vstack(jd)))
-            {
-                const int ww = MIN(w, h) * 7 / 12;
-                const int hh = ww / 4 * 3;
-
-                shot_id = gui_image(kd, package_get_shot_filename(first), ww, hh);
-                type_id = gui_label(kd, "ABCDEF", GUI_SML, gui_yel, gui_wht);
-            }
-
+            shot_id = gui_image(jd, package_get_shot_filename(first), ww, hh);
         }
 
         gui_space(id);
 
-        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, gui_yel, gui_wht);
+        if ((jd = gui_vstack(id)))
+        {
+            title_id = gui_label(jd, package_get_name(first), GUI_SML, gui_yel, gui_wht);
+
+            gui_space(jd);
+
+            desc_id = gui_multi(jd, " \\ \\ \\ \\ \\", GUI_SML, gui_yel, gui_wht);
+
+            gui_set_rect(jd, GUI_ALL);
+        }
+
+        gui_space(id);
+
+        if ((jd = gui_hstack(id)))
+        {
+            if ((kd = gui_hstack(jd)))
+            {
+                install_status_id = gui_label(kd, GUI_ARROW_DN, GUI_SML, gui_grn, gui_grn);
+                install_label_id = gui_label(kd, _("Install"), GUI_SML, gui_wht, gui_wht);
+
+                gui_set_rect(kd, GUI_ALL);
+                gui_set_state(kd, PACKAGE_INSTALL, 0);
+
+                install_id = kd;
+            }
+
+            gui_filler(jd);
+
+            type_id = gui_label(jd, "ABCDEFG", GUI_SML, gui_yel, gui_wht);
+        }
 
         gui_layout(id, 0, 0);
 
         gui_set_label(type_id, package_get_formatted_type(first));
     }
 
+    package_select(selected);
+
     return id;
+}
+
+static void package_select(int pi)
+{
+    gui_set_hilite(button_ids[selected % PACKAGE_STEP], 0);
+    selected = pi;
+    gui_set_hilite(button_ids[selected % PACKAGE_STEP], 1);
+
+    gui_set_image(shot_id, package_get_shot_filename(pi));
+    gui_set_multi(desc_id, package_get_desc(pi));
+    gui_set_label(type_id, package_get_formatted_type(pi));
+    gui_set_label(title_id, package_get_name(pi));
+
+    if (package_get_status(pi) == PACKAGE_INSTALLED)
+    {
+        gui_set_color(install_status_id, gui_gry, gui_gry);
+        gui_set_color(install_label_id, gui_gry, gui_gry);
+    }
+    else
+    {
+        gui_set_color(install_status_id, gui_grn, gui_grn);
+        gui_set_color(install_label_id, gui_wht, gui_wht);
+    }
 }
 
 static int package_enter(struct state *st, struct state *prev)
@@ -362,20 +411,22 @@ static int package_enter(struct state *st, struct state *prev)
     {
         package_back = prev;
 
-        total = package_count(); // TODO: handle -1
+        total = package_count();
         first = MIN(first, (total - 1) - ((total - 1) % PACKAGE_STEP));
 
         audio_music_fade_to(0.5f, "bgm/inter.ogg");
     }
     else do_init = 1;
 
-    if (download_ids)
+    selected = first;
+
+    if (status_ids)
     {
-        free(download_ids);
-        download_ids = NULL;
+        free(status_ids);
+        status_ids = NULL;
     }
 
-    download_ids = calloc(total, sizeof (*download_ids));
+    status_ids = calloc(total, sizeof (*status_ids));
 
     if (name_ids)
     {
@@ -392,10 +443,10 @@ static void package_leave(struct state *st, struct state *next, int id)
 {
     gui_delete(id);
 
-    if (download_ids)
+    if (status_ids)
     {
-        free(download_ids);
-        download_ids = NULL;
+        free(status_ids);
+        status_ids = NULL;
     }
 
     if (name_ids)
@@ -416,22 +467,12 @@ void package_paint(int id, float st)
     gui_paint(id);
 }
 
-static void package_hover(int pi)
-{
-    gui_set_image(shot_id, package_get_shot_filename(pi));
-    gui_set_multi(desc_id, package_get_desc(pi));
-    gui_set_label(type_id, package_get_formatted_type(pi));
-}
-
 static void package_point(int id, int x, int y, int dx, int dy)
 {
     int jd = gui_point(id, x, y);
 
     if (jd)
         gui_pulse(jd, 1.2f);
-
-    if (gui_token(jd) == PACKAGE_SELECT)
-        package_hover(gui_value(jd));
 }
 
 static void package_stick(int id, int a, float v, int bump)
@@ -440,9 +481,6 @@ static void package_stick(int id, int a, float v, int bump)
 
     if (id)
         gui_pulse(jd, 1.2f);
-
-    if (gui_token(jd) == PACKAGE_SELECT)
-        package_hover(gui_value(jd));
 }
 
 /*---------------------------------------------------------------------------*/

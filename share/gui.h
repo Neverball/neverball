@@ -64,8 +64,9 @@ enum trunc
 };
 
 #define GUI_ELLIPSIS "…"
-/* #define GUI_ARROW_DN "⬇" */
 #define GUI_ARROW_DN "⇩"
+#define GUI_CHECKMARK "✔"
+#define GUI_BALLOT_X "✘"
 
 /*---------------------------------------------------------------------------*/
 

@@ -466,7 +466,7 @@ void package_quit(void)
 
 int package_count(void)
 {
-    return available_packages ? array_len(available_packages) : -1;
+    return available_packages ? array_len(available_packages) : 0;
 }
 
 /*
