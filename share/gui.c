@@ -412,6 +412,11 @@ static void gui_geom_widget(int id, int flags)
         gui_geom_image(id, -w / 2, -h / 2, w, h, R);
         break;
 
+    case GUI_BUTTON:
+    case GUI_LABEL:
+        // Handled by gui_render_text().
+        break;
+
     default:
         gui_geom_text(id, -W / 2, -H / 2, W, H, c0, c1);
         break;
@@ -617,15 +622,6 @@ void gui_resize(void)
         if (widget[i].type != GUI_FREE && (widget[i].flags & GUI_LAYOUT))
             gui_layout(i, widget[i].layout_xd, widget[i].layout_yd);
 
-    /*
-     * Finally, render the current text widget contents in the new layout with
-     * a new font size, new text truncation, etc.
-     */
-
-    for (i = 1; i < WIDGET_MAX; ++i)
-        if (widget[i].type != GUI_FREE && widget[i].text)
-            gui_set_label(i, widget[i].text);
-
     /* Whew. */
 }
 
@@ -789,7 +785,7 @@ static struct size gui_measure_ttf(const char *text, TTF_Font *font)
 {
     struct size size = { 0, 0 };
 
-    if (font)
+    if (text && font)
         TTF_SizeUTF8(font, text, &size.w, &size.h);
 
     return size;
@@ -898,13 +894,13 @@ void gui_set_label(int id, const char *text)
     int w = 0;
     int h = 0;
 
-    char *str, *str2;
+    char *trunc_str, *full_str;
 
     glDeleteTextures(1, &widget[id].image);
 
     /* Create a truncated version. */
 
-    str = gui_truncate(text, widget[id].w, ttf, widget[id].trunc);
+    trunc_str = gui_truncate(text, widget[id].w, ttf, widget[id].trunc);
 
     /*
      * Save a copy of the full string in case we need to re-render.
@@ -912,7 +908,7 @@ void gui_set_label(int id, const char *text)
      * operation is important here: copy, free, assign.
      */
 
-    str2 = strdup(text);
+    full_str = strdup(text);
 
     if (widget[id].text)
     {
@@ -920,12 +916,17 @@ void gui_set_label(int id, const char *text)
         widget[id].text = NULL;
     }
 
-    widget[id].text = str2;
+    widget[id].text = full_str;
+    widget[id].text_w = 0;
+    widget[id].text_h = 0;
 
     widget[id].image = make_image_from_font(NULL, NULL,
                                             &widget[id].text_w,
                                             &widget[id].text_h,
-                                            str, ttf, 0);
+                                            trunc_str, ttf, 0);
+
+    /* Rebuild text rectangle. */
+
     w = widget[id].text_w;
     h = widget[id].text_h;
 
@@ -935,7 +936,7 @@ void gui_set_label(int id, const char *text)
 
     /* Last but not least. */
 
-    free(str);
+    free(trunc_str);
 }
 
 void gui_set_count(int id, int value)
@@ -1141,10 +1142,10 @@ int gui_state(int pd, const char *text, int size, int token, int value)
 
         widget[id].text = strdup(text);
 
-        widget[id].image = make_image_from_font(NULL, NULL,
-                                                &widget[id].text_w,
-                                                &widget[id].text_h,
-                                                text, ttf, 0);
+        size_image_from_font(NULL, NULL,
+                             &widget[id].text_w,
+                             &widget[id].text_h,
+                             text, ttf);
 
         widget[id].size  = size;
         widget[id].token = token;
@@ -1168,10 +1169,10 @@ int gui_label(int pd, const char *text, int size, const GLubyte *c0,
 
         widget[id].text = strdup(text);
 
-        widget[id].image = make_image_from_font(NULL, NULL,
-                                                &widget[id].text_w,
-                                                &widget[id].text_h,
-                                                text, ttf, 0);
+        size_image_from_font(NULL, NULL,
+                             &widget[id].text_w,
+                             &widget[id].text_h,
+                             text, ttf);
         widget[id].size   = size;
         widget[id].color0 = c0 ? c0 : gui_yel;
         widget[id].color1 = c1 ? c1 : gui_red;
@@ -1562,6 +1563,18 @@ static void gui_widget_dn(int id, int x, int y, int w, int h)
 }
 
 /*---------------------------------------------------------------------------*/
+
+static void gui_render_text(int id)
+{
+    int jd;
+
+    if (widget[id].type != GUI_FREE && widget[id].text)
+        gui_set_label(id, widget[id].text);
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        gui_render_text(jd);
+}
+
 /*
  * During GUI layout, we make a bottom-up pass to determine total area
  * requirements for  the widget  tree.  We position  this area  to the
@@ -1598,6 +1611,8 @@ void gui_layout(int id, int xd, int yd)
     /* Set up GUI rendering state. */
 
     gui_geom_widget(id, 0);
+
+    gui_render_text(id);
 
     /* Hilite the widget under the cursor, if any. */
 
