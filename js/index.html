@@ -401,6 +401,18 @@
         }
       },
 
+      downloadUserFile: function (ptr) {
+        const path = '/neverball' + '/' + UTF8ToString(ptr);
+        const basename = path.split('/').slice(-1);
+        const data = FS.readFile(path);
+        const blob = new Blob(data);
+
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = basename;
+        a.click();
+      },
+
       /**
        * Set up the user folder with a backing store.
        *
