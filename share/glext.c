@@ -148,6 +148,8 @@ int glext_init(void)
         SDL_GL_GFPA(glClientActiveTexture_, "glClientActiveTextureARB");
         SDL_GL_GFPA(glActiveTexture_,       "glActiveTextureARB");
     }
+    else
+        return 0;
 
     if (glext_assert("ARB_vertex_buffer_object"))
     {
@@ -158,12 +160,16 @@ int glext_init(void)
         SDL_GL_GFPA(glDeleteBuffers_,       "glDeleteBuffersARB");
         SDL_GL_GFPA(glIsBuffer_,            "glIsBufferARB");
     }
+    else
+        return 0;
 
     if (glext_assert("ARB_point_parameters"))
     {
-        SDL_GL_GFPA(glPointParameterf_,    "glPointParameterfARB");
-        SDL_GL_GFPA(glPointParameterfv_,   "glPointParameterfvARB");
+        SDL_GL_GFPA(glPointParameterf_, "glPointParameterfARB");
+        SDL_GL_GFPA(glPointParameterfv_, "glPointParameterfvARB");
     }
+    else
+        return 0;
 
     if (glext_check("ARB_shader_objects"))
     {
@@ -201,7 +207,11 @@ int glext_init(void)
     }
 
     if (glext_check("GREMEDY_string_marker"))
+    {
         SDL_GL_GFPA(glStringMarkerGREMEDY_, "glStringMarkerGREMEDY");
+
+        gli.string_marker = 1;
+    }
 
 #endif
 

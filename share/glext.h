@@ -305,6 +305,7 @@ struct gl_info
     unsigned int texture_filter_anisotropic : 1;
     unsigned int shader_objects             : 1;
     unsigned int framebuffer_object         : 1;
+    unsigned int string_marker              : 1;
 };
 
 extern struct gl_info gli;

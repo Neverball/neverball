@@ -813,7 +813,9 @@ static void check_mtrl(const char *name, GLenum pname, GLuint curr)
     if (real != curr)
     {
         sprintf(buff, "%s mismatch (0x%08X -> 0x%08X)", name, real, curr);
-        glStringMarker_(buff);
+
+        if (gli.string_marker)
+            glStringMarker_(buff);
     }
 }
 
