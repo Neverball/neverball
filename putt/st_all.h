@@ -14,6 +14,7 @@ extern struct state st_roll;
 extern struct state st_goal;
 extern struct state st_stop;
 extern struct state st_fall;
+extern struct state st_retry;
 extern struct state st_score;
 extern struct state st_over;
 extern struct state st_pause;
