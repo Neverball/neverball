@@ -1074,8 +1074,6 @@ static void roll_timer(int id, float dt)
 
 static int roll_keybd(int c, int d)
 {
-    shared_keybd(c, d);
-
     if (d)
     {
         /* Cheats */
@@ -1086,7 +1084,7 @@ static int roll_keybd(int c, int d)
             }
         }
     }
-    return 1;
+    return shared_keybd(c, d);
 }
 
 static int roll_buttn(int b, int d)
