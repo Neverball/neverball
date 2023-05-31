@@ -319,7 +319,7 @@ static void demo_select(int demo)
 
 static int demo_gui(void)
 {
-    int id, jd, kd;
+    int id, jd;
 
     id = gui_vstack(0);
 
@@ -342,10 +342,12 @@ static int demo_gui(void)
 
         if ((jd = gui_hstack(id)))
         {
+            int kd;
+
             if ((kd = gui_hstack(jd)))
             {
                 gui_label(kd, GUI_ARROW_DN, GUI_SML, gui_yel, gui_wht);
-                gui_label(kd, _("Save"), GUI_SML, gui_yel, gui_wht);
+                gui_label(kd, _("Download"), GUI_SML, gui_yel, gui_wht);
 
                 gui_set_rect(kd, GUI_ALL);
                 gui_set_state(kd, DEMO_DOWNLOAD, 0);
