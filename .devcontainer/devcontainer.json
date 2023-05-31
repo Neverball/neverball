@@ -36,7 +36,8 @@
                 "files.associations": {
                     "Makefile.emscripten": "makefile"
                 },
-                "liveServer.settings.root": "/js"
+                "liveServer.settings.root": "/js",
+                "remote.localPortHost": "allInterfaces"
             }
         }
     }
