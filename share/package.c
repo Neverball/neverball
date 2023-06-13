@@ -482,7 +482,7 @@ int package_search(const char *file)
         {
             struct package *pkg = array_get(available_packages, i);
 
-            if (pkg && strcmp(pkg->files, file) == 0)
+            if (pkg && strstr(pkg->files, file) != NULL)
                 return i;
         }
     }
@@ -545,7 +545,7 @@ const char *package_get_id(int pi)
 {
     if (pi >= 0 && pi < array_len(available_packages))
         return PACKAGE_GET(available_packages, pi)->id;
-    
+
     return NULL;
 }
 
@@ -553,7 +553,7 @@ const char *package_get_type(int pi)
 {
     if (pi >= 0 && pi < array_len(available_packages))
         return PACKAGE_GET(available_packages, pi)->type;
-    
+
     return NULL;
 }
 
