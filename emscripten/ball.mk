@@ -176,16 +176,11 @@ $(DATA_ZIP):
 
 .PHONY: packages
 packages: clean-packages
-	target_dir="$$(pwd)/js/packages/"; \
-	manifest="$$target_dir/available-packages-emscripten.txt"; \
-	make_package="$$(pwd)/scripts/make-package.sh"; \
-	mkdir -p "$$target_dir" && \
-	scripts/make-data-packages.sh "data" "$$target_dir" "$$make_package" >> $$manifest; \
-	scripts/make-repo-packages.sh "../neverball-packages" "$$target_dir" "$$make_package" | tee "$$target_dir/available-packages.txt" >> "$$manifest"
+	$(MAKE) -f mk/packages.mk OUTPUT_DIR=$$(pwd)/js/packages
 
 .PHONY: clean-packages
 clean-packages:
-	rm -rf "$$(pwd)/js/packages"
+	rm -rf $$(pwd)/js/packages
 
 .PHONY: clean
 clean:

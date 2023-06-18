@@ -28,3 +28,5 @@
 /js/mapc.wasm
 /js/packages
 /*.zip
+
+/packages
