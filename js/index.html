@@ -405,7 +405,7 @@
         const path = '/neverball' + '/' + UTF8ToString(ptr);
         const basename = path.split('/').slice(-1);
         const data = FS.readFile(path);
-        const blob = new Blob(data);
+        const blob = new Blob([data], {type: 'application/octet-stream'});
 
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
