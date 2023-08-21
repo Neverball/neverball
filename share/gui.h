@@ -64,8 +64,10 @@ enum trunc
 };
 
 #define GUI_ELLIPSIS "…"
-/* #define GUI_ARROW_DN "⬇" */
 #define GUI_ARROW_DN "⇩"
+#define GUI_CHECKMARK "✔"
+#define GUI_BALLOT_X "✘"
+#define GUI_TRIANGLE_RIGHT "▶"
 
 /*---------------------------------------------------------------------------*/
 
@@ -97,6 +99,7 @@ int  gui_varray(int);
 int  gui_hstack(int);
 int  gui_vstack(int);
 int  gui_filler(int);
+int  gui_root();
 
 int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);

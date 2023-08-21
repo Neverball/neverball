@@ -189,15 +189,21 @@ static int start_gui(void)
             {
                 if ((kd = gui_vstack(jd)))
                 {
+                    const int ww = MIN(w, h) / 2;
+                    const int hh = ww / 4 * 3;
+
                     shot_id = gui_image(kd, set_shot(curr_set()),
-                                        6 * w / 16, 6 * h / 16);
+                                        ww, hh);
                     file_id = gui_label(kd, " ", GUI_SML, gui_yel, gui_red);
                 }
             }
             else
             {
+                const int ww = MIN(w, h) * 7 / 12;
+                const int hh = ww / 4 * 3;
+
                 shot_id = gui_image(jd, set_shot(curr_set()),
-                                    7 * w / 16, 7 * h / 16);
+                                    ww, hh);
             }
 
             if ((kd = gui_varray(jd)))

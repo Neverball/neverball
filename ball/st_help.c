@@ -153,17 +153,20 @@ static int page_rules(int id)
 
         if ((kd = gui_varray(jd)))
         {
+            const int ww = MIN(w, h) * 5 / 12;
+            const int hh = ww / 4 * 3;
+
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help1.jpg", 5 * w / 16, 5 * h / 16);
+                gui_image(ld, "gui/help1.jpg", ww, hh);
                 gui_filler(ld);
             }
 
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help2.jpg", 5 * w / 16, 5 * h / 16);
+                gui_image(ld, "gui/help2.jpg", ww, hh);
                 gui_filler(ld);
             }
         }
@@ -301,10 +304,13 @@ static int page_tricks(int id)
 
         if ((kd = gui_varray(jd)))
         {
+            const int ww = MIN(w, h) / 3;
+            const int hh = ww / 4 * 3;
+
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help3.jpg", w / 4, h / 4);
+                gui_image(ld, "gui/help3.jpg", ww, hh);
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 
@@ -314,7 +320,7 @@ static int page_tricks(int id)
             if ((ld = gui_vstack(kd)))
             {
                 gui_space(ld);
-                gui_image(ld, "gui/help4.jpg", w / 4, h / 4);
+                gui_image(ld, "gui/help4.jpg", ww, hh);
                 gui_state(ld, _("Watch demo"), GUI_SML, 0, 0);
                 gui_filler(ld);
 

@@ -2691,7 +2691,7 @@ static void lump_bounding_sphere(struct s_base *fp,
 
 static void node_file(struct s_base *fp)
 {
-    float bsphere[MAXL][4];
+    static float bsphere[MAXL][4];
     int i;
 
     /* Compute a bounding sphere for each lump. */

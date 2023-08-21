@@ -24,7 +24,7 @@ Release highlights can be found in [doc/release-notes.md](doc/release-notes.md).
 
 * [Website](https://neverball.org/)
 * [Development](http://github.com/Neverball)
-* [Discord](https://discord.gg/bmBfHKZaQR)
+* [Discord](https://discord.gg/HhMfr4N6H6)
 
 ## Translation
 

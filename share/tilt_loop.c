@@ -154,15 +154,15 @@ static int tilt_func(void *data)
     }
 
 
-    SDL_mutexP(mutex);
+    SDL_LockMutex(mutex);
     state.status = running;
-    SDL_mutexV(mutex);
+    SDL_UnlockMutex(mutex);
 
     while (mutex && running)
     {
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         running = state.status;
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
 
         rc = freespace_read(deviceId, buffer, FREESPACE_MAX_INPUT_MESSAGE_SIZE, 100, &length);
         if (rc != FREESPACE_SUCCESS) {
@@ -184,7 +184,7 @@ static int tilt_func(void *data)
             /* This function does euler decomposition for rotate the object type (ZYX, aerospace) */
             q_euler(eulerAngles, quat);
 
-            SDL_mutexP(mutex);
+            SDL_LockMutex(mutex);
             {
                 /* Since the game expects "rotate the world type", conjugate by negating all angles & convert to degrees
                  * Z is yaw
@@ -201,7 +201,7 @@ static int tilt_func(void *data)
                 set_button(&state.U, userFrame.deltaWheel > 0);
                 set_button(&state.D, userFrame.deltaWheel < 0);
             }
-            SDL_mutexV(mutex);
+            SDL_UnlockMutex(mutex);
         }
 
     }
@@ -228,10 +228,10 @@ void tilt_free(void)
     {
         /* Get/set the status of the tilt sensor thread. */
 
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         b = state.status;
         state.status = 0;
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
 
         /* Kill the thread and destroy the mutex. */
 
@@ -251,7 +251,7 @@ int tilt_get_button(int *b, int *s)
 
     if (mutex)
     {
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         {
             if      ((ch = get_button(&state.A)))
             {
@@ -279,7 +279,7 @@ int tilt_get_button(int *b, int *s)
                 *s = (ch == BUTTON_DN);
             }
         }
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
     }
     return ch;
 }
@@ -290,9 +290,9 @@ float tilt_get_x(void)
 
     if (mutex)
     {
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         x = state.x;
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
     }
 
     return x;
@@ -304,9 +304,9 @@ float tilt_get_z(void)
 
     if (mutex)
     {
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         z = state.z;
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
     }
 
     return z;
@@ -318,9 +318,9 @@ int tilt_stat(void)
 
     if (mutex)
     {
-        SDL_mutexP(mutex);
+        SDL_LockMutex(mutex);
         b = state.status;
-        SDL_mutexV(mutex);
+        SDL_UnlockMutex(mutex);
     }
     return b;
 }

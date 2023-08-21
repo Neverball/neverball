@@ -14,6 +14,10 @@
 
 #include <string.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "gui.h"
 #include "hud.h"
 #include "set.h"
@@ -45,14 +49,19 @@ static int first = 0;
 static int total = 0;
 static int last  = 0;
 
+static int selected = 0;
 static int last_viewed = 0;
 
 /*---------------------------------------------------------------------------*/
 
 enum
 {
-    DEMO_SELECT = GUI_LAST
+    DEMO_PLAY = GUI_LAST,
+    DEMO_SELECT,
+    DEMO_DOWNLOAD
 };
+
+static void demo_select(int i);
 
 static int demo_action(int tok, int val)
 {
@@ -73,10 +82,26 @@ static int demo_action(int tok, int val)
         return goto_state(&st_demo);
         break;
 
+    case DEMO_DOWNLOAD:
+#ifdef __EMSCRIPTEN__
+    {
+        const char *path = DIR_ITEM_GET(items, selected)->path;
+
+        EM_ASM({
+            Neverball.downloadUserFile($0)
+        }, path);
+    }
+#endif
+        break;
+
     case DEMO_SELECT:
-        if (progress_replay(DIR_ITEM_GET(items, val)->path))
+        demo_select(val);
+        break;
+
+    case DEMO_PLAY:
+        if (progress_replay(DIR_ITEM_GET(items, selected)->path))
         {
-            last_viewed = val;
+            last_viewed = selected;
             demo_play_goto(0);
             return goto_state(&st_demo_play);
         }
@@ -90,8 +115,9 @@ static int demo_action(int tok, int val)
 static struct thumb
 {
     int item;
-    int shot;
-    int name;
+    int shot_id;
+    int name_id;
+    int thumb_id;
 } thumbs[DEMO_STEP];
 
 static int gui_demo_thumbs(int id)
@@ -118,22 +144,28 @@ static int gui_demo_thumbs(int id)
                     {
                         if ((ld = gui_vstack(kd)))
                         {
+                            const int ww = MIN(w, h) * 2 / 9;
+                            const int hh = ww / 4 * 3;
+
                             gui_space(ld);
 
-                            thumb->shot = gui_image(ld, " ", w / 6, h / 6);
-                            thumb->name = gui_label(ld, " ", GUI_SML,
-                                                    gui_wht, gui_wht);
+                            thumb->shot_id = gui_image(ld, " ", ww, hh);
+                            thumb->name_id = gui_label(ld, " ", GUI_SML,
+                                                       gui_wht, gui_wht);
 
-                            gui_set_trunc(thumb->name, TRUNC_TAIL);
+                            gui_set_trunc(thumb->name_id, TRUNC_TAIL);
                             gui_set_state(ld, DEMO_SELECT, j);
+
+                            thumb->thumb_id = ld;
                         }
                     }
                     else
                     {
                         gui_space(kd);
 
-                        thumb->shot = 0;
-                        thumb->name = 0;
+                        thumb->shot_id = 0;
+                        thumb->name_id = 0;
+                        thumb->thumb_id = 0;
                     }
                 }
             }
@@ -147,13 +179,13 @@ static void gui_demo_update_thumbs(void)
     struct demo *demo;
     int i;
 
-    for (i = 0; i < ARRAYSIZE(thumbs) && thumbs[i].shot && thumbs[i].name; i++)
+    for (i = 0; i < ARRAYSIZE(thumbs) && thumbs[i].shot_id && thumbs[i].name_id; i++)
     {
         item = DIR_ITEM_GET(items, thumbs[i].item);
         demo = item->data;
 
-        gui_set_image(thumbs[i].shot, demo ? demo->shot : "");
-        gui_set_label(thumbs[i].name, demo ? demo->name : base_name(item->path));
+        gui_set_image(thumbs[i].shot_id, demo ? demo->shot : "");
+        gui_set_label(thumbs[i].name_id, demo ? demo->name : base_name(item->path));
     }
 }
 
@@ -274,6 +306,15 @@ static void gui_demo_update_status(int i)
     gui_set_clock(time_id, d->timer);
 }
 
+static void demo_select(int demo)
+{
+    gui_set_hilite(thumbs[selected % DEMO_STEP].thumb_id, 0);
+    selected = demo;
+    gui_set_hilite(thumbs[selected % DEMO_STEP].thumb_id, 1);
+
+    gui_demo_update_status(demo);
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int demo_gui(void)
@@ -296,10 +337,41 @@ static int demo_gui(void)
         gui_space(id);
         gui_demo_status(id);
 
+#ifdef __EMSCRIPTEN__
+        gui_space(id);
+
+        if ((jd = gui_hstack(id)))
+        {
+            int kd;
+
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_ARROW_DN, GUI_SML, gui_yel, gui_wht);
+                gui_label(kd, _("Download"), GUI_SML, gui_yel, gui_wht);
+
+                gui_set_rect(kd, GUI_ALL);
+                gui_set_state(kd, DEMO_DOWNLOAD, 0);
+            }
+
+            gui_space(jd);
+
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_yel, gui_wht);
+                gui_label(kd, _("Play"), GUI_SML, gui_yel, gui_wht);
+
+                gui_set_rect(kd, GUI_ALL);
+                gui_set_state(kd, DEMO_PLAY, 0);
+            }
+        }
+#endif
+
         gui_layout(id, 0, 0);
 
         gui_demo_update_thumbs();
         gui_demo_update_status(last_viewed);
+
+        demo_select(first);
     }
     else
     {
@@ -355,22 +427,6 @@ static void demo_timer(int id, float dt)
     gui_timer(id, dt);
 }
 
-static void demo_point(int id, int x, int y, int dx, int dy)
-{
-    int jd = shared_point_basic(id, x, y);
-
-    if (jd && gui_token(jd) == DEMO_SELECT)
-        gui_demo_update_status(gui_value(jd));
-}
-
-static void demo_stick(int id, int a, float v, int bump)
-{
-    int jd = shared_stick_basic(id, a, v, bump);
-
-    if (jd && gui_token(jd) == DEMO_SELECT)
-        gui_demo_update_status(gui_value(jd));
-}
-
 static int demo_keybd(int c, int d)
 {
     if (d)
@@ -390,7 +446,15 @@ static int demo_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (total)
-                return demo_action(gui_token(active), gui_value(active));
+            {
+                int token = gui_token(active);
+                int value = gui_value(active);
+
+                if (token == DEMO_SELECT && value == selected)
+                    return demo_action(DEMO_PLAY, 0);
+                else
+                    return demo_action(token, value);
+            }
             else
                 return demo_action(GUI_BACK, 0);
         }
@@ -821,8 +885,8 @@ struct state st_demo = {
     demo_leave,
     shared_paint,
     demo_timer,
-    demo_point,
-    demo_stick,
+    shared_point,
+    shared_stick,
     shared_angle,
     shared_click,
     demo_keybd,

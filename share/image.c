@@ -275,9 +275,13 @@ void size_image_from_font(int *W, int *H,
                           int *w, int *h,
                           const char *text, TTF_Font *font)
 {
-    int text_w, text_h, w2, h2;
+    int text_w = 0;
+    int text_h = 0;
+    int w2 = 0;
+    int h2 = 0;
 
-    TTF_SizeUTF8(font, text, &text_w, &text_h);
+    if (text)
+        TTF_SizeUTF8(font, text, &text_w, &text_h);
 
     if (w) *w = text_w;
     if (h) *h = text_h;

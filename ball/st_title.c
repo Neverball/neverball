@@ -39,6 +39,7 @@
 #include "st_set.h"
 #include "st_name.h"
 #include "st_shared.h"
+#include "st_package.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,7 +89,8 @@ enum
     TITLE_PLAY = GUI_LAST,
     TITLE_HELP,
     TITLE_DEMO,
-    TITLE_CONF
+    TITLE_CONF,
+    TITLE_PACKAGES
 };
 
 static int title_action(int tok, int val)
@@ -116,6 +118,7 @@ static int title_action(int tok, int val)
     case TITLE_HELP: return goto_state(&st_help); break;
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
+    case TITLE_PACKAGES: return goto_state(&st_package); break;
     case GUI_CHAR:
 
         /* Let the queue fill up. */
@@ -158,46 +161,62 @@ static int title_action(int tok, int val)
 
 static int title_gui(void)
 {
-    int id, jd, kd;
+    int root_id, id, jd, kd;
 
     /* Build the title GUI. */
 
-    if ((id = gui_vstack(0)))
+    if ((root_id = gui_root()))
     {
-        if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
-            gui_set_fill(jd);
-
-        gui_space(id);
-
-        if ((jd = gui_hstack(id)))
+        if ((id = gui_vstack(root_id)))
         {
-            gui_filler(jd);
+            if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
+                gui_set_fill(jd);
 
-            if ((kd = gui_varray(jd)))
+            gui_space(id);
+
+            if ((jd = gui_hstack(id)))
             {
-                if (config_cheat())
-                    play_id = gui_start(kd, gt_prefix("menu^Cheat"),
-                                        GUI_MED, TITLE_PLAY, 0);
-                else
-                    play_id = gui_start(kd, gt_prefix("menu^Play"),
-                                        GUI_MED, TITLE_PLAY, 0);
+                gui_filler(jd);
 
-                gui_state(kd, gt_prefix("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
-                gui_state(kd, gt_prefix("menu^Help"),    GUI_MED, TITLE_HELP, 0);
-                gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, GUI_BACK, 0);
+                if ((kd = gui_varray(jd)))
+                {
+                    if (config_cheat())
+                        play_id = gui_start(kd, gt_prefix("menu^Cheat"),
+                                            GUI_MED, TITLE_PLAY, 0);
+                    else
+                        play_id = gui_start(kd, gt_prefix("menu^Play"),
+                                            GUI_MED, TITLE_PLAY, 0);
 
-                /* Hilight the start button. */
+                    gui_state(kd, gt_prefix("menu^Replay"),  GUI_MED, TITLE_DEMO, 0);
+                    gui_state(kd, gt_prefix("menu^Help"),    GUI_MED, TITLE_HELP, 0);
+                    gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
+                    gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, GUI_BACK, 0);
 
-                gui_set_hilite(play_id, 1);
+                    /* Hilight the start button. */
+
+                    gui_set_hilite(play_id, 1);
+                }
+
+                gui_filler(jd);
             }
-
-            gui_filler(jd);
+            gui_layout(id, 0, 0);
         }
-        gui_layout(id, 0, 0);
+
+        if ((id = gui_vstack(root_id)))
+        {
+            if ((jd = gui_hstack(id)))
+            {
+                gui_space(jd);
+                gui_state(jd, _("Packages"), GUI_SML, TITLE_PACKAGES, 0);
+            }
+            gui_space(id);
+
+            gui_layout(id, +1, -1);
+        }
     }
 
-    return id;
+
+    return root_id;
 }
 
 static int filter_cmd(const union cmd *cmd)
@@ -236,6 +255,12 @@ static void title_leave(struct state *st, struct state *next, int id)
     demo_replay_stop(0);
     game_proxy_filter(NULL);
     gui_delete(id);
+}
+
+static void title_paint(int id, float t)
+{
+    game_client_draw(0, t);
+    gui_paint(id);
 }
 
 static void title_timer(int id, float dt)
@@ -313,6 +338,22 @@ static void title_timer(int id, float dt)
     game_step_fade(dt);
 }
 
+static void title_point(int id, int x, int y, int dx, int dy)
+{
+    int jd;
+
+    if ((jd = gui_point(id, x, y)))
+        gui_pulse(jd, 1.2f);
+}
+
+void title_stick(int id, int a, float v, int bump)
+{
+    int jd;
+
+    if ((jd = gui_stick(id, a, v, bump)))
+        gui_pulse(jd, 1.2f);
+}
+
 static int title_keybd(int c, int d)
 {
     if (d)
@@ -344,10 +385,10 @@ static int title_buttn(int b, int d)
 struct state st_title = {
     title_enter,
     title_leave,
-    shared_paint,
+    title_paint,
     title_timer,
-    shared_point,
-    shared_stick,
+    title_point,
+    title_stick,
     shared_angle,
     shared_click,
     title_keybd,

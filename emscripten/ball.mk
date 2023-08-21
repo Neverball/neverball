@@ -2,10 +2,20 @@ CC = emcc
 
 JSDIR = js
 
+GL4ES_DIR ?= ../gl4es
+
+# Emscripten fast linking: https://github.com/emscripten-core/emscripten/issues/17019
+BUILD ?= devel
+
 # Generate share/version.h
 VERSION := $(shell sh scripts/version.sh)
 
-CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I../gl4es/include
+ifeq ($(BUILD), devel)
+CFLAGS := -O1 -fsanitize=undefined -fsanitize=address -std=gnu99 -Wall -Ishare -DNDEBUG -I$(GL4ES_DIR)/include
+else
+CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -I$(GL4ES_DIR)/include
+endif
+
 EM_CFLAGS := \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
@@ -56,7 +66,7 @@ DATA_EXCLUDE := \
 	'set-mym2.txt' \
 	'set-tones.txt'
 
-LDFLAGS := ../gl4es/lib/libGL.a
+LDFLAGS := $(GL4ES_DIR)/lib/libGL.a
 EM_LDFLAGS := \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s FULL_ES2=1 \
@@ -68,6 +78,10 @@ EM_LDFLAGS := \
 	-lidbfs.js \
 	$(EM_PRELOAD) \
 	--use-preload-cache
+
+ifeq ($(BUILD), devel)
+EM_LDFLAGS += -s ERROR_ON_WASM_CHANGES_AFTER_LINK -s WASM_BIGINT
+endif
 
 BALL_SRCS := \
 	ball/demo.c \
@@ -138,6 +152,7 @@ BALL_SRCS := \
 	share/solid_sim_sol.c \
 	share/solid_vary.c \
 	share/st_common.c \
+	share/st_package.c \
 	share/state.c \
 	share/text.c \
 	share/theme.c \
@@ -145,9 +160,9 @@ BALL_SRCS := \
 	share/vec3.c \
 	share/video.c
 
-BALL_OBJS := $(BALL_SRCS:.c=.bc)
+BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 
-%.bc: %.c
+%.emscripten.o: %.c
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
 .PHONY: neverball
@@ -175,3 +190,10 @@ clean-packages:
 .PHONY: clean
 clean:
 	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
+
+.PHONY: watch
+watch:
+	while true; do \
+		$(MAKE) -f emscripten/ball.mk --no-print-directory --question || ( $(MAKE) -f emscripten/ball.mk --no-print-directory && echo '\e[32mok\e[0m' ); \
+		sleep 1; \
+	done

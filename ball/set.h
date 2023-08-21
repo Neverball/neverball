@@ -23,11 +23,6 @@ int  set_find(const char *);
 
 int  curr_set(void);
 
-int set_is_downloadable(int);
-int set_is_downloading(int);
-int set_is_installed(int);
-int set_download(int, struct fetch_callback);
-
 const char         *set_id(int);
 const char         *set_name(int);
 const char         *set_file(int);
