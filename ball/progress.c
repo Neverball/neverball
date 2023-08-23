@@ -183,7 +183,7 @@ void progress_stat(int s)
                                    goal == 0 ? &goal_rank : NULL,
                                    &coin_rank);
 
-        level_attempts_update(level, SUCCESS);
+        level_stats_update(level, SUCCESS);
 
         if (!level_completed(level))
         {
@@ -233,7 +233,7 @@ void progress_stat(int s)
         curr.times += timer;
         curr.balls -= 1;
 
-        level_attempts_update(level, FALLOUT);
+        level_stats_update(level, FALLOUT);
 
         break;
 
@@ -246,7 +246,7 @@ void progress_stat(int s)
         curr.times += timer;
         curr.balls -= 1;
 
-        level_attempts_update(level, TIMEOUT);
+        level_stats_update(level, TIMEOUT);
 
         break;
     }

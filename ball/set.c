@@ -123,8 +123,8 @@ void set_store_hs(void)
 
             fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
-            fs_printf(fp, "attmps %d %d %d\n", l->attempts[SUCCESS],
-                      l->attempts[TIMEOUT], l->attempts[FALLOUT]);
+            fs_printf(fp, "stats %d %d %d\n", l->stats[SUCCESS],
+                      l->stats[TIMEOUT], l->stats[FALLOUT]);
 
             put_score(fp, &l->scores[SCORE_TIME]);
             put_score(fp, &l->scores[SCORE_GOAL]);
@@ -176,7 +176,7 @@ static struct level *find_level(const struct set *s, const char *file)
     return NULL;
 }
 
-static int get_attempts(fs_file fp, struct level *l)
+static int get_stats(fs_file fp, struct level *l)
 {
     char line[MAXSTR];
 
@@ -185,15 +185,15 @@ static int get_attempts(fs_file fp, struct level *l)
 
     strip_newline(line);
 
-    if (sscanf(line, "attmps %d %d %d", &l->attempts[SUCCESS],
-                                        &l->attempts[TIMEOUT],
-                                        &l->attempts[FALLOUT]) < 3) {
-        /* compatible with save files without attempts info */
-        l->attempts[SUCCESS] = 0;
-        l->attempts[TIMEOUT] = 0;
-        l->attempts[FALLOUT] = 0;
+    if (sscanf(line, "stats %d %d %d", &l->stats[SUCCESS],
+                                        &l->stats[TIMEOUT],
+                                        &l->stats[FALLOUT]) < 3) {
+        /* compatible with save files without stats info */
+        l->stats[SUCCESS] = 0;
+        l->stats[TIMEOUT] = 0;
+        l->stats[FALLOUT] = 0;
 
-        /* attmps not available, rewind file pointer */
+        /* stats not available, rewind file pointer */
         fs_seek(fp, - strlen(line) - 1, SEEK_CUR);
     }
 
@@ -229,7 +229,7 @@ static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
 
             if ((l = find_level(s, buf + n)))
             {
-                get_attempts(fp, l);
+                get_stats(fp, l);
                 /* Always prefer "locked" flag from the score file. */
 
                 l->is_locked = !!(flags & LEVEL_LOCKED);

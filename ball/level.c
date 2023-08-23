@@ -261,16 +261,16 @@ void level_rename_player(struct level *l,
     SAFECPY(l->scores[SCORE_COIN].player[coin_rank], player);
 }
 
-void level_attempts_update(struct level *l, int result)
+void level_stats_update(struct level *l, int result)
 {
-    l->attempts[result]++;
+    l->stats[result]++;
 }
 
-void level_attempts_set(struct level *l, int success, int timeout, int fallout)
+void level_stats_set(struct level *l, int success, int timeout, int fallout)
 {
-    l->attempts[SUCCESS] = success;
-    l->attempts[TIMEOUT] = timeout;
-    l->attempts[FALLOUT] = fallout;
+    l->stats[SUCCESS] = success;
+    l->stats[TIMEOUT] = timeout;
+    l->stats[FALLOUT] = fallout;
 }
 
 /*---------------------------------------------------------------------------*/
