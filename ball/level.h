@@ -39,7 +39,7 @@ struct level
     int goal; /* Coins needed */
 
     struct score scores[3];
-    int attempts[3];
+    int stats[3];
 
     /* Set information. */
 
@@ -84,8 +84,8 @@ const struct score *level_score(struct level *, int);
 int  level_score_update (struct level *, int, int, int *, int *, int *);
 void level_rename_player(struct level *, int, int, int, const char *);
 
-void level_attempts_update(struct level *, int);
-void level_attempts_set   (struct level *, int, int, int);
+void level_stats_update(struct level *, int);
+void level_stats_set   (struct level *, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 

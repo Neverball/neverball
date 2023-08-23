@@ -57,7 +57,7 @@ static int score_coin[4];
 static int score_name[4];
 static int score_time[4];
 
-static int attempts[3];
+static int stats[3];
 
 static int score_extra_row;
 
@@ -112,18 +112,18 @@ static void gui_scores(int id, int e)
     }
 }
 
-static void gui_attempts(int id)
+static void gui_stats(int id)
 {
-    int at, attempt_id;
+    int at;
 
     if ((at = gui_vstack(id)))
     {
         gui_filler(at);
-        gui_label(at, _("Attempts"), GUI_SML, 0, 0);
+        gui_label(at, _("Stats"), GUI_SML, 0, 0);
 
-        attempts[SUCCESS] = gui_label(at, "0", GUI_SML, gui_grn, gui_wht);
-        attempts[TIMEOUT] = gui_label(at, "0", GUI_SML, gui_yel, gui_wht);
-        attempts[FALLOUT] = gui_label(at, "0", GUI_SML, gui_red, gui_wht);
+        stats[SUCCESS] = gui_label(at, "0", GUI_SML, gui_grn, gui_wht);
+        stats[TIMEOUT] = gui_label(at, "0", GUI_SML, gui_yel, gui_wht);
+        stats[FALLOUT] = gui_label(at, "0", GUI_SML, gui_red, gui_wht);
 
         gui_set_rect(at, GUI_ALL);
         gui_filler(at);
@@ -234,7 +234,7 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
 
         gui_scores(id, e);
 
-        gui_attempts(id);
+        gui_stats(id);
 
         gui_filler(id);
     }
@@ -278,15 +278,15 @@ int  gui_score_get(void)
     return score_type;
 }
 
-void gui_set_attempts(const struct level *l)
+void gui_set_stats(const struct level *l)
 {
     char buffer[10];
-    sprintf(buffer, "%d", l->attempts[SUCCESS]);
-    gui_set_label(attempts[SUCCESS], buffer);
-    sprintf(buffer, "%d", l->attempts[TIMEOUT]);
-    gui_set_label(attempts[TIMEOUT], buffer);
-    sprintf(buffer, "%d", l->attempts[FALLOUT]);
-    gui_set_label(attempts[FALLOUT], buffer);
+    sprintf(buffer, "%d", l->stats[SUCCESS]);
+    gui_set_label(stats[SUCCESS], buffer);
+    sprintf(buffer, "%d", l->stats[TIMEOUT]);
+    gui_set_label(stats[TIMEOUT], buffer);
+    sprintf(buffer, "%d", l->stats[FALLOUT]);
+    gui_set_label(stats[FALLOUT], buffer);
 }
 
 /*---------------------------------------------------------------------------*/
