@@ -15,7 +15,7 @@ enum
 
 enum
 {
-    SUCCESS = 0,
+    COMPLETED = 0,
     TIMEOUT,
     FALLOUT
 };
@@ -39,7 +39,7 @@ struct level
     int goal; /* Coins needed */
 
     struct score scores[3];
-    int stats[3];
+    int stats[3]; /* Statistics: completed, timeout, fallout. */
 
     /* Set information. */
 

@@ -183,7 +183,7 @@ void progress_stat(int s)
                                    goal == 0 ? &goal_rank : NULL,
                                    &coin_rank);
 
-        level_stats_update(level, SUCCESS);
+        level_stats_update(level, COMPLETED);
 
         if (!level_completed(level))
         {
