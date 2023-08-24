@@ -123,7 +123,7 @@ void set_store_hs(void)
 
             fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
-            fs_printf(fp, "stats %d %d %d\n", l->stats[SUCCESS],
+            fs_printf(fp, "stats %d %d %d\n", l->stats[COMPLETED],
                       l->stats[TIMEOUT], l->stats[FALLOUT]);
 
             put_score(fp, &l->scores[SCORE_TIME]);
@@ -176,28 +176,26 @@ static struct level *find_level(const struct set *s, const char *file)
     return NULL;
 }
 
-static int get_stats(fs_file fp, struct level *l)
+static void get_stats(fs_file fp, struct level *l)
 {
     char line[MAXSTR];
 
     if (!fs_gets(line, sizeof(line), fp))
-        return 0;
+        return;
 
     strip_newline(line);
 
-    if (sscanf(line, "stats %d %d %d", &l->stats[SUCCESS],
+    if (sscanf(line, "stats %d %d %d", &l->stats[COMPLETED],
                                         &l->stats[TIMEOUT],
                                         &l->stats[FALLOUT]) < 3) {
         /* compatible with save files without stats info */
-        l->stats[SUCCESS] = 0;
+        l->stats[COMPLETED] = 0;
         l->stats[TIMEOUT] = 0;
         l->stats[FALLOUT] = 0;
 
         /* stats not available, rewind file pointer */
         fs_seek(fp, - strlen(line) - 1, SEEK_CUR);
     }
-
-    return 1;
 }
 
 static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)

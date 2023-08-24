@@ -268,7 +268,7 @@ void level_stats_update(struct level *l, int result)
 
 void level_stats_set(struct level *l, int success, int timeout, int fallout)
 {
-    l->stats[SUCCESS] = success;
+    l->stats[COMPLETED] = success;
     l->stats[TIMEOUT] = timeout;
     l->stats[FALLOUT] = fallout;
 }
