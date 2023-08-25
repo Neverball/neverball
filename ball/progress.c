@@ -225,17 +225,6 @@ void progress_stat(int s)
 
     case GAME_FALL:
         /* Fall through. */
-        for (next = level->next;
-             next && !level_opened(next);
-             next = next->next)
-            /* Do nothing */;
-
-        curr.times += timer;
-        curr.balls -= 1;
-
-        level_stats_update(level, FALLOUT);
-
-        break;
 
     case GAME_TIME:
         for (next = level->next;
@@ -246,7 +235,7 @@ void progress_stat(int s)
         curr.times += timer;
         curr.balls -= 1;
 
-        level_stats_update(level, TIMEOUT);
+        level_stats_update(level, status == GAME_FALL ? FALLOUT : TIMEOUT);
 
         break;
     }
