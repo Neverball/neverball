@@ -57,7 +57,7 @@ static int score_coin[4];
 static int score_name[4];
 static int score_time[4];
 
-static int stats[3];
+static int stats_label[3];
 
 static int score_extra_row;
 
@@ -121,9 +121,9 @@ static void gui_stats(int id)
         gui_filler(at);
         gui_label(at, _("Stats"), GUI_SML, 0, 0);
 
-        stats[COMPLETED] = gui_label(at, "0", GUI_SML, gui_grn, gui_wht);
-        stats[TIMEOUT]   = gui_label(at, "0", GUI_SML, gui_yel, gui_wht);
-        stats[FALLOUT]   = gui_label(at, "0", GUI_SML, gui_red, gui_wht);
+        stats_label[COMPLETED] = gui_label(at, " ", GUI_SML, gui_grn, gui_wht);
+        stats_label[TIMEOUT]   = gui_label(at, " ", GUI_SML, gui_yel, gui_wht);
+        stats_label[FALLOUT]   = gui_label(at, " ", GUI_SML, gui_red, gui_wht);
 
         gui_set_rect(at, GUI_ALL);
         gui_filler(at);
@@ -282,11 +282,11 @@ void gui_set_stats(const struct level *l)
 {
     char buffer[10];
     sprintf(buffer, "%d", l->stats[COMPLETED]);
-    gui_set_label(stats[COMPLETED], buffer);
+    gui_set_label(stats_label[COMPLETED], buffer);
     sprintf(buffer, "%d", l->stats[TIMEOUT]);
-    gui_set_label(stats[TIMEOUT], buffer);
+    gui_set_label(stats_label[TIMEOUT], buffer);
     sprintf(buffer, "%d", l->stats[FALLOUT]);
-    gui_set_label(stats[FALLOUT], buffer);
+    gui_set_label(stats_label[FALLOUT], buffer);
 }
 
 /*---------------------------------------------------------------------------*/
