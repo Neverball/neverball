@@ -123,8 +123,8 @@ void set_store_hs(void)
 
             fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
-            fs_printf(fp, "stats %d %d %d\n", l->stats[COMPLETED],
-                      l->stats[TIMEOUT], l->stats[FALLOUT]);
+            fs_printf(fp, "stats %d %d %d\n", l->stats.completed,
+                      l->stats.timeout, l->stats.fallout);
 
             put_score(fp, &l->scores[SCORE_TIME]);
             put_score(fp, &l->scores[SCORE_GOAL]);
@@ -185,13 +185,13 @@ static void get_stats(fs_file fp, struct level *l)
 
     strip_newline(line);
 
-    if (sscanf(line, "stats %d %d %d", &l->stats[COMPLETED],
-                                        &l->stats[TIMEOUT],
-                                        &l->stats[FALLOUT]) < 3) {
+    if (sscanf(line, "stats %d %d %d", &l->stats.completed,
+                                        &l->stats.timeout,
+                                        &l->stats.fallout) < 3) {
         /* compatible with save files without stats info */
-        l->stats[COMPLETED] = 0;
-        l->stats[TIMEOUT] = 0;
-        l->stats[FALLOUT] = 0;
+        l->stats.completed = 0;
+        l->stats.timeout   = 0;
+        l->stats.fallout   = 0;
 
         /* stats not available, rewind file pointer */
         fs_seek(fp, - strlen(line) - 1, SEEK_CUR);

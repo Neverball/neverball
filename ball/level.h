@@ -13,11 +13,10 @@ enum
     SCORE_COIN
 };
 
-enum
-{
-    COMPLETED = 0,
-    TIMEOUT,
-    FALLOUT
+struct stats {
+    int completed;
+    int timeout;
+    int fallout;
 };
 
 #define LEVEL_LOCKED    0x1
@@ -39,7 +38,7 @@ struct level
     int goal; /* Coins needed */
 
     struct score scores[3];
-    int stats[3]; /* Statistics: completed, timeout, fallout. */
+    struct stats stats;
 
     /* Set information. */
 
@@ -83,9 +82,6 @@ const struct score *level_score(struct level *, int);
 
 int  level_score_update (struct level *, int, int, int *, int *, int *);
 void level_rename_player(struct level *, int, int, int, const char *);
-
-void level_stats_update(struct level *, int);
-void level_stats_set   (struct level *, int, int, int);
 
 /*---------------------------------------------------------------------------*/
 

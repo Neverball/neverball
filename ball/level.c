@@ -261,17 +261,5 @@ void level_rename_player(struct level *l,
     SAFECPY(l->scores[SCORE_COIN].player[coin_rank], player);
 }
 
-void level_stats_update(struct level *l, int result)
-{
-    l->stats[result]++;
-}
-
-void level_stats_set(struct level *l, int success, int timeout, int fallout)
-{
-    l->stats[COMPLETED] = success;
-    l->stats[TIMEOUT] = timeout;
-    l->stats[FALLOUT] = fallout;
-}
-
 /*---------------------------------------------------------------------------*/
 
