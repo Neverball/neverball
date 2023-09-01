@@ -644,6 +644,10 @@ int package_manage_gui(void)
         if ((btn_id = gui_state(id, _("Delete"),
                                     GUI_SML, PACKAGE_MANAGE_DELETE, selected)))
             gui_set_color(btn_id, gui_red, gui_red);
+
+        gui_space(id);
+
+        gui_state(id, _("Cancel"), GUI_SML, GUI_BACK, 0);
     }
 
     return id;
