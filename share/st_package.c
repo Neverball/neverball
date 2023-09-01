@@ -44,7 +44,6 @@ static int install_id;
 static int install_status_id;
 static int install_label_id;
 
-static int category_id = PACKAGE_CATEGORY_LEVELSET;
 static int do_init     = 1;
 static int do_download = 0;
 
@@ -181,7 +180,7 @@ static void package_start_download(int id)
     callback.done     = download_done;
     callback.data     = create_download_info(package_get_id(id));
 
-    if (!package_fetch(id, callback, category_id))
+    if (!package_fetch(id, callback))
     {
         free_download_info(callback.data);
         callback.data = NULL;
@@ -244,7 +243,7 @@ static int package_action(int tok, int val)
         break;
 
     case PACKAGE_CHANGEGROUP:
-        category_id = val;
+        /* TODO: Seperate the package category */
         break;
     }
 
