@@ -119,56 +119,6 @@
       display: inline;
     }
 
-    .toggle input[type="checkbox"] {
-      display: none;
-    }
-
-    .toggle label {
-      position: relative;
-      /* display: block; */
-    }
-
-    .toggle label::before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #fff;
-      vertical-align: middle;
-      margin-right: 0.4em;
-    }
-
-    .toggle input[type="checkbox"]:focus label::before {
-      outline: 1px dashed #fff;
-    }
-
-    .toggle label::after {
-      content: '';
-      display: inline-block;
-      width: 6px;
-      height: 8px;
-      border-bottom: 2px solid #fff;
-      border-right: 2px solid #fff;
-      position: absolute;
-      width: 4px;
-      height: 9px;
-      left: 7px;
-      top: 0;
-      transform: rotate(45deg);
-      opacity: 0;
-      transition: 0.1s ease-out all;
-    }
-
-    .toggle input:checked+label::after {
-      opacity: 1;
-      top: 6px;
-    }
-
-    .toggle input:disabled + label::before,
-    .toggle input:disabled + label::after {
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-
     #status-line {
       background: #67686d;
       position: relative;
@@ -264,7 +214,7 @@
     <div id="settings">
       <h2>Settings</h2>
 
-      <div class="toggle" id="persist-toggle">
+      <div>
         <input type="checkbox" id="persist-input">
         <label for="persist-input">Enable persistent storage. This will make sure replays and settings are not deleted when browser cache is automatically cleared (such as when device space is low). You will have to clear site data to disable this setting.</label>
       </div>
