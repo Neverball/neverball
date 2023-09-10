@@ -395,11 +395,7 @@ static void available_packages_done(void *data, void *extra_data)
  */
 static void fetch_available_packages(void)
 {
-#ifdef __EMSCRIPTEN__
-    const char *url = get_package_url("available-packages-emscripten.txt");
-#else
     const char *url = get_package_url("available-packages.txt");
-#endif
 
     if (url)
     {
