@@ -987,10 +987,17 @@ void gui_set_multi(int id, const char *text)
 
     for (p = text, sc = 0; *p && sc < lc; sc++)
     {
-        strncpy(s[sc], p, (n = strcspn(p, "\\")));
+        // Support both '\\' and '\n' as delimiters.
+
+        strncpy(s[sc], p, (n = strcspn(p, "\\\n")));
         s[sc][n] = 0;
 
-        if (*(p += n) == '\\') p++;
+        if (n > 0 && s[sc][n - 1] == '\r')
+            s[sc][n - 1] = 0;
+
+        p += n;
+
+        if (*p == '\\' || *p == '\n') p++;
     }
 
     /* Set the label value for each line. */
