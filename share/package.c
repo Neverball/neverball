@@ -301,7 +301,19 @@ static Array load_packages_from_file(const char *filename)
             else if (strncmp(line, "desc ", 5) == 0)
             {
                 if (pkg)
+                {
+                    char *s = NULL;
+
                     SAFECPY(pkg->desc, line + 5);
+
+                    // Replace "\\n" with "\r\n" in place. I really just need the "\n", but don't want to move bytes around.
+
+                    for (s = pkg->desc; (s = strstr(s, "\\n")); s += 2)
+                    {
+                        s[0] = '\r';
+                        s[1] = '\n';
+                    }
+                }
             }
             else if (strncmp(line, "shot ", 5) == 0)
             {
@@ -395,11 +407,7 @@ static void available_packages_done(void *data, void *extra_data)
  */
 static void fetch_available_packages(void)
 {
-#ifdef __EMSCRIPTEN__
-    const char *url = get_package_url("available-packages-emscripten.txt");
-#else
     const char *url = get_package_url("available-packages.txt");
-#endif
 
     if (url)
     {
@@ -482,7 +490,7 @@ int package_search(const char *file)
         {
             struct package *pkg = array_get(available_packages, i);
 
-            if (pkg && strcmp(pkg->files, file) == 0)
+            if (pkg && strstr(pkg->files, file) != NULL)
                 return i;
         }
     }
@@ -545,7 +553,7 @@ const char *package_get_id(int pi)
 {
     if (pi >= 0 && pi < array_len(available_packages))
         return PACKAGE_GET(available_packages, pi)->id;
-    
+
     return NULL;
 }
 
@@ -553,7 +561,7 @@ const char *package_get_type(int pi)
 {
     if (pi >= 0 && pi < array_len(available_packages))
         return PACKAGE_GET(available_packages, pi)->type;
-    
+
     return NULL;
 }
 
