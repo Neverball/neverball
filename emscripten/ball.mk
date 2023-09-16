@@ -64,7 +64,25 @@ DATA_EXCLUDE := \
 	'set-misc.txt' \
 	'set-mym.txt' \
 	'set-mym2.txt' \
-	'set-tones.txt'
+	'set-tones.txt' \
+	'ball/atom/*' \
+	'ball/blinky/*' \
+	'ball/catseye/*' \
+	'ball/cheese-ball/*' \
+	'ball/diagonal-ball/*' \
+	'ball/earth/*' \
+	'ball/eyeball/*' \
+	'ball/lava/*' \
+	'ball/magic-eightball/*' \
+	'ball/melon/*' \
+	'ball/octocat/*' \
+	'ball/orange/*' \
+	'ball/reactor/*' \
+	'ball/rift/*' \
+	'ball/saturn/*' \
+	'ball/snowglobe/*' \
+	'ball/sootsprite/*' \
+	'ball/ufo/*'
 
 LDFLAGS := $(GL4ES_DIR)/lib/libGL.a
 EM_LDFLAGS := \
