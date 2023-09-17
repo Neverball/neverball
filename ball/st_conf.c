@@ -143,63 +143,75 @@ static int conf_action(int tok, int val)
 
 static int conf_gui(void)
 {
-    int id;
+    int root_id;
 
     /* Initialize the configuration GUI. */
 
-    if ((id = gui_vstack(0)))
+    if ((root_id = gui_root()))
     {
-        int sound = config_get_d(CONFIG_SOUND_VOLUME);
-        int music = config_get_d(CONFIG_MUSIC_VOLUME);
-        int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
+        int id;
 
-        const char *player = config_get_s(CONFIG_PLAYER);
-        const char *ball   = config_get_s(CONFIG_BALL_FILE);
+        if ((id = gui_vstack(root_id)))
+        {
+            int sound = config_get_d(CONFIG_SOUND_VOLUME);
+            int music = config_get_d(CONFIG_MUSIC_VOLUME);
+            int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
 
-        int name_id, ball_id, lang_id;
+            const char *player = config_get_s(CONFIG_PLAYER);
+            const char *ball   = config_get_s(CONFIG_BALL_FILE);
 
-        conf_header(id, _("Options"), GUI_BACK);
+            int name_id, ball_id, lang_id;
 
-        conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
+            conf_header(id, _("Options"), GUI_BACK);
 
-        gui_space(id);
+            conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
 
-        conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
-                    mouse_id, ARRAYSIZE(mouse_id));
+            gui_space(id);
 
-        gui_space(id);
+            conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
+                        mouse_id, ARRAYSIZE(mouse_id));
 
-        conf_state(id, _("Gamepad"), _("Configure"), CONF_JOYSTICK);
+            gui_space(id);
 
-        gui_space(id);
+            conf_state(id, _("Gamepad"), _("Configure"), CONF_JOYSTICK);
 
-        conf_slider(id, _("Sound Volume"), CONF_SOUND_VOLUME, sound,
-                    sound_id, ARRAYSIZE(sound_id));
-        conf_slider(id, _("Music Volume"), CONF_MUSIC_VOLUME, music,
-                    music_id, ARRAYSIZE(music_id));
+            gui_space(id);
 
-        gui_space(id);
+            conf_slider(id, _("Sound Volume"), CONF_SOUND_VOLUME, sound,
+                        sound_id, ARRAYSIZE(sound_id));
+            conf_slider(id, _("Music Volume"), CONF_MUSIC_VOLUME, music,
+                        music_id, ARRAYSIZE(music_id));
 
-        name_id = conf_state(id, _("Player Name"), " ", CONF_PLAYER);
-        ball_id = conf_state(id, _("Ball Model"), " ", CONF_BALL);
-        lang_id = conf_state(id, _("Language"), " ", CONF_LANGUAGE);
+            gui_space(id);
 
-        gui_layout(id, 0, 0);
+            name_id = conf_state(id, _("Player Name"), " ", CONF_PLAYER);
+            ball_id = conf_state(id, _("Ball Model"), " ", CONF_BALL);
+            lang_id = conf_state(id, _("Language"), " ", CONF_LANGUAGE);
 
-        gui_set_trunc(lang_id, TRUNC_TAIL);
-        gui_set_trunc(name_id, TRUNC_TAIL);
-        gui_set_trunc(ball_id, TRUNC_TAIL);
+            gui_layout(id, 0, 0);
 
-        gui_set_label(name_id, player);
-        gui_set_label(ball_id, base_name(ball));
+            gui_set_trunc(lang_id, TRUNC_TAIL);
+            gui_set_trunc(name_id, TRUNC_TAIL);
+            gui_set_trunc(ball_id, TRUNC_TAIL);
 
-        if (*config_get_s(CONFIG_LANGUAGE))
-            gui_set_label(lang_id, lang_name(&curr_lang));
-        else
-            gui_set_label(lang_id, _("Default"));
+            gui_set_label(name_id, player);
+            gui_set_label(ball_id, base_name(ball));
+
+            if (*config_get_s(CONFIG_LANGUAGE))
+                gui_set_label(lang_id, lang_name(&curr_lang));
+            else
+                gui_set_label(lang_id, _("Default"));
+        }
+
+        if ((id = gui_vstack(root_id)))
+        {
+            gui_label(id, "Neverball " VERSION, GUI_TNY, gui_wht, gui_wht);
+            gui_clr_rect(id);
+            gui_layout(id, 0, -1);
+        }
     }
 
-    return id;
+    return root_id;
 }
 
 static int conf_enter(struct state *st, struct state *prev)

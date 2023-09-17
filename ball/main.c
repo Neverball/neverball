@@ -50,7 +50,7 @@
 #include "st_level.h"
 #include "st_pause.h"
 
-const char TITLE[] = "Neverball " VERSION;
+const char TITLE[] = "Neverball";
 const char ICON[] = "icon/neverball.png";
 
 /*---------------------------------------------------------------------------*/

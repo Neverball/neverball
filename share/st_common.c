@@ -887,7 +887,7 @@ static int joystick_gui(void)
 
                 continue;
             }
-            
+
             value = config_get_d(*joystick_options[i]);
 
             if ((btn_id = conf_state(id, _(joystick_option_names[i]), "99", 0)))
@@ -955,7 +955,7 @@ static void joystick_paint(int id, float t)
 
     if (joystick_modal == JOYSTICK_ASSIGN_BUTTON)
         gui_paint(joystick_modal_button_id);
-    
+
     if (joystick_modal == JOYSTICK_ASSIGN_AXIS)
         gui_paint(joystick_modal_axis_id);
 }

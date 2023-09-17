@@ -24,7 +24,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-int font_load(struct font *ft, const char *path, int sizes[3])
+int font_load(struct font *ft, const char *path, int sizes[FONT_SIZE_MAX])
 {
     if (ft && path && *path)
     {

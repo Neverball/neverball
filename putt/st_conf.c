@@ -90,82 +90,94 @@ static int conf_action(int i)
 
 static int conf_enter(struct state *st, struct state *prev)
 {
-    int id, jd, kd;
-    int i;
+    int root_id;
 
     back_init("back/gui.png");
 
     /* Initialize the configuration GUI. */
 
-    if ((id = gui_vstack(0)))
+    if ((root_id = gui_root()))
     {
-        if ((jd = gui_harray(id)))
+        int id, jd, kd;
+        int i;
+
+        if ((id = gui_vstack(root_id)))
         {
-            gui_label(jd, _("Options"), GUI_SML, 0, 0);
-            gui_space(jd);
-            gui_start(jd, _("Back"),    GUI_SML, CONF_BACK, 0);
-        }
-
-        gui_space(id);
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            gui_state(kd, _("Configure"), GUI_SML, CONF_VIDEO, 0);
-
-            gui_label(jd, _("Graphics"),  GUI_SML, 0, 0);
-        }
-
-        gui_space(id);
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            /* A series of empty buttons forms the sound volume control. */
-
-            int s = config_get_d(CONFIG_SOUND_VOLUME);
-
-            for (i = 10; i >= 0; i--)
+            if ((jd = gui_harray(id)))
             {
-                sound_id[i] = gui_state(kd, NULL, GUI_SML, 100 + i, 0);
-                gui_set_hilite(sound_id[i], (s == i));
+                gui_label(jd, _("Options"), GUI_SML, 0, 0);
+                gui_space(jd);
+                gui_start(jd, _("Back"),    GUI_SML, CONF_BACK, 0);
             }
 
-            gui_label(jd, _("Sound Volume"), GUI_SML, 0, 0);
-        }
+            gui_space(id);
 
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
-        {
-            /* A series of empty buttons forms the music volume control. */
-
-            int m = config_get_d(CONFIG_MUSIC_VOLUME);
-
-            for (i = 10; i >= 0; i--)
+            if ((jd = gui_harray(id)) &&
+                (kd = gui_harray(jd)))
             {
-                music_id[i] = gui_state(kd, NULL, GUI_SML, 200 + i, 0);
-                gui_set_hilite(music_id[i], (m == i));
+                gui_state(kd, _("Configure"), GUI_SML, CONF_VIDEO, 0);
+
+                gui_label(jd, _("Graphics"),  GUI_SML, 0, 0);
             }
 
-            gui_label(jd, _("Music Volume"), GUI_SML, 0, 0);
+            gui_space(id);
+
+            if ((jd = gui_harray(id)) &&
+                (kd = gui_harray(jd)))
+            {
+                /* A series of empty buttons forms the sound volume control. */
+
+                int s = config_get_d(CONFIG_SOUND_VOLUME);
+
+                for (i = 10; i >= 0; i--)
+                {
+                    sound_id[i] = gui_state(kd, NULL, GUI_SML, 100 + i, 0);
+                    gui_set_hilite(sound_id[i], (s == i));
+                }
+
+                gui_label(jd, _("Sound Volume"), GUI_SML, 0, 0);
+            }
+
+            if ((jd = gui_harray(id)) &&
+                (kd = gui_harray(jd)))
+            {
+                /* A series of empty buttons forms the music volume control. */
+
+                int m = config_get_d(CONFIG_MUSIC_VOLUME);
+
+                for (i = 10; i >= 0; i--)
+                {
+                    music_id[i] = gui_state(kd, NULL, GUI_SML, 200 + i, 0);
+                    gui_set_hilite(music_id[i], (m == i));
+                }
+
+                gui_label(jd, _("Music Volume"), GUI_SML, 0, 0);
+            }
+
+            gui_space(id);
+
+            if ((jd = gui_harray(id)) &&
+                (kd = gui_harray(jd)))
+            {
+                gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
+
+                gui_label(jd, _("Language"),  GUI_SML, 0, 0);
+            }
+
+            gui_layout(id, 0, 0);
         }
 
-        gui_space(id);
-
-        if ((jd = gui_harray(id)) &&
-            (kd = gui_harray(jd)))
+        if ((id = gui_vstack(root_id)))
         {
-            gui_state(kd, _("Select"), GUI_SML, CONF_LANG, 0);
-
-            gui_label(jd, _("Language"),  GUI_SML, 0, 0);
+            gui_label(id, "Neverputt " VERSION, GUI_TNY, gui_wht, gui_wht);
+            gui_clr_rect(id);
+            gui_layout(id, 0, -1);
         }
-
-        gui_layout(id, 0, 0);
     }
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return id;
+    return root_id;
 }
 
 static void conf_leave(struct state *st, struct state *next, int id)

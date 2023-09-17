@@ -118,7 +118,7 @@ static int           borders[4];
 
 /* Digit widgets for the HUD. */
 
-static int digit_id[3][11];
+static int digit_id[FONT_SIZE_MAX][11];
 
 /* Cursor image. */
 
@@ -430,7 +430,14 @@ static void gui_geom_widget(int id, int flags)
 static struct font fonts[FONT_MAX];
 static int         fontc;
 
-static int font_sizes[3];
+static const int font_sizes_scale[FONT_SIZE_MAX] = {
+    52, // GUI_TNY
+    26, // GUI_SML
+    13, // GUI_MED
+    7,  // GUI_LRG
+};
+
+static int font_sizes[FONT_SIZE_MAX];
 
 static int gui_font_load(const char *path)
 {
@@ -466,9 +473,12 @@ static void gui_font_init(int s)
 
     if (font_init())
     {
-        font_sizes[0] = s / 26;
-        font_sizes[1] = s / 13;
-        font_sizes[2] = s /  7;
+        int i;
+
+        /* Calculate font sizes. */
+
+        for (i = 0; i < FONT_SIZE_MAX; ++i)
+            font_sizes[i] = s / font_sizes_scale[i];
 
         /* Load the default font at index 0. */
 
@@ -514,7 +524,7 @@ static void gui_glyphs_init(void)
 
     /* Cache digit glyphs for HUD rendering. */
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < FONT_SIZE_MAX; i++)
     {
         digit_id[i][ 0] = gui_label(0, "0", i, 0, 0);
         digit_id[i][ 1] = gui_label(0, "1", i, 0, 0);
@@ -529,7 +539,7 @@ static void gui_glyphs_init(void)
         digit_id[i][10] = gui_label(0, ":", i, 0, 0);
     }
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < FONT_SIZE_MAX; i++)
         for (j = 0; j < 11; ++j)
             gui_layout(digit_id[i][j], 0, 0);
 
@@ -544,7 +554,7 @@ static void gui_glyphs_free(void)
 {
     int i, j;
 
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < FONT_SIZE_MAX; ++i)
         for (j = 0; j < 11; ++j)
         {
             gui_delete(digit_id[i][j]);
@@ -1047,6 +1057,16 @@ void gui_set_rect(int id, int rect)
 {
     widget[id].rect   = rect;
     widget[id].flags |= GUI_RECT;
+}
+
+void gui_clr_rect(int id)
+{
+    int jd;
+
+    widget[id].flags &= ~GUI_RECT;
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        gui_clr_rect(jd);
 }
 
 void gui_set_cursor(int st)

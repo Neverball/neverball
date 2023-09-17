@@ -40,7 +40,7 @@
 #include "st_conf.h"
 #include "st_all.h"
 
-const char TITLE[] = "Neverputt " VERSION;
+const char TITLE[] = "Neverputt";
 const char ICON[] = "icon/neverputt.png";
 
 /*---------------------------------------------------------------------------*/

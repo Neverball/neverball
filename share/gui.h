@@ -17,14 +17,16 @@
 
 #include "glext.h"
 #include "video.h"
+#include "font.h"
 
 /*---------------------------------------------------------------------------*/
 
 #define GUI_FACE "ttf/DejaVuSans-Bold.ttf"
 
-#define GUI_SML  0
-#define GUI_MED  1
-#define GUI_LRG  2
+#define GUI_TNY FONT_SIZE_TNY
+#define GUI_SML FONT_SIZE_SML
+#define GUI_MED FONT_SIZE_MED
+#define GUI_LRG FONT_SIZE_LRG
 
 /* Sides */
 
@@ -90,6 +92,7 @@ void gui_set_fill(int);
 int  gui_set_state(int, int, int);
 void gui_set_hilite(int, int);
 void gui_set_rect(int, int);
+void gui_clr_rect(int);
 void gui_set_cursor(int);
 
 /*---------------------------------------------------------------------------*/
