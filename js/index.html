@@ -50,22 +50,32 @@
 
     #overlay {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 0;
+      right: 0;
     }
 
     button#fullscreen {
+      display: flex;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background: none;
+      border: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button#fullscreen::before {
+      content: '';
       display: block;
       width: 16px;
       height: 16px;
       border: 2px dashed #fff;
-      padding: 0;
-      background: none;
-      transition: 0.2s ease-in-out border-color;
     }
 
     button#fullscreen:hover {
       animation: pulse 0.2s ease-in-out;
+      cursor: pointer;
     }
 
     button#fullscreen:focus {
