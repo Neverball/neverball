@@ -5,6 +5,6 @@
 }
 {
 "classname" "misc_model"
-"material" "ball/snowglobe/snowglobe-surface"
+"material" "ball/octocat/octocat-surface"
 "model" "ball/basic-ball/basic-ball.obj"
 }
