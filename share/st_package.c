@@ -332,10 +332,7 @@ static int package_gui(void)
                 }
             }
 
-            if ((kd = gui_hstack(jd)))
-            {
-                shot_id = gui_image(kd, package_get_shot_filename(first), ww, hh);
-            }
+            shot_id = gui_image(jd, package_get_shot_filename(first), ww, hh);
         }
 
         gui_space(id);

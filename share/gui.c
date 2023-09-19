@@ -1482,7 +1482,7 @@ static void gui_varray_dn(int id, int x, int y, int w, int h)
 
 static void gui_hstack_dn(int id, int x, int y, int w, int h)
 {
-    int jd, jx = x, jw = 0, c = 0;
+    int jd, jx = x, jw = 0, dw = 0, mw = 0, fc = 0, tc = 0;
 
     widget[id].x = x;
     widget[id].y = y;
@@ -1492,27 +1492,41 @@ static void gui_hstack_dn(int id, int x, int y, int w, int h)
     /* Measure the total width requested by non-filler children. */
 
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+    {
+        tc++;
+
         if (widget[jd].type == GUI_FILLER)
-            c += 1;
+            fc += 1;
         else if (widget[jd].flags & GUI_FILL)
         {
-            c  += 1;
+            fc  += 1;
             jw += widget[jd].w;
         }
         else
             jw += widget[jd].w;
+    }
+
+    /* Subtract width if requested total exceeds available total. */
+
+    if (jw > w)
+    {
+        mw = (jw - w) / tc;
+        jw = w;
+    }
 
     /* Give non-filler children their requested space.   */
     /* Distribute the rest evenly among filler children. */
 
+    dw = fc > 0 ? (w - jw) / fc : 0;
+
     for (jd = widget[id].car; jd; jd = widget[jd].cdr)
     {
         if (widget[jd].type == GUI_FILLER)
-            gui_widget_dn(jd, jx, y, (w - jw) / c, h);
+            gui_widget_dn(jd, jx, y, dw, h);
         else if (widget[jd].flags & GUI_FILL)
-            gui_widget_dn(jd, jx, y, widget[jd].w + (w - jw) / c, h);
+            gui_widget_dn(jd, jx, y, widget[jd].w - mw + dw, h);
         else
-            gui_widget_dn(jd, jx, y, widget[jd].w, h);
+            gui_widget_dn(jd, jx, y, widget[jd].w - mw, h);
 
         jx += widget[jd].w;
     }
