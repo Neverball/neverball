@@ -42,11 +42,12 @@ static int player;
 static int count;
 static int done;
 
-static int         stat_v[MAXPLY];
-static float       ball_p[MAXPLY][3];
-static float       ball_e[MAXPLY][3][3];
-static struct hole hole_v[MAXHOL];
-static int        score_v[MAXHOL][MAXPLY];
+static int           stat_v[MAXPLY];
+static float         ball_p[MAXPLY][3];
+static float         ball_e[MAXPLY][3][3];
+static struct hole   hole_v[MAXHOL];
+static int           score_v[MAXHOL][MAXPLY];
+static unsigned long hole_sel_mask;  /* bitmask of the selected holes for the course */
 
 /*---------------------------------------------------------------------------*/
 
@@ -140,6 +141,8 @@ void hole_init(const char *filename)
     {
         /* Standalone mode.                       */
         /* Why is this 2, you ask? Good question. */
+        /* Because confusingly, someone decided that this count variable isn't 
+         * actually the number of holes, but instead is last hole + 1. */
 
         count = 2;
     }
@@ -171,7 +174,7 @@ char *hole_score(int h, int p)
 {
     static char str[MAXSTR];
 
-    if (1 <= h && h <= hole)
+    if (1 <= h && h <= hole && hole_is_selected(h))
     {
         if (h <= hole && 0 <= p && p <= party)
         {
@@ -191,7 +194,8 @@ char *hole_tot(int p)
     if (p <= party)
     {
         for (h = 1; h <= hole && h < count; h++)
-            T += score_v[h][p];
+            if (hole_is_selected(h))
+                T += score_v[h][p];
 
         sprintf(str, "%d", T);
 
@@ -209,7 +213,8 @@ char *hole_out(int p)
     if (p <= party)
     {
         for (h = 1; h <= hole && h <= count / 2; h++)
-            T += score_v[h][p];
+            if (hole_is_selected(h))
+                T += score_v[h][p];
 
         sprintf(str, "%d", T);
 
@@ -228,7 +233,8 @@ char *hole_in(int p)
     if (hole > out && p <= party)
     {
         for (h = out + 1; h <= hole && h < count; h++)
-            T += score_v[h][p];
+            if (hole_is_selected(h))
+                T += score_v[h][p];
 
         sprintf(str, "%d", T);
 
@@ -263,6 +269,36 @@ const char *curr_par(void)
 }
 
 /*---------------------------------------------------------------------------*/
+
+void hole_set_select(unsigned long mask)
+{
+    /* Sanitize input (Only bits 1 through count-1 should be set) */
+    mask &= ((1 << count) - 1);
+    mask &= ~1;
+    hole_sel_mask = mask;    
+}
+
+unsigned long hole_get_select(void)
+{
+    return hole_sel_mask & ((1 << count) - 1);
+}
+
+int hole_is_selected(int h)
+{
+    return ((hole_sel_mask & (1 << h)) != 0);
+}
+
+int hole_get_first(void)
+{
+    int i;
+    
+    for (i = 1; i < count; i++)
+    {
+        if (hole_is_selected(i))
+            return i;
+    }
+    return 0;
+}
 
 int hole_goto(int h, int p)
 {
@@ -313,15 +349,22 @@ int hole_next(void)
 
 int hole_move(void)
 {
-    if (hole + 1 < count)
+    int next;
+    
+    for (next = hole + 1; next < count; next++)
     {
-        hole++;
+        if (hole_is_selected(next))
+        {
+            hole = next;
+            
+            game_free();
+            back_free();
 
-        game_free();
-        back_free();
-
-        if (hole_goto(hole, party))
-            return 1;
+            if (hole_goto(hole, party))
+                return 1;
+            else
+                return 0;
+        }
     }
     return 0;
 }
