@@ -330,6 +330,8 @@ static int package_gui(void)
 
                     button_ids[i % PACKAGE_STEP] = button_id;
                 }
+
+                gui_set_fill(kd);
             }
 
             shot_id = gui_image(jd, package_get_shot_filename(first), ww, hh);
