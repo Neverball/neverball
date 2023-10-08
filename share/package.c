@@ -79,7 +79,36 @@ static const char *get_package_path(const char *filename)
  * the package directory and figure out which ZIP files can be added to the FS
  * and which ones can't.
  */
+
+struct local_package
+{
+    char id[64];
+    char filename[MAXSTR];
+};
+
 static List installed_packages;
+
+static struct local_package *create_local_package(const char *package_id, const char *filename)
+{
+    struct local_package *lpkg = calloc(sizeof (*lpkg), 1);
+
+    if (lpkg)
+    {
+        SAFECPY(lpkg->id, package_id);
+        SAFECPY(lpkg->filename, filename);
+    }
+
+    return lpkg;
+}
+
+static void free_local_package(struct local_package *lpkg)
+{
+    if (lpkg)
+    {
+        free(lpkg);
+        lpkg = NULL;
+    }
+}
 
 /*
  * Add package file to FS path.
@@ -89,7 +118,7 @@ static int mount_package(const char *filename)
     const char *write_dir = fs_get_write_dir();
     int added = 0;
 
-    if (write_dir)
+    if (filename && *filename && write_dir)
     {
         char *path = concat_string(write_dir, "/" PACKAGE_DIR "/", filename, NULL);
 
@@ -108,22 +137,29 @@ static int mount_package(const char *filename)
 /*
  * Add a package to the FS path and to the list, if not yet added.
  */
-static int mount_installed_package(const char *filename)
+static int mount_local_package(struct local_package *lpkg)
 {
-    List l;
-
-    /* Avoid double addition. */
-
-    for (l = installed_packages; l; l = l->next)
-        if (l->data && strcmp(l->data, filename) == 0)
-            return 1;
-
-    /* Attempt addition. */
-
-    if (mount_package(filename))
+    if (lpkg)
     {
-        installed_packages = list_cons(strdup(filename), installed_packages);
-        return 1;
+        List l;
+
+        /* Avoid double addition. */
+
+        for (l = installed_packages; l; l = l->next)
+        {
+            struct local_package *test_lpkg = l->data;
+
+            if (test_lpkg && strcmp(test_lpkg->filename, lpkg->filename) == 0)
+                return 1;
+        }
+
+        /* Attempt addition. */
+
+        if (mount_package(lpkg->filename))
+        {
+            installed_packages = list_cons(lpkg, installed_packages);
+            return 1;
+        }
     }
 
     return 0;
@@ -140,12 +176,66 @@ static int load_installed_packages(void)
     {
         char line[MAXSTR] = "";
 
+        Array pkgs = array_new(sizeof (struct local_package));
+        struct local_package *lpkg = NULL;
+        int i, n;
+
         while (fs_gets(line, sizeof (line), fp))
         {
             strip_newline(line);
 
-            if (fs_exists(get_package_path(line)))
-                mount_installed_package(line);
+            if (strncmp(line, "package ", 8) == 0)
+            {
+                lpkg = array_add(pkgs);
+
+                if (lpkg)
+                    SAFECPY(lpkg->id, line + 8);
+            }
+            else if (strncmp(line, "filename ", 9) == 0)
+            {
+                if (lpkg)
+                    SAFECPY(lpkg->filename, line + 9);
+            }
+            else if (fs_exists(get_package_path(line)))
+            {
+                /* Backward compatibility: the entire line is the filename. */
+
+                char filename[MAXSTR] = "";
+                char package_id[64] = "";
+                char *delim;
+
+                SAFECPY(filename, line);
+
+                /* Extract package ID from the filename. */
+
+                if ((delim = strrchr(filename, '-')))
+                {
+                    size_t len = delim - filename;
+                    memcpy(package_id, filename, MIN(sizeof (package_id) - 1, len));
+                }
+
+                if ((lpkg = array_add(pkgs)))
+                {
+                    SAFECPY(lpkg->id, package_id);
+                    SAFECPY(lpkg->filename, filename);
+
+                    lpkg = NULL;
+                }
+            }
+        }
+
+        for (i = 0, n = array_len(pkgs); i < n; ++i)
+        {
+            const struct local_package *src = array_get(pkgs, i);
+            struct local_package *dst = create_local_package(src->id, src->filename);
+
+            mount_local_package(dst);
+        }
+
+        if (pkgs)
+        {
+            array_free(pkgs);
+            pkgs = NULL;
         }
 
         fs_close(fp);
@@ -171,8 +261,12 @@ static int save_installed_packages(void)
             List l;
 
             for (l = installed_packages; l; l = l->next)
-                if (l->data)
-                    fs_printf(fp, "%s\n", l->data);
+            {
+                struct local_package *lpkg = l->data;
+
+                if (lpkg)
+                    fs_printf(fp, "package %s\nfilename %s\n", lpkg->id, lpkg->filename);
+            }
 
             fs_close(fp);
             fp = NULL;
@@ -195,8 +289,10 @@ static void free_installed_packages(void)
 
     while (l)
     {
-        if (l->data)
-            free(l->data);
+        struct local_package *lpkg = l->data;
+
+        if (lpkg)
+            free_local_package(lpkg);
 
         l = list_rest(l);
     }
@@ -230,9 +326,23 @@ static void load_package_statuses(Array packages)
 
                 if (fs_size(dest_filename) == pkg->size)
                 {
+                    struct local_package *lpkg = create_local_package(pkg->id, pkg->filename);
+
                     pkg->status = PACKAGE_INSTALLED;
 
-                    mount_installed_package(pkg->filename);
+                    if (lpkg)
+                    {
+                        if (!mount_local_package(lpkg))
+                        {
+                            free_local_package(lpkg);
+
+                            /* Local package didn't mount, revert back to available status. */
+
+                            pkg->status = PACKAGE_AVAILABLE;
+                        }
+
+                        lpkg = NULL;
+                    }
                 }
             }
         }
@@ -306,7 +416,7 @@ static Array load_packages_from_file(const char *filename)
 
                     SAFECPY(pkg->desc, line + 5);
 
-                    // Replace "\\n" with "\r\n" in place. I really just need the "\n", but don't want to move bytes around.
+                    /* Replace "\\n" with "\r\n" in place. I really just need the "\n", but don't want to move bytes around. */
 
                     for (s = pkg->desc; (s = strstr(s, "\\n")); s += 2)
                     {
@@ -702,6 +812,8 @@ static void package_fetch_done(void *data, void *extra_data)
 
         if (dn->finished)
         {
+            struct local_package *lpkg = create_local_package(pkg->id, pkg->filename);
+
             /* Rename from temporary name to destination name. */
 
             if (pfi->temp_filename && pfi->dest_filename)
@@ -709,8 +821,16 @@ static void package_fetch_done(void *data, void *extra_data)
 
             /* Add package to installed packages and to FS. */
 
-            if (mount_installed_package(pkg->filename))
-                pkg->status = PACKAGE_INSTALLED;
+            if (lpkg)
+            {
+                if (mount_local_package(lpkg))
+                    pkg->status = PACKAGE_INSTALLED;
+                else
+                    free_local_package(lpkg);
+
+                lpkg = NULL;
+            }
+
         }
 
         if (pfi->callback.done)
