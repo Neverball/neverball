@@ -57,6 +57,40 @@ struct fs_path_item
     enum fs_path_type type;
 };
 
+static struct fs_path_item *create_path_item(void)
+{
+    return calloc(sizeof (struct fs_path_item), 1);
+}
+
+static void free_path_item(struct fs_path_item *path_item)
+{
+    if (path_item)
+    {
+        if (path_item->path)
+        {
+            free(path_item->path);
+            path_item->path = NULL;
+        }
+
+        if (path_item->type == FS_PATH_ZIP)
+        {
+            mz_zip_archive *zip = path_item->data;
+
+            if (zip)
+            {
+                mz_zip_reader_end(zip);
+                free(zip);
+                zip = NULL;
+            }
+
+            path_item->data = NULL;
+        }
+
+        free(path_item);
+        path_item = NULL;
+    }
+}
+
 static char *fs_dir_base;
 static char *fs_dir_write;
 static List  fs_path;
@@ -90,21 +124,8 @@ int fs_quit(void)
 
         if (path_item)
         {
-            if (path_item->path)
-                free(path_item->path);
-
-            if (path_item->type == FS_PATH_ZIP)
-            {
-                mz_zip_archive *zip = path_item->data;
-
-                if (zip)
-                {
-                    mz_zip_reader_end(zip);
-                    free(zip);
-                }
-            }
-
-            free(path_item);
+            free_path_item(path_item);
+            path_item = NULL;
         }
 
         fs_path = list_rest(fs_path);
@@ -127,7 +148,22 @@ const char *fs_base_dir(void)
 
 int fs_add_path(const char *path)
 {
-    struct fs_path_item *path_item = malloc(sizeof (*path_item));
+    struct fs_path_item *path_item;
+
+    List l;
+
+    if (!(path && *path))
+        return 0;
+
+    for (l = fs_path; l; l = l->next)
+    {
+        struct fs_path_item *test_item = l->data;
+
+        if (strcmp(path, test_item->path) == 0)
+            return 0;
+    }
+
+    path_item = create_path_item();
 
     if (!path_item)
         return 0;
@@ -177,8 +213,40 @@ int fs_add_path(const char *path)
 
     }
 
-    free(path_item);
+    free_path_item(path_item);
+    path_item = NULL;
+
     return 0;
+}
+
+void fs_remove_path(const char *path)
+{
+    List l, p;
+
+    for (p = NULL, l = fs_path; l; p = l, l = l->next)
+    {
+        struct fs_path_item *path_item = l->data;
+
+        if (strcmp(path_item->path, path) == 0)
+        {
+            log_printf("FS: unmounting \"%s\" (%s)\n", path, path_item->type == FS_PATH_DIRECTORY ? "directory" : "zip");
+
+            free_path_item(path_item);
+            path_item = NULL;
+            l->data = NULL;
+
+            if (p)
+            {
+                p->next = list_rest(l);
+                l = p;
+            }
+            else
+            {
+                fs_path = list_rest(l);
+                l = fs_path;
+            }
+        }
+    }
 }
 
 int fs_set_write_dir(const char *path)

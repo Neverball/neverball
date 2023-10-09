@@ -101,19 +101,19 @@ static struct local_package *create_local_package(const char *package_id, const 
     return lpkg;
 }
 
-static void free_local_package(struct local_package *lpkg)
+static void free_local_package(struct local_package **lpkg)
 {
-    if (lpkg)
+    if (lpkg && *lpkg)
     {
-        free(lpkg);
-        lpkg = NULL;
+        free(*lpkg);
+        *lpkg = NULL;
     }
 }
 
 /*
  * Add package file to FS path.
  */
-static int mount_package(const char *filename)
+static int mount_package_file(const char *filename)
 {
     const char *write_dir = fs_get_write_dir();
     int added = 0;
@@ -135,31 +135,71 @@ static int mount_package(const char *filename)
 }
 
 /*
+ * Remove package file from the FS read path.
+ */
+static void unmount_package_file(const char *filename)
+{
+    const char *write_dir = fs_get_write_dir();
+
+    if (filename && *filename && write_dir)
+    {
+        char *path = concat_string(write_dir, "/" PACKAGE_DIR "/", filename, NULL);
+
+        if (path)
+        {
+            fs_remove_path(path);
+
+            free(path);
+            path = NULL;
+        }
+    }
+}
+
+/*
+ * Unmount and uninstall other instances of the given local package.
+ */
+static void unmount_duplicate_local_packages(const struct local_package *keep_lpkg)
+{
+    List p, l;
+
+    /* Unmount and uninstall other instances of this package ID. */
+
+    for (p = NULL, l = installed_packages; l; p = l, l = l->next)
+    {
+        struct local_package *test_lpkg = l->data;
+
+        if (test_lpkg != keep_lpkg && strcmp(test_lpkg->id, keep_lpkg->id) == 0)
+        {
+            unmount_package_file(test_lpkg->filename);
+
+            free_local_package(&test_lpkg);
+
+            l->data = NULL;
+
+            if (p)
+            {
+                p->next = list_rest(l);
+                l = p;
+            }
+            else
+            {
+                installed_packages = list_rest(l);
+                l = installed_packages;
+            }
+        }
+    }
+}
+
+/*
  * Add a package to the FS path and to the list, if not yet added.
  */
 static int mount_local_package(struct local_package *lpkg)
 {
-    if (lpkg)
+    if (lpkg && mount_package_file(lpkg->filename))
     {
-        List l;
-
-        /* Avoid double addition. */
-
-        for (l = installed_packages; l; l = l->next)
-        {
-            struct local_package *test_lpkg = l->data;
-
-            if (test_lpkg && strcmp(test_lpkg->filename, lpkg->filename) == 0)
-                return 1;
-        }
-
-        /* Attempt addition. */
-
-        if (mount_package(lpkg->filename))
-        {
-            installed_packages = list_cons(lpkg, installed_packages);
-            return 1;
-        }
+        installed_packages = list_cons(lpkg, installed_packages);
+        unmount_duplicate_local_packages(lpkg);
+        return 1;
     }
 
     return 0;
@@ -200,24 +240,19 @@ static int load_installed_packages(void)
             {
                 /* Backward compatibility: the entire line is the filename. */
 
-                char filename[MAXSTR] = "";
-                char package_id[64] = "";
-                char *delim;
-
-                SAFECPY(filename, line);
-
-                /* Extract package ID from the filename. */
-
-                if ((delim = strrchr(filename, '-')))
-                {
-                    size_t len = delim - filename;
-                    memcpy(package_id, filename, MIN(sizeof (package_id) - 1, len));
-                }
-
                 if ((lpkg = array_add(pkgs)))
                 {
-                    SAFECPY(lpkg->id, package_id);
-                    SAFECPY(lpkg->filename, filename);
+                    char *delim;
+
+                    SAFECPY(lpkg->filename, line);
+
+                    /* Extract package ID from the filename. */
+
+                    if ((delim = strrchr(lpkg->filename, '-')))
+                    {
+                        size_t len = delim - lpkg->filename;
+                        memcpy(lpkg->id, lpkg->filename, MIN(sizeof (lpkg->id) - 1, len));
+                    }
 
                     lpkg = NULL;
                 }
@@ -229,7 +264,8 @@ static int load_installed_packages(void)
             const struct local_package *src = array_get(pkgs, i);
             struct local_package *dst = create_local_package(src->id, src->filename);
 
-            mount_local_package(dst);
+            if (!mount_local_package(dst))
+                free_local_package(&dst);
         }
 
         if (pkgs)
@@ -291,8 +327,7 @@ static void free_installed_packages(void)
     {
         struct local_package *lpkg = l->data;
 
-        if (lpkg)
-            free_local_package(lpkg);
+        free_local_package(&lpkg);
 
         l = list_rest(l);
     }
@@ -334,7 +369,7 @@ static void load_package_statuses(Array packages)
                     {
                         if (!mount_local_package(lpkg))
                         {
-                            free_local_package(lpkg);
+                            free_local_package(&lpkg);
 
                             /* Local package didn't mount, revert back to available status. */
 
@@ -826,7 +861,7 @@ static void package_fetch_done(void *data, void *extra_data)
                 if (mount_local_package(lpkg))
                     pkg->status = PACKAGE_INSTALLED;
                 else
-                    free_local_package(lpkg);
+                    free_local_package(&lpkg);
 
                 lpkg = NULL;
             }
