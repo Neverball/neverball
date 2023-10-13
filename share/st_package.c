@@ -206,7 +206,7 @@ static int package_action(int tok, int val)
             // TODO: unload from VFS, remove from installed packages, and delete ZIP.
             return 1;
         }
-        else if (status == PACKAGE_AVAILABLE || status == PACKAGE_PARTIAL || status == PACKAGE_ERROR)
+        else if (status == PACKAGE_AVAILABLE || status == PACKAGE_ERROR)
         {
             struct fetch_callback callback = { 0 };
 

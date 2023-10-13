@@ -351,33 +351,19 @@ static void load_package_statuses(Array packages)
         for (i = 0, n = array_len(packages); i < n; ++i)
         {
             struct package *pkg = array_get(packages, i);
-            const char *dest_filename = get_package_path(pkg->filename);
+
+            List l;
 
             pkg->status = PACKAGE_AVAILABLE;
 
-            if (dest_filename && fs_exists(dest_filename))
+            for (l = installed_packages; l; l = l->next)
             {
-                pkg->status = PACKAGE_PARTIAL;
+                struct local_package *lpkg = l->data;
 
-                if (fs_size(dest_filename) == pkg->size)
+                if (strcmp(pkg->id, lpkg->id) == 0 && strcmp(pkg->filename, lpkg->filename) == 0)
                 {
-                    struct local_package *lpkg = create_local_package(pkg->id, pkg->filename);
-
                     pkg->status = PACKAGE_INSTALLED;
-
-                    if (lpkg)
-                    {
-                        if (!mount_local_package(lpkg))
-                        {
-                            free_local_package(&lpkg);
-
-                            /* Local package didn't mount, revert back to available status. */
-
-                            pkg->status = PACKAGE_AVAILABLE;
-                        }
-
-                        lpkg = NULL;
-                    }
+                    break;
                 }
             }
         }
