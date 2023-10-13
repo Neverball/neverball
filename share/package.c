@@ -360,10 +360,15 @@ static void load_package_statuses(Array packages)
             {
                 struct local_package *lpkg = l->data;
 
-                if (strcmp(pkg->id, lpkg->id) == 0 && strcmp(pkg->filename, lpkg->filename) == 0)
+                if (strcmp(pkg->id, lpkg->id) == 0)
                 {
-                    pkg->status = PACKAGE_INSTALLED;
-                    break;
+                    pkg->status = PACKAGE_UPDATE;
+
+                    if (strcmp(pkg->filename, lpkg->filename) == 0)
+                    {
+                        pkg->status = PACKAGE_INSTALLED;
+                        break;
+                    }
                 }
             }
         }
