@@ -207,7 +207,7 @@ static int title_gui(void)
             if ((jd = gui_hstack(id)))
             {
                 gui_space(jd);
-                gui_state(jd, _("Packages"), GUI_SML, TITLE_PACKAGES, 0);
+                gui_state(jd, _("Addons"), GUI_SML, TITLE_PACKAGES, 0);
             }
             gui_space(id);
 

@@ -300,9 +300,17 @@ static int package_gui(void)
     {
         if ((id = gui_vstack(0)))
         {
-            gui_label(id, _("No packages available"), GUI_SML, 0, 0);
+            if ((jd = gui_harray(id)))
+            {
+                gui_label(jd, _("Addons"), GUI_SML, 0, 0);
+                gui_space(jd);
+                gui_start(jd, _("Back"), GUI_SML, GUI_BACK, 0);
+            }
+
             gui_space(id);
-            gui_state(id, _("Back"), GUI_SML, GUI_BACK, 0);
+
+            gui_label(id, _("No addons found"), GUI_SML, gui_wht, gui_wht);
+
             gui_layout(id, 0, 0);
         }
 
@@ -313,7 +321,7 @@ static int package_gui(void)
     {
         if ((jd = gui_hstack(id)))
         {
-            gui_label(jd, _("Packages"), GUI_SML, gui_yel, gui_red);
+            gui_label(jd, _("Addons"), GUI_SML, 0, 0);
             gui_filler(jd);
             gui_navig(jd, total, first, PACKAGE_STEP);
         }
