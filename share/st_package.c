@@ -61,6 +61,8 @@ struct download_info
     char label[32];
 };
 
+/*---------------------------------------------------------------------------*/
+
 static struct download_info *create_download_info(const char *package_id)
 {
     struct download_info *dli = calloc(sizeof (*dli), 1);
@@ -162,6 +164,71 @@ static void download_done(void *data1, void *data2)
         dli = NULL;
     }
 }
+
+/*---------------------------------------------------------------------------*/
+
+struct image_download_info
+{
+    int pi;
+};
+
+static struct image_download_info *create_idi(int pi)
+{
+    struct image_download_info *idi = calloc(sizeof (*idi), 1);
+
+    if (idi)
+        idi->pi = pi;
+
+    return idi;
+}
+
+static void free_idi(struct image_download_info **idi)
+{
+    if (idi && *idi)
+    {
+        free(*idi);
+        *idi = NULL;
+    }
+}
+
+static void image_download_done(void *data, void *extra_data)
+{
+    struct image_download_info *idi = data;
+    struct fetch_done *fd = extra_data;
+
+    if (idi)
+    {
+        if (fd && fd->finished)
+        {
+            if (idi->pi == selected)
+                gui_set_image(shot_id, package_get_shot_filename(selected));
+        }
+
+        free_idi(&idi);
+    }
+}
+
+static void fetch_package_images(void)
+{
+    int pi;
+
+    for (pi = first; pi < first + PACKAGE_STEP && pi < total; ++pi)
+    {
+        struct fetch_callback callback = { 0 };
+        struct image_download_info *idi = create_idi(pi);
+
+        callback.done = image_download_done;
+        callback.data = idi;
+
+        if (!package_fetch_image(pi, callback))
+        {
+            free_idi(&idi);
+            callback.data = NULL;
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------*/
 
 static int package_action(int tok, int val)
 {
@@ -455,6 +522,8 @@ static int package_enter(struct state *st, struct state *prev)
     }
 
     name_ids = calloc(total, sizeof (*name_ids));
+
+    fetch_package_images();
 
     return package_gui();
 }

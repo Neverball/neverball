@@ -5,6 +5,12 @@
 #include "fs.h"
 #include "lang.h"
 
+enum package_image_status
+{
+    PACKAGE_IMAGE_NONE = 0,
+    PACKAGE_IMAGE_DOWNLOADING
+};
+
 struct package
 {
     unsigned int size;
@@ -18,6 +24,7 @@ struct package
     char shot[64];
 
     enum package_status status;
+    enum package_image_status image_status;
 };
 
 static Array available_packages;
@@ -480,33 +487,89 @@ static void free_packages(Array packages)
 
 /*---------------------------------------------------------------------------*/
 
+struct package_image_info
+{
+    struct fetch_callback callback;
+    struct package *pkg;
+};
+
+static struct package_image_info *create_pii(struct fetch_callback callback, struct package *pkg)
+{
+    struct package_image_info *pii = calloc(sizeof (*pii), 1);
+
+    if (pii)
+    {
+        pii->callback = callback;
+        pii->pkg = pkg;
+    }
+
+    return pii;
+}
+
+static void free_pii(struct package_image_info **pii)
+{
+    if (pii && *pii)
+    {
+        free(*pii);
+        *pii = NULL;
+    }
+}
+
+static void package_image_done(void *data, void *extra_data)
+{
+    struct package_image_info *pii = data;
+    struct fetch_done *fd = extra_data;
+
+    if (pii)
+    {
+        if (fd && fd->finished && pii->pkg)
+            pii->pkg->image_status = PACKAGE_IMAGE_NONE;
+
+        if (pii->callback.done)
+            pii->callback.done(pii->callback.data, extra_data);
+
+        free_pii(&pii);
+    }
+}
+
 /*
  * Queue missing package images for download.
  */
-static void fetch_package_images(Array packages)
+unsigned int package_fetch_image(int pi, struct fetch_callback nested_callback)
 {
-    if (packages)
+    unsigned int fetch_id = 0;
+
+    if (available_packages && pi >= 0 && pi < array_len(available_packages))
     {
-        int i, n = array_len(packages);
+        struct package *pkg = array_get(available_packages, pi);
+        const char *filename = package_get_shot_filename(pi);
 
-        for (i = 0; i < n; ++i)
+        if (filename && *filename && !fs_exists(filename) && !pkg->image_status)
         {
-            struct package *pkg = array_get(packages, i);
-            const char *filename = package_get_shot_filename(i);
+            const char *url = get_package_url(pkg->shot);
 
-            if (filename && *filename && !fs_exists(filename))
+            if (url)
             {
-                const char *url = get_package_url(pkg->shot);
+                struct fetch_callback callback = { 0 };
+                struct package_image_info *pii = create_pii(nested_callback, pkg);
 
-                if (url)
+                callback.data = pii;
+                callback.done = package_image_done;
+
+                fetch_id = fetch_url(url, filename, callback);
+
+                if (fetch_id)
+                    pkg->image_status = PACKAGE_IMAGE_DOWNLOADING;
+                else
                 {
-                    struct fetch_callback callback = { 0 };
-
-                    fetch_url(url, filename, callback);
+                    free_pii(&pii);
+                    callback.data = NULL;
                 }
             }
         }
     }
+
+    return fetch_id;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -527,13 +590,7 @@ static void available_packages_done(void *data, void *extra_data)
             Array packages = load_packages_from_file(filename);
 
             if (packages)
-            {
                 available_packages = packages;
-
-                /* TODO: notify the player somehow about this fact. */
-
-                fetch_package_images(available_packages);
-            }
         }
     }
 }
