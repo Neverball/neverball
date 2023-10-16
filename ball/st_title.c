@@ -202,6 +202,8 @@ static int title_gui(void)
             gui_layout(id, 0, 0);
         }
 
+
+#if ENABLE_FETCH
         if ((id = gui_vstack(root_id)))
         {
             if ((jd = gui_hstack(id)))
@@ -213,6 +215,7 @@ static int title_gui(void)
 
             gui_layout(id, +1, -1);
         }
+#endif
     }
 
 

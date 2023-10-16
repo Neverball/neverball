@@ -110,7 +110,9 @@ endif
 ENABLE_FETCH := curl
 
 ifeq ($(ENABLE_FETCH),curl)
-	ALL_CPPFLAGS += $(shell curl-config --cflags)
+	ALL_CPPFLAGS += $(shell curl-config --cflags) -DENABLE_FETCH=1
+else
+	ALL_CPPFLAGS += -DENABLE_FETCH=0
 endif
 
 ifeq ($(PLATFORM),darwin)
