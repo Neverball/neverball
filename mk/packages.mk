@@ -4,7 +4,7 @@ DATA_DIR ?= ./data
 PACKAGES_DIR ?= ../neverball-packages
 OUTPUT_DIR ?= $(shell pwd)/packages
 
-SET_FILES := $(wildcard $(DATA_DIR)/set-*.txt)
+SET_FILES := $(filter-out $(DATA_DIR)/set-misc.txt, $(wildcard $(DATA_DIR)/set-*.txt))
 SET_PACKAGES := $(basename $(notdir $(SET_FILES)))
 
 BALL_DIRS := $(filter-out $(DATA_DIR)/ball/basic-ball, $(wildcard $(DATA_DIR)/ball/*))
