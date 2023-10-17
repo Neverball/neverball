@@ -792,7 +792,7 @@ static void read_obj(struct s_base *fp, const char *name, int mi)
         {
             if (strncmp(line, "usemtl", 6) == 0)
             {
-                sscanf(line + 6, "%s", mtrl);
+                sscanf(line + 6, "%255s", mtrl);
                 mi = read_mtrl(fp, mtrl);
             }
 
@@ -940,7 +940,7 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
                    "%c %f %f %f %c "
                    "%c %f %f %f %c "
                    "%c %f %f %f %c "
-                   "%s %f %f %f %f %f %d",
+                "%255s %f %f %f %f %f %d",
                    &c, &x0, &y0, &z0, &c,
                    &c, &x1, &y1, &z1, &c,
                    &c, &x2, &y2, &z2, &c,
