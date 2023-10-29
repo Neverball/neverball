@@ -193,6 +193,7 @@
       filter: drop-shadow(0.07em 0.07em rgba(0, 0, 0, 0.5));
       background-image: linear-gradient(red, yellow);
       background-clip: text;
+      -webkit-background-clip: text;
       color: rgba(255, 255, 255, 0);
     }
 
@@ -211,7 +212,7 @@
     </div>
   </header>
   <section id="main" class="container">
-    <h2>Play</h2>
+    <h2 class="neverball-text">Play</h2>
 
     <div id="status-line">
       <div id="progress"></div>
@@ -231,7 +232,7 @@
     </div>
 
     <div id="settings">
-      <h2>Settings</h2>
+      <h2 class="neverball-text">Settings</h2>
 
       <div>
         <input type="checkbox" id="persist-input">
@@ -240,7 +241,7 @@
     </div>
 
     <div>
-      <h2>About</h2>
+      <h2 class="neverball-text">About</h2>
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
 
