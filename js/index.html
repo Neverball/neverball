@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Neverball</title>
+  <title>Play Neverball</title>
   <style>
     html, body {
       padding: 0;
@@ -197,6 +197,33 @@
       color: rgba(255, 255, 255, 0);
     }
 
+    .neverball-box {
+      background-color: rgba(25, 25, 25, 0.5);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-column {
+      flex-direction: column;
+    }
+
+    .gap-5 {
+      gap: 20px;
+    }
+
+    .py-5 {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    h1, h2 {
+      margin-top: 0;
+    }
+
     @keyframes pulse {
       50% {
         transform: scale(1.2);
@@ -206,33 +233,30 @@
 </head>
 
 <body>
-  <header id="header">
-    <div class="container">
-      <h1>Neverball in the browser</h1>
-    </div>
-  </header>
-  <section id="main" class="container">
-    <h2 class="neverball-text">Play</h2>
+  <section class="container flex flex-column gap-5 py-5">
+    <div class="neverball-box">
+      <h1 class="neverball-text">Play Neverball</h1>
 
-    <div id="status-line">
-      <div id="progress"></div>
-      <div id="status">Downloading...</div>
-    </div>
+      <div id="status-line">
+        <div id="progress"></div>
+        <div id="status">Downloading...</div>
+      </div>
 
-    <div>
-      <button id="run" disabled>Play Now</button>
-    </div>
+      <div>
+        <button id="run" disabled>Play Now</button>
+      </div>
 
-    <div id="canvas-wrapper">
-      <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+      <div id="canvas-wrapper">
+        <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
-      <div id="overlay">
-        <button id="fullscreen"><span>Fullscreen</span></button>
+        <div id="overlay">
+          <button id="fullscreen"><span>Fullscreen</span></button>
+        </div>
       </div>
     </div>
 
-    <div id="settings">
-      <h2 class="neverball-text">Settings</h2>
+    <div class="neverball-box">
+      <h2 class="neverball-text">Browser settings</h2>
 
       <div>
         <input type="checkbox" id="persist-input">
@@ -240,16 +264,18 @@
       </div>
     </div>
 
-    <div>
-      <h2 class="neverball-text">About</h2>
+    <div class="neverball-box">
+      <h2 class="neverball-text">About the game</h2>
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
 
-      <p>Neverball in the browser is <a href="https://neverball.org/">Neverball</a> compiled with Emscripten and gl4es.</p>
+      <p><a href="https://neverball.org/">Neverball</a> is a 3D rolling ball game. Tilt the floor to roll, collect coins to unlock the goal and reach the goal before time runs out.</p>
 
-      <p><a href="https://emscripten.org/">Emscripten</a> translates the C source code into WebAssembly and provides the glue that allows Neverball code to meaningfully run in the browser.</p>
+      <p>This version of Neverball is built with Emscripten and gl4es:</p>
 
-      <p><a href="https://github.com/ptitSeb/gl4es">gl4es</a> provides the glue between the 1.x OpenGL API that Neverball uses and the GLES2 API that Emscripten (and the modern browser) provides.</p>
+      <p><a href="https://emscripten.org/">Emscripten</a> translates the game's source code into WebAssembly and provides the glue that allows Neverball code to run in the web browser.</p>
+
+      <p><a href="https://github.com/ptitSeb/gl4es">gl4es</a> provides the glue between the 1.x OpenGL API that Neverball uses and the GLES2 API that Emscripten and the modern browser provides.</p>
     </div>
   </div>
 
