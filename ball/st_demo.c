@@ -681,6 +681,8 @@ static int demo_end_gui(void)
         else
             kd = gui_label(id, _("Replay Ends"),   GUI_LRG, gui_gry, gui_red);
 
+        gui_space(id);
+
         if ((jd = gui_harray(id)))
         {
             if (standalone)
