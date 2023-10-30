@@ -95,7 +95,7 @@ static int fail_gui(void)
         if ((jd = gui_harray(id)))
         {
             if (progress_dead())
-                gui_start(jd, _("Exit"), GUI_SML, FAIL_OVER, 0);
+                gui_start(jd, _("Back To Menu"), GUI_SML, FAIL_OVER, 0);
 
             if (progress_next_avail())
                 gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);

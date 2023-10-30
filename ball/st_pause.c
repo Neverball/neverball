@@ -83,7 +83,7 @@ static int pause_gui(void)
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Quit"), GUI_SML, PAUSE_EXIT, 0);
+            gui_state(jd, _("Give Up"), GUI_SML, PAUSE_EXIT, 0);
 
             if (progress_same_avail())
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);

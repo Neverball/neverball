@@ -685,7 +685,7 @@ static int demo_end_gui(void)
         {
             if (standalone)
             {
-                gui_start(jd, _("Quit"), GUI_SML, DEMO_QUIT, 0);
+                gui_start(jd, _("Exit"), GUI_SML, DEMO_QUIT, 0);
             }
             else
             {
