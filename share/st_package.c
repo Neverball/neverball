@@ -137,7 +137,11 @@ static void download_done(void *data1, void *data2)
         {
             int id = status_ids[pi];
 
-            package_select(pi);
+            if (selected == pi)
+            {
+                /* Update GUI. */
+                package_select(pi);
+            }
 
             if (id)
             {
@@ -460,7 +464,12 @@ static int package_gui(void)
 
 static void package_select(int pi)
 {
-    enum package_status status = package_get_status(pi);
+    enum package_status status;
+
+    if (pi < first || pi >= MIN(first + PACKAGE_STEP, total))
+        return;
+
+    status = package_get_status(pi);
 
     gui_set_hilite(button_ids[selected % PACKAGE_STEP], 0);
     selected = pi;
