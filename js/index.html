@@ -5,17 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Play Neverball</title>
+
+  <meta name="description" content="Play Neverball in the browser. Tilt the floor to roll a ball through an obstacle course before time runs out.">
+
   <style>
-    html, body {
+    html {
       padding: 0;
       margin: 0;
     }
 
     body {
-      /* System fonts. */
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       padding: 0;
       margin: 0;
+      font-family: Verdana, sans-serif;
+      font-weight: 400;
       color: #fff;
       background: #515158;
     }
@@ -25,20 +28,9 @@
     }
 
     .container {
-      --container-padding: 8px;
-      max-width: 800px;
-      padding: 0 var(--container-padding);
+      max-width: 820px;
+      padding: 0 8px;
       margin: 0 auto;
-    }
-
-    #header {
-      background: #67686d;
-      color: #fff;
-      padding: 16px 0;
-    }
-
-    #header h1 {
-      margin: 0;
     }
 
     #canvas-wrapper {
@@ -132,8 +124,10 @@
     #status-line {
       background: #67686d;
       position: relative;
-      padding: 5px;
+      padding: 10px;
       margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     #progress {
@@ -152,24 +146,25 @@
       color: #fff;
     }
 
-    button#run {
+    .neverball-button {
       background: rgba(25, 25, 25, 0.5);
       outline: none;
       border: none;
       color: #fff;
-      border-radius: 30px;
-      padding: 10px 15px;
-      text-transform: uppercase;
+      border-radius: 10px;
+      padding: 10px;
       font-weight: bold;
       font-size: 14px;
+      text-shadow: 0.08em 0.08em rgba(0, 0, 0, 0.5);
+      font-family: "DejaVu Sans", Verdana, sans-serif;
     }
 
-    button#run:disabled {
+    .neverball-button:disabled {
       opacity: 0.3;
       cursor: not-allowed;
     }
 
-    button#run:not(:disabled):hover, button#run:focus {
+    .neverball-button:not(:disabled):hover, .neverball-button:focus {
       cursor: pointer;
       background: rgba(255, 178, 76, 0.73);
       transition: background 0.1s ease-in-out;
@@ -177,7 +172,7 @@
       animation-timing-function: ease-in-out;
     }
 
-    .running button#run {
+    .running #run-button {
       display: none;
     }
 
@@ -243,7 +238,7 @@
       </div>
 
       <div>
-        <button id="run" disabled>Play Now</button>
+        <button id="run-button" class="neverball-button" disabled>Play Now</button>
       </div>
 
       <div id="canvas-wrapper">
@@ -289,7 +284,7 @@
       isRunning: false,
       pauseOnPointerRelease: true,
 
-      _runButton: document.getElementById('run'),
+      _runButton: document.getElementById('run-button'),
       _fullscreenButton: document.getElementById('fullscreen'),
 
       events: {
