@@ -812,6 +812,8 @@ const char *package_get_formatted_type(int pi)
             return _("Course");
         else if (strcmp(type, "base") == 0)
             return _("Base");
+        else if (strcmp(type, "gui") == 0)
+            return _("Theme");
     }
 
     return type;
