@@ -9,18 +9,20 @@
   <meta name="description" content="Play Neverball in the browser. Tilt the floor to roll a ball through an obstacle course before time runs out.">
 
   <style>
-    html {
+    :root {
+      font-size: 10px;
       padding: 0;
       margin: 0;
+      background-image: linear-gradient(to bottom, black -50%, #1a6cb4 35%, #1a6cb4 65%, black 150%);
     }
 
     body {
+      font-size: 1.6rem;
       padding: 0;
       margin: 0;
       font-family: Verdana, sans-serif;
       font-weight: 400;
       color: #fff;
-      background: #515158;
     }
 
     a {
@@ -28,8 +30,8 @@
     }
 
     .container {
-      max-width: 820px;
-      padding: 0 8px;
+      max-width: 82rem;
+      padding: 0 0.8rem;
       margin: 0 auto;
     }
 
@@ -48,8 +50,8 @@
 
     button#fullscreen {
       display: flex;
-      width: 32px;
-      height: 32px;
+      width: 3.2rem;
+      height: 3.2rem;
       padding: 0;
       background: none;
       border: none;
@@ -60,9 +62,9 @@
     button#fullscreen::before {
       content: '';
       display: block;
-      width: 16px;
-      height: 16px;
-      border: 2px dashed #fff;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 0.2rem dashed #fff;
     }
 
     button#fullscreen:hover {
@@ -124,9 +126,9 @@
     #status-line {
       background: #67686d;
       position: relative;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      border-radius: 1rem;
       overflow: hidden;
     }
 
@@ -151,10 +153,10 @@
       outline: none;
       border: none;
       color: #fff;
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 1rem;
+      padding: 1rem;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 1.4rem;
       text-shadow: 0.08em 0.08em rgba(0, 0, 0, 0.5);
       font-family: "DejaVu Sans", Verdana, sans-serif;
     }
@@ -178,7 +180,7 @@
 
     #screenshot {
       width: 100%;
-      max-width: 320px;
+      max-width: 32rem;
       height: auto;
     }
 
@@ -194,8 +196,8 @@
 
     .neverball-box {
       background-color: rgba(25, 25, 25, 0.5);
-      padding: 10px;
-      border-radius: 10px;
+      padding: 1rem;
+      border-radius: 1rem;
     }
 
     .flex {
@@ -207,12 +209,12 @@
     }
 
     .gap-5 {
-      gap: 20px;
+      gap: 2rem;
     }
 
     .py-5 {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
     }
 
     h1, h2 {
