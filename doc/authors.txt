@@ -10,6 +10,9 @@ N: Ben Anderson
 D: Mac OS X build maintenance and packaging
 D: Icons
 
+N: creepertron95
+D: Modern icons
+
 N: Derek Arndt
 D: Mac OS X packaging
 
