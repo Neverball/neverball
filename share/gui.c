@@ -2497,16 +2497,16 @@ int gui_navig(int id, int total, int first, int step)
     {
         if (next || prev)
         {
-            gui_maybe(jd, " > ", GUI_NEXT, GUI_NONE, next);
+            gui_maybe(jd, " " GUI_TRIANGLE_RIGHT " ", GUI_NEXT, GUI_NONE, next);
 
-            if ((kd = gui_label(jd, "999/999", GUI_SML, gui_wht, gui_wht)))
+            if ((kd = gui_label(jd, "999/999", GUI_SML, 0, 0)))
             {
                 char str[16];
                 sprintf(str, "%d/%d", page, pages);
                 gui_set_label(kd, str);
             }
 
-            gui_maybe(jd, " < ", GUI_PREV, GUI_NONE, prev);
+            gui_maybe(jd, " " GUI_TRIANGLE_LEFT " ", GUI_PREV, GUI_NONE, prev);
         }
 
         gui_space(jd);

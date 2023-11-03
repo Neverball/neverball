@@ -70,6 +70,7 @@ enum trunc
 #define GUI_CHECKMARK "✔"
 #define GUI_BALLOT_X "✘"
 #define GUI_TRIANGLE_RIGHT "▶"
+#define GUI_TRIANGLE_LEFT "◀"
 #define GUI_CIRCLE_ARROW "⟳"
 
 /*---------------------------------------------------------------------------*/
