@@ -308,6 +308,10 @@
   <script>
     'use strict';
 
+    if (window.history.scrollRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     var Neverball = {
       EVENT_BACK: -1,
       EVENT_PAUSE: 0,
