@@ -175,8 +175,21 @@
       animation-timing-function: ease-in-out;
     }
 
-    .running #run-button {
+    .running #run-button-wrapper {
       display: none;
+    }
+
+    #run-button:disabled + .spinner {
+      display: block;
+    }
+
+    .spinner {
+      display: none;
+      width: 0.8rem;
+      height: 0.8rem;
+      background-color: #fff;
+      border-radius: 50%;
+      animation: blink 1s infinite;
     }
 
     #screenshot {
@@ -209,6 +222,14 @@
       flex-direction: column;
     }
 
+    .items-center {
+      align-items: center;
+    }
+
+    .gap-2 {
+      gap: 0.8rem;
+    }
+
     .gap-5 {
       gap: 2rem;
     }
@@ -227,6 +248,12 @@
         transform: scale(1.2);
       }
     }
+
+    @keyframes blink {
+      to {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
@@ -240,8 +267,9 @@
         <div id="status">Downloading...</div>
       </div>
 
-      <div>
+      <div class="flex gap-2 items-center" id="run-button-wrapper">
         <button id="run-button" class="neverball-button" disabled>Play Now</button>
+        <div class="spinner"></div>
       </div>
 
       <div id="canvas-wrapper">
