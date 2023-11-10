@@ -22,14 +22,7 @@
 
 #include <stdio.h>
 
-#include "log.h"
-#include "version.h"
-
 /*---------------------------------------------------------------------------*/
-
-#ifndef VERSION
-#define VERSION "unknown"
-#endif
 
 #ifndef CONFIG_DATA
 #define CONFIG_DATA   "./data"        /* Game data directory */

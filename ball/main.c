@@ -43,6 +43,7 @@
 #include "joy.h"
 #include "fetch.h"
 #include "package.h"
+#include "log.h"
 
 #include "st_conf.h"
 #include "st_title.h"

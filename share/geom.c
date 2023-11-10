@@ -27,6 +27,7 @@
 #include "config.h"
 #include "video.h"
 #include "hmd.h"
+#include "log.h"
 
 #include "solid_draw.h"
 #include "solid_sim.h"

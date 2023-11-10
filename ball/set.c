@@ -23,6 +23,7 @@
 #include "set.h"
 #include "common.h"
 #include "fs.h"
+#include "log.h"
 
 #include "game_server.h"
 #include "game_client.h"

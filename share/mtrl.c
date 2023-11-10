@@ -20,6 +20,7 @@
 #include "common.h"
 #include "image.h"
 #include "lang.h"
+#include "log.h"
 
 /*
  * Material cache.

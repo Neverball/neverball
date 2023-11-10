@@ -26,6 +26,7 @@
 #include "common.h"
 #include "font.h"
 #include "theme.h"
+#include "log.h"
 
 #include "fs.h"
 

@@ -16,6 +16,7 @@
 #include "config.h"
 #include "image.h"
 #include "video.h"
+#include "log.h"
 
 /*---------------------------------------------------------------------------*/
 

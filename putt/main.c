@@ -36,6 +36,7 @@
 #include "hmd.h"
 #include "fs.h"
 #include "joy.h"
+#include "log.h"
 
 #include "st_conf.h"
 #include "st_all.h"

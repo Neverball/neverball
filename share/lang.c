@@ -24,6 +24,7 @@
 #include "config.h"
 #include "base_config.h"
 #include "fs.h"
+#include "log.h"
 
 /*---------------------------------------------------------------------------*/
 

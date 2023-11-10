@@ -26,6 +26,7 @@
 #include "config.h"
 #include "gui.h"
 #include "hmd.h"
+#include "log.h"
 
 extern const char TITLE[];
 extern const char ICON[];
