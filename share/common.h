@@ -84,6 +84,7 @@ int rand_between(int low, int high);
 
 int   read_line(char **, fs_file);
 char *strip_newline(char *);
+char *strip_spaces(char *);
 
 char *dupe_string(const char *);
 char *concat_string(const char *first, ...) NULL_TERMINATED;

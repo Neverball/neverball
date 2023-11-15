@@ -81,10 +81,26 @@ int read_line(char **dst, fs_file fin)
 
 char *strip_newline(char *str)
 {
-    char *c = str + strlen(str) - 1;
+    if (str && *str)
+    {
+        char *p = str + strlen(str) - 1;
 
-    while (c >= str && (*c == '\n' || *c =='\r'))
-        *c-- = '\0';
+        while (p >= str && (*p == '\n' || *p =='\r'))
+            *p-- = '\0';
+    }
+
+    return str;
+}
+
+char *strip_spaces(char *str)
+{
+    if (str && *str)
+    {
+        char *p = str + strlen(str) - 1;
+
+        while (p >= str && isspace(*p))
+            *p-- = 0;
+    }
 
     return str;
 }

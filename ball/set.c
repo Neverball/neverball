@@ -310,8 +310,18 @@ static int set_load(struct set *s, const char *filename)
 
         while (s->count < MAXLVL && read_line(&level_name, fin))
         {
-            s->level_name_v[s->count] = level_name;
-            s->count++;
+            strip_spaces(level_name);
+
+            if (*level_name)
+            {
+                s->level_name_v[s->count] = level_name;
+                s->count++;
+            }
+            else
+            {
+                free(level_name);
+                level_name = NULL;
+            }
         }
 
         fs_close(fin);
