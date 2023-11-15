@@ -310,7 +310,7 @@ int main(int argc, char *argv[])
     opt_parse(argc, argv);
 
     config_paths(opt_data);
-    log_init("Neverputt", "neverputt.log");
+    log_init("Neverputt" VERSION, "neverputt.log");
     fs_mkdir("Screenshots");
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == 0)

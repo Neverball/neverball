@@ -714,7 +714,7 @@ static int main_init(int argc, char *argv[])
     opt_parse(argc, argv);
 
     config_paths(opt_data);
-    log_init("Neverball", "neverball.log");
+    log_init("Neverball " VERSION, "neverball.log");
     make_dirs_and_migrate();
 
     /* Initialize SDL. */

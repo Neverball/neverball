@@ -17,7 +17,6 @@
 
 #include "log.h"
 #include "common.h"
-#include "version.h"
 #include "fs.h"
 
 static char    log_header[MAXSTR];
@@ -74,9 +73,9 @@ void log_init(const char *name, const char *path)
         {
             /* Printed on first message. */
 
-            sprintf(log_header, "%s - %s %s",
+            sprintf(log_header, "%s - %s",
                     date_to_str(time(NULL)),
-                    name, VERSION);
+                    name);
         }
         else
         {
