@@ -31,7 +31,7 @@
     }
 
     .container {
-      max-width: 82rem;
+      max-width: 80rem;
       padding: 0 0.8rem;
       margin: 0 auto;
     }
@@ -39,8 +39,12 @@
     #canvas-wrapper {
       position: relative;
       width: 100%;
-      padding-top: calc(9 / 16 * 100%); /* 16:9 */
+      height: auto;
+      aspect-ratio: 16 / 9;
+      max-width: calc(16 / 9 * 100dvmin);
+      max-height: calc(100dvmin - 2rem);
       display: none;
+      margin: 0 auto;
     }
 
     #overlay {
@@ -104,7 +108,9 @@
     }
 
     #canvas-wrapper:fullscreen {
-      padding-top: 0;
+      aspect-ratio: auto;
+      min-width: auto;
+      min-height: auto;
     }
 
     #canvas-wrapper:fullscreen #canvas {
@@ -194,10 +200,6 @@
       height: auto;
     }
 
-    .running .hide-when-running {
-      display: none;
-    }
-
     .neverball-text {
       font-family: "DejaVu Sans", Verdana, sans-serif;
       font-weight: 700;
@@ -252,6 +254,22 @@
       margin-top: 0;
     }
 
+    .hidden {
+      display: none;
+    }
+
+    .running .running\:pt-0 {
+      padding-top: 0;
+    }
+
+    .running .running\:block {
+      display: block;
+    }
+
+    .running .running\:hidden {
+      display: none;
+    }
+
     @keyframes pulse {
       50% {
         transform: scale(1.2);
@@ -268,25 +286,25 @@
 
 <body>
   <section class="container flex flex-column gap-2.5 py-2.5">
-    <div class="neverball-box">
-      <h1 class="neverball-text hide-when-running">Play Neverball</h1>
+    <div class="neverball-box running:hidden">
+      <h1 class="neverball-text">Play Neverball</h1>
 
-      <div id="status-line" class="hide-when-running">
+      <div id="status-line">
         <div id="progress"></div>
         <div id="status">Downloading...</div>
       </div>
 
-      <div class="flex gap-2 items-center hide-when-running">
+      <div class="flex gap-2 items-center">
         <button id="run-button" class="neverball-button" disabled>Play Now</button>
         <div class="spinner"></div>
       </div>
+    </div>
 
-      <div id="canvas-wrapper">
-        <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <div id="canvas-wrapper">
+      <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
-        <div id="overlay">
-          <button id="fullscreen-button" class="fullscreen-button"><span>Fullscreen</span></button>
-        </div>
+      <div id="overlay">
+        <button id="fullscreen-button" class="fullscreen-button"><span>Fullscreen</span></button>
       </div>
     </div>
 
@@ -299,7 +317,7 @@
       </div>
     </div>
 
-    <div class="neverball-box hide-when-running">
+    <div class="neverball-box running:hidden">
       <h2 class="neverball-text">About the game</h2>
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
