@@ -175,10 +175,6 @@
       animation-timing-function: ease-in-out;
     }
 
-    .running #run-button-wrapper {
-      display: none;
-    }
-
     #run-button:disabled + .spinner {
       display: block;
     }
@@ -196,6 +192,10 @@
       width: 100%;
       max-width: 32rem;
       height: auto;
+    }
+
+    .running .hide-when-running {
+      display: none;
     }
 
     .neverball-text {
@@ -230,8 +230,17 @@
       gap: 0.8rem;
     }
 
+    .gap-2\.5 {
+      gap: 1rem;
+    }
+
     .gap-5 {
       gap: 2rem;
+    }
+
+    .py-2\.5 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
     }
 
     .py-5 {
@@ -258,16 +267,16 @@
 </head>
 
 <body>
-  <section class="container flex flex-column gap-5 py-5">
+  <section class="container flex flex-column gap-2.5 py-2.5">
     <div class="neverball-box">
-      <h1 class="neverball-text">Play Neverball</h1>
+      <h1 class="neverball-text hide-when-running">Play Neverball</h1>
 
-      <div id="status-line">
+      <div id="status-line" class="hide-when-running">
         <div id="progress"></div>
         <div id="status">Downloading...</div>
       </div>
 
-      <div class="flex gap-2 items-center" id="run-button-wrapper">
+      <div class="flex gap-2 items-center hide-when-running">
         <button id="run-button" class="neverball-button" disabled>Play Now</button>
         <div class="spinner"></div>
       </div>
@@ -290,7 +299,7 @@
       </div>
     </div>
 
-    <div class="neverball-box">
+    <div class="neverball-box hide-when-running">
       <h2 class="neverball-text">About the game</h2>
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
