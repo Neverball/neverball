@@ -97,12 +97,14 @@ static SDL_GLContext  context;
 
 static void set_window_title(const char *title)
 {
+#if !defined(__EMSCRIPTEN__)
     SDL_SetWindowTitle(window, title);
+#endif
 }
 
 static void set_window_icon(const char *filename)
 {
-#if !defined(__APPLE__)
+#if !defined(__APPLE__) && !defined(__EMSCRIPTEN__)
     SDL_Surface *icon;
 
     if ((icon = load_surface(filename)))
