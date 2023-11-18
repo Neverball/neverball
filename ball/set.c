@@ -434,13 +434,16 @@ int set_init()
 
 void set_quit(void)
 {
-    int i;
+    if (sets)
+    {
+        int i, n = array_len(sets);
 
-    for (i = 0; i < array_len(sets); i++)
-        set_free(array_get(sets, i));
+        for (i = 0; i < n; i++)
+            set_free(array_get(sets, i));
 
-    array_free(sets);
-    sets = NULL;
+        array_free(sets);
+        sets = NULL;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
