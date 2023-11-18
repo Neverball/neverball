@@ -5,4 +5,6 @@
 
 extern struct state st_title;
 
+int load_title_background(void);
+
 #endif

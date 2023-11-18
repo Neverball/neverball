@@ -57,6 +57,7 @@ extern struct state st_display;
 extern struct state st_resol;
 extern struct state st_lang;
 extern struct state st_joystick;
+extern struct state st_loading;
 
 /*---------------------------------------------------------------------------*/
 

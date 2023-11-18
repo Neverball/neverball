@@ -25,8 +25,8 @@ struct fetch_done
  */
 struct fetch_callback
 {
-    void (*progress)(void *, void *);
-    void (*done)(void *, void *);
+    void (*progress)(void *data, void *progress_data);
+    void (*done)(void *data, void *done_data);
     void *data;
 };
 

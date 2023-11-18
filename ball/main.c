@@ -44,15 +44,142 @@
 #include "fetch.h"
 #include "package.h"
 #include "log.h"
+#include "game_client.h"
 
 #include "st_conf.h"
 #include "st_title.h"
 #include "st_demo.h"
 #include "st_level.h"
 #include "st_pause.h"
+#include "st_common.h"
+#include "st_start.h"
+#include "st_package.h"
 
 const char TITLE[] = "Neverball";
 const char ICON[] = "icon/neverball.png";
+
+/*---------------------------------------------------------------------------*/
+
+static char *opt_data;
+static char *opt_replay;
+static char *opt_level;
+static char *opt_link;
+
+#define opt_usage                                                     \
+    "Usage: %s [options ...]\n"                                       \
+    "Options:\n"                                                      \
+    "  -h, --help                show this usage message.\n"          \
+    "  -v, --version             show version.\n"                     \
+    "  -d, --data <dir>          use 'dir' as game data directory.\n" \
+    "  -r, --replay <file>       play the replay 'file'.\n"           \
+    "  -l, --level <file>        load the level 'file'\n"             \
+    "      --link <asset>        open the named asset\n"
+
+#define opt_error(option) \
+    fprintf(stderr, "Option '%s' requires an argument.\n", option)
+
+static void opt_init(int argc, char **argv)
+{
+    int i;
+
+    /* Scan argument list. */
+
+    for (i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help")    == 0)
+        {
+            printf(opt_usage, argv[0]);
+            exit(EXIT_SUCCESS);
+        }
+
+        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
+        {
+            printf("%s\n", VERSION);
+            exit(EXIT_SUCCESS);
+        }
+
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--data")    == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_data = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--replay")  == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_replay = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--level")  == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_level = argv[++i];
+            continue;
+        }
+
+        if (strcmp(argv[i], "--link") == 0)
+        {
+            if (i + 1 == argc)
+            {
+                opt_error(argv[i]);
+                exit(EXIT_FAILURE);
+            }
+            opt_link = argv[++i];
+            continue;
+        }
+
+        /* Perform magic on a single unrecognized argument. */
+
+        if (argc == 2)
+        {
+            size_t len = strlen(argv[i]);
+            int level = 0;
+
+            if (len > 4)
+            {
+                char *ext = argv[i] + len - 4;
+
+                if (strcmp(ext, ".map") == 0)
+                    strncpy(ext, ".sol", 4);
+
+                if (strcmp(ext, ".sol") == 0)
+                    level = 1;
+            }
+
+            if (level)
+                opt_level = argv[i];
+            else
+                opt_replay = argv[i];
+
+            break;
+        }
+    }
+}
+
+#undef opt_usage
+#undef opt_error
+
+static void opt_quit(void)
+{
+    opt_data = NULL;
+    opt_replay = NULL;
+    opt_level = NULL;
+    opt_link = NULL;
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -270,6 +397,72 @@ static void initialize_fetch(void)
     fetch_init(dispatch_fetch_event);
 }
 
+/*---------------------------------------------------------------------------*/
+
+static int process_link(const char *link)
+{
+    if (link && *link)
+    {
+        log_printf("Processing link: %s\n", link);
+
+        if (str_starts_with(link, "set-"))
+        {
+            const char *set_file = concat_string(link, ".txt", NULL);
+            int index;
+
+            log_printf("Link is a set reference, searching for %s.\n", set_file);
+
+            set_init();
+
+            if ((index = set_find(set_file)) >= 0)
+            {
+                log_printf("Found set with the given reference.\n");
+                set_goto(index);
+                load_title_background();
+                game_kill_fade();
+                goto_state(&st_start);
+                return 1;
+            }
+            else if ((index = package_search(set_file)) >= 0)
+            {
+                log_printf("Found package with the given reference.\n");
+                goto_package(index, &st_title);
+                return 1;
+            }
+            else log_printf("Link did not match.\n", link);
+        }
+        else log_printf("Link type is bad.\n");
+    }
+    else log_printf("Link is bad.\n");
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void refresh_packages_done(void *data, void *extra_data)
+{
+    struct state *target_state = data;
+
+    if (!process_link(opt_link))
+    {
+        if (target_state)
+            goto_state(target_state);
+    }
+}
+
+/*
+ * Start package refresh and go to given state when done.
+ */
+static unsigned int refresh_packages(struct state *target_state)
+{
+    struct fetch_callback callback = { 0 };
+
+    callback.data = target_state;
+    callback.done = refresh_packages_done;
+
+    return package_refresh(callback);
+}
 
 /*---------------------------------------------------------------------------*/
 
@@ -488,108 +681,6 @@ static int loop(void)
 
 /*---------------------------------------------------------------------------*/
 
-static char *opt_data;
-static char *opt_replay;
-static char *opt_level;
-
-#define opt_usage                                                     \
-    "Usage: %s [options ...]\n"                                       \
-    "Options:\n"                                                      \
-    "  -h, --help                show this usage message.\n"          \
-    "  -v, --version             show version.\n"                     \
-    "  -d, --data <dir>          use 'dir' as game data directory.\n" \
-    "  -r, --replay <file>       play the replay 'file'.\n"           \
-    "  -l, --level <file>        load the level 'file'\n"
-
-#define opt_error(option) \
-    fprintf(stderr, "Option '%s' requires an argument.\n", option)
-
-static void opt_parse(int argc, char **argv)
-{
-    int i;
-
-    /* Scan argument list. */
-
-    for (i = 1; i < argc; i++)
-    {
-        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help")    == 0)
-        {
-            printf(opt_usage, argv[0]);
-            exit(EXIT_SUCCESS);
-        }
-
-        if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
-        {
-            printf("%s\n", VERSION);
-            exit(EXIT_SUCCESS);
-        }
-
-        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--data")    == 0)
-        {
-            if (i + 1 == argc)
-            {
-                opt_error(argv[i]);
-                exit(EXIT_FAILURE);
-            }
-            opt_data = argv[++i];
-            continue;
-        }
-
-        if (strcmp(argv[i], "-r") == 0 || strcmp(argv[i], "--replay")  == 0)
-        {
-            if (i + 1 == argc)
-            {
-                opt_error(argv[i]);
-                exit(EXIT_FAILURE);
-            }
-            opt_replay = argv[++i];
-            continue;
-        }
-
-        if (strcmp(argv[i], "-l") == 0 || strcmp(argv[i], "--level")  == 0)
-        {
-            if (i + 1 == argc)
-            {
-                opt_error(argv[i]);
-                exit(EXIT_FAILURE);
-            }
-            opt_level = argv[++i];
-            continue;
-        }
-
-        /* Perform magic on a single unrecognized argument. */
-
-        if (argc == 2)
-        {
-            size_t len = strlen(argv[i]);
-            int level = 0;
-
-            if (len > 4)
-            {
-                char *ext = argv[i] + len - 4;
-
-                if (strcmp(ext, ".map") == 0)
-                    strncpy(ext, ".sol", 4);
-
-                if (strcmp(ext, ".sol") == 0)
-                    level = 1;
-            }
-
-            if (level)
-                opt_level = argv[i];
-            else
-                opt_replay = argv[i];
-
-            break;
-        }
-    }
-}
-
-#undef opt_usage
-#undef opt_error
-
-/*---------------------------------------------------------------------------*/
-
 static int is_replay(struct dir_item *item)
 {
     return str_ends_with(item->path, ".nbr");
@@ -711,7 +802,7 @@ static int main_init(int argc, char *argv[])
         return 0;
     }
 
-    opt_parse(argc, argv);
+    opt_init(argc, argv);
 
     config_paths(opt_data);
     log_init("Neverball " VERSION, "neverball.log");
@@ -770,6 +861,12 @@ static void main_quit(void)
 {
     config_save();
 
+    /* Free loaded sets, in case of link processing. */
+
+    set_quit();
+
+    /* Free everything else. */
+
     mtrl_quit();
     video_quit();
     tilt_free();
@@ -782,11 +879,14 @@ static void main_quit(void)
     SDL_Quit();
     log_quit();
     fs_quit();
+    opt_quit();
 }
 
 int main(int argc, char *argv[])
 {
     struct main_loop mainloop = { 0 };
+
+    struct state *start_state = &st_title;
 
     if (!main_init(argc, argv))
         return 1;
@@ -797,12 +897,10 @@ int main(int argc, char *argv[])
 
     /* Initialize demo playback or load the level. */
 
-    if (opt_replay &&
-        fs_add_path(dir_name(opt_replay)) &&
-        progress_replay(base_name(opt_replay)))
+    if (opt_replay && fs_add_path(dir_name(opt_replay)) && progress_replay(base_name(opt_replay)))
     {
         demo_play_goto(1);
-        goto_state(&st_demo_play);
+        start_state = &st_demo_play;
     }
     else if (opt_level)
     {
@@ -821,6 +919,7 @@ int main(int argc, char *argv[])
                 if (progress_play(&level))
                 {
                     goto_state(&st_level);
+                    start_state = &st_level;
                     loaded = 1;
                 }
             }
@@ -828,10 +927,16 @@ int main(int argc, char *argv[])
         else log_printf("File %s is not in game path\n", opt_level);
 
         if (!loaded)
-            goto_state(&st_title);
+            start_state = &st_title;
     }
+
+    if (refresh_packages(start_state))
+        goto_state(&st_loading);
     else
-        goto_state(&st_title);
+    {
+        if (!process_link(opt_link))
+            goto_state(start_state);
+    }
 
     /* Run the main game loop. */
 

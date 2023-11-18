@@ -16,6 +16,8 @@ enum package_status
 void package_init(void);
 void package_quit(void);
 
+unsigned int package_refresh(struct fetch_callback);
+
 int package_count(void);
 
 int package_search(const char *file);

@@ -587,6 +587,27 @@ static void package_stick(int id, int a, float v, int bump)
 
 /*---------------------------------------------------------------------------*/
 
+void goto_package(int package_id, struct state *back_state)
+{
+    /* Initialize the state. */
+
+    goto_state(&st_package);
+
+    package_back = back_state;
+
+    /* Navigate to the page. */
+
+    first = (package_id / PACKAGE_STEP) * PACKAGE_STEP;
+    do_init = 0;
+    goto_state(&st_package);
+
+    /* Finally, select the package. */
+
+    package_select(package_id);
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_package = {
     package_enter,
     package_leave,

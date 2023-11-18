@@ -43,7 +43,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-static int init_title_level(void)
+int load_title_background(void)
 {
     if (game_client_init("gui/title.sol"))
     {
@@ -237,7 +237,7 @@ static int title_enter(struct state *st, struct state *prev)
 
     /* Initialize the title level for display. */
 
-    if (init_title_level())
+    if (load_title_background())
         mode = MODE_LEVEL;
     else
         mode = MODE_NONE;
@@ -329,7 +329,7 @@ static void title_timer(int id, float dt)
 
         if (real_time > 1.0f)
         {
-            init_title_level();
+            load_title_background();
 
             real_time = 0.0f;
             mode = MODE_LEVEL;

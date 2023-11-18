@@ -574,11 +574,36 @@ unsigned int package_fetch_image(int pi, struct fetch_callback nested_callback)
 
 /*---------------------------------------------------------------------------*/
 
+struct package_list_info
+{
+    struct fetch_callback callback;
+};
+
+static struct package_list_info *create_pli(struct fetch_callback nested_callback)
+{
+    struct package_list_info *pli = calloc(sizeof (*pli), 1);
+
+    if (pli)
+        pli->callback = nested_callback;
+
+    return pli;
+}
+
+static void free_pli(struct package_list_info **pli)
+{
+    if (pli && *pli)
+    {
+        free(*pli);
+        *pli = NULL;
+    }
+}
+
 /*
  * Load the list of available packages and initiate image downloads.
  */
 static void available_packages_done(void *data, void *extra_data)
 {
+    struct package_list_info *pli = data;
     struct fetch_done *fd = extra_data;
 
     if (fd && fd->finished)
@@ -593,13 +618,22 @@ static void available_packages_done(void *data, void *extra_data)
                 available_packages = packages;
         }
     }
+
+    if (pli)
+    {
+        if (pli->callback.done)
+            pli->callback.done(pli->callback.data, extra_data);
+
+        free_pli(&pli);
+    }
 }
 
 /*
  * Download the package list.
  */
-static void fetch_available_packages(void)
+static unsigned int fetch_available_packages(struct fetch_callback nested_callback)
 {
+    unsigned int fetch_id = 0;
     const char *url = get_package_url("available-packages.txt");
 
     if (url)
@@ -610,11 +644,22 @@ static void fetch_available_packages(void)
         {
             struct fetch_callback callback = { 0 };
 
+            struct package_list_info *pli = create_pli(nested_callback);
+
+            callback.data = pli;
             callback.done = available_packages_done;
 
-            fetch_url(url, filename, callback);
+            fetch_id = fetch_url(url, filename, callback);
+
+            if (!fetch_id)
+            {
+                free_pli(&pli);
+                callback.data = NULL;
+            }
         }
     }
+
+    return fetch_id;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -647,10 +692,14 @@ void package_init(void)
     /* Load the list of installed packages. */
 
     load_installed_packages();
+}
 
-    /* Download package list. */
-
-    fetch_available_packages();
+/*
+ * Download the list of available packages.
+ */
+unsigned int package_refresh(struct fetch_callback callback)
+{
+    return fetch_available_packages(callback);
 }
 
 void package_quit(void)

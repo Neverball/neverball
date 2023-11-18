@@ -1007,6 +1007,34 @@ static void joystick_stick(int id, int a, float v, int bump)
 
 /*---------------------------------------------------------------------------*/
 
+static int loading_gui(void)
+{
+    int id;
+
+    if ((id = gui_vstack(0)))
+    {
+        gui_label(id, _("Loading..."), GUI_SML, gui_wht, gui_wht);
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int loading_enter(struct state *st, struct state *prev)
+{
+    back_init("back/space.png");
+    return loading_gui();
+}
+
+static void loading_paint(int id, float t)
+{
+    conf_common_paint(id, t);
+
+    gui_paint(id);
+}
+
+/*---------------------------------------------------------------------------*/
+
 struct state st_video = {
     video_enter,
     conf_common_leave,
@@ -1070,6 +1098,12 @@ struct state st_joystick = {
     common_click,
     common_keybd,
     joystick_buttn
+};
+
+struct state st_loading = {
+    loading_enter,
+    NULL,
+    loading_paint
 };
 
 /*---------------------------------------------------------------------------*/

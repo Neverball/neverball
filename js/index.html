@@ -339,6 +339,7 @@
 
       isRunning: false,
       pauseOnPointerRelease: true,
+      arguments: [],
 
       _runButton: document.getElementById('run-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
@@ -422,7 +423,9 @@
 
         document.body.classList.add('in-game');
 
-        Module.callMain();
+        console.log(Neverball.arguments);
+
+        Module.callMain(Neverball.arguments);
       },
 
       quit: function () {
@@ -446,6 +449,9 @@
             document.exitFullscreen();
           }
         }
+
+        this._runButton.textContent = 'Play Now';
+        this.arguments = [];
       },
 
       downloadUserFile: function (ptr) {
@@ -559,6 +565,22 @@
 
       init: function () {
         this.initPersistentStorage();
+
+        // Get a Neverball "link" from the query string.
+
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has('link')) {
+          Neverball.arguments.push('--link');
+          Neverball.arguments.push(params.get('link'));
+
+          // Remove it from the query string.
+
+          params.delete('link');
+          window.history.replaceState(null, null, window.location.pathname + (params.size ? '?' + params.toString() : ''));
+
+          this._runButton.textContent = 'Open In-Game Link';
+        }
       },
 
     };
@@ -569,6 +591,8 @@
     var progressElement = document.getElementById('progress');
 
     var Module = {
+      arguments: [],
+
       preRun: [
         Neverball.initUserFolder,
         Neverball.initBackButton,

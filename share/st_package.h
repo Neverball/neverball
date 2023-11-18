@@ -5,4 +5,6 @@
 
 extern struct state st_package;
 
+void goto_package(int package_id, struct state *back_state);
+
 #endif
