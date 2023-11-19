@@ -988,27 +988,30 @@ unsigned int package_fetch(int pi, struct fetch_callback callback)
         {
             struct package_fetch_info *pfi = create_pfi(pkg);
 
-            /* Store passed callback. */
-
-            pfi->callback = callback;
-
-            /* Reuse variable to pass our callbacks. */
-
-            callback.progress = package_fetch_progress;
-            callback.done = package_fetch_done;
-            callback.data = pfi;
-
-            fetch_id = fetch_url(url, pfi->temp_filename, callback);
-
-            if (fetch_id)
+            if (pfi)
             {
-                pkg->status = PACKAGE_DOWNLOADING;
-            }
-            else
-            {
-                free_pfi(pfi);
-                pfi = NULL;
-                callback.data = NULL;
+                /* Store passed callback. */
+
+                pfi->callback = callback;
+
+                /* Reuse variable to pass our callbacks. */
+
+                callback.progress = package_fetch_progress;
+                callback.done = package_fetch_done;
+                callback.data = pfi;
+
+                fetch_id = fetch_url(url, pfi->temp_filename, callback);
+
+                if (fetch_id)
+                {
+                    pkg->status = PACKAGE_DOWNLOADING;
+                }
+                else
+                {
+                    free_pfi(pfi);
+                    pfi = NULL;
+                    callback.data = NULL;
+                }
             }
         }
     }
