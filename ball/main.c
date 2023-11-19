@@ -401,41 +401,50 @@ static void initialize_fetch(void)
 
 static int process_link(const char *link)
 {
+    int processed = 0;
+
     if (link && *link)
     {
         log_printf("Processing link: %s\n", link);
 
         if (str_starts_with(link, "set-"))
         {
-            const char *set_file = concat_string(link, ".txt", NULL);
-            int index;
+            char *set_file = concat_string(link, ".txt", NULL);
 
-            log_printf("Link is a set reference, searching for %s.\n", set_file);
-
-            set_init();
-
-            if ((index = set_find(set_file)) >= 0)
+            if (set_file)
             {
-                log_printf("Found set with the given reference.\n");
-                set_goto(index);
-                load_title_background();
-                game_kill_fade();
-                goto_state(&st_start);
-                return 1;
+                int index;
+
+                log_printf("Link is a set reference, searching for %s.\n", set_file);
+
+                set_init();
+
+                if ((index = set_find(set_file)) >= 0)
+                {
+                    log_printf("Found set with the given reference.\n");
+                    set_goto(index);
+                    load_title_background();
+                    game_kill_fade();
+                    goto_state(&st_start);
+                    processed = 1;
+                }
+                else if ((index = package_search(set_file)) >= 0)
+                {
+                    log_printf("Found package with the given reference.\n");
+                    goto_package(index, &st_title);
+                    processed = 1;
+                }
+                else log_printf("Link did not match.\n", link);
+
+                free(set_file);
+                set_file = NULL;
             }
-            else if ((index = package_search(set_file)) >= 0)
-            {
-                log_printf("Found package with the given reference.\n");
-                goto_package(index, &st_title);
-                return 1;
-            }
-            else log_printf("Link did not match.\n", link);
         }
         else log_printf("Link type is bad.\n");
     }
     else log_printf("Link is bad.\n");
 
-    return 0;
+    return processed;
 }
 
 /*---------------------------------------------------------------------------*/
