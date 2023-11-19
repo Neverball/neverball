@@ -399,6 +399,11 @@ static void initialize_fetch(void)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Handle the link option.
+ *
+ * This navigates to the appropriate screen, if the asset was found.
+ */
 static int process_link(const char *link)
 {
     int processed = 0;
@@ -409,6 +414,8 @@ static int process_link(const char *link)
 
         if (str_starts_with(link, "set-"))
         {
+            /* Search installed sets and package list. */
+
             char *set_file = concat_string(link, ".txt", NULL);
 
             if (set_file)
@@ -440,9 +447,8 @@ static int process_link(const char *link)
                 set_file = NULL;
             }
         }
-        else log_printf("Link type is bad.\n");
+        else log_printf("Link is bad.\n");
     }
-    else log_printf("Link is bad.\n");
 
     return processed;
 }
@@ -451,26 +457,47 @@ static int process_link(const char *link)
 
 static void refresh_packages_done(void *data, void *extra_data)
 {
-    struct state *target_state = data;
+    struct state *start_state = data;
 
-    if (!process_link(opt_link))
-    {
-        if (target_state)
-            goto_state(target_state);
-    }
+    if (process_link(opt_link))
+        return;
+
+    goto_state(start_state);
 }
 
 /*
- * Start package refresh and go to given state when done.
+ * Refresh package list, process links, go to starting screen.
+ *
+ * This is weird, I agree. Lots of parts moving together.
  */
-static unsigned int refresh_packages(struct state *target_state)
+static void main_preload(struct state *start_state)
 {
     struct fetch_callback callback = { 0 };
 
-    callback.data = target_state;
+    callback.data = start_state;
     callback.done = refresh_packages_done;
 
-    return package_refresh(callback);
+    goto_state(&st_loading);
+
+    /* Link processing works best with a package list. */
+
+    if (package_refresh(callback))
+    {
+        /* Callback takes care of link processing and starting screen. */
+        return;
+    }
+
+    /* But attempt it even without a package list. */
+
+    if (process_link(opt_link))
+    {
+        /* Link processing navigates to the appropriate screen. */
+        return;
+    }
+
+    /* Otherwise, go to the starting screen. */
+
+    goto_state(start_state);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -938,13 +965,7 @@ int main(int argc, char *argv[])
             start_state = &st_title;
     }
 
-    if (refresh_packages(start_state))
-        goto_state(&st_loading);
-    else
-    {
-        if (!process_link(opt_link))
-            goto_state(start_state);
-    }
+    main_preload(start_state);
 
     /* Run the main game loop. */
 
