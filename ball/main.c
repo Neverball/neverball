@@ -927,7 +927,6 @@ int main(int argc, char *argv[])
 
                 if (progress_play(&level))
                 {
-                    goto_state(&st_level);
                     start_state = &st_level;
                     loaded = 1;
                 }
