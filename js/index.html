@@ -496,6 +496,15 @@
         });
       },
 
+      watchReplay: function (path) {
+        Neverball.arguments = [
+          '--replay',
+          path
+        ];
+
+        this._runButton.click();
+      },
+
       refreshReplays: function () {
         var replayNames = FS.readdir('/neverball/Replays').filter(filename => filename.endsWith('.nbr'));
 
@@ -535,13 +544,12 @@
               </span>
             </div>
 
-            <!--
-            <button class="neverball-button" onclick="Neverball.watchReplay('/neverball/Replays/' + '${replay.filename}');">
+            <button class="neverball-button in-game:hidden" onclick="Neverball.watchReplay('/neverball/Replays/' + '${replay.filename}');">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 2 0 L 2 10 L 8 5 Z" fill="#fff"/>
               </svg>
             </button>
-            -->
+
             <button class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/' + '${replay.filename}')">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
@@ -573,8 +581,6 @@
         this.isRunning = true;
 
         document.body.classList.add('in-game');
-
-        console.log(Neverball.arguments);
 
         Module.callMain(Neverball.arguments);
       },
