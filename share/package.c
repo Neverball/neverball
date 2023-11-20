@@ -197,6 +197,8 @@ static void unmount_duplicate_local_packages(const struct local_package *keep_lp
     }
 }
 
+static int save_installed_packages(void);
+
 /*
  * Add a package to the FS path and to the list, if not yet added.
  */
@@ -206,6 +208,7 @@ static int mount_local_package(struct local_package *lpkg)
     {
         installed_packages = list_cons(lpkg, installed_packages);
         unmount_duplicate_local_packages(lpkg);
+        save_installed_packages();
         return 1;
     }
 
