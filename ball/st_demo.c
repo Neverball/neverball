@@ -57,8 +57,7 @@ static int last_viewed = 0;
 enum
 {
     DEMO_PLAY = GUI_LAST,
-    DEMO_SELECT,
-    DEMO_DOWNLOAD
+    DEMO_SELECT
 };
 
 static void demo_select(int i);
@@ -80,18 +79,6 @@ static int demo_action(int tok, int val)
     case GUI_PREV:
         first -= DEMO_STEP;
         return goto_state(&st_demo);
-        break;
-
-    case DEMO_DOWNLOAD:
-#ifdef __EMSCRIPTEN__
-    {
-        const char *path = DIR_ITEM_GET(items, selected)->path;
-
-        EM_ASM({
-            Neverball.downloadUserFile($0)
-        }, path);
-    }
-#endif
         break;
 
     case DEMO_SELECT:
@@ -336,35 +323,6 @@ static int demo_gui(void)
         gui_demo_thumbs(id);
         gui_space(id);
         gui_demo_status(id);
-
-#ifdef __EMSCRIPTEN__
-        gui_space(id);
-
-        if ((jd = gui_hstack(id)))
-        {
-            int kd;
-
-            if ((kd = gui_hstack(jd)))
-            {
-                gui_label(kd, GUI_ARROW_DN, GUI_SML, gui_yel, gui_wht);
-                gui_label(kd, _("Download"), GUI_SML, gui_yel, gui_wht);
-
-                gui_set_rect(kd, GUI_ALL);
-                gui_set_state(kd, DEMO_DOWNLOAD, 0);
-            }
-
-            gui_space(jd);
-
-            if ((kd = gui_hstack(jd)))
-            {
-                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_yel, gui_wht);
-                gui_label(kd, _("Play"), GUI_SML, gui_yel, gui_wht);
-
-                gui_set_rect(kd, GUI_ALL);
-                gui_set_state(kd, DEMO_PLAY, 0);
-            }
-        }
-#endif
 
         gui_layout(id, 0, 0);
 

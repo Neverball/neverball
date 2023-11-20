@@ -160,6 +160,7 @@
       font-size: 1.4rem;
       text-shadow: 0.08em 0.08em rgba(0, 0, 0, 0.5);
       font-family: "DejaVu Sans", Verdana, sans-serif;
+      display: inline-block;
     }
 
     .neverball-button:disabled {
@@ -222,6 +223,10 @@
       align-items: center;
     }
 
+    .gap-1 {
+      gap: 0.4rem;
+    }
+
     .gap-2 {
       gap: 0.8rem;
     }
@@ -234,6 +239,14 @@
       gap: 2rem;
     }
 
+    .p-0 {
+      padding: 0;
+    }
+
+    .p-1 {
+      padding: 0.4rem;
+    }
+
     .py-2\.5 {
       padding-top: 1rem;
       padding-bottom: 1rem;
@@ -244,12 +257,20 @@
       padding-bottom: 2rem;
     }
 
-    h1, h2 {
-      margin-top: 0;
+    .m-0 {
+      margin: 0;
+    }
+
+    .list-none {
+      list-style-type: none;
     }
 
     .hidden {
       display: none;
+    }
+
+    h1, h2 {
+      margin-top: 0;
     }
 
     .in-game .in-game\:pt-0 {
@@ -262,6 +283,14 @@
 
     .in-game .in-game\:hidden {
       display: none;
+    }
+
+    .text-xs {
+      font-size: 1.2rem;
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap;
     }
 
     @keyframes pulse {
@@ -302,14 +331,32 @@
       </div>
     </div>
 
-    <div class="neverball-box">
+    <div class="neverball-box" id="replay-list-box">
+      <h2><span class="neverball-text">Replays</span></h2>
+
+      <div class="flex flex-column gap-2.5">
+        <div id="replay-list-prompt">Save or add some replays to see them here.</div>
+
+        <ol class="list-none p-0 m-0 flex gap-1 flex-wrap" id="replay-list">
+        </ol>
+
+        <div>
+          <input type="file" id="replay-input" class="hidden" accept=".nbr" onchange="Neverball.uploadFiles('/neverball/Replays', this.files);">
+          <label for="replay-input" class="neverball-button">Add Replay</label>
+
+          <!-- <span class="text-xs">Drag and drop also works.</span> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="neverball-box">
       <h2><span class="neverball-text">Browser settings</span></h2>
 
       <div>
         <input type="checkbox" id="persist-input">
         <label for="persist-input">Enable persistent storage. This will make sure replays and settings are not deleted when browser cache is automatically cleared (such as when device space is low). You will have to clear site data to disable this setting.</label>
       </div>
-    </div>
+    </div> -->
 
     <div class="neverball-box in-game:hidden">
       <h2><span class="neverball-text">About the game</span></h2>
@@ -343,6 +390,9 @@
 
       _runButton: document.getElementById('run-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
+      _replayListBox: document.getElementById('replay-list-box'),
+      _replayListPrompt: document.getElementById('replay-list-prompt'),
+      _replayList: document.getElementById('replay-list'),
 
       events: {
         runButtonClick: function (event) {
@@ -406,6 +456,105 @@
         Module._push_user_event(code);
       },
 
+      uploadFiles(dir, fileList) {
+        const promises = [];
+
+        for (const file of fileList) {
+          let name = file.name;
+
+          do {
+            const info = FS.analyzePath(dir + '/' + name);
+
+            if (info.exists) {
+              const response = window.prompt('Replay ' + name + ' already exists.\n\nEnter a new name or skip this replay.');
+
+              if (response) {
+                name = response + '.nbr';
+              } else {
+                name = null;
+              }
+            } else {
+              break;
+            }
+          } while (name);
+
+          if (name) {
+            promises.push(file.arrayBuffer().then(buffer => {
+              FS.writeFile(dir + '/' + name, new Uint8Array(buffer));
+            }));
+          }
+        }
+
+        Promise.allSettled(promises).then(function () {
+          Neverball.refreshReplays();
+
+          FS.syncfs(false, function (err) {
+            if (err) {
+              console.error('Failure to syncronize to the backing store: ' + err);
+            }
+          })
+        });
+      },
+
+      refreshReplays: function () {
+        var replayNames = FS.readdir('/neverball/Replays').filter(filename => filename.endsWith('.nbr'));
+
+        if (!replayNames.length) {
+          this._replayListPrompt.classList.remove('hidden');
+        } else {
+          this._replayListPrompt.classList.add('hidden');
+        }
+
+        var replays = replayNames.map(function (replay) {
+          return {
+            filename: replay,
+            mtime: FS.stat('/neverball/Replays/' + replay).mtime,
+          };
+        }).sort(function (a, b) {
+          if (a.mtime < b.mtime) {
+            return +1;
+          }
+          if (a.mtime > b.mtime) {
+            return -1;
+          }
+          return 0;
+        });
+
+        // Build a fragment with the replay list, then append in one go.
+
+        var fragment = document.createDocumentFragment();
+
+        for (const replay of replays) {
+          var elem = document.createElement('li');
+
+          elem.classList.add('neverball-box', 'p-1', 'flex', 'gap-1', 'items-center');
+          elem.innerHTML = `
+            <div>
+              <span class="neverball-text text-xs">
+                ${replay.filename.replace('.nbr', '')}
+              </span>
+            </div>
+
+            <!--
+            <button class="neverball-button" onclick="Neverball.watchReplay('/neverball/Replays/' + '${replay.filename}');">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+                <path d="M 2 0 L 2 10 L 8 5 Z" fill="#fff"/>
+              </svg>
+            </button>
+            -->
+            <button class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/' + '${replay.filename}')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+                <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
+              </svg>
+            </button>
+          `;
+
+          fragment.appendChild(elem);
+        }
+
+        this._replayList.replaceChildren(fragment);
+      },
+
       ready: function () {
         this._runButton.disabled = false;
 
@@ -416,6 +565,8 @@
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
 
         Module['canvas'].addEventListener('touchstart', this.events.canvasTouchStart);
+
+        this.refreshReplays();
       },
 
       run: function () {
@@ -454,8 +605,7 @@
         this.arguments = [];
       },
 
-      downloadUserFile: function (ptr) {
-        const path = '/neverball' + '/' + UTF8ToString(ptr);
+      downloadFile: function (path) {
         const basename = path.split('/').slice(-1);
         const data = FS.readFile(path);
         const blob = new Blob([data], {type: 'application/octet-stream'});
@@ -526,6 +676,10 @@
         'use strict';
 
         var persistInput = document.getElementById('persist-input');
+
+        if (!persistInput) {
+          return;
+        }
 
         if (navigator.storage) {
 
