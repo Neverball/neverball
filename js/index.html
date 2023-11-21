@@ -335,7 +335,7 @@
       <h2><span class="neverball-text">Replays</span></h2>
 
       <div class="flex flex-column gap-2.5">
-        <div id="replay-list-prompt">Save or add some replays to see them here.</div>
+        <div id="replay-list-desc">Save or add some replays to see them here.</div>
 
         <ol class="list-none p-0 m-0 flex gap-1 flex-wrap" id="replay-list">
         </ol>
@@ -391,7 +391,7 @@
       _runButton: document.getElementById('run-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
       _replayListBox: document.getElementById('replay-list-box'),
-      _replayListPrompt: document.getElementById('replay-list-prompt'),
+      _replayListDesc: document.getElementById('replay-list-desc'),
       _replayList: document.getElementById('replay-list'),
 
       events: {
@@ -506,12 +506,17 @@
       },
 
       refreshReplays: function () {
-        var replayNames = FS.readdir('/neverball/Replays').filter(filename => filename.endsWith('.nbr'));
+        let replayNames = [];
+
+        try {
+          replayNames = FS.readdir('/neverball/Replays').filter(filename => filename.endsWith('.nbr'));
+        } catch (e) {
+        }
 
         if (!replayNames.length) {
-          this._replayListPrompt.classList.remove('hidden');
+          this._replayListDesc.classList.remove('hidden');
         } else {
-          this._replayListPrompt.classList.add('hidden');
+          this._replayListDesc.classList.add('hidden');
         }
 
         var replays = replayNames.map(function (replay) {
