@@ -50,7 +50,7 @@ static const char *get_package_url(const char *filename)
         /* Same origin. */
         SAFECPY(url, "/packages/");
 #else
-        SAFECPY(url, "https://neverball.github.io/packages/");
+        SAFECPY(url, "https://play.neverball.org/packages/");
 #endif
         SAFECAT(url, filename);
 
