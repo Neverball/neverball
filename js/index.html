@@ -199,6 +199,13 @@
       height: auto;
     }
 
+    @media (min-width: 640px) {
+      #screenshot {
+        float: right;
+        margin: 0 0 1rem 1rem;
+      }
+    }
+
     .neverball-text {
       font-family: "DejaVu Sans", Verdana, sans-serif;
       font-weight: 700;
@@ -345,7 +352,7 @@
         </ol>
 
         <div>
-          <input type="file" id="replay-input" class="hidden" accept=".nbr" onchange="Neverball.uploadFiles('/neverball/Replays', this.files);">
+          <input type="file" id="replay-input" class="hidden" accept=".nbr" multiple onchange="Neverball.uploadFiles('/neverball/Replays', this.files);">
           <label for="replay-input" class="neverball-button">Add Replay</label>
 
           <!-- <span class="text-xs">Drag and drop also works.</span> -->
