@@ -467,8 +467,28 @@
         Module._push_user_event(code);
       },
 
-      uploadFiles(dir, fileList) {
+      mkdir_p: function (dir) {
+        const subdirs = dir.split('/');
+
+        for (let i = 1; i <= subdirs.length; ++i) {
+          const subdir = subdirs.slice(0, i).join('/');
+
+          if (subdir) {
+            try {
+              FS.mkdir(subdir);
+            } catch (e) {
+              // Whatever.
+            }
+          }
+        }
+      },
+
+      uploadFiles: function (dir, fileList) {
         const promises = [];
+
+        if (!FS.analyzePath(dir).exists) {
+          this.mkdir_p(dir);
+        }
 
         for (const file of fileList) {
           let name = file.name;
@@ -560,13 +580,13 @@
               </span>
             </div>
 
-            <button class="neverball-button in-game:hidden" onclick="Neverball.watchReplay('/neverball/Replays/' + '${replay.filename}');">
+            <button class="neverball-button in-game:hidden" onclick="Neverball.watchReplay('/neverball/Replays/${replay.filename}');">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 2 0 L 2 10 L 8 5 Z" fill="#fff"/>
               </svg>
             </button>
 
-            <button class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/' + '${replay.filename}')">
+            <button class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/${replay.filename}')">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
               </svg>
