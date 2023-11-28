@@ -3,7 +3,6 @@
 {
 "classname" "worldspawn"
 "song" "bgm/inter.ogg"
-"grad" "back/black-space.png"
 // brush 0
 {
 ( 80 64 0 ) ( 80 -64 0 ) ( -48 64 0 ) mtrl/turf-grey 0 0 0 0.5 0.5 0 0 0
