@@ -75,6 +75,7 @@ static int fail_action(int tok, int val)
 static int fail_gui(void)
 {
     int id, jd, kd;
+    int root_id;
 
     const char *label = "";
 
@@ -83,37 +84,53 @@ static int fail_gui(void)
     else if (status == GAME_TIME)
         label = _("Time's Up!");
 
-    if ((id = gui_vstack(0)))
+    if ((root_id = gui_root()))
     {
-        if (gui_measure(label, GUI_LRG).w >= config_get_d(CONFIG_WIDTH))
-            kd = gui_label(id, label, GUI_MED, gui_gry, gui_red);
-        else
-            kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
-
-        gui_space(id);
-
-        if ((jd = gui_harray(id)))
+        if ((id = gui_vstack(root_id)))
         {
-            if (progress_dead())
-                gui_start(jd, _("Back To Menu"), GUI_SML, FAIL_OVER, 0);
+            if (gui_measure(label, GUI_LRG).w >= config_get_d(CONFIG_WIDTH))
+                kd = gui_label(id, label, GUI_MED, gui_gry, gui_red);
+            else
+                kd = gui_label(id, label, GUI_LRG, gui_gry, gui_red);
 
-            if (progress_next_avail())
-                gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
+            gui_space(id);
 
-            if (progress_same_avail())
-                gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
+            if ((jd = gui_harray(id)))
+            {
+                if (progress_dead())
+                    gui_start(jd, _("Back To Menu"), GUI_SML, FAIL_OVER, 0);
 
-            if (demo_saved())
-                gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+                if (progress_next_avail())
+                    gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
+
+                if (progress_same_avail())
+                    gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
+
+                if (demo_saved())
+                    gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+            }
+
+            gui_space(id);
+
+            gui_pulse(kd, 1.2f);
+            gui_layout(id, 0, 0);
         }
 
-        gui_space(id);
+        if ((id = gui_vstack(root_id)))
+        {
+            gui_space(id);
 
-        gui_pulse(kd, 1.2f);
-        gui_layout(id, 0, 0);
+            if ((jd = gui_hstack(id)))
+            {
+                gui_state(jd, _("Back"), GUI_SML, GUI_BACK, 0);
+                gui_space(jd);
+            }
+
+            gui_layout(id, -1, +1);
+        }
     }
 
-    return id;
+    return root_id;
 }
 
 static int fail_enter(struct state *st, struct state *prev)
