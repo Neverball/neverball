@@ -186,7 +186,7 @@ static int ball_gui(void)
 
         if ((jd = gui_hstack(id)))
         {
-            gui_state(jd, " > ", GUI_SML, GUI_NEXT, 0);
+            gui_state(jd, " " GUI_TRIANGLE_RIGHT " ", GUI_SML, GUI_NEXT, 0);
 
             name_id = gui_label(jd, "very-long-ball-name", GUI_SML,
                                 gui_wht, gui_wht);
@@ -194,7 +194,7 @@ static int ball_gui(void)
             gui_set_trunc(name_id, TRUNC_TAIL);
             gui_set_fill(name_id);
 
-            gui_state(jd, " < ", GUI_SML, GUI_PREV, 0);
+            gui_state(jd, " " GUI_TRIANGLE_LEFT " ", GUI_SML, GUI_PREV, 0);
         }
 
         for (i = 0; i < 12; i++)
