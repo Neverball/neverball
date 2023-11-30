@@ -2882,16 +2882,10 @@ int main(int argc, char *argv[])
         fs_add_path     (dir_name(src));
         fs_set_write_dir(dir_name(dst));
 
+        fs_add_path_with_archives(argv[2]);
+
         if ((fin = fs_open_read(base_name(src))))
         {
-            if (!fs_add_path_with_archives(argv[2]))
-            {
-                fprintf(stderr, "Failure to establish data directory\n");
-                fs_close(fin);
-                fs_quit();
-                return 1;
-            }
-
             gettimeofday(&time0, 0);
             {
                 init_file(&f);
