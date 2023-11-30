@@ -792,9 +792,9 @@ static int demo_compat_gui(void)
     {
         gui_label(id, _("Warning!"), GUI_MED, 0, 0);
         gui_space(id);
-        gui_multi(id, _("The current replay was recorded with a\\"
-                        "different (or unknown) version of this level.\\"
-                        "Be prepared to encounter visual errors.\\"),
+        gui_multi(id, _("The current replay was recorded with a\n"
+                        "different (or unknown) version of this level.\n"
+                        "Be prepared to encounter visual errors.\n"),
                   GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);

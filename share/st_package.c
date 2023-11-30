@@ -429,7 +429,7 @@ static int package_gui(void)
 
             gui_space(jd);
 
-            desc_id = gui_multi(jd, " \\ \\ \\ \\ \\", GUI_SML, gui_yel, gui_wht);
+            desc_id = gui_multi(jd, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
 
             gui_set_rect(jd, GUI_ALL);
         }

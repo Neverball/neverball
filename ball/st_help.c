@@ -113,15 +113,15 @@ static int help_menu(int id)
 static int page_rules(int id)
 {
     const char *s0 = _(
-        "Move the mouse or joystick\\"
-        "or use keyboard arrows to\\"
-        "tilt the floor causing the\\"
-        "ball to roll.\\");
+        "Move the mouse or joystick\n"
+        "or use keyboard arrows to\n"
+        "tilt the floor causing the\n"
+        "ball to roll.\n");
     const char *s1 = _(
-        "Roll over coins to collect\\"
-        "them.  Collect coins to\\"
-        "unlock the goal and finish\\"
-        "the level.\\");
+        "Roll over coins to collect\n"
+        "them.  Collect coins to\n"
+        "unlock the goal and finish\n"
+        "the level.\n");
 
     int w = video.device_w;
     int h = video.device_h;
@@ -178,7 +178,7 @@ static int page_rules(int id)
 
 static int page_controls(int id)
 {
-    const char *s_rotate  = _("Left and right mouse buttons rotate the view.\\"
+    const char *s_rotate  = _("Left and right mouse buttons rotate the view\n"
                               "Hold Shift for faster view rotation.");
     const char *s_exit    = _("Exit / Pause");
     const char *s_camera1 = _("Chase Camera");
@@ -256,7 +256,7 @@ static int page_modes(int id)
     {
         gui_label(jd, _("Normal Mode"), GUI_SML, 0, 0);
         gui_multi(jd,
-                  _("Finish a level before the time runs out.\\"
+                  _("Finish a level before the time runs out.\n"
                     "You need to collect coins in order to open the goal."),
                   GUI_SML, gui_wht, gui_wht);
 
@@ -269,8 +269,8 @@ static int page_modes(int id)
     {
         gui_label(jd, _("Challenge Mode"), GUI_SML, 0, 0);
         gui_multi(jd,
-                  _("Start playing from the first level of the set.\\"
-                    "You start with only three balls, do not lose them.\\"
+                  _("Start playing from the first level of the set.\n"
+                    "You start with only three balls, do not lose them.\n"
                     "Earn an extra ball for each 100 coins collected."),
                   GUI_SML, gui_wht, gui_wht);
 
@@ -283,15 +283,15 @@ static int page_modes(int id)
 static int page_tricks(int id)
 {
     const char *s0 = _(
-        "Corners can be used to jump.\\"
-        "Get rolling and take aim\\"
-        "at the angle. You may be able\\"
-        "to reach new places.\\");
+        "Corners can be used to jump.\n"
+        "Get rolling and take aim\n"
+        "at the angle. You may be able\n"
+        "to reach new places.\n");
     const char *s1 = _(
-        "Tilting in 2 directions increases\\"
-        "the slope. Use the manual camera\\"
-        "and turn the camera by 45\\"
-        "degrees for best results.\\");
+        "Tilting in 2 directions increases\n"
+        "the slope. Use the manual camera\n"
+        "and turn the camera by 45\n"
+        "degrees for best results.\n");
 
     int w = video.device_w;
     int h = video.device_h;

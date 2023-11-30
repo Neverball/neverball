@@ -998,7 +998,7 @@ void gui_set_multi(int id, const char *text)
 
     for (p = text, sc = 0; *p && sc < lc; sc++)
     {
-        // Support both '\\' and '\n' as delimiters.
+        /* Support both '\\' and '\n' as delimiters. */
 
         strncpy(s[sc], p, (n = strcspn(p, "\\\n")));
         s[sc][n] = 0;
@@ -1280,10 +1280,17 @@ int gui_multi(int pd, const char *text, int size, const GLubyte *c0,
 
         for (p = text, j = 0; *p && j < GUI_LINES; j++)
         {
-            strncpy(s[j], p, (n = strcspn(p, "\\")));
+            /* Support both '\\' and '\n' as delimiters. */
+
+            strncpy(s[j], p, (n = strcspn(p, "\\\n")));
             s[j][n] = 0;
 
-            if (*(p += n) == '\\') p++;
+            if (n > 0 && s[j][n - 1] == '\r')
+                s[j][n - 1] = 0;
+
+            p += n;
+
+            if (*p == '\\' || *p == '\n') p++;
         }
 
         /* Create a label widget for each line. */

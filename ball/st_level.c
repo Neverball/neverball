@@ -227,8 +227,8 @@ static int nodemo_gui(void)
     {
         gui_label(id, _("Warning!"), GUI_MED, 0, 0);
         gui_space(id);
-        gui_multi(id, _("A replay file could not be opened for writing.\\"
-                        "This game will not be recorded.\\"),
+        gui_multi(id, _("A replay file could not be opened for writing.\n"
+                        "This game will not be recorded.\n"),
                   GUI_SML, gui_wht, gui_wht);
 
         gui_layout(id, 0, 0);

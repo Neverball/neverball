@@ -135,7 +135,7 @@ static int set_gui(void)
         }
 
         gui_space(id);
-        desc_id = gui_multi(id, " \\ \\ \\ \\ \\", GUI_SML, gui_yel, gui_wht);
+        desc_id = gui_multi(id, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
 
         gui_layout(id, 0, 0);
     }
