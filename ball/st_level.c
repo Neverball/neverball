@@ -109,7 +109,7 @@ static int level_gui(void)
         {
             if ((kd = gui_hstack(jd)))
             {
-                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_wht, gui_wht);
+                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_grn, gui_grn);
                 gui_label(kd, _("Start"), GUI_SML, gui_wht, gui_wht);
 
                 gui_set_state(kd, LEVEL_START, 0);
