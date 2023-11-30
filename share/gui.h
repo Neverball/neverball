@@ -72,6 +72,7 @@ enum trunc
 #define GUI_TRIANGLE_RIGHT "▶"
 #define GUI_TRIANGLE_LEFT "◀"
 #define GUI_CIRCLE_ARROW "⟳"
+#define GUI_CROSS "×"
 
 /*---------------------------------------------------------------------------*/
 

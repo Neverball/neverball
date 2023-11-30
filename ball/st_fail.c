@@ -122,7 +122,7 @@ static int fail_gui(void)
 
             if ((jd = gui_hstack(id)))
             {
-                gui_state(jd, _("Back"), GUI_SML, GUI_BACK, 0);
+                gui_back_button(jd);
                 gui_space(jd);
             }
 

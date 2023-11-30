@@ -58,86 +58,74 @@ static int level_action(int token, int value)
 static int level_gui(void)
 {
     int id, jd, kd;
-    int root_id;
+    const char *message = level_msg(curr_level());
 
-    if ((root_id = gui_root()))
+    if ((id = gui_vstack(0)))
     {
-        if ((id = gui_vstack(root_id)))
+        if ((jd = gui_hstack(id)))
         {
-            if ((jd = gui_hstack(id)))
+            gui_filler(jd);
+
+            if ((kd = gui_vstack(jd)))
             {
-                gui_filler(jd);
+                const char *ln = level_name (curr_level());
+                int b          = level_bonus(curr_level());
 
-                if ((kd = gui_vstack(jd)))
-                {
-                    const char *ln = level_name (curr_level());
-                    int b          = level_bonus(curr_level());
+                char setattr[MAXSTR], lvlattr[MAXSTR];
 
-                    char setattr[MAXSTR], lvlattr[MAXSTR];
+                if (b)
+                    sprintf(lvlattr, _("Bonus Level %s"), ln);
+                else
+                    sprintf(lvlattr, _("Level %s"), ln);
 
-                    if (b)
-                        sprintf(lvlattr, _("Bonus Level %s"), ln);
-                    else
-                        sprintf(lvlattr, _("Level %s"), ln);
+                if (curr_mode() == MODE_CHALLENGE)
+                    sprintf(setattr, "%s: %s", set_name(curr_set()),
+                            mode_to_str(MODE_CHALLENGE, 1));
+                else if (curr_mode() == MODE_STANDALONE)
+                    sprintf(setattr, _("Standalone level"));
+                else
+                    sprintf(setattr, "%s", set_name(curr_set()));
 
-                    if (curr_mode() == MODE_CHALLENGE)
-                        sprintf(setattr, "%s: %s", set_name(curr_set()),
-                                mode_to_str(MODE_CHALLENGE, 1));
-                    else if (curr_mode() == MODE_STANDALONE)
-                        sprintf(setattr, _("Standalone level"));
-                    else
-                        sprintf(setattr, "%s", set_name(curr_set()));
+                gui_label(kd, lvlattr,
+                        b ? GUI_MED : GUI_LRG,
+                        b ? gui_wht : 0,
+                        b ? gui_grn : 0);
 
-                    gui_label(kd, lvlattr,
-                            b ? GUI_MED : GUI_LRG,
-                            b ? gui_wht : 0,
-                            b ? gui_grn : 0);
+                gui_label(kd, setattr, GUI_SML, gui_wht, gui_wht);
 
-                    gui_label(kd, setattr, GUI_SML, gui_wht, gui_wht);
-
-                    gui_set_rect(kd, GUI_ALL);
-                }
-                gui_filler(jd);
+                gui_set_rect(kd, GUI_ALL);
             }
+            gui_filler(jd);
+        }
+        gui_space(id);
+
+        if (message && *message)
+        {
+            gui_multi(id, message, GUI_SML, gui_wht, gui_wht);
             gui_space(id);
-
-            gui_multi(id, level_msg(curr_level()), GUI_SML, gui_wht, gui_wht);
-
-            gui_space(id);
-
-            if ((jd = gui_hstack(id)))
-            {
-                if ((kd = gui_hstack(jd)))
-                {
-                    gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_wht, gui_wht);
-                    gui_label(kd, _("Start"), GUI_SML, gui_wht, gui_wht);
-
-                    gui_set_state(kd, LEVEL_START, 0);
-                    gui_set_rect(kd, GUI_ALL);
-                    gui_focus(kd);
-                }
-
-                gui_filler(jd);
-            }
-
-            gui_layout(id, 0, 0);
         }
 
-        if ((id = gui_vstack(root_id)))
+        if ((jd = gui_hstack(id)))
         {
-            gui_space(id);
-
-            if ((jd = gui_hstack(id)))
+            if ((kd = gui_hstack(jd)))
             {
-                gui_state(jd, _("Back"), GUI_SML, GUI_BACK, 0);
-                gui_space(jd);
+                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_wht, gui_wht);
+                gui_label(kd, _("Start"), GUI_SML, gui_wht, gui_wht);
+
+                gui_set_state(kd, LEVEL_START, 0);
+                gui_set_rect(kd, GUI_ALL);
+                gui_focus(kd);
             }
 
-            gui_layout(id, -1, +1);
+            gui_filler(jd);
+
+            gui_back_button(jd);
         }
+
+        gui_layout(id, 0, 0);
     }
 
-    return root_id;
+    return id;
 }
 
 static int level_enter(struct state *st, struct state *prev)

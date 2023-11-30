@@ -28,6 +28,8 @@ void gui_keyboard(int);
 void gui_keyboard_lock(void);
 char gui_keyboard_char(char);
 
+int gui_back_button(int pd);
+
 /*---------------------------------------------------------------------------*/
 
 #endif
