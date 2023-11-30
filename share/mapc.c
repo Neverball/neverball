@@ -910,13 +910,12 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
 
     if (fs_gets(buf, MAXSTR, fin))
     {
-        char c;
         float x0, y0, z0;
         float x1, y1, z1;
         float x2, y2, z2;
         float tu, tv, r;
         float su, sv;
-        int fl;
+        int fl = 0;
 
         /* Scan the beginning or end of a block. */
 
@@ -937,14 +936,14 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
         /* Scan a plane. */
 
         if (sscanf(buf,
-                   "%c %f %f %f %c "
-                   "%c %f %f %f %c "
-                   "%c %f %f %f %c "
+                   "( %f %f %f ) "
+                   "( %f %f %f ) "
+                   "( %f %f %f ) "
                    "%s %f %f %f %f %f %d",
-                   &c, &x0, &y0, &z0, &c,
-                   &c, &x1, &y1, &z1, &c,
-                   &c, &x2, &y2, &z2, &c,
-                   key, &tu, &tv, &r, &su, &sv, &fl) == 22)
+                   &x0, &y0, &z0,
+                   &x1, &y1, &z1,
+                   &x2, &y2, &z2,
+                   key, &tu, &tv, &r, &su, &sv, &fl) >= 15)
         {
             make_plane(pi, x0, y0, z0,
                        x1, y1, z1,
