@@ -1679,49 +1679,6 @@ int gui_search(int id, int x, int y)
     return 0;
 }
 
-/*
- * Delete this widget and update the layout of its parent widget.
- */
-void gui_remove(int id)
-{
-    if (id)
-    {
-        int pd = 0;
-        int i;
-
-        for (i = 1; i < WIDGET_MAX; ++i)
-            if (widget[i].type != GUI_FREE)
-            {
-                int jd, pjd;
-
-                for (pjd = 0, jd = widget[i].car; jd; pjd = jd, jd = widget[jd].cdr)
-                    if (jd == id)
-                    {
-                        /* Note the parent widget. */
-
-                        pd = i;
-
-                        /* Remove from linked list. */
-
-                        if (pjd)
-                            widget[pjd].cdr = widget[jd].cdr; /* prev = next */
-                        else
-                            widget[i].car = widget[jd].cdr; /* head = next */
-                    }
-            }
-
-        /* Update parent widget layout. */
-
-        if (pd)
-        {
-            gui_widget_dn(pd, widget[pd].x, widget[pd].y, widget[pd].w, widget[pd].h);
-            gui_geom_widget(pd, widget[pd].flags);
-        }
-
-        gui_delete(id);
-    }
-}
-
 int gui_delete(int id)
 {
     if (id)

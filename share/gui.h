@@ -122,7 +122,6 @@ void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
 int  gui_delete(int);
-void gui_remove(int);
 
 /*---------------------------------------------------------------------------*/
 
