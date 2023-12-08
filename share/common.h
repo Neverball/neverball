@@ -44,7 +44,7 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-#define CLAMP(a, b, c) MIN(MAX(a, b), c)
+#define CLAMP(min, val, max) MIN(MAX((min), (val)), (max))
 
 #define SIGN(n) ((n) < 0 ? -1 : ((n) > 0 ? +1 : 0))
 #define ROUND(f) ((int) ((f) + 0.5f * SIGN(f)))
