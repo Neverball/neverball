@@ -22,7 +22,9 @@
 
 void put_float(fs_file fout, float f)
 {
-    unsigned int val = *(unsigned int *) &f;
+    unsigned int val = 0;
+
+    memcpy(&val, &f, sizeof (val));
 
     fs_putc((val)       & 0xff, fout);
     fs_putc((val >> 8)  & 0xff, fout);
@@ -62,7 +64,11 @@ float get_float(fs_file fin)
         (fs_getc(fin) & 0xff) << 16 |
         (fs_getc(fin) & 0xff) << 24;
 
-    return *(float *) &val;
+    float f = 0.0f;
+
+    memcpy(&f, &val, sizeof (f));
+
+    return f;
 }
 
 int get_index(fs_file fin)
