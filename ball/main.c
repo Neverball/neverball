@@ -903,6 +903,8 @@ static void main_quit(void)
 
     /* Free everything else. */
 
+    goto_state(&st_null);
+
     mtrl_quit();
     video_quit();
     tilt_free();

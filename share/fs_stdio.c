@@ -705,8 +705,18 @@ int fs_size(const char *path)
         {
             char *real = path_join(path_item->path, path);
 
-            if (file_exists(real)) {
-                return file_size(real);
+            if (real)
+            {
+                if (file_exists(real))
+                {
+                    int s = file_size(real);
+                    free(real);
+                    real = NULL;
+                    return s;
+                }
+
+                free(real);
+                real = NULL;
             }
         }
         else if (path_item->type == FS_PATH_ZIP)
