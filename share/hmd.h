@@ -17,18 +17,18 @@
 
 /*---------------------------------------------------------------------------*/
 
-int  hmd_stat();
+int  hmd_stat(void);
 
-void hmd_init();
-void hmd_free();
-void hmd_step();
-void hmd_swap();
+void hmd_init(void);
+void hmd_free(void);
+void hmd_step(void);
+void hmd_swap(void);
 
-void hmd_prep_left();
-void hmd_prep_right();
+void hmd_prep_left(void);
+void hmd_prep_right(void);
 
 void hmd_persp(float, float);
-void hmd_ortho();
+void hmd_ortho(void);
 
 /*---------------------------------------------------------------------------*/
 

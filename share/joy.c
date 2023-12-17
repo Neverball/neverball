@@ -20,7 +20,7 @@ static SDL_JoystickID joy_curr = -1;
 /*
  * Initialize joystick state.
  */
-void joy_init()
+void joy_init(void)
 {
     size_t i = 0;
 
@@ -42,7 +42,7 @@ void joy_init()
 /*
  * Close all joysticks.
  */
-void joy_quit()
+void joy_quit(void)
 {
     size_t i = 0;
 

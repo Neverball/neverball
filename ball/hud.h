@@ -12,11 +12,11 @@ void hud_update(int);
 
 void hud_cam_pulse(int);
 void hud_cam_timer(float);
-void hud_cam_paint();
+void hud_cam_paint(void);
 
 void hud_speed_pulse(int);
 void hud_speed_timer(float);
-void hud_speed_paint();
+void hud_speed_paint(void);
 
 /*---------------------------------------------------------------------------*/
 

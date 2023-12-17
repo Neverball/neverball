@@ -778,7 +778,7 @@ int gui_filler(int pd) { return gui_widget(pd, GUI_FILLER); }
 /*
  * For when you really want to use gui_layout on multiple widgets.
  */
-int gui_root()
+int gui_root(void)
 {
     int id;
 

@@ -2197,7 +2197,7 @@ void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, 
 /* Allocate the tdefl_compressor and tinfl_decompressor structures in C so that */
 /* non-C language bindings to tdefL_ and tinfl_ API don't need to worry about */
 /* structure size and allocation mechanism. */
-tdefl_compressor *tdefl_compressor_alloc()
+tdefl_compressor *tdefl_compressor_alloc(void)
 {
     return (tdefl_compressor *)MZ_MALLOC(sizeof(tdefl_compressor));
 }
@@ -2938,7 +2938,7 @@ int tinfl_decompress_mem_to_callback(const void *pIn_buf, size_t *pIn_buf_size, 
 }
 
 #ifndef MINIZ_NO_MALLOC
-tinfl_decompressor *tinfl_decompressor_alloc()
+tinfl_decompressor *tinfl_decompressor_alloc(void)
 {
     tinfl_decompressor *pDecomp = (tinfl_decompressor *)MZ_MALLOC(sizeof(tinfl_decompressor));
     if (pDecomp)
@@ -6704,7 +6704,7 @@ mz_bool mz_zip_writer_add_read_buf_callback(mz_zip_archive *pZip, const char *pA
 
         if (!mz_zip_writer_create_local_dir_header(pZip, local_dir_header,
                                                    (mz_uint16)archive_name_size, (mz_uint16)(extra_size + user_extra_data_len),
-                                                   (max_size >= MZ_UINT32_MAX) ? MZ_UINT32_MAX : uncomp_size, 
+                                                   (max_size >= MZ_UINT32_MAX) ? MZ_UINT32_MAX : uncomp_size,
                                                     (max_size >= MZ_UINT32_MAX) ? MZ_UINT32_MAX : comp_size,
                                                    uncomp_crc32, method, gen_flags, dos_time, dos_date))
             return mz_zip_set_error(pZip, MZ_ZIP_INTERNAL_ERROR);

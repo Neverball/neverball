@@ -91,7 +91,7 @@ static int is_unseen_course(struct dir_item *item)
             !course_is_loaded(item->path));
 }
 
-void course_init()
+void course_init(void)
 {
     fs_file fin;
     char *line;

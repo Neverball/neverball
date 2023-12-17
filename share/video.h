@@ -49,7 +49,7 @@ int  video_fullscreen(int);
 
 void video_resize(int, int);
 
-int  video_display();
+int  video_display(void);
 
 void video_set_window_size(int w, int h);
 

@@ -528,7 +528,7 @@ static int image_alloc = 0;
 
 #define IMAGE_REALLOC 32
 
-static void free_imagedata()
+static void free_imagedata(void)
 {
     int i;
 

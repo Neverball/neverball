@@ -377,7 +377,7 @@ static int is_unseen_set(struct dir_item *item)
             !set_is_loaded(item->path));
 }
 
-int set_init()
+int set_init(void)
 {
     fs_file fin;
     char *name;
