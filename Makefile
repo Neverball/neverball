@@ -120,7 +120,8 @@ ifeq ($(PLATFORM),darwin)
     ALL_CPPFLAGS += \
         -DGL_SILENCE_DEPRECATION=1 \
         $(patsubst %, -I%, $(wildcard /opt/local/include \
-                                      /usr/local/include))
+                                      /usr/local/include \
+                                      /opt/homebrew/include))
 endif
 
 ALL_CPPFLAGS += $(CPPFLAGS)
@@ -214,7 +215,8 @@ BASE_LIBS := -ljpeg $(PNG_LIBS) $(FS_LIBS) -lm
 
 ifeq ($(PLATFORM),darwin)
 	BASE_LIBS += $(patsubst %, -L%, $(wildcard /opt/local/lib \
-	                                           /usr/local/lib))
+                                                   /usr/local/lib \
+                                                   /opt/homebrew/lib))
 endif
 
 OGG_LIBS := -lvorbisfile
