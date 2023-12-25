@@ -558,7 +558,7 @@ static int play_loop_touch(const SDL_TouchFingerEvent *event)
      *   x = fast / slow
      */
     const float rs = config_get_d(CONFIG_ROTATE_SLOW) / 100.0f;
-    const float rf = config_get_d(CONFIG_ROTATE_SLOW) / 100.0f;
+    const float rf = config_get_d(CONFIG_ROTATE_FAST) / 100.0f;
     const float rmax = rf / rs;
 
     int id;
@@ -624,7 +624,10 @@ static int play_loop_touch(const SDL_TouchFingerEvent *event)
              */
 
             if (rotate != 0.0f)
-                rot_set(DIR_L, MIN(rmax, (float) config_get_d(CONFIG_TOUCH_ROTATE) * rotate), 1);
+            {
+                const float scaled_rotate = (float) config_get_d(CONFIG_TOUCH_ROTATE) * rotate;
+                rot_set(DIR_L, CLAMP(-rmax, scaled_rotate, +rmax), 1);
+            }
         }
         else
         {
