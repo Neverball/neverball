@@ -27,11 +27,14 @@
 #include "game_common.h"
 #include "game_client.h"
 
+#include "st_pause.h"
+
 /*---------------------------------------------------------------------------*/
 
 static int Lhud_id;
 static int Rhud_id;
 static int time_id;
+static int Touch_id;
 
 static int coin_id;
 static int ball_id;
@@ -49,6 +52,7 @@ static const char *speed_labels[SPEED_MAX] = {
 
 static float cam_timer;
 static float speed_timer;
+static float touch_timer;
 
 static void hud_fps(void)
 {
@@ -93,6 +97,25 @@ void hud_init(void)
         gui_layout(Lhud_id, -1, -1);
     }
 
+    if ((Touch_id = gui_vstack(0)))
+    {
+        gui_space(Touch_id);
+
+        if ((id = gui_hstack(Touch_id)))
+        {
+            /* Poor man's pause symbol. */
+            gui_state(id, GUI_ROMAN_2, GUI_TCH, GUI_BACK, 0);
+
+            gui_space(id);
+
+            gui_state(id, GUI_FISHEYE, GUI_TCH, GUI_CAMERA, 0);
+
+            gui_space(id);
+        }
+
+        gui_layout(Touch_id, -1, +1);
+    }
+
     if ((time_id = gui_clock(0, 59999, GUI_MED)))
     {
         gui_set_rect(time_id, GUI_TOP);
@@ -135,6 +158,7 @@ void hud_free(void)
 
     gui_delete(Rhud_id);
     gui_delete(Lhud_id);
+    gui_delete(Touch_id);
     gui_delete(time_id);
     gui_delete(cam_id);
     gui_delete(fps_id);
@@ -158,6 +182,7 @@ void hud_paint(void)
 
     hud_cam_paint();
     hud_speed_paint();
+    hud_touch_paint();
 }
 
 void hud_update(int pulse)
@@ -275,10 +300,27 @@ void hud_timer(float dt)
 
     gui_timer(Rhud_id, dt);
     gui_timer(Lhud_id, dt);
+    gui_timer(Touch_id, dt);
     gui_timer(time_id, dt);
 
     hud_cam_timer(dt);
     hud_speed_timer(dt);
+    hud_touch_timer(dt);
+}
+
+int hud_touch(const SDL_TouchFingerEvent *event)
+{
+    touch_timer = 5.0f;
+
+    if (event->type == SDL_FINGERUP)
+    {
+        const int x = (int) ((float) video.device_w * event->x);
+        const int y = (int) ((float) video.device_h * (1.0f - event->y));
+
+        return gui_point(Touch_id, x, y);
+    }
+
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -341,6 +383,20 @@ void hud_speed_paint(void)
 {
     if (speed_timer > 0.0f)
         gui_paint(speed_id);
+}
+
+/*---------------------------------------------------------------------------*/
+
+void hud_touch_timer(float dt)
+{
+    touch_timer -= dt;
+    gui_timer(Touch_id, dt);
+}
+
+void hud_touch_paint(void)
+{
+    if (touch_timer > 0.0f && curr_state() != &st_pause)
+        gui_paint(Touch_id);
 }
 
 /*---------------------------------------------------------------------------*/

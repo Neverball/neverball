@@ -539,15 +539,101 @@ static int play_loop_buttn(int b, int d)
 
 static int play_loop_touch(const SDL_TouchFingerEvent *event)
 {
-    if (event->type == SDL_FINGERMOTION)
+    static SDL_FingerID rotate_finger = -1;
+
+    static float rotate = 0.0f; /* Filtered input. */
+
+    /*
+     * Make sure not to exceed rotate_fast rotation speed.
+     *
+     * Find the coefficient needed to reach rotate_fast speed and
+     * clamp the scaled input at that value.
+     *
+     * Derivation:
+     * Default rotate_slow is 150 or 1.5
+     * Default rotate_fast is 300 or 3.0
+     *
+     *   x * slow = 1.0 * fast
+     *   x = (1.0 * fast) / slow
+     *   x = fast / slow
+     */
+    const float rs = config_get_d(CONFIG_ROTATE_SLOW) / 100.0f;
+    const float rf = config_get_d(CONFIG_ROTATE_SLOW) / 100.0f;
+    const float rmax = rf / rs;
+
+    int id;
+
+    if ((id = hud_touch(event)))
     {
-        int dx = (int) ((float) video.device_w * event->dx);
-        int dy = (int) ((float) video.device_h * -event->dy);
+        int token = gui_token(id);
 
-        game_set_pos(dx, dy);
+        gui_pulse(id, 1.2f);
+
+        if (token == GUI_BACK)
+        {
+            goto_state(&st_pause);
+        }
+        else if (token == GUI_CAMERA)
+        {
+            toggle_camera();
+
+            /* Weird hack: allow toggling the button. */
+
+            gui_focus(0);
+        }
     }
+    else if (event->type == SDL_FINGERDOWN)
+    {
+        SDL_Finger *finger = SDL_GetTouchFinger(event->touchId, 1); /* Second finger. */
 
-    // TODO: rotate camera, change camera, etc.
+        if (finger && event->fingerId == finger->id)
+        {
+            rotate_finger = finger->id;
+            rotate = 0.0f;
+        }
+    }
+    else if (event->type == SDL_FINGERUP)
+    {
+        if (event->fingerId == rotate_finger)
+        {
+            rotate_finger = -1;
+            rot_clr(DIR_R | DIR_L);
+            rotate = 0.0f;
+        }
+    }
+    else if (event->type == SDL_FINGERMOTION)
+    {
+        if (event->fingerId == rotate_finger)
+        {
+            /* Discard accumulated input when moving in the opposite direction. */
+
+            if ((rotate < 0.0f && event->dx > 0.0f) || (event->dx < 0.0f && rotate > 0.0f))
+                rotate = 0.0f;
+
+            /* Filter the input for a smoother experience. */
+
+            rotate += event->dx * 0.4f;
+
+            /*
+             * touch_rotate gives the fraction of the screen that you need to swipe
+             * across to reach rotate_slow rotation speed. E.g., a value of 32
+             * is 1/32 of screen.
+             *
+             * To rotate slower, swipe a smaller distance than that.
+             * To rotate faster, swipe farther.
+             */
+
+            if (rotate != 0.0f)
+                rot_set(DIR_L, MIN(rmax, (float) config_get_d(CONFIG_TOUCH_ROTATE) * rotate), 1);
+        }
+        else
+        {
+            int dx = (int) ((float) video.device_w * event->dx);
+            int dy = (int) ((float) video.device_h * -event->dy);
+
+            game_set_pos(dx, dy);
+        }
+    }
 
     return 1;
 }

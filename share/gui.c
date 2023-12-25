@@ -435,6 +435,7 @@ static int         fontc;
 static const int font_sizes_scale[FONT_SIZE_MAX] = {
     52, // GUI_TNY
     26, // GUI_SML
+    20, // GUI_TCH
     13, // GUI_MED
     7,  // GUI_LRG
 };

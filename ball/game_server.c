@@ -544,7 +544,7 @@ void game_server_free(const char *next)
 static void game_update_view(float dt)
 {
     float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
-    float da = input_get_r() * dt * 90.0f;
+    float da = 90.0f * input_get_r() * dt;
     float k;
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };

@@ -114,6 +114,8 @@ extern int CONFIG_CAMERA_1_SPEED;
 extern int CONFIG_CAMERA_2_SPEED;
 extern int CONFIG_CAMERA_3_SPEED;
 
+extern int CONFIG_TOUCH_ROTATE;
+
 /* String options. */
 
 extern int CONFIG_PLAYER;
@@ -139,6 +141,8 @@ int  config_get_d(int);
 
 void        config_set_s(int, const char *);
 const char *config_get_s(int);
+
+void config_set(const char *key, const char *val);
 
 /*---------------------------------------------------------------------------*/
 

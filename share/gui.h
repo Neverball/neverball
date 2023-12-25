@@ -25,6 +25,7 @@
 
 #define GUI_TNY FONT_SIZE_TNY
 #define GUI_SML FONT_SIZE_SML
+#define GUI_TCH FONT_SIZE_TCH
 #define GUI_MED FONT_SIZE_MED
 #define GUI_LRG FONT_SIZE_LRG
 
@@ -73,6 +74,8 @@ enum trunc
 #define GUI_TRIANGLE_LEFT "◀"
 #define GUI_CIRCLE_ARROW "⟳"
 #define GUI_CROSS "×"
+#define GUI_ROMAN_2 "Ⅱ"
+#define GUI_FISHEYE "◉"
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,6 +159,7 @@ enum
     GUI_CHAR,
     GUI_NAME,
     GUI_SCORE,
+    GUI_CAMERA,
 
     GUI_LAST
 };
