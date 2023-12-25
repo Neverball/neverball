@@ -612,7 +612,7 @@ static int play_loop_touch(const SDL_TouchFingerEvent *event)
 
             /* Filter the input for a smoother experience. */
 
-            rotate += event->dx * 0.4f;
+            rotate += event->dx * 0.6f;
 
             /*
              * touch_rotate gives the fraction of the screen that you need to swipe
