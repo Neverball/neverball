@@ -232,7 +232,7 @@ static struct
     { &CONFIG_CAMERA_2_SPEED, "camera_2_speed", 0 },
     { &CONFIG_CAMERA_3_SPEED, "camera_3_speed", -1 },
 
-    { &CONFIG_TOUCH_ROTATE, "touch_rotate", 24 },
+    { &CONFIG_TOUCH_ROTATE, "touch_rotate", 16 },
 };
 
 static struct

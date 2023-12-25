@@ -231,11 +231,11 @@ values follow.
         seconds,  so the  actual rotation  rate depends  upon view_dz,
         above.  The fast rate is used when the Shift key is held down.
 
-    touch_rotate 24
+    touch_rotate 16
 
         (Touchscreen only)  Defines the fraction of the screen that you
         need to swipe across to reach rotate_slow rotation speed. E.g.,
-        a value of 24 means 1/24  of  screen.  You can swipe farther to
+        a value of 16 means 1/16  of  screen.  You can swipe farther to
         reach the rotate_fast rotation speed.
 
     fps 0
