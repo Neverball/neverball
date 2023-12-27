@@ -22,8 +22,6 @@ OUTPUT_DIR ?= $(shell pwd)/packages
 
 # TODO: build separate source packages
 PACKAGE_EXCLUDE := \
-	'*.map' \
-	'*.obj' \
 	'*.xcf' \
 	'*.wings' \
 	'screenshot.png'
