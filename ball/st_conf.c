@@ -207,6 +207,11 @@ static int conf_gui(void)
         if ((id = gui_vstack(root_id)))
         {
             gui_label(id, "Neverball " VERSION, GUI_TNY, gui_wht, gui_wht);
+            gui_multi(id, _(
+                "Copyright © 2023 Neverball authors\n"
+                "Neverball is free software available under the terms of GPL v2 or later."
+            ), GUI_TNY, gui_wht, gui_wht);
+
             gui_clr_rect(id);
             gui_layout(id, 0, -1);
         }
