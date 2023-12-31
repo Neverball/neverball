@@ -200,17 +200,17 @@ DEFINE_CMD(CMD_SWCH_ENTER, INDEX_BYTES, {
 /*---------------------------------------------------------------------------*/
 
 DEFINE_CMD(CMD_SWCH_TOGGLE, INDEX_BYTES, {
-    put_index(fp, cmd->swchenter.xi);
+    put_index(fp, cmd->swchtoggle.xi);
 }, {
-    cmd->swchenter.xi = get_index(fp);
+    cmd->swchtoggle.xi = get_index(fp);
 });
 
 /*---------------------------------------------------------------------------*/
 
 DEFINE_CMD(CMD_SWCH_EXIT, INDEX_BYTES, {
-    put_index(fp, cmd->swchenter.xi);
+    put_index(fp, cmd->swchexit.xi);
 }, {
-    cmd->swchenter.xi = get_index(fp);
+    cmd->swchexit.xi = get_index(fp);
 });
 
 /*---------------------------------------------------------------------------*/
