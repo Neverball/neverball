@@ -42,8 +42,8 @@ enum cmd_type
     CMD_COINS,
     CMD_JUMP_ENTER,
     CMD_JUMP_EXIT,
-    CMD_BODY_PATH,
-    CMD_BODY_TIME,
+    CMD_BODY_PATH, /* Use CMD_MOVE_PATH instead. */
+    CMD_BODY_TIME, /* Use CMD_MOVE_TIME instead. */
     CMD_GOAL_OPEN,
     CMD_SWCH_ENTER,
     CMD_SWCH_TOGGLE,
@@ -113,6 +113,7 @@ struct cmd_tilt_angles
 struct cmd_sound
 {
     CMD_HEADER;
+    /* FIXME: this should have been an integer. */
     char  *n;
     float  a;
 };
@@ -145,6 +146,7 @@ struct cmd_jump_exit
     CMD_HEADER;
 };
 
+/* Use CMD_MOVE_PATH instead. */
 struct cmd_body_path
 {
     CMD_HEADER;
@@ -152,6 +154,7 @@ struct cmd_body_path
     int pi;
 };
 
+/* Use CMD_MOVE_TIME instead. */
 struct cmd_body_time
 {
     CMD_HEADER;
@@ -174,6 +177,7 @@ struct cmd_swch_toggle
 {
     CMD_HEADER;
     int xi;
+    /* FIXME: this should have had a flag to indicate state. */
 };
 
 struct cmd_swch_exit
