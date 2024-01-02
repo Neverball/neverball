@@ -206,10 +206,6 @@ void video_quit(void)
 {
     if (context)
     {
-#ifdef __EMSCRIPTEN__
-        close_gl4es();
-#endif
-
         SDL_GL_DeleteContext(context);
         context = NULL;
     }
@@ -298,9 +294,6 @@ int video_mode(int f, int w, int h)
 
             if (buf < buffers || smp < samples)
             {
-#ifdef __EMSCRIPTEN__
-                close_gl4es();
-#endif
                 log_printf("GL context does not meet minimum specifications\n");
                 SDL_GL_DeleteContext(context);
                 context = NULL;

@@ -11,7 +11,7 @@ BUILD ?= devel
 VERSION := $(shell sh scripts/version.sh)
 
 ifeq ($(BUILD), devel)
-CFLAGS := -O1 -fsanitize=undefined -fsanitize=address -std=gnu99 -Wall -Ishare -DNDEBUG -DENABLE_FETCH=1 -I$(GL4ES_DIR)/include
+CFLAGS := -O1 -g -fsanitize=undefined -fsanitize=address -std=gnu99 -Wall -Ishare -DNDEBUG -DENABLE_FETCH=1 -I$(GL4ES_DIR)/include
 else
 CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -DENABLE_FETCH=1 -I$(GL4ES_DIR)/include
 endif
@@ -89,6 +89,7 @@ EM_LDFLAGS := \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s FULL_ES2=1 \
 	-s INVOKE_RUN=0 \
+	-s NO_EXIT_RUNTIME=1 \
 	-s EXPORTED_FUNCTIONS=_main,_push_user_event,_config_set \
 	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap \
 	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
