@@ -248,8 +248,7 @@ static int package_action(int tok, int val)
 
     case GUI_PREV:
 
-        first -= PACKAGE_STEP;
-
+        first = MAX(first - PACKAGE_STEP, 0);
         do_init = 0;
         return goto_state(&st_package);
 
@@ -257,8 +256,7 @@ static int package_action(int tok, int val)
 
     case GUI_NEXT:
 
-        first += PACKAGE_STEP;
-
+        first = MIN(first + PACKAGE_STEP, total - 1);
         do_init = 0;
         return goto_state(&st_package);
 
