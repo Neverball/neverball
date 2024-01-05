@@ -322,7 +322,8 @@ void sol_swch_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
 
             if (xp->tm <= 0)
             {
-                /* Only toggle the paths if no other timer is active. */
+                /* Only toggle the paths if no other timer 
+                 * controlling the same paths is active. */
                 
                 int others_active = 0;
                 int xj;
@@ -553,17 +554,14 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                 ball_p[1] > xp->base->p[1] &&
                 ball_p[1] < xp->base->p[1] + SWCH_HEIGHT / 2)
             {
-
                 /* The ball is completely inside the switch. */
 
                 if (d <= 0.0)
                 {
-
                     /* The ball just now entered the switch. */
 
                     if (!xp->e)
                     {
-
                         xp->e = 1;
                         if (cmd_func)
                         {
@@ -645,7 +643,6 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
             else if (xp->e)
             {
                 xp->e = 0;
-
                 if (cmd_func)
                 {
                     union cmd cmd = { CMD_SWCH_EXIT };
