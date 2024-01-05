@@ -514,8 +514,6 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
     {
         struct v_swch *xp = vary->xv + xi;
 
-        /* FIXME enter/exit events don't work for timed switches */
-
         if (xp->base->t == 0 || xp->f == xp->base->f)
         {
             float d, r[3];
@@ -538,48 +536,72 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                 ball_p[1] > xp->base->p[1] &&
                 ball_p[1] < xp->base->p[1] + SWCH_HEIGHT / 2)
             {
-                if (!xp->e && d <= 0.0f)
+
+                /* The ball is completely inside the switch. */
+
+                if (d <= 0.0)
                 {
-                    /* The ball enters. */
 
-                    xp->e = 1;
+                    /* The ball just now entered the switch. */
 
-                    if (cmd_func)
+                    if (!xp->e)
                     {
-                        union cmd cmd = { CMD_SWCH_ENTER };
-                        cmd.swchenter.xi = xi;
-                        cmd_func(&cmd);
+
+                        xp->e = 1;
+                        if (cmd_func)
+                        {
+                            union cmd cmd = { CMD_SWCH_ENTER };
+                            cmd.swchenter.xi = xi;
+                            cmd_func(&cmd);
+                        }
+
+                        /* If it's a toggle switch, toggle it. */
+
+                        if (xp->base->tm == 0)
+                        {
+                            xp->f = xp->f ? 0 : 1;
+                            if (cmd_func)
+                            {
+                                union cmd cmd = { CMD_SWCH_TOGGLE };
+                                cmd.swchtoggle.xi = xi;
+                                cmd_func(&cmd);
+                            }
+                            sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
+                        }
+
+                        /* If visible, play the sound. */
+
+                        if (!xp->base->i)
+                            rc = SWCH_INSIDE;
                     }
 
-                    /* Toggle the state, update the path. */
+                    /* If it's a timed switch, and the timer is off, 
+                     * turn it on and start the timer. */
 
-                    xp->f = xp->f ? 0 : 1;
-
-                    if (cmd_func)
+                    if (xp->base->tm != 0 && xp->f == xp->base->f)
                     {
-                        union cmd cmd = { CMD_SWCH_TOGGLE };
-                        cmd.swchtoggle.xi = xi;
-                        cmd_func(&cmd);
-                    }
+                        xp->f = xp->f ? 0 : 1;
+                        if (cmd_func)
+                        {
+                            union cmd cmd = { CMD_SWCH_TOGGLE };
+                            cmd.swchtoggle.xi = xi;
+                            cmd_func(&cmd);
+                        }
+                        sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
-                    sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
-
-                    /* It toggled to non-default state, start the timer. */
-
-                    if (xp->f != xp->base->f && xp->base->tm != 0)
-                    {
                         xp->t = xp->base->t;
                         xp->tm = xp->base->tm;
+
+                        /* If visible, play the sound. */
+
+                        if (!xp->base->i)
+                            rc = SWCH_INSIDE;
                     }
 
-                    /* If visible, set the result. */
-
-                    if (!xp->base->i)
-                        rc = SWCH_INSIDE;
                 }
             }
 
-            /* The ball exits. */
+            /* The ball is no longer touching the switch. */
 
             else if (xp->e)
             {
