@@ -322,7 +322,24 @@ void sol_swch_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
 
             if (xp->tm <= 0)
             {
-                sol_path_loop(vary, cmd_func, xp->base->pi, xp->base->f);
+                /* Only toggle the paths if no other timer is active. */
+                
+                int others_active = 0;
+                int xj;
+
+                for (xj =  0; xj < vary->xc; xj++)
+                {
+                    struct v_swch *xq = vary->xv + xj;
+                    if (xq->base->pi == xp->base->pi &&
+                    xq->tm > 0)
+                    {
+                        others_active = 1;
+                    }
+                }
+
+                if (others_active == 0) {
+                    sol_path_loop(vary, cmd_func, xp->base->pi, xp->base->f);
+                }
 
                 xp->f = xp->base->f;
 
@@ -589,8 +606,30 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                         }
                         sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
-                        xp->t = xp->base->t;
-                        xp->tm = xp->base->tm;
+                        /* Look at all switches pointing to the same path.
+                         * See which one has the most time left. */
+
+                        float t_max = 0.0f;
+                        float tm_max = 0;
+                        int xj;
+
+                        for (xj = 0; xj < vary->xc; xj++)
+                        {
+                            struct v_swch *xq = vary->xv + xj;
+                            if (xq->base->pi == xp->base->pi &&
+                            xq->tm > tm_max)
+                            {
+                                t_max = xq->t;
+                                tm_max = xq->tm;
+                            }
+                        }
+
+                        /* Set the timer. If another timer pointing to the
+                         * same path is still active, make this timer
+                         * run a little longer by adding t_max, tm_max. */
+
+                        xp->t = xp->base->t + t_max;
+                        xp->tm = xp->base->tm + tm_max;
 
                         /* If visible, play the sound. */
 
