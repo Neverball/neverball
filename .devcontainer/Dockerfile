@@ -12,6 +12,7 @@ COPY ./install-gl4es.sh /tmp/install-gl4es
 RUN \
     chmod +x /tmp/install-gl4es && \
     /tmp/install-gl4es && \
+    chown -R emscripten:emscripten "$GL4ES_DIR" && \
     rm -rf /tmp/install-gl4es
 
 # Use a pre-made emscripten user (UID=1000 GUID=1000) to avoid root-owned files.
