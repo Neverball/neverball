@@ -682,11 +682,11 @@ static float sol_path_time(struct s_vary *vary, float dt)
     {
         struct v_swch *xp = vary->xv + xi;
 
-        if (xp->tm >= xp->base->tm)
+        if (xp->tm == 0)
             continue;
 
-        if (xp->tm + ms_peek(&vary->ms_accum, dt) > xp->base->tm)
-            dt = MS_TO_TIME(xp->base->tm - xp->tm);
+        if (xp->tm - ms_peek(&vary->ms_accum, dt) <= 0)
+            dt = MS_TO_TIME(xp->tm);
     }
 
     return dt;

@@ -113,8 +113,8 @@ int sol_load_vary(struct s_vary *fp, struct s_base *base)
             struct b_swch *xq = fp->base->xv + i;
 
             xp->base = xq;
-            xp->t    = xq->t;
-            xp->tm   = xq->tm;
+            xp->t    = 0;
+            xp->tm   = 0;
             xp->f    = xq->f;
         }
     }

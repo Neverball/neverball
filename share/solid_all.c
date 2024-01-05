@@ -315,12 +315,12 @@ void sol_swch_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
     {
         struct v_swch *xp = vary->xv + xi;
 
-        if (xp->tm < xp->base->tm)
+        if (xp->tm > 0)
         {
-            xp->t += dt;
-            xp->tm += ms;
+            xp->t -= dt;
+            xp->tm -= ms;
 
-            if (xp->tm >= xp->base->tm)
+            if (xp->tm <= 0)
             {
                 sol_path_loop(vary, cmd_func, xp->base->pi, xp->base->f);
 
@@ -542,16 +542,13 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                 {
                     /* The ball enters. */
 
-                    if (xp->base->tm == 0)
-                    {
-                        xp->e = 1;
+                    xp->e = 1;
 
-                        if (cmd_func)
-                        {
-                            union cmd cmd = { CMD_SWCH_ENTER };
-                            cmd.swchenter.xi = xi;
-                            cmd_func(&cmd);
-                        }
+                    if (cmd_func)
+                    {
+                        union cmd cmd = { CMD_SWCH_ENTER };
+                        cmd.swchenter.xi = xi;
+                        cmd_func(&cmd);
                     }
 
                     /* Toggle the state, update the path. */
@@ -569,10 +566,10 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
 
                     /* It toggled to non-default state, start the timer. */
 
-                    if (xp->f != xp->base->f)
+                    if (xp->f != xp->base->f && xp->base->tm != 0)
                     {
-                        xp->t = 0.0f;
-                        xp->tm = 0;
+                        xp->t = xp->base->t;
+                        xp->tm = xp->base->tm;
                     }
 
                     /* If visible, set the result. */
