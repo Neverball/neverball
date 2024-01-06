@@ -31,18 +31,15 @@
 
 #include "cmd.h"
 
-/* Do this differently ASAP. */
-void incr_gained(int);
-
 /*---------------------------------------------------------------------------*/
 
 static int server_state = 0;
 
 static struct s_vary vary;
 
-static float timer      = 0.f;          /* Clock time                        */
-static int   timer_down = 1;            /* Timer go up or down?              */
-
+static float time_limit = 0;            /* Effective time limit              */
+static float time_elapsed = 0;          /* Time elapsed                      */
+static float timer = 0.0f;              /* Clock                             */
 static int status = GAME_NONE;          /* Outcome of the game               */
 
 static struct game_tilt tilt;           /* Floor rotation                    */
@@ -441,10 +438,12 @@ int game_server_init(const char *file_name, int t, int e)
     struct { int x, y; } version;
     int i;
 
-    timer      = (float) t / 100.f;
-    timer_down = (t > 0);
-    coins      = 0;
-    status     = GAME_NONE;
+    time_limit = (float) t / 100.0f;
+    time_elapsed = 0.0f;
+
+    timer = 0.0f;
+    status = GAME_NONE;
+    coins = 0;
 
     game_server_free(file_name);
 
@@ -661,20 +660,16 @@ static void game_update_view(float dt)
 
 static void game_update_time(float dt, int b)
 {
-   /* The ticking clock. */
-
-    if (b && timer_down)
+    if (b)
     {
-        timer -= dt;
-        if (timer < 0.f)
-            timer = 0.f;
-    }
-    else if (b)
-    {
-        timer += dt;
-    }
+        time_elapsed += dt;
 
-    if (b) game_cmd_timer();
+        /* Something that works for both timed and untimed levels. */
+
+        timer = fabsf(time_limit - time_elapsed);
+
+        game_cmd_timer();
+    }
 }
 
 static int game_update_state(int bt)
@@ -701,19 +696,19 @@ static int game_update_state(int bt)
         }
         else if (hp->t == ITEM_CLOCK)
         {
+            const float value = (float) hp->n;
+
             audio_play(AUD_CLOCK, 1.f);
 
-            if (timer_down)
-            {
-                /* Clock items are only effective on timed levels. */
+            /* For timed levels, increase the effective time limit. */
+            /* For untimed levels, reduce time elapsed for a better highscore. */
 
-                int seconds = hp->n;
+            if (time_limit > 0.0f)
+                time_limit = time_limit + value;
+            else
+                time_elapsed = MAX(0.0f, time_elapsed - value);
 
-                game_update_time((float) -seconds, bt);
-
-                /* FIXME: calling client from server is a bad idea. */
-                incr_gained(seconds);
-            }
+            game_update_time(0.0f, bt);
         }
 
         audio_play(AUD_COIN, 1.f);
@@ -758,7 +753,7 @@ static int game_update_state(int bt)
 
     /* Test for time-out. */
 
-    if (bt && timer_down && timer <= 0.f)
+    if (bt && time_limit > 0.0f && time_elapsed >= time_limit)
     {
         audio_play(AUD_TIME, 1.0f);
         return GAME_TIME;
@@ -933,6 +928,13 @@ void game_set_cam(int c)
 void game_set_rot(float r)
 {
     input_set_r(r);
+}
+
+/*---------------------------------------------------------------------------*/
+
+float curr_time_elapsed(void)
+{
+    return time_elapsed;
 }
 
 /*---------------------------------------------------------------------------*/

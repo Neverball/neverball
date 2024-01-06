@@ -228,7 +228,7 @@ void hud_update(int pulse)
                     gui_pulse(time_id, 1.25);
                 }
             }
-            else
+            else if (last > 0)
             {
                 if (clock > last + 2950)
                     gui_pulse(time_id, 2.00);
