@@ -39,9 +39,8 @@ enum
 
 enum
 {
-    SWCH_OUTSIDE = 0,
-    SWCH_INSIDE,
-    SWCH_TOUCH
+    SWCH_NONE = 0,
+    SWCH_ACTUATE
 };
 
 int            sol_item_test(struct s_vary *, float *p, float item_r);

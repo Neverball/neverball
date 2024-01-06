@@ -437,7 +437,7 @@ static int game_update_state(float dt)
 
     /* Test for a switch. */
 
-    if (sol_swch_test(fp, NULL, ball) == SWCH_INSIDE)
+    if (sol_swch_test(fp, NULL, ball) == SWCH_ACTUATE)
         audio_play(AUD_SWITCH, 1.f);
 
     /* Test for a jump. */
