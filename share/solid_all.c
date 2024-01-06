@@ -532,68 +532,45 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
     {
         struct v_swch *xp = vary->xv + xi;
 
-        if (xp->base->t == 0 || xp->f == xp->base->f)
+        float d, r[3];
+
+        r[0] = ball_p[0] - xp->base->p[0];
+        r[1] = ball_p[2] - xp->base->p[2];
+        r[2] = 0;
+
+        /* Distance of the far side from the edge of the halo. */
+
+        d = v_len(r) + ball_r - xp->base->r;
+
+        /*
+            * The  "touch"  distance, which  must  be cleared  before
+            * being able to trigger a switch, is the ball's diameter.
+            * (This is different from teleporters.)
+            */
+
+        if (d <= ball_r * 2 &&
+            ball_p[1] > xp->base->p[1] &&
+            ball_p[1] < xp->base->p[1] + SWCH_HEIGHT / 2)
         {
-            float d, r[3];
+            /* The ball is completely inside the switch. */
 
-            r[0] = ball_p[0] - xp->base->p[0];
-            r[1] = ball_p[2] - xp->base->p[2];
-            r[2] = 0;
-
-            /* Distance of the far side from the edge of the halo. */
-
-            d = v_len(r) + ball_r - xp->base->r;
-
-            /*
-             * The  "touch"  distance, which  must  be cleared  before
-             * being able to trigger a switch, is the ball's diameter.
-             * (This is different from teleporters.)
-             */
-
-            if (d <= ball_r * 2 &&
-                ball_p[1] > xp->base->p[1] &&
-                ball_p[1] < xp->base->p[1] + SWCH_HEIGHT / 2)
+            if (d <= 0.0)
             {
-                /* The ball is completely inside the switch. */
+                /* The ball just now entered the switch. */
 
-                if (d <= 0.0)
+                if (!xp->e)
                 {
-                    /* The ball just now entered the switch. */
-
-                    if (!xp->e)
+                    xp->e = 1;
+                    if (cmd_func)
                     {
-                        xp->e = 1;
-                        if (cmd_func)
-                        {
-                            union cmd cmd = { CMD_SWCH_ENTER };
-                            cmd.swchenter.xi = xi;
-                            cmd_func(&cmd);
-                        }
-
-                        /* If it's a toggle switch, toggle it. */
-
-                        if (xp->base->tm == 0)
-                        {
-                            xp->f = xp->f ? 0 : 1;
-                            if (cmd_func)
-                            {
-                                union cmd cmd = { CMD_SWCH_TOGGLE };
-                                cmd.swchtoggle.xi = xi;
-                                cmd_func(&cmd);
-                            }
-                            sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
-                        }
-
-                        /* If visible, play the sound. */
-
-                        if (!xp->base->i)
-                            rc = SWCH_INSIDE;
+                        union cmd cmd = { CMD_SWCH_ENTER };
+                        cmd.swchenter.xi = xi;
+                        cmd_func(&cmd);
                     }
 
-                    /* If it's a timed switch, and the timer is off, 
-                     * turn it on and start the timer. */
+                    /* If it's a toggle switch, toggle it. */
 
-                    if (xp->base->tm != 0 && xp->f == xp->base->f)
+                    if (xp->base->tm == 0)
                     {
                         xp->f = xp->f ? 0 : 1;
                         if (cmd_func)
@@ -604,31 +581,6 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                         }
                         sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
-                        /* Look at all switches pointing to the same path.
-                         * See which one has the most time left. */
-
-                        float t_max = 0.0f;
-                        float tm_max = 0;
-                        int xj;
-
-                        for (xj = 0; xj < vary->xc; xj++)
-                        {
-                            struct v_swch *xq = vary->xv + xj;
-                            if (xq->base->pi == xp->base->pi &&
-                            xq->tm > tm_max)
-                            {
-                                t_max = xq->t;
-                                tm_max = xq->tm;
-                            }
-                        }
-
-                        /* Set the timer. If another timer pointing to the
-                         * same path is still active, make this timer
-                         * run a little longer by adding t_max, tm_max. */
-
-                        xp->t = xp->base->t + t_max;
-                        xp->tm = xp->base->tm + tm_max;
-
                         /* If visible, play the sound. */
 
                         if (!xp->base->i)
@@ -636,11 +588,54 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     }
 
                 }
+
+                /* If it's a timed switch, and the timer is off, 
+                    * turn it on and start the timer. */
+
+                if (xp->base->tm != 0 && xp->f == xp->base->f)
+                {
+                    xp->f = xp->f ? 0 : 1;
+                    if (cmd_func)
+                    {
+                        union cmd cmd = { CMD_SWCH_TOGGLE };
+                        cmd.swchtoggle.xi = xi;
+                        cmd_func(&cmd);
+                    }
+                    sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
+
+                    /* Look at all switches pointing to the same path.
+                        * See which one has the most time left. */
+
+                    float t_max = 0.0f;
+                    float tm_max = 0;
+                    int xj;
+
+                    for (xj = 0; xj < vary->xc; xj++)
+                    {
+                        struct v_swch *xq = vary->xv + xj;
+                        if (xq->base->pi == xp->base->pi &&
+                        xq->tm > tm_max)
+                        {
+                            t_max = xq->t;
+                            tm_max = xq->tm;
+                        }
+                    }
+
+                    /* Set the timer. If another timer pointing to the
+                        * same path is still active, make this timer
+                        * run a little longer by adding t_max, tm_max. */
+
+                    xp->t = xp->base->t + t_max;
+                    xp->tm = xp->base->tm + tm_max;
+
+                    /* If visible, play the sound. */
+
+                    if (!xp->base->i)
+                        rc = SWCH_INSIDE;
+                }
+
             }
-
-            /* The ball is no longer touching the switch. */
-
-            else if (xp->e)
+            else if (xp->e && xp->base->tm != 0)
             {
                 xp->e = 0;
                 if (cmd_func)
@@ -649,6 +644,19 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     cmd.swchexit.xi = xi;
                     cmd_func(&cmd);
                 }
+            }
+        }
+
+        /* The ball is no longer touching the switch. */
+
+        else if (xp->e && xp->base->tm == 0)
+        {
+            xp->e = 0;
+            if (cmd_func)
+            {
+                union cmd cmd = { CMD_SWCH_EXIT };
+                cmd.swchexit.xi = xi;
+                cmd_func(&cmd);
             }
         }
     }
