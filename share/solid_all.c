@@ -573,9 +573,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
 
                 if (cmd_func)
                 {
-                    union cmd cmd;
-
-                    cmd.type        = CMD_SWCH_EXIT;
+                    union cmd cmd = { CMD_SWCH_EXIT };
                     cmd.swchexit.xi = xi;
                     cmd_func(&cmd);
                 }
@@ -594,9 +592,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
 
                     if (cmd_func)
                     {
-                        union cmd cmd;
-
-                        cmd.type         = CMD_SWCH_ENTER;
+                        union cmd cmd = { CMD_SWCH_ENTER };
                         cmd.swchenter.xi = xi;
                         cmd_func(&cmd);
                     }
@@ -609,9 +605,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     xp->f = xp->f ? 0 : 1;
                     if (cmd_func)
                     {
-                        union cmd cmd;
-
-                        cmd.type          = CMD_SWCH_TOGGLE;
+                        union cmd cmd = { CMD_SWCH_TOGGLE };
                         cmd.swchtoggle.xi = xi;
                         cmd_func(&cmd);
                     }
@@ -624,17 +618,15 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     xp->tm = 0;
                 }
             }
+            /* The ball exits. */
+
             else if (xp->e)
             {
-                /* The ball exits. */
-
                 xp->e = 0;
 
                 if (cmd_func)
                 {
-                    union cmd cmd;
-
-                    cmd.type        = CMD_SWCH_EXIT;
+                    union cmd cmd = { CMD_SWCH_EXIT };
                     cmd.swchexit.xi = xi;
                     cmd_func(&cmd);
                 }
