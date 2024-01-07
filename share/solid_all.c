@@ -508,7 +508,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
     const float *ball_p = vary->uv[ui].p;
     const float  ball_r = vary->uv[ui].r;
 
-    int xi, rc = SWCH_NONE;
+    int xi, rc = SWCH_OUTSIDE;
 
     for (xi = 0; xi < vary->xc; xi++)
     {
@@ -560,7 +560,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
                     if (!xp->base->i)
-                        rc = SWCH_ACTUATE;
+                        rc = SWCH_INSIDE;
 
                 }
             }
@@ -618,7 +618,7 @@ int sol_swch_test(struct s_vary *vary, cmd_fn cmd_func, int ui)
                     sol_path_loop(vary, cmd_func, xp->base->pi, xp->f);
 
                     if (!xp->base->i)
-                        rc = SWCH_ACTUATE;
+                        rc = SWCH_INSIDE;
 
                     xp->t = 0.0f;
                     xp->tm = 0;
