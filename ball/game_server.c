@@ -325,11 +325,9 @@ static void game_cmd_status(void)
 /*---------------------------------------------------------------------------*/
 
 static int   grow = 0;                  /* Should the ball be changing size? */
-static float grow_orig = 0;             /* the original ball size            */
 static float grow_goal = 0;             /* how big or small to get!          */
 static float grow_t = 0.0;              /* timer for the ball to grow...     */
 static float grow_strt = 0;             /* starting value for growth         */
-static int   got_orig = 0;              /* Do we know original ball size?    */
 
 #define GROW_TIME  0.5f                 /* sec for the ball to get to size.  */
 #define GROW_BIG   1.5f                 /* large factor                      */
@@ -339,17 +337,6 @@ static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
 
 static void grow_init(int type)
 {
-    if (!got_orig)
-    {
-        grow_orig  = vary.uv->r;
-        grow_goal  = grow_orig;
-        grow_strt  = grow_orig;
-
-        grow_state = 0;
-
-        got_orig   = 1;
-    }
-
     if (type == ITEM_SHRINK)
     {
         switch (grow_state)
@@ -359,14 +346,14 @@ static void grow_init(int type)
 
         case  0:
             audio_play(AUD_SHRINK, 1.f);
-            grow_goal = grow_orig * GROW_SMALL;
+            grow_goal = vary.uv->r0 * GROW_SMALL;
             grow_state = -1;
             grow = 1;
             break;
 
         case +1:
             audio_play(AUD_SHRINK, 1.f);
-            grow_goal = grow_orig;
+            grow_goal = vary.uv->r0;
             grow_state = 0;
             grow = 1;
             break;
@@ -378,14 +365,14 @@ static void grow_init(int type)
         {
         case -1:
             audio_play(AUD_GROW, 1.f);
-            grow_goal = grow_orig;
+            grow_goal = vary.uv->r0;
             grow_state = 0;
             grow = 1;
             break;
 
         case  0:
             audio_play(AUD_GROW, 1.f);
-            grow_goal = grow_orig * GROW_BIG;
+            grow_goal = vary.uv->r0 * GROW_BIG;
             grow_state = +1;
             grow = 1;
             break;
@@ -496,7 +483,7 @@ int game_server_init(const char *file_name, int t, int e)
 
     /* Initialize ball size tracking. */
 
-    got_orig = 0;
+    grow_state = 0;
     grow = 0;
 
     /* Initialize simulation. */
@@ -830,13 +817,9 @@ static int game_step(const float g[3], float dt, int bt)
             {
                 float k = (b - 0.5f) * 2.0f;
 
-                if (got_orig)
-                {
-                    if      (vary.uv->r > grow_orig) audio_play(AUD_BUMPL, k);
-                    else if (vary.uv->r < grow_orig) audio_play(AUD_BUMPS, k);
-                    else                             audio_play(AUD_BUMPM, k);
-                }
-                else audio_play(AUD_BUMPM, k);
+                if      (vary.uv->r > vary.uv->r0) audio_play(AUD_BUMPL, k);
+                else if (vary.uv->r < vary.uv->r0) audio_play(AUD_BUMPS, k);
+                else                               audio_play(AUD_BUMPM, k);
             }
         }
 

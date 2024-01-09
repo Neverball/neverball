@@ -72,7 +72,8 @@ struct v_ball
     float w[3];                                /* angular velocity vector    */
     float E[3][3];                             /* basis of pendulum          */
     float W[3];                                /* angular pendulum velocity  */
-    float r;                                   /* radius                     */
+    float r;                                   /* current radius             */
+    float r0;                                  /* initial radius             */
 };
 
 struct s_vary
