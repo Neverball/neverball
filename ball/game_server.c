@@ -324,96 +324,63 @@ static void game_cmd_status(void)
 
 /*---------------------------------------------------------------------------*/
 
-static int   grow = 0;                  /* Should the ball be changing size? */
-static float grow_goal = 0;             /* how big or small to get!          */
-static float grow_t = 0.0;              /* timer for the ball to grow...     */
-static float grow_strt = 0;             /* starting value for growth         */
-
-#define GROW_TIME  0.5f                 /* sec for the ball to get to size.  */
-#define GROW_BIG   1.5f                 /* large factor                      */
-#define GROW_SMALL 0.5f                 /* small factor                      */
-
-static int   grow_state = 0;            /* Current state (values -1, 0, +1)  */
-
-static void grow_init(int type)
+static int grow_init(int type)
 {
+    struct v_ball *up = &vary.uv[0];
+
+    int size = up->size;
+
     if (type == ITEM_SHRINK)
-    {
-        switch (grow_state)
-        {
-        case -1:
-            break;
-
-        case  0:
-            audio_play(AUD_SHRINK, 1.f);
-            grow_goal = vary.uv->r0 * GROW_SMALL;
-            grow_state = -1;
-            grow = 1;
-            break;
-
-        case +1:
-            audio_play(AUD_SHRINK, 1.f);
-            grow_goal = vary.uv->r0;
-            grow_state = 0;
-            grow = 1;
-            break;
-        }
-    }
+        size--;
     else if (type == ITEM_GROW)
+        size++;
+
+    size = CLAMP(0, size, 2);
+
+    if (size != up->size)
     {
-        switch (grow_state)
-        {
-        case -1:
-            audio_play(AUD_GROW, 1.f);
-            grow_goal = vary.uv->r0;
-            grow_state = 0;
-            grow = 1;
-            break;
+        const int old_size = up->size;
 
-        case  0:
-            audio_play(AUD_GROW, 1.f);
-            grow_goal = vary.uv->r0 * GROW_BIG;
-            grow_state = +1;
-            grow = 1;
-            break;
+        up->r_vel = (up->sizes[size] - up->r) / GROW_TIME;
+        up->size = size;
 
-        case +1:
-            break;
-        }
+        if (size < old_size)
+            return -1;
+
+        if (size > old_size)
+            return +1;
     }
 
-    if (grow)
-    {
-        grow_t = 0.0;
-        grow_strt = vary.uv->r;
-    }
+    return 0;
 }
 
 static void grow_step(float dt)
 {
-    float dr;
+    struct v_ball *up = &vary.uv[0];
 
-    if (!grow)
-        return;
-
-    /* Calculate new size based on how long since you touched the coin... */
-
-    grow_t += dt;
-
-    if (grow_t >= GROW_TIME)
+    if (up->r_vel != 0.0f)
     {
-        grow = 0;
-        grow_t = GROW_TIME;
+        float r, dr;
+
+        /* Calculate new size based on how long since you touched the coin... */
+
+        r = up->r + up->r_vel * dt;
+
+        if (fabsf(r - up->sizes[up->size]) < 0.0005f)
+        {
+            r = up->sizes[up->size];
+            up->r_vel = 0.0f;
+        }
+
+        dr = r - up->r;
+
+        /* No sinking through the floor! Keeps ball's bottom constant. */
+
+        up->p[1] += dr;
+        up->r     = r;
+
+        game_cmd_ballradius();
     }
-
-    dr = grow_strt + ((grow_goal-grow_strt) * (1.0f / (GROW_TIME / grow_t)));
-
-    /* No sinking through the floor! Keeps ball's bottom constant. */
-
-    vary.uv->p[1] += (dr - vary.uv->r);
-    vary.uv->r     =  dr;
-
-    game_cmd_ballradius();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -480,11 +447,6 @@ int game_server_init(const char *file_name, int t, int e)
 
     view_time = 0.0f;
     view_fade = 0.0f;
-
-    /* Initialize ball size tracking. */
-
-    grow_state = 0;
-    grow = 0;
 
     /* Initialize simulation. */
 
@@ -674,8 +636,6 @@ static int game_update_state(int bt)
 
         game_cmd_pkitem(hi);
 
-        grow_init(hp->t);
-
         if (hp->t == ITEM_COIN)
         {
             coins += hp->n;
@@ -696,6 +656,23 @@ static int game_update_state(int bt)
                 time_elapsed = MAX(0.0f, time_elapsed - value);
 
             game_update_time(0.0f, bt);
+        }
+        else if (hp->t == ITEM_GROW || hp->t == ITEM_SHRINK)
+        {
+            switch (grow_init(hp->t))
+            {
+                case -1:
+                    audio_play(AUD_SHRINK, 1.0f);
+                    break;
+
+                case +1:
+                    audio_play(AUD_GROW, 1.0f);
+                    break;
+
+                case 0:
+                    /* TODO: buzzer wrong (wasted item). */
+                    break;
+            }
         }
 
         audio_play(AUD_COIN, 1.f);
@@ -817,9 +794,9 @@ static int game_step(const float g[3], float dt, int bt)
             {
                 float k = (b - 0.5f) * 2.0f;
 
-                if      (vary.uv->r > vary.uv->r0) audio_play(AUD_BUMPL, k);
-                else if (vary.uv->r < vary.uv->r0) audio_play(AUD_BUMPS, k);
-                else                               audio_play(AUD_BUMPM, k);
+                if      (vary.uv->r > vary.uv->sizes[1]) audio_play(AUD_BUMPL, k);
+                else if (vary.uv->r < vary.uv->sizes[1]) audio_play(AUD_BUMPS, k);
+                else                                     audio_play(AUD_BUMPM, k);
             }
         }
 

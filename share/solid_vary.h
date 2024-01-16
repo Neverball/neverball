@@ -22,6 +22,10 @@
  * Varying solid data.
  */
 
+#define GROW_TIME  0.5f                 /* sec for the ball to get to size.  */
+#define GROW_BIG   1.5f                 /* large factor                      */
+#define GROW_SMALL 0.5f                 /* small factor                      */
+
 /*---------------------------------------------------------------------------*/
 
 struct v_path
@@ -73,7 +77,9 @@ struct v_ball
     float E[3][3];                             /* basis of pendulum          */
     float W[3];                                /* angular pendulum velocity  */
     float r;                                   /* current radius             */
-    float r0;                                  /* initial radius             */
+    float r_vel;                               /* radius velocity            */
+    float sizes[3];                            /* sizes (small, base, big)   */
+    short size;                                /* current size (0, 1, 2)     */
 };
 
 struct s_vary
