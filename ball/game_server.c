@@ -491,6 +491,9 @@ void game_server_free(const char *next)
 
 static void game_update_view(float dt)
 {
+    /* Current ball scale. */
+    const float SCL = vary.uv->r / vary.uv->sizes[1];
+
     float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = 90.0f * input_get_r() * dt;
     float k;
@@ -591,14 +594,14 @@ static void game_update_view(float dt)
 
     if (view_k < 0.5f) view_k = 0.5;
 
-    v_scl(v,    view.e[1], view.dp * view_k);
-    v_mad(v, v, view.e[2], view.dz * view_k);
+    v_scl(v,    view.e[1], SCL * view.dp * view_k);
+    v_mad(v, v, view.e[2], SCL * view.dz * view_k);
     v_add(view.p, v, vary.uv->p);
 
     /* Compute the new view center. */
 
     v_cpy(view.c, vary.uv->p);
-    v_mad(view.c, view.c, view.e[1], dc);
+    v_mad(view.c, view.c, view.e[1], SCL * dc);
 
     /* Note the current view angle. */
 
