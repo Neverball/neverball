@@ -53,6 +53,16 @@ static float view_fade;
 #define VIEW_FADE_MIN 0.2f
 #define VIEW_FADE_MAX 1.0f
 
+static float view_zoom_curr;            /* Current zoom level                */
+static float view_zoom_start;           /* Starting zoom level               */
+static float view_zoom_end;             /* Target zoom level                 */
+static float view_zoom_time;            /* Running zoom animation time       */
+
+#define ZOOM_DELAY (GROW_TIME * 0.5f)
+#define ZOOM_TIME (ZOOM_DELAY + GROW_TIME)
+#define ZOOM_MIN 0.75f
+#define ZOOM_MAX 1.25f
+
 static int   coins  = 0;                /* Collected coins                   */
 static int   goal_e = 0;                /* Goal enabled flag                 */
 static int   jump_e = 1;                /* Jumping enabled flag              */
@@ -448,6 +458,9 @@ int game_server_init(const char *file_name, int t, int e)
     view_time = 0.0f;
     view_fade = 0.0f;
 
+    view_zoom_curr = 1.0f;
+    view_zoom_time = ZOOM_TIME;
+
     /* Initialize simulation. */
 
     sol_init_sim(&vary);
@@ -489,10 +502,46 @@ void game_server_free(const char *next)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * https://easings.net/#easeInOutBack
+ */
+static float easeInOutBack(float x)
+{
+    const float c1 = 1.70158f;
+    const float c2 = c1 * 1.525f;
+
+    return (
+        x < 0.5f ?
+        (fpowf(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 :
+        (fpowf(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2
+    );
+}
+
 static void game_update_view(float dt)
 {
-    /* Current ball scale. */
-    const float SCL = vary.uv->r / vary.uv->sizes[1];
+    /* Current view scale. */
+
+    if (view_zoom_time < ZOOM_TIME)
+    {
+        view_zoom_time += dt;
+
+        if (view_zoom_time >= ZOOM_TIME)
+        {
+            view_zoom_time = ZOOM_TIME;
+            view_zoom_curr = view_zoom_end;
+            view_zoom_end = 0.0f;
+        }
+        else if (view_zoom_time >= ZOOM_DELAY)
+        {
+            float a = (view_zoom_time - ZOOM_DELAY) / (ZOOM_TIME - ZOOM_DELAY);
+
+            a = easeInOutBack(a);
+
+            view_zoom_curr = view_zoom_start + (view_zoom_end - view_zoom_start) * a;
+        }
+    }
+
+    float SCL = view_zoom_curr;
 
     float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float da = 90.0f * input_get_r() * dt;
@@ -624,6 +673,16 @@ static void game_update_time(float dt, int b)
     }
 }
 
+/*
+ * Start view zoom animation.
+ */
+static void zoom_init(float target)
+{
+    view_zoom_time = 0.0f;
+    view_zoom_start = view_zoom_curr;
+    view_zoom_end = CLAMP(ZOOM_MIN, target, ZOOM_MAX);
+}
+
 static int game_update_state(int bt)
 {
     struct b_goal *zp;
@@ -666,10 +725,12 @@ static int game_update_state(int bt)
             {
                 case -1:
                     audio_play(AUD_SHRINK, 1.0f);
+                    zoom_init(vary.uv->sizes[vary.uv->size] / vary.uv->sizes[1]);
                     break;
 
                 case +1:
                     audio_play(AUD_GROW, 1.0f);
+                    zoom_init(vary.uv->sizes[vary.uv->size] / vary.uv->sizes[1]);
                     break;
 
                 case 0:
