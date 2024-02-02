@@ -30,6 +30,8 @@ const char         *set_desc(int);
 const char         *set_shot(int);
 const struct score *set_score(int, int);
 
+struct level *set_find_level(const char *basename);
+
 int  set_score_update (int, int, int *, int *);
 void set_rename_player(int, int, const char *);
 

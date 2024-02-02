@@ -554,6 +554,27 @@ int set_find(const char *file)
     return -1;
 }
 
+/*
+ * Find a level in the set given a SOL basename.
+ */
+struct level *set_find_level(const char *basename)
+{
+    if (sets && curr_set() < array_len(sets))
+    {
+        struct set *s = SET_GET(sets, curr_set());
+
+        int i;
+
+        for (i = 0; i < s->count; ++i)
+        {
+            if (strcmp(basename, base_name(level_v[i].file)) == 0)
+                return &level_v[i];
+        }
+    }
+
+    return NULL;
+}
+
 int curr_set(void)
 {
     return curr;

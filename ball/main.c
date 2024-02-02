@@ -45,6 +45,7 @@
 #include "package.h"
 #include "log.h"
 #include "game_client.h"
+#include "substr.h"
 
 #include "st_conf.h"
 #include "st_title.h"
@@ -399,53 +400,117 @@ static void initialize_fetch(void)
 
 /*---------------------------------------------------------------------------*/
 
+static int goto_level(const char *path)
+{
+    /* HACK: must be around for the duration of the game. */
+    static struct level level;
+
+    if (path && level_load(path, &level))
+    {
+        progress_init(MODE_STANDALONE);
+
+        if (progress_play(&level))
+            return 1;
+    }
+
+    return 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 /*
  * Handle the link option.
  *
  * This navigates to the appropriate screen, if the asset was found.
+ *
+ * Supported link types:
+ *
+ * --link set-easy
+ * --link set-easy/peasy
  */
 static int process_link(const char *link)
 {
     int processed = 0;
 
-    if (link && *link)
+    if (!(link && *link))
+        return 0;
+
+    log_printf("Processing link: %s\n", link);
+
+    if (str_starts_with(link, "set-"))
     {
-        log_printf("Processing link: %s\n", link);
+        /* Search installed sets and package list. */
 
-        if (str_starts_with(link, "set-"))
+        const size_t prefix_len = strcspn(link, "/");
+        const char *set_part = SUBSTR(link, 0, prefix_len);
+        const char *map_part = SUBSTR(link, prefix_len + 1, 64);
+
+        char *set_file = concat_string(set_part, ".txt", NULL);
+
+        if (set_file)
         {
-            /* Search installed sets and package list. */
+            int index;
+            int found_level = 0;
 
-            char *set_file = concat_string(link, ".txt", NULL);
+            log_printf("Link is a set reference, searching for %s.\n", set_file);
 
-            if (set_file)
+            set_init();
+
+            if ((index = set_find(set_file)) >= 0)
             {
-                int index;
+                log_printf("Found set with the given reference.\n");
 
-                log_printf("Link is a set reference, searching for %s.\n", set_file);
+                set_goto(index);
 
-                set_init();
-
-                if ((index = set_find(set_file)) >= 0)
+                if (map_part && *map_part)
                 {
-                    log_printf("Found set with the given reference.\n");
-                    set_goto(index);
+                    /* Search for the given level. */
+
+                    char *sol_basename = concat_string(map_part, ".sol", NULL);
+
+                    log_printf("Link is also a level reference, searching for %s\n", sol_basename);
+
+                    if (sol_basename)
+                    {
+                        struct level *level = set_find_level(sol_basename);
+
+                        if (level)
+                        {
+                            log_printf("Found level with the given reference.\n");
+
+                            progress_init(MODE_NORMAL);
+
+                            if (progress_play(level))
+                            {
+                                goto_state(&st_level);
+                                found_level = 1;
+                                processed = 1;
+                            }
+                        }
+
+                        free(sol_basename);
+                        sol_basename = NULL;
+                    }
+                }
+
+                if (!found_level)
+                {
                     load_title_background();
                     game_kill_fade();
                     goto_state(&st_start);
                     processed = 1;
                 }
-                else if ((index = package_search(set_file)) >= 0)
-                {
-                    log_printf("Found package with the given reference.\n");
-                    goto_package(index, &st_title);
-                    processed = 1;
-                }
-                else log_printf("Link did not match.\n", link);
-
-                free(set_file);
-                set_file = NULL;
             }
+            else if ((index = package_search(set_file)) >= 0)
+            {
+                log_printf("Found package with the given reference.\n");
+                goto_package(index, &st_title);
+                processed = 1;
+            }
+            else log_printf("Link did not match.\n", link);
+
+            free(set_file);
+            set_file = NULL;
         }
         else log_printf("Link is bad.\n");
     }
@@ -943,28 +1008,11 @@ int main(int argc, char *argv[])
     else if (opt_level)
     {
         const char *path = fs_resolve(opt_level);
-        int loaded = 0;
 
-        if (path)
-        {
-            /* HACK: must be around for the duration of the game. */
-            static struct level level;
-
-            if (level_load(path, &level))
-            {
-                progress_init(MODE_STANDALONE);
-
-                if (progress_play(&level))
-                {
-                    start_state = &st_level;
-                    loaded = 1;
-                }
-            }
-        }
-        else log_printf("File %s is not in game path\n", opt_level);
-
-        if (!loaded)
-            start_state = &st_title;
+        if (goto_level(path))
+            start_state = &st_level;
+        else
+            log_printf("File %s is not in game path\n", opt_level);
     }
 
     main_preload(start_state);
