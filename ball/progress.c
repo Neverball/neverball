@@ -114,7 +114,7 @@ static int init_level(void)
 
 int  progress_play(struct level *l)
 {
-    if (l && (level_opened(l) || config_cheat()))
+    if (l)
     {
         level = l;
 
