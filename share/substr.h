@@ -15,11 +15,11 @@ static struct strbuf substr(const char *str, size_t start, size_t count)
 
     if (str)
     {
-        const size_t len = strlen(str);
+        const size_t max_start = strlen(str);
 
-        start = MIN(start, len);
-        count = MIN(len - start, count);
-        count = MIN(sizeof (sb.buf), count);
+        start = MIN(start, max_start);
+        count = MIN(count, max_start - start);
+        count = MIN(count, sizeof (sb.buf) - 1u);
 
         if (count > 0)
         {
