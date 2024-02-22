@@ -159,7 +159,7 @@ int config_screenshot(void);
 /* Names for some hard-coded keys. */
 
 #define KEY_EXIT       SDLK_ESCAPE
-
+#define KEY_FALL       SDLK_TAB
 #define KEY_LOOKAROUND SDLK_F5
 #define KEY_WIREFRAME  SDLK_F6
 #define KEY_RESOURCES  SDLK_F7
