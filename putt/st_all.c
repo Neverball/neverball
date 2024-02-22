@@ -30,6 +30,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+static int play_id = 0;
+
 static char *number(int i)
 {
     static char str[MAXSTR];
@@ -226,9 +228,19 @@ static int title_enter(struct state *st, struct state *prev)
 
             if ((kd = gui_varray(jd)))
             {
-                gui_start(kd, gt_prefix("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+                if (config_cheat())
+                    play_id = gui_start(kd, gt_prefix("menu^Cheat"),
+                                        GUI_MED, TITLE_PLAY, 1);
+                else
+                    play_id = gui_start(kd, gt_prefix("menu^Play"),
+                                        GUI_MED, TITLE_PLAY, 1);
+
+                gui_state(  kd, gt_prefix("menu^Options"),  GUI_MED, TITLE_CONF, 0);
+                gui_state(  kd, gt_prefix("menu^Exit"),     GUI_MED, TITLE_EXIT, 0);
+
+                /* Hilight the start button. */
+
+                gui_set_hilite(play_id, 1);
             }
 
             gui_filler(jd);
@@ -594,8 +606,11 @@ static int paused = 0;
 static struct state *st_continue;
 static struct state *st_quit;
 
-#define PAUSE_CONTINUE 1
-#define PAUSE_QUIT     2
+enum {
+    PAUSE_CONTINUE = 1,
+    PAUSE_QUIT,
+    PAUSE_RESTART
+};
 
 int goto_pause(struct state *s)
 {
@@ -618,6 +633,10 @@ static int pause_action(int i)
     case PAUSE_CONTINUE:
         return goto_state(st_continue ? st_continue : &st_title);
 
+    case PAUSE_RESTART:
+        hole_restart();
+        return goto_state(&st_next);
+
     case PAUSE_QUIT:
         return goto_state(st_quit);
     }
@@ -638,6 +657,8 @@ static int pause_enter(struct state *st, struct state *prev)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
+            if (config_cheat())
+                gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
 
@@ -1051,6 +1072,21 @@ static void roll_timer(int id, float dt)
     }
 }
 
+static int roll_keybd(int c, int d)
+{
+    if (d)
+    {
+        /* Cheats */
+
+        if (config_cheat()) {
+            if (config_tst_d(CONFIG_KEY_RESTART, c)) {
+                return goto_state(&st_retry);
+            }
+        }
+    }
+    return shared_keybd(c, d);
+}
+
 static int roll_buttn(int b, int d)
 {
     if (d)
@@ -1282,6 +1318,80 @@ static int fall_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int retry_enter(struct state *st, struct state *prev)
+{
+    int id;
+
+    if ((id = gui_label(0, _("Retry"), GUI_MED, gui_blk, gui_red)))
+        gui_layout(id, 0, 0);
+
+    if (paused)
+        paused = 0;
+    else
+    {
+        hole_retry();
+    }
+
+    hud_init();
+
+    return id;
+}
+
+static void retry_leave(struct state *st, struct state *next, int id)
+{
+    gui_delete(id);
+    hud_free();
+}
+
+static void retry_paint(int id, float t)
+{
+    game_draw(0, t);
+    gui_paint(id);
+    hud_paint();
+}
+
+static void retry_timer(int id, float dt)
+{
+    if (time_state() > 1)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+}
+
+static int retry_click(int b, int d)
+{
+    if (b == SDL_BUTTON_LEFT && d == 1)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+    return 1;
+}
+
+static int retry_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+        {
+            if (hole_next())
+                goto_state(&st_next);
+            else
+                goto_state(&st_score);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            return goto_pause(&st_over);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int score_enter(struct state *st, struct state *prev)
 {
     audio_music_fade_out(2.f);
@@ -1480,7 +1590,7 @@ struct state st_roll = {
     NULL,
     NULL,
     NULL,
-    shared_keybd,
+    roll_keybd,
     roll_buttn
 };
 
@@ -1521,6 +1631,19 @@ struct state st_fall = {
     fall_click,
     shared_keybd,
     fall_buttn
+};
+
+struct state st_retry = {
+    retry_enter,
+    retry_leave,
+    retry_paint,
+    retry_timer,
+    NULL,
+    NULL,
+    NULL,
+    retry_click,
+    shared_keybd,
+    retry_buttn
 };
 
 struct state st_score = {

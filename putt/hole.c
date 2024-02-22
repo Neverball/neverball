@@ -388,6 +388,17 @@ void hole_fall(void)
     }
 }
 
+void hole_retry(void)
+{
+    game_set_pos(ball_p[player], ball_e[player]);
+}
+
+void hole_restart(void)
+{
+    memset(&score_v[hole][1], 0, sizeof (int) * party);
+    hole_goto(hole, party);
+}
+
 /*---------------------------------------------------------------------------*/
 
 void hole_song(void)
