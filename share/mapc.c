@@ -1522,6 +1522,11 @@ static void read_ent(struct s_base *fp, fs_file fin)
     }
     if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
     if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
+
+    /* TrenchBroom compatibility: if func_group has any lumps, add it as a body; ignore otherwise. */
+
+    if (!strcmp(v[i], "func_group") && fp->lc > l0)
+        make_body(fp, k, v, c, l0);
 }
 
 static void read_map(struct s_base *fp, fs_file fin)
