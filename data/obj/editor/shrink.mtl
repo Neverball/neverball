@@ -1,0 +1,9 @@
+newmtl mtrl/black
+map_Kd ../../textures/mtrl/black.png
+
+newmtl mtrl/white
+map_Kd ../../textures/mtrl/white.png
+
+newmtl mtrl/yellow-natural
+map_Kd ../../textures/mtrl/yellow-natural.png
+
