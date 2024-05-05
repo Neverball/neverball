@@ -15,6 +15,7 @@
 *.autosave.map
 .vscode
 .DS_Store
+autosave
 
 /neverball.exe
 /neverputt.exe

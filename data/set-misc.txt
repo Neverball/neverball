@@ -24,3 +24,4 @@ map-misc/timer-test_2.sol
 map-misc/timer_offset_bug.sol
 map-misc/clocks.sol
 map-misc/switches.sol
+map-misc/rotation.sol
