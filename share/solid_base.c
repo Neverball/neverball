@@ -27,11 +27,12 @@ enum
 {
     SOL_VERSION_1_5 = 6,
     SOL_VERSION_1_6 = 7,
-    SOL_VERSION_DEV
+    SOL_VERSION_2017_09 = 8,
+    SOL_VERSION_2024_04 = 9
 };
 
 #define SOL_VERSION_MIN  SOL_VERSION_1_5
-#define SOL_VERSION_CURR SOL_VERSION_DEV
+#define SOL_VERSION_CURR SOL_VERSION_2024_04
 
 #define SOL_MAGIC (0xAF | 'S' << 8 | 'O' << 16 | 'L' << 24)
 
@@ -247,17 +248,17 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
 
 static void sol_load_body(fs_file fin, struct b_body *bp)
 {
-    bp->pi = get_index(fin);
+    bp->p0 = get_index(fin);
 
     if (sol_version >= SOL_VERSION_1_6)
     {
-        bp->pj = get_index(fin);
+        bp->p1 = get_index(fin);
 
-        if (bp->pj < 0)
-            bp->pj = bp->pi;
+        if (bp->p1 < 0)
+            bp->p1 = bp->p0;
     }
     else
-        bp->pj = bp->pi;
+        bp->p1 = bp->p0;
 
     bp->ni = get_index(fin);
     bp->l0 = get_index(fin);
@@ -272,6 +273,17 @@ static void sol_load_item(fs_file fin, struct b_item *hp)
 
     hp->t = get_index(fin);
     hp->n = get_index(fin);
+
+    if (sol_version >= SOL_VERSION_2024_04)
+    {
+        hp->p0 = get_index(fin);
+        hp->p1 = get_index(fin);
+    }
+    else
+    {
+        hp->p0 = -1;
+        hp->p1 = -1;
+    }
 }
 
 static void sol_load_goal(fs_file fin, struct b_goal *zp)
@@ -279,6 +291,17 @@ static void sol_load_goal(fs_file fin, struct b_goal *zp)
     get_array(fin, zp->p, 3);
 
     zp->r = get_float(fin);
+
+    if (sol_version >= SOL_VERSION_2024_04)
+    {
+        zp->p0 = get_index(fin);
+        zp->p1 = get_index(fin);
+    }
+    else
+    {
+        zp->p0 = -1;
+        zp->p1 = -1;
+    }
 }
 
 static void sol_load_swch(fs_file fin, struct b_swch *xp)
@@ -292,6 +315,17 @@ static void sol_load_swch(fs_file fin, struct b_swch *xp)
     xp->f  = get_index(fin);
     (void)   get_index(fin);
     xp->i  = get_index(fin);
+
+    if (sol_version >= SOL_VERSION_2024_04)
+    {
+        xp->p0 = get_index(fin);
+        xp->p1 = get_index(fin);
+    }
+    else
+    {
+        xp->p0 = -1;
+        xp->p1 = -1;
+    }
 
     xp->tm = TIME_TO_MS(xp->t);
     xp->t = MS_TO_TIME(xp->tm);
@@ -310,6 +344,17 @@ static void sol_load_bill(fs_file fin, struct b_bill *rp)
     get_array(fin, rp->ry, 3);
     get_array(fin, rp->rz, 3);
     get_array(fin, rp->p,  3);
+
+    if (sol_version >= SOL_VERSION_2024_04)
+    {
+        rp->p0 = get_index(fin);
+        rp->p1 = get_index(fin);
+    }
+    else
+    {
+        rp->p0 = -1;
+        rp->p1 = -1;
+    }
 }
 
 static void sol_load_jump(fs_file fin, struct b_jump *jp)
@@ -318,6 +363,17 @@ static void sol_load_jump(fs_file fin, struct b_jump *jp)
     get_array(fin, jp->q, 3);
 
     jp->r = get_float(fin);
+
+    if (sol_version >= SOL_VERSION_2024_04)
+    {
+        jp->p0 = get_index(fin);
+        jp->p1 = get_index(fin);
+    }
+    else
+    {
+        jp->p0 = -1;
+        jp->p1 = -1;
+    }
 }
 
 static void sol_load_ball(fs_file fin, struct b_ball *up)
@@ -642,8 +698,8 @@ static void sol_stor_path(fs_file fout, struct b_path *pp)
 
 static void sol_stor_body(fs_file fout, struct b_body *bp)
 {
-    put_index(fout, bp->pi);
-    put_index(fout, bp->pj);
+    put_index(fout, bp->p0);
+    put_index(fout, bp->p1);
     put_index(fout, bp->ni);
     put_index(fout, bp->l0);
     put_index(fout, bp->lc);
@@ -656,12 +712,16 @@ static void sol_stor_item(fs_file fout, struct b_item *hp)
     put_array(fout, hp->p, 3);
     put_index(fout, hp->t);
     put_index(fout, hp->n);
+    put_index(fout, hp->p0);
+    put_index(fout, hp->p1);
 }
 
 static void sol_stor_goal(fs_file fout, struct b_goal *zp)
 {
     put_array(fout, zp->p, 3);
     put_float(fout, zp->r);
+    put_index(fout, zp->p0);
+    put_index(fout, zp->p1);
 }
 
 static void sol_stor_swch(fs_file fout, struct b_swch *xp)
@@ -674,6 +734,8 @@ static void sol_stor_swch(fs_file fout, struct b_swch *xp)
     put_index(fout, xp->f);
     put_index(fout, xp->f);
     put_index(fout, xp->i);
+    put_index(fout, xp->p0);
+    put_index(fout, xp->p1);
 }
 
 static void sol_stor_bill(fs_file fout, struct b_bill *rp)
@@ -688,6 +750,8 @@ static void sol_stor_bill(fs_file fout, struct b_bill *rp)
     put_array(fout, rp->ry, 3);
     put_array(fout, rp->rz, 3);
     put_array(fout, rp->p,  3);
+    put_index(fout, rp->p0);
+    put_index(fout, rp->p1);
 }
 
 static void sol_stor_jump(fs_file fout, struct b_jump *jp)
@@ -695,6 +759,8 @@ static void sol_stor_jump(fs_file fout, struct b_jump *jp)
     put_array(fout, jp->p, 3);
     put_array(fout, jp->q, 3);
     put_float(fout, jp->r);
+    put_index(fout, jp->p0);
+    put_index(fout, jp->p1);
 }
 
 static void sol_stor_ball(fs_file fout, struct b_ball *bp)

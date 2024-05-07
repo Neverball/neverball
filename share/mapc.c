@@ -679,7 +679,7 @@ static void move_body(struct s_base *fp,
     /* Move the lumps. */
 
     for (i = 0; i < bp->lc; i++)
-        move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->pi].p);
+        move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->p0].p);
 
     /* Create an array to mark any verts referenced by moved geoms. */
 
@@ -700,10 +700,40 @@ static void move_body(struct s_base *fp,
 
         for (i = 0; i < fp->vc; ++i)
             if (b[i])
-                move_vert(fp->vv + i, fp->pv[bp->pi].p);
+                move_vert(fp->vv + i, fp->pv[bp->p0].p);
 
         free(b);
     }
+}
+
+static void move_item(struct s_base *fp,
+                      struct b_item *hp)
+{
+    v_sub(hp->p, hp->p, fp->pv[hp->p0].p);
+}
+
+static void move_goal(struct s_base *fp,
+                      struct b_goal *zp)
+{
+    v_sub(zp->p, zp->p, fp->pv[zp->p0].p);
+}
+
+static void move_jump(struct s_base *fp,
+                      struct b_jump *jp)
+{
+    v_sub(jp->p, jp->p, fp->pv[jp->p0].p);
+}
+
+static void move_swch(struct s_base *fp,
+                      struct b_swch *xp)
+{
+    v_sub(xp->p, xp->p, fp->pv[xp->p0].p);
+}
+
+static void move_bill(struct s_base *fp,
+                      struct b_bill *rp)
+{
+    v_sub(rp->p, rp->p, fp->pv[rp->p0].p);
 }
 
 static void move_file(struct s_base *fp)
@@ -711,8 +741,28 @@ static void move_file(struct s_base *fp)
     int i;
 
     for (i = 0; i < fp->bc; i++)
-        if (fp->bv[i].pi >= 0)
+        if (fp->bv[i].p0 >= 0)
             move_body(fp, fp->bv + i);
+
+    for (i = 0; i < fp->hc; i++)
+        if (fp->hv[i].p0 >= 0)
+            move_item(fp, fp->hv + i);
+
+    for (i = 0; i < fp->zc; i++)
+        if (fp->zv[i].p0 >= 0)
+            move_goal(fp, fp->zv + i);
+
+    for (i = 0; i < fp->jc; i++)
+        if (fp->jv[i].p0 >= 0)
+            move_jump(fp, fp->jv + i);
+
+    for (i = 0; i < fp->xc; i++)
+        if (fp->xv[i].p0 >= 0)
+            move_swch(fp, fp->xv + i);
+
+    for (i = 0; i < fp->rc; i++)
+        if (fp->rv[i].p0 >= 0)
+            move_bill(fp, fp->rv + i);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1131,17 +1181,17 @@ static void make_body(struct s_base *fp,
 
     struct b_body *bp = fp->bv + bi;
 
-    bp->pi = -1;
-    bp->pj = -1;
+    bp->p0 = -1;
+    bp->p1 = -1;
     bp->ni = -1;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &bp->pi);
+            make_ref(SYM_PATH, v[i], &bp->p0);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &bp->pj);
+            make_ref(SYM_PATH, v[i], &bp->p1);
 
         else if (strcmp(k[i], "material") == 0)
             mi = read_mtrl(fp, v[i]);
@@ -1189,6 +1239,8 @@ static void make_item(struct s_base *fp,
     hp->t = ITEM_NONE;
     hp->n = 0;
 
+    hp->p0 = hp->p1 = -1;
+
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "classname") == 0)
@@ -1216,6 +1268,12 @@ static void make_item(struct s_base *fp,
             hp->p[1] = +z / SCALE;
             hp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
+            make_ref(SYM_PATH, v[i], &hp->p0);
+
+        else if (strcmp(k[i], "target2") == 0)
+            make_ref(SYM_PATH, v[i], &hp->p1);
     }
 }
 
@@ -1229,6 +1287,8 @@ static void make_bill(struct s_base *fp,
 
     memset(rp, 0, sizeof (struct b_bill));
     rp->t = 1.0f;
+
+    rp->p0 = rp->p1 = -1;
 
     for (i = 0; i < c; i++)
     {
@@ -1267,6 +1327,12 @@ static void make_bill(struct s_base *fp,
             rp->p[1] = +z / SCALE;
             rp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
+            make_ref(SYM_PATH, v[i], &rp->p0);
+
+        else if (strcmp(k[i], "target2") == 0)
+            make_ref(SYM_PATH, v[i], &rp->p1);
     }
 }
 
@@ -1283,6 +1349,8 @@ static void make_goal(struct s_base *fp,
     zp->p[2] = 0.f;
     zp->r    = 0.75;
 
+    zp->p0 = zp->p1 = -1;
+
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
@@ -1298,6 +1366,12 @@ static void make_goal(struct s_base *fp,
             zp->p[1] = +(z - 24) / SCALE;
             zp->p[2] = -(y)      / SCALE;
         }
+
+        if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
+            make_ref(SYM_PATH, v[i], &zp->p0);
+
+        else if (strcmp(k[i], "target2") == 0)
+            make_ref(SYM_PATH, v[i], &zp->p1);
     }
 }
 
@@ -1350,6 +1424,8 @@ static void make_jump(struct s_base *fp,
     jp->q[2] = 0.f;
     jp->r    = 0.5;
 
+    jp->p0 = jp->p1 = -1;
+
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "radius") == 0)
@@ -1368,6 +1444,12 @@ static void make_jump(struct s_base *fp,
             jp->p[1] = +z / SCALE;
             jp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "target2") == 0)
+            make_ref(SYM_PATH, v[i], &jp->p0);
+
+        if (strcmp(k[i], "target3") == 0)
+            make_ref(SYM_PATH, v[i], &jp->p1);
     }
 }
 
@@ -1387,6 +1469,8 @@ static void make_swch(struct s_base *fp,
     xp->t    = 0;
     xp->f    = 0;
     xp->i    = 0;
+
+    xp->p0 = xp->p1 = -1;
 
     for (i = 0; i < c; i++)
     {
@@ -1415,6 +1499,12 @@ static void make_swch(struct s_base *fp,
             xp->p[1] = +z / SCALE;
             xp->p[2] = -y / SCALE;
         }
+
+        if (strcmp(k[i], "target2") == 0)
+            make_ref(SYM_PATH, v[i], &xp->p0);
+
+        else if (strcmp(k[i], "target3") == 0)
+            make_ref(SYM_PATH, v[i], &xp->p1);
     }
 }
 

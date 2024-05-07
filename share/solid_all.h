@@ -7,18 +7,34 @@ typedef void (*cmd_fn)(const union cmd *);
 
 void sol_body_p(float p[3],
                 const struct s_vary *,
-                const struct v_body *,
+                int mi,
                 float);
 void sol_body_v(float v[3],
                 const struct s_vary *,
-                const struct v_body *,
+                int mi,
                 float);
 void sol_body_e(float e[4],
                 const struct s_vary *,
-                const struct v_body *,
+                int mi,
                 float);
 int  sol_body_w(const struct s_vary *,
-                const struct v_body *);
+                int mi);
+
+void sol_entity_p(float dest_p[3],
+                  const struct s_vary *vary,
+                  int mi, int mj);
+void sol_entity_e(float e[4],
+                  const struct s_vary *vary,
+                  int mi, int mj);
+
+void sol_entity_world(float w[3],
+                      const struct s_vary *vary,
+                      int mi,int mj,
+                      const float v[3]);
+void sol_entity_local(float w[3],
+                      const struct s_vary *vary,
+                      int mi,int mj,
+                      const float v[3]);
 
 void sol_rotate(float e[3][3], const float w[3], float dt);
 

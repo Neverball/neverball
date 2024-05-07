@@ -63,8 +63,8 @@ static void sol_transform(const struct s_vary *vary,
 
     /* Apply the body position and rotation to the model-view matrix. */
 
-    sol_body_p(p, vary, bp, 0.0f);
-    sol_body_e(e, vary, bp, 0.0f);
+    sol_body_p(p, vary, bp->mi, 0.0f);
+    sol_body_e(e, vary, bp->mj, 0.0f);
 
     q_as_axisangle(e, v, &a);
 
@@ -687,6 +687,8 @@ void sol_back(const struct s_draw *draw,
 void sol_bill(const struct s_draw *draw,
               struct s_rend *rend, const float *M, float t)
 {
+    float bill_p[3], bill_e[4], q[3];
+
     if (!(draw && draw->base && draw->base->rc))
         return;
 
@@ -707,11 +709,15 @@ void sol_bill(const struct s_draw *draw,
             float ry = rp->ry[0] + rp->ry[1] * T + rp->ry[2] * S;
             float rz = rp->rz[0] + rp->rz[1] * T + rp->rz[2] * S;
 
+            /* Calculate the position without modelview to preserve the billboard effect. */
+
+            sol_entity_world(q, draw->vary, draw->vary->rv[ri].mi, draw->vary->rv[ri].mj, rp->p);
+
             r_apply_mtrl(rend, draw->base->mtrls[rp->mi]);
 
             glPushMatrix();
             {
-                glTranslatef(rp->p[0], rp->p[1], rp->p[2]);
+                glTranslatef(q[0], q[1], q[2]);
 
                 if (M && ((rp->fl & B_NOFACE) == 0)) glMultMatrixf(M);
 
@@ -724,6 +730,15 @@ void sol_bill(const struct s_draw *draw,
                 sol_draw_bill(GL_FALSE);
             }
             glPopMatrix();
+
+            bill_p[0] = 0.0f;
+            bill_p[1] = 0.0f;
+            bill_p[2] = 0.0f;
+
+            bill_e[0] = 1.0f;
+            bill_e[1] = 0.0f;
+            bill_e[2] = 0.0f;
+            bill_e[3] = 0.0f;
         }
     }
     sol_bill_disable();

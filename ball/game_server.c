@@ -258,26 +258,6 @@ static void game_cmd_init_balls(void)
     game_cmd_ballradius();
 }
 
-static void game_cmd_init_items(void)
-{
-    int i;
-
-    cmd.type = CMD_CLEAR_ITEMS;
-    game_proxy_enq(&cmd);
-
-    for (i = 0; i < vary.hc; i++)
-    {
-        cmd.type = CMD_MAKE_ITEM;
-
-        v_cpy(cmd.mkitem.p, vary.hv[i].p);
-
-        cmd.mkitem.t = vary.hv[i].t;
-        cmd.mkitem.n = vary.hv[i].n;
-
-        game_proxy_enq(&cmd);
-    }
-}
-
 static void game_cmd_pkitem(int hi)
 {
     cmd.type      = CMD_PICK_ITEM;
@@ -475,7 +455,6 @@ int game_server_init(const char *file_name, int t, int e)
         game_cmd_goalopen();
 
     game_cmd_init_balls();
-    game_cmd_init_items();
 
     game_cmd_updview();
     game_cmd_eou();
@@ -688,11 +667,9 @@ static int game_update_state(int bt)
     struct b_goal *zp;
     int hi;
 
-    float p[3];
-
     /* Test for an item. */
 
-    if (bt && (hi = sol_item_test(&vary, p, ITEM_RADIUS)) != -1)
+    if (bt && (hi = sol_item_test(&vary, NULL, ITEM_RADIUS)) != -1)
     {
         struct v_item *hp = vary.hv + hi;
 
@@ -773,7 +750,7 @@ static int game_update_state(int bt)
 
     /* Test for a goal. */
 
-    if (bt && goal_e && (zp = sol_goal_test(&vary, p, 0)))
+    if (bt && goal_e && (zp = sol_goal_test(&vary, NULL, 0)))
     {
         audio_play(AUD_GOAL, 1.0f);
         return GAME_GOAL;

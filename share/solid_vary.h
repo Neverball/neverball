@@ -56,6 +56,9 @@ struct v_item
     float p[3];                                /* position                   */
     int   t;                                   /* type                       */
     int   n;                                   /* value                      */
+
+    int mi;
+    int mj;
 };
 
 struct v_swch
@@ -66,6 +69,27 @@ struct v_swch
     int   tm;                                  /* milliseconds               */
     int   f;                                   /* current state              */
     int   e;                                   /* is a ball inside it?       */
+
+    int mi;
+    int mj;
+};
+
+struct v_goal
+{
+    int mi;
+    int mj;
+};
+
+struct v_jump
+{
+    int mi;
+    int mj;
+};
+
+struct v_bill
+{
+    int mi;
+    int mj;
 };
 
 struct v_ball
@@ -90,14 +114,20 @@ struct s_vary
     int bc;
     int mc;
     int hc;
+    int zc;
+    int jc;
     int xc;
+    int rc;
     int uc;
 
     struct v_path *pv;
     struct v_body *bv;
     struct v_move *mv;
     struct v_item *hv;
+    struct v_goal *zv;
+    struct v_jump *jv;
     struct v_swch *xv;
+    struct v_bill *rv;
     struct v_ball *uv;
 
     /* Accumulator for tracking time in integer milliseconds. */

@@ -520,9 +520,9 @@ static float sol_test_body(float dt,
 
     const struct b_node *np = vary->base->nv + bp->base->ni;
 
-    sol_body_p(O, vary, bp, 0.0f);
-    sol_body_v(W, vary, bp, dt);
-    sol_body_e(E, vary, bp, 0.0f);
+    sol_body_p(O, vary, bp->mi, 0.0f);
+    sol_body_v(W, vary, bp->mi, dt);
+    sol_body_e(E, vary, bp->mj, 0.0f);
 
     /*
      * For rotating bodies, rather than rotate every normal and vertex
@@ -535,7 +535,7 @@ static float sol_test_body(float dt,
      * v = w x p
      */
 
-    if (E[0] != 1.0f || sol_body_w(vary, bp))
+    if (E[0] != 1.0f || sol_body_w(vary, bp->mj))
     {
         /* The body has a non-identity orientation or it is rotating. */
 
@@ -552,7 +552,7 @@ static float sol_test_body(float dt,
 
         v_mad(p1, p1, up->v, dt);
         v_mad(p1, p1, W, -dt);
-        sol_body_e(e, vary, bp, dt);
+        sol_body_e(e, vary, bp->mj, dt);
         q_conj(e, e);
         q_rot(p1, e, p1);
 
@@ -571,7 +571,7 @@ static float sol_test_body(float dt,
         {
             /* Compute the final orientation. */
 
-            sol_body_e(e, vary, bp, u);
+            sol_body_e(e, vary, bp->mj, u);
 
             /* Return world space coordinates. */
 
