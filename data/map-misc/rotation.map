@@ -6,7 +6,7 @@
 "_tb_textures" "textures/mtrl"
 "goal" "1"
 "back" "map-back/clouds.sol"
-"grad" "png/ocean"
+"grad" "back/land.png"
 }
 // entity 1
 {
