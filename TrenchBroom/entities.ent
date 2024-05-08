@@ -4,15 +4,17 @@
 <group name="func_train" color="0 0.5 0.8">
 Defines the geometry of a moving object.  Think of it as a container or a grouping mechanism for lumps, rather than an object in-and-of itself.
 
-<target key="target" name="Target">Refers to the first path_corner of the path along which the func_train will travel.</target>
-<target key="target2" name="Target (orientation)">Optionally refers to a second path that controls the orientation of the func_train. This is useful when you want to control the position and orientation independently of each other.</target>
+<target key="target" name="Path">Path that the train will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the train, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </group>
 
 
 <point name="info_camp" color="0 0.5 0" model="{{ state == 1 -> {'path': 'obj/editor/switch1.obj', 'scale': 1}, {'path': 'obj/editor/switch.obj', 'scale': 1} }}" box="-32 -32 0 32 32 128">
 A switch.
 
-<target key="target" name="Target">Refers to the path_corner that the switch controls.</target>
+<target key="target" name="Target">Refers to the path that the switch controls.</target>
+<target key="target2" name="Path">Path that the switch will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the switch, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 <real key="radius" name="Radius" value="0.5">Switch radius in meters.  The default is "0.5".</real>
 <boolean key="state" name="State" value="0">Initial state of the switch.  "0" is off, "1" is on.  The default is off.  This parallels the state attribute of the path_corner.  An info_camp entity should always have the same initial "state" value as the path_corner it targets.</boolean>
 <real key="timer" name="Timer" value="0">A delay time.  The time begins when a switch is toggled to its non-initial state.  The switch toggles back to its initial state when the timer expires.  A timer value of zero indicates an untimed switch.  The default is zero.  This may be used to define a door that opens only for a moment before closing, or a func_train that moves along its path in discrete activated steps.</real>
@@ -20,8 +22,11 @@ A switch.
 </point>
 
 
-<point name="info_null" color="0 0.5 0" box="-4 -4 -4 4 4 4">
+<point name="info_null" color="0 0.5 0" box="-8 -8 -8 8 8 8">
 A billboard.
+
+<target key="target" name="Path">Path that the billboard will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the billboard, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -29,6 +34,8 @@ A billboard.
 A goal.
 
 <real key="radius" name="Radius" value="0.75">Goal radius in meters.  The default radius is "0.75".  The ball must fall entirely within this radius to trigger a goal.</real>
+<target key="target" name="Path">Path that the goal will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the goal, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -48,11 +55,17 @@ A ball.  While multiple balls may be defined, Neverball uses only the first of t
 
 <point name="item_health_large" color="1 0 0" model="{'path': 'obj/editor/grow.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 8">
 A grow coin.
+
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
 <point name="item_health_small" color="0 1 0" model="{'path': 'obj/editor/shrink.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 8">
 A shrink coin.
+
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -67,6 +80,9 @@ A shrink coin.
 A clock. Adds time to a level.
 
 <clock key="light" name="Preset bonus" value="0">Value of the clock.  Pink clock (small) = 5, turquoise clock (medium) = 15, orange clock (large) = 30.</clock>
+
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -80,6 +96,8 @@ A clock. Adds time to a level.
 A coin.
 
 <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -89,8 +107,8 @@ Imports an arbitrary polygonal model into a level.  It may be used to increase t
 misc_model entities define visible geometry, but not physical geometry.  So, if the ball is to bounce off of a misc_model entity, the entity should be placed within one or more invisible structural lumps.
 
 <model key="model" name="Model">Path to the model file.  The model must be in OBJ format.  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
-<target key="target" name="Target">Can be used to attach the misc_model to a path_corner to create moving detail geometry.</target>
-<target key="target2" name="Target (orientation)">Can optionally be used to attach the misc_model to a second path_corner that controls the orientation of the moving detail geometry. This is useful when you want to control the position and orientation independently of each other.</target>
+<target key="target" name="Path">Path that the model will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the model, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -118,10 +136,12 @@ Defines the initial view direction of a level fly-in, as well as the destination
 A teleporter.
 
 <target key="target" name="Target">Refers to a target_position entity defining the destination of the teleporter.</target>
+<target key="target2" name="Path">Path that the teleporter will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the teleporter, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 <real key="radius" name="Radius" value="0.5">Teleporter radius.  The default is "0.5".  The ball must fall entirely within this radius to trigger the teleport.</real>
 </point>
 
-<list name="environment">
+<list name="background">
   <item name="Alien" value="map-back/alien.sol"/>
   <item name="City" value="map-back/city.sol"/>
   <item name="Clouds" value="map-back/clouds.sol"/>
@@ -130,13 +150,33 @@ A teleporter.
   <item name="Volcano" value="map-back/volcano.sol"/>
 </list>
 
+<list name="gradient">
+  <item name="Alien" value="back/alien.png"/>
+  <item name="City" value="back/city.png"/>
+  <item name="Land" value="back/land.png"/>
+  <item name="Ocean" value="back/ocean.png"/>
+  <item name="Pastel" value="back/pastel.png"/>
+  <item name="Space" value="back/space.png"/>
+  <item name="Volcano" value="back/volcano.png"/>
+</list>
+
+<list name="song">
+  <item name="Title" value="bgm/title.ogg"/>
+  <item name="Track1" value="bgm/track1.ogg"/>
+  <item name="Track2" value="bgm/track2.ogg"/>
+  <item name="Track3" value="bgm/track3.ogg"/>
+  <item name="Track4" value="bgm/track4.ogg"/>
+  <item name="Track5" value="bgm/track5.ogg"/>
+  <item name="Track6" value="bgm/track6.ogg"/>
+</list>
+
 <group name="worldspawn" color="0 0 0">
 Used for most static level geometry.
 
 <string key="message" name="Introduction">Text that appears as a level begins.  A "\" (backslash) starts a new line.</string>
-<environment key="back" name="Background environment">Path to the background file.</environment>
-<string key="grad" name="Background gradient">Path to the background gradient image file.</string>
-<string key="song" name="Background music">Path to the background music file.</string>
+<background key="back" name="Background environment">Path to the background file.</background>
+<gradient key="grad" name="Background gradient">Path to the background gradient image file.</gradient>
+<song key="song" name="Background music">Path to the background music file.</song>
 <string key="shot" name="Level shot">Path to the level shot file.</string>
 <integer key="goal" name="Required coins">Number of coins needed to unlock the goal.</integer>
 <integer key="time" name="Time limit">Level time limit in hundredths of a second.</integer>
