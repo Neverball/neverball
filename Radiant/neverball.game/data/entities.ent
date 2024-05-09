@@ -95,6 +95,8 @@ Defines a clock, adding time to a level.
 Defines a coin.
 
 <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 </point>
 
 
@@ -133,8 +135,8 @@ Defines the initial view direction of a level fly-in, as well as the destination
 Defines a teleporter.
 
 <target key="target" name="Target">Refers to a target_position entity defining the destination of the teleporter.</target>
-<target key="target" name="Path">Path that the teleporter will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
-<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the teleporter, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<target key="target2" name="Path">Path that the teleporter will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the teleporter, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 <real key="radius" name="Radius" value="0.5">Teleporter radius.  The default is "0.5".  The ball must fall entirely within this radius to trigger the teleport.</real>
 </point>
 
