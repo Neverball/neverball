@@ -43,6 +43,8 @@ const GLubyte gui_blk[4] = { 0x00, 0x00, 0x00, 0xFF };  /* Black  */
 const GLubyte gui_gry[4] = { 0x55, 0x55, 0x55, 0xFF };  /* Gray   */
 const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 
+const GLubyte gui_wht2[4] = { 0xFF, 0xFF, 0xFF, 0x60 };  /* Transparent white */
+
 /*---------------------------------------------------------------------------*/
 
 #define WIDGET_MAX 256
@@ -321,12 +323,19 @@ static void gui_geom_text(int id, int x, int y, int w, int h,
         const GLfloat s1 = 1.0f - s0;
         const GLfloat t1 = 1.0f - t0;
 
+        GLubyte color[4];
+
+        color[0] = gui_shd[0];
+        color[1] = gui_shd[1];
+        color[2] = gui_shd[2];
+        color[3] = c0[3] < 0xFF ? (GLubyte) (c0[3] * 0.5f) : gui_shd[3];
+
         /* Generate vertex data for the colored text and its shadow. */
 
-        set_vert(v + 0, x      + d, y + hh - d, s0, t0, gui_shd);
-        set_vert(v + 1, x      + d, y      - d, s0, t1, gui_shd);
-        set_vert(v + 2, x + ww + d, y + hh - d, s1, t0, gui_shd);
-        set_vert(v + 3, x + ww + d, y      - d, s1, t1, gui_shd);
+        set_vert(v + 0, x      + d, y + hh - d, s0, t0, color);
+        set_vert(v + 1, x      + d, y      - d, s0, t1, color);
+        set_vert(v + 2, x + ww + d, y + hh - d, s1, t0, color);
+        set_vert(v + 3, x + ww + d, y      - d, s1, t1, color);
 
         set_vert(v + 4, x,          y + hh,     s0, t0, c1);
         set_vert(v + 5, x,          y,          s0, t1, c0);

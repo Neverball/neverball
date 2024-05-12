@@ -26,6 +26,7 @@
 #include "config.h"
 #include "cmd.h"
 #include "demo_dir.h"
+#include "version.h"
 
 #include "game_common.h"
 #include "game_server.h"
@@ -202,6 +203,13 @@ static int title_gui(void)
             gui_layout(id, 0, 0);
         }
 
+#if ENABLE_VERSION
+        if ((id = gui_label(root_id, "Neverball " VERSION, GUI_TNY, gui_wht2, gui_wht2)))
+        {
+            gui_clr_rect(id);
+            gui_layout(id, -1, -1);
+        }
+#endif
 
 #if ENABLE_FETCH
         if ((id = gui_vstack(root_id)))

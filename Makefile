@@ -106,6 +106,10 @@ ifeq ($(ENABLE_RADIANT_CONSOLE),1)
 	ALL_CPPFLAGS += -DENABLE_RADIANT_CONSOLE=1
 endif
 
+ifneq ($(BUILD),release)
+	ALL_CPPFLAGS += -DENABLE_VERSION=1
+endif
+
 # Enable libcurl by default, disable w/ ENABLE_FETCH=0.
 ENABLE_FETCH := curl
 

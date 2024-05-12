@@ -24,6 +24,7 @@
 #include "course.h"
 #include "config.h"
 #include "video.h"
+#include "version.h"
 
 #include "st_all.h"
 #include "st_conf.h"
@@ -212,34 +213,46 @@ static int title_action(int i)
 static int title_enter(struct state *st, struct state *prev)
 {
     int id, jd, kd;
+    int root_id;
 
     /* Build the title GUI. */
 
-    if ((id = gui_vstack(0)))
+    if ((root_id = gui_root()))
     {
-        gui_label(id, "Neverputt", GUI_LRG, 0, 0);
-        gui_space(id);
-
-        if ((jd = gui_harray(id)))
+        if ((id = gui_vstack(root_id)))
         {
-            gui_filler(jd);
+            gui_label(id, "Neverputt", GUI_LRG, 0, 0);
+            gui_space(id);
 
-            if ((kd = gui_varray(jd)))
+            if ((jd = gui_harray(id)))
             {
-                gui_start(kd, gt_prefix("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
-                gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
-                gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
-            }
+                gui_filler(jd);
 
-            gui_filler(jd);
+                if ((kd = gui_varray(jd)))
+                {
+                    gui_start(kd, gt_prefix("menu^Play"),    GUI_MED, TITLE_PLAY, 1);
+                    gui_state(kd, gt_prefix("menu^Options"), GUI_MED, TITLE_CONF, 0);
+                    gui_state(kd, gt_prefix("menu^Exit"),    GUI_MED, TITLE_EXIT, 0);
+                }
+
+                gui_filler(jd);
+            }
+            gui_layout(id, 0, 0);
         }
-        gui_layout(id, 0, 0);
+
+#if ENABLE_VERSION
+        if ((id = gui_label(root_id, "Neverputt " VERSION, GUI_TNY, gui_wht2, gui_wht2)))
+        {
+            gui_clr_rect(id);
+            gui_layout(id, -1, -1);
+        }
+#endif
     }
 
     course_init();
     course_rand();
 
-    return id;
+    return root_id;
 }
 
 static void title_leave(struct state *st, struct state *next, int id)
