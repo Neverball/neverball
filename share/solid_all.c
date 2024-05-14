@@ -36,36 +36,136 @@ static float derp(float t)
 }
 #endif
 
+struct vec3
+{
+    float x, y, z;
+};
+
+struct vec4
+{
+    float w, x, y, z;
+};
+
+static struct vec3 get_move_pos(const struct s_vary *vary, int mi, float dt);
+static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt);
+static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt);
+
+static struct vec3 get_move_pos(const struct s_vary *vary, int mi, float dt)
+{
+    static const struct vec3 o = { 0.0f, 0.0f, 0.0f };
+
+    if (mi < 0)
+        return o;
+
+    const struct v_move *move = vary->mv + mi;
+    const struct b_path *path0 = vary->base->pv + move->pi;
+    // const struct b_path *path1 = vary->base->pv + path0->pi;
+
+    int pi = move->pi;
+    int pj = vary->base->pv[pi].pi;
+
+    struct vec3 p0 = get_path_pos(vary, pi, dt);
+    struct vec3 p1 = get_path_pos(vary, pj, dt);
+
+    float v[3], p[3], s;
+
+    if (vary->pv[pi].f)
+        s = (move->t + dt) / path0->t;
+    else
+        s = move->t / path0->t;
+
+    v_sub(v, (float *) &p1, (float *) &p0);
+    v_mad(p, (float *) &p0, v, path0->s ? erp(s) : s);
+
+    struct vec3 pos;
+
+    pos.x = p[0];
+    pos.y = p[1];
+    pos.z = p[2];
+
+    return pos;
+}
+
+static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt)
+{
+    static const struct vec4 o = { 1.0f, 0.0f, 0.0f, 0.0f };
+
+    if (mi < 0)
+        return o;
+
+    const struct v_move *move = vary->mv + mi;
+    const struct b_path *path0 = vary->base->pv + move->pi;
+    const struct b_path *path1 = vary->base->pv + path0->pi;
+
+    int pi = move->pi;
+    // int pj = vary->base->pv[pi].pi;
+
+    struct vec4 rot;
+
+    if (path0->fl & P_ORIENTED || path1->fl & P_ORIENTED)
+    {
+        float s;
+
+        if (vary->pv[pi].f)
+            s = (move->t + dt) / path0->t;
+        else
+            s = move->t / path0->t;
+
+        q_slerp((float *) &rot, path0->e, path1->e, path0->s ? erp(s) : s);
+    }
+    else
+    {
+        rot.w = 1.0f;
+        rot.x = 0.0f;
+        rot.y = 0.0f;
+        rot.z = 0.0f;
+    }
+
+    return rot;
+}
+
+static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt)
+{
+    static const struct vec3 o = { 0.0f, 0.0f, 0.0f };
+
+    if (pi < 0)
+        return o;
+
+    const struct v_path *path = vary->pv + pi;
+    const struct b_path *base = vary->base->pv + pi;
+
+    struct vec3 pos = get_move_pos(vary, path->mi, dt);
+    struct vec4 rot = get_move_rot(vary, path->mj, dt);
+
+    float v[3];
+
+    // Rotate the base path and add it to the mover position.
+
+    q_rot(v, (float *) &rot, base->p);
+    v_add((float *) &pos, (float *) &pos, v);
+
+    return pos;
+}
+
 void sol_body_p(float p[3],
                 const struct s_vary *vary,
                 int mi,
                 float dt)
 {
-    float v[3];
-
     if (mi >= 0)
     {
-        const struct v_move *mp = vary->mv + mi;
+        struct vec3 pos = get_move_pos(vary, mi, dt);
 
-        const struct b_path *pp = vary->base->pv + mp->pi;
-        const struct b_path *pq = vary->base->pv + pp->pi;
-
-        float s;
-
-        if (vary->pv[mp->pi].f)
-            s = (mp->t + dt) / pp->t;
-        else
-            s = mp->t / pp->t;
-
-        v_sub(v, pq->p, pp->p);
-        v_mad(p, pp->p, v, pp->s ? erp(s) : s);
-
-        return;
+        p[0] = pos.x;
+        p[1] = pos.y;
+        p[2] = pos.z;
     }
-
-    p[0] = 0.0f;
-    p[1] = 0.0f;
-    p[2] = 0.0f;
+    else
+    {
+        p[0] = 0.0f;
+        p[1] = 0.0f;
+        p[2] = 0.0f;
+    }
 }
 
 void sol_body_v(float v[3],
@@ -106,30 +206,20 @@ void sol_body_e(float e[4],
 {
     if (mi >= 0)
     {
-        const struct v_move *mp = vary->mv + mi;
+        const struct vec4 rot = get_move_rot(vary, mi, dt);
 
-        const struct b_path *pp = vary->base->pv + mp->pi;
-        const struct b_path *pq = vary->base->pv + pp->pi;
-
-        if (pp->fl & P_ORIENTED || pq->fl & P_ORIENTED)
-        {
-            float s;
-
-            if (vary->pv[mp->pi].f)
-                s = (mp->t + dt) / pp->t;
-            else
-                s = mp->t / pp->t;
-
-            q_slerp(e, pp->e, pq->e, pp->s ? erp(s) : s);
-
-            return;
-        }
+        e[0] = rot.w;
+        e[1] = rot.x;
+        e[2] = rot.y;
+        e[3] = rot.z;
     }
-
-    e[0] = 1.0f;
-    e[1] = 0.0f;
-    e[2] = 0.0f;
-    e[3] = 0.0f;
+    else
+    {
+        e[0] = 1.0f;
+        e[1] = 0.0f;
+        e[2] = 0.0f;
+        e[3] = 0.0f;
+    }
 }
 
 /*

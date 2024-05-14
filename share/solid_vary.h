@@ -33,6 +33,9 @@ struct v_path
     const struct b_path *base;
 
     int f;                                     /* enable flag                */
+
+    int mi;
+    int mj;
 };
 
 struct v_body

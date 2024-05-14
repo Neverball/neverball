@@ -79,6 +79,9 @@ int sol_load_vary(struct s_vary *fp, struct s_base *base)
 
             pp->base = pq;
             pp->f    = pq->f;
+
+            setup_mover(&mover_alloc, fp, pq->p0, &pp->mi);
+            setup_mover(&mover_alloc, fp, pq->p1, &pp->mj);
         }
     }
 

@@ -28,7 +28,8 @@ enum
     SOL_VERSION_1_5 = 6,
     SOL_VERSION_1_6 = 7,
     SOL_VERSION_2017_09 = 8,
-    SOL_VERSION_2024_04 = 9
+    SOL_VERSION_2024_04 = 9,
+    SOL_VERSION_2024_05 = 10,
 };
 
 #define SOL_VERSION_MIN  SOL_VERSION_1_5
@@ -244,6 +245,17 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
 
     if (pp->fl & P_ORIENTED)
         get_array(fin, pp->e, 4);
+
+    if (pp->fl & P_PARENTED)
+    {
+        pp->p0 = get_index(fin);
+        pp->p1 = get_index(fin);
+    }
+    else
+    {
+        pp->p0 = -1;
+        pp->p1 = -1;
+    }
 }
 
 static void sol_load_body(fs_file fin, struct b_body *bp)
@@ -694,6 +706,12 @@ static void sol_stor_path(fs_file fout, struct b_path *pp)
 
     if (pp->fl & P_ORIENTED)
         put_array(fout, pp->e, 4);
+
+    if (pp->fl & P_PARENTED)
+    {
+        put_index(fout, pp->p0);
+        put_index(fout, pp->p1);
+    }
 }
 
 static void sol_stor_body(fs_file fout, struct b_body *bp)
