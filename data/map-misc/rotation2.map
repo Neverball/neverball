@@ -1,0 +1,324 @@
+// Game: Neverball
+// Format: Quake3
+// entity 0
+{
+"classname" "worldspawn"
+"author" "Robert Kooima"
+"version" "1.1"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"shot" "shot-easy/easy.jpg"
+"song" "bgm/track1.ogg"
+"time" "9000"
+"goal" "10"
+"time_hs" "350 500"
+"coin_hs" "18 15"
+"goal_hs" "2000 4500"
+"message" "Move the mouse to tilt the floor.\Collect 10 coins to unlock the goal.\Guide the ball to the goal to\finish the level.\\Click to begin."
+}
+// entity 1
+{
+"classname" "path_corner"
+"origin" "24 648 8"
+"targetname" "q0"
+"target" "q1"
+"target2" "o0"
+"target3" "l0"
+}
+// entity 2
+{
+"classname" "path_corner"
+"origin" "24 648 56"
+"targetname" "q1"
+"target" "q2"
+"target2" "o0"
+"target3" "l0"
+}
+// entity 3
+{
+"classname" "path_corner"
+"origin" "-24 648 56"
+"targetname" "q2"
+"target" "q3"
+"target2" "o0"
+"target3" "l0"
+}
+// entity 4
+{
+"classname" "path_corner"
+"origin" "-24 648 8"
+"targetname" "q3"
+"target" "q0"
+"target2" "o0"
+"target3" "l0"
+}
+// entity 5
+{
+"classname" "func_train"
+"target" "q2"
+"target2" "l0"
+// brush 0
+{
+( -48 688 48 ) ( -48 689 48 ) ( -48 688 49 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( -32 688 48 ) ( -32 688 49 ) ( -31 688 48 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( -32 688 48 ) ( -31 688 48 ) ( -32 689 48 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( -16 720 64 ) ( -16 721 64 ) ( -15 720 64 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( -16 704 64 ) ( -15 704 64 ) ( -16 704 65 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 0 720 64 ) ( 0 720 65 ) ( 0 721 64 ) mtrl/check-black-white 0 0 0 0.5 0.5
+}
+}
+// entity 6
+{
+"classname" "func_train"
+"target" "q0"
+// brush 0
+{
+( 0 592 0 ) ( 0 593 0 ) ( 0 592 1 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 16 592 0 ) ( 16 592 1 ) ( 17 592 0 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 16 592 0 ) ( 17 592 0 ) ( 16 593 0 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 32 624 16 ) ( 32 625 16 ) ( 33 624 16 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 32 608 16 ) ( 33 608 16 ) ( 32 608 17 ) mtrl/check-black-white 0 0 0 0.5 0.5
+( 48 624 16 ) ( 48 624 17 ) ( 48 625 16 ) mtrl/check-black-white 0 0 0 0.5 0.5
+}
+}
+// entity 7
+{
+"classname" "path_corner"
+"origin" "48 600 24"
+"target2" "q0"
+"targetname" "x0"
+}
+// entity 8
+{
+"classname" "path_corner"
+"origin" "200 648 24"
+"targetname" "circle0"
+"target" "circle1"
+"smooth" "0"
+"speed" "0.333"
+}
+// entity 9
+{
+"classname" "path_corner"
+"origin" "250.928 621.072 24"
+"angles" "0 120 0"
+"targetname" "circle1"
+"target" "circle2"
+"smooth" "0"
+"speed" "0.333"
+}
+// entity 10
+{
+"classname" "path_corner"
+"origin" "253.072 682.928 24"
+"angles" "0 -120 0"
+"targetname" "circle2"
+"target" "circle0"
+"smooth" "0"
+"speed" "0.333"
+}
+// entity 11
+{
+"classname" "func_train"
+"target" "x0"
+"target2" "circle0"
+// brush 0
+{
+( 40 592 16 ) ( 40 593 16 ) ( 40 592 17 ) mtrl/red 0 0 0 0.5 0.5
+( 24 592 16 ) ( 24 592 17 ) ( 25 592 16 ) mtrl/red -16 0 0 0.5 0.5
+( 24 592 16 ) ( 25 592 16 ) ( 24 593 16 ) mtrl/red -16 0 0 0.5 0.5
+( 56 608 32 ) ( 56 609 32 ) ( 57 608 32 ) mtrl/red -16 0 0 0.5 0.5
+( 56 608 32 ) ( 57 608 32 ) ( 56 608 33 ) mtrl/red -16 0 0 0.5 0.5
+( 56 608 32 ) ( 56 608 33 ) ( 56 609 32 ) mtrl/red 0 0 0 0.5 0.5
+}
+}
+// entity 12
+{
+"classname" "light"
+"origin" "40 520 16"
+"light" "1"
+}
+// entity 13
+{
+"classname" "light"
+"origin" "8 520 16"
+"light" "1"
+"target" "q0"
+"target2" "l0"
+}
+// entity 14
+{
+"classname" "info_camp"
+"origin" "32 480 0"
+"target" "q0"
+"target2" "q0"
+"target3" "l0"
+"state" "1"
+}
+// entity 15
+{
+"classname" "func_train"
+"target" "q0"
+"target2" "l0"
+// brush 0
+{
+( -32 416 -8 ) ( -32 417 -8 ) ( -32 416 -7 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -48 416 -8 ) ( -48 416 -7 ) ( -47 416 -8 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( -48 416 -4 ) ( -47 416 -4 ) ( -48 417 -4 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 96 560 0 ) ( 96 561 0 ) ( 97 560 0 ) mtrl/switch 64 64 0 0.5 0.5 134217728 0 0
+( 96 544 0 ) ( 97 544 0 ) ( 96 544 1 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+( 96 560 0 ) ( 96 560 1 ) ( 96 561 0 ) mtrl/invisible 0 0 0 0.5 0.5 134217728 0 0
+}
+}
+// entity 16
+{
+"classname" "path_corner"
+"origin" "24 228 8"
+"angles" "-45 0 0"
+"targetname" "test0"
+}
+// entity 17
+{
+"classname" "func_train"
+"target" "test0"
+// brush 0
+{
+( 32 160 0 ) ( 32 161 0 ) ( 32 160 1 ) mtrl/wood-check 0 0 0 0.5 0.5
+( 28 160 0 ) ( 28 160 1 ) ( 29 160 0 ) mtrl/wood-check 0 0 0 0.5 0.5
+( 28 160 0 ) ( 29 160 0 ) ( 28 161 0 ) mtrl/wood-check 0 0 0 0.5 0.5
+( 64 196 32 ) ( 64 197 32 ) ( 65 196 32 ) mtrl/wood-check 0 0 0 0.5 0.5
+( 64 192 4 ) ( 65 192 4 ) ( 64 192 5 ) mtrl/wood-check 0 0 0 0.5 0.5
+( 64 196 4 ) ( 64 196 5 ) ( 64 197 4 ) mtrl/wood-check 0 0 0 0.5 0.5
+}
+}
+// entity 18
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "New"
+"_tb_id" "1"
+"_tb_layer_sort_index" "0"
+// brush 0
+{
+( -128 -64 -32 ) ( -128 -63 -32 ) ( -128 -64 -31 ) mtrl/turf-grey 0 0 0 0.5 0.5
+( -72 -64 -32 ) ( -72 -64 -31 ) ( -71 -64 -32 ) mtrl/turf-grey 0 0 0 0.5 0.5
+( -72 -64 -8 ) ( -71 -64 -8 ) ( -72 -63 -8 ) mtrl/turf-grey 0 0 0 0.5 0.5
+( 128 136 0 ) ( 128 137 0 ) ( 129 136 0 ) mtrl/turf-green-check 0 0 0 0.5 0.5
+( 128 768 0 ) ( 129 768 0 ) ( 128 768 1 ) mtrl/turf-grey 0 0 0 0.5 0.5
+( 128 136 0 ) ( 128 136 1 ) ( 128 137 0 ) mtrl/turf-grey 0 0 0 0.5 0.5
+}
+}
+// entity 19
+{
+"classname" "info_player_start"
+"origin" "0 0 24"
+"radius" "0.25"
+"_tb_layer" "1"
+}
+// entity 20
+{
+"classname" "func_train"
+"target" "o1"
+"target2" "r0"
+"_tb_layer" "1"
+// brush 0
+{
+( -32 728 80 ) ( -32 729 80 ) ( -32 728 81 ) mtrl/green 0 16 90 0.5 -0.5
+( 32 712 64 ) ( 31 712 64 ) ( 32 712 65 ) mtrl/green 0 0 180.00002 0.5 -0.5
+( 32 712 64 ) ( 32 713 64 ) ( 31 712 64 ) mtrl/green 0 16 179.99998 0.5 -0.5
+( -32 728 128 ) ( -33 728 128 ) ( -32 729 128 ) mtrl/green 0 16 179.99998 0.5 -0.5
+( -32 728 80 ) ( -32 728 81 ) ( -33 728 80 ) mtrl/green 0 0 180.00002 0.5 -0.5
+( 32 712 64 ) ( 32 712 65 ) ( 32 713 64 ) mtrl/green 0 16 90 0.5 -0.5
+}
+}
+// entity 21
+{
+"classname" "path_corner"
+"origin" "-32 720 0"
+"targetname" "o0"
+"_tb_layer" "1"
+}
+// entity 22
+{
+"classname" "path_corner"
+"origin" "32 720 64"
+"targetname" "o1"
+"target2" "o0"
+"target3" "l0"
+"_tb_layer" "1"
+}
+// entity 23
+{
+"classname" "path_corner"
+"origin" "-184 696 -24"
+"targetname" "l0"
+"target" "l1"
+"_tb_layer" "1"
+}
+// entity 24
+{
+"classname" "path_corner"
+"origin" "-32 720 128"
+"targetname" "o2"
+"target2" "o1"
+"target3" "r0"
+"_tb_layer" "1"
+}
+// entity 25
+{
+"classname" "func_train"
+"target" "o0"
+"target2" "l0"
+"_tb_layer" "1"
+// brush 0
+{
+( -32 728 16 ) ( -32 729 16 ) ( -32 728 17 ) mtrl/red 0 16 90 0.5 -0.5
+( 32 712 0 ) ( 31 712 0 ) ( 32 712 1 ) mtrl/red 0 0 180.00002 0.5 -0.5
+( 32 712 0 ) ( 32 713 0 ) ( 31 712 0 ) mtrl/red 0 16 179.99998 0.5 -0.5
+( 0 728 64 ) ( -1 728 64 ) ( 0 729 64 ) mtrl/red 0 16 179.99998 0.5 -0.5
+( 0 728 16 ) ( 0 728 17 ) ( -1 728 16 ) mtrl/red 0 0 180.00002 0.5 -0.5
+( 32 712 0 ) ( 32 712 1 ) ( 32 713 0 ) mtrl/red 0 16 90 0.5 -0.5
+}
+}
+// entity 26
+{
+"classname" "path_corner"
+"origin" "-184 696 40"
+"targetname" "l1"
+"target" "l0"
+"angles" "-30 0 0"
+"_tb_layer" "1"
+}
+// entity 27
+{
+"classname" "path_corner"
+"origin" "-184 696 104"
+"targetname" "r0"
+"target" "r1"
+"_tb_layer" "1"
+}
+// entity 28
+{
+"classname" "path_corner"
+"origin" "-184 696 168"
+"targetname" "r1"
+"angles" "30 0 0"
+"target" "r0"
+"_tb_layer" "1"
+}
+// entity 29
+{
+"classname" "func_train"
+"target" "o2"
+"target2" "l0"
+"_tb_layer" "1"
+// brush 0
+{
+( -32 728 144 ) ( -32 729 144 ) ( -32 728 145 ) mtrl/blue 0 16 90 0.5 -0.5
+( 32 712 128 ) ( 31 712 128 ) ( 32 712 129 ) mtrl/blue 0 0 180.00002 0.5 -0.5
+( 32 712 128 ) ( 32 713 128 ) ( 31 712 128 ) mtrl/blue 0 16 179.99998 0.5 -0.5
+( -32 728 192 ) ( -33 728 192 ) ( -32 729 192 ) mtrl/blue 0 16 179.99998 0.5 -0.5
+( -32 728 144 ) ( -32 728 145 ) ( -33 728 144 ) mtrl/blue 0 0 180.00002 0.5 -0.5
+( 32 712 128 ) ( 32 712 129 ) ( 32 713 128 ) mtrl/blue 0 16 90 0.5 -0.5
+}
+}

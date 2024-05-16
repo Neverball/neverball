@@ -736,12 +736,6 @@ static void move_bill(struct s_base *fp,
     v_sub(rp->p, rp->p, fp->pv[rp->p0].p);
 }
 
-static void move_path(struct s_base *fp,
-                      struct b_path *pp)
-{
-    v_sub(pp->p, pp->p, fp->pv[pp->p0].p);
-}
-
 static void move_file(struct s_base *fp)
 {
     int i;
@@ -770,9 +764,38 @@ static void move_file(struct s_base *fp)
         if (fp->rv[i].p0 >= 0)
             move_bill(fp, fp->rv + i);
 
-    for (i = 0; i < fp->pc; i++)
-        if (fp->pv[i].p0 >= 0)
-            move_path(fp, fp->pv + i);
+    /* Paths must be moved last and all at once. */
+
+    if (fp->pc > 0)
+    {
+        float (*posv)[3] = calloc(fp->pc, sizeof (float[3]));
+
+        if (posv)
+        {
+            for (i = 0; i < fp->pc; i++)
+            {
+                struct b_path *pp = fp->pv + i;
+
+                if (pp->p0 >= 0)
+                {
+                    struct b_path *pq = fp->pv + pp->p0;
+
+                    v_sub(posv[i], pp->p, pq->p);
+                }
+            }
+
+            for (i = 0; i < fp->pc; i++)
+            {
+                struct b_path *pp = fp->pv + i;
+
+                if (pp->p0 >= 0)
+                    v_cpy(fp->pv[i].p, posv[i]);
+            }
+
+            free(posv);
+            posv = NULL;
+        }
+    }
 }
 
 /*---------------------------------------------------------------------------*/

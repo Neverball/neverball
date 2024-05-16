@@ -250,6 +250,9 @@ static void sol_load_path(fs_file fin, struct b_path *pp)
     {
         pp->p0 = get_index(fin);
         pp->p1 = get_index(fin);
+
+        if (pp->p1 < 0)
+            pp->p1 = pp->p0;
     }
     else
     {
@@ -290,6 +293,9 @@ static void sol_load_item(fs_file fin, struct b_item *hp)
     {
         hp->p0 = get_index(fin);
         hp->p1 = get_index(fin);
+
+        if (hp->p1 < 0)
+            hp->p1 = hp->p0;
     }
     else
     {
@@ -308,6 +314,9 @@ static void sol_load_goal(fs_file fin, struct b_goal *zp)
     {
         zp->p0 = get_index(fin);
         zp->p1 = get_index(fin);
+
+        if (zp->p1 < 0)
+            zp->p1 = zp->p0;
     }
     else
     {
@@ -332,6 +341,9 @@ static void sol_load_swch(fs_file fin, struct b_swch *xp)
     {
         xp->p0 = get_index(fin);
         xp->p1 = get_index(fin);
+
+        if (xp->p1 < 0)
+            xp->p1 = xp->p0;
     }
     else
     {
@@ -361,6 +373,9 @@ static void sol_load_bill(fs_file fin, struct b_bill *rp)
     {
         rp->p0 = get_index(fin);
         rp->p1 = get_index(fin);
+
+        if (rp->p1 < 0)
+            rp->p1 = rp->p0;
     }
     else
     {
@@ -380,6 +395,9 @@ static void sol_load_jump(fs_file fin, struct b_jump *jp)
     {
         jp->p0 = get_index(fin);
         jp->p1 = get_index(fin);
+
+        if (jp->p1 < 0)
+            jp->p1 = jp->p0;
     }
     else
     {
