@@ -15,6 +15,42 @@
 "coin_hs" "18 15"
 "goal_hs" "2000 4500"
 "message" "Move the mouse to tilt the floor.\Collect 10 coins to unlock the goal.\Guide the ball to the goal to\finish the level.\\Click to begin."
+// brush 0
+{
+( 64 192 0 ) ( 64 193 0 ) ( 64 192 1 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 192 0 ) ( 48 192 1 ) ( 49 192 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 192 0 ) ( 49 192 0 ) ( 48 193 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 208 8 ) ( 80 209 8 ) ( 81 208 8 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 208 16 ) ( 81 208 16 ) ( 80 208 17 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 208 16 ) ( 80 208 17 ) ( 80 209 16 ) mtrl/blue 0 0 0 0.5 0.5
+}
+// brush 1
+{
+( 64 128 0 ) ( 64 129 0 ) ( 64 128 1 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 128 0 ) ( 48 128 1 ) ( 49 128 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 128 0 ) ( 49 128 0 ) ( 48 129 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 144 8 ) ( 80 145 8 ) ( 81 144 8 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 144 16 ) ( 81 144 16 ) ( 80 144 17 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 144 16 ) ( 80 144 17 ) ( 80 145 16 ) mtrl/blue 0 0 0 0.5 0.5
+}
+// brush 2
+{
+( 64 64 0 ) ( 64 65 0 ) ( 64 64 1 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 64 0 ) ( 48 64 1 ) ( 49 64 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 48 64 0 ) ( 49 64 0 ) ( 48 65 0 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 80 8 ) ( 80 81 8 ) ( 81 80 8 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 80 16 ) ( 81 80 16 ) ( 80 80 17 ) mtrl/blue 0 0 0 0.5 0.5
+( 80 80 16 ) ( 80 80 17 ) ( 80 81 16 ) mtrl/blue 0 0 0 0.5 0.5
+}
+// brush 3
+{
+( -64 128 0 ) ( -64 129 0 ) ( -64 128 1 ) mtrl/red 0 0 0 0.5 0.5
+( -80 128 0 ) ( -80 128 1 ) ( -79 128 0 ) mtrl/red 0 0 0 0.5 0.5
+( -80 128 0 ) ( -79 128 0 ) ( -80 129 0 ) mtrl/red 0 0 0 0.5 0.5
+( -48 144 8 ) ( -48 145 8 ) ( -47 144 8 ) mtrl/red 0 0 0 0.5 0.5
+( -48 144 16 ) ( -47 144 16 ) ( -48 144 17 ) mtrl/red 0 0 0 0.5 0.5
+( -48 144 16 ) ( -48 144 17 ) ( -48 145 16 ) mtrl/red 0 0 0 0.5 0.5
+}
 }
 // entity 1
 {
@@ -96,6 +132,7 @@
 "target" "circle1"
 "smooth" "0"
 "speed" "0.333"
+"target3" "l0"
 }
 // entity 9
 {
@@ -106,6 +143,7 @@
 "target" "circle2"
 "smooth" "0"
 "speed" "0.333"
+"target3" "l0"
 }
 // entity 10
 {
@@ -116,6 +154,7 @@
 "target" "circle0"
 "smooth" "0"
 "speed" "0.333"
+"target3" "l0"
 }
 // entity 11
 {
@@ -173,25 +212,41 @@
 // entity 16
 {
 "classname" "path_corner"
-"origin" "24 228 8"
-"angles" "-45 0 0"
-"targetname" "test0"
+"origin" "72 72 8"
+"targetname" "g2"
+"angles" "0 90 0"
 }
 // entity 17
 {
-"classname" "func_train"
-"target" "test0"
-// brush 0
-{
-( 32 160 0 ) ( 32 161 0 ) ( 32 160 1 ) mtrl/wood-check 0 0 0 0.5 0.5
-( 28 160 0 ) ( 28 160 1 ) ( 29 160 0 ) mtrl/wood-check 0 0 0 0.5 0.5
-( 28 160 0 ) ( 29 160 0 ) ( 28 161 0 ) mtrl/wood-check 0 0 0 0.5 0.5
-( 64 196 32 ) ( 64 197 32 ) ( 65 196 32 ) mtrl/wood-check 0 0 0 0.5 0.5
-( 64 192 4 ) ( 65 192 4 ) ( 64 192 5 ) mtrl/wood-check 0 0 0 0.5 0.5
-( 64 196 4 ) ( 64 196 5 ) ( 64 197 4 ) mtrl/wood-check 0 0 0 0.5 0.5
-}
+"classname" "path_corner"
+"origin" "72 136 8"
+"targetname" "g1"
+"target2" "g2"
+"angles" "0 -90 0"
 }
 // entity 18
+{
+"classname" "path_corner"
+"origin" "72 200 8"
+"targetname" "g0"
+"target2" "g1"
+"angles" "0 90 0"
+}
+// entity 19
+{
+"classname" "func_train"
+"target" "g0"
+// brush 0
+{
+( 64 256 8 ) ( 64 257 8 ) ( 64 256 9 ) mtrl/green 0 16 0 0.5 0.5
+( 56 256 8 ) ( 56 256 9 ) ( 57 256 8 ) mtrl/yellow 0 16 0 0.5 0.5
+( 56 256 8 ) ( 57 256 8 ) ( 56 257 8 ) mtrl/yellow 0 0 0 0.5 0.5
+( 80 272 16 ) ( 80 273 16 ) ( 81 272 16 ) mtrl/yellow 0 0 0 0.5 0.5
+( 80 272 16 ) ( 81 272 16 ) ( 80 272 17 ) mtrl/blue 0 16 0 0.5 0.5
+( 80 272 16 ) ( 80 272 17 ) ( 80 273 16 ) mtrl/white 0 16 0 0.5 0.5
+}
+}
+// entity 20
 {
 "classname" "func_group"
 "_tb_type" "_tb_layer"
@@ -208,14 +263,14 @@
 ( 128 136 0 ) ( 128 136 1 ) ( 128 137 0 ) mtrl/turf-grey 0 0 0 0.5 0.5
 }
 }
-// entity 19
+// entity 21
 {
 "classname" "info_player_start"
-"origin" "0 0 24"
+"origin" "-64 32 24"
 "radius" "0.25"
 "_tb_layer" "1"
 }
-// entity 20
+// entity 22
 {
 "classname" "func_train"
 "target" "o1"
@@ -231,14 +286,14 @@
 ( 32 712 64 ) ( 32 712 65 ) ( 32 713 64 ) mtrl/green 0 16 90 0.5 -0.5
 }
 }
-// entity 21
+// entity 23
 {
 "classname" "path_corner"
 "origin" "-32 720 0"
 "targetname" "o0"
 "_tb_layer" "1"
 }
-// entity 22
+// entity 24
 {
 "classname" "path_corner"
 "origin" "32 720 64"
@@ -247,7 +302,7 @@
 "target3" "l0"
 "_tb_layer" "1"
 }
-// entity 23
+// entity 25
 {
 "classname" "path_corner"
 "origin" "-184 696 -24"
@@ -255,7 +310,7 @@
 "target" "l1"
 "_tb_layer" "1"
 }
-// entity 24
+// entity 26
 {
 "classname" "path_corner"
 "origin" "-32 720 128"
@@ -264,7 +319,7 @@
 "target3" "r0"
 "_tb_layer" "1"
 }
-// entity 25
+// entity 27
 {
 "classname" "func_train"
 "target" "o0"
@@ -280,7 +335,7 @@
 ( 32 712 0 ) ( 32 712 1 ) ( 32 713 0 ) mtrl/red 0 16 90 0.5 -0.5
 }
 }
-// entity 26
+// entity 28
 {
 "classname" "path_corner"
 "origin" "-184 696 40"
@@ -289,7 +344,7 @@
 "angles" "-30 0 0"
 "_tb_layer" "1"
 }
-// entity 27
+// entity 29
 {
 "classname" "path_corner"
 "origin" "-184 696 104"
@@ -297,7 +352,7 @@
 "target" "r1"
 "_tb_layer" "1"
 }
-// entity 28
+// entity 30
 {
 "classname" "path_corner"
 "origin" "-184 696 168"
@@ -306,7 +361,7 @@
 "target" "r0"
 "_tb_layer" "1"
 }
-// entity 29
+// entity 31
 {
 "classname" "func_train"
 "target" "o2"

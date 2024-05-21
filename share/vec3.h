@@ -83,9 +83,9 @@
 } while (0)
 
 #define v_lerp(u, v, w, a) do {    \
-    (u)[0] = flerp(v[0], w[0], a); \
-    (u)[1] = flerp(v[1], w[1], a); \
-    (u)[2] = flerp(v[2], w[2], a); \
+    (u)[0] = flerp((v)[0], (w)[0], a); \
+    (u)[1] = flerp((v)[1], (w)[1], a); \
+    (u)[2] = flerp((v)[2], (w)[2], a); \
 } while (0)
 
 #define e_cpy(d, e) do {   \

@@ -36,6 +36,10 @@ static float derp(float t)
 }
 #endif
 
+/*
+ * This here is a scene graph, believe it or not.
+ */
+
 struct vec3
 {
     float x, y, z;
@@ -46,110 +50,127 @@ struct vec4
     float w, x, y, z;
 };
 
+static const struct vec3 POS_IDENTITY = { 0.0f, 0.0f, 0.0f };
+static const struct vec4 ROT_IDENTITY = { 1.0f, 0.0f, 0.0f, 0.0f };
+
 static struct vec3 get_move_pos(const struct s_vary *vary, int mi, float dt);
-static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt);
 static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt);
+
+static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt);
+static struct vec4 get_path_rot(const struct s_vary *vary, int pi, float dt);
 
 static struct vec3 get_move_pos(const struct s_vary *vary, int mi, float dt)
 {
-    static const struct vec3 o = { 0.0f, 0.0f, 0.0f };
-
     if (mi < 0)
-        return o;
+        return POS_IDENTITY;
 
-    const struct v_move *move = vary->mv + mi;
-    const struct b_path *base = vary->base->pv + move->pi;
-    // const struct b_path *path1 = vary->base->pv + base->pi;
+    const struct v_move *mp = vary->mv + mi;
 
-    int curr_pi = move->pi;
+    int curr_pi = mp->pi;
     int next_pi = vary->base->pv[curr_pi].pi;
 
     struct vec3 p0 = get_path_pos(vary, curr_pi, dt);
     struct vec3 p1 = next_pi != curr_pi ? get_path_pos(vary, next_pi, dt) : p0;
 
-    float v[3], p[3], s;
+    const struct b_path *pp = vary->base->pv + curr_pi;
+
+    float s;
 
     if (vary->pv[curr_pi].f)
-        s = (move->t + dt) / base->t;
+        s = (mp->t + dt) / pp->t;
     else
-        s = move->t / base->t;
+        s = mp->t / pp->t;
+
+    s = pp->s ? erp(s) : s;
+
+    float v[3];
 
     v_sub(v, (float *) &p1, (float *) &p0);
-    v_mad(p, (float *) &p0, v, base->s ? erp(s) : s);
+    v_mad(v, (float *) &p0, v, s);
 
     struct vec3 pos;
 
-    pos.x = p[0];
-    pos.y = p[1];
-    pos.z = p[2];
+    pos.x = v[0];
+    pos.y = v[1];
+    pos.z = v[2];
 
     return pos;
 }
 
 static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt)
 {
-    static const struct vec4 o = { 1.0f, 0.0f, 0.0f, 0.0f };
-
     if (mi < 0)
-        return o;
+        return ROT_IDENTITY;
 
-    const struct v_move *move = vary->mv + mi;
-    const struct b_path *path0 = vary->base->pv + move->pi;
-    const struct b_path *path1 = vary->base->pv + path0->pi;
+    const struct v_move *mp = vary->mv + mi;
 
-    int curr_pi = move->pi;
-    // int next_pi = vary->base->pv[curr_pi].pi;
+    int curr_pi = mp->pi;
+    int next_pi = vary->base->pv[curr_pi].pi;
+
+    struct vec4 e0 = get_path_rot(vary, curr_pi, dt);
+    struct vec4 e1 = next_pi != curr_pi ? get_path_rot(vary, next_pi, dt) : e0;
+
+    const struct b_path *pp = vary->base->pv + curr_pi;
+
+    float s;
+
+    if (vary->pv[curr_pi].f)
+        s = (mp->t + dt) / pp->t;
+    else
+        s = mp->t / pp->t;
+
+    s = pp->s ? erp(s) : s;
 
     struct vec4 rot;
 
-    if (path0->fl & P_ORIENTED || path1->fl & P_ORIENTED)
-    {
-        float s;
-
-        if (vary->pv[curr_pi].f)
-            s = (move->t + dt) / path0->t;
-        else
-            s = move->t / path0->t;
-
-        q_slerp((float *) &rot, path0->e, path1->e, path0->s ? erp(s) : s);
-    }
-    else
-    {
-        rot.w = 1.0f;
-        rot.x = 0.0f;
-        rot.y = 0.0f;
-        rot.z = 0.0f;
-    }
+    q_slerp((float *) &rot, (float *) &e0, (float *) &e1, s);
 
     return rot;
 }
 
 static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt)
 {
-    static const struct vec3 o = { 0.0f, 0.0f, 0.0f };
-
     if (pi < 0)
-        return o;
+        return POS_IDENTITY;
 
-    const struct v_path *path = vary->pv + pi;
-    const struct b_path *base = vary->base->pv + pi;
+    const struct v_path *vp = vary->pv + pi;
+    const struct b_path *pp = vary->base->pv + pi;
 
-    struct vec3 pos = get_move_pos(vary, path->mi, dt);
-    struct vec4 rot = get_move_rot(vary, path->mj, dt);
+    struct vec3 pos = get_move_pos(vary, vp->mi, dt);
+    struct vec4 rot = get_move_rot(vary, vp->mj, dt);
 
-    if (base->fl & P_PARENTED)
+    if (rot.w != 1.0f)
     {
-        float p[3], r[4];
-
-        q_mul(r, (float *) &rot, base->e);
-        // q_conj(r, r);
-        q_rot(p, r, base->p);
+        float p[3];
+        q_rot(p, (float *) &rot, pp->p);
         v_add((float *) &pos, (float *) &pos, p);
     }
     else
-        v_cpy((float *) &pos, base->p);
+        v_add((float *) &pos, (float *) &pos, pp->p);
 
     return pos;
+}
+
+static struct vec4 get_path_rot(const struct s_vary *vary, int pi, float dt)
+{
+    if (pi < 0)
+        return ROT_IDENTITY;
+
+    const struct v_path *vp = vary->pv + pi;
+    const struct b_path *pp = vary->base->pv + pi;
+
+    struct vec4 rot = get_move_rot(vary, vp->mj, dt);
+
+    float e[4];
+
+    q_mul(e, (float *) &rot, pp->e);
+
+    rot.w = e[0];
+    rot.x = e[1];
+    rot.y = e[2];
+    rot.z = e[3];
+
+    return rot;
 }
 
 void sol_body_p(float p[3],
