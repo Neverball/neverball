@@ -1,4 +1,4 @@
-FROM emscripten/emsdk:3.1.51
+FROM emscripten/emsdk:3.1.60-arm64
 
 ENV GL4ES_COMMIT=e39434a2b17d12be569a1406f3bd23ac6a231347
 ENV GL4ES_DIR=/opt/gl4es
