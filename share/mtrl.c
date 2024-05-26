@@ -222,7 +222,7 @@ int mtrl_cache(const struct b_mtrl *base)
  */
 void mtrl_free(int mi)
 {
-    if (mtrls)
+    if (mtrls && mi >= 0 && mi < array_len(mtrls))
     {
         struct mtrl *mp = array_get(mtrls, mi);
 
