@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <link rel="preload" as="fetch" href="./neverball.data" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Play Neverball</title>
 
@@ -374,13 +375,23 @@
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
 
-      <p><a href="https://neverball.org/">Neverball</a> is a 3D rolling ball game. Tilt the floor to roll, collect coins to unlock the goal and reach the goal before time runs out.</p>
+      <p><a href="https://neverball.org/">Neverball</a> is a rolling ball game. Tilt the floor to roll, collect coins to unlock the goal and reach the goal before time runs out. On this page, you can play Neverball right in your browser.</p>
 
-      <p>This version of Neverball is built with Emscripten and gl4es:</p>
+      <details>
+        <summary>Technical info</summary>
 
-      <p><a href="https://emscripten.org/">Emscripten</a> translates the game's source code into WebAssembly and provides the glue that allows Neverball code to run in the web browser.</p>
+        <div>
+          <p>This version of Neverball is built with Emscripten and gl4es:</p>
 
-      <p><a href="https://github.com/ptitSeb/gl4es">gl4es</a> provides the glue between the 1.x OpenGL API that Neverball uses and the GLES2 API that Emscripten and the modern browser provides.</p>
+          <p><a href="https://emscripten.org/">Emscripten</a> translates the game's source code into WebAssembly and provides the glue that allows Neverball code to run in the web browser.</p>
+
+          <p><a href="https://github.com/ptitSeb/gl4es">gl4es</a> provides the glue between the 1.x OpenGL API that Neverball uses and the GLES2 API that Emscripten and the modern browser provides.</p>
+
+        </div>
+      </details>
+
+      <p>You have the freedom to run, study, modify, and distribute Neverball and its modified versions: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a></a></p>
+
     </div>
   </div>
 
