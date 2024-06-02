@@ -39,13 +39,14 @@
     }
 
     .container {
-      max-width: 80rem;
-      padding: 0 0.8rem;
+      box-sizing: border-box;
+      max-width: 81.6rem;
+      padding: 0.8rem;
       margin: 0 auto;
     }
 
     .in-game .container {
-      max-width: min(80rem, calc(16 / 9 * 100dvmin));
+      max-width: min(81.6rem, calc(16 / 9 * 100dvmin));
     }
 
     #canvas-wrapper {
@@ -54,8 +55,10 @@
       height: auto;
       aspect-ratio: 16 / 9;
       max-width: calc(16 / 9 * 100dvmin);
-      max-height: calc(100dvmin - 2rem);
+      max-height: calc(100dvmin - 1.6rem);
       margin: 0 auto;
+      border-radius: 1rem;
+      overflow: hidden;
     }
 
     #overlay {
@@ -115,6 +118,7 @@
     }
 
     #canvas-wrapper:fullscreen {
+      border-radius: 0;
       aspect-ratio: auto;
       min-width: auto;
       min-height: auto;
@@ -206,7 +210,7 @@
     @media (min-width: 640px) {
       #screenshot {
         float: right;
-        margin: 0 0 1rem 1rem;
+        margin: 0 0 1.6rem 1.6rem;
       }
     }
 
@@ -222,7 +226,7 @@
 
     .neverball-box {
       background-color: rgba(25, 25, 25, 0.5);
-      padding: 1rem;
+      padding: 1.6rem;
       border-radius: 1rem;
     }
 
@@ -250,6 +254,10 @@
       gap: 1rem;
     }
 
+    .gap-4 {
+      gap: 1.6rem;
+    }
+
     .gap-5 {
       gap: 2rem;
     }
@@ -265,6 +273,11 @@
     .py-2\.5 {
       padding-top: 1rem;
       padding-bottom: 1rem;
+    }
+
+    .py-4 {
+      padding-top: 1.6rem;
+      padding-bottom: 1.6rem;
     }
 
     .py-5 {
@@ -286,6 +299,7 @@
 
     h1, h2 {
       margin-top: 0;
+      margin-bottom: 1.6rem;
     }
 
     .in-game .in-game\:pt-0 {
@@ -323,7 +337,7 @@
 </head>
 
 <body>
-  <section class="container flex flex-column gap-2.5 py-2.5">
+  <section class="container flex flex-column gap-4">
     <div class="neverball-box in-game:hidden">
       <h1><span class="neverball-text">Play Neverball</span></h1>
 
