@@ -19,6 +19,10 @@
       margin: 0;
       background-image: linear-gradient(to bottom, black -50%, #1a6cb4 35%, #1a6cb4 65%, black 150%);
       min-height: 100%;
+
+      --svg-part: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%221%201%2018%2018%22%3E%20%3Cpath%20d%3D%22M%2010%201%20L%2012%208%20L%2019%207.5%20L%2013%2011.5%20L%2016%2019%20L%2010%2014%20L%204%2019%20L%207%2011.5%20L%201%207.5%20L%208%208%20Z%22%20fill%3D%22%23FFFF00%22%2F%3E%20%3C%2Fsvg%3E');
+      --svg-coin: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%229%22%20stroke-width%3D%220.5%22%20stroke%3D%22%23000%22%20fill%3D%22%23ff0%22%2F%3E%20%3Cpath%20d%3D%22M%2010.7%202.3%20L%2010.668%204.039%20Q%2012.263%204.09%2013.7%204.7%20L%2013.7%206.7%20Q%2011.851%205.891%2010.642%205.942%20L%2010.668%208.592%20C%2016.533%209.209%2015.453%2014.946%2010.642%2015.1%20L%2010.642%2017.492%20L%209.1%2017.5%20L%209.099%2015.203%20Q%207.093%2015.048%205.446%2014.38%20L%205.446%2012.322%20Q%207.839%2013.556%209.073%2013.325%20L%209.099%2010.392%20C%204.186%2010.007%204.057%204.553%209.099%204.116%20L%209.1%202.3%20Z%20M%209.094%206.007%20C%207.183%206.105%207.026%208.069%209.102%208.314%20Z%20M%2010.6%2013.3%20C%2013%2012.9%2012.9%2011.1%2010.6%2010.6%20Z%22%20stroke%3D%22%23000%22%20stroke-width%3D%220.5%22%20fill%3D%22transparent%22%2F%3E%3C%2Fsvg%3E');
+      --svg-ball: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%2010%2010%22%3E%20%3Cpath%20d%3D%22M%20-5%200%20A%205%205%200%200%200%200%205%20L%200%20-5%20A%205%205%200%200%201%205%200%20Z%22%20fill%3D%22%23000000%22%2F%3E%20%3Cpath%20d%3D%22M%20-5%200%20A%205%205%200%200%201%200%20-5%20L%200%205%20A%205%205%200%200%200%205%200%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%20%3C%2Fsvg%3E');
     }
 
     body {
@@ -136,28 +140,70 @@
       height: 100%; /* Fill parent. */
     }
 
-    #status-line {
-      background: #67686d;
+    .progress-bar {
+      --value: 0;
+      --size: 48px;
+      background-color: rgba(103, 104, 109, 0.7);
       position: relative;
-      padding: 1rem;
       margin-bottom: 2rem;
-      border-radius: 1rem;
+      border-radius: var(--size);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .progress-bar__tile {
+      background-image: var(--svg-coin);
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: var(--size);
+      aspect-ratio: 1;
+      flex-shrink: 0;
+      opacity: 1;
+    }
+
+    .progress-bar__value {
+      width: calc(var(--value) * 100%);
+      position: relative;
+      background-image: linear-gradient(to right, rgb(64, 173, 71), rgb(64, 173, 71) 70%, transparent);
+      border-radius: var(--size);
+      z-index: 1;
+      transition: 1.4s ease-in width;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .progress-bar__space {
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
       overflow: hidden;
     }
 
-    #progress {
-      width: 0;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      background: #40ad47;
-      z-index: 1;
+    .progress-bar__value > .progress-bar__tile {
+      background-image: var(--svg-part);
+      background-size: 40%;
+      background-position: center;
+      /* opacity: calc(1 - var(--value)); */
     }
 
-    #status {
-      position:relative;
-      z-index: 2;
+    .progress-bar__value::after {
+      content: '';
+      background-image: var(--svg-ball);
+      background-repeat: no-repeat;
+      display: block;
+      height: var(--size);
+      aspect-ratio: 1;
+      position: absolute;
+      right: 0;
+      top: calc(50% - var(--size) / 2);
+      animation: 1.6s linear infinite alternate roll;
+    }
+
+    .text-white {
       color: #fff;
     }
 
@@ -186,19 +232,6 @@
       transition: background 0.1s ease-in-out;
       animation: pulse 0.2s;
       animation-timing-function: ease-in-out;
-    }
-
-    #run-button:disabled + .spinner {
-      display: block;
-    }
-
-    .spinner {
-      display: none;
-      width: 0.8rem;
-      height: 0.8rem;
-      background-color: #fff;
-      border-radius: 50%;
-      animation: blink 1s infinite;
     }
 
     #screenshot {
@@ -322,6 +355,23 @@
       flex-wrap: wrap;
     }
 
+    .coin {
+      animation: 1s linear infinite rotate;
+    }
+
+    .star {
+      position: relative;
+      opacity: calc(1 + var(--num) / 15 - var(--value));
+      left: calc(25% * max(-1.0, var(--num) / 15 - var(--value)));
+      transition: 1.6s ease-in opacity, 0.2s linear left;
+      animation: 1s linear infinite spin;
+    }
+
+    #status {
+      flex-grow: 1;
+      font-size: 1.4rem;
+    }
+
     @keyframes pulse {
       50% {
         transform: scale(1.2);
@@ -333,6 +383,24 @@
         opacity: 0;
       }
     }
+
+    @keyframes rotate {
+      to {
+        transform: rotateY(360deg);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    @keyframes roll {
+      to {
+        transform: rotate(20deg);
+      }
+    }
   </style>
 </head>
 
@@ -341,14 +409,50 @@
     <div class="neverball-box in-game:hidden">
       <h1><span class="neverball-text">Play Neverball</span></h1>
 
-      <div id="status-line">
-        <div id="progress"></div>
-        <div id="status">Downloading...</div>
+      <div id="progress" class="progress-bar">
+
+        <div class="progress-bar__value">
+          <div class="progress-bar__tile star" style="--num: 0;"></div>
+          <div class="progress-bar__tile star" style="--num: 1;"></div>
+          <div class="progress-bar__tile star" style="--num: 2;"></div>
+          <div class="progress-bar__tile star" style="--num: 3;"></div>
+          <div class="progress-bar__tile star" style="--num: 4;"></div>
+          <div class="progress-bar__tile star" style="--num: 5;"></div>
+          <div class="progress-bar__tile star" style="--num: 6;"></div>
+          <div class="progress-bar__tile star" style="--num: 7;"></div>
+          <div class="progress-bar__tile star" style="--num: 8;"></div>
+          <div class="progress-bar__tile star" style="--num: 9;"></div>
+          <div class="progress-bar__tile star" style="--num: 10;"></div>
+          <div class="progress-bar__tile star" style="--num: 11;"></div>
+          <div class="progress-bar__tile star" style="--num: 12;"></div>
+          <div class="progress-bar__tile star" style="--num: 13;"></div>
+          <div class="progress-bar__tile star" style="--num: 14;"></div>
+          <div class="progress-bar__tile star" style="--num: 15;"></div>
+        </div>
+
+        <div class="progress-bar__space">
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+          <div class="progress-bar__tile coin"></div>
+        </div>
       </div>
 
       <div class="flex gap-2 items-center">
-        <button id="run-button" class="neverball-button" disabled>Play Now</button>
-        <div class="spinner"></div>
+        <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
+        <div id="status" class="text-white">Downloading...</div>
       </div>
     </div>
 
@@ -356,7 +460,7 @@
       <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
       <div id="overlay">
-        <button id="fullscreen-button" class="fullscreen-button"><span>Fullscreen</span></button>
+        <button id="fullscreen-button" type="button" class="fullscreen-button"><span>Fullscreen</span></button>
       </div>
     </div>
 
@@ -608,13 +712,13 @@
               </span>
             </div>
 
-            <button class="neverball-button in-game:hidden" onclick="Neverball.watchReplay('/neverball/Replays/${replay.filename}');">
+            <button type="button" class="neverball-button in-game:hidden" onclick="Neverball.watchReplay('/neverball/Replays/${replay.filename}');">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 2 0 L 2 10 L 8 5 Z" fill="#fff"/>
               </svg>
             </button>
 
-            <button class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/${replay.filename}')">
+            <button type="button" class="neverball-button" onclick="Neverball.downloadFile('/neverball/Replays/${replay.filename}')">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
               </svg>
@@ -628,6 +732,7 @@
       },
 
       ready: function () {
+        console.log('ready');
         this._runButton.disabled = false;
 
         this._runButton.addEventListener('click', this.events.runButtonClick);
@@ -870,9 +975,11 @@
           text = m[1];
           var value = parseInt(m[2]) * 100;
           var max = parseInt(m[4]) * 100;
-          progressElement.style.width = (value / max) * 100 + '%';
+          progressElement.style.setProperty('--value', value / max);
+          // progressElement.style.width = (value / max) * 100 + '%';
         } else {
-          progressElement.style.width = text ? 0 : '100%';
+          progressElement.style.setProperty('--value', text ? 0 : 1);
+          // progressElement.style.width = text ? 0 : '100%';
         }
         statusElement.innerHTML = text ? text : 'Ready';
       },
