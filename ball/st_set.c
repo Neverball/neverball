@@ -19,6 +19,7 @@
 #include "config.h"
 #include "util.h"
 #include "common.h"
+#include "key.h"
 
 #include "game_common.h"
 

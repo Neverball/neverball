@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "base_config.h"
 #include "config.h"
 #include "common.h"
 #include "fs.h"

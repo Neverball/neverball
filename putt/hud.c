@@ -19,6 +19,7 @@
 #include "hole.h"
 #include "config.h"
 #include "video.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 

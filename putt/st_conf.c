@@ -22,6 +22,7 @@
 #include "config.h"
 #include "video.h"
 #include "version.h"
+#include "lang.h"
 
 #include "st_conf.h"
 #include "st_all.h"

@@ -17,6 +17,7 @@
 #include "config.h"
 #include "demo.h"
 #include "video.h"
+#include "key.h"
 
 #include "game_common.h"
 #include "game_server.h"

@@ -22,6 +22,7 @@
 #include "video.h"
 #include "common.h"
 #include "version.h"
+#include "lang.h"
 
 #include "game_common.h"
 #include "game_client.h"

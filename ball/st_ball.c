@@ -25,6 +25,7 @@
 #include "geom.h"
 #include "video.h"
 #include "demo.h"
+#include "key.h"
 
 #include "game_server.h"
 #include "game_proxy.h"

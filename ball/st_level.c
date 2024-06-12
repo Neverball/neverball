@@ -20,6 +20,8 @@
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
+#include "lang.h"
+#include "key.h"
 
 #include "game_server.h"
 #include "game_client.h"

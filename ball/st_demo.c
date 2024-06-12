@@ -29,6 +29,7 @@
 #include "common.h"
 #include "demo_dir.h"
 #include "video.h"
+#include "key.h"
 
 #include "game_common.h"
 #include "game_server.h"

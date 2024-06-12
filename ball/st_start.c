@@ -19,6 +19,7 @@
 #include "audio.h"
 #include "config.h"
 #include "common.h"
+#include "key.h"
 
 #include "game_common.h"
 

@@ -19,6 +19,7 @@
 #include "level.h"
 #include "audio.h"
 #include "hud.h"
+#include "key.h"
 
 #include "game_common.h"
 

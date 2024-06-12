@@ -27,6 +27,7 @@
 #include "cmd.h"
 #include "demo_dir.h"
 #include "version.h"
+#include "key.h"
 
 #include "game_common.h"
 #include "game_server.h"

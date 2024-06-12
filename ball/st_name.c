@@ -23,6 +23,7 @@
 #include "video.h"
 #include "text.h"
 #include "geom.h"
+#include "key.h"
 
 #include "game_common.h"
 #include "game_server.h"

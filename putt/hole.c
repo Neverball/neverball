@@ -25,6 +25,7 @@
 #include "audio.h"
 #include "config.h"
 #include "fs.h"
+#include "lang.h"
 
 /*---------------------------------------------------------------------------*/
 

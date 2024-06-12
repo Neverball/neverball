@@ -46,6 +46,7 @@
 #include "log.h"
 #include "game_client.h"
 #include "substr.h"
+#include "lang.h"
 
 #include "st_conf.h"
 #include "st_title.h"

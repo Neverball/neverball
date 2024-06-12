@@ -17,6 +17,8 @@
 #include "image.h"
 #include "video.h"
 #include "log.h"
+#include "common.h"
+#include "fs.h"
 
 /*---------------------------------------------------------------------------*/
 

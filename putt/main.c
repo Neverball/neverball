@@ -37,6 +37,9 @@
 #include "fs.h"
 #include "joy.h"
 #include "log.h"
+#include "common.h"
+#include "lang.h"
+#include "key.h"
 
 #include "st_conf.h"
 #include "st_all.h"

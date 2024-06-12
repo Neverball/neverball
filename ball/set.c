@@ -24,6 +24,7 @@
 #include "common.h"
 #include "fs.h"
 #include "log.h"
+#include "lang.h"
 
 #include "game_server.h"
 #include "game_client.h"
