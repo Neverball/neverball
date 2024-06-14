@@ -369,6 +369,20 @@ void hole_stop(void)
     }
 }
 
+void hole_skip(void)
+{
+    int maxscore = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
+    int i;
+
+    for (i = 1; i <= party; i++)
+    {
+        score_v[hole][i] = maxscore;
+        stat_v[i] = 1;
+    }
+
+    done = party;
+}
+
 void hole_fall(void)
 {
     audio_play(AUD_PENALTY, 1.0f);
