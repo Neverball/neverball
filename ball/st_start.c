@@ -42,6 +42,8 @@ static int shot_id;
 static int file_id;
 static int challenge_id;
 
+static struct state *start_back;
+
 /*---------------------------------------------------------------------------*/
 
 /* Create a level selector button based upon its existence and status. */
@@ -126,7 +128,7 @@ static int start_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(&st_set);
+        return goto_state(start_back ? start_back : &st_set);
 
     case START_CHALLENGE:
         if (config_cheat())
@@ -348,6 +350,14 @@ static int start_click(int b, int d)
         return start_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 1);
     }
     return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+int goto_start(int index, struct state *back_state)
+{
+    set_goto(index);
+    return goto_state(&st_start);
 }
 
 /*---------------------------------------------------------------------------*/

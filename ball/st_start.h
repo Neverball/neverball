@@ -5,6 +5,6 @@
 
 extern struct state st_start;
 
-int goto_end_level(void);
+int goto_start(int index, struct state *back_state);
 
 #endif

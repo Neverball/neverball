@@ -3,11 +3,7 @@
 
 #include <string.h>
 #include "common.h"
-
-struct strbuf
-{
-    char buf[64];
-};
+#include "strbuf.h"
 
 static struct strbuf substr(const char *str, size_t start, size_t count)
 {

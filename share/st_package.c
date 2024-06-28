@@ -62,6 +62,8 @@ struct download_info
     char label[32];
 };
 
+static int (*installed_action)(int pi);
+
 /*---------------------------------------------------------------------------*/
 
 static struct download_info *create_download_info(const char *package_id)
@@ -268,13 +270,15 @@ static int package_action(int tok, int val)
         break;
 
     case PACKAGE_UNINSTALL:
+        /* TODO? */
+        break;
+
     case PACKAGE_INSTALL:
         status = package_get_status(selected);
 
         if (status == PACKAGE_INSTALLED)
         {
-            // TODO: unload from VFS, remove from installed packages, and delete ZIP.
-            return 1;
+            return installed_action ? installed_action(selected) : 1;
         }
         else if (status == PACKAGE_AVAILABLE || status == PACKAGE_UPDATE || status == PACKAGE_ERROR)
         {
@@ -483,20 +487,33 @@ static void package_select(int pi)
     gui_set_label(type_id, package_get_formatted_type(pi));
     gui_set_label(title_id, package_get_name(pi));
 
-    if (status == PACKAGE_UPDATE)
-        gui_set_label(install_label_id, _("Update"));
-    else
-        gui_set_label(install_label_id, _("Install"));
-
     if (status == PACKAGE_INSTALLED)
     {
-        gui_set_color(install_status_id, gui_gry, gui_gry);
-        gui_set_color(install_label_id, gui_gry, gui_gry);
+        if (strcmp(package_get_type(selected), "set") == 0)
+        {
+            gui_set_color(install_status_id, gui_grn, gui_grn);
+            gui_set_color(install_label_id, gui_wht, gui_wht);
+
+            gui_set_label(install_label_id, _("Start"));
+            gui_set_label(install_status_id, GUI_TRIANGLE_RIGHT);
+        }
+        else
+        {
+            gui_set_color(install_status_id, gui_gry, gui_gry);
+            gui_set_color(install_label_id, gui_gry, gui_gry);
+        }
     }
     else
     {
         gui_set_color(install_status_id, gui_grn, gui_grn);
         gui_set_color(install_label_id, gui_wht, gui_wht);
+
+        if (status == PACKAGE_UPDATE)
+            gui_set_label(install_label_id, _("Update"));
+        else
+            gui_set_label(install_label_id, _("Install"));
+
+        gui_set_label(install_status_id, GUI_ARROW_DN);
     }
 }
 
@@ -603,6 +620,11 @@ void goto_package(int package_id, struct state *back_state)
     /* Finally, select the package. */
 
     package_select(package_id);
+}
+
+void package_set_installed_action(int (*installed_action_fn)(int pi))
+{
+    installed_action = installed_action_fn;
 }
 
 /*---------------------------------------------------------------------------*/
