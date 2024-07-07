@@ -277,6 +277,10 @@ int video_mode(int f, int w, int h)
         {
             int buf, smp;
 #ifdef __EMSCRIPTEN__
+            /* Weird hack to force gl4es to get MAX_TEXTURE_SIZE from WebGL. */
+            extern void *emscripten_GetProcAddress(const char *name);
+            set_getprocaddress(emscripten_GetProcAddress);
+
             initialize_gl4es();
 #endif
 
