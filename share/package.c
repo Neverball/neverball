@@ -32,7 +32,7 @@ struct package
     char id[64];
     char type[64];
     char filename[MAXSTR];
-    char files[MAXSTR];
+    char files[1024];
     char name[64];
     char desc[MAXSTR];
     char shot[64];
