@@ -162,7 +162,6 @@ GLuint make_texture(const void *p, int w, int h, int b, int fl)
 
     if (q) free(q);
 
-
     return o;
 }
 

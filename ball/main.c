@@ -197,20 +197,7 @@ static void shot(void)
 
 static void toggle_wire(void)
 {
-#if !ENABLE_OPENGLES
-    static int wire = 0;
-
-    if (wire)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        wire = 0;
-    }
-    else
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        wire = 1;
-    }
-#endif
+    glToggleWireframe_();
 }
 
 /*---------------------------------------------------------------------------*/

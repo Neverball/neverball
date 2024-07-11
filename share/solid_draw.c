@@ -876,7 +876,7 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     /* Bind the texture. */
 
     if (mp->o != mq->o)
-        glBindTexture(GL_TEXTURE_2D, mp->o);
+        glBindTexture_(GL_TEXTURE_2D, mp->o);
 
     /* Set material properties. */
 
@@ -1031,7 +1031,7 @@ void r_draw_enable(struct s_rend *rend)
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture_(GL_TEXTURE_2D, 0);
 
     rend->curr_mtrl = *mtrl_get(default_mtrl);
 }

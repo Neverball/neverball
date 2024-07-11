@@ -1752,7 +1752,7 @@ static void gui_paint_rect(int id, int st, int flags)
             glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
                          (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
 
-            glBindTexture(GL_TEXTURE_2D, curr_theme.tex[i]);
+            glBindTexture_(GL_TEXTURE_2D, curr_theme.tex[i]);
             draw_rect(id);
         }
         glPopMatrix();
@@ -1830,7 +1830,7 @@ static void gui_paint_image(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        glBindTexture(GL_TEXTURE_2D, widget[id].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[id].image);
         glColor4ub(gui_wht[0], gui_wht[1], gui_wht[2], gui_wht[3]);
         draw_image(id);
     }
@@ -1869,7 +1869,7 @@ static void gui_paint_count(int id)
             {
                 int jd = digit_id[i][j % 10];
 
-                glBindTexture(GL_TEXTURE_2D, widget[jd].image);
+                glBindTexture_(GL_TEXTURE_2D, widget[jd].image);
                 draw_text(jd);
                 glTranslatef((GLfloat) -widget[jd].text_w, 0.0f, 0.0f);
             }
@@ -1878,7 +1878,7 @@ static void gui_paint_count(int id)
         {
             /* If the value is zero, just display a zero in place. */
 
-            glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][0]].image);
+            glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][0]].image);
             draw_text(digit_id[i][0]);
         }
     }
@@ -1923,28 +1923,28 @@ static void gui_paint_clock(int id)
 
         if (mt > 0)
         {
-            glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][mt]].image);
+            glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][mt]].image);
             draw_text(digit_id[i][mt]);
             glTranslatef(dx_large, 0.0f, 0.0f);
         }
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][mo]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][mo]].image);
         draw_text(digit_id[i][mo]);
         glTranslatef(dx_small, 0.0f, 0.0f);
 
         /* Render the colon. */
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][10]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][10]].image);
         draw_text(digit_id[i][10]);
         glTranslatef(dx_small, 0.0f, 0.0f);
 
         /* Render the seconds counter. */
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][st]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][st]].image);
         draw_text(digit_id[i][st]);
         glTranslatef(dx_large, 0.0f, 0.0f);
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][so]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][so]].image);
         draw_text(digit_id[i][so]);
         glTranslatef(dx_small, 0.0f, 0.0f);
 
@@ -1952,11 +1952,11 @@ static void gui_paint_clock(int id)
 
         glScalef(0.5f, 0.5f, 1.0f);
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][ht]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][ht]].image);
         draw_text(digit_id[i][ht]);
         glTranslatef(dx_large, 0.0f, 0.0f);
 
-        glBindTexture(GL_TEXTURE_2D, widget[digit_id[i][ho]].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][ho]].image);
         draw_text(digit_id[i][ho]);
     }
     glPopMatrix();
@@ -1980,7 +1980,7 @@ static void gui_paint_label(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        glBindTexture(GL_TEXTURE_2D, widget[id].image);
+        glBindTexture_(GL_TEXTURE_2D, widget[id].image);
         draw_text(id);
     }
     glPopMatrix();

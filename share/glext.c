@@ -239,4 +239,24 @@ void glClipPlane4f_(GLenum p, GLfloat a, GLfloat b, GLfloat c, GLfloat d)
 #endif
 }
 
+void glBindTexture_(GLenum target, GLuint texture)
+{
+    if (gli.wireframe)
+        texture = 0u;
+
+    glBindTexture(target, texture);
+}
+
+void glToggleWireframe_(void)
+{
+    gli.wireframe = !gli.wireframe;
+
+#if !ENABLE_OPENGLES
+    if (gli.wireframe)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    else
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
+}
+
 /*---------------------------------------------------------------------------*/

@@ -294,6 +294,8 @@ extern PFNGLSTRINGMARKERGREMEDY_PROC glStringMarkerGREMEDY_;
 #endif /* ENABLE_OPENGLES || defined(__EMSCRIPTEN__) */
 
 void glClipPlane4f_(GLenum, GLfloat, GLfloat, GLfloat, GLfloat);
+void glBindTexture_(GLenum target, GLuint texture);
+void glToggleWireframe_(void);
 
 /*---------------------------------------------------------------------------*/
 
@@ -305,6 +307,8 @@ struct gl_info
     unsigned int texture_filter_anisotropic : 1;
     unsigned int shader_objects             : 1;
     unsigned int framebuffer_object         : 1;
+
+    unsigned int wireframe:1;
 };
 
 extern struct gl_info gli;
