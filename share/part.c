@@ -28,8 +28,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define PARTICLEVBO 1
-
 struct part_vary
 {
     GLfloat v[3];             /* Velocity                                    */
@@ -45,9 +43,7 @@ struct part_draw
 static struct part_vary coin_vary[PART_MAX_COIN];
 static struct part_draw coin_draw[PART_MAX_COIN];
 
-#ifdef PARTICLEVBO
 static GLuint coin_vbo;
-#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -119,11 +115,9 @@ void part_lerp_apply(float a)
     /* this upload to only active particles, but it's more important to do   */
     /* it all in a single call.                                              */
 
-#ifdef PARTICLEVBO
     glBindBuffer_   (GL_ARRAY_BUFFER, coin_vbo);
     glBufferSubData_(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
     glBindBuffer_   (GL_ARRAY_BUFFER, 0);
-#endif
 }
 
 /*---------------------------------------------------------------------------*/
@@ -145,22 +139,18 @@ void part_init(void)
     memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
     memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
 
-#ifdef PARTICLEVBO
     glGenBuffers_(1,              &coin_vbo);
     glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
     glBufferData_(GL_ARRAY_BUFFER, sizeof (coin_draw),
                                           coin_draw, GL_DYNAMIC_DRAW);
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
-#endif
 
     part_reset();
 }
 
 void part_free(void)
 {
-#ifdef PARTICLEVBO
     glDeleteBuffers_(1, &coin_vbo);
-#endif
 
     mtrl_free(coin_mtrl);
     coin_mtrl = 0;
@@ -235,25 +225,16 @@ void part_draw_coin(struct s_rend *rend)
 
     /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
 
-#ifdef PARTICLEVBO
     glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
-#else
-    glBindBuffer_(GL_ARRAY_BUFFER, 0);
-#endif
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     {
-#ifdef PARTICLEVBO
         glColorPointer (4, GL_FLOAT, sizeof (struct part_draw),
                         (GLvoid *) offsetof (struct part_draw, c));
         glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw),
                         (GLvoid *) offsetof (struct part_draw, p));
-#else
-        glColorPointer (4, GL_FLOAT, sizeof (struct part_draw), coin_draw[0].c);
-        glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw), coin_draw[0].p);
-#endif
 
         glEnable(GL_POINT_SPRITE);
         {
