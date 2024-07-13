@@ -28,22 +28,19 @@
 
 /*---------------------------------------------------------------------------*/
 
-struct part_vary
+struct part
 {
-    GLfloat v[3];             /* Velocity                                    */
+    float v[3];               /* Velocity                                    */
+    float w;                  /* Angular velocity (degrees)                  */
+    float p[3];               /* Position                                    */
+    float c[3];               /* Color                                       */
+    float t;                  /* Time until death. Doubles as opacity.       */
 };
 
-struct part_draw
-{
-    GLfloat p[3];             /* Position                                    */
-    GLfloat c[3];             /* Color                                       */
-    GLfloat t;                /* Time until death. Doubles as opacity.       */
-};
-
-static struct part_vary coin_vary[PART_MAX_COIN];
-static struct part_draw coin_draw[PART_MAX_COIN];
+static struct part coin_part[PART_MAX_COIN];
 
 static GLuint coin_vbo;
+static GLuint coin_ebo;
 
 /*---------------------------------------------------------------------------*/
 
@@ -94,10 +91,10 @@ void part_lerp_init(void)
 
 void part_lerp_burst(int i)
 {
-    if (coin_draw[i].t >= 1.0f)
+    if (coin_part[i].t >= 1.0f)
     {
-        v_cpy(part_lerp_coin[i].p[PREV], coin_draw[i].p);
-        v_cpy(part_lerp_coin[i].p[CURR], coin_draw[i].p);
+        v_cpy(part_lerp_coin[i].p[PREV], coin_part[i].p);
+        v_cpy(part_lerp_coin[i].p[CURR], coin_part[i].p);
     }
 }
 
@@ -106,18 +103,10 @@ void part_lerp_apply(float a)
     int i;
 
     for (i = 0; i < PART_MAX_COIN; i++)
-        if (coin_draw[i].t > 0.0f)
-            v_lerp(coin_draw[i].p,
+        if (coin_part[i].t > 0.0f)
+            v_lerp(coin_part[i].p,
                    part_lerp_coin[i].p[PREV],
                    part_lerp_coin[i].p[CURR], a);
-
-    /* Upload the current state of the particles. It would be best to limit  */
-    /* this upload to only active particles, but it's more important to do   */
-    /* it all in a single call.                                              */
-
-    glBindBuffer_   (GL_ARRAY_BUFFER, coin_vbo);
-    glBufferSubData_(GL_ARRAY_BUFFER, 0, sizeof (coin_draw), coin_draw);
-    glBindBuffer_   (GL_ARRAY_BUFFER, 0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -127,23 +116,37 @@ void part_reset(void)
     int i;
 
     for (i = 0; i < PART_MAX_COIN; i++)
-        coin_draw[i].t = 0.0f;
+        coin_part[i].t = 0.0f;
 
     part_lerp_init();
 }
 
 void part_init(void)
 {
+    static const GLfloat verts[4][5] = {
+        { -0.5f, -0.5f, 0.0f, 0.0f, 0.0f },
+        { +0.5f, -0.5f, 0.0f, 1.0f, 0.0f },
+        { -0.5f, +0.5f, 0.0f, 0.0f, 1.0f },
+        { +0.5f, +0.5f, 0.0f, 1.0f, 1.0f },
+    };
+
+    static const GLushort elems[4] = {
+        0u, 1u, 2u, 3u
+    };
+
     coin_mtrl = mtrl_cache(&coin_base_mtrl);
 
-    memset(coin_vary, 0, PART_MAX_COIN * sizeof (struct part_vary));
-    memset(coin_draw, 0, PART_MAX_COIN * sizeof (struct part_draw));
+    memset(coin_part, 0, sizeof (coin_part));
 
     glGenBuffers_(1,              &coin_vbo);
     glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
-    glBufferData_(GL_ARRAY_BUFFER, sizeof (coin_draw),
-                                          coin_draw, GL_DYNAMIC_DRAW);
+    glBufferData_(GL_ARRAY_BUFFER, sizeof (verts), verts, GL_STATIC_DRAW);
     glBindBuffer_(GL_ARRAY_BUFFER, 0);
+
+    glGenBuffers_(1, &coin_ebo);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, coin_ebo);
+    glBufferData_(GL_ELEMENT_ARRAY_BUFFER, sizeof (elems), elems, GL_STATIC_DRAW);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     part_reset();
 }
@@ -163,24 +166,27 @@ void part_burst(const float *p, const float *c)
     int i, n = 0;
 
     for (i = 0; n < 10 && i < PART_MAX_COIN; i++)
-        if (coin_draw[i].t <= 0.f)
+        if (coin_part[i].t <= 0.f)
         {
             float a = rnd(-1.0f * PI, +1.0f * PI);
             float b = rnd(+0.3f * PI, +0.5f * PI);
+            float w = rnd(-4.0f * PI, +4.0f * PI);
 
-            coin_draw[i].c[0] = c[0];
-            coin_draw[i].c[1] = c[1];
-            coin_draw[i].c[2] = c[2];
+            coin_part[i].c[0] = c[0];
+            coin_part[i].c[1] = c[1];
+            coin_part[i].c[2] = c[2];
 
-            coin_draw[i].p[0] = p[0];
-            coin_draw[i].p[1] = p[1];
-            coin_draw[i].p[2] = p[2];
+            coin_part[i].p[0] = p[0];
+            coin_part[i].p[1] = p[1];
+            coin_part[i].p[2] = p[2];
 
-            coin_vary[i].v[0] = 4.f * fcosf(a) * fcosf(b);
-            coin_vary[i].v[1] = 4.f *            fsinf(b);
-            coin_vary[i].v[2] = 4.f * fsinf(a) * fcosf(b);
+            coin_part[i].v[0] = 4.f * fcosf(a) * fcosf(b);
+            coin_part[i].v[1] = 4.f *            fsinf(b);
+            coin_part[i].v[2] = 4.f * fsinf(a) * fcosf(b);
 
-            coin_draw[i].t = 1.f;
+            coin_part[i].w = V_DEG(w);
+
+            coin_part[i].t = 1.f;
 
             part_lerp_burst(i);
 
@@ -190,67 +196,68 @@ void part_burst(const float *p, const float *c)
 
 /*---------------------------------------------------------------------------*/
 
-static void part_fall(struct part_lerp *lerp,
-                      struct part_vary *vary,
-                      struct part_draw *draw,
-                      int n, const float *g, float dt)
+static void part_fall(const float *g, float dt)
 {
     int i;
 
-    for (i = 0; i < n; i++)
-        if (draw[i].t > 0.f)
+    for (i = 0; i < PART_MAX_COIN; i++)
+        if (coin_part[i].t > 0.f)
         {
-            draw[i].t -= dt;
+            coin_part[i].t -= dt;
 
-            v_mad(vary[i].v, vary[i].v, g, dt);
+            v_mad(coin_part[i].v, coin_part[i].v, g, dt);
 
-            v_mad(lerp[i].p[CURR], lerp[i].p[CURR], vary[i].v, dt);
+            v_mad(part_lerp_coin[i].p[CURR], part_lerp_coin[i].p[CURR], coin_part[i].v, dt);
         }
-        else draw[i].t = 0.0f;
+        else coin_part[i].t = 0.0f;
 }
 
 void part_step(const float *g, float dt)
 {
     part_lerp_copy();
-    part_fall(part_lerp_coin, coin_vary, coin_draw, PART_MAX_COIN, g, dt);
+    part_fall(g, dt);
 }
 
 /*---------------------------------------------------------------------------*/
 
-void part_draw_coin(struct s_rend *rend)
+void part_draw_coin(const struct s_draw *draw, struct s_rend *rend, const float *M, float t)
 {
-    GLfloat height = (hmd_stat() ? 0.3f : 1.0f) * video.device_h;
+    int i;
 
     r_apply_mtrl(rend, coin_mtrl);
 
-    /* Draw the entire buffer.  Dead particles have zero opacity anyway. */
-
     glBindBuffer_(GL_ARRAY_BUFFER, coin_vbo);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, coin_ebo);
 
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
     {
-        glColorPointer (4, GL_FLOAT, sizeof (struct part_draw),
-                        (GLvoid *) offsetof (struct part_draw, c));
-        glVertexPointer(3, GL_FLOAT, sizeof (struct part_draw),
-                        (GLvoid *) offsetof (struct part_draw, p));
+        glVertexPointer  (3, GL_FLOAT, sizeof (GLfloat) * 5, (GLvoid *) (                   0u));
+        glTexCoordPointer(2, GL_FLOAT, sizeof (GLfloat) * 5, (GLvoid *) (sizeof (GLfloat) * 3u));
 
-        glEnable(GL_POINT_SPRITE);
-        {
-            const GLfloat c[3] = { 0.0f, 0.0f, 1.0f };
+        for (i = 0; i < PART_MAX_COIN; ++i)
+            if (coin_part[i].t > 0.0f)
+            {
+                glColor4f(coin_part[i].c[0], coin_part[i].c[1], coin_part[i].c[2], coin_part[i].t);
 
-            glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
-            glPointParameterfv_(GL_POINT_DISTANCE_ATTENUATION, c);
-            glPointSize(height / 6);
+                glPushMatrix();
+                {
+                    glTranslatef(coin_part[i].p[0], coin_part[i].p[1], coin_part[i].p[2]);
 
-            glDrawArrays(GL_POINTS, 0, PART_MAX_COIN);
-        }
-        glDisable(GL_POINT_SPRITE);
+                    if (M)
+                        glMultMatrixf(M);
+
+                    glScalef(PART_SIZE * 2.0f, PART_SIZE * 2.0f, 1.0f);
+                    glRotatef(t * coin_part[i].w, 0.0f, 0.0f, 1.0f);
+
+                    glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_SHORT, (GLvoid *) 0u);
+                }
+                glPopMatrix();
+            }
     }
-    glDisableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
