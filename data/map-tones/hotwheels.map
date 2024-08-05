@@ -9,8 +9,8 @@
 "shot" "shot-tones/hotwheels.jpg"
 "time" "3000"
 "goal" "40"
-"time_hs" "2650 2800"
-"goal_hs" "1800 1850"
+"time_hs" "1800 1850"
+"goal_hs" "2650 2800"
 "coin_hs" "58 50"
 "message" "Learn the course and stick to the rails!"
 // brush 0
