@@ -199,30 +199,25 @@ void sol_body_v(float v[3],
                 int mi,
                 float dt)
 {
-    if (mi >= 0)
+    if (dt > 0.0f)
     {
-        const struct v_move *mp = vary->mv + mi;
+        float p[3], q[3];
 
-        if (vary->pv[mp->pi].f)
-        {
-            float p[3], q[3];
+        sol_body_p(p, vary, mi, 0.0f);
+        sol_body_p(q, vary, mi, dt);
 
-            sol_body_p(p, vary, mi, 0.0f);
-            sol_body_p(q, vary, mi, dt);
+        v_sub(v, q, p);
 
-            v_sub(v, q, p);
-
-            v[0] /= dt;
-            v[1] /= dt;
-            v[2] /= dt;
-
-            return;
-        }
+        v[0] /= dt;
+        v[1] /= dt;
+        v[2] /= dt;
     }
-
-    v[0] = 0.0f;
-    v[1] = 0.0f;
-    v[2] = 0.0f;
+    else
+    {
+        v[0] = 0.0f;
+        v[1] = 0.0f;
+        v[2] = 0.0f;
+    }
 }
 
 void sol_body_e(float e[4],
