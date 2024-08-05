@@ -10,9 +10,9 @@
 "song" "bgm/track2.ogg"
 "time" "6500"
 "goal" "25"
-"time_hs" "2500 4000"
+"time_hs" "1500 4000"
 "coin_hs" "60 40"
-"goal_hs" "1500 4500"
+"goal_hs" "2500 4500"
 "message" "Look before you leap..."
 // brush 0
 {
