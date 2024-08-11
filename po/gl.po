@@ -477,7 +477,7 @@ msgstr "menu^Axuda"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "Opcións"
+msgstr "menu^Opcións"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
