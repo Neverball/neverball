@@ -908,7 +908,7 @@ msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr "Afástate dos bordos!\\When approaching a drop, begin slowing down\\early. You need just as much room to slow\\down as you did to speed up.\\"
+msgstr "Afástate dos bordos!\\Cando te achegues a unha caída, comeza a frear con antelación. Precisas o mesmo espazo para frear como para acelerar.\\"
 
 #: data/map-easy/lollipop.map
 msgid ""
