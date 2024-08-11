@@ -849,7 +849,7 @@ msgstr "Desta vez tes que conseguir 50 moedas para desbloquear o obxectivo.\\As 
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the"
 " bump hard to\\grab some big coins and score a short time.\\"
-msgstr "Aquí tes algunha oportunidade máis de\\caer ao baleiro. Golpea o obstáculo con forzqa para\\conseguir algunhas moedas grandes e puntosen pouco tempo.\\"
+msgstr "Aquí tes algunha oportunidade máis de\\caer ao baleiro. Golpea o obstáculo con forza para\\conseguir algunhas moedas grandes e puntos en pouco tempo.\\"
 
 #: data/map-easy/curved.map
 msgid ""
