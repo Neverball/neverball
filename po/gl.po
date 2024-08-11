@@ -481,7 +481,7 @@ msgstr "menu^Opcións"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Saír"
+msgstr "Saír"
 
 #: ball/util.c:28
 msgid "Hard"
