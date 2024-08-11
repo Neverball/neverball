@@ -1609,7 +1609,7 @@ msgstr "Pode que teñas que mollarte se queres todas as moedas."
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr "Mantén o ollo no ceo!\\\\pero non te quedes sen tempo..."
+msgstr "Mantén o ollo no ceo!\\\\pero non te quedes sen tempo...\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
