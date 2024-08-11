@@ -461,11 +461,11 @@ msgstr "Estado do obxectivo en niveis completados"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "Trucos"
+msgstr "menu^Trucos"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "Xogar"
+msgstr "menu^Xogar"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
