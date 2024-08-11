@@ -963,7 +963,7 @@ msgstr "Sigue o sendeiro de moedas para acadar o obxectivo.\\Se golpeas un poste
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Superar un chanzo precisa dunha maior velocidade.\\ Pero coidado, nohn collas demasiada!"
+msgstr "Superar un chanzo precisa dunha maior velocidade.\\ Pero coidado, non collas demasiada!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
