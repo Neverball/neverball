@@ -1663,7 +1663,7 @@ msgstr "O momento é clave."
 
 #: data/map-tones/swoop.map
 msgid "What goes down must come up!\\"
-msgstr "O que baixa debe subir!"
+msgstr "O que baixa debe subir!\\"
 
 #: data/map-tones/tonesmaze.map
 msgid ""
