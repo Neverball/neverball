@@ -461,23 +461,23 @@ msgstr "Estado do obxectivo en niveis completados"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Trucos"
+msgstr "Trucos"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Xogar"
+msgstr "Xogar"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Repetición"
+msgstr "Repetición"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Axuda"
+msgstr "Axuda"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Opcións"
+msgstr "Opcións"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
