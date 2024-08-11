@@ -1597,7 +1597,7 @@ msgstr "A velocidade é o nome do xogo."
 
 #: data/map-tones/blue.map
 msgid "Tread carefully...\\and keep moving!\\"
-msgstr "Movete con coidado...\\e non pares!"
+msgstr "Movete con coidado...\\e non pares!\\"
 
 #: data/map-tones/bumperoo.map
 msgid "Who's the boss around here anyway?"
