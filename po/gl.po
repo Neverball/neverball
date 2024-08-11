@@ -1268,7 +1268,7 @@ msgstr "Esta tarta de vodas está bastante boa,\\pero coidado ao baixar as capas
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr "Golpea os troncos collendo velocidade para cambiar\\os carrís. Intenta chegar ata arriba para\\un reto adicional."
+msgstr "Golpea os troncos collendo velocidade para cambiar\\os carrís. Intenta chegar ata arriba para un reto adicional!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
