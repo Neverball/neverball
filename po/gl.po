@@ -632,7 +632,7 @@ msgstr "Eixe  Y 2"
 
 #: share/st_common.c:909
 msgid "Press a button..."
-msgstr "Preme un botón"
+msgstr "Preme un botón..."
 
 #: share/st_common.c:919
 msgid "Move a stick..."
