@@ -469,11 +469,11 @@ msgstr "menu^Xogar"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "Repetición"
+msgstr "menu^Repetición"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "Axuda"
+msgstr "menu^Axuda"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
