@@ -1470,7 +1470,7 @@ msgstr "Le petit cross.\\A trepar!\\Pégate á pista para melklorar a túa veloc
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\A modo, a modo!"
+msgstr "La descente rafraîchissante.\\A modo, a modo."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
