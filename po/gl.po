@@ -1617,7 +1617,7 @@ msgstr "Pisando pedras."
 
 #: data/map-tones/discs.map
 msgid "Work your way to the top."
-msgstr "Ábrete camiño para chegar á cima"
+msgstr "Ábrete camiño para chegar á cima."
 
 #: data/map-tones/easyian.map
 msgid ""
