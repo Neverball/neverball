@@ -21,6 +21,8 @@ This uses Docker.
 ```sh
 # Compile data on host
 make -j8 sols locales desktops
+# Remove host object files
+make clean-src
 # Compile executables in a Docker container
 docker run --rm --volume $(pwd):/neverball --workdir /neverball parasti/neverball-mingw mingw32-make -j8 -o sols -o locales -o desktops PLATFORM=mingw
 # Copy DLLs from Docker to current directory
