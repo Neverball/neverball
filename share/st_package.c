@@ -63,6 +63,7 @@ struct download_info
 };
 
 static int (*installed_action)(int pi);
+static void (*paint_action)(int id, float st);
 
 /*---------------------------------------------------------------------------*/
 
@@ -521,8 +522,6 @@ static int package_enter(struct state *st, struct state *prev)
 {
     common_init(package_action);
 
-    back_init("back/gui.png");
-
     if (do_init)
     {
         package_back = prev;
@@ -576,13 +575,8 @@ static void package_leave(struct state *st, struct state *next, int id)
 
 void package_paint(int id, float st)
 {
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
-    {
-        back_draw_easy();
-    }
-    video_pop_matrix();
-
-    gui_paint(id);
+    if (paint_action)
+        paint_action(id, st);
 }
 
 static void package_point(int id, int x, int y, int dx, int dy)
@@ -625,6 +619,10 @@ void goto_package(int package_id, struct state *back_state)
 void package_set_installed_action(int (*installed_action_fn)(int pi))
 {
     installed_action = installed_action_fn;
+}
+
+void package_set_paint_action(void (*paint_action_fn)(int id, float st)) {
+    paint_action = paint_action_fn;
 }
 
 /*---------------------------------------------------------------------------*/

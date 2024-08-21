@@ -57,6 +57,7 @@
 #include "st_common.h"
 #include "st_start.h"
 #include "st_package.h"
+#include "st_shared.h"
 
 const char TITLE[] = "Neverball";
 const char ICON[] = "icon/neverball.png";
@@ -937,6 +938,8 @@ static int main_init(int argc, char *argv[])
     package_init();
 
     package_set_installed_action(handle_installed_action);
+
+    package_set_paint_action(shared_paint);
 
     /* Enable joystick events. */
 
