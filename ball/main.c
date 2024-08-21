@@ -494,6 +494,8 @@ static int process_link(const char *link)
             else if ((index = package_search(set_file)) >= 0)
             {
                 log_printf("Found package with the given reference.\n");
+                load_title_background();
+                game_kill_fade();
                 goto_package(index, &st_title);
                 processed = 1;
             }
