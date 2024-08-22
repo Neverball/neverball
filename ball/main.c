@@ -57,6 +57,7 @@
 #include "st_common.h"
 #include "st_start.h"
 #include "st_package.h"
+#include "st_shared.h"
 
 const char TITLE[] = "Neverball";
 const char ICON[] = "icon/neverball.png";
@@ -493,6 +494,8 @@ static int process_link(const char *link)
             else if ((index = package_search(set_file)) >= 0)
             {
                 log_printf("Found package with the given reference.\n");
+                load_title_background();
+                game_kill_fade();
                 goto_package(index, &st_title);
                 processed = 1;
             }
@@ -937,6 +940,8 @@ static int main_init(int argc, char *argv[])
     package_init();
 
     package_set_installed_action(handle_installed_action);
+
+    package_set_paint_action(shared_paint);
 
     /* Enable joystick events. */
 
