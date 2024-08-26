@@ -417,91 +417,79 @@ static int goto_level(const char *path)
  * --link set-easy
  * --link set-easy/peasy
  */
-static int process_link(const char *link)
+static int link_handle(const char *link)
 {
     int processed = 0;
 
     if (!(link && *link))
         return 0;
 
-    log_printf("Processing link: %s\n", link);
+    log_printf("Link: handling %s\n", link);
 
     if (str_starts_with(link, "set-"))
     {
         /* Search installed sets and package list. */
 
         const size_t prefix_len = strcspn(link, "/");
+
         const char *set_part = SUBSTR(link, 0, prefix_len);
         const char *map_part = SUBSTR(link, prefix_len + 1, 64);
+        const char *set_file = JOINSTR(set_part, ".txt");
 
-        char *set_file = concat_string(set_part, ".txt", NULL);
+        int index;
+        int found_level = 0;
 
-        if (set_file)
+        log_printf("Link: searching for set %s\n", set_file);
+
+        set_init();
+
+        if ((index = set_find(set_file)) >= 0)
         {
-            int index;
-            int found_level = 0;
+            log_printf("Link: found set match for %s\n", set_file);
 
-            log_printf("Link is a set reference, searching for %s.\n", set_file);
+            set_goto(index);
 
-            set_init();
-
-            if ((index = set_find(set_file)) >= 0)
+            if (map_part && *map_part)
             {
-                log_printf("Found set with the given reference.\n");
+                /* Search for the given level. */
 
-                set_goto(index);
+                const char *sol_basename = JOINSTR(map_part, ".sol");
+                struct level *level;
 
-                if (map_part && *map_part)
+                log_printf("Link: searching for level %s\n", sol_basename);
+
+                if ((level = set_find_level(sol_basename)))
                 {
-                    /* Search for the given level. */
+                    log_printf("Link: found level match for %s\n", sol_basename);
 
-                    char *sol_basename = concat_string(map_part, ".sol", NULL);
+                    progress_init(MODE_NORMAL);
 
-                    log_printf("Link is also a level reference, searching for %s\n", sol_basename);
-
-                    if (sol_basename)
+                    if (progress_play(level))
                     {
-                        struct level *level = set_find_level(sol_basename);
-
-                        if (level)
-                        {
-                            log_printf("Found level with the given reference.\n");
-
-                            progress_init(MODE_NORMAL);
-
-                            if (progress_play(level))
-                            {
-                                goto_state(&st_level);
-                                found_level = 1;
-                                processed = 1;
-                            }
-                        }
-
-                        free(sol_basename);
-                        sol_basename = NULL;
+                        goto_state(&st_level);
+                        found_level = 1;
+                        processed = 1;
                     }
                 }
-
-                if (!found_level)
-                {
-                    load_title_background();
-                    game_kill_fade();
-                    goto_state(&st_start);
-                    processed = 1;
-                }
+                else
+                    log_printf("Link: no such level\n");
             }
-            else if ((index = package_search(set_file)) >= 0)
+
+            if (!found_level)
             {
-                log_printf("Found package with the given reference.\n");
-                goto_package(index, &st_title);
+                load_title_background();
+                game_kill_fade();
+                goto_state(&st_start);
                 processed = 1;
             }
-            else log_printf("Link did not match.\n", link);
-
-            free(set_file);
-            set_file = NULL;
         }
-        else log_printf("Link is bad.\n");
+        else if ((index = package_search(set_file)) >= 0)
+        {
+            log_printf("Link: found package match for %s\n", set_file);
+            goto_package(index, &st_title);
+            processed = 1;
+        }
+        else log_printf("Link: no such set or package\n", link);
     }
 
     return processed;
@@ -513,7 +501,7 @@ static void refresh_packages_done(void *data, void *extra_data)
 {
     struct state *start_state = data;
 
-    if (process_link(opt_link))
+    if (link_handle(opt_link))
         return;
 
     goto_state(start_state);
@@ -543,7 +531,7 @@ static void main_preload(struct state *start_state)
 
     /* But attempt it even without a package list. */
 
-    if (process_link(opt_link))
+    if (link_handle(opt_link))
     {
         /* Link processing navigates to the appropriate screen. */
         return;
