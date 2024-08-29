@@ -19,9 +19,10 @@ General Public License for more details.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="/favicon.svg">
+  <link rel="icon" href="favicon.svg">
+  <link rel="manifest" href="neverball.webmanifest">
 
-  <title>Play Neverball</title>
+  <title>Neverball</title>
 
   <meta name="description" content="Play Neverball in the browser. Tilt the floor to roll a ball through an obstacle course before time runs out.">
 
@@ -421,6 +422,12 @@ General Public License for more details.
 </head>
 
 <body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js');
+    }
+  </script>
+
   <section class="container flex flex-column gap-4">
     <div class="neverball-box in-game:hidden">
       <h1><span class="neverball-text">Play Neverball</span></h1>

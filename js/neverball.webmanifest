@@ -1,0 +1,20 @@
+{
+    "name": "Neverball",
+    "short_name": "Neverball",
+    "icons": [
+      {
+        "src": "favicon.svg",
+        "sizes": "any",
+        "type": "image/svg+xml"
+      },
+      {
+        "src": "icon_194.png",
+        "sizes": "194x194",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "theme_color": "#1b3b5b",
+    "background_color": "#0f406a"
+  }
