@@ -3,17 +3,18 @@
     "short_name": "Neverball",
     "icons": [
       {
+        "src": "icon_maskable_256.png",
+        "sizes": "256x256",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
         "src": "favicon.svg",
         "sizes": "any",
         "type": "image/svg+xml"
-      },
-      {
-        "src": "icon_194.png",
-        "sizes": "194x194",
-        "type": "image/png"
       }
     ],
-    "start_url": "/index.html",
+    "start_url": "/",
     "display": "standalone",
     "theme_color": "#1b3b5b",
     "background_color": "#0f406a"

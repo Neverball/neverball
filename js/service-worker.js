@@ -1,10 +1,7 @@
-const cacheName = 'neverball-v1';
+const cacheName = 'neverball-v2';
 
 const urls = [
   '/index.html',
-  '/favicon.ico',
-  '/favicon.svg',
-  '/icon_194.png',
   '/neverball.data',
   '/neverball.js',
   '/neverball.wasm',
