@@ -675,12 +675,6 @@ General Public License for more details.
 
         Promise.allSettled(promises).then(function () {
           Neverball.refreshReplays();
-
-          FS.syncfs(false, function (err) {
-            if (err) {
-              console.error('Failure to syncronize to the backing store: ' + err);
-            }
-          })
         });
       },
 
@@ -824,7 +818,7 @@ General Public License for more details.
       initUserFolder: function () {
         // Create the user folder and mount IndexedDB on it.
         FS.mkdir('/neverball');
-        FS.mount(IDBFS, {}, '/neverball');
+        FS.mount(IDBFS, {autoPersist: true}, '/neverball');
 
         // Tell Emscripten to wait for us.
         Module.addRunDependency('neverball:user-folder');

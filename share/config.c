@@ -505,8 +505,6 @@ void config_save(void)
             fs_printf(fh, "%-25s %s\n", option_s[i].name, option_s[i].cur);
 
         fs_close(fh);
-
-        fs_persistent_sync();
     }
 
     dirty = 0;

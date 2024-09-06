@@ -146,8 +146,6 @@ static void fetch_success_func(emscripten_fetch_t *handle)
 
                 fs_close(fp);
                 fp = NULL;
-
-                fs_persistent_sync();
             }
         }
 

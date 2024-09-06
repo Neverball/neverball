@@ -320,24 +320,3 @@ const char *fs_resolve(const char *system)
 }
 
 /*---------------------------------------------------------------------------*/
-
-void fs_persistent_sync(void)
-{
-#ifdef __EMSCRIPTEN__
-    /* This synchronizes in-memory FS state to a backing store. The backing
-     * store is set up during Module['preRun'].  */
-    EM_ASM({
-        console.log('Synchronizing to backing store...');
-
-        FS.syncfs(false, function (err) {
-            if (err) {
-                console.error('Failed to synchronize to backing store: ' + err);
-            } else {
-                console.log('Successfully synced to backing store.');
-            }
-        });
-    });
-#endif
-}
-
-/*---------------------------------------------------------------------------*/

@@ -331,8 +331,6 @@ static int save_installed_packages(void)
             fs_close(fp);
             fp = NULL;
 
-            fs_persistent_sync();
-
             return 1;
         }
     }
