@@ -96,8 +96,7 @@ EM_LDFLAGS := \
 	-s LLD_REPORT_UNDEFINED \
 	-s FETCH=1 \
 	-lidbfs.js \
-	$(EM_PRELOAD) \
-	--use-preload-cache
+	$(EM_PRELOAD)
 
 ifeq ($(BUILD), devel)
 EM_LDFLAGS += -s ERROR_ON_WASM_CHANGES_AFTER_LINK -s WASM_BIGINT
