@@ -162,7 +162,7 @@ General Public License for more details.
       --size: 48px;
       background-color: rgba(103, 104, 109, 0.7);
       position: relative;
-      margin-bottom: 2rem;
+      margin-bottom: 1.6rem;
       border-radius: var(--size);
       overflow: hidden;
       display: flex;
@@ -339,6 +339,10 @@ General Public License for more details.
       margin: 0;
     }
 
+    .mb-2\.5 {
+      margin-bottom: 1rem;
+    }
+
     .list-none {
       list-style-type: none;
     }
@@ -370,6 +374,12 @@ General Public License for more details.
 
     .text-xs {
       font-size: 1.2rem;
+      line-height: 1.6rem;
+    }
+
+    .text-sm {
+      font-size: 1.4rem;
+      line-height: 2.0rem;
     }
 
     .flex-wrap {
@@ -477,6 +487,11 @@ General Public License for more details.
         </div>
       </div>
 
+      <div class="mb-2.5 text-xs flex items-center gap-1">
+        <input type="checkbox" id="fullscreen-checkbox" autocomplete="off">
+        <label for="fullscreen-checkbox">Start game in fullscreen</label>
+      </div>
+
       <div class="flex gap-2 items-center">
         <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
         <div id="status" class="text-white">Downloading...</div>
@@ -565,6 +580,7 @@ General Public License for more details.
       _replayListBox: document.getElementById('replay-list-box'),
       _replayListDesc: document.getElementById('replay-list-desc'),
       _replayList: document.getElementById('replay-list'),
+      _fullscreenCheckbox: document.getElementById('fullscreen-checkbox'),
 
       events: {
         runButtonClick: function (event) {
@@ -576,13 +592,14 @@ General Public License for more details.
          * Request fullscreen on the container.
          */
         fullscreenButtonClick: function (event) {
-          var wrapper = document.getElementById('canvas-wrapper');
+          Neverball.requestFullscreen();
+        },
 
-          if ('webkitRequestFullscreen' in wrapper) {
-            wrapper.webkitRequestFullscreen();
-          } else {
-            wrapper.requestFullscreen();
-          }
+        /**
+         * Request fullscreen on the container.
+         */
+        fullscreenCheckboxChange: function (event) {
+          window.localStorage.setItem('launchInFullscreen', this.checked ? '1' : '0');
         },
 
         /**
@@ -755,11 +772,14 @@ General Public License for more details.
       },
 
       ready: function () {
-        console.log('ready');
         this._runButton.disabled = false;
+
 
         this._runButton.addEventListener('click', this.events.runButtonClick);
         this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
+
+        this._fullscreenCheckbox.checked = (window.localStorage.getItem('launchInFullscreen') === '1');
+        this._fullscreenCheckbox.addEventListener('change', this.events.fullscreenCheckboxChange);
 
         document.addEventListener('fullscreenchange', this.events.fullscreenChange);
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
@@ -769,12 +789,26 @@ General Public License for more details.
         this.refreshReplays();
       },
 
+      requestFullscreen: function () {
+        var wrapper = document.getElementById('canvas-wrapper');
+
+        if ('webkitRequestFullscreen' in wrapper) {
+          wrapper.webkitRequestFullscreen();
+        } else {
+          wrapper.requestFullscreen();
+        }
+      },
+
       run: function () {
         this.isRunning = true;
 
         document.body.classList.add('in-game');
 
         Module.callMain(Neverball.arguments);
+
+        if (this._fullscreenCheckbox.checked) {
+          this.requestFullscreen();
+        }
       },
 
       quit: function () {
