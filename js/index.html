@@ -235,7 +235,7 @@ General Public License for more details.
       font-size: 1.4rem;
       text-shadow: 0.08em 0.08em rgba(0, 0, 0, 0.5);
       font-family: "DejaVu Sans", Verdana, sans-serif;
-      display: inline-block;
+      display: inline-flex;
     }
 
     .neverball-button:disabled {
@@ -347,6 +347,10 @@ General Public License for more details.
       display: none;
     }
 
+    .min-h-7 {
+      min-height: 2.8rem;
+    }
+
     h1, h2 {
       margin-top: 0;
       margin-bottom: 1.6rem;
@@ -428,7 +432,7 @@ General Public License for more details.
     }
   </script>
 
-  <section class="container flex flex-column gap-4">
+  <main class="container flex flex-column gap-4">
     <div class="neverball-box in-game:hidden">
       <h1><span class="neverball-text">Play Neverball</span></h1>
 
@@ -491,7 +495,7 @@ General Public License for more details.
       <h2><span class="neverball-text">Replays</span></h2>
 
       <div class="flex flex-column gap-2.5">
-        <div id="replay-list-desc">Save or add some replays to see them here.</div>
+        <div id="replay-list-desc" class="min-h-7">Save or add some replays to see them here.</div>
 
         <ol class="list-none p-0 m-0 flex gap-1 flex-wrap" id="replay-list">
         </ol>
@@ -517,7 +521,7 @@ General Public License for more details.
     <div class="neverball-box in-game:hidden">
       <h2><span class="neverball-text">About the game</span></h2>
 
-      <img id="screenshot" alt="Screenshot of the Neverball title screen." src="screenshot.png">
+      <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png">
 
       <p>Play Neverball in your browser!</p>
 
@@ -539,7 +543,7 @@ General Public License for more details.
       <p>You also have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a></p>
 
     </div>
-  </div>
+  </main>
 
   <script>
     'use strict';

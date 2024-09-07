@@ -1,4 +1,4 @@
-const cacheName = 'neverball-v2';
+const cacheName = 'neverball-v3';
 
 const urls = [
   '/index.html',
@@ -31,6 +31,8 @@ async function serveResponse(event) {
 }
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
+
   event.waitUntil(installWorker(event));
 });
 
