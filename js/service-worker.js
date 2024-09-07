@@ -1,4 +1,4 @@
-const cacheName = 'neverball-v4';
+const cacheName = 'neverball-v5';
 
 const urls = [
   '/index.html',

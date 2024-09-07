@@ -432,6 +432,22 @@ General Public License for more details.
         transform: rotate(20deg);
       }
     }
+
+    @media (display-mode: standalone) {
+      .in-app\:hidden {
+        display: none;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        min-height: 100dvh;
+      }
+
+      main {
+        min-width: 0;
+      }
+    }
   </style>
 </head>
 
@@ -533,7 +549,7 @@ General Public License for more details.
       </div>
     </div> -->
 
-    <div class="neverball-box in-game:hidden">
+    <div class="neverball-box in-game:hidden in-app:hidden">
       <h2><span class="neverball-text">About the game</span></h2>
 
       <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png">
