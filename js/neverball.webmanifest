@@ -3,6 +3,11 @@
     "short_name": "Neverball",
     "icons": [
       {
+        "src": "icon_256.png",
+        "sizes": "256x256",
+        "type": "image/png"
+      },
+      {
         "src": "icon_maskable_256.png",
         "sizes": "256x256",
         "type": "image/png",
