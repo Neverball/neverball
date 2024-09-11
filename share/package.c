@@ -62,7 +62,7 @@ static const char *get_package_url(const char *filename)
 
 #ifdef __EMSCRIPTEN__
         /* Same origin. */
-        SAFECPY(url, "/packages/");
+        SAFECPY(url, "packages/");
 #else
         SAFECPY(url, "https://play.neverball.org/packages/");
 #endif
