@@ -966,6 +966,142 @@ General Public License for more details.
         }
       },
 
+      /** @type {AudioContext?} */
+      audioContext: null,
+
+      /** @type {GainNode?} */
+      audioSoundSink: null,
+
+      /** @type {GainNode?} */
+      audioMusicSink: null,
+
+      /** @type {string?} */
+      audioMusicFile: null,
+
+      /** @type {AudioBufferSourceNode?} */
+      audioMusicSourceNode: null,
+
+      /** @type {GainNode?} */
+      audioMusicGainNode: null,
+
+      audioInit: function () {
+        this.audioContext = new AudioContext();
+
+        this.audioSoundSink = new GainNode(this.audioContext);
+        this.audioMusicSink = new GainNode(this.audioContext);
+
+        this.audioSoundSink.connect(this.audioContext.destination);
+        this.audioMusicSink.connect(this.audioContext.destination);
+      },
+
+      audioVolume: function (soundVolume, musicVolume) {
+        this.audioSoundSink?.gain.setValueAtTime(soundVolume, this.audioContext.currentTime);
+        this.audioMusicSink?.gain.setValueAtTime(musicVolume, this.audioContext.currentTime);
+      },
+
+      audioQuit: function () {
+        this.audioContext?.close();
+
+        this.audioContext = null;
+
+        this.audioSoundSink = null;
+        this.audioMusicSink = null;
+
+        this.audioMusicFile = null;
+        this.audioMusicSourceNode = null;
+        this.audioMusicGainNode = null;
+      },
+
+      audioPlay: async function (fileName, fileData, a) {
+        if (!this.audioContext) {
+          return;
+        }
+
+        const audioBuffer = await this.audioContext.decodeAudioData(fileData);
+
+        if (!this.audioContext) {
+          return;
+        }
+
+        const sourceNode = new AudioBufferSourceNode(this.audioContext, {
+            buffer: audioBuffer,
+        });
+
+        const gainNode = new GainNode(this.audioContext, {
+          gain: a
+        });
+
+        sourceNode.onended = () => {
+          gainNode.disconnect();
+        };
+
+        sourceNode.connect(gainNode);
+        gainNode.connect(this.audioSoundSink);
+        sourceNode.start();
+      },
+
+      audioMusicFadeTo: async function (fileName, fileData, fadeTime) {
+        if (!this.audioContext) {
+          return;
+        }
+
+        if (this.audioMusicFile && fileName === this.audioMusicFile) {
+          // If we're already playing this BGM, just force a fade-in.
+
+          this.audioMusicGainNode?.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
+        } else {
+          // Fade out and stop any existing BGM.
+
+          this.audioMusicGainNode?.gain.linearRampToValueAtTime(0.0, this.audioContext.currentTime + fadeTime);
+          this.audioMusicSourceNode?.stop(this.audioContext.currentTime + fadeTime);
+
+          // Set up and fade in the new BGM.
+
+          const audioBuffer = await this.audioContext.decodeAudioData(fileData);
+
+          // Did we lose context while decoding?
+
+          if (!this.audioContext) {
+            return;
+          }
+
+          const sourceNode = new AudioBufferSourceNode(this.audioContext, {
+            buffer: audioBuffer,
+            loop: true,
+          });
+
+          const gainNode = new GainNode(this.audioContext, {
+            gain: 0.0,
+          });
+
+          this.audioMusicFile = fileName;
+          this.audioMusicSourceNode = sourceNode;
+          this.audioMusicGainNode = gainNode;
+
+          gainNode.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
+
+          sourceNode.onended = () => {
+            gainNode.disconnect();
+          };
+
+          sourceNode.connect(gainNode);
+          gainNode.connect(this.audioMusicSink);
+          sourceNode.start();
+        }
+      },
+
+      audioMusicFadeIn: function (fadeTime) {
+        this.audioMusicGainNode?.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
+      },
+
+      audioMusicFadeOut: function (fadeTime) {
+        this.audioMusicGainNode?.gain.linearRampToValueAtTime(0.0, this.audioContext.currentTime + fadeTime);
+      },
+
+      audioMusicStop: function () {
+        this.audioMusicSourceNode?.stop();
+      },
+
       init: function () {
         this.initPersistentStorage();
 

@@ -277,6 +277,82 @@ void *fs_load(const char *path, int *datalen)
 
     return data;
 }
+struct fs_cache_entry
+{
+    unsigned char *data;
+    int size;
+    char path[64];
+};
+
+static List fs_cache_list = NULL;
+
+void *fs_load_cache(const char *path, int *size)
+{
+    unsigned char *data = NULL;
+    List l;
+
+    if (!(path && *path && size))
+        return data;
+
+    // Look for cached file data.
+
+    for (l = fs_cache_list; l; l = l->next)
+    {
+        struct fs_cache_entry *ent = l->data;
+
+        if (strcmp(path, ent->path) == 0)
+        {
+            data = ent->data;
+            *size = ent->size;
+            break;
+        }
+    }
+
+    if (!data)
+    {
+        // Load and cache file data.
+
+        data = (unsigned char *) fs_load(path, size);
+
+        if (data)
+        {
+            struct fs_cache_entry *ent = calloc(sizeof (*ent), 1);
+
+            if (ent)
+            {
+                ent->data = data;
+                ent->size = *size;
+                SAFECPY(ent->path, path);
+
+                fs_cache_list = list_cons(ent, fs_cache_list);
+            }
+        }
+    }
+
+    return data;
+}
+
+void fs_cache_quit(void)
+{
+    while (fs_cache_list)
+    {
+        struct fs_cache_entry *ent = fs_cache_list->data;
+
+        if (ent)
+        {
+            if (ent->data)
+            {
+                free(ent->data);
+                ent->data = NULL;
+            }
+
+            free(ent);
+            ent = NULL;
+        }
+
+        fs_cache_list = list_rest(fs_cache_list);
+    }
+}
 
 /*---------------------------------------------------------------------------*/
 

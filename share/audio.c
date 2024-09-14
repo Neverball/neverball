@@ -341,7 +341,7 @@ void audio_play(const char *filename, float a)
 
 /*---------------------------------------------------------------------------*/
 
-void audio_music_play(const char *filename)
+static void audio_music_play(const char *filename)
 {
     if (audio_state)
     {
@@ -358,7 +358,7 @@ void audio_music_play(const char *filename)
     }
 }
 
-void audio_music_queue(const char *filename, float t)
+static void audio_music_queue(const char *filename, float t)
 {
     if (audio_state)
     {

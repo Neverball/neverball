@@ -135,7 +135,7 @@ BALL_SRCS := \
 	ball/st_title.c \
 	ball/util.c \
 	share/array.c \
-	share/audio.c \
+	share/audio_emscripten.c \
 	share/ball.c \
 	share/base_config.c \
 	share/base_image.c \

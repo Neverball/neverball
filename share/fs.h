@@ -38,6 +38,8 @@ int   fs_putc(int c, fs_file);
 int   fs_puts(const char *src, fs_file);
 
 void *fs_load(const char *path, int *size);
+void *fs_load_cache(const char *path, int *size);
+void  fs_cache_quit(void);
 
 int fs_mkdir(const char *);
 
