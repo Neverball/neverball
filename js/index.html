@@ -1048,11 +1048,12 @@ General Public License for more details.
         if (this.audioMusicFile && fileName === this.audioMusicFile) {
           // If we're already playing this BGM, just force a fade-in.
 
-          this.audioMusicGainNode?.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
+          this.audioMusicFadeIn(fadeTime);
         } else {
           // Fade out and stop any existing BGM.
 
-          this.audioMusicGainNode?.gain.linearRampToValueAtTime(0.0, this.audioContext.currentTime + fadeTime);
+          this.audioMusicFadeOut(fadeTime);
+
           this.audioMusicSourceNode?.stop(this.audioContext.currentTime + fadeTime);
 
           // Set up and fade in the new BGM.
@@ -1078,6 +1079,8 @@ General Public License for more details.
           this.audioMusicSourceNode = sourceNode;
           this.audioMusicGainNode = gainNode;
 
+          // Weird rules.
+          gainNode.gain.setValueAtTime(gainNode.gain.value, this.audioContext.currentTime);
           gainNode.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
 
           sourceNode.onended = () => {
@@ -1091,10 +1094,14 @@ General Public License for more details.
       },
 
       audioMusicFadeIn: function (fadeTime) {
+        // Weird rules.
+        this.audioMusicGainNode?.gain.setValueAtTime(this.audioMusicGainNode?.gain.value, this.audioContext.currentTime);
         this.audioMusicGainNode?.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
       },
 
       audioMusicFadeOut: function (fadeTime) {
+        // Weird rules.
+        this.audioMusicGainNode?.gain.setValueAtTime(this.audioMusicGainNode?.gain.value, this.audioContext.currentTime);
         this.audioMusicGainNode?.gain.linearRampToValueAtTime(0.0, this.audioContext.currentTime + fadeTime);
       },
 
