@@ -19,7 +19,6 @@ endif
 EM_CFLAGS := \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
-	-s USE_VORBIS=1 \
 	-s USE_LIBPNG=1 \
 	-s USE_LIBJPEG=1
 
@@ -148,7 +147,6 @@ BALL_SRCS := \
 	share/font.c \
 	share/fs_common.c \
 	share/fs_jpg.c \
-	share/fs_ov.c \
 	share/fs_png.c \
 	share/fs_stdio.c \
 	share/miniz.c \

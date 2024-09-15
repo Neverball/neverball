@@ -189,10 +189,13 @@ static struct voice *voice_init(const char *filename, float a)
 
 static void voice_free(struct voice *V)
 {
-    ov_clear(&V->vf);
+    if (V)
+    {
+        ov_clear(&V->vf);
 
-    free(V->name);
-    free(V);
+        free(V->name);
+        free(V);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -255,6 +258,12 @@ static void audio_step(void *data, Uint8 *stream, int length)
 
 void audio_init(void)
 {
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+    {
+        log_printf("Failure to initialize audio (%s)\n", SDL_GetError());
+        return;
+    }
+
     audio_state = 0;
 
     /* Configure the audio. */
@@ -287,6 +296,8 @@ void audio_init(void)
 
 void audio_free(void)
 {
+    struct voice *V;
+
     /* Halt the audio thread. */
 
     SDL_CloseAudio();
@@ -294,8 +305,21 @@ void audio_free(void)
     /* Release the input buffer. */
 
     free(buffer);
+    buffer = NULL;
 
-    /* Ogg streams and voice structure remain open to allow quality setting. */
+    /* Free the voices. */
+
+    voice_free(music);
+    voice_free(queue);
+
+    for (V = voices; V; V = V->next)
+        voice_free(V);
+
+    voices = NULL;
+    music = NULL;
+    queue = NULL;
+
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
 void audio_play(const char *filename, float a)
