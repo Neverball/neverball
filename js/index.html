@@ -985,7 +985,9 @@ General Public License for more details.
       audioMusicGainNode: null,
 
       audioInit: function () {
-        this.audioContext = new AudioContext();
+        this.audioContext = new AudioContext({
+          sampleRate: 44100.0
+        });
 
         this.audioSoundSink = new GainNode(this.audioContext);
         this.audioMusicSink = new GainNode(this.audioContext);
@@ -1050,25 +1052,20 @@ General Public License for more details.
 
           this.audioMusicFadeIn(fadeTime);
         } else {
-          // Fade out and stop any existing BGM.
+          // Fade out any existing BGM.
 
           this.audioMusicFadeOut(fadeTime);
 
-          this.audioMusicSourceNode?.stop(this.audioContext.currentTime + fadeTime);
-
           // Set up and fade in the new BGM.
 
-          const audioBuffer = await this.audioContext.decodeAudioData(fileData);
+          const blob = new Blob([fileData], {type: 'audio/ogg'});
+          const url = URL.createObjectURL(blob);
+          const audioElem = new Audio(url);
 
-          // Did we lose context while decoding?
+          audioElem.loop = true;
 
-          if (!this.audioContext) {
-            return;
-          }
-
-          const sourceNode = new AudioBufferSourceNode(this.audioContext, {
-            buffer: audioBuffer,
-            loop: true,
+          const sourceNode = new MediaElementAudioSourceNode(this.audioContext, {
+            mediaElement: audioElem,
           });
 
           const gainNode = new GainNode(this.audioContext, {
@@ -1089,7 +1086,8 @@ General Public License for more details.
 
           sourceNode.connect(gainNode);
           gainNode.connect(this.audioMusicSink);
-          sourceNode.start();
+
+          audioElem.play();
         }
       },
 
@@ -1106,7 +1104,7 @@ General Public License for more details.
       },
 
       audioMusicStop: function () {
-        this.audioMusicSourceNode?.stop();
+        this.audioMusicSourceNode?.mediaElement.pause();
       },
 
       init: function () {
