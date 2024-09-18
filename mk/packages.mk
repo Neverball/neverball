@@ -30,6 +30,13 @@ $(BALL_PACKAGES): ball-%: $(DATA_DIR)/ball/%
 $(ADDON_SET_PACKAGES): %: $(PACKAGES_DIR)/%
 	$(MAKE) -f mk/package-levelset.mk ADDON_SET=1 PACKAGE_ID=$@ SET_FILE=$</$(notdir $<).txt DATA_DIR=$< OUTPUT_DIR=$(OUTPUT_DIR)
 
-.PHONY: all base $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES)
+mp3s:
+	find $(DATA_DIR) $(PACKAGES_DIR) -name '*.ogg' | while read ogg; do \
+		mp3=$(OUTPUT_DIR)/mp3/$$(echo $$ogg | sed -E 's,^\$(DATA_DIR)/,,' | sed -E 's,^\$(PACKAGES_DIR)/[^/]+/,,' | sed 's/\.ogg/.mp3/'); \
+		mkdir -p $$(dirname $$mp3); \
+		ffmpeg -nostdin -y -loglevel error -i $$ogg -acodec libmp3lame $$mp3; \
+	done
+
+.PHONY: all base $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES) mp3s
 
 GNUMAKEFLAGS = --no-print-directory
