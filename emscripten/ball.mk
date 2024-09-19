@@ -193,7 +193,7 @@ $(DATA_ZIP):
 
 .PHONY: packages
 packages: clean-packages
-	$(MAKE) -f mk/packages.mk OUTPUT_DIR=$$(pwd)/js/packages
+	$(MAKE) -f mk/packages.mk OUTPUT_DIR=$$(pwd)/js/packages all mp3s
 
 .PHONY: clean-packages
 clean-packages:

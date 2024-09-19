@@ -6,7 +6,7 @@ ENV GL4ES_DIR=/opt/gl4es
 RUN \
     export DEBIAN_FRONTEND=noninteractive; \
     apt-get update -y; \
-    apt-get install less
+    apt-get install -y less ffmpeg
 
 COPY ./install-gl4es.sh /tmp/install-gl4es
 RUN \

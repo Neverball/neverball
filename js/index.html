@@ -1012,16 +1012,24 @@ General Public License for more details.
         this.audioMusicFile = null;
         this.audioMusicSourceNode = null;
         this.audioMusicGainNode = null;
+
+        this.audioCanPlayOgg = (new Audio()).canPlayType('audio/ogg') !== '';
       },
 
       audioPlay: async function (fileName, fileData, a) {
-        if (!this.audioContext) {
-          return;
+        if (fileName.endsWith('.ogg') && !this.audioCanPlayOgg) {
+          // MP3 fallback for Safari.
+
+          const response = await fetch('packages/mp3/' + fileName.replace('.ogg', '.mp3'));
+
+          if (response.ok) {
+            fileData = await response.arrayBuffer();
+          }
         }
 
-        const audioBuffer = await this.audioContext.decodeAudioData(fileData);
+        const audioBuffer = await this.audioContext?.decodeAudioData(fileData);
 
-        if (!this.audioContext) {
+        if (!audioBuffer) {
           return;
         }
 
@@ -1039,14 +1047,11 @@ General Public License for more details.
 
         sourceNode.connect(gainNode);
         gainNode.connect(this.audioSoundSink);
+
         sourceNode.start();
       },
 
       audioMusicFadeTo: async function (fileName, fileData, fadeTime) {
-        if (!this.audioContext) {
-          return;
-        }
-
         if (this.audioMusicFile && fileName === this.audioMusicFile) {
           // If we're already playing this BGM, just force a fade-in.
 
@@ -1058,8 +1063,16 @@ General Public License for more details.
 
           // Set up and fade in the new BGM.
 
-          const blob = new Blob([fileData], {type: 'audio/ogg'});
-          const url = URL.createObjectURL(blob);
+          let url;
+
+          if (this.audioCanPlayOgg) {
+            const blob = new Blob([fileData], {type: 'audio/ogg'});
+
+            url = URL.createObjectURL(blob);
+          } else {
+            url = 'packages/mp3/' + fileName.replace('.ogg', '.mp3');
+          }
+
           const audioElem = new Audio(url);
 
           audioElem.loop = true;
