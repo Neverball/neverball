@@ -571,7 +571,7 @@ unsigned int package_fetch_image(int pi, struct fetch_callback nested_callback)
                 callback.data = pii;
                 callback.done = package_image_done;
 
-                fetch_id = fetch_url(url, filename, callback);
+                fetch_id = fetch_file(url, filename, callback);
 
                 if (fetch_id)
                     pkg->image_status = PACKAGE_IMAGE_DOWNLOADING;
@@ -664,7 +664,7 @@ static unsigned int fetch_available_packages(struct fetch_callback nested_callba
             callback.data = pli;
             callback.done = available_packages_done;
 
-            fetch_id = fetch_url(url, filename, callback);
+            fetch_id = fetch_file(url, filename, callback);
 
             if (!fetch_id)
             {
@@ -1015,7 +1015,7 @@ unsigned int package_fetch(int pi, struct fetch_callback callback)
                 callback.done = package_fetch_done;
                 callback.data = pfi;
 
-                fetch_id = fetch_url(url, pfi->temp_filename, callback);
+                fetch_id = fetch_file(url, pfi->temp_filename, callback);
 
                 if (fetch_id)
                 {

@@ -564,9 +564,9 @@ void fetch_quit(void)
 /*
  * Download from URL into FILENAME.
  */
-unsigned int fetch_url(const char *url,
-                       const char *filename,
-                       struct fetch_callback callback)
+unsigned int fetch_file(const char *url,
+                        const char *filename,
+                        struct fetch_callback callback)
 {
     unsigned int fetch_id = 0;
     CURL *handle;
