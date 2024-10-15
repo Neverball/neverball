@@ -31,7 +31,7 @@ struct fetch_progress
  */
 struct fetch_done
 {
-    unsigned int finished:1;
+    unsigned int success:1;
 };
 
 /*

@@ -537,7 +537,7 @@ static void package_image_done(void *data, void *extra_data)
 
     if (pii)
     {
-        if (fd && fd->finished && pii->pkg)
+        if (fd && fd->success && pii->pkg)
             pii->pkg->image_status = PACKAGE_IMAGE_NONE;
 
         if (pii->callback.done)
@@ -621,7 +621,7 @@ static void available_packages_done(void *data, void *extra_data)
     struct package_list_info *pli = data;
     struct fetch_done *fd = extra_data;
 
-    if (fd && fd->finished)
+    if (fd && fd->success)
     {
         const char *filename = get_package_path("available-packages.txt");
 
@@ -959,7 +959,7 @@ static void package_fetch_done(void *data, void *extra_data)
         /* Always prepare for worst. */
         pkg->status = PACKAGE_ERROR;
 
-        if (dn->finished)
+        if (dn->success)
         {
             struct local_package *lpkg = create_local_package(pkg->id, pkg->filename);
 

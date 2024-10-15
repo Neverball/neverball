@@ -148,7 +148,7 @@ static void download_done(void *data1, void *data2)
 
             if (id)
             {
-                if (dn->finished)
+                if (dn->success)
                 {
                     gui_set_label(id, GUI_CHECKMARK);
                     gui_set_color(id, gui_grn, gui_grn);
@@ -205,7 +205,7 @@ static void image_download_done(void *data, void *extra_data)
 
     if (idi)
     {
-        if (fd && fd->finished)
+        if (fd && fd->success)
         {
             if (idi->pi == selected)
                 gui_set_image(shot_id, package_get_shot_filename(selected));
