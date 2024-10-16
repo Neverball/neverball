@@ -460,27 +460,27 @@ msgstr "Enn-Tostand in avsloten Upgavens"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Bescheten"
+msgstr "Bescheten"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Spölen"
+msgstr "Spölen"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Upteken"
+msgstr "Upteken"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Hülp"
+msgstr "Hülp"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Instellens"
+msgstr "Instellens"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Verlaten"
+msgstr "Verlaten"
 
 #: ball/util.c:28
 msgid "Hard"
