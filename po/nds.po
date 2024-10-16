@@ -1,0 +1,1716 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Robert Kooima
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Benedikt Straub <benedikt-straub@web.de>, 2024
+msgid ""
+msgstr ""
+"Project-Id-Version: Neverball\n"
+"Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
+"POT-Creation-Date: 2021-12-09 22:48+0200\n"
+"PO-Revision-Date: 2013-11-30 10:21+0000\n"
+"Last-Translator: Benedikt Straub <benedikt-straub@web.de>, 2024\n"
+"Language-Team: Low German (http://app.transifex.com/neverball/neverball/language/nds/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nds\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "Ofbroken"
+
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "Tied oflopen"
+
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "Daankregen"
+
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "Utfallen"
+
+#: ball/game_common.c:32 ball/progress.c:416
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: ball/game_common.c:44 ball/st_help.c:183
+msgid "Manual Camera"
+msgstr "Kamera vun Hand"
+
+#: ball/game_common.c:45 ball/st_help.c:182
+msgid "Lazy Camera"
+msgstr "Leie Kamera"
+
+#: ball/game_common.c:46 ball/st_help.c:181
+msgid "Chase Camera"
+msgstr "Nalopens-Kamera"
+
+#: ball/game_common.c:48
+#, c-format
+msgid "Camera %d"
+msgstr "Kamera %d"
+
+#: ball/game_common.h:10
+msgid "snd/select.ogg"
+msgstr "snd/select.ogg"
+
+#: ball/game_common.h:11
+msgid "snd/ready.ogg"
+msgstr "snd/ready.ogg"
+
+#: ball/game_common.h:12
+msgid "snd/set.ogg"
+msgstr "snd/set.ogg"
+
+#: ball/game_common.h:13
+msgid "snd/go.ogg"
+msgstr "snd/go.ogg"
+
+#: ball/game_common.h:24
+msgid "snd/record.ogg"
+msgstr "snd/record.ogg"
+
+#: ball/game_common.h:25
+msgid "snd/fall.ogg"
+msgstr "snd/fall.ogg"
+
+#: ball/game_common.h:26
+msgid "snd/time.ogg"
+msgstr "snd/time.ogg"
+
+#: ball/game_common.h:27
+msgid "snd/over.ogg"
+msgstr "snd/over.ogg"
+
+#: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
+msgid "Coins"
+msgstr "Deiten"
+
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "Enn"
+
+#: ball/hud.c:89 ball/st_goal.c:149
+msgid "Balls"
+msgstr "Ballen"
+
+#: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
+msgid "Score"
+msgstr "Speelstand"
+
+#: ball/progress.c:413 ball/st_help.c:267
+msgid "Challenge Mode"
+msgstr "Rutfödderungs-Modus"
+
+#: ball/progress.c:413 ball/st_start.c:208
+msgid "Challenge"
+msgstr "Rutfödderung"
+
+#: ball/progress.c:414 ball/st_help.c:254
+msgid "Normal Mode"
+msgstr "Normaaler Modus"
+
+#: ball/progress.c:414
+msgid "Normal"
+msgstr "Normaal"
+
+#: ball/progress.c:415
+msgid "Standalone Mode"
+msgstr "Alleenig Modus"
+
+#: ball/progress.c:415
+msgid "Standalone"
+msgstr "Alleenig"
+
+#: ball/progress.c:416
+msgid "Unknown Mode"
+msgstr "Unbekannter Modus"
+
+#: ball/st_ball.c:180 ball/st_conf.c:184
+msgid "Ball Model"
+msgstr "Ballmodell"
+
+#: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
+#: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
+#: putt/st_all.c:543 putt/st_conf.c:106
+msgid "Back"
+msgstr "Torügg"
+
+#: ball/st_conf.c:161 putt/st_conf.c:104
+msgid "Options"
+msgstr "Instellens"
+
+#: ball/st_conf.c:163 share/st_common.c:339 putt/st_conf.c:116
+msgid "Graphics"
+msgstr "Billers"
+
+#: ball/st_conf.c:163 ball/st_conf.c:172 putt/st_conf.c:114
+msgid "Configure"
+msgstr "Inrichten"
+
+#: ball/st_conf.c:167
+msgid "Mouse Sensitivity"
+msgstr "Muus-Akkeraatheid"
+
+#: ball/st_conf.c:172 share/st_common.c:868
+msgid "Gamepad"
+msgstr "Spöölpadd"
+
+#: ball/st_conf.c:176 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "Gedrüüs-Luudstarkde"
+
+#: ball/st_conf.c:178 putt/st_conf.c:150
+msgid "Music Volume"
+msgstr "Musik-Luudstarkde"
+
+#: ball/st_conf.c:183 ball/st_name.c:101
+msgid "Player Name"
+msgstr "Spelernaam"
+
+#: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
+msgid "Language"
+msgstr "Spraak"
+
+#: ball/st_conf.c:199 share/st_common.c:666
+msgid "Default"
+msgstr "Normaal"
+
+#: ball/st_demo.c:202
+msgid "Time"
+msgstr "Tied"
+
+#: ball/st_demo.c:204
+msgid "Status"
+msgstr "Tostand"
+
+#: ball/st_demo.c:235 ball/st_demo.c:430
+msgid "Replay"
+msgstr "Upteken"
+
+#: ball/st_demo.c:236 putt/st_all.c:731
+msgid "Player"
+msgstr "Speler"
+
+#: ball/st_demo.c:237
+msgid "Date"
+msgstr "Datum"
+
+#: ball/st_demo.c:290
+msgid "Select Replay"
+msgstr "Upteken utkören"
+
+#: ball/st_demo.c:306
+msgid "No Replays"
+msgstr "Keene Uptekens"
+
+#: ball/st_demo.c:616
+msgid "Replay Paused"
+msgstr "Upteken anhollen"
+
+#: ball/st_demo.c:618
+msgid "Replay Ends"
+msgstr "Upteken ennt"
+
+#: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
+msgid "Quit"
+msgstr "Dichtmaken"
+
+#: ball/st_demo.c:628 ball/st_demo.c:719
+msgid "Keep"
+msgstr "Behollen"
+
+#: ball/st_demo.c:629 ball/st_demo.c:720
+msgid "Delete"
+msgstr "Lösken"
+
+#: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
+msgid "Continue"
+msgstr "Wiedermaken"
+
+#: ball/st_demo.c:635
+msgid "Repeat"
+msgstr "Noch maal"
+
+#: ball/st_demo.c:715
+msgid "Delete Replay?"
+msgstr "Upteken lösken?"
+
+#: ball/st_demo.c:769 ball/st_level.c:179
+msgid "Warning!"
+msgstr "Wahrschau!"
+
+#: ball/st_demo.c:771
+msgid ""
+"The current replay was recorded with a\\different (or unknown) version of "
+"this level.\\Be prepared to encounter visual errors.\\"
+msgstr "Dat stedenwies Upteken is mit eener annern (of unbekannten)\\Versioon vun deeser Upgaav uptekent worden.\\Wees wiss, dat dat Billfehlers geven kann."
+
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "Nejer Sammlungs-Rekoord"
+
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "Sammlung daankregen"
+
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "Upgaav utkören"
+
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "Utfallen!"
+
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "Tied is vörbi!"
+
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "Verlaten"
+
+#: ball/st_fail.c:101 ball/st_goal.c:215
+msgid "Next Level"
+msgstr "Anner Upgaav"
+
+#: ball/st_fail.c:104 ball/st_goal.c:218
+msgid "Retry Level"
+msgstr "Upgaav neei versöken"
+
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Save Replay"
+msgstr "Upteken sekern"
+
+#: ball/st_goal.c:96
+msgid "New Record"
+msgstr "Nejer Rekoord"
+
+#: ball/st_goal.c:97
+msgid "GOAL"
+msgstr "ENN"
+
+#: ball/st_goal.c:210 ball/st_goal.c:212
+msgid "Finish"
+msgstr "Ennen"
+
+#: ball/st_help.c:102
+msgid "Tricks"
+msgstr "Tricks"
+
+#: ball/st_help.c:103
+msgid "Modes"
+msgstr "Modusse"
+
+#: ball/st_help.c:104
+msgid "Controls"
+msgstr "Kuntrullerens"
+
+#: ball/st_help.c:105
+msgid "Rules"
+msgstr "Regels"
+
+#: ball/st_help.c:116
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
+msgstr "Beweeg de Muus of Speelkuntrulleerer\\of bruuk de Pieltasten, um de Footdeel to\\kippen un de Ball ins Rullen to bringen."
+
+#: ball/st_help.c:121
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
+msgstr "Rull över Deiten, um se to pottjen.\\Pottje Deiten, um dat Enn\\uptoslutenun de Upgaav\\daan to kriegen.\\"
+
+#: ball/st_help.c:178
+msgid ""
+"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+"rotation."
+msgstr "De linke un rechte Muustasten dreihen de Sicht.\\Holl de Umschalttast drückt, um fixer to dreihen."
+
+#: ball/st_help.c:180
+msgid "Exit / Pause"
+msgstr "Verlaten / Anhollen"
+
+#: ball/st_help.c:184
+msgid "Restart Level"
+msgstr "Upgaav neei begünnen"
+
+#: ball/st_help.c:185
+msgid "Screenshot"
+msgstr "Billschirmfoto"
+
+#: ball/st_help.c:256
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order"
+" to open the goal."
+msgstr "Sluut eene Upgaav of, ehr de Tied avlöppt.\\Du muttst Deiten pottjen, um dat Enn uptosluten."
+
+#: ball/st_help.c:269
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr "Begünn dat Speel mit de eerste Upgaav in\\de Sammlung. Du begünnst mit blots dree\\Ballen, verlees se nich. Du verdeenst di eenen\\Ball daarto för elkeen 100 pottjet Deiten."
+
+#: ball/st_help.c:283
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
+msgstr "Ecken könen tum Hüppen bruukt worden.\\Kumm ins Rullen un küür up de Winkel.\\Du kannst villicht to nejen Steden komen.\\"
+
+#: ball/st_help.c:288
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+"turn the camera by 45\\degrees for best results.\\"
+msgstr "In 2 Richtens to kippen, maakt de Schüünte\\schierer. Bruuk de Handkamera un dreeih\\se um 45 Graad för de besten Resultaten."
+
+#: ball/st_help.c:308 ball/st_help.c:318
+msgid "Watch demo"
+msgstr "Demo ankieken"
+
+#: ball/st_level.c:56
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonus-Upgaav %s"
+
+#: ball/st_level.c:58
+#, c-format
+msgid "Level %s"
+msgstr "Upgaav %s"
+
+#: ball/st_level.c:64
+#, c-format
+msgid "Standalone level"
+msgstr "Alleenig Upgaav"
+
+#: ball/st_level.c:181
+msgid ""
+"A replay file could not be opened for writing.\\This game will not be "
+"recorded.\\"
+msgstr "Eene Uptekens-Datei kunn nich tum Schrieven\\opmaakt worden.Deeses Speel word nich uptekent.\\"
+
+#: ball/st_name.c:112
+msgid "OK"
+msgstr "Jau"
+
+#: ball/st_name.c:114 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "Ofbreken"
+
+#: ball/st_over.c:41
+msgid "GAME OVER"
+msgstr "SPEEL VÖRBI"
+
+#: ball/st_pause.c:80 putt/st_all.c:635
+msgid "Paused"
+msgstr "Anhollt"
+
+#: ball/st_pause.c:89
+msgid "Restart"
+msgstr "Neei begünnen"
+
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr "Paraat?"
+
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr "Klaar?"
+
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr "LÖSS!"
+
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "Upteken-Naam"
+
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "Sekern"
+
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "Överschrieven?"
+
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "Överschrieven"
+
+#: ball/st_set.c:302
+msgid "Level Set"
+msgstr "Upgaven-Sammlung"
+
+#: ball/st_start.c:228
+msgid "Unlocked"
+msgstr "Upsloten"
+
+#: ball/st_start.c:229
+msgid "Locked"
+msgstr "Sloten"
+
+#: ball/st_start.c:239
+msgid "Goal State in Completed Levels"
+msgstr "Enn-Tostand in avsloten Upgavens"
+
+#: ball/st_title.c:144 ball/st_title.c:179
+msgid "menu^Cheat"
+msgstr "Bescheten"
+
+#: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
+msgid "menu^Play"
+msgstr "Spölen"
+
+#: ball/st_title.c:185
+msgid "menu^Replay"
+msgstr "Upteken"
+
+#: ball/st_title.c:186
+msgid "menu^Help"
+msgstr "Hülp"
+
+#: ball/st_title.c:187 putt/st_all.c:230
+msgid "menu^Options"
+msgstr "Instellens"
+
+#: ball/st_title.c:188 putt/st_all.c:231
+msgid "menu^Exit"
+msgstr "Verlaten"
+
+#: ball/util.c:28
+msgid "Hard"
+msgstr "Swaar"
+
+#: ball/util.c:29
+msgid "Medium"
+msgstr "Middel"
+
+#: ball/util.c:30
+msgid "Easy"
+msgstr "Licht"
+
+#: ball/util.c:76 ball/util.c:122
+msgid "Unavailable"
+msgstr "Nich verföögbaar"
+
+#: ball/util.c:178 ball/util.c:228
+msgid "Most Coins"
+msgstr "Meeste Deiten"
+
+#: ball/util.c:185 ball/util.c:232
+msgid "Best Times"
+msgstr "Beste Tieden"
+
+#: ball/util.c:192 ball/util.c:236
+msgid "Fast Unlock"
+msgstr "Fix upsloten"
+
+#: ball/util.c:205
+msgid "Change Name"
+msgstr "Naam ännern"
+
+#: ball/util.c:332
+msgid "caps"
+msgstr "Faststellen"
+
+#: share/st_common.c:320 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
+#: share/st_common.c:384
+msgid "Off"
+msgstr "Utknipst"
+
+#: share/st_common.c:321
+msgid "2x"
+msgstr "2×"
+
+#: share/st_common.c:322
+msgid "4x"
+msgstr "4×"
+
+#: share/st_common.c:323
+msgid "8x"
+msgstr "8×"
+
+#: share/st_common.c:337
+msgid "Unknown Display"
+msgstr "Unbekannter Billschirm"
+
+#: share/st_common.c:341 share/st_common.c:447
+msgid "Display"
+msgstr "Billschirm"
+
+#: share/st_common.c:347
+msgid "Fullscreen"
+msgstr "Heler Billschirm"
+
+#: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
+#: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
+msgid "On"
+msgstr "Anknipst"
+
+#: share/st_common.c:350 share/st_common.c:544
+msgid "Resolution"
+msgstr "Uplösen"
+
+#: share/st_common.c:365
+msgid "HMD"
+msgstr "HMD"
+
+#: share/st_common.c:371
+msgid "V-Sync"
+msgstr "V-Sync"
+
+#: share/st_common.c:373
+msgid "Antialiasing"
+msgstr "Antialiasseeren"
+
+#: share/st_common.c:379
+msgid "Reflection"
+msgstr "Spegeln"
+
+#: share/st_common.c:381
+msgid "Background"
+msgstr "Achtergrund"
+
+#: share/st_common.c:383
+msgid "Shadow"
+msgstr "Scharr"
+
+#: share/st_common.c:782
+msgid "Button A"
+msgstr "Knoop A"
+
+#: share/st_common.c:783
+msgid "Button B"
+msgstr "Knoop B"
+
+#: share/st_common.c:784
+msgid "Button X"
+msgstr "Knoop X"
+
+#: share/st_common.c:785
+msgid "Button Y"
+msgstr "Knoop Y"
+
+#: share/st_common.c:786
+msgid "Button L1"
+msgstr "Knoop L1"
+
+#: share/st_common.c:787
+msgid "Button R1"
+msgstr "Knoop R1"
+
+#: share/st_common.c:788 putt/st_conf.c:158
+msgid "Select"
+msgstr "Utkören"
+
+#: share/st_common.c:789
+msgid "Start"
+msgstr "Begünnen"
+
+#: share/st_common.c:793
+msgid "X Axis 1"
+msgstr "X-Ass 1"
+
+#: share/st_common.c:794
+msgid "Y Axis 1"
+msgstr "Y-Ass 1"
+
+#: share/st_common.c:795
+msgid "X Axis 2"
+msgstr "X-Ass 2"
+
+#: share/st_common.c:796
+msgid "Y Axis 2"
+msgstr "Y-Ass 2"
+
+#: share/st_common.c:909
+msgid "Press a button..."
+msgstr "Drück eenen Knoop …"
+
+#: share/st_common.c:919
+msgid "Move a stick..."
+msgstr "Wiggel eene Staav …"
+
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
+msgid "Par"
+msgstr "Par"
+
+#: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
+msgid "P1"
+msgstr "P1"
+
+#: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
+msgid "P2"
+msgstr "P2"
+
+#: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
+msgid "P3"
+msgstr "P3"
+
+#: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
+msgid "P4"
+msgstr "P4"
+
+#: putt/st_all.c:66
+msgid "O"
+msgstr "B"
+
+#: putt/st_all.c:115
+msgid "Tot"
+msgstr "All"
+
+#: putt/st_all.c:127
+msgid "I"
+msgstr "U"
+
+#: putt/st_all.c:352
+msgid "Select Course"
+msgstr "Bahn utkören"
+
+#: putt/st_all.c:520
+msgid "Players?"
+msgstr "Spelers?"
+
+#: putt/st_all.c:722
+#, c-format
+msgid "Hole %02d"
+msgstr "Lock %02d"
+
+#: putt/st_all.c:1071
+msgid "It's In!"
+msgstr "Inlocht!"
+
+#: putt/st_all.c:1214
+msgid "1 Stroke Penalty"
+msgstr "1 Straafslag"
+
+#: putt/st_all.c:1292
+msgid "Scores"
+msgstr "Speelstanden"
+
+#: putt/st_all.c:1345
+msgid "Final Scores"
+msgstr "Enn-Speelstanden"
+
+#: data/set-easy.txt
+msgid "Neverball Easy"
+msgstr "Neverball Licht"
+
+#: data/set-easy.txt
+msgid ""
+"Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
+"learning curve.\\Read level introductions for gameplay tips.\\ \\"
+msgstr "Swierigkeid: Anfanger bit Middel\\\\25 Upgaven mit eener stevigen Lehrkurv.\\Lees de Upgaav-Inföhrens för Speeltipps.\\\\"
+
+#: data/set-medium.txt
+msgid "Neverball Medium"
+msgstr "Neverball Middel"
+
+#: data/set-medium.txt
+msgid ""
+"Difficulty: Beginner through Expert\\\\25 levels which provide a "
+"balanced\\challenge for players. Try to claim\\some of the records "
+"provided.\\"
+msgstr "Swierigkeid: Anfanger bit Meister\\\\25 Upgaven, wat de Spelers\\eene utgleken Rutfödderung geven.\\Versöök, eenige vun de angeven Rekoorden to winnen."
+
+#: data/set-hard.txt
+msgid "Neverball Hard"
+msgstr "Neverball Swaar"
+
+#: data/set-hard.txt
+msgid ""
+"Difficulty: Intermediate through Expert\\\\25 levels with more of a "
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
+" and Fast Unlock records.\\"
+msgstr "Swierigkeid: Middel bit Meister\\\\25 Upgaven mit eener Rutfödderung\\för de künnige Speler.\\Versöök, de Rekoorden för beste Tied,\\meeste Deiten un fixes upsluten to winnen.\\"
+
+#: data/set-mym.txt
+msgid "Tour de force"
+msgstr "Dwangs-Tour"
+
+#: data/set-mym.txt
+msgid ""
+"Difficulty: Expert through Insane\\\\25 levels with even greater "
+"challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Swierigkeid: Meister bit nich tum Tomoden\\\\25 Upgaven mit noch slimmerer Rutfödderung.\\Schriever: Mehdi Yousfi-Monod (mym)\\\\"
+
+#: data/set-mym2.txt
+msgid "Retour de force"
+msgstr "De anner Dwangs-Tour"
+
+#: data/set-mym2.txt
+msgid ""
+"Difficulty: A little bit harder than my first set.\\\\More challenge, "
+"particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Swierigkeid: Een bietje swaarer as miene eerste Sammlung.\\\\Mehr Rutfödderung, besünners bi’m Pottjen vun Deiten.\\Schriever: Mehdi Yousfi-Monod (mym)\\\\"
+
+#: data/set-fwp.txt
+msgid "Nevermania"
+msgstr "Nevermanie"
+
+#: data/set-fwp.txt
+msgid ""
+"Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
+"players.\\Author: Florian Priester\\\\"
+msgstr "Swierigkeid: Meister bit nich Daantokriegen\\\\Utköört Upgaven för künnige Spelers.\\Schriever: Florian Priester\\\\"
+
+#: data/set-tones.txt
+msgid "Tones Levels"
+msgstr "Tonen-Upgaaven"
+
+#: data/set-tones.txt
+msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
+msgstr "Swierigkeid: Middel bit Swaar\\\\Schriever: Ian Walker\\\\"
+
+#: data/set-misc.txt
+msgid "Neverball Misc"
+msgstr "Neverball Verschedenes"
+
+#: data/set-misc.txt
+msgid "Unsorted levels\\For testing purposes\\\\\\\\"
+msgstr "Nich sorteerte Upgavens\\För Testzwecken\\\\\\\\"
+
+#: data/holes-putt.txt
+msgid ""
+"The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
+"\\Difficulty: Easy to Medium\\Author: rlk\\"
+msgstr "De eerste 18-Lock-Neverputt-Bahn.\\Mit eener sachten Lehrkurv.\\\\Swierigkeid: Licht bit Middel\\Schriever: rlk\\"
+
+#: data/holes-paxed.txt
+msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Noch eene 18-Lock-Bahn\\\\\\Swierigkeid: Middel\\Schriever: paxed\\"
+
+#: data/holes-paxed2.txt
+msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Un noch eene 18-Lock-Bahn\\\\\\Swierigkeid: Middel\\Schriever: paxed\\"
+
+#: data/holes-paxed3.txt
+msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
+msgstr "Noch mehr Locken\\\\\\Swierigkeid: Middel\\Schriever: paxed\\"
+
+#: data/holes-abc.txt
+msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr "Eene 26-Lock-Bahn,\\wat na de Alphabeet gaht\\\\Swierigkeid: Swaar\\Schriever: paxed\\"
+
+#: data/holes-slippi.txt
+msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
+msgstr "Dördreiht Gold\\\\\\Swierigkeid: Licht bit Middel\\Schriever: slippifishi\\"
+
+#: data/holes-kk.txt
+msgid ""
+"Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
+"Through Insane\\Author: Byron James Johnson"
+msgstr "Kniff-Golf\\\\Eene 18-Lock-Bahn mit mennig Rutfödderungen\\Swierigkeid: Meister bit nich tum Tomoden\\Schriever: Byron James Johnson"
+
+#: data/holes-vidski.txt
+msgid ""
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
+"hard.\\Author: vidski\\"
+msgstr "Golf Jambalaya\\\\Vidski siene rappelkoppske Bahn.\\Swierigkeid: Middel bit Swaar\\Schriever: vidski\\"
+
+#: data/holes-iCourse.txt
+msgid ""
+"Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Francis"
+msgstr "Reshaun siene iPutt-Bahn\\\\\\Swierigkeid: Licht bit Swaar\\Schriever: Reshaun Francis"
+
+#: data/gui/title.map data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Maakt vun Robert Kooima\\"
+
+#: data/map-easy/bumper.map
+msgid ""
+"Try to avoid being hit by moving objects.\\One bump can throw the "
+"ball\\completely out of control.\\"
+msgstr "Versöök, di nich vun bewegten Dingen\\anrumpeln to laten. Een Bums kann de\\Ball heel un dall ut de Kuntrull smieten."
+
+#: data/map-easy/bumps.map
+msgid ""
+"Learn to control a bouncing ball.\\Look at the shadow to know where "
+"the\\ball will land.  If you're feeling confident in\\your mastery of "
+"bouncing, take a risk\\for a big payoff.\\"
+msgstr "Lehr, eenen rumhüppend Ball to kuntrulleren.\\Kiek de Scharr an, um to sehn, waar de Ball lannen word.\\Wenn du wiss büst, dat du dat unnerhest,\\gah een Raakwark för groten Lohn in."
+
+#: data/map-easy/coins.map
+msgid ""
+"This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
+"blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
+"begin.\\"
+msgstr "Deeses Maal muttst du 50 Deiten pottjen,\\um dat Enn uptosluten. Rode Deiten tellen 5\\un blaue Deiten 10 Punkten.\\Kumm tum Enn, ehr de Tied avlöppt!\\\\Klick tum Begünnen."
+
+#: data/map-easy/corners.map
+msgid ""
+"Here are some more opportunities for you to\\fall off into the void. Hit the"
+" bump hard to\\grab some big coins and score a short time.\\"
+msgstr "Hier hest du noch mehr Kansen, in ’t Leege to fallen.\\Schups de Bumser haart, um een paar grote\\Deiten to pottjen un eene körte Tied to kriegen."
+
+#: data/map-easy/curved.map
+msgid ""
+"As before, but without the training wheels.\\Keep the ball on a level "
+"floor\\and maintain precise control.\\Build some momentum to reach the "
+"corners.\\"
+msgstr "As even, man nu sünner de Stüttradd.\\Beholl de Ball up eenen flacken Footdeel\\un beholl akkeraat de Kuntrull. Bau wat\\Gauheid up, un in de Eckens to komen."
+
+#: data/map-easy/easy.map data/map-misc/centrifuge.map
+#: data/map-misc/texture-debug.map data/map-misc/timer-test.map
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
+"goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr "Beweeg de Muus, um de Footdeel to kippen.\\Pottje 10 Deiten, um dat Enn uptosluten.\\Stüür de Ball tum Enn,\\um de Upgaav daantokriegen.\\\\Klick tum Begünnen.\\"
+
+#: data/map-easy/easyhalfpipe.map
+msgid ""
+"Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
+"accelerate and you will\\be able to stay in control."
+msgstr "Halvpiepen könen Spaaß maken,\\aver se maken dat ok licht, ruttofallen.\\Gah nich to fell un\\du kannst de Kuntrull behollen."
+
+#: data/map-easy/fence.map
+msgid ""
+"''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
+"remains level.\\This way, you maintain full control of the ball.\\Use "
+"momentum to get up to the big coins.\\"
+msgstr "»Platt« kummt up de Sichtwies drup an.\\Lehr, de Footdeel in eenem Winkel to hollen,\\daarmit eene Schüünte even blievt.\\So hest du kumplete Kuntrull över de Ball.\\Bruuk de Leiigheid, um de groten Deiten to kriegen.\\"
+
+#: data/map-easy/goals.map
+msgid ""
+"There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
+"don't accidentally make a goal first.\\"
+msgstr "Hier sünd 100 Deiten.\\Dat sall nich to swaar wesen,\\wenn du nich ut Versehn toeerst ins Enn gahst.\\"
+
+#: data/map-easy/goslow.map
+msgid ""
+"Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
+"speed means better control.\\Watch the clock and use the time wisely.\\"
+msgstr "Kipp de Footdeel nich mehr as nödig.\\Minner Schüünte heet minner Gauheid.\\Minner Gauheid heet betere Kuntrull.\\Beluur de Klock un bruuk de Tied klook.\\"
+
+#: data/map-easy/greed.map
+msgid ""
+"Each bridge is narrower than the one before.\\But each pays better than the "
+"last as well!\\You get to decide how far you go on this one.\\"
+msgstr "Elkeen Brügg is smaller as de daarvör.\\Aver elkeen betahlt ok beter as de daarvör!\\Du kannst utkören, wo wied du hier gahn willst.\\"
+
+#: data/map-easy/groundbreak.map
+msgid ""
+"Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
+"will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
+"instead of falling into it."
+msgstr "Dat sall nich swaar wesen,\\tum Enn to komen,\\aver wenn du all de Deiten pottjen willst,\\muttst du wat plaanen.\\\\Wenk: Meestens is dat fixer, een Lock\\to vermieden, as daar in to fallen."
+
+#: data/map-easy/hole.map
+msgid ""
+"Stay away from the edges!\\When approaching a drop, begin slowing "
+"down\\early. You need just as much room to slow\\down as you did to speed "
+"up.\\"
+msgstr "Bliev weg vun de Rannen!\\Wenn du up eenen Fall tokummst,\\fang bi Tieden an to bremsen.\\Du bruukst tum verlangsaamen\\jüüst so vööl Tied as tum fixer worden.\\"
+
+#: data/map-easy/lollipop.map
+msgid ""
+"Follow the yellow lick road!\\\\The blue coins are especially "
+"challenging,\\but with some experimentation and practice,\\you'll be able to"
+" collect them all."
+msgstr "Gah de gele Straat na!\\\\De blauen Deiten sünd besünners swaar,\\aver mit wat Utproberen un Öven\\kannst du se all pottjen."
+
+#: data/map-easy/maze.map
+msgid ""
+"The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
+"and\\off the walls. All the coins are collectable\\in the given time.\\"
+msgstr "De Ball will in eenem smallen Gang\\all ut Kuntrull rumslackern.\\Beholl ’t langsaam un vun de Wanden weg.\\All de Deiten könen in de geven Tied pottjet worden.\\"
+
+#: data/map-easy/mazebump.map
+msgid ""
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
+" - it will help you\\to reach the goal."
+msgstr "Vertüdelt aver profitelk.\\\\Nehm di Tied, de Bumsers\\to beluren – dat hülpt di,\\tum Enn to komen."
+
+#: data/map-easy/mover.map
+msgid ""
+"A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
+"precise balance to stay there.\\Don't let it move out from under you.\\Ride "
+"the platforms to grab the big coins.\\"
+msgstr "Eene Verschuuv-Plattfoorm kann stuur wesen.\\Bruuk akkeraates Tiedplaanen, um daarup to komen,\\un akkeraates Evenwicht, um daar to blieven.\\Laat se nich unner di weggahn.\\Fahr up de Plattfoormen, um de groten Deiten to pottjen.\\"
+
+#: data/map-easy/peasy.map
+msgid ""
+"Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
+"to begin.\\"
+msgstr "Muustasten dreihen de Sicht.\\Drück Escape tum Anhollen of Verlaten.\\\\\\\\Klick tum begünnen.\\"
+
+#: data/map-easy/roundcoins.map
+msgid ""
+"When you are on the elevators,\\make small adjustments to keep the ball "
+"steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
+"much movement and you will fall off."
+msgstr "Wenn du up eenem Fahrstohl büst,\\maak lütte Anpassens, um de Ball stevig to hollen.\\Du kannst mennig Deiten pottjen,\\indeem du de Ball an eener Stee hollst.\\Wiggel to vööl un du fallst runner."
+
+#: data/map-easy/roundlaby.map
+msgid ""
+"There is only one path to reach the goal,\\but lots of paths for collecting "
+"coins.\\Make sure you collect enough\\to unlock the goal."
+msgstr "Dat gifft blots eenen Padd tum Enn,\\aver mennig Padden, um Deiten to pottjen.\\Wees wiss, dat du genoog pottjest,\\um dat Enn uptosluten."
+
+#: data/map-easy/slalom.map
+msgid ""
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving"
+" quickly,\\you will bounce far off course."
+msgstr "Gah de Spoor vun Deiten na, um tum Enn to komen.\\Wenn du eenen Pahl treffst, as du fix gahst,\\worst du wied ut de Spoor smeten."
+
+#: data/map-easy/slightcurve.map
+msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
+msgstr "Du bruukst mehr Gauheid, um över eene Höchte to komen.\\Pass up, dat du nich to fix gahst!"
+
+#: data/map-easy/speedbumps.map
+msgid ""
+"When the ball is on a moving platform,\\it will be pulled in the direction "
+"of movement.\\Use the rails to steady yourself,\\and collect the coins you "
+"need\\to open the goal."
+msgstr "Wenn de Ball up eener Verschuuv-Plattfoorm is,\\word dat in de Richt vun de Bewegen trucken.\\Bruuk de Gelänners, um di stevig to hollen,\\un pottje de Deiten, wat du bruukst,\\um dat Enn optomaken."
+
+#: data/map-easy/thwomp2.map
+msgid "Grab all the coins...\\but don't get bullied!"
+msgstr "Pottje all de Deiten …\\aver laat di nich rumschupsen!"
+
+#: data/map-easy/wakka.map
+msgid ""
+"Here's another coin grab.\\Perhaps you already know a good "
+"route.\\Teleportation might come in handy.\\"
+msgstr "Hier is noch eene Deitenpottjeree.\\Villicht weetst du al eenen goden Padd.\\Teleporteren kann nüttelk wesen.\\"
+
+#: data/map-fwp/adventure.map
+msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
+msgstr "=Aventüür=\\Mennig Dingen to doon, Deiten to pottjen, Risikos to nehmen."
+
+#: data/map-fwp/atrium.map
+msgid "=Atrium=\\Remove the coins from their columns."
+msgstr "=Ingang=\\Nehm de Deiten vun hör Pielers."
+
+#: data/map-fwp/buoys.map
+msgid "=Buoys=\\He who controls the timers, controls the gates."
+msgstr "=Bojen=\\Well de Tiedgevers kuntrulleert, kuntrulleert de Poorten."
+
+#: data/map-fwp/cargo.map
+msgid "=Cargo=\\Let yourself be carried away."
+msgstr "=Fracht=\\Laat di sülvst wegdragen worden."
+
+#: data/map-fwp/confetti.map
+msgid "=Confetti=\\Help! There has got to be a way through this mess."
+msgstr "=Konfetti=\\Hülp! Dat mutt doch eets wo dör deeses Kuddelmuddel gahn."
+
+#: data/map-fwp/discs.map
+msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
+msgstr "=Schieven=\\Bruuk se klook un de Plattfoormen brengen di tum Enn."
+
+#: data/map-fwp/inferno.map
+msgid "=Inferno=\\The fire thwomps will try to foil your mission."
+msgstr "=Füürbrand=\\De Füür-Stötters versöken, di scheitern to laten."
+
+#: data/map-fwp/ladybirds.map
+msgid "=Ladybirds=\\Don't let them bug you."
+msgstr "=Leevengelkes=\\Laat se di nich wurmig wesen."
+
+#: data/map-fwp/mountains.map
+msgid "=Mountains=\\Ups and downs are a part of life."
+msgstr "=Bargen=\\Im Leven gifft dat Höchten un Deepden."
+
+#: data/map-fwp/museum.map
+msgid "=Museum=\\Please do not touch the exhibits."
+msgstr "=Museum=\\Bidde de Utstellens-Delen nich anröhren."
+
+#: data/map-fwp/oddities.map
+msgid "=Oddities=\\Something is not quite right here..."
+msgstr "=Wunnerlikheiden=\\Eets wat is hier nich vull recht …"
+
+#: data/map-fwp/rails.map
+msgid "=Rails=\\Do not lose your balance."
+msgstr "=Gelänners=\\Verlees dien Evenwicht nich."
+
+#: data/map-fwp/ramps.map
+msgid "=Ramps=\\Can you make it to the top?"
+msgstr "=Rampen=\\Kannst du ganz na boven komen?"
+
+#: data/map-fwp/rings.map
+msgid "=Rings=\\Roll your way through this trap."
+msgstr "=Ringen=\\Rull dienen Padd dör deese Trapp."
+
+#: data/map-fwp/slope.map
+msgid "=Slope=\\Try not to become a modern-day Sisyphus."
+msgstr "=Schüünte=\\Versöök, keen modeerner Sisyphus to worden."
+
+#: data/map-fwp/spacetime.map
+msgid "=Spacetime=\\Not much space, not much time."
+msgstr "=Ruumtied=\\Nich vööl Ruum, nich vööl Tied."
+
+#: data/map-fwp/swarm.map
+msgid "=Swarm=\\Warning: Trespassers will be thwomped."
+msgstr "=Swarm=\\Wahrschau: Inbrekers worden prallt."
+
+#: data/map-fwp/tennis.map
+msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
+msgstr "=Tennis=\\Dat gifft vööl Priesgeld, kumm un haal ’t dir."
+
+#: data/map-fwp/tree.map
+msgid "=Tree=\\Follow the spiral staircase to the goal."
+msgstr "=Boom=\\Gah över de Wendeltrapp tum Enn."
+
+#: data/map-fwp/ufo.map
+msgid "=UFO=\\Ride the spaceship they don't want you to know about."
+msgstr "=UFO=\\Fahr in de Ruumschiff, vun wat se nich wullen, dat du daarvun weetst."
+
+#: data/map-hard/airways.map
+msgid "2 switches have to be enabled\\to open the path to the goal."
+msgstr "2 Schalters mutten anknipst worden,\\um de Padd tum Enn optomaken."
+
+#: data/map-hard/check.map
+msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
+msgstr "Hier is nich genoog Footdeel.\\Hopentlik is dat keen Probleem.\\"
+
+#: data/map-hard/curbs.map
+msgid ""
+"To make progress here you'll need to hit the\\edges hard and control your "
+"bouncing.\\It's often easiest to hit the curb at a corner.\\"
+msgstr "Um hier wiedertokomen, muttst du de Rannen\\haart treffen un dien Gehüppe kuntrulleren.\\Mennigmaal is dat am lichtesten,\\de Kehr in de Eck to treffen.\\"
+
+#: data/map-hard/flip.map
+msgid ""
+"Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
+"trigger switches colors in direct contact."
+msgstr "Is Neverball also een Raadselspeel?\\Maak dat Rode weg, um dat Enn uptosluten.\\Elkeen Utlöser ännert bi'm Beröhren siene Farv."
+
+#: data/map-hard/frogger.map
+msgid "Ribbit!\\"
+msgstr "Quaak!\\"
+
+#: data/map-hard/gaps.map
+msgid ""
+"Time the switches carefully to synchronize\\the motion of the "
+"platforms.\\Move quickly across the gaps.\\"
+msgstr "Pass akkeraat up, do welke Tied du welken Utlöser treffst,\\dat de Bewegens vun de Plattfoormen toeenanner passen.\\Gah fix över de Lücken.\\"
+
+#: data/map-hard/grid.map
+msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
+msgstr "Jau, de Ball passt würrelk nüüt akkeraat\\dör deese lütten Locken.\\"
+
+#: data/map-hard/hallways.map
+msgid ""
+"Control your speed and your bounces.\\Teleporters will always bring "
+"you\\back somewhere in the level."
+msgstr "Kuntrulleer diene Gauheid, of de Ball hüppt.\\Teleporterers bringen to alltieden\\enerwegens in de Upgaav na achtern."
+
+#: data/map-hard/hump.map
+msgid "Momentum may work against you.\\"
+msgstr "Leiigheid kann tegen di warken.\\"
+
+#: data/map-hard/invis.map
+msgid ""
+"Allow your greed to guide you.\\For an added challenge,\\try to get to all "
+"of the coins.\\It can be done without guesswork.\\"
+msgstr "Laat diene Gier di föhren.\\För mehr Rutfödderung versöök\\all de Deiten to pottjen.\\Dat kann sünner to Raden daan worden.\\"
+
+#: data/map-hard/movers.map
+msgid "Go for a ride.\\"
+msgstr "Gah fahren.\\"
+
+#: data/map-hard/nostairs.map
+msgid ""
+"There are two goals here.\\You can complete this level\\the easy way or the "
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those"
+" red and blue coins."
+msgstr "Hier gifft dat twee Ennen.\\Du kannst deese Upgaav up\\de lichte of up de swaare Weg avsluten.\\Wenn du de lichten Weg nimmst,\\kannst du natürelk all deese\\roden un blauen Deiten vergeten."
+
+#: data/map-hard/paths.map
+msgid "So many different paths to take...\\have you tried all of them?"
+msgstr "So mennig völe verschedene Padden tum Kören …\\hest du se all versöcht?"
+
+#: data/map-hard/pipe.map
+msgid "Ceci n'est pas une pipe.\\"
+msgstr "»Ceci n'est pas une pipe.«\\(Dat is keene Piepe.)"
+
+#: data/map-hard/poker.map
+msgid "Slow and steady.\\"
+msgstr "Sachte un stevig.\\"
+
+#: data/map-hard/pyramid.map
+msgid ""
+"You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
+"coins and\\get to the next switch.\\"
+msgstr "Du hest för elkeen Stapp blots umbi 15 Sekünnen,\\also drömel nich. Pottje de Deiten\\un kumm to de anner Schalter.\\"
+
+#: data/map-hard/quads.map
+msgid "Don't get bullied.\\"
+msgstr "Laat di nich rumschupsen.\\"
+
+#: data/map-hard/rampup.map
+msgid "I think I can.\\I think I can.\\"
+msgstr "Wi schaffen dat.\\Wi schaffen dat.\\"
+
+#: data/map-hard/ring.map
+msgid "So close, yet so very far.\\"
+msgstr "So nah un doch so feern.\\"
+
+#: data/map-hard/risers.map data/map-misc/edge-test.map
+msgid ""
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too "
+"long.\\"
+msgstr "Fahr up de Fahrstohlen na boven.\\Se gahn fix,\\also wacht nich to lang.\\"
+
+#: data/map-hard/spiralin.map
+msgid "Have fun picking up those\\red and blue coins.\\"
+msgstr "Vööl Spaaß, deese\\roden un blauen Deiten to pottjen.\\"
+
+#: data/map-hard/spread.map
+msgid "Don't worry.\\The green part isn't going anywhere.\\"
+msgstr "Wees nich bang.\\De gröne Deel gaht nargends nich hen.\\"
+
+#: data/map-hard/sync.map
+msgid ""
+"Use the switches to set the platforms\\in motion.  Time it so they "
+"come\\together in the middle.\\"
+msgstr "Bruuk de Schalters, um de Plattfoormen\\lössgahn to laten. Richt de Tied so in,\\dat se sik in de Midde treffen.\\"
+
+#: data/map-hard/teleport.map
+msgid ""
+"The ball must be entirely within a teleporter\\in order to trigger "
+"it.\\Remember that the ball carries its momentum\\through a teleporter, so "
+"plan ahead.\\"
+msgstr "De Ball mutt kumpleet binnen in eenem\\Teleporterer wesen, um dat uttolösen.\\Vergeet nich, dat de \\Ball sien Leiigheid dör de Teleporterer\\behollt, also plaan vörut.\\"
+
+#: data/map-hard/tilt.map
+msgid "The floor is as flat as you make it.\\"
+msgstr "De Footdeel is so flack as du dat maakst.\\"
+
+#: data/map-medium/accordian.map
+msgid "Stairway to heaven"
+msgstr "Trappe tum Hemel"
+
+#: data/map-medium/angle.map
+msgid ""
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
+" the easy cash or\\go all the way for a big payoff.\\"
+msgstr "Deese Brüggen sünd schuuv.\\Elkeen is smaller un stuuver as de leste.\\Nimm dat lichte Geld of gah\\de hele Weg för de groten Lohn.\\"
+
+#: data/map-medium/coneskeleton.map
+msgid "Plenty of coins for the taking.\\Can you take them all?"
+msgstr "Mennig Deiten tum Nehmen.\\Kannst du se all pottjen?"
+
+#: data/map-medium/cross.map
+msgid ""
+"Use momentum to reach\\the upper platforms,\\but keep the ball in "
+"control\\for safe landing.\\\\The manual view may help here.\\"
+msgstr "Bruuk Leiigheid, um up de\\bovern Plattfoormen to komen,\\aver holl de Ball unner Kuntrull,\\daarmit du seker lannst.\\\\Dat kann hier hülpen, de Kamera vun Hand to stüren.\\"
+
+#: data/map-medium/drops.map
+msgid ""
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
+" don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr "Vergeet nich, de Scharr im Oog to behollen,\\um eenen hüppend Ball to kuntrulleren.\\Un vergeet nich, de Muustasten\\to bruken, um de Ball in de Sicht to behollen.\\"
+
+#: data/map-medium/easytele.map
+msgid "Use teleporters to go\\where you otherwise couldn't.\\"
+msgstr "Bruuk Teleporterers, um daarhen to gahn,\\waar do anners nich henkummst.\\"
+
+#: data/map-medium/four.map
+msgid "Balance risk versus reward.\\"
+msgstr "Weeg Risiko tegen Lohn of.\\"
+
+#: data/map-medium/hardrise.map
+msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
+msgstr "Gah de Schüünte na boven, um tum Enn to komen.\\(Lichter to seggen as to doon.)"
+
+#: data/map-medium/islands.map
+msgid "Catch the train before it leaves the station.\\"
+msgstr "Fang de Zug, ehr he de Bahnhoff verlett.\\"
+
+#: data/map-medium/learngrow.map
+msgid ""
+"The ball will fit in those small holes,\\if you can just find something to "
+"make it smaller.\\Other places may require a bigger ball.\\One thing is "
+"certain - you'll want a plan!"
+msgstr "De Ball word in deese lütten Locken passen,\\wenn du blots wat finnen kannst,\\wat de Ball lütter maakt.\\Anner Steden bruken eenen grotern Ball.\\Een Ding is wiss – du bruukst eenen Plaan!"
+
+#: data/map-medium/locks.map
+msgid "Hit the switches to move the barriers.\\"
+msgstr "Treff de Schalters, um de Hinners to verschuven.\\"
+
+#: data/map-medium/multicurves.map
+msgid ""
+"The temptation to move quickly\\could prove your undoing.\\\\Then again, "
+"maybe not..."
+msgstr "De Verföhren, fix to gahn,\\kann sik als Fehler rutstellen.\\\\Man villicht ok nich …"
+
+#: data/map-medium/plinko.map
+msgid "Take it slowly.\\"
+msgstr "Immer sachte.\\"
+
+#: data/map-medium/qbert.map
+msgid "You can never go home again..."
+msgstr "Du kannst nienich mehr na Huus komen …"
+
+#: data/map-medium/rampdn.map
+msgid ""
+"You'll need to exert some control over your\\view here.  Press 3 to stop the"
+" auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"return to the auto-rotating view.\\"
+msgstr "Hier muttst du diene Sicht kuntrulleren.\\Drück 3, um dat automatisk Dreihen anntohollen.\\Bruuk de Muustasten, um vun Hand to dreihen.\\Drück 1, um wieder automatisk to Dreihen.\\"
+
+#: data/map-medium/roundfloors.map
+msgid ""
+"This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
+"layer."
+msgstr "De Hochtiedskook is bannig riek,\\aver pass up, as du to\\elkeen Schicht wieder unnern gahst."
+
+#: data/map-medium/sparselines.map
+msgid ""
+"Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
+"challenge!"
+msgstr "Rumpel de Boomstammen fell, um de Spoor to wesseln.\\För mehr Rutfödderung, versöök, ganz na boven to komen!"
+
+#: data/map-medium/spiraldn.map
+msgid ""
+"Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
+"work.\\"
+msgstr "Gah sachte, um vun de Rann wegtoblieven.\\Of nich.\\Dat kann so of so klappen.\\"
+
+#: data/map-medium/spiralup.map
+msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgstr "Jüüst as tovör, aver nu gaht dat na boven in Stee vun unnern.\\Un deeses Maal keen Bescheten.\\"
+
+#: data/map-medium/stairs.map
+msgid ""
+"Here's yet another test of your ability\\to control bouncing.  Moving down "
+"the\\stairs too quickly can be hazardous.\\"
+msgstr "Hier is al weer een Test, wo good du dat\\Hüppen kuntrulleren kannst. Dat kann gefahrelk wesen,\\de Trapp to fix runnertogahn.\\"
+
+#: data/map-medium/telemaze.map
+msgid ""
+"This maze has no walls.\\But that doesn't make the solution\\any easier to "
+"find.\\"
+msgstr "Deeser Dwaalweg hett keene Wanden.\\Aver dat maakt de Lösen\\ok nich lichter to finnen.\\"
+
+#: data/map-medium/timer.map
+msgid ""
+"That one switch controls all five barriers.\\Be quick, because the switch is"
+" on a timer.\\When it expires, the barriers will rise.\\"
+msgstr "Deeser eene Schalter ännert all fiev Hinners.\\Wees fix, denn de Schalter löppt na Tied.\\Un wenn se avlöppt, gahn de Hinners na boven.\\"
+
+#: data/map-medium/woodmaze.map
+msgid "Follow the trail of coins\\to make it through the labyrinth."
+msgstr "Gah de Spoor vun Deiten na\\um dör de Dwaalweg to komen."
+
+#: data/map-medium/zigzag.map
+msgid ""
+"There are plenty of coins here if you're\\willing to take the time to grab "
+"them.\\"
+msgstr "Hier gifft dat Bülten vun Deiten, wenn du di\\de Tied nehmen willst, se to pottjen.\\"
+
+#: data/map-misc/bigball-old.map
+msgid ""
+"Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
+"challenge."
+msgstr "Gefangen im Ball.\\All de blauen Deitens to fangen is swaar."
+
+#: data/map-misc/billiard.map
+msgid "Try to grab all of the blue coins...\\it won't be easy!"
+msgstr "Versöök, all de blauen Deiten to pottjen …\\dat is nich licht!"
+
+#: data/map-misc/blockers.map
+msgid "Block around the clock."
+msgstr "Blockeeren um de Klock."
+
+#: data/map-misc/bounce.map
+msgid ""
+"Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
+"'chase' camera mode."
+msgstr "Gah de blauen Deiten na …\\un lehr, dien Hüppen to kuntrulleren!\\Wenk: Bruuk de Nalopens-Kamera."
+
+#: data/map-misc/bounce2.map
+msgid "Follow the arrows."
+msgstr "Gah de Pielen na."
+
+#: data/map-misc/checkers.map
+msgid ""
+"It's a real game of checkers, but no one wins...\\You have to bounce to "
+"reach the blue coins."
+msgstr "Dat is een echtes Dame-Speel, aver keener winnt …\\Du muttst hüppen, um to de blauen Deiten to komen."
+
+#: data/map-misc/elevator.map
+msgid "Calm and meditation may bring you to the Nirvana."
+msgstr "Ruh un Meditatioon brengt di villicht ins Nirvana."
+
+#: data/map-misc/freefall-old.map
+msgid "Savoir chuter.\\Follow the blue markers."
+msgstr "Weten, wo man fallt.\\Gah de blauen Markers na."
+
+#: data/map-misc/grow_demo.map
+msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
+msgstr "Bruuk de nejen Deiten, um de Ballgrött to ännern!\\Ick hoop, du maagst dat.\\– Dave"
+
+#: data/map-misc/groweasy.map
+msgid "There are special coins which can make your\\ball larger or smaller."
+msgstr "Dat sünd besünnere Deiten, wat dienen\\Ball groter of lütter maken."
+
+#: data/map-misc/ocean.map
+msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
+msgstr "Laat uns swemmen …\\all de Deiten sünd kumpleet unner Water.\\"
+
+#: data/map-misc/stairs.map
+msgid "Fall down stairs.\\Ough!\\It hurts."
+msgstr "Trapp runnerfallen.\\Autsch!\\Dat doot sehr."
+
+#: data/map-misc/thwomp1.map
+msgid "Just let it happen...\\then start to worry!"
+msgstr "Laat dat eenfach passeren …\\un dann wees bang!"
+
+#: data/map-misc/timer-test_2.map
+msgid "Another test for timer accuracy."
+msgstr "Noch een Test för Tiedgever-Akkeraatheid."
+
+#: data/map-mym/assault.map
+msgid "Le parcours du combattant.\\Ready for the assault course?"
+msgstr "Hinners-Loop.\\Klaar för de Angriepsbahn?"
+
+#: data/map-mym/circuit1.map
+msgid "La course effrénée.\\Let's run some laps."
+msgstr "Dat drocke Lopen.\\Laat uns een paar Runnen lopen."
+
+#: data/map-mym/circuit2.map
+msgid "Les rampes abruptes.\\Control your speed."
+msgstr "Stuuve Rampen.\\Kuntrulleer diene Gauheid."
+
+#: data/map-mym/climb.map
+msgid "L'escalade ardue.\\Do you suffer from vertigo?"
+msgstr "Swaarer Upstieg.\\Word di swiemelig?"
+
+#: data/map-mym/comeback.map
+msgid "Le cycle éternel.\\Avoid teleporters..."
+msgstr "De eewige Kreisloop.\\Vermied de Teleporterers …"
+
+#: data/map-mym/dance1.map
+msgid "La ballade tranquille.\\What a quiet walk."
+msgstr "Sachter Spazeergang.\\Wat een liedsaames Keiertje."
+
+#: data/map-mym/dance2.map
+msgid ""
+"La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
+"activating the last moving platform,\\ turn around the Thwomp until the goal"
+" is reachable."
+msgstr "De Danzballaad.\\Laad uns up de Verschuuv-Plattfoorm danzen!\\Wenk: Nadeem du de leste Verschuuv-Plattfoorm anknipst hest,\\dreeih de Stötter um, bit du tum Enn komen kannst."
+
+#: data/map-mym/descent.map
+msgid "La descente infernale.\\Easy enough to start?"
+msgstr "Dat malle Daalgaan.\\Licht genoog tum Begünnen?"
+
+#: data/map-mym/drive1.map
+msgid ""
+"La conduite stressante.\\Attention:\\The platform under the ball moves "
+"forward."
+msgstr "Drockes Fahren.\\Wahrschau:\\De Plattfoorm unner de Ball gaht na vörn."
+
+#: data/map-mym/drive2.map
+msgid ""
+"La conduite dangereuse.\\The platform under the ball moves quickly "
+"forward.\\You would do well to advance."
+msgstr "Gefahrelkes Fahren.\\De Plattfoorm unner de Ball gaht fix na vörn.\\Du sallst beter wiederkomen."
+
+#: data/map-mym/earthquake.map
+msgid "Le passage incertain.\\Isn't too easy?"
+msgstr "Unsekerer Övergang.\\Is dat nich to licht?"
+
+#: data/map-mym/ghosts.map
+msgid "Ghost Valley.\\Make 3 laps to open the goal."
+msgstr "Geisterdaal.\\Maak 3 Runnen, um dat Enn optomaken."
+
+#: data/map-mym/glasstower.map
+msgid "La tour de verre.\\Find the way to the exit."
+msgstr "De Glaastoorn.\\Finn de Weg tum Enn."
+
+#: data/map-mym/hard.map
+msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
+msgstr "Meisterskupp vun Neverball.\\Denkst du immer noch, dat Neverball to licht is?"
+
+#: data/map-mym/loop1.map
+msgid "Les boucles renversantes.\\Upside down!"
+msgstr "Unbegriepelk Kringem.\\Boven is unnern!"
+
+#: data/map-mym/loop2.map
+msgid ""
+"Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
+"land..."
+msgstr "Kurvenkuntrull.\\Finn de rechten Winkels tum dreihen,\\springen un lannen …"
+
+#: data/map-mym/maze1.map
+msgid "Le chemin dissimulé.\\Test your memory."
+msgstr "De verburgen Padd.\\Wo good is dien Memoorje?"
+
+#: data/map-mym/maze2.map
+msgid ""
+"Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
+"another one?"
+msgstr "Rappelig Dwaalwegen.\\Du weetst de Weg, du süchst ’t,\\also um wat nimmst du eenen annern?"
+
+#: data/map-mym/narrow.map
+msgid ""
+"Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
+"slope."
+msgstr "De smalle Weg.\\Geduld un Tied.\\Wenk: Wees bi de eersten Schüünte bannig gau."
+
+#: data/map-mym/running.map
+msgid "Les épreuves minutées.\\Run baby, run!"
+msgstr "Tiedexamen.\\Loop to, loop to!"
+
+#: data/map-mym/scrambling.map
+msgid ""
+"Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
+msgstr "Dat lütte Krüüz.\\Laat uns klautern gahn!\\Bliev up de Bahn, um de Gauheid good to kören."
+
+#: data/map-mym/snow.map
+msgid "La descente rafraîchissante.\\Not so fast, not so fast."
+msgstr "De verquickend Offahrt.\\Nich so fell, nich so fell."
+
+#: data/map-mym/trust.map
+msgid "Le chemin de la foi.\\Self-confidence."
+msgstr "De Weg vum Gloov.\\Sülvstvertroen."
+
+#: data/map-mym/turn.map
+msgid "Le sens trigonométrique.\\Turn, wait and jump."
+msgstr "Sinn för Trigonometrie.\\Dreihen, wachten un springen."
+
+#: data/map-mym/up.map
+msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
+msgstr "De hastige Upstieg.\\Blots een Wenk: Nich anhollen!"
+
+#: data/map-mym2/backforth.map
+msgid "Un va-et-vient frustrant.\\Remember the activation order."
+msgstr "Vör un torügg bit tum frustreeren.\\Mark di de Anknips-Törn."
+
+#: data/map-mym2/basket.map
+msgid "Street Neverball\\Choose your party and score 3 points."
+msgstr "Straten-Neverball\\Köör diene Partee ut un haal di 3 Punkten."
+
+#: data/map-mym2/bigball.map
+msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
+msgstr "De Foldens-Maschien.\\Immer sachte, dat Enn is stracks bover di."
+
+#: data/map-mym2/bigcone.map
+msgid "Le grand cône.\\Living in a cone."
+msgstr "De grote Kegel.\\In eenem Kegel leven."
+
+#: data/map-mym2/bombman.map
+msgid "Les flammes ardentes.\\Does this remind you of something?"
+msgstr "Füür un Flamm.\\Mahnt di dat an wat?"
+
+#: data/map-mym2/bounces.map
+msgid "Les sauts du célèbre plombier.\\Follow the coins."
+msgstr "De bekennte Klempner siene Sprungen.\\Gah de Deiten na."
+
+#: data/map-mym2/fall.map
+msgid ""
+"Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
+"teleports to unlock and reach the goal."
+msgstr "Weten, wo man wieder na boven upspringt.\\De Neverball-Ring.\\Bruuk de 2 Teleporterens, um dat Enn uptosluten un daarhen to komen."
+
+#: data/map-mym2/freefall.map
+msgid ""
+"This level is full of challenges:\\understand the level's "
+"functioning,\\learn to fly and to survive,\\grab half of all coins to open "
+"the goal,\\find and reach the goal,\\and more..."
+msgstr "Deese Upgaav is vull vun Rutfödderungen:\\Verstah, wo allens gaht;\\lehr to flegen un to överleven;\\pottje halv vun all Deiten, um dat Enn optomaken;\\finn dat Enn un kumm daar hen;\\un mehr …"
+
+#: data/map-mym2/grinder.map
+msgid "Le petit moulin.\\The good timing to go in the cabin."
+msgstr "De lütte Möhlen.\\Gode Tied brengt di na binnen."
+
+#: data/map-mym2/littlecones.map
+msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
+msgstr "Nich in ’t Lege fallen.\\Gah nich to wied na unnern."
+
+#: data/map-mym2/longpipe.map
+msgid ""
+"Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
+"jump!"
+msgstr "Jau man, deese Röhr hett een Enn.\\In eener Röhr leven.\\Wenk: De lesten Sprung langsaam nehmen!"
+
+#: data/map-mym2/morenarrow.map
+msgid "Plus dur que la difficulté.\\Good luck."
+msgstr "De allerswaarste Stuurheid.\\Vööl Glück."
+
+#: data/map-mym2/movinglumps.map
+msgid "Être patient.\\Not too hard."
+msgstr "Wees gedüldig.\\Nich to swaar."
+
+#: data/map-mym2/movingpath.map
+msgid "Le passage éphémère.\\Trust the coins."
+msgstr "De flüchtige Padd.\\Vertroo de Deiten."
+
+#: data/map-mym2/push.map
+msgid "Hé, on pousse pas !\\Not too fast, not too slow."
+msgstr "Ahoi, keen Drängeln!\\Nich to fix, nich to langsaam."
+
+#: data/map-mym2/rainbow.map
+msgid "Rainbow Road.\\Do 3 laps to open the goal."
+msgstr "Regenbogen-Straat.\\Maak 3 Runnen, um dat Enn optomaken."
+
+#: data/map-mym2/rodeo.map
+msgid "Le rodéo de Neverball.\\You'll fall quickly."
+msgstr "Neverball-Rodeo.\\Du worst fix fallen."
+
+#: data/map-mym2/runstop.map
+msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
+msgstr "Gah ick na daar, gah ick nich na daar?\\Trüggel nich."
+
+#: data/map-mym2/shaker.map
+msgid "Préparez un petit sac.\\The stomach-tester."
+msgstr "Püüt paraat hollen.\\De Magentester."
+
+#: data/map-mym2/sonic.map
+msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
+msgstr "Een lüttjes Upwarmen.\\Willkomen to Mehdi siene neje Sammlung!"
+
+#: data/map-mym2/speed.map
+msgid "Plus vite que la vitesse.\\The definition of speed."
+msgstr "Fixer as fell.\\Dat is Gauheid."
+
+#: data/map-mym2/speeddance.map
+msgid "La danse asiatique\\Trust the arrows."
+msgstr "Asiatisk Danz\\Vertroo de Pielen."
+
+#: data/map-mym2/translation.map
+msgid "Suis le mouvement.\\Warning, the road is moving."
+msgstr "De Bewegen nagahn.\\Wahrschau, de Straat beweegt sik."
+
+#: data/map-mym2/updown.map
+msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
+msgstr "Sachte, man nich to sachte.\\Pass di an de Fahrstohlen an."
+
+#: data/map-mym2/webs.map
+msgid "Les toiles attirantes.\\Get out of the webs."
+msgstr "Nüvere Schillereen.\\Kumm ut de Netten rut."
+
+#: data/map-tones/bigtube.map
+msgid "Speed is the name of the game."
+msgstr "Dat Speel heet Gauheid."
+
+#: data/map-tones/blue.map
+msgid "Tread carefully...\\and keep moving!\\"
+msgstr "Treed sachte …\\un nich stahn blieven!\\"
+
+#: data/map-tones/bumperoo.map
+msgid "Who's the boss around here anyway?"
+msgstr "Överhoopt, well is de Baas hier?"
+
+#: data/map-tones/canals.map
+msgid "You might have to get wet\\if you want all the coins."
+msgstr "Du worst wull natt,\\wenn du all de Deiten willst."
+
+#: data/map-tones/check.map
+msgid "Keep your eye on the sky!\\but don't run out of time...\\"
+msgstr "Beholl een Oog up de Hemel!\\Aver laat de Tied nich avlopen …\\"
+
+#: data/map-tones/city.map
+msgid "Stepping stones."
+msgstr "Trappstenen."
+
+#: data/map-tones/discs.map
+msgid "Work your way to the top."
+msgstr "Wark di na boven dör."
+
+#: data/map-tones/easyian.map
+msgid ""
+"Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
+"enough speed\\for the jump."
+msgstr "Pottje 45 Deiten, um dat Enn uptosluten.\\Du kannst de Teleporterer bruken, um genoog Gauheid\\för de Sprung uptobauen."
+
+#: data/map-tones/easyone.map
+msgid "Control your speed\\to avoid a bumpy ride."
+msgstr "Kuntrulleer diene Gauheid,\\anners word dat eene ruge Fahrt."
+
+#: data/map-tones/hotwheels.map
+msgid "Learn the course and stick to the rails!"
+msgstr "Lehr de Bahn un bliev bi de Gelänners!"
+
+#: data/map-tones/hurdles.map
+msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
+msgstr "Laat uns mit wat lichtem tum Upwarmen begünnen.\\Bau Gauheid up un spring tum Enn."
+
+#: data/map-tones/leaps.map
+msgid "Look before you leap..."
+msgstr "Kiek, ehr du springst …"
+
+#: data/map-tones/marble.map
+msgid "Mind your footing!"
+msgstr "Pass up diene Foten up!"
+
+#: data/map-tones/marble.map
+msgid "Watch your footing..."
+msgstr "Pass mit dienen Foten up …"
+
+#: data/map-tones/runner.map
+msgid "Walk the plank.\\After the teleport, go for speed!"
+msgstr "Gah över de Plank.\\Na de Teleporteren, wees leep gau!"
+
+#: data/map-tones/skiball.map
+msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgstr "Ski-Ball!\\\\Wark dienen Padd vun 10 to 100\\in Örder, of du fallst ut."
+
+#: data/map-tones/swish.map
+msgid "Timing is everything."
+msgstr "Tied plaanen is allens."
+
+#: data/map-tones/swoop.map
+msgid "What goes down must come up!\\"
+msgstr "Wat na unnern gaht, mutt ok na boven komen!\\"
+
+#: data/map-tones/tonesmaze.map
+msgid ""
+"Make sure you are\\safely on a purple platform\\before 20 seconds have "
+"elapsed!"
+msgstr "Wees wiss, dat du seker\\up eener lila Plattfoorm büst,\\ehr 20 Sekünnen verstreken sünd!"
+
+#: data/map-tones/twisted.map
+msgid "Afraid of heights?\\Try not to get dizzy."
+msgstr "Höchtenangst?\\Versöök, dat di nich swiemelig word."
+
+#: data/map-tones/waves.map
+msgid "Surf's Up !!"
+msgstr "De Wellenritt gaht löss!!"
+
+#. Desktop entry comment
+#: dist/neverball.desktop.in
+msgid "A 3D arcade game with a ball"
+msgstr "Een 3D-Speelhallen-Speel mit eenem Ball"
+
+#. Desktop entry comment
+#: dist/neverputt.desktop.in
+msgid "A 3D mini golf game"
+msgstr "Een 3D-Minigolf-Speel"
+
+#. Translators,
+#. Listed here are the Neverball materials (relative to the data directory)
+#. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
+#. texture.  To localise a material, create a localised texture for it (copy
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify
+#. it)
+#. and translate the material name to match (from <mtrl> to
+#. <mtrl>-<lang-code>).
+#. Author's comments on the original mtrl/words texture:
+#. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
+#. For the vertical centering, the x-height is used as the reference. Some
+#. manual corrections were made; for example, the hyphen in 'Fall-out' was
+#. shortened in order to increase the margin on each side of the word."
+#. Those on GNU+Linux having the ImageMagick program suite installed may find
+#. the provided scripts/gen-words.sh shell script useful.
+msgid "mtrl/words"
+msgstr "mtrl/words-nds"
+
+msgid "item/coin/coin"
+msgstr "item/coin/euro_coin"
+
+msgid "item/coin/coin5"
+msgstr "item/coin/coin5"
+
+msgid "item/coin/coin10"
+msgstr "item/coin/coin10"
