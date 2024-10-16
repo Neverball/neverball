@@ -31,6 +31,7 @@ int  hole_next(void);
 int  hole_move(void);
 void hole_goal(void);
 void hole_stop(void);
+void hole_skip(void);
 void hole_fall(void);
 
 void hole_song(void);
