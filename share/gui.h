@@ -43,6 +43,11 @@
 #define GUI_NE   (GUI_N | GUI_E)
 #define GUI_SE   (GUI_S | GUI_E)
 
+/* Animation flags */
+
+#define GUI_REVERSE (GUI_W << 1)
+#define GUI_FLING   (GUI_W << 2)
+
 /* Multiple corners */
 
 #define GUI_LFT  (GUI_NW  | GUI_SW)
@@ -142,6 +147,12 @@ int  gui_active(void);
 int  gui_token(int);
 int  gui_value(int);
 void gui_toggle(int);
+
+/*---------------------------------------------------------------------------*/
+
+void gui_set_slide(int id, int flags, float delay, float t, float stagger);
+
+void gui_slide(int id, int flags, float delay, float t, float stagger);
 
 /*---------------------------------------------------------------------------*/
 

@@ -28,6 +28,7 @@
 #include "theme.h"
 #include "log.h"
 #include "lang.h"
+#include "ease.h"
 
 #include "fs.h"
 
@@ -108,6 +109,18 @@ struct widget
     int     text_h;
 
     enum trunc trunc;
+
+    float time;
+
+    float offset_init_x;
+    float offset_init_y;
+
+    float offset_x;
+    float offset_y;
+
+    int   slide_flags;
+    float slide_delay;
+    float slide_time;
 };
 
 /*---------------------------------------------------------------------------*/
@@ -757,6 +770,17 @@ static int gui_widget(int pd, int type)
 
             widget[id].layout_xd = 0;
             widget[id].layout_yd = 0;
+
+            widget[id].time = 0.0f;
+
+            widget[id].offset_init_x = 0.0f;
+            widget[id].offset_init_y = 0.0f;
+            widget[id].offset_x = 0.0f;
+            widget[id].offset_y = 0.0f;
+
+            widget[id].slide_flags = 0;
+            widget[id].slide_delay = 0.0f;
+            widget[id].slide_time = 0.0f;
 
             /* Insert the new widget into the parent's widget list. */
 
@@ -1614,6 +1638,81 @@ static void gui_widget_dn(int id, int x, int y, int w, int h)
 
 /*---------------------------------------------------------------------------*/
 
+static void gui_widget_offset(int id)
+{
+    int jd;
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        gui_widget_offset(jd);
+
+    widget[id].offset_init_x = widget[id].offset_x = 0.0f;
+    widget[id].offset_init_y = widget[id].offset_y = 0.0f;
+
+    if (widget[id].slide_flags & GUI_FLING)
+    {
+        // Offset position is a full frame away.
+
+        if (widget[id].slide_flags & GUI_W)
+            widget[id].offset_init_x = widget[id].offset_x = (float) -video.device_w;
+
+        if (widget[id].slide_flags & GUI_E)
+            widget[id].offset_init_x = widget[id].offset_x = (float) +video.device_w;
+
+        if (widget[id].slide_flags & GUI_S)
+            widget[id].offset_init_y = widget[id].offset_y = (float) -video.device_h;
+
+        if (widget[id].slide_flags & GUI_N)
+            widget[id].offset_init_y = widget[id].offset_y = (float) +video.device_h;
+    }
+    else
+    {
+        // Offset position is just offscreen.
+
+        if (widget[id].slide_flags & GUI_W)
+            widget[id].offset_init_x = widget[id].offset_x = -widget[id].x - widget[id].w;
+
+        if (widget[id].slide_flags & GUI_E)
+            widget[id].offset_init_x = widget[id].offset_x = video.device_w - widget[id].x + 1;
+
+        if (widget[id].slide_flags & GUI_S)
+            widget[id].offset_init_y = widget[id].offset_y = -widget[id].y - widget[id].h - 1;
+
+        if (widget[id].slide_flags & GUI_N)
+            widget[id].offset_init_y = widget[id].offset_y = video.device_h - widget[id].y;
+    }
+}
+
+void gui_set_slide(int id, int flags, float delay, float t, float stagger)
+{
+    int jd, c = 0;
+
+    widget[id].time = 0.0f;
+    widget[id].slide_flags = flags;
+    widget[id].slide_delay = delay;
+    widget[id].slide_time = t;
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+        c++;
+
+    for (jd = widget[id].car; jd; jd = widget[jd].cdr, c--)
+    {
+        gui_set_slide(jd, flags, delay + (stagger * (c - 1)), t, 0.0f);
+
+        // widget[jd].time = 0.0f;
+        // widget[jd].slide_flags = flags;
+        // widget[jd].slide_delay = delay + (stagger * (c - 1));
+        // widget[jd].slide_time = t;
+    }
+}
+
+void gui_slide(int id, int flags, float delay, float t, float stagger)
+{
+    gui_set_slide(id, flags, delay, t, stagger);
+    gui_widget_offset(id);
+}
+
+/*---------------------------------------------------------------------------*/
+
 static void gui_render_text(int id)
 {
     int jd;
@@ -1657,6 +1756,10 @@ void gui_layout(int id, int xd, int yd)
     else             y = (H - h) / 2;
 
     gui_widget_dn(id, x, y, w, h);
+
+    /* Initialize animation state. */
+
+    gui_widget_offset(id);
 
     /* Set up GUI rendering state. */
 
@@ -1749,8 +1852,8 @@ static void gui_paint_rect(int id, int st, int flags)
 
         glPushMatrix();
         {
-            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                         (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+            glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
+                         (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
             glBindTexture_(GL_TEXTURE_2D, curr_theme.tex[i]);
             draw_rect(id);
@@ -1787,8 +1890,8 @@ static void gui_paint_array(int id)
 
     glPushMatrix();
     {
-        GLfloat cx = widget[id].x + widget[id].w / 2.0f;
-        GLfloat cy = widget[id].y + widget[id].h / 2.0f;
+        GLfloat cx = widget[id].x + widget[id].w / 2.0f + widget[id].offset_x;
+        GLfloat cy = widget[id].y + widget[id].h / 2.0f + widget[id].offset_y;
         GLfloat ck = widget[id].scale;
 
         if (1.0f < ck || ck < 1.0f)
@@ -1823,8 +1926,8 @@ static void gui_paint_image(int id)
 
     glPushMatrix();
     {
-        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
+                     (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
         glScalef(widget[id].scale,
                  widget[id].scale,
@@ -1845,8 +1948,8 @@ static void gui_paint_count(int id)
     {
         /* Translate to the widget center, and apply the pulse scale. */
 
-        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
+                     (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
         glScalef(widget[id].scale,
                  widget[id].scale,
@@ -1905,8 +2008,8 @@ static void gui_paint_clock(int id)
     {
         /* Translate to the widget center, and apply the pulse scale. */
 
-        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
+                     (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
         glScalef(widget[id].scale,
                  widget[id].scale,
@@ -1973,8 +2076,8 @@ static void gui_paint_label(int id)
 
     glPushMatrix();
     {
-        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2),
-                     (GLfloat) (widget[id].y + widget[id].h / 2), 0.f);
+        glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
+                     (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
         glScalef(widget[id].scale,
                  widget[id].scale,
@@ -2080,10 +2183,33 @@ void gui_timer(int id, float dt)
         for (jd = widget[id].car; jd; jd = widget[jd].cdr)
             gui_timer(jd, dt);
 
-        if (widget[id].scale - 1.0f < dt)
+        widget[id].scale -= dt;
+
+        if (widget[id].scale < 1.0f)
             widget[id].scale = 1.0f;
-        else
-            widget[id].scale -= dt;
+
+        widget[id].time += dt;
+
+        if (widget[id].slide_time)
+        {
+            float alpha = (widget[id].time - widget[id].slide_delay) / widget[id].slide_time;
+
+            alpha = CLAMP(0.0f, alpha, 1.0f);
+
+            if (widget[id].slide_flags & GUI_REVERSE)
+            {
+                // Approaching offset position.
+                alpha = easeInBack(alpha);
+            }
+            else
+            {
+                // Approaching widget position.
+                alpha = 1.0f - easeInOutElastic(alpha);
+            }
+
+            widget[id].offset_x = widget[id].offset_init_x * alpha;
+            widget[id].offset_y = widget[id].offset_init_y * alpha;
+        }
     }
 }
 

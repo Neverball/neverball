@@ -21,6 +21,7 @@
 #include "config.h"
 #include "binary.h"
 #include "common.h"
+#include "ease.h"
 
 #include "solid_sim.h"
 #include "solid_all.h"
@@ -480,21 +481,6 @@ void game_server_free(const char *next)
 }
 
 /*---------------------------------------------------------------------------*/
-
-/*
- * https://easings.net/#easeInOutBack
- */
-static float easeInOutBack(float x)
-{
-    const float c1 = 1.70158f;
-    const float c2 = c1 * 1.525f;
-
-    return (
-        x < 0.5f ?
-        (fpowf(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 :
-        (fpowf(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2
-    );
-}
 
 static void game_update_view(float dt)
 {
