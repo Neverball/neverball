@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "gui.h"
+#include "transition.h"
 #include "set.h"
 #include "util.h"
 #include "demo.h"
@@ -90,14 +91,14 @@ static int done_gui(void)
     return id;
 }
 
-static int done_enter(struct state *st, struct state *prev)
+static int done_enter(struct state *st, struct state *prev, int intent)
 {
     if (prev == &st_name)
         progress_rename(1);
 
     resume = (prev == &st_done);
 
-    return done_gui();
+    return transition_slide(done_gui(), 1, intent);
 }
 
 static int done_keybd(int c, int d)

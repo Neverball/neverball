@@ -20,6 +20,7 @@
 #include <assert.h>
 
 #include "gui.h"
+#include "transition.h"
 #include "vec3.h"
 #include "demo.h"
 #include "audio.h"
@@ -172,7 +173,10 @@ static int title_gui(void)
         if ((id = gui_vstack(root_id)))
         {
             if ((jd = gui_label(id, "  Neverball  ", GUI_LRG, 0, 0)))
+            {
                 gui_set_fill(jd);
+                gui_set_slide(jd, GUI_N | GUI_FLING | GUI_EASE_ELASTIC, 0, 1.6f, 0);
+            }
 
             gui_space(id);
 
@@ -197,6 +201,7 @@ static int title_gui(void)
                     /* Hilight the start button. */
 
                     gui_set_hilite(play_id, 1);
+                    gui_set_slide(kd, GUI_N | GUI_EASE_ELASTIC, 0.8f, 0.8f, 0.05f);
                 }
 
                 gui_filler(jd);
@@ -208,7 +213,8 @@ static int title_gui(void)
         if ((id = gui_label(root_id, "Neverball " VERSION, GUI_TNY, gui_wht2, gui_wht2)))
         {
             gui_clr_rect(id);
-            gui_layout(id, -1, -1);
+            gui_set_slide(id, GUI_S, 0.85f, 0.4f, 0);
+            gui_layout(id, 0, -1);
         }
 #endif
 
@@ -222,11 +228,12 @@ static int title_gui(void)
             }
             gui_space(id);
 
+            gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 1.2f, 1.4f, 0);
+
             gui_layout(id, +1, -1);
         }
 #endif
     }
-
 
     return root_id;
 }
@@ -236,7 +243,7 @@ static int filter_cmd(const union cmd *cmd)
     return (cmd ? cmd->type != CMD_SOUND : 1);
 }
 
-static int title_enter(struct state *st, struct state *prev)
+static int title_enter(struct state *st, struct state *prev, int intent)
 {
     game_proxy_filter(filter_cmd);
 
@@ -253,10 +260,13 @@ static int title_enter(struct state *st, struct state *prev)
 
     real_time = 0.0f;
 
+    if (intent == INTENT_BACK)
+        return transition_slide(title_gui(), 1, intent);
+
     return title_gui();
 }
 
-static void title_leave(struct state *st, struct state *next, int id)
+static int title_leave(struct state *st, struct state *next, int id, int intent)
 {
     if (items)
     {
@@ -266,7 +276,8 @@ static void title_leave(struct state *st, struct state *next, int id)
 
     demo_replay_stop(0);
     game_proxy_filter(NULL);
-    gui_delete(id);
+
+    return transition_slide(id, 0, intent);
 }
 
 static void title_paint(int id, float t)

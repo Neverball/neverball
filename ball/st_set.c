@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "set.h"
 #include "progress.h"
 #include "audio.h"
@@ -53,7 +54,7 @@ static int set_action(int tok, int val)
     {
     case GUI_BACK:
         set_quit();
-        return goto_state(&st_title);
+        return exit_state(&st_title);
         break;
 
     case GUI_PREV:
@@ -61,7 +62,7 @@ static int set_action(int tok, int val)
         first -= SET_STEP;
 
         do_init = 0;
-        return goto_state(&st_set);
+        return exit_state(&st_set);
 
         break;
 
@@ -144,7 +145,7 @@ static int set_gui(void)
     return id;
 }
 
-static int set_enter(struct state *st, struct state *prev)
+static int set_enter(struct state *st, struct state *prev, int intent)
 {
     if (do_init)
     {
@@ -156,12 +157,12 @@ static int set_enter(struct state *st, struct state *prev)
     }
     else do_init = 1;
 
-    return set_gui();
+    return transition_slide(set_gui(), 1, intent);
 }
 
-static void set_leave(struct state *st, struct state *next, int id)
+static int set_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 static void set_over(int i)

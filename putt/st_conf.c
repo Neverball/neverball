@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "hud.h"
 #include "geom.h"
 #include "ball.h"
@@ -51,7 +52,7 @@ static int conf_action(int i)
     switch (i)
     {
     case CONF_BACK:
-        goto_state(&st_title);
+        exit_state(&st_title);
         break;
 
     case CONF_VIDEO:
@@ -90,7 +91,7 @@ static int conf_action(int i)
     return r;
 }
 
-static int conf_enter(struct state *st, struct state *prev)
+static int conf_enter(struct state *st, struct state *prev, int intent)
 {
     int root_id;
 
@@ -179,13 +180,13 @@ static int conf_enter(struct state *st, struct state *prev)
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return root_id;
+    return transition_slide(root_id, 1, intent);
 }
 
-static void conf_leave(struct state *st, struct state *next, int id)
+static int conf_leave(struct state *st, struct state *next, int id, int intent)
 {
     back_free();
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 static void conf_paint(int id, float st)
@@ -240,8 +241,9 @@ static int conf_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int null_enter(struct state *st, struct state *prev)
+static int null_enter(struct state *st, struct state *prev, int intent)
 {
+    transition_quit();
     gui_free();
     geom_free();
     ball_free();
@@ -251,13 +253,15 @@ static int null_enter(struct state *st, struct state *prev)
     return 0;
 }
 
-static void null_leave(struct state *st, struct state *next, int id)
+static int null_leave(struct state *st, struct state *next, int id, int intent)
 {
     mtrl_load_objects();
     shad_init();
     ball_init();
     geom_init();
     gui_init();
+    transition_init();
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

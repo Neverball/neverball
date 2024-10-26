@@ -19,6 +19,7 @@
 #endif
 
 #include "gui.h"
+#include "transition.h"
 #include "hud.h"
 #include "set.h"
 #include "demo.h"
@@ -70,7 +71,7 @@ static int demo_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(&st_title);
+        return exit_state(&st_title);
 
     case GUI_NEXT:
         first += DEMO_STEP;
@@ -79,7 +80,7 @@ static int demo_action(int tok, int val)
 
     case GUI_PREV:
         first -= DEMO_STEP;
-        return goto_state(&st_demo);
+        return exit_state(&st_demo);
         break;
 
     case DEMO_SELECT:
@@ -344,7 +345,7 @@ static int demo_gui(void)
     return id;
 }
 
-static int demo_enter(struct state *st, struct state *prev)
+static int demo_enter(struct state *st, struct state *prev, int intent)
 {
     if (!items || (prev == &st_demo_del))
     {
@@ -367,10 +368,10 @@ static int demo_enter(struct state *st, struct state *prev)
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return demo_gui();
+    return transition_slide(demo_gui(), 1, intent);
 }
 
-static void demo_leave(struct state *st, struct state *next, int id)
+static int demo_leave(struct state *st, struct state *next, int id, int intent)
 {
     if (next == &st_title)
     {
@@ -378,7 +379,7 @@ static void demo_leave(struct state *st, struct state *next, int id)
         items = NULL;
     }
 
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 static void demo_timer(int id, float dt)
@@ -435,6 +436,7 @@ static int demo_paused;
 static int show_hud;
 static int check_compat;
 static int speed;
+static int transition;
 
 static float prelude;
 
@@ -458,8 +460,10 @@ static int demo_play_gui(void)
     return id;
 }
 
-static int demo_play_enter(struct state *st, struct state *prev)
+static int demo_play_enter(struct state *st, struct state *prev, int intent)
 {
+    int id;
+
     video_hide_cursor();
 
     if (demo_paused)
@@ -486,18 +490,20 @@ static int demo_play_enter(struct state *st, struct state *prev)
 
     speed = SPEED_NORMAL;
     demo_replay_speed(speed);
-
     show_hud = 1;
     hud_update(0);
+    transition = 0;
 
-    return demo_play_gui();
+    id = demo_play_gui();
+    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    return id;
 }
 
-static void demo_play_leave(struct state *st, struct state *next, int id)
+static int demo_play_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
-
     video_show_cursor();
+    gui_delete(id);
+    return 0;
 }
 
 static void demo_play_paint(int id, float t)
@@ -507,8 +513,7 @@ static void demo_play_paint(int id, float t)
     if (show_hud)
         hud_paint();
 
-    if (time_state() < prelude)
-        gui_paint(id);
+    gui_paint(id);
 }
 
 static void demo_play_timer(int id, float dt)
@@ -516,6 +521,12 @@ static void demo_play_timer(int id, float dt)
     game_step_fade(dt);
     gui_timer(id, dt);
     hud_timer(dt);
+
+    if (time_state() >= 1.0f && !transition)
+    {
+        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
+        transition = 1;
+    }
 
     /* Pause briefly before starting playback. */
 
@@ -667,11 +678,11 @@ static int demo_end_gui(void)
     return id;
 }
 
-static int demo_end_enter(struct state *st, struct state *prev)
+static int demo_end_enter(struct state *st, struct state *prev, int intent)
 {
     audio_music_fade_out(demo_paused ? 0.2f : 2.0f);
 
-    return demo_end_gui();
+    return transition_slide(demo_end_gui(), 1, intent);
 }
 
 static void demo_end_paint(int id, float t)
@@ -728,7 +739,7 @@ static int demo_del_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
     demo_replay_stop(tok == DEMO_DEL);
-    return goto_state(&st_demo);
+    return tok == GUI_BACK ? exit_state(&st_demo) : goto_state(&st_demo);
 }
 
 static int demo_del_gui(void)
@@ -752,11 +763,11 @@ static int demo_del_gui(void)
     return id;
 }
 
-static int demo_del_enter(struct state *st, struct state *prev)
+static int demo_del_enter(struct state *st, struct state *prev, int intent)
 {
     audio_music_fade_out(2.0f);
 
-    return demo_del_gui();
+    return transition_slide(demo_del_gui(), 1, intent);
 }
 
 static int demo_del_keybd(int c, int d)
@@ -804,11 +815,11 @@ static int demo_compat_gui(void)
     return id;
 }
 
-static int demo_compat_enter(struct state *st, struct state *prev)
+static int demo_compat_enter(struct state *st, struct state *prev, int intent)
 {
     check_compat = 0;
 
-    return demo_compat_gui();
+    return transition_slide(demo_compat_gui(), 1, intent);
 }
 
 static void demo_compat_timer(int id, float dt)

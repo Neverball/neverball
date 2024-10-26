@@ -291,6 +291,7 @@ BALL_OBJS := \
 	share/geom.o        \
 	share/ball.o        \
 	share/ease.o        \
+	share/transition.o  \
 	share/gui.o         \
 	share/font.o        \
 	share/theme.o       \
@@ -371,6 +372,7 @@ PUTT_OBJS := \
 	share/audio.o       \
 	share/state.o       \
 	share/ease.o        \
+	share/transition.o  \
 	share/gui.o         \
 	share/font.o        \
 	share/theme.o       \

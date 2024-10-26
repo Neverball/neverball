@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "state.h"
 #include "array.h"
 #include "dir.h"
@@ -144,7 +145,7 @@ static int ball_action(int tok, int val)
         break;
 
     case GUI_BACK:
-        goto_state(&st_conf);
+        exit_state(&st_conf);
         break;
     }
 
@@ -209,20 +210,20 @@ static int ball_gui(void)
     return id;
 }
 
-static int ball_enter(struct state *st, struct state *prev)
+static int ball_enter(struct state *st, struct state *prev, int intent)
 {
     scan_balls();
     load_ball_demo();
 
-    return ball_gui();
+    return transition_slide(ball_gui(), 1, intent);
 }
 
-static void ball_leave(struct state *st, struct state *next, int id)
+static int ball_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
     back_free();
     demo_replay_stop(0);
     free_balls();
+    return transition_slide(id, 0, intent);
 }
 
 static void ball_paint(int id, float t)

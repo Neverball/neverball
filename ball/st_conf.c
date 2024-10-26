@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "hud.h"
 #include "geom.h"
 #include "ball.h"
@@ -90,7 +91,7 @@ static int conf_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        goto_state(&st_title);
+        exit_state(&st_title);
         break;
 
     case CONF_VIDEO:
@@ -221,22 +222,23 @@ static int conf_gui(void)
     return root_id;
 }
 
-static int conf_enter(struct state *st, struct state *prev)
+static int conf_enter(struct state *st, struct state *prev, int intent)
 {
     game_client_free(NULL);
     conf_common_init(conf_action);
-    return conf_gui();
+    return transition_slide(conf_gui(), 1, intent);
 }
 
-static void conf_leave(struct state *st, struct state *next, int id)
+static int conf_leave(struct state *st, struct state *next, int id, int intent)
 {
-    conf_common_leave(st, next, id);
+    return conf_common_leave(st, next, id, intent);
 }
 /*---------------------------------------------------------------------------*/
 
-static int null_enter(struct state *st, struct state *prev)
+static int null_enter(struct state *st, struct state *prev, int intent)
 {
     hud_free();
+    transition_quit();
     gui_free();
     geom_free();
     ball_free();
@@ -247,7 +249,7 @@ static int null_enter(struct state *st, struct state *prev)
     return 0;
 }
 
-static void null_leave(struct state *st, struct state *next, int id)
+static int null_leave(struct state *st, struct state *next, int id, int intent)
 {
     mtrl_load_objects();
     part_init();
@@ -255,7 +257,9 @@ static void null_leave(struct state *st, struct state *next, int id)
     ball_init();
     geom_init();
     gui_init();
+    transition_init();
     hud_init();
+    return 0;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "set.h"
 #include "util.h"
 #include "progress.h"
@@ -128,7 +129,7 @@ static int start_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(start_back ? start_back : &st_set);
+        return exit_state(start_back ? start_back : &st_set);
 
     case START_CHALLENGE:
         if (config_cheat())
@@ -260,13 +261,13 @@ static int start_gui(void)
     return id;
 }
 
-static int start_enter(struct state *st, struct state *prev)
+static int start_enter(struct state *st, struct state *prev, int intent)
 {
     progress_init(MODE_NORMAL);
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
-    return start_gui();
+    return transition_slide(start_gui(), 1, intent);
 }
 
 static void start_point(int id, int x, int y, int dx, int dy)

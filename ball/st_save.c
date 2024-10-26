@@ -16,6 +16,7 @@
 #include <ctype.h>
 
 #include "gui.h"
+#include "transition.h"
 #include "util.h"
 #include "audio.h"
 #include "config.h"
@@ -59,7 +60,7 @@ static int save_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(cancel_state);
+        return exit_state(cancel_state);
 
     case SAVE_SAVE:
         if (strlen(text_input) == 0)
@@ -134,7 +135,7 @@ static void on_text_input(int typing)
     }
 }
 
-static int save_enter(struct state *st, struct state *prev)
+static int save_enter(struct state *st, struct state *prev, int intent)
 {
     const char *name;
 
@@ -145,14 +146,14 @@ static int save_enter(struct state *st, struct state *prev)
     text_input_start(on_text_input);
     text_input_str(name, 0);
 
-    return save_gui();
+    return transition_slide(save_gui(), 1, intent);
 }
 
-static void save_leave(struct state *st, struct state *next, int id)
+static int save_leave(struct state *st, struct state *next, int id, int intent)
 {
     text_input_stop();
 
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 static int save_keybd(int c, int d)
@@ -206,7 +207,7 @@ static int clobber_action(int tok, int val)
         demo_rename(text_input);
         return goto_state(ok_state);
     }
-    return goto_state(&st_save);
+    return exit_state(&st_save);
 }
 
 static int clobber_gui(void)
@@ -234,9 +235,9 @@ static int clobber_gui(void)
     return id;
 }
 
-static int clobber_enter(struct state *st, struct state *prev)
+static int clobber_enter(struct state *st, struct state *prev, int intent)
 {
-    return clobber_gui();
+    return transition_slide(clobber_gui(), 1, intent);
 }
 
 static int clobber_keybd(int c, int d)

@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 #include "gui.h"
+#include "transition.h"
 #include "util.h"
 #include "progress.h"
 #include "audio.h"
@@ -252,7 +253,7 @@ static int goal_gui(void)
     return root_id;
 }
 
-static int goal_enter(struct state *st, struct state *prev)
+static int goal_enter(struct state *st, struct state *prev, int intent)
 {
     if (prev == &st_name)
         progress_rename(0);
@@ -260,7 +261,7 @@ static int goal_enter(struct state *st, struct state *prev)
     audio_music_fade_out(2.0f);
     video_clr_grab();
     resume = (prev == &st_goal || prev == &st_name || prev == &st_save);
-    return goal_gui();
+    return transition_slide(goal_gui(), 1, intent);
 }
 
 static void goal_timer(int id, float dt)

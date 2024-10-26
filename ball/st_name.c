@@ -17,6 +17,7 @@
 
 #include "common.h"
 #include "gui.h"
+#include "transition.h"
 #include "util.h"
 #include "audio.h"
 #include "config.h"
@@ -64,7 +65,7 @@ static int name_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(cancel_state);
+        return exit_state(cancel_state);
 
     case NAME_OK:
         if (strlen(text_input) == 0)
@@ -135,7 +136,7 @@ static void on_text_input(int typing)
     }
 }
 
-static int name_enter(struct state *st, struct state *prev)
+static int name_enter(struct state *st, struct state *prev, int intent)
 {
     if (draw_back)
     {
@@ -146,17 +147,17 @@ static int name_enter(struct state *st, struct state *prev)
     text_input_start(on_text_input);
     text_input_str(config_get_s(CONFIG_PLAYER), 0);
 
-    return name_gui();
+    return transition_slide(name_gui(), 1, intent);
 }
 
-static void name_leave(struct state *st, struct state *next, int id)
+static int name_leave(struct state *st, struct state *next, int id, int intent)
 {
     if (draw_back)
         back_free();
 
     text_input_stop();
 
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 static void name_paint(int id, float t)

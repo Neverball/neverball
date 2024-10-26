@@ -21,6 +21,7 @@
 #include "geom.h"
 #include "lang.h"
 #include "gui.h"
+#include "transition.h"
 
 #include "st_common.h"
 
@@ -135,9 +136,9 @@ void common_init(int (*action_fn)(int, int))
     common_action = action_fn;
 }
 
-void common_leave(struct state *st, struct state *next, int id)
+int common_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 void common_paint(int id, float st)
@@ -219,13 +220,13 @@ void conf_common_init(int (*action_fn)(int, int))
     common_init(action_fn);
 }
 
-void conf_common_leave(struct state *st, struct state *next, int id)
+int conf_common_leave(struct state *st, struct state *next, int id, int intent)
 {
     config_save();
 
     back_free();
 
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 void conf_common_paint(int id, float t)
@@ -268,7 +269,7 @@ static int video_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        goto_state(video_back);
+        exit_state(video_back);
         video_back = NULL;
         break;
 
@@ -405,13 +406,13 @@ static int video_gui(void)
     return id;
 }
 
-static int video_enter(struct state *st, struct state *prev)
+static int video_enter(struct state *st, struct state *prev, int intent)
 {
     if (!video_back)
         video_back = prev;
 
     conf_common_init(video_action);
-    return video_gui();
+    return transition_slide(video_gui(), 1, intent);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -432,7 +433,7 @@ static int display_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        goto_state(display_back);
+        exit_state(display_back);
         display_back = NULL;
         break;
 
@@ -476,13 +477,13 @@ static int display_gui(void)
     return id;
 }
 
-static int display_enter(struct state *st, struct state *prev)
+static int display_enter(struct state *st, struct state *prev, int intent)
 {
     if (!display_back)
         display_back = prev;
 
     conf_common_init(display_action);
-    return display_gui();
+    return transition_slide(display_gui(), 1, intent);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -528,7 +529,7 @@ static int resol_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        goto_state(resol_back);
+        exit_state(resol_back);
         resol_back = NULL;
         break;
 
@@ -588,13 +589,13 @@ static int resol_gui(void)
     return id;
 }
 
-static int resol_enter(struct state *st, struct state *prev)
+static int resol_enter(struct state *st, struct state *prev, int intent)
 {
     if (!resol_back)
         resol_back = prev;
 
     conf_common_init(resol_action);
-    return resol_gui();
+    return transition_slide(resol_gui(), 1, intent);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -623,13 +624,13 @@ static int lang_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        goto_state(lang_back);
+        exit_state(lang_back);
         lang_back = NULL;
         break;
 
     case GUI_PREV:
         first -= LANG_STEP;
-        goto_state(&st_lang);
+        exit_state(&st_lang);
         break;
 
     case GUI_NEXT:
@@ -713,7 +714,7 @@ static int lang_gui(void)
     return id;
 }
 
-static int lang_enter(struct state *st, struct state *prev)
+static int lang_enter(struct state *st, struct state *prev, int intent)
 {
     if (!langs)
     {
@@ -725,10 +726,10 @@ static int lang_enter(struct state *st, struct state *prev)
         lang_back = prev;
 
     conf_common_init(lang_action);
-    return lang_gui();
+    return transition_slide(lang_gui(), 1, intent);
 }
 
-void lang_leave(struct state *st, struct state *next, int id)
+int lang_leave(struct state *st, struct state *next, int id, int intent)
 {
     if (!(next == &st_lang || next == &st_null))
     {
@@ -736,7 +737,7 @@ void lang_leave(struct state *st, struct state *next, int id)
         langs = NULL;
     }
 
-    conf_common_leave(st, next, id);
+    return conf_common_leave(st, next, id, intent);
 }
 
 static int lang_buttn(int b, int d)
@@ -858,7 +859,7 @@ static int joystick_action(int tok, int val)
             }
             else
             {
-                goto_state(joystick_back);
+                exit_state(joystick_back);
                 joystick_back = NULL;
             }
             break;
@@ -938,7 +939,7 @@ static int joystick_modal_axis_gui(void)
     return id;
 }
 
-static int joystick_enter(struct state *st, struct state *prev)
+static int joystick_enter(struct state *st, struct state *prev, int intent)
 {
     if (!joystick_back)
         joystick_back = prev;
@@ -950,15 +951,15 @@ static int joystick_enter(struct state *st, struct state *prev)
     joystick_modal_button_id = joystick_modal_button_gui();
     joystick_modal_axis_id = joystick_modal_axis_gui();
 
-    return joystick_gui();
+    return transition_slide(joystick_gui(), 1, intent);
 }
 
-static void joystick_leave(struct state *st, struct state *next, int id)
+static int joystick_leave(struct state *st, struct state *next, int id, int intent)
 {
-    conf_common_leave(st, next, id);
-
     gui_delete(joystick_modal_button_id);
     gui_delete(joystick_modal_axis_id);
+
+    return conf_common_leave(st, next, id, intent);
 }
 
 static void joystick_paint(int id, float t)
@@ -1032,14 +1033,15 @@ static int loading_gui(void)
     return id;
 }
 
-static int loading_enter(struct state *st, struct state *prev)
+static int loading_enter(struct state *st, struct state *prev, int intent)
 {
     return loading_gui();
 }
 
-static void loading_leave(struct state *st, struct state *next, int id)
+static int loading_leave(struct state *st, struct state *next, int id, int intent)
 {
     gui_delete(id);
+    return 0;
 }
 
 static void loading_paint(int id, float t)

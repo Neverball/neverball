@@ -20,6 +20,9 @@
 #include "common.h"
 #include "hmd.h"
 #include "geom.h"
+#include "gui.h"
+#include "transition.h"
+#include "log.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -121,12 +124,12 @@ void init_state(struct state *st)
     state = st;
 }
 
-int goto_state(struct state *st)
+static int goto_state_intent(struct state *st, int intent)
 {
     struct state *prev = state;
 
     if (state && state->leave)
-        state->leave(state, st, state->gui_id);
+        state->leave(state, st, state->gui_id, intent);
 
     state       = st;
     state_time  = 0;
@@ -136,9 +139,19 @@ int goto_state(struct state *st)
     stick_count = 0;
 
     if (state && state->enter)
-        state->gui_id = state->enter(state, prev);
+        state->gui_id = state->enter(state, prev, intent);
 
     return 1;
+}
+
+int goto_state(struct state *st)
+{
+    return goto_state_intent(st, INTENT_FORWARD);
+}
+
+int exit_state(struct state *st)
+{
+    return goto_state_intent(st, INTENT_BACK);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -157,12 +170,20 @@ void st_paint(float t)
             video_clear();
             state->paint(state->gui_id, t);
 
+            transition_paint();
+
             hmd_prep_right();
             video_clear();
             state->paint(state->gui_id, t);
+
+            transition_paint();
         }
         else
+        {
             state->paint(state->gui_id, t);
+
+            transition_paint();
+        }
     }
 }
 
@@ -172,6 +193,8 @@ void st_timer(float dt)
 
     if (!state_drawn)
         return;
+
+    transition_timer(dt);
 
     state_time += dt;
 

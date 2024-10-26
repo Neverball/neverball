@@ -14,6 +14,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "config.h"
 #include "audio.h"
 #include "state.h"
@@ -23,9 +24,9 @@
 
 #include "st_shared.h"
 
-void shared_leave(struct state *st, struct state *next, int id)
+int shared_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
+    return transition_slide(id, 0, intent);
 }
 
 void shared_paint(int id, float t)

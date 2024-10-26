@@ -7,8 +7,8 @@
 
 struct state
 {
-    int  (*enter)(struct state *, struct state *prev);
-    void (*leave)(struct state *, struct state *next, int id);
+    int  (*enter)(struct state *, struct state *prev, int intent);
+    int  (*leave)(struct state *, struct state *next, int id, int intent);
     void (*paint)(int id, float t);
     void (*timer)(int id, float dt);
     void (*point)(int id, int x, int y, int dx, int dy);
@@ -29,6 +29,7 @@ struct state *curr_state(void);
 float time_state(void);
 void  init_state(struct state *);
 int   goto_state(struct state *);
+int   exit_state(struct state *);
 
 void st_paint(float);
 void st_timer(float);

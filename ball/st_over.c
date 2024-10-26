@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "set.h"
 #include "progress.h"
 #include "audio.h"
@@ -48,14 +49,14 @@ static int over_gui(void)
     return id;
 }
 
-static int over_enter(struct state *st, struct state *prev)
+static int over_enter(struct state *st, struct state *prev, int intent)
 {
     audio_music_fade_out(2.0f);
     audio_play(AUD_OVER, 1.f);
 
     video_clr_grab();
 
-    return over_gui();
+    return transition_slide(over_gui(), 1, intent);
 }
 
 static void over_timer(int id, float dt)

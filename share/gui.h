@@ -45,8 +45,11 @@
 
 /* Animation flags */
 
-#define GUI_REVERSE (GUI_W << 1)
-#define GUI_FLING   (GUI_W << 2)
+#define GUI_BACKWARD     (GUI_W << 1)
+#define GUI_FLING        (GUI_W << 2)
+#define GUI_REMOVE       (GUI_W << 3)
+#define GUI_EASE_ELASTIC (GUI_W << 4)
+#define GUI_EASE_BACK    (GUI_W << 5)
 
 /* Multiple corners */
 
@@ -132,6 +135,7 @@ void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
 int  gui_delete(int);
+void gui_remove(int id);
 
 /*---------------------------------------------------------------------------*/
 

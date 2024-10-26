@@ -14,6 +14,14 @@ float easeInBack(float x)
     return c3 * x * x * x - c1 * x * x;
 }
 
+float easeOutBack(float x)
+{
+    const float c1 = 1.70158;
+    const float c3 = c1 + 1;
+
+    return 1 + c3 * fpowf(x - 1, 3) + c1 * fpowf(x - 1, 2);
+}
+
 /*
  * https://easings.net/#easeInOutBack
  * Date: 2024-10-18
@@ -28,6 +36,36 @@ float easeInOutBack(float x)
         x < 0.5f ?
         (fpowf(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 :
         (fpowf(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2
+    );
+}
+
+float easeInElastic(float x)
+{
+    const float c4 = (2 * V_PI) / 3;
+
+    return (
+        x == 0
+        ? 0
+        : (
+            x == 1
+            ? 1
+            : -fpowf(2, 10 * x - 10) * fsinf((x * 10 - 10.75) * c4)
+        )
+    );
+}
+
+float easeOutElastic(float x)
+{
+    const float c4 = (2 * V_PI) / 3;
+
+    return (
+        x == 0
+        ? 0
+        : (
+            x == 1
+            ? 1
+            : fpowf(2, -10 * x) * fsinf((x * 10 - 0.75) * c4) + 1
+        )
     );
 }
 

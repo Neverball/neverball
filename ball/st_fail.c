@@ -17,6 +17,7 @@
 #include "demo.h"
 #include "audio.h"
 #include "gui.h"
+#include "transition.h"
 #include "config.h"
 #include "video.h"
 #include "key.h"
@@ -134,7 +135,7 @@ static int fail_gui(void)
     return root_id;
 }
 
-static int fail_enter(struct state *st, struct state *prev)
+static int fail_enter(struct state *st, struct state *prev, int intent)
 {
     audio_music_fade_out(2.0f);
     video_clr_grab();
@@ -148,7 +149,7 @@ static int fail_enter(struct state *st, struct state *prev)
     if (!resume)
         status = curr_status();
 
-    return fail_gui();
+    return transition_slide(fail_gui(), 1, intent);
 }
 
 static void fail_timer(int id, float dt)

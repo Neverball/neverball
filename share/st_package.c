@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "audio.h"
 #include "config.h"
 #include "common.h"
@@ -246,14 +247,14 @@ static int package_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        return goto_state(package_back);
+        return exit_state(package_back);
         break;
 
     case GUI_PREV:
 
         first = MAX(first - PACKAGE_STEP, 0);
         do_init = 0;
-        return goto_state(&st_package);
+        return exit_state(&st_package);
 
         break;
 
@@ -517,7 +518,7 @@ static void package_select(int pi)
     }
 }
 
-static int package_enter(struct state *st, struct state *prev)
+static int package_enter(struct state *st, struct state *prev, int intent)
 {
     common_init(package_action);
 
@@ -554,13 +555,11 @@ static int package_enter(struct state *st, struct state *prev)
 
     fetch_package_images();
 
-    return package_gui();
+    return transition_slide(package_gui(), 1, intent);
 }
 
-static void package_leave(struct state *st, struct state *next, int id)
+static int package_leave(struct state *st, struct state *next, int id, int intent)
 {
-    gui_delete(id);
-
     if (status_ids)
     {
         free(status_ids);
@@ -572,6 +571,8 @@ static void package_leave(struct state *st, struct state *next, int id)
         free(name_ids);
         name_ids = NULL;
     }
+
+    return transition_slide(id, 0, intent);
 }
 
 void package_paint(int id, float st)

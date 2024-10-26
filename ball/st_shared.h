@@ -4,7 +4,7 @@
 #include "state.h"
 #include "util.h"
 
-void shared_leave(struct state *, struct state *next, int id);
+int  shared_leave(struct state *, struct state *next, int id, int intent);
 void shared_paint(int id, float st);
 void shared_timer(int id, float dt);
 int  shared_point_basic(int id, int x, int y);

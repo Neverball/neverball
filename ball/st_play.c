@@ -94,6 +94,8 @@ static void buttn_camera(int b)
 
 /*---------------------------------------------------------------------------*/
 
+static int ready_transition = 0;
+
 static int play_ready_gui(void)
 {
     int id;
@@ -107,14 +109,18 @@ static int play_ready_gui(void)
     return id;
 }
 
-static int play_ready_enter(struct state *st, struct state *prev)
+static int play_ready_enter(struct state *st, struct state *prev, int intent)
 {
+    int id;
+
     audio_play(AUD_READY, 1.0f);
     video_set_grab(1);
 
     hud_cam_pulse(config_get_d(CONFIG_CAMERA));
 
-    return play_ready_gui();
+    id = play_ready_gui();
+    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    return id;
 }
 
 static void play_ready_paint(int id, float t)
@@ -136,6 +142,12 @@ static void play_ready_timer(int id, float dt)
     game_step_fade(dt);
     hud_cam_timer(dt);
     gui_timer(id, dt);
+
+    if (time_state() >= 1.0f && !ready_transition)
+    {
+        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
+        ready_transition = 1;
+    }
 }
 
 static int play_ready_click(int b, int d)
@@ -178,6 +190,8 @@ static int play_ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int set_transition = 0;
+
 static int play_set_gui(void)
 {
     int id;
@@ -191,11 +205,17 @@ static int play_set_gui(void)
     return id;
 }
 
-static int play_set_enter(struct state *st, struct state *prev)
+static int play_set_enter(struct state *st, struct state *prev, int intent)
 {
+    int id;
+
     audio_play(AUD_SET, 1.f);
 
-    return play_set_gui();
+    set_transition = 0;
+
+    id = play_set_gui();
+    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    return id;
 }
 
 static void play_set_paint(int id, float t)
@@ -217,6 +237,12 @@ static void play_set_timer(int id, float dt)
     game_step_fade(dt);
     hud_cam_timer(dt);
     gui_timer(id, dt);
+
+    if (time_state() >= 1.0f && !set_transition)
+    {
+        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
+        set_transition = 1;
+    }
 }
 
 static int play_set_click(int b, int d)
@@ -318,6 +344,7 @@ static int rot_get(float *v)
 
 static int fast_rotate;
 static int show_hud;
+static int loop_transition;
 
 static int play_loop_gui(void)
 {
@@ -332,8 +359,10 @@ static int play_loop_gui(void)
     return id;
 }
 
-static int play_loop_enter(struct state *st, struct state *prev)
+static int play_loop_enter(struct state *st, struct state *prev, int intent)
 {
+    int id;
+
     rot_init();
     fast_rotate = 0;
 
@@ -346,8 +375,17 @@ static int play_loop_enter(struct state *st, struct state *prev)
 
     show_hud = 1;
     hud_update(0);
+    loop_transition = 0;
 
-    return play_loop_gui();
+    id = play_loop_gui();
+    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    return id;
+}
+
+static int play_loop_leave(struct state *st, struct state *next, int id, int intent)
+{
+    gui_delete(id);
+    return 0;
 }
 
 static void play_loop_paint(int id, float t)
@@ -357,8 +395,7 @@ static void play_loop_paint(int id, float t)
     if (show_hud)
         hud_paint();
 
-    if (time_state() < 1.f)
-        gui_paint(id);
+    gui_paint(id);
 }
 
 static void play_loop_timer(int id, float dt)
@@ -371,6 +408,12 @@ static void play_loop_timer(int id, float dt)
 
     gui_timer(id, dt);
     hud_timer(dt);
+
+    if (time_state() >= 1.0f && !loop_transition)
+    {
+        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
+        loop_transition = 1;
+    }
 
     switch (rot_get(&r))
     {
@@ -572,7 +615,7 @@ static int play_loop_touch(const SDL_TouchFingerEvent *event)
 
         if (token == GUI_BACK)
         {
-            goto_state(&st_pause);
+            exit_state(&st_pause);
         }
         else if (token == GUI_CAMERA)
         {
@@ -647,15 +690,16 @@ static int play_loop_touch(const SDL_TouchFingerEvent *event)
 static float phi;
 static float theta;
 
-static int look_enter(struct state *st, struct state *prev)
+static int look_enter(struct state *st, struct state *prev, int intent)
 {
     phi   = 0;
     theta = 0;
     return 0;
 }
 
-static void look_leave(struct state *st, struct state *next, int id)
+static int look_leave(struct state *st, struct state *next, int id, int intent)
 {
+    return 0;
 }
 
 static void look_paint(int id, float t)
@@ -726,7 +770,7 @@ struct state st_play_set = {
 
 struct state st_play_loop = {
     play_loop_enter,
-    shared_leave,
+    play_loop_leave,
     play_loop_paint,
     play_loop_timer,
     play_loop_point,

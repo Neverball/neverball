@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "config.h"
 #include "video.h"
 #include "progress.h"
@@ -99,7 +100,7 @@ static int pause_gui(void)
     return id;
 }
 
-static int pause_enter(struct state *st, struct state *prev)
+static int pause_enter(struct state *st, struct state *prev, int intent)
 {
     st_continue = prev;
 
@@ -108,7 +109,7 @@ static int pause_enter(struct state *st, struct state *prev)
 
     hud_update(0);
 
-    return pause_gui();
+    return transition_slide(pause_gui(), 1, intent);
 }
 
 static void pause_paint(int id, float t)

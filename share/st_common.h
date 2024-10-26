@@ -26,7 +26,7 @@ void conf_select(int id, const char *text, int token, int value,
 /*---------------------------------------------------------------------------*/
 
 void common_init(int (*action_fn)(int, int));
-void common_leave(struct state *st, struct state *next, int id);
+int  common_leave(struct state *st, struct state *next, int id, int intent);
 void common_paint(int id, float st);
 void common_timer(int id, float dt);
 void common_point(int id, int x, int y, int dx, int dy);
@@ -39,7 +39,7 @@ int  common_buttn(int b, int d);
 /*---------------------------------------------------------------------------*/
 
 void conf_common_init(int (*action_fn)(int, int));
-void conf_common_leave(struct state *st, struct state *next, int id);
+int  conf_common_leave(struct state *st, struct state *next, int id, int intent);
 void conf_common_paint(int id, float t);
 
 /*---------------------------------------------------------------------------*/

@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "gui.h"
+#include "transition.h"
 #include "set.h"
 #include "progress.h"
 #include "audio.h"
@@ -130,7 +131,7 @@ static int level_gui(void)
     return id;
 }
 
-static int level_enter(struct state *st, struct state *prev)
+static int level_enter(struct state *st, struct state *prev, int intent)
 {
     game_client_fly(1.0f);
 
@@ -141,7 +142,7 @@ static int level_enter(struct state *st, struct state *prev)
     }
     else check_nodemo = 1;
 
-    return level_gui();
+    return transition_slide(level_gui(), 1, intent);
 }
 
 static void level_timer(int id, float dt)
@@ -239,11 +240,11 @@ static int nodemo_gui(void)
     return id;
 }
 
-static int nodemo_enter(struct state *st, struct state *prev)
+static int nodemo_enter(struct state *st, struct state *prev, int intent)
 {
     check_nodemo = 0;
 
-    return nodemo_gui();
+    return transition_slide(nodemo_gui(), 1, intent);
 }
 
 static void nodemo_timer(int id, float dt)
@@ -295,7 +296,10 @@ int goto_exit(void)
     {
         /* Visit the auxilliary screen or exit to level selection. */
 
-        goto_state(dst != curr ? dst : &st_start);
+        if (dst != curr && dst != &st_start)
+            goto_state(dst);
+        else
+            exit_state(&st_start);
     }
     else
     {

@@ -29,6 +29,7 @@
 #include "log.h"
 #include "lang.h"
 #include "ease.h"
+#include "transition.h"
 
 #include "fs.h"
 
@@ -110,8 +111,6 @@ struct widget
 
     enum trunc trunc;
 
-    float time;
-
     float offset_init_x;
     float offset_init_y;
 
@@ -120,6 +119,7 @@ struct widget
 
     int   slide_flags;
     float slide_delay;
+    float slide_dur;
     float slide_time;
 };
 
@@ -771,7 +771,6 @@ static int gui_widget(int pd, int type)
             widget[id].layout_xd = 0;
             widget[id].layout_yd = 0;
 
-            widget[id].time = 0.0f;
 
             widget[id].offset_init_x = 0.0f;
             widget[id].offset_init_y = 0.0f;
@@ -780,6 +779,7 @@ static int gui_widget(int pd, int type)
 
             widget[id].slide_flags = 0;
             widget[id].slide_delay = 0.0f;
+            widget[id].slide_dur = 0.0f;
             widget[id].slide_time = 0.0f;
 
             /* Insert the new widget into the parent's widget list. */
@@ -1640,75 +1640,83 @@ static void gui_widget_dn(int id, int x, int y, int w, int h)
 
 static void gui_widget_offset(int id)
 {
-    int jd;
-
-    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        gui_widget_offset(jd);
-
-    widget[id].offset_init_x = widget[id].offset_x = 0.0f;
-    widget[id].offset_init_y = widget[id].offset_y = 0.0f;
-
-    if (widget[id].slide_flags & GUI_FLING)
+    if (id)
     {
-        // Offset position is a full frame away.
+        int jd;
 
-        if (widget[id].slide_flags & GUI_W)
-            widget[id].offset_init_x = widget[id].offset_x = (float) -video.device_w;
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            gui_widget_offset(jd);
 
-        if (widget[id].slide_flags & GUI_E)
-            widget[id].offset_init_x = widget[id].offset_x = (float) +video.device_w;
+        widget[id].offset_init_x = widget[id].offset_x = 0.0f;
+        widget[id].offset_init_y = widget[id].offset_y = 0.0f;
 
-        if (widget[id].slide_flags & GUI_S)
-            widget[id].offset_init_y = widget[id].offset_y = (float) -video.device_h;
+        if (widget[id].slide_flags & GUI_FLING)
+        {
+            // Offset position is a full frame away.
 
-        if (widget[id].slide_flags & GUI_N)
-            widget[id].offset_init_y = widget[id].offset_y = (float) +video.device_h;
-    }
-    else
-    {
-        // Offset position is just offscreen.
+            if (widget[id].slide_flags & GUI_W)
+                widget[id].offset_init_x = (float) -video.device_w;
 
-        if (widget[id].slide_flags & GUI_W)
-            widget[id].offset_init_x = widget[id].offset_x = -widget[id].x - widget[id].w;
+            if (widget[id].slide_flags & GUI_E)
+                widget[id].offset_init_x = (float) +video.device_w;
 
-        if (widget[id].slide_flags & GUI_E)
-            widget[id].offset_init_x = widget[id].offset_x = video.device_w - widget[id].x + 1;
+            if (widget[id].slide_flags & GUI_S)
+                widget[id].offset_init_y = (float) -video.device_h;
 
-        if (widget[id].slide_flags & GUI_S)
-            widget[id].offset_init_y = widget[id].offset_y = -widget[id].y - widget[id].h - 1;
+            if (widget[id].slide_flags & GUI_N)
+                widget[id].offset_init_y = (float) +video.device_h;
+        }
+        else
+        {
+            // Offset position is just offscreen.
 
-        if (widget[id].slide_flags & GUI_N)
-            widget[id].offset_init_y = widget[id].offset_y = video.device_h - widget[id].y;
+            if (widget[id].slide_flags & GUI_W)
+                widget[id].offset_init_x = -widget[id].x - widget[id].w;
+
+            if (widget[id].slide_flags & GUI_E)
+                widget[id].offset_init_x = video.device_w - widget[id].x + 1;
+
+            if (widget[id].slide_flags & GUI_S)
+                widget[id].offset_init_y = -widget[id].y - widget[id].h - 1;
+
+            if (widget[id].slide_flags & GUI_N)
+                widget[id].offset_init_y = video.device_h - widget[id].y;
+        }
+
+        if (!(widget[id].slide_flags & GUI_BACKWARD))
+        {
+            widget[id].offset_x = widget[id].offset_init_x;
+            widget[id].offset_y = widget[id].offset_init_y;
+        }
     }
 }
 
 void gui_set_slide(int id, int flags, float delay, float t, float stagger)
 {
-    int jd, c = 0;
-
-    widget[id].time = 0.0f;
-    widget[id].slide_flags = flags;
-    widget[id].slide_delay = delay;
-    widget[id].slide_time = t;
-
-    for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-        c++;
-
-    for (jd = widget[id].car; jd; jd = widget[jd].cdr, c--)
+    if (id)
     {
-        gui_set_slide(jd, flags, delay + (stagger * (c - 1)), t, 0.0f);
+        int jd, c = 0;
 
-        // widget[jd].time = 0.0f;
-        // widget[jd].slide_flags = flags;
-        // widget[jd].slide_delay = delay + (stagger * (c - 1));
-        // widget[jd].slide_time = t;
+        widget[id].slide_flags = flags;
+        widget[id].slide_delay = delay;
+        widget[id].slide_dur = t;
+        widget[id].slide_time = 0.0f;
+
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            c++;
+
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr, c--)
+            gui_set_slide(jd, flags, delay + (stagger * (c - 1)), t, 0.0f);
     }
 }
 
 void gui_slide(int id, int flags, float delay, float t, float stagger)
 {
-    gui_set_slide(id, flags, delay, t, stagger);
-    gui_widget_offset(id);
+    if (id)
+    {
+        gui_set_slide(id, flags, delay, t, stagger);
+        gui_widget_offset(id);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1835,6 +1843,51 @@ int gui_delete(int id)
     return 0;
 }
 
+/*
+ * Delete this widget and update the layout of its parent widget.
+ */
+void gui_remove(int id)
+{
+    if (id && widget[id].type != GUI_FREE)
+    {
+        int pd = 0;
+        int i;
+
+        for (i = 1; i < WIDGET_MAX; ++i)
+            if (widget[i].type != GUI_FREE)
+            {
+                int jd, pjd;
+
+                for (pjd = 0, jd = widget[i].car; jd; pjd = jd, jd = widget[jd].cdr)
+                    if (jd == id)
+                    {
+                        /* Note the parent widget. */
+
+                        pd = i;
+
+                        /* Remove from linked list. */
+
+                        if (pjd)
+                            widget[pjd].cdr = widget[jd].cdr; /* prev = next */
+                        else
+                            widget[i].car = widget[jd].cdr; /* head = next */
+                    }
+            }
+
+        /* Update parent widget layout. */
+
+        if (pd)
+        {
+            gui_widget_dn(pd, widget[pd].x, widget[pd].y, widget[pd].w, widget[pd].h);
+            gui_geom_widget(pd, widget[pd].flags);
+        }
+
+        gui_delete(id);
+
+        transition_remove(id);
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void gui_paint_rect(int id, int st, int flags)
@@ -1905,7 +1958,12 @@ static void gui_paint_array(int id)
 
         if (widget[id].flags & GUI_CLIP)
         {
-            glScissor(widget[id].x, widget[id].y, widget[id].w, widget[id].h);
+            glScissor(
+                widget[id].x + widget[id].offset_x,
+                widget[id].y + widget[id].offset_y,
+                widget[id].w,
+                widget[id].h
+            );
             glEnable(GL_SCISSOR_TEST);
         }
 
@@ -2109,7 +2167,7 @@ static void gui_paint_text(int id)
 
 void gui_paint(int id)
 {
-    if (id)
+    if (id && widget[id].type != GUI_FREE)
     {
         video_push_ortho();
         {
@@ -2178,7 +2236,7 @@ void gui_timer(int id, float dt)
 {
     int jd;
 
-    if (id)
+    if (id && widget[id].type != GUI_FREE)
     {
         for (jd = widget[id].car; jd; jd = widget[jd].cdr)
             gui_timer(jd, dt);
@@ -2188,27 +2246,49 @@ void gui_timer(int id, float dt)
         if (widget[id].scale < 1.0f)
             widget[id].scale = 1.0f;
 
-        widget[id].time += dt;
-
-        if (widget[id].slide_time)
+        if (widget[id].slide_dur)
         {
-            float alpha = (widget[id].time - widget[id].slide_delay) / widget[id].slide_time;
+            float alpha = 0.0f;
+            int at_end = 0;
 
+            widget[id].slide_time += dt;
+
+            alpha = (widget[id].slide_time - widget[id].slide_delay) / widget[id].slide_dur;
             alpha = CLAMP(0.0f, alpha, 1.0f);
 
-            if (widget[id].slide_flags & GUI_REVERSE)
+            at_end = (alpha >= 1.0f);
+
+            if (widget[id].slide_flags & GUI_BACKWARD)
             {
                 // Approaching offset position.
-                alpha = easeInBack(alpha);
+
+                if (widget[id].slide_flags & GUI_EASE_ELASTIC)
+                    alpha = easeOutElastic(alpha);
+                else if (widget[id].slide_flags & GUI_EASE_BACK)
+                    alpha = easeOutBack(alpha);
+                else
+                    /* Linear interpolation. */;
             }
             else
             {
                 // Approaching widget position.
-                alpha = 1.0f - easeInOutElastic(alpha);
+
+                if (widget[id].slide_flags & GUI_EASE_ELASTIC)
+                    alpha = easeInElastic(1.0f - alpha);
+                else if (widget[id].slide_flags & GUI_EASE_BACK)
+                    alpha = easeInBack(1.0f - alpha);
+                else
+                    alpha = 1.0f - alpha;
             }
 
             widget[id].offset_x = widget[id].offset_init_x * alpha;
             widget[id].offset_y = widget[id].offset_init_y * alpha;
+
+            if (at_end && (widget[id].slide_flags & GUI_REMOVE))
+            {
+                gui_remove(id);
+                return;
+            }
         }
     }
 }

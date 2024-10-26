@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "audio.h"
 #include "config.h"
 #include "demo.h"
@@ -60,7 +61,7 @@ static int help_action(int tok, int val)
     {
     case GUI_BACK:
         page = PAGE_RULES;
-        return goto_state(&st_title);
+        return exit_state(&st_title);
 
     case HELP_DEMO:
         if (demo_replay_init(demos[val], NULL, NULL, NULL, NULL, NULL))
@@ -68,9 +69,15 @@ static int help_action(int tok, int val)
         break;
 
     case HELP_PAGE:
-        page = val;
-        return goto_state(&st_help);
+        if (val != page)
+        {
+            int old_page = page;
 
+            page = val;
+
+            return page < old_page ? exit_state(&st_help) : goto_state(&st_help);
+        }
+        break;
     }
     return 1;
 }
@@ -377,9 +384,9 @@ static int help_gui(void)
     return id;
 }
 
-static int help_enter(struct state *st, struct state *prev)
+static int help_enter(struct state *st, struct state *prev, int intent)
 {
-    return help_gui();
+    return transition_slide(help_gui(), 1, intent);
 }
 
 static int help_keybd(int c, int d)
@@ -408,15 +415,16 @@ static int help_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int help_demo_enter(struct state *st, struct state *prev)
+static int help_demo_enter(struct state *st, struct state *prev, int intent)
 {
     game_client_fly(0.0f);
     return 0;
 }
 
-static void help_demo_leave(struct state *st, struct state *next, int id)
+static int help_demo_leave(struct state *st, struct state *next, int id, int intent)
 {
     demo_replay_stop(0);
+    return 0;
 }
 
 static void help_demo_paint(int id, float t)
