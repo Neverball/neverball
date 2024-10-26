@@ -152,6 +152,8 @@ BALL_SRCS := \
 	share/miniz.c \
 	share/geom.c \
 	share/glext.c \
+	share/ease.c \
+	share/transition.c \
 	share/gui.c \
 	share/hmd_null.c \
 	share/image.c \
