@@ -13,6 +13,7 @@
  */
 
 #include "gui.h"
+#include "transition.h"
 #include "hud.h"
 #include "demo.h"
 #include "progress.h"
@@ -94,7 +95,12 @@ static void buttn_camera(int b)
 
 /*---------------------------------------------------------------------------*/
 
-static int ready_transition = 0;
+static const float time_in   = 0.5f;
+static const float time_out  = 0.6f;
+static const int   flags_in  = GUI_E | GUI_FLING | GUI_EASE_BACK;
+static const int   flags_out = GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD;
+
+/*---------------------------------------------------------------------------*/
 
 static int play_ready_gui(void)
 {
@@ -119,7 +125,14 @@ static int play_ready_enter(struct state *st, struct state *prev, int intent)
     hud_cam_pulse(config_get_d(CONFIG_CAMERA));
 
     id = play_ready_gui();
-    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    gui_slide(id, flags_in, 0, time_in, 0);
+    return id;
+}
+
+static int play_ready_leave(struct state *st, struct state *next, int id, int intent)
+{
+    gui_slide(id, flags_out | GUI_REMOVE, 0, time_out, 0);
+    transition_add(id);
     return id;
 }
 
@@ -142,12 +155,6 @@ static void play_ready_timer(int id, float dt)
     game_step_fade(dt);
     hud_cam_timer(dt);
     gui_timer(id, dt);
-
-    if (time_state() >= 1.0f && !ready_transition)
-    {
-        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
-        ready_transition = 1;
-    }
 }
 
 static int play_ready_click(int b, int d)
@@ -190,8 +197,6 @@ static int play_ready_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-static int set_transition = 0;
-
 static int play_set_gui(void)
 {
     int id;
@@ -211,10 +216,15 @@ static int play_set_enter(struct state *st, struct state *prev, int intent)
 
     audio_play(AUD_SET, 1.f);
 
-    set_transition = 0;
-
     id = play_set_gui();
-    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    gui_slide(id, flags_in, 0, time_in, 0);
+    return id;
+}
+
+static int play_set_leave(struct state *st, struct state *next, int id, int intent)
+{
+    gui_slide(id, flags_out | GUI_REMOVE, 0, time_out, 0);
+    transition_add(id);
     return id;
 }
 
@@ -237,12 +247,6 @@ static void play_set_timer(int id, float dt)
     game_step_fade(dt);
     hud_cam_timer(dt);
     gui_timer(id, dt);
-
-    if (time_state() >= 1.0f && !set_transition)
-    {
-        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
-        set_transition = 1;
-    }
 }
 
 static int play_set_click(int b, int d)
@@ -378,7 +382,7 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
     loop_transition = 0;
 
     id = play_loop_gui();
-    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    gui_slide(id, flags_in, 0, time_in, 0);
     return id;
 }
 
@@ -411,7 +415,7 @@ static void play_loop_timer(int id, float dt)
 
     if (time_state() >= 1.0f && !loop_transition)
     {
-        gui_slide(id, GUI_W | GUI_FLING | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.6f, 0);
+        gui_slide(id, flags_out, 0, time_out, 0);
         loop_transition = 1;
     }
 
@@ -744,7 +748,7 @@ static int look_buttn(int b, int d)
 
 struct state st_play_ready = {
     play_ready_enter,
-    shared_leave,
+    play_ready_leave,
     play_ready_paint,
     play_ready_timer,
     NULL,
@@ -757,7 +761,7 @@ struct state st_play_ready = {
 
 struct state st_play_set = {
     play_set_enter,
-    shared_leave,
+    play_set_leave,
     play_set_paint,
     play_set_timer,
     NULL,

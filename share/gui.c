@@ -2246,7 +2246,7 @@ void gui_timer(int id, float dt)
         if (widget[id].scale < 1.0f)
             widget[id].scale = 1.0f;
 
-        if (widget[id].slide_dur)
+        if (widget[id].slide_dur && widget[id].slide_time < widget[id].slide_delay + widget[id].slide_dur)
         {
             float alpha = 0.0f;
             int at_end = 0;
