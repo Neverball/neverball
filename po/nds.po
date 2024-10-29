@@ -639,7 +639,7 @@ msgstr "Wiggel eene Staav …"
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
-msgstr "Par"
+msgstr "Vörgaav"
 
 #: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
