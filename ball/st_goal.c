@@ -22,6 +22,7 @@
 #include "config.h"
 #include "video.h"
 #include "demo.h"
+#include "hud.h"
 #include "key.h"
 
 #include "game_common.h"
@@ -264,6 +265,13 @@ static int goal_enter(struct state *st, struct state *prev, int intent)
     return transition_slide(goal_gui(), 1, intent);
 }
 
+static void goal_paint(int id, float t)
+{
+    game_client_draw(0, t);
+    gui_paint(id);
+    hud_paint();
+}
+
 static void goal_timer(int id, float dt)
 {
     if (!resume)
@@ -305,6 +313,7 @@ static void goal_timer(int id, float dt)
     }
 
     gui_timer(id, dt);
+    hud_timer(dt);
 }
 
 static int goal_keybd(int c, int d)
@@ -341,7 +350,7 @@ static int goal_buttn(int b, int d)
 struct state st_goal = {
     goal_enter,
     shared_leave,
-    shared_paint,
+    goal_paint,
     goal_timer,
     shared_point,
     shared_stick,

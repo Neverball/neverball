@@ -17,6 +17,7 @@
 #include "demo.h"
 #include "audio.h"
 #include "gui.h"
+#include "hud.h"
 #include "transition.h"
 #include "config.h"
 #include "video.h"
@@ -165,6 +166,14 @@ static void fail_timer(int id, float dt)
     }
 
     gui_timer(id, dt);
+    hud_timer(dt);
+}
+
+static void fail_paint(int id, float t)
+{
+    game_client_draw(0, t);
+    gui_paint(id);
+    hud_paint();
 }
 
 static int fail_keybd(int c, int d)
@@ -202,7 +211,7 @@ static int fail_buttn(int b, int d)
 struct state st_fail = {
     fail_enter,
     shared_leave,
-    shared_paint,
+    fail_paint,
     fail_timer,
     shared_point,
     shared_stick,

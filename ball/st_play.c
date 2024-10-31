@@ -392,6 +392,7 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
 
 static int play_loop_leave(struct state *st, struct state *next, int id, int intent)
 {
+    hud_hide();
     gui_delete(id);
     return 0;
 }
