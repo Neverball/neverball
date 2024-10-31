@@ -106,8 +106,7 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
 
     video_clr_grab();
     audio_music_fade_out(1.0f);
-
-    hud_update(0);
+    hud_hide();
 
     return transition_slide(pause_gui(), 1, intent);
 }

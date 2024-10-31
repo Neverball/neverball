@@ -308,6 +308,20 @@ void hud_timer(float dt)
     hud_touch_timer(dt);
 }
 
+void hud_show(float delay)
+{
+    gui_slide(Lhud_id, GUI_S | GUI_EASE_BACK, delay + 0.0f, 0.3f, 0);
+    gui_slide(time_id, GUI_S | GUI_EASE_BACK, delay + 0.1f, 0.3f, 0);
+    gui_slide(Rhud_id, GUI_S | GUI_EASE_BACK, delay + 0.2f, 0.3f, 0);
+}
+
+void hud_hide(void)
+{
+    gui_slide(Lhud_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+    gui_slide(time_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+    gui_slide(Rhud_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+}
+
 int hud_touch(const SDL_TouchFingerEvent *event)
 {
     touch_timer = 5.0f;
@@ -328,20 +342,29 @@ int hud_touch(const SDL_TouchFingerEvent *event)
 void hud_cam_pulse(int c)
 {
     gui_set_label(cam_id, cam_to_str(c));
-    gui_pulse(cam_id, 1.2f);
-    cam_timer = 2.0f;
+    gui_slide(cam_id, GUI_N | GUI_EASE_BACK, 0, 0.2f, 0);
+    cam_timer = 0.0f;
 }
 
 void hud_cam_timer(float dt)
 {
-    cam_timer -= dt;
     gui_timer(cam_id, dt);
+
+    if (cam_timer < 2.0f)
+    {
+        cam_timer += dt;
+
+        if (cam_timer >= 2.0f)
+        {
+            cam_timer = 2.0f;
+            gui_slide(cam_id, GUI_N | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.2f, 0);
+        }
+    }
 }
 
 void hud_cam_paint(void)
 {
-    if (cam_timer > 0.0f)
-        gui_paint(cam_id);
+    gui_paint(cam_id);
 }
 
 /*---------------------------------------------------------------------------*/

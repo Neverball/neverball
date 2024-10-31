@@ -72,6 +72,7 @@ const GLubyte gui_wht2[4] = { 0xFF, 0xFF, 0xFF, 0x60 };  /* Transparent white */
 #define GUI_RECT   8
 #define GUI_LAYOUT 16
 #define GUI_CLIP   32
+#define GUI_OFFSET 64
 
 #define GUI_LINES 8
 
@@ -1638,14 +1639,19 @@ static void gui_widget_dn(int id, int x, int y, int w, int h)
 
 /*---------------------------------------------------------------------------*/
 
-static void gui_widget_offset(int id)
+static void gui_widget_offset(int id, int pd)
 {
     if (id)
     {
         int jd;
 
-        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
-            gui_widget_offset(jd);
+        if (!(widget[id].flags & GUI_OFFSET))
+        {
+            for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+                gui_widget_offset(jd, 0);
+
+            return;
+        }
 
         widget[id].offset_init_x = widget[id].offset_x = 0.0f;
         widget[id].offset_init_y = widget[id].offset_y = 0.0f;
@@ -1670,17 +1676,36 @@ static void gui_widget_offset(int id)
         {
             // Offset position is just offscreen.
 
-            if (widget[id].slide_flags & GUI_W)
-                widget[id].offset_init_x = -widget[id].x - widget[id].w;
+            if (pd)
+            {
+                // If parent is also offset, inherit.
 
-            if (widget[id].slide_flags & GUI_E)
-                widget[id].offset_init_x = video.device_w - widget[id].x + 1;
+                if (widget[id].slide_flags & GUI_W)
+                    widget[id].offset_init_x = widget[pd].offset_init_x;
 
-            if (widget[id].slide_flags & GUI_S)
-                widget[id].offset_init_y = -widget[id].y - widget[id].h - 1;
+                if (widget[id].slide_flags & GUI_E)
+                    widget[id].offset_init_x = widget[pd].offset_init_x;
 
-            if (widget[id].slide_flags & GUI_N)
-                widget[id].offset_init_y = video.device_h - widget[id].y;
+                if (widget[id].slide_flags & GUI_S)
+                    widget[id].offset_init_y = widget[pd].offset_init_y;
+
+                if (widget[id].slide_flags & GUI_N)
+                    widget[id].offset_init_y = widget[pd].offset_init_y;
+            }
+            else
+            {
+                if (widget[id].slide_flags & GUI_W)
+                    widget[id].offset_init_x = -widget[id].x - widget[id].w;
+
+                if (widget[id].slide_flags & GUI_E)
+                    widget[id].offset_init_x = video.device_w - widget[id].x + 1;
+
+                if (widget[id].slide_flags & GUI_S)
+                    widget[id].offset_init_y = -widget[id].y - widget[id].h - 1;
+
+                if (widget[id].slide_flags & GUI_N)
+                    widget[id].offset_init_y = video.device_h - widget[id].y;
+            }
         }
 
         if (!(widget[id].slide_flags & GUI_BACKWARD))
@@ -1688,6 +1713,9 @@ static void gui_widget_offset(int id)
             widget[id].offset_x = widget[id].offset_init_x;
             widget[id].offset_y = widget[id].offset_init_y;
         }
+
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            gui_widget_offset(jd, id);
     }
 }
 
@@ -1696,6 +1724,8 @@ void gui_set_slide(int id, int flags, float delay, float t, float stagger)
     if (id)
     {
         int jd, c = 0;
+
+        widget[id].flags |= GUI_OFFSET;
 
         widget[id].slide_flags = flags;
         widget[id].slide_delay = delay;
@@ -1715,7 +1745,7 @@ void gui_slide(int id, int flags, float delay, float t, float stagger)
     if (id)
     {
         gui_set_slide(id, flags, delay, t, stagger);
-        gui_widget_offset(id);
+        gui_widget_offset(id, 0);
     }
 }
 
@@ -1767,7 +1797,7 @@ void gui_layout(int id, int xd, int yd)
 
     /* Initialize animation state. */
 
-    gui_widget_offset(id);
+    gui_widget_offset(id, 0);
 
     /* Set up GUI rendering state. */
 
@@ -2246,7 +2276,7 @@ void gui_timer(int id, float dt)
         if (widget[id].scale < 1.0f)
             widget[id].scale = 1.0f;
 
-        if (widget[id].slide_dur && widget[id].slide_time < widget[id].slide_delay + widget[id].slide_dur)
+        if ((widget[id].flags & GUI_OFFSET) && widget[id].slide_time < widget[id].slide_delay + widget[id].slide_dur)
         {
             float alpha = 0.0f;
             int at_end = 0;

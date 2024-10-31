@@ -12,6 +12,9 @@ void hud_paint(void);
 void hud_timer(float);
 void hud_update(int);
 
+void hud_show(float delay);
+void hud_hide(void);
+
 int hud_touch(const SDL_TouchFingerEvent *);
 
 void hud_cam_pulse(int);

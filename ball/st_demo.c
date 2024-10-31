@@ -471,6 +471,7 @@ static int demo_play_enter(struct state *st, struct state *prev, int intent)
         demo_paused = 0;
         prelude = 0;
         audio_music_fade_in(0.5f);
+        hud_show(0.0f);
         return 0;
     }
 
@@ -492,10 +493,11 @@ static int demo_play_enter(struct state *st, struct state *prev, int intent)
     demo_replay_speed(speed);
     show_hud = 1;
     hud_update(0);
+    hud_show(0.9f);
     transition = 0;
 
     id = demo_play_gui();
-    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.8f, 0);
+    gui_slide(id, GUI_E | GUI_FLING | GUI_EASE_BACK, 0, 0.5f, 0);
     return id;
 }
 
@@ -682,6 +684,8 @@ static int demo_end_enter(struct state *st, struct state *prev, int intent)
 {
     audio_music_fade_out(demo_paused ? 0.2f : 2.0f);
 
+    hud_hide();
+
     return transition_slide(demo_end_gui(), 1, intent);
 }
 
@@ -689,9 +693,14 @@ static void demo_end_paint(int id, float t)
 {
     game_client_draw(0, t);
     gui_paint(id);
+    hud_paint();
+}
 
-    if (demo_paused)
-        hud_paint();
+static void demo_end_timer(int id, float dt)
+{
+    game_step_fade(dt);
+    gui_timer(id, dt);
+    hud_timer(dt);
 }
 
 static int demo_end_keybd(int c, int d)
@@ -883,7 +892,7 @@ struct state st_demo_end = {
     demo_end_enter,
     shared_leave,
     demo_end_paint,
-    shared_timer,
+    demo_end_timer,
     shared_point,
     shared_stick,
     shared_angle,

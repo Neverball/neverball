@@ -371,7 +371,10 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
     fast_rotate = 0;
 
     if (prev == &st_pause)
+    {
+        hud_show(0.0f);
         return 0;
+    }
 
     audio_play(AUD_GO, 1.f);
 
@@ -379,6 +382,7 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
 
     show_hud = 1;
     hud_update(0);
+    hud_show(0.9f);
     loop_transition = 0;
 
     id = play_loop_gui();
