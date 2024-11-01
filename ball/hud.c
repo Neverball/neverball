@@ -113,6 +113,9 @@ void hud_init(void)
             gui_space(id);
         }
 
+        // HACK: hide by default.
+        gui_set_slide(Touch_id, GUI_N, 0, 0, 0);
+
         gui_layout(Touch_id, -1, +1);
     }
 
@@ -320,11 +323,16 @@ void hud_hide(void)
     gui_slide(Lhud_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
     gui_slide(time_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
     gui_slide(Rhud_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+
+    if (touch_timer > 0.0f)
+        gui_slide(Touch_id, GUI_N | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
 }
 
 int hud_touch(const SDL_TouchFingerEvent *event)
 {
     touch_timer = 5.0f;
+
+    gui_slide(Touch_id, GUI_S | GUI_EASE_BACK, 0, 0.3f, 0);
 
     if (event->type == SDL_FINGERUP)
     {
@@ -412,14 +420,23 @@ void hud_speed_paint(void)
 
 void hud_touch_timer(float dt)
 {
-    touch_timer -= dt;
+    if (touch_timer > 0.0f)
+    {
+        touch_timer -= dt;
+
+        if (touch_timer <= 0.0f)
+        {
+            touch_timer = 0.0f;
+            gui_slide(Touch_id, GUI_N | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+        }
+    }
+
     gui_timer(Touch_id, dt);
 }
 
 void hud_touch_paint(void)
 {
-    if (touch_timer > 0.0f && curr_state() != &st_pause)
-        gui_paint(Touch_id);
+    gui_paint(Touch_id);
 }
 
 /*---------------------------------------------------------------------------*/

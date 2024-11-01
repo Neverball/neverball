@@ -382,7 +382,7 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
 
     show_hud = 1;
     hud_update(0);
-    hud_show(0.9f);
+    hud_show(0.0f);
     loop_transition = 0;
 
     id = play_loop_gui();
