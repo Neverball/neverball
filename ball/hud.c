@@ -325,7 +325,10 @@ void hud_hide(void)
     gui_slide(Rhud_id, GUI_S | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
 
     if (touch_timer > 0.0f)
+    {
+        touch_timer = 0.0f;
         gui_slide(Touch_id, GUI_N | GUI_EASE_BACK | GUI_BACKWARD, 0, 0.3f, 0);
+    }
 }
 
 int hud_touch(const SDL_TouchFingerEvent *event)
