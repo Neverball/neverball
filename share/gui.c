@@ -1653,6 +1653,9 @@ static void gui_widget_offset(int id, int pd)
             return;
         }
 
+        /* HACK: restart animations in case we got here via resize event. */
+        widget[id].slide_time = 0.0f;
+
         widget[id].offset_init_x = widget[id].offset_x = 0.0f;
         widget[id].offset_init_y = widget[id].offset_y = 0.0f;
 
