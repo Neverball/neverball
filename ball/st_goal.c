@@ -113,7 +113,7 @@ static int goal_gui(void)
             if (high)
                 gid = gui_label(id, s1, GUI_MED, gui_grn, gui_grn);
             else
-                gid = gui_label(id, s2, GUI_LRG, gui_blu, gui_grn);
+                gid = gui_label(id, s2, GUI_MED, gui_blu, gui_grn);
 
             gui_space(id);
 
