@@ -994,6 +994,8 @@ General Public License for more details.
 
         this.audioSoundSink.connect(this.audioContext.destination);
         this.audioMusicSink.connect(this.audioContext.destination);
+
+        this.audioCanPlayOgg = (new Audio()).canPlayType('audio/ogg') !== '';
       },
 
       audioVolume: function (soundVolume, musicVolume) {
@@ -1012,8 +1014,6 @@ General Public License for more details.
         this.audioMusicFile = null;
         this.audioMusicSourceNode = null;
         this.audioMusicGainNode = null;
-
-        this.audioCanPlayOgg = (new Audio()).canPlayType('audio/ogg') !== '';
       },
 
       audioPlay: async function (fileName, fileData, a) {
