@@ -1,4 +1,4 @@
-const cacheName = 'neverball-v8';
+const cacheName = 'neverball-v9';
 
 const urls = [
   '/',
@@ -7,6 +7,7 @@ const urls = [
   '/neverball.js',
   '/neverball.wasm',
   '/screenshot.png',
+  '/favicon.svg',
 ];
 
 async function installWorker(event) {
