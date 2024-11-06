@@ -1,6 +1,7 @@
 const cacheName = 'neverball-v8';
 
 const urls = [
+  '/',
   '/index.html',
   '/neverball.data',
   '/neverball.js',
