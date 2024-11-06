@@ -1,4 +1,4 @@
-const cacheName = 'neverball-v7';
+const cacheName = 'neverball-v8';
 
 const urls = [
   '/index.html',
@@ -13,7 +13,7 @@ async function installWorker(event) {
   return cache.addAll(urls);
 }
 
-async function serveResponse(event) {
+async function serveCachedResponse(event) {
   let response = await caches.match(event.request);
 
   if (response) {
@@ -37,7 +37,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-  event.respondWith(serveResponse(event));
+  const url = new URL(event.request.url);
+
+  if (urls.includes(url.pathname)) {
+    event.respondWith(serveCachedResponse(event));
+  }
 });
 
 self.addEventListener('activate', (event) => {
