@@ -27,6 +27,7 @@ void transition_remove(int id);
 void transition_timer(float dt);
 void transition_paint(void);
 
-int transition_slide(int id, int enter, int intent);
+int transition_slide(int id, int in, int intent);
+int transition_page(int id, int in, int intent);
 
 #endif

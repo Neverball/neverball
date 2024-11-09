@@ -34,8 +34,6 @@ static int total = 0;
 static int first = 0;
 static int selected = 0;
 
-static int head_id;
-static int body_id;
 static int shot_id;
 static int desc_id;
 static int type_id;
@@ -371,7 +369,7 @@ static int package_gui(void)
     int w = video.device_w;
     int h = video.device_h;
 
-    int id, jd, kd;
+    int id, jd, kd, ld;
 
     int i;
 
@@ -403,67 +401,65 @@ static int package_gui(void)
             gui_label(jd, _("Addons"), GUI_SML, 0, 0);
             gui_filler(jd);
             gui_navig(jd, total, first, PACKAGE_STEP);
-
-            head_id = jd;
         }
 
-        gui_space(id);
-
-        if ((body_id = gui_vstack(id)))
+        if ((jd = gui_vstack(id)))
         {
-            if ((jd = gui_hstack(body_id)))
+            gui_space(jd);
+
+            if ((kd = gui_hstack(jd)))
             {
                 const int ww = MIN(w, h) * 5 / 12;
                 const int hh = ww / 4 * 3;
 
-                if ((kd = gui_varray(jd)))
+                if ((ld = gui_varray(kd)))
                 {
                     for (i = first; i < first + PACKAGE_STEP; i++)
                     {
-                        int button_id = gui_package(kd, i);
+                        int button_id = gui_package(ld, i);
 
                         button_ids[i % PACKAGE_STEP] = button_id;
                     }
 
-                    gui_set_fill(kd);
+                    gui_set_fill(ld);
                 }
 
-                shot_id = gui_image(jd, package_get_shot_filename(first), ww, hh);
+                shot_id = gui_image(kd, package_get_shot_filename(first), ww, hh);
             }
 
-            gui_space(body_id);
+            gui_space(jd);
 
-            if ((jd = gui_vstack(body_id)))
+            if ((kd = gui_vstack(jd)))
             {
-                title_id = gui_label(jd, package_get_name(first), GUI_SML, gui_yel, gui_wht);
+                title_id = gui_label(kd, package_get_name(first), GUI_SML, gui_yel, gui_wht);
 
-                gui_space(jd);
+                gui_space(kd);
 
-                desc_id = gui_multi(jd, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
+                desc_id = gui_multi(kd, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
 
-                gui_set_rect(jd, GUI_ALL);
+                gui_set_rect(kd, GUI_ALL);
             }
 
-            gui_space(body_id);
+            gui_space(jd);
 
-            if ((jd = gui_hstack(body_id)))
+            if ((kd = gui_hstack(jd)))
             {
-                if ((kd = gui_hstack(jd)))
+                if ((ld = gui_hstack(kd)))
                 {
-                    install_status_id = gui_label(kd, GUI_ARROW_DN, GUI_SML, gui_grn, gui_grn);
-                    install_label_id = gui_label(kd, _("Install"), GUI_SML, gui_wht, gui_wht);
+                    install_status_id = gui_label(ld, GUI_ARROW_DN, GUI_SML, gui_grn, gui_grn);
+                    install_label_id = gui_label(ld, _("Install"), GUI_SML, gui_wht, gui_wht);
 
                     gui_set_font(install_status_id, GUI_FACE);
 
-                    gui_set_rect(kd, GUI_ALL);
-                    gui_set_state(kd, PACKAGE_INSTALL, 0);
+                    gui_set_rect(ld, GUI_ALL);
+                    gui_set_state(ld, PACKAGE_INSTALL, 0);
 
-                    install_id = kd;
+                    install_id = ld;
                 }
 
-                gui_filler(jd);
+                gui_filler(kd);
 
-                type_id = gui_label(jd, "ABCDEFG", GUI_SML, 0, 0);
+                type_id = gui_label(kd, "ABCDEFG", GUI_SML, 0, 0);
             }
         }
 
@@ -525,34 +521,6 @@ static void package_select(int pi)
     }
 }
 
-/*
- * Custom slide transition for page flipping.
- */
-static int package_transition(int id, int in, int intent)
-{
-    if (in)
-    {
-        // Slide in page content.
-        gui_slide(body_id, (intent == INTENT_BACK ? GUI_W : GUI_E) | GUI_FLING, 0, 0.16f, 0);
-    }
-    else
-    {
-        // Just hide the header, header from the next page takes over immediately.
-        gui_set_hidden(head_id, 1);
-
-        // Remove GUI after timeout (this doesn't do a slide).
-        gui_slide(id, GUI_REMOVE, 0, 0.16f, 0);
-
-        // Slide out page content.
-        gui_slide(body_id, (intent == INTENT_BACK ? GUI_E : GUI_W) | GUI_BACKWARD | GUI_FLING, 0, 0.16f, 0);
-
-        transition_add(id);
-    }
-
-    return id;
-}
-
-
 static int package_enter(struct state *st, struct state *prev, int intent)
 {
     common_init(package_action);
@@ -591,7 +559,7 @@ static int package_enter(struct state *st, struct state *prev, int intent)
     fetch_package_images();
 
     if (prev == &st_package)
-        return package_transition(package_gui(), 1, intent);
+        return transition_page(package_gui(), 1, intent);
 
     return transition_slide(package_gui(), 1, intent);
 }
@@ -611,7 +579,7 @@ static int package_leave(struct state *st, struct state *next, int id, int inten
     }
 
     if (next == &st_package)
-        return package_transition(id, 0, intent);
+        return transition_page(id, 0, intent);
 
     return transition_slide(id, 0, intent);
 }

@@ -60,7 +60,6 @@ static int set_action(int tok, int val)
     case GUI_PREV:
 
         first -= SET_STEP;
-
         do_init = 0;
         return exit_state(&st_set);
 
@@ -69,7 +68,6 @@ static int set_action(int tok, int val)
     case GUI_NEXT:
 
         first += SET_STEP;
-
         do_init = 0;
         return goto_state(&st_set);
 
@@ -107,7 +105,7 @@ static int set_gui(void)
     int w = video.device_w;
     int h = video.device_h;
 
-    int id, jd, kd;
+    int id, jd, kd, ld;
 
     int i;
 
@@ -120,24 +118,28 @@ static int set_gui(void)
             gui_navig(jd, total, first, SET_STEP);
         }
 
-        gui_space(id);
-
-        if ((jd = gui_harray(id)))
+        if ((jd = gui_vstack(id)))
         {
-            const int ww = MIN(w, h) * 7 / 12;
-            const int hh = ww / 4 * 3;
+            gui_space(jd);
 
-            shot_id = gui_image(jd, set_shot(first), ww, hh);
-
-            if ((kd = gui_varray(jd)))
+            if ((kd = gui_harray(jd)))
             {
-                for (i = first; i < first + SET_STEP; i++)
-                    gui_set(kd, i);
-            }
-        }
+                const int ww = MIN(w, h) * 7 / 12;
+                const int hh = ww / 4 * 3;
 
-        gui_space(id);
-        desc_id = gui_multi(id, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
+                shot_id = gui_image(kd, set_shot(first), ww, hh);
+
+                if ((ld = gui_varray(kd)))
+                {
+                    for (i = first; i < first + SET_STEP; i++)
+                        gui_set(ld, i);
+                }
+            }
+
+            gui_space(jd);
+
+            desc_id = gui_multi(jd, " \n \n \n \n \n", GUI_SML, gui_yel, gui_wht);
+        }
 
         gui_layout(id, 0, 0);
     }
@@ -157,11 +159,17 @@ static int set_enter(struct state *st, struct state *prev, int intent)
     }
     else do_init = 1;
 
+    if (prev == &st_set)
+        return transition_page(set_gui(), 1, intent);
+
     return transition_slide(set_gui(), 1, intent);
 }
 
 static int set_leave(struct state *st, struct state *next, int id, int intent)
 {
+    if (next == &st_set)
+        return transition_page(id, 0, intent);
+
     return transition_slide(id, 0, intent);
 }
 

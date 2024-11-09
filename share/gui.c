@@ -1843,6 +1843,23 @@ int gui_search(int id, int x, int y)
     return 0;
 }
 
+int gui_child(int id, int index)
+{
+    if (id)
+    {
+        int jd, c = 0, i;
+
+        for (jd = widget[id].car; jd; jd = widget[jd].cdr)
+            c++;
+
+        for (jd = widget[id].car, i = c - 1; jd; jd = widget[jd].cdr, i--)
+            if (i == index)
+                return jd;
+    }
+
+    return 0;
+}
+
 int gui_delete(int id)
 {
     if (id)

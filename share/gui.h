@@ -135,6 +135,7 @@ int  gui_space(int);
 void gui_dump(int, int);
 void gui_layout(int, int, int);
 int  gui_search(int, int, int);
+int  gui_child(int id, int index);
 int  gui_delete(int);
 void gui_remove(int id);
 

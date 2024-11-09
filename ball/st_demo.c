@@ -310,36 +310,45 @@ static int demo_gui(void)
 {
     int id, jd;
 
-    id = gui_vstack(0);
-
     if (total)
     {
-        if ((jd = gui_hstack(id)))
+        if ((id = gui_vstack(0)))
         {
+            if ((jd = gui_hstack(id)))
+            {
+                gui_label(jd, _("Select Replay"), GUI_SML, 0,0);
+                gui_filler(jd);
+                gui_navig(jd, total, first, DEMO_STEP);
+            }
 
-            gui_label(jd, _("Select Replay"), GUI_SML, 0,0);
-            gui_filler(jd);
-            gui_navig(jd, total, first, DEMO_STEP);
+            if ((jd = gui_vstack(id)))
+            {
+                gui_demo_thumbs(jd);
+
+                gui_space(jd);
+
+                gui_demo_status(jd);
+
+            }
+
+            gui_layout(id, 0, 0);
+
+            gui_demo_update_thumbs();
+            gui_demo_update_status(last_viewed);
+
+            demo_select(first);
         }
-
-        gui_demo_thumbs(id);
-        gui_space(id);
-        gui_demo_status(id);
-
-        gui_layout(id, 0, 0);
-
-        gui_demo_update_thumbs();
-        gui_demo_update_status(last_viewed);
-
-        demo_select(first);
     }
     else
     {
-        gui_label(id, _("No Replays"), GUI_MED, 0, 0);
-        gui_space(id);
-        gui_state(id, _("Back"), GUI_SML, GUI_BACK, 0);
+        if ((id = gui_vstack(0)))
+        {
+            gui_label(id, _("No Replays"), GUI_MED, 0, 0);
+            gui_space(id);
+            gui_state(id, _("Back"), GUI_SML, GUI_BACK, 0);
 
-        gui_layout(id, 0, 0);
+            gui_layout(id, 0, 0);
+        }
     }
 
     return id;
@@ -368,6 +377,9 @@ static int demo_enter(struct state *st, struct state *prev, int intent)
 
     audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
+    if (prev == &st_demo)
+        return transition_page(demo_gui(), 1, intent);
+
     return transition_slide(demo_gui(), 1, intent);
 }
 
@@ -378,6 +390,9 @@ static int demo_leave(struct state *st, struct state *next, int id, int intent)
         demo_dir_free(items);
         items = NULL;
     }
+
+    if (next == &st_demo)
+        return transition_page(id, 0, intent);
 
     return transition_slide(id, 0, intent);
 }
