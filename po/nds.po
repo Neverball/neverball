@@ -101,7 +101,7 @@ msgstr "Ballen"
 
 #: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
 msgid "Score"
-msgstr "Speelstand"
+msgstr "Stand"
 
 #: ball/progress.c:413 ball/st_help.c:267
 msgid "Challenge Mode"
@@ -639,7 +639,7 @@ msgstr "Wiggel eene Staav …"
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
-msgstr "Par"
+msgstr "Vörgaav"
 
 #: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
