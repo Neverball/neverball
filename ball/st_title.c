@@ -201,7 +201,7 @@ static int title_gui(void)
                     /* Hilight the start button. */
 
                     gui_set_hilite(play_id, 1);
-                    gui_set_slide(kd, GUI_N | GUI_EASE_ELASTIC, 0.8f, 0.8f, 0.05f);
+                    gui_set_slide(kd, GUI_N | GUI_EASE_ELASTIC, 0.8f, 1.0f, 0.05f);
                 }
 
                 gui_filler(jd);
