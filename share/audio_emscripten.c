@@ -23,6 +23,8 @@
 #include "common.h"
 #include "fs.h"
 #include "log.h"
+#include "strbuf/substr.h"
+#include "strbuf/joinstr.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,8 +55,28 @@ void audio_free(void)
 
 void audio_play(const char *filename, float a)
 {
+    const int can_play_ogg = EM_ASM_INT({
+        return Neverball.audioCanPlayOgg ? 1 : 0;
+    });
+
     int size = 0;
-    unsigned char *data = fs_load_cache(filename, &size);
+    unsigned char *data = NULL;
+
+    if (!(filename && *filename))
+        return;
+
+    size_t len = strlen(filename);
+
+    if (can_play_ogg)
+    {
+        data = fs_load_cache(filename, &size);
+    }
+    else if (len > 3)
+    {
+        const char *mp3 = JOINSTR(SUBSTR(filename, 0, len - 3), "mp3");
+
+        data = fs_load_cache(mp3, &size);
+    }
 
     if (data)
     {
@@ -91,8 +113,28 @@ void audio_music_fade_in(float t)
 
 void audio_music_fade_to(float t, const char *filename)
 {
+    const int can_play_ogg = EM_ASM_INT({
+        return Neverball.audioCanPlayOgg ? 1 : 0;
+    });
+
     int size = 0;
-    unsigned char *data = fs_load_cache(filename, &size);
+    unsigned char *data = NULL;
+
+    if (!(filename && *filename))
+        return;
+
+    size_t len = strlen(filename);
+
+    if (can_play_ogg)
+    {
+        data = fs_load_cache(filename, &size);
+    }
+    else if (len > 3)
+    {
+        const char *mp3 = JOINSTR(SUBSTR(filename, 0, len - 3), "mp3");
+
+        data = fs_load_cache(mp3, &size);
+    }
 
     if (data)
     {

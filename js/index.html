@@ -1017,16 +1017,6 @@ General Public License for more details.
       },
 
       audioPlay: async function (fileName, fileData, a) {
-        if (fileName.endsWith('.ogg') && !this.audioCanPlayOgg) {
-          // MP3 fallback for Safari.
-
-          const response = await fetch('packages/mp3/' + fileName.replace('.ogg', '.mp3'));
-
-          if (response.ok) {
-            fileData = await response.arrayBuffer();
-          }
-        }
-
         const audioBuffer = await this.audioContext?.decodeAudioData(fileData);
 
         if (!audioBuffer) {
@@ -1063,15 +1053,8 @@ General Public License for more details.
 
           // Set up and fade in the new BGM.
 
-          let url;
-
-          if (this.audioCanPlayOgg) {
-            const blob = new Blob([fileData], {type: 'audio/ogg'});
-
-            url = URL.createObjectURL(blob);
-          } else {
-            url = 'packages/mp3/' + fileName.replace('.ogg', '.mp3');
-          }
+          const blob = new Blob([fileData], {type: this.audioCanPlayOgg ? 'audio/ogg' : 'audio/mp3'});
+          const url = URL.createObjectURL(blob);
 
           const audioElem = new Audio(url);
 
