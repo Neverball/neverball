@@ -22,67 +22,6 @@ EM_CFLAGS := \
 	-s USE_LIBPNG=1 \
 	-s USE_LIBJPEG=1
 
-DATA_ZIP := data-emscripten.zip
-
-EM_PRELOAD := \
-	--preload-file $(DATA_ZIP)@/data/base.zip
-
-# Exclude Neverputt + everything that can be downloaded later.
-DATA_EXCLUDE := \
-	'*.map' \
-	'*.obj' \
-	'*.xcf' \
-	'*.wings' \
-	'holes*.txt' \
-	'map-ckk/*' \
-	'map-fwp/*' \
-	'map-hard/*' \
-	'map-iCourse/*' \
-	'map-medium/*' \
-	'map-misc/*' \
-	'map-mym/*' \
-	'map-mym2/*' \
-	'map-paxed/*' \
-	'map-paxed2/*' \
-	'map-paxed3/*' \
-	'map-putt/*' \
-	'map-slippi/*' \
-	'map-tones/*' \
-	'map-vidski/*' \
-	'shot-fwp/*' \
-	'shot-hard/*' \
-	'shot-medium/*' \
-	'shot-misc/*' \
-	'shot-mym/*' \
-	'shot-mym2/*' \
-	'shot-putt/*' \
-	'shot-tones/*' \
-	'set-fwp.txt' \
-	'set-hard.txt' \
-	'set-medium.txt' \
-	'set-misc.txt' \
-	'set-mym.txt' \
-	'set-mym2.txt' \
-	'set-tones.txt' \
-	'ball/atom/*' \
-	'ball/blinky/*' \
-	'ball/catseye/*' \
-	'ball/cheese-ball/*' \
-	'ball/diagonal-ball/*' \
-	'ball/earth/*' \
-	'ball/eyeball/*' \
-	'ball/lava/*' \
-	'ball/magic-eightball/*' \
-	'ball/melon/*' \
-	'ball/octocat/*' \
-	'ball/orange/*' \
-	'ball/reactor/*' \
-	'ball/rift/*' \
-	'ball/saturn/*' \
-	'ball/snowglobe/*' \
-	'ball/sootsprite/*' \
-	'ball/ufo/*'
-
 LDFLAGS := $(GL4ES_DIR)/lib/libGL.a
 EM_LDFLAGS := \
 	-s ALLOW_MEMORY_GROWTH=1 \
@@ -90,12 +29,11 @@ EM_LDFLAGS := \
 	-s INVOKE_RUN=0 \
 	-s NO_EXIT_RUNTIME=1 \
 	-s EXPORTED_FUNCTIONS=_main,_push_user_event,_config_set \
-	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap \
+	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap,addRunDependency,removeRunDependency \
 	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
 	-s LLD_REPORT_UNDEFINED \
 	-s FETCH=1 \
-	-lidbfs.js \
-	$(EM_PRELOAD)
+	-lidbfs.js
 
 ifeq ($(BUILD), devel)
 EM_LDFLAGS += -s ERROR_ON_WASM_CHANGES_AFTER_LINK -s WASM_BIGINT
@@ -187,11 +125,8 @@ BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 .PHONY: neverball
 neverball: $(JSDIR)/neverball.js
 
-$(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
+$(JSDIR)/neverball.js: $(BALL_OBJS)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
-
-$(DATA_ZIP):
-	cd data && zip -r ../$@ . -x $(DATA_EXCLUDE)
 
 .PHONY: packages
 packages: clean-packages
@@ -203,7 +138,7 @@ clean-packages:
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm
 
 .PHONY: watch
 watch:

@@ -21,6 +21,7 @@ General Public License for more details.
 
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="neverball.webmanifest">
+  <link rel="preload" href="packages/available-packages.txt" as="fetch">
 
   <title>Neverball</title>
 
@@ -788,9 +789,67 @@ General Public License for more details.
         this._replayList.replaceChildren(fragment);
       },
 
+      readInstalledPackages: function () {
+        let installedPackages = '';
+
+        try {
+          installedPackages = FS.readFile('/neverball/Downloads/installed-packages.txt', {encoding: 'utf8'});
+        } catch (e) {
+          // Doesn't matter.
+        }
+
+        return installedPackages;
+      },
+
+      loadAvailablePackages: async function () {
+        const response = await fetch('packages/available-packages.txt', {credentials: 'include', mode: 'no-cors'});
+
+        return await response.text();
+      },
+
+      installPackage: async function (packageId) {
+        const pattern = new RegExp('package ' + packageId + '\n');
+
+        if (pattern.test(Neverball.installedPackages)) {
+          // Already installed.
+          return;
+        }
+
+        // Pass options to make link rel="preload" work in Firefox, Chrome.
+        const matches = Neverball.availablePackages.match('package ' + packageId + '\nfilename (.*)\n');
+
+        if (matches) {
+          const filename = matches[1];
+          const response = await fetch('packages/' + filename);
+          const arrayBuffer = await response.arrayBuffer();
+          const byteArray = new Uint8Array(arrayBuffer);
+
+          if (!FS.analyzePath('/neverball/Downloads').exists) {
+            Neverball.mkdir_p('/neverball/Downloads');
+          }
+
+          FS.writeFile('/neverball/Downloads/' + filename, byteArray);
+
+          Neverball.installedPackages = 'package ' + packageId + '\nfilename ' + filename + '\n' + Neverball.installedPackages;
+        }
+      },
+
+      installBasePackages: async function () {
+        Neverball.installedPackages = Neverball.readInstalledPackages();
+        Neverball.availablePackages = await Neverball.loadAvailablePackages();
+
+        await Promise.allSettled([
+          Neverball.installPackage('base-neverball'),
+          Neverball.installPackage('set-easy'),
+          Neverball.installPackage('set-medium'),
+          Neverball.installPackage('set-hard'),
+        ]);
+
+        FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
+      },
+
       ready: function () {
         this._runButton.disabled = false;
-
 
         this._runButton.addEventListener('click', this.events.runButtonClick);
         this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
@@ -865,30 +924,40 @@ General Public License for more details.
         a.click();
       },
 
+      loadBackingStore: function () {
+        return new Promise((resolve, reject) => {
+          FS.syncfs(true, (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+      },
+
+      preRun: async function () {
+        Module.addRunDependency('neverball');
+
+        await Neverball.initUserFolder();
+        await Neverball.installBasePackages();
+
+        Neverball.initBackButton();
+
+        Module.removeRunDependency('neverball');
+      },
+
       /**
        * Set up the user folder with a backing store.
        *
        * Adding as run dependency, because this is an async operation.
        */
-      initUserFolder: function () {
+      initUserFolder: async function () {
         // Create the user folder and mount IndexedDB on it.
         FS.mkdir('/neverball');
         FS.mount(IDBFS, {autoPersist: true}, '/neverball');
 
-        // Tell Emscripten to wait for us.
-        Module.addRunDependency('neverball:user-folder');
-
-        console.log('Synchronizing from backing store...');
-
-        FS.syncfs(true, function (err) {
-          if (err)
-            console.error('Failure to synchronize from backing store: ' + err);
-          else
-            console.log('Successfully synced from backing store.');
-
-          // Tell Emscripten to stop waiting.
-          Module.removeRunDependency('neverball:user-folder');
-        });
+        return Neverball.loadBackingStore();
       },
 
       /**
@@ -1134,8 +1203,7 @@ General Public License for more details.
       arguments: [],
 
       preRun: [
-        Neverball.initUserFolder,
-        Neverball.initBackButton,
+        Neverball.preRun,
       ],
 
       postRun: [],
