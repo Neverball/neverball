@@ -1092,7 +1092,11 @@ General Public License for more details.
       },
 
       audioPlay: async function (fileName, fileData, a) {
-        const audioBuffer = await this.audioContext?.decodeAudioData(fileData);
+        if (!this.audioContext) {
+          return;
+        }
+
+        const audioBuffer = await this.audioContext.decodeAudioData(fileData);
 
         if (!audioBuffer) {
           return;
