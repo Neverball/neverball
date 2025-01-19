@@ -836,7 +836,13 @@ General Public License for more details.
 
       installBasePackages: async function () {
         Neverball.installedPackages = Neverball.readInstalledPackages();
-        Neverball.availablePackages = await Neverball.loadAvailablePackages();
+
+        try {
+          Neverball.availablePackages = await Neverball.loadAvailablePackages();
+        } catch (error) {
+          console.log('Could not load available package list: ' + error.message);
+          return;
+        }
 
         await Promise.allSettled([
           Neverball.installPackage('base-neverball'),
