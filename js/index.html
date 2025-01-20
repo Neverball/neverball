@@ -1092,21 +1092,23 @@ General Public License for more details.
       },
 
       audioPlay: async function (fileName, fileData, a) {
-        if (!this.audioContext) {
+        const audioContext = this.audioContext;
+
+        if (!audioContext) {
           return;
         }
 
-        const audioBuffer = await this.audioContext.decodeAudioData(fileData);
+        const audioBuffer = await audioContext.decodeAudioData(fileData);
 
         if (!audioBuffer) {
           return;
         }
 
-        const sourceNode = new AudioBufferSourceNode(this.audioContext, {
+        const sourceNode = new AudioBufferSourceNode(audioContext, {
             buffer: audioBuffer,
         });
 
-        const gainNode = new GainNode(this.audioContext, {
+        const gainNode = new GainNode(audioContext, {
           gain: a
         });
 
