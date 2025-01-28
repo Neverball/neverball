@@ -73,7 +73,7 @@ static void hole_init_rc(const char *filename)
             /* Read the list. */
 
             while (fs_gets(buff, sizeof (buff), fin) &&
-                   sscanf(buff, "%s %s %d %s",
+                   sscanf(buff, "%255s %255s %d %255s",
                           hole_v[count].file,
                           hole_v[count].back,
                           &hole_v[count].par,
