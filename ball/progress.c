@@ -156,7 +156,7 @@ void progress_step(void)
 
 void progress_stat(int s)
 {
-    int i, dirty = 0;
+    int i;
 
     status = s;
 
@@ -174,15 +174,16 @@ void progress_stat(int s)
         curr.score += coins;
         curr.times += timer;
 
-        dirty = level_score_update(level, timer, coins,
+        level_score_update(level, timer, coins,
                                    &time_rank,
                                    goal == 0 ? &goal_rank : NULL,
                                    &coin_rank);
 
+        level->stats.completed++;
+
         if (!level_completed(level))
         {
             level_complete(level);
-            dirty = 1;
         }
 
         /* Compute next level. */
@@ -196,7 +197,6 @@ void progress_stat(int s)
                 if (!level_opened(next))
                 {
                     level_open(next);
-                    dirty = 1;
                 }
             }
         }
@@ -213,7 +213,6 @@ void progress_stat(int s)
         if (next)
         {
             level_open(next);
-            dirty = 1;
         }
         else
             done = mode == MODE_CHALLENGE;
@@ -232,11 +231,12 @@ void progress_stat(int s)
         curr.times += timer;
         curr.balls -= 1;
 
+        status == GAME_FALL ? level->stats.fallout++ : level->stats.timeout++;
+
         break;
     }
 
-    if (dirty && mode != MODE_STANDALONE)
-        set_store_hs();
+    set_store_hs();
 
     demo_play_stat(status, coins, timer);
 }
