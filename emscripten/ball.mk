@@ -29,10 +29,12 @@ EM_LDFLAGS := \
 	-s INVOKE_RUN=0 \
 	-s NO_EXIT_RUNTIME=1 \
 	-s EXPORTED_FUNCTIONS=_main,_push_user_event,_config_set \
-	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap,addRunDependency,removeRunDependency \
+	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap,FS,IDBFS \
 	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
 	-s LLD_REPORT_UNDEFINED \
 	-s FETCH=1 \
+	-s MODULARIZE=1 \
+	-s EXPORT_NAME=Neverball_createEmscriptenModule \
 	-lidbfs.js
 
 ifeq ($(BUILD), devel)

@@ -454,12 +454,6 @@ General Public License for more details.
 </head>
 
 <body>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js');
-    }
-  </script>
-
   <main class="container flex flex-column gap-4">
     <div class="neverball-box in-game:hidden">
       <h1><span class="neverball-text">Play Neverball</span></h1>
@@ -512,7 +506,7 @@ General Public License for more details.
 
       <div class="flex gap-2 items-center">
         <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
-        <div id="status" class="text-white">Downloading...</div>
+        <div id="status" class="text-white"></div>
       </div>
     </div>
 
@@ -541,15 +535,6 @@ General Public License for more details.
         </div>
       </div>
     </div>
-
-    <!-- <div class="neverball-box">
-      <h2><span class="neverball-text">Browser settings</span></h2>
-
-      <div>
-        <input type="checkbox" id="persist-input">
-        <label for="persist-input">Enable persistent storage. This will make sure replays and settings are not deleted when browser cache is automatically cleared (such as when device space is low). You will have to clear site data to disable this setting.</label>
-      </div>
-    </div> -->
 
     <div class="neverball-box in-game:hidden in-app:hidden">
       <h2><span class="neverball-text">About the game</span></h2>
@@ -581,29 +566,42 @@ General Public License for more details.
   <script>
     'use strict';
 
-    if (window.history.scrollRestoration) {
-      window.history.scrollRestoration = 'manual';
-    }
-
     var Neverball = {
       EVENT_BACK: -1,
       EVENT_PAUSE: 0,
+
+      _module: null,
 
       isRunning: false,
       pauseOnPointerRelease: true,
       arguments: [],
 
+      _canvas: document.getElementById('canvas'),
       _runButton: document.getElementById('run-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
       _replayListBox: document.getElementById('replay-list-box'),
       _replayListDesc: document.getElementById('replay-list-desc'),
       _replayList: document.getElementById('replay-list'),
       _fullscreenCheckbox: document.getElementById('fullscreen-checkbox'),
+      _statusBar: document.getElementById('status'),
+      _progressBar: document.getElementById('progress'),
 
       events: {
-        runButtonClick: function (event) {
+        runButtonClick: async function (event) {
           this.disabled = true;
-          Neverball.run();
+
+          try {
+            if (window.localStorage.getItem('isAppInstalled') !== '1') {
+              // This is our first run. Do preparation now and note that we did.
+              await Neverball.prepareApp();
+
+              window.localStorage.setItem('isAppInstalled', '1');
+            }
+
+            Neverball.run();
+          } catch (error) {
+            this._statusBar.textContent = error.message;
+          }
         },
 
         /**
@@ -611,13 +609,6 @@ General Public License for more details.
          */
         fullscreenButtonClick: function (event) {
           Neverball.requestFullscreen();
-        },
-
-        /**
-         * Request fullscreen on the container.
-         */
-        fullscreenCheckboxChange: function (event) {
-          window.localStorage.setItem('launchInFullscreen', this.checked ? '1' : '0');
         },
 
         /**
@@ -660,10 +651,14 @@ General Public License for more details.
       },
 
       pushEvent: function (code) {
-        Module._push_user_event(code);
+        this._module?._push_user_event(code);
       },
 
       mkdir_p: function (dir) {
+        if (!this._module) {
+          throw Error('Module missing');
+        }
+
         const subdirs = dir.split('/');
 
         for (let i = 1; i <= subdirs.length; ++i) {
@@ -671,7 +666,7 @@ General Public License for more details.
 
           if (subdir) {
             try {
-              FS.mkdir(subdir);
+              this._module.FS.mkdir(subdir);
             } catch (e) {
               // Whatever.
             }
@@ -680,6 +675,8 @@ General Public License for more details.
       },
 
       uploadFiles: function (dir, fileList) {
+        const FS = this._module.FS;
+
         const promises = [];
 
         if (!FS.analyzePath(dir).exists) {
@@ -727,6 +724,8 @@ General Public License for more details.
       },
 
       refreshReplays: function () {
+        const FS = this._module.FS;
+
         let replayNames = [];
 
         try {
@@ -790,6 +789,12 @@ General Public License for more details.
       },
 
       readInstalledPackages: function () {
+        if (!this._module) {
+          throw Error('Missing module');
+        }
+
+        const FS = this._module.FS;
+
         let installedPackages = '';
 
         try {
@@ -802,26 +807,73 @@ General Public License for more details.
       },
 
       loadAvailablePackages: async function () {
+        // Pass options to make link rel="preload" work in Firefox, Chrome.
         const response = await fetch('packages/available-packages.txt', {credentials: 'include', mode: 'no-cors'});
 
         return await response.text();
       },
 
-      installPackage: async function (packageId) {
+      installPackage: async function (packageId, progressCallback = null) {
+        if (!this._module) {
+          throw Error('Module missing');
+        }
+
+        const FS = this._module.FS;
+
         const pattern = new RegExp('package ' + packageId + '\n');
 
         if (pattern.test(Neverball.installedPackages)) {
           // Already installed.
+          console.log('Package ' + packageId + ' is already installed, skipping.');
           return;
         }
 
-        // Pass options to make link rel="preload" work in Firefox, Chrome.
-        const matches = Neverball.availablePackages.match('package ' + packageId + '\nfilename (.*)\n');
+        const matches = Neverball.availablePackages.match('package ' + packageId + '\nfilename (.*)\nsize (.*)\n');
 
         if (matches) {
           const filename = matches[1];
+          const fileSize = parseInt(matches[2]);
           const response = await fetch('packages/' + filename);
-          const arrayBuffer = await response.arrayBuffer();
+
+          if (!response.ok) {
+            return;
+          }
+
+          if (progressCallback) {
+            progressCallback(-fileSize);
+          }
+
+          // Download progress cludge.
+
+          const reader = response.body.getReader();
+          const stream = new ReadableStream({
+            start: function (controller) {
+              const processChunk = async () => {
+                // Read chunk from the reader, count bytes, pass chunk along.
+
+                const { done, value } = await reader.read();
+
+                if (done) {
+                  controller.close();
+                  return;
+                }
+
+                if (progressCallback) {
+                  progressCallback(value.length);
+                }
+
+                controller.enqueue(value);
+
+                processChunk();
+              };
+
+              processChunk();
+            },
+          });
+
+          // Consume the stream and write result to FS.
+
+          const arrayBuffer = await (new Response(stream)).arrayBuffer();
           const byteArray = new Uint8Array(arrayBuffer);
 
           if (!FS.analyzePath('/neverball/Downloads').exists) {
@@ -835,40 +887,43 @@ General Public License for more details.
       },
 
       installBasePackages: async function () {
+        if (!this._module) {
+          throw Error('Missing module');
+        }
+
         Neverball.installedPackages = Neverball.readInstalledPackages();
 
         try {
           Neverball.availablePackages = await Neverball.loadAvailablePackages();
         } catch (error) {
+          // Don't throw here, maybe we're just offline.
           console.log('Could not load available package list: ' + error.message);
           return;
         }
 
+        let totalFileSize = 0;
+        let totalReadSize = 0;
+
+        const showProgress = (readSize) => {
+          if (readSize < 0) {
+            // Negative value is the file size, add it to the total.
+            totalFileSize += -readSize;
+            return;
+          }
+
+          totalReadSize += readSize;
+
+          this._progressBar.style.setProperty('--value', totalReadSize / totalFileSize);
+        }
+
         await Promise.allSettled([
-          Neverball.installPackage('base-neverball'),
-          Neverball.installPackage('set-easy'),
-          Neverball.installPackage('set-medium'),
-          Neverball.installPackage('set-hard'),
+          Neverball.installPackage('base-neverball', showProgress),
+          Neverball.installPackage('set-easy', showProgress),
         ]);
 
-        FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
-      },
+        this._module.FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
 
-      ready: function () {
-        this._runButton.disabled = false;
-
-        this._runButton.addEventListener('click', this.events.runButtonClick);
-        this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
-
-        this._fullscreenCheckbox.checked = (window.localStorage.getItem('launchInFullscreen') === '1');
-        this._fullscreenCheckbox.addEventListener('change', this.events.fullscreenCheckboxChange);
-
-        document.addEventListener('fullscreenchange', this.events.fullscreenChange);
-        document.addEventListener('pointerlockchange', this.events.pointerLockChange);
-
-        Module['canvas'].addEventListener('touchstart', this.events.canvasTouchStart);
-
-        this.refreshReplays();
+        this._progressBar.style.setProperty('--value', 1.0);
       },
 
       requestFullscreen: function () {
@@ -882,11 +937,15 @@ General Public License for more details.
       },
 
       run: function () {
+        if (!this._module) {
+          throw Error('Module missing');
+        }
+
         this.isRunning = true;
 
         document.body.classList.add('in-game');
 
-        Module.callMain(Neverball.arguments);
+        this._module.callMain(this.arguments);
 
         if (this._fullscreenCheckbox.checked) {
           this.requestFullscreen();
@@ -920,6 +979,8 @@ General Public License for more details.
       },
 
       downloadFile: function (path) {
+        const FS = this._module.FS;
+
         const basename = path.split('/').slice(-1);
         const data = FS.readFile(path);
         const blob = new Blob([data], {type: 'application/octet-stream'});
@@ -930,7 +991,21 @@ General Public License for more details.
         a.click();
       },
 
-      loadBackingStore: function () {
+      /**
+       * Set up the filesystem and load saved state.
+       */
+      initFilesystem: async function () {
+        if (!this._module) {
+          throw Error('Module missing');
+        }
+
+        const FS = this._module.FS;
+
+        // Create the user folder and mount IndexedDB on it.
+        FS.mkdir('/neverball');
+        FS.mount(this._module.IDBFS, {autoPersist: true}, '/neverball');
+
+        // Load persisted filesystem.
         return new Promise((resolve, reject) => {
           FS.syncfs(true, (err) => {
             if (err) {
@@ -942,43 +1017,23 @@ General Public License for more details.
         });
       },
 
-      preRun: async function () {
-        Module.addRunDependency('neverball');
-
-        await Neverball.initUserFolder();
-        await Neverball.installBasePackages();
-
-        Neverball.initBackButton();
-
-        Module.removeRunDependency('neverball');
-      },
-
-      /**
-       * Set up the user folder with a backing store.
-       *
-       * Adding as run dependency, because this is an async operation.
-       */
-      initUserFolder: async function () {
-        // Create the user folder and mount IndexedDB on it.
-        FS.mkdir('/neverball');
-        FS.mount(IDBFS, {autoPersist: true}, '/neverball');
-
-        return Neverball.loadBackingStore();
-      },
-
       /**
        * Detect browser back navigation via history states.
        */
       initBackButton: function () {
+        if (window.history.scrollRestoration) {
+          window.history.scrollRestoration = 'manual';
+        }
+
         window.history.replaceState({ initial: true }, null);
         window.history.pushState({ initial: false }, null);
 
         window.addEventListener('popstate', function (event) {
           if (event.state && event.state.initial) {
-            // Notify Neverball via our entry point.
-            Neverball.pushEvent(Neverball.EVENT_BACK);
-
             if (Neverball.isRunning) {
+              // Notify Neverball via our entry point.
+              Neverball.pushEvent(Neverball.EVENT_BACK);
+
               // Re-add sentinel immediately.
               window.history.pushState({ initial: false }, null);
             } else {
@@ -989,56 +1044,11 @@ General Public License for more details.
         });
 
         // Also check and re-add sentinel on user action.
-        Module['canvas'].addEventListener('click', function (event) {
+        this._canvas?.addEventListener('click', function (event) {
           if (window.history.state && window.history.state.initial) {
             window.history.pushState({ initial: false }, null);
           }
         });
-      },
-
-      initPersistentStorage: function () {
-        'use strict';
-
-        var persistInput = document.getElementById('persist-input');
-
-        if (!persistInput) {
-          return;
-        }
-
-        if (navigator.storage) {
-
-          if (navigator.storage.persisted) {
-            console.log('Storage persistence can be queried.');
-
-            navigator.storage.persisted().then(function (persistent) {
-              console.log('Storage persistence query: ' + (persistent ? 'persistent' : 'non-persistent'));
-              persistInput.checked = persistent;
-              // We have no way of revoking this, so disable the checkbox.
-              persistInput.disabled = persistent;
-            });
-          }
-
-          if (navigator.storage.persist) {
-            console.log('Storage persistence can be requested.');
-
-            persistInput.addEventListener('change', function (event) {
-              if (this.checked) {
-                // Remove the checkmark, we'll re-add it on actual success.
-                this.checked = false;
-
-                navigator.storage.persist().then(function (persistent) {
-                  console.log('Storage persistence request: ' + (persistent ? 'persistent' : 'non-persistent'));
-
-                  persistInput.checked = persistent;
-                  // We have no way of revoking this, so disable the checkbox.
-                  persistInput.disabled = persistent;
-                });
-              }
-            });
-          }
-        } else {
-          persistInput.disabled = true;
-        }
       },
 
       /** @type {AudioContext?} */
@@ -1093,8 +1103,13 @@ General Public License for more details.
 
       audioPlay: async function (fileName, fileData, a) {
         const audioContext = this.audioContext;
+        const audioSoundSink = this.audioSoundSink;
 
         if (!audioContext) {
+          return;
+        }
+
+        if (!audioSoundSink) {
           return;
         }
 
@@ -1117,7 +1132,7 @@ General Public License for more details.
         };
 
         sourceNode.connect(gainNode);
-        gainNode.connect(this.audioSoundSink);
+        gainNode.connect(audioSoundSink);
 
         sourceNode.start();
       },
@@ -1184,16 +1199,14 @@ General Public License for more details.
         this.audioMusicSourceNode?.mediaElement.pause();
       },
 
-      init: function () {
-        this.initPersistentStorage();
-
+      initLinks: function () {
         // Get a Neverball "link" from the query string.
 
         const params = new URLSearchParams(window.location.search);
 
         if (params.has('link')) {
-          Neverball.arguments.push('--link');
-          Neverball.arguments.push(params.get('link'));
+          this.arguments.push('--link');
+          this.arguments.push(params.get('link'));
 
           // Remove it from the query string.
 
@@ -1204,106 +1217,111 @@ General Public License for more details.
         }
       },
 
+      initPage: function () {
+        const launchInFullscreen = (window.localStorage.getItem('launchInFullscreen') === '1');
+
+        this.initLinks();
+        this.initBackButton();
+
+        this._fullscreenCheckbox.checked = launchInFullscreen;
+        this._fullscreenCheckbox.addEventListener('change', event => {
+          window.localStorage.setItem('launchInFullscreen', event.target.checked ? '1' : '0');
+        });
+
+        this._runButton.addEventListener('click', this.events.runButtonClick);
+
+        this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
+
+        document.addEventListener('fullscreenchange', this.events.fullscreenChange);
+        document.addEventListener('pointerlockchange', this.events.pointerLockChange);
+
+        this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
+      },
+
+      initRuntime: async function (createEmscriptenModule) {
+
+        if (!createEmscriptenModule) {
+          throw Error('createEmscriptenModule is missing');
+        }
+
+        /* We use MODULARIZE=1, so this is passed to the factory function rather than defined as a global `Module`. */
+
+        const config = {
+          print: function (text) {
+            if (arguments.length > 1) {
+              text = Array.prototype.slice.call(arguments).join(' ');
+            }
+
+            console.log(text);
+          },
+
+          printErr: function (text) {
+            if (arguments.length > 1) {
+              text = Array.prototype.slice.call(arguments).join(' ');
+            }
+
+            console.error(text);
+          },
+
+          canvas: (function () {
+            var canvas = document.getElementById('canvas');
+
+            // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+            // application robust, you may want to override this behavior before shipping!
+            // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+            canvas.addEventListener("webglcontextlost", function (e) {
+              alert('WebGL context lost. You will need to reload the page.');
+              e.preventDefault();
+            }, false);
+
+            return canvas;
+          })(),
+
+          setStatus: function (text) {
+            if (text) {
+              console.log(text);
+            }
+          },
+        };
+
+        try {
+          const module = await createEmscriptenModule(config);
+
+          this._module = module;
+
+          await this.initFilesystem();
+          await this.installBasePackages();
+
+          this.refreshReplays();
+        } catch (error) {
+          this._statusBar.textContent = error.message;
+        }
+      },
+
+      prepareLauncher: async function () {
+        if (window.localStorage.getItem('isAppInstalled') === '1') {
+          // This is not our first run. Do preparation early to show replays, etc.
+          await this.prepareApp();
+        }
+
+        this._runButton.disabled = false;
+      },
+
+      prepareApp: async function () {
+        if ('serviceWorker' in navigator) {
+          await navigator.serviceWorker.register('./service-worker.js', {
+            updateViaCache: 'none',
+          });
+        }
+
+        await Neverball.initRuntime(Neverball_createEmscriptenModule);
+      },
     };
 
-    Neverball.init();
-
-    var statusElement = document.getElementById('status');
-    var progressElement = document.getElementById('progress');
-
-    var Module = {
-      arguments: [],
-
-      preRun: [
-        Neverball.preRun,
-      ],
-
-      postRun: [],
-
-      onRuntimeInitialized: function () {
-        Neverball.ready();
-      },
-
-      print: function (text) {
-        if (arguments.length > 1) {
-          text = Array.prototype.slice.call(arguments).join(' ');
-        }
-
-        console.log(text);
-      },
-
-      printErr: function (text) {
-        if (arguments.length > 1) {
-          text = Array.prototype.slice.call(arguments).join(' ');
-        }
-
-        console.error(text);
-      },
-
-      canvas: (function () {
-        var canvas = document.getElementById('canvas');
-
-        // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-        // application robust, you may want to override this behavior before shipping!
-        // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-        canvas.addEventListener("webglcontextlost", function (e) {
-          alert('WebGL context lost. You will need to reload the page.');
-          e.preventDefault();
-        }, false);
-
-        return canvas;
-      })(),
-
-      setStatus: function (text) {
-        if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
-        if (text === Module.setStatus.last.text) return;
-        var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-        var now = Date.now();
-        if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
-        Module.setStatus.last.time = now;
-        Module.setStatus.last.text = text;
-        if (m) {
-          text = m[1];
-          var value = parseInt(m[2]) * 100;
-          var max = parseInt(m[4]) * 100;
-          progressElement.style.setProperty('--value', value / max);
-          // progressElement.style.width = (value / max) * 100 + '%';
-        } else {
-          progressElement.style.setProperty('--value', text ? 0 : 1);
-          // progressElement.style.width = text ? 0 : '100%';
-        }
-        statusElement.innerHTML = text ? text : 'Ready';
-      },
-
-      totalDependencies: 0,
-      monitorRunDependencies: function (left) {
-        this.totalDependencies = Math.max(this.totalDependencies, left);
-        const message = left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.';
-        Module.setStatus(message);
-      },
-    };
-
-    window.onerror = function () {
-      Module.setStatus('Exception thrown, see JavaScript console');
-
-      Module.setStatus = function (text) {
-        if (text) {
-          Module.printErr('[post-exception status] ' + text);
-        }
-      };
-    };
-
-    Module.setStatus('Downloading...');
+    Neverball.initPage();
   </script>
 
-  <!--
-    When this file is used as a shell file, this placeholder is replaced with the script tag:
-
-    {{{ SCRIPT }}}
-
-    But instead, we just insert the script tag ourselves.
-  -->
-  <script async src="neverball.js"></script>
+  <script async src="neverball.js" onload="Neverball.prepareLauncher();"></script>
 </body>
 
 </html>
