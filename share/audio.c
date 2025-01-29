@@ -312,8 +312,14 @@ void audio_free(void)
     voice_free(music);
     voice_free(queue);
 
-    for (V = voices; V; V = V->next)
+    V = voices;
+
+    while (V)
+    {
+        struct voice *N = V->next;
         voice_free(V);
+        V = N;
+    }
 
     voices = NULL;
     music = NULL;
