@@ -13,7 +13,7 @@ but WITHOUT ANY WARRANTY; without even  the  implied  warranty  of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See  the  GNU
 General Public License for more details.
 -->
-<html lang="en-us">
+<html lang="en-us" class="no-js">
 
 <head>
   <meta charset="utf-8">
@@ -55,6 +55,11 @@ General Public License for more details.
 
     a {
       color: #fff;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1.6rem;
     }
 
     details > summary:hover {
@@ -254,13 +259,18 @@ General Public License for more details.
     }
 
     #screenshot {
+      margin-bottom: 1.6rem;
+    }
+
+    #screenshot video {
       width: 100%;
-      max-width: 32rem;
       height: auto;
+      border-radius: 1rem;
     }
 
     @media (min-width: 640px) {
       #screenshot {
+        max-width: 32rem;
         float: right;
         margin: 0 0 1.6rem 1.6rem;
       }
@@ -288,6 +298,10 @@ General Public License for more details.
 
     .flex-column {
       flex-direction: column;
+    }
+
+    .items-start {
+      align-items: flex-start;
     }
 
     .items-center {
@@ -341,8 +355,16 @@ General Public License for more details.
       margin: 0;
     }
 
+    .mb-0 {
+      margin-bottom: 0;
+    }
+
     .mb-2\.5 {
       margin-bottom: 1rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1.6rem;
     }
 
     .list-none {
@@ -374,6 +396,10 @@ General Public License for more details.
       display: none;
     }
 
+    .no-js .no-js\:hidden {
+      display: none;
+    }
+
     .text-xs {
       font-size: 1.2rem;
       line-height: 1.6rem;
@@ -382,6 +408,10 @@ General Public License for more details.
     .text-sm {
       font-size: 1.4rem;
       line-height: 2.0rem;
+    }
+
+    .text-center {
+      text-align: center;
     }
 
     .flex-wrap {
@@ -454,60 +484,88 @@ General Public License for more details.
 </head>
 
 <body>
+  <script>
+    document.documentElement.classList.remove('no-js');
+  </script>
+
   <main class="container flex flex-column gap-4">
+    <div class="flex items-start in-game:hidden">
+      <h1 class="neverball-box mb-0 py-2.5"><span class="neverball-text">Play Neverball</span></h1>
+    </div>
+
     <div class="neverball-box in-game:hidden">
-      <h1><span class="neverball-text">Play Neverball</span></h1>
 
-      <div id="progress" class="progress-bar">
+        <!-- <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png"> -->
 
-        <div class="progress-bar__value">
-          <div class="progress-bar__tile star" style="--num: 0;"></div>
-          <div class="progress-bar__tile star" style="--num: 1;"></div>
-          <div class="progress-bar__tile star" style="--num: 2;"></div>
-          <div class="progress-bar__tile star" style="--num: 3;"></div>
-          <div class="progress-bar__tile star" style="--num: 4;"></div>
-          <div class="progress-bar__tile star" style="--num: 5;"></div>
-          <div class="progress-bar__tile star" style="--num: 6;"></div>
-          <div class="progress-bar__tile star" style="--num: 7;"></div>
-          <div class="progress-bar__tile star" style="--num: 8;"></div>
-          <div class="progress-bar__tile star" style="--num: 9;"></div>
-          <div class="progress-bar__tile star" style="--num: 10;"></div>
-          <div class="progress-bar__tile star" style="--num: 11;"></div>
-          <div class="progress-bar__tile star" style="--num: 12;"></div>
-          <div class="progress-bar__tile star" style="--num: 13;"></div>
-          <div class="progress-bar__tile star" style="--num: 14;"></div>
-          <div class="progress-bar__tile star" style="--num: 15;"></div>
+        <div id="screenshot">
+          <video src="anim.mp4" poster="anim.jpg" width="640" height="360" loop muted autoplay playsinline></video>
         </div>
 
-        <div class="progress-bar__space">
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
-          <div class="progress-bar__tile coin"></div>
+        <p>Play Neverball in your browser!</p>
+
+        <noscript>
+          <p>
+            To proceed, please <strong>enable JavaScript</strong> and reload this page. Alternatively, you can download the game from the website:
+          </p>
+        </noscript>
+
+        <div class="no-js:hidden">
+          <div id="progress" class="progress-bar hidden mb-4">
+
+            <div class="progress-bar__value">
+              <div class="progress-bar__tile star" style="--num: 0;"></div>
+              <div class="progress-bar__tile star" style="--num: 1;"></div>
+              <div class="progress-bar__tile star" style="--num: 2;"></div>
+              <div class="progress-bar__tile star" style="--num: 3;"></div>
+              <div class="progress-bar__tile star" style="--num: 4;"></div>
+              <div class="progress-bar__tile star" style="--num: 5;"></div>
+              <div class="progress-bar__tile star" style="--num: 6;"></div>
+              <div class="progress-bar__tile star" style="--num: 7;"></div>
+              <div class="progress-bar__tile star" style="--num: 8;"></div>
+              <div class="progress-bar__tile star" style="--num: 9;"></div>
+              <div class="progress-bar__tile star" style="--num: 10;"></div>
+              <div class="progress-bar__tile star" style="--num: 11;"></div>
+              <div class="progress-bar__tile star" style="--num: 12;"></div>
+              <div class="progress-bar__tile star" style="--num: 13;"></div>
+              <div class="progress-bar__tile star" style="--num: 14;"></div>
+              <div class="progress-bar__tile star" style="--num: 15;"></div>
+            </div>
+
+            <div class="progress-bar__space">
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+              <div class="progress-bar__tile coin"></div>
+            </div>
+          </div>
+
+
+
+          <div class="flex gap-2 items-center mb-4">
+            <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
+            <div id="status" class="text-white"></div>
+          </div>
+
+          <div class="mb-4 text-xs flex items-center gap-1">
+            <input type="checkbox" id="fullscreen-checkbox" autocomplete="off">
+            <label for="fullscreen-checkbox">Start game in fullscreen mode</label>
+          </div>
         </div>
-      </div>
 
-      <div class="mb-2.5 text-xs flex items-center gap-1">
-        <input type="checkbox" id="fullscreen-checkbox" autocomplete="off">
-        <label for="fullscreen-checkbox">Start game in fullscreen</label>
-      </div>
+        <p class="mb-0"><a href="https://neverball.org/" target="_blank">Neverball</a> is a rolling ball game. Tilt the floor to roll, collect coins to unlock the goal and reach the goal before time runs out.</p>
 
-      <div class="flex gap-2 items-center">
-        <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
-        <div id="status" class="text-white"></div>
-      </div>
     </div>
 
     <div id="canvas-wrapper" class="hidden in-game:block">
@@ -518,7 +576,23 @@ General Public License for more details.
       </div>
     </div>
 
-    <div class="neverball-box" id="replay-list-box">
+    <div class="neverball-box">
+      <h2><span class="neverball-text">Controls</span></h2>
+
+      <p>
+        Move the 🖱️ mouse or use ⌨️ arrow keys to tilt the floor. Left-click and right-click to move the camera.
+      </p>
+
+      <p>
+        Connect a 🎮 gamepad to tilt the floor with the sticks and move the camera.
+      </p>
+
+      <p>
+        On a 📱 touchscreen, swipe to tilt the floor. While tilting, use your other 👍 thumb to move the camera.
+      </p>
+    </div>
+
+    <div class="neverball-box no-js:hidden in-game:hidden" id="replay-list-box">
       <h2><span class="neverball-text">Replays</span></h2>
 
       <div class="flex flex-column gap-2.5">
@@ -536,30 +610,12 @@ General Public License for more details.
       </div>
     </div>
 
-    <div class="neverball-box in-game:hidden in-app:hidden">
-      <h2><span class="neverball-text">About the game</span></h2>
+    <div class="text-center text-xs in-game:hidden in-app:hidden">
+      <p>
+        This version of Neverball is built with <a href="https://emscripten.org/">Emscripten</a> and <a href="https://github.com/ptitSeb/gl4es">gl4es</a>.
 
-      <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png">
-
-      <p>Play Neverball in your browser!</p>
-
-      <p><a href="https://neverball.org/" target="_blank">Neverball</a> is a rolling ball game. Tilt the floor to roll, collect coins to unlock the goal and reach the goal before time runs out.</p>
-
-      <details>
-        <summary>Technical info</summary>
-
-        <div>
-          <p>This version of Neverball is built with Emscripten and gl4es:</p>
-
-          <p><a href="https://emscripten.org/">Emscripten</a> translates the game's source code into WebAssembly and provides the glue that allows Neverball code to run in the web browser.</p>
-
-          <p><a href="https://github.com/ptitSeb/gl4es">gl4es</a> provides the glue between the 1.x OpenGL API that Neverball uses and the GLES2 API that Emscripten and the modern browser provides.</p>
-
-        </div>
-      </details>
-
-      <p>You also have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a></p>
-
+        You have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a>
+      </p>
     </div>
   </main>
 
@@ -593,6 +649,8 @@ General Public License for more details.
           try {
             if (window.localStorage.getItem('isAppInstalled') !== '1') {
               // This is our first run. Do preparation now and note that we did.
+              await navigator.storage.persist();
+
               await Neverball.prepareApp();
 
               window.localStorage.setItem('isAppInstalled', '1');
@@ -600,7 +658,7 @@ General Public License for more details.
 
             Neverball.run();
           } catch (error) {
-            this._statusBar.textContent = error.message;
+            this.setStatusText(error.message);
           }
         },
 
@@ -886,6 +944,15 @@ General Public License for more details.
         }
       },
 
+      setProgress: function (value) {
+        this._progressBar?.classList.remove('hidden');
+        this._progressBar?.style.setProperty('--value', value);
+      },
+
+      setStatusText: function (text) {
+        this._statusBar.textContent = text;
+      },
+
       installBasePackages: async function () {
         if (!this._module) {
           throw Error('Missing module');
@@ -913,7 +980,7 @@ General Public License for more details.
 
           totalReadSize += readSize;
 
-          this._progressBar.style.setProperty('--value', totalReadSize / totalFileSize);
+          this.setProgress(totalReadSize / totalFileSize);
         }
 
         await Promise.allSettled([
@@ -923,7 +990,7 @@ General Public License for more details.
 
         this._module.FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
 
-        this._progressBar.style.setProperty('--value', 1.0);
+        this.setProgress(1.0);
       },
 
       requestFullscreen: function () {
@@ -998,6 +1065,8 @@ General Public License for more details.
         if (!this._module) {
           throw Error('Module missing');
         }
+
+        this.setStatusText('Initializing the file system...');
 
         const FS = this._module.FS;
 
@@ -1290,11 +1359,14 @@ General Public License for more details.
           this._module = module;
 
           await this.initFilesystem();
+
+          this.setStatusText('Getting game data...');
+
           await this.installBasePackages();
 
           this.refreshReplays();
         } catch (error) {
-          this._statusBar.textContent = error.message;
+          this.setStatusText(error.message);
         }
       },
 
@@ -1302,12 +1374,18 @@ General Public License for more details.
         if (window.localStorage.getItem('isAppInstalled') === '1') {
           // This is not our first run. Do preparation early to show replays, etc.
           await this.prepareApp();
+        } else {
+          // this.setStatusText('First time?');
         }
 
         this._runButton.disabled = false;
       },
 
       prepareApp: async function () {
+        this.setProgress(0.0);
+
+        this.setStatusText('Preparing...');
+
         if ('serviceWorker' in navigator) {
           await navigator.serviceWorker.register('./service-worker.js', {
             updateViaCache: 'none',
@@ -1315,6 +1393,8 @@ General Public License for more details.
         }
 
         await Neverball.initRuntime(Neverball_createEmscriptenModule);
+
+        this.setStatusText('Ready to play. Good luck!');
       },
     };
 
