@@ -434,7 +434,7 @@ static SDL_atomic_t fetch_thread_running;
 /*
  * Fetch thread entry point.
  */
-static int fetch_thread_func(void *data)
+static int fetch_thread_main(void *data)
 {
     /* Loop infinitely unless poll fails or requested to quit. */
 
@@ -471,7 +471,7 @@ static void fetch_thread_init(void)
 {
     SDL_AtomicSet(&fetch_thread_running, 1);
     fetch_mutex = SDL_CreateMutex();
-    fetch_thread = SDL_CreateThread(fetch_thread_func, "fetch", NULL);
+    fetch_thread = SDL_CreateThread(fetch_thread_main, "fetch", NULL);
 }
 
 /*
