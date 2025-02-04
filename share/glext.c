@@ -14,6 +14,7 @@
 
 #include <SDL.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "glext.h"
 #include "log.h"
