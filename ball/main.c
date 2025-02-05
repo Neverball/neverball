@@ -351,44 +351,6 @@ void push_user_event(int code)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Custom SDL event code for fetch events.
- */
-static Uint32 FETCH_EVENT = (Uint32) -1;
-
-/*
- * Push a custom SDL event on the queue from another thread.
- */
-static void dispatch_fetch_event(void *data)
-{
-    SDL_Event e;
-
-    memset(&e, 0, sizeof (e));
-
-    e.type = FETCH_EVENT;
-    e.user.data1 = data;
-
-    /* This is thread safe. */
-
-    SDL_PushEvent(&e);
-}
-
-/*
- * Start the fetch thread.
- *
- * SDL must be initialized at this point for fetch event dispatch to work.
- */
-static void initialize_fetch(void)
-{
-    /* Get a custom event code for fetch events. */
-    FETCH_EVENT = SDL_RegisterEvents(1);
-
-    /* Start the thread. */
-    fetch_init(dispatch_fetch_event);
-}
-
-/*---------------------------------------------------------------------------*/
-
 static int goto_level(const char *path)
 {
     /* HACK: must be around for the duration of the game. */
@@ -920,7 +882,7 @@ static int main_init(int argc, char *argv[])
         return 0;
     }
 
-    initialize_fetch();
+    fetch_init();
 
     package_init();
 

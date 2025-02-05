@@ -23,6 +23,7 @@
 
 #include <SDL_mutex.h>
 #include <SDL_thread.h>
+#include <SDL_events.h>
 
 /*
  * The thing that lets us do async transfers in a single thread.
@@ -101,11 +102,6 @@ struct fetch_event
 };
 
 /*
- * Dispatch a wrapped callback to the thread that calls fetch_handle_event.
- */
-static void (*fetch_dispatch_event)(void *) = NULL;
-
-/*
  * Create extra_data for a progress callback.
  */
 static struct fetch_progress *create_extra_progress(double total, double now)
@@ -168,14 +164,49 @@ static void free_fetch_event(struct fetch_event *fe)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 /*
- * Invoke a wrapped callback. This should happen on the main thread.
+ * Custom SDL event code for fetch events.
+ */
+unsigned long FETCH_EVENT = (unsigned long) -1;
+
+/*
+ * Prepare for event dispatch.
+ *
+ * SDL must be initialized at this point for fetch event dispatch to work.
+ */
+static void fetch_dispatch_init(void)
+{
+    /* Get a custom event code for fetch events. */
+    FETCH_EVENT = (unsigned long) SDL_RegisterEvents(1);
+}
+
+/*
+ * Push a custom SDL event on the event queue.
+ */
+static void fetch_dispatch_event(void *data)
+{
+    SDL_Event e;
+
+    memset(&e, 0, sizeof (e));
+
+    e.type = FETCH_EVENT;
+    e.user.data1 = data;
+
+    /* This is thread safe. */
+
+    SDL_PushEvent(&e);
+}
+
+/*
+ * Invoke a wrapped callback. Called from the main thread upon receiving a FETCH_EVENT custom event.
  */
 void fetch_handle_event(void *data)
 {
     struct fetch_event *fe = data;
 
-    if (fe->callback)
+    if (fe && fe->callback)
         fe->callback(fe->callback_data, fe->extra_data);
 
     free_fetch_event(fe);
@@ -516,7 +547,7 @@ static int fetch_unlock_mutex(void)
 /*
  * Initialize the CURL.
  */
-void fetch_init(void (*dispatch_event)(void *))
+void fetch_init(void)
 {
     curl_version_info_data *info;
 
@@ -538,7 +569,7 @@ void fetch_init(void (*dispatch_event)(void *))
 
     curl_multi_setopt(multi_handle, CURLMOPT_MAX_TOTAL_CONNECTIONS, FETCH_MAX);
 
-    fetch_dispatch_event = dispatch_event;
+    fetch_dispatch_init();
 
     fetch_thread_init();
 }

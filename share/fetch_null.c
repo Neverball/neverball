@@ -14,7 +14,7 @@
 
 #include "fetch.h"
 
-void fetch_init(void (*dispatch_event)(void *))
+void fetch_init(void)
 {
 }
 

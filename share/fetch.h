@@ -44,7 +44,9 @@ struct fetch_callback
     void *data;
 };
 
-void fetch_init(void (*dispatch_event)(void *));
+extern unsigned long FETCH_EVENT;
+
+void fetch_init(void);
 void fetch_handle_event(void *);
 void fetch_quit(void);
 

@@ -108,7 +108,7 @@ static void unlink_and_free_fetch_info(struct fetch_info *fi)
     }
 }
 
-void fetch_init(void (*dispatch_event)(void *))
+void fetch_init(void)
 {
     /* Just compile with -s FETCH=1 */
 }
