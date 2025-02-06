@@ -154,7 +154,7 @@ static struct theme curr_theme;
 
 static int gui_hot(int id)
 {
-    return (widget[id].flags & GUI_STATE);
+    return (widget[id].flags & GUI_STATE) && !widget[id].hidden;
 }
 
 /*---------------------------------------------------------------------------*/
