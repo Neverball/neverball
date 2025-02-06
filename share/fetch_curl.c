@@ -185,14 +185,14 @@ static void fetch_dispatch_init(void)
 /*
  * Push a custom SDL event on the event queue.
  */
-static void fetch_dispatch_event(void *data)
+static void fetch_dispatch_event(struct fetch_event *fe)
 {
     SDL_Event e;
 
     memset(&e, 0, sizeof (e));
 
     e.type = FETCH_EVENT;
-    e.user.data1 = data;
+    e.user.data1 = fe;
 
     /* This is thread safe. */
 
