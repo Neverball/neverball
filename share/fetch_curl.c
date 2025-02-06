@@ -531,7 +531,8 @@ static int fetch_lock_mutex(void)
     }
 
     /* Then, attempt to acquire mutex. */
-    return SDL_LockMutex(fetch_mutex);
+
+    return fetch_mutex ? SDL_LockMutex(fetch_mutex) == 0 : 0;
 }
 
 /*
@@ -602,7 +603,13 @@ unsigned int fetch_file(const char *url,
     unsigned int fetch_id = 0;
     CURL *handle;
 
-    fetch_lock_mutex();
+    int has_lock = fetch_lock_mutex();
+
+    if (!has_lock)
+    {
+        log_printf("Fetch mutex lock failed unexpectedly\n");
+        return 0;
+    }
 
     handle = curl_easy_init();
 
