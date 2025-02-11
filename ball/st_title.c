@@ -219,18 +219,21 @@ static int title_gui(void)
 #endif
 
 #if ENABLE_FETCH
-        if ((id = gui_vstack(root_id)))
+        if (config_get_d(CONFIG_ONLINE))
         {
-            if ((jd = gui_hstack(id)))
+            if ((id = gui_vstack(root_id)))
             {
-                gui_space(jd);
-                gui_state(jd, _("Addons"), GUI_SML, TITLE_PACKAGES, 0);
+                if ((jd = gui_hstack(id)))
+                {
+                    gui_space(jd);
+                    gui_state(jd, _("Addons"), GUI_SML, TITLE_PACKAGES, 0);
+                }
+                gui_space(id);
+
+                gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 1.2f, 1.4f, 0);
+
+                gui_layout(id, +1, -1);
             }
-            gui_space(id);
-
-            gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 1.2f, 1.4f, 0);
-
-            gui_layout(id, +1, -1);
         }
 #endif
     }

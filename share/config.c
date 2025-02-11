@@ -120,6 +120,8 @@ int CONFIG_CAMERA_3_SPEED;
 
 int CONFIG_TOUCH_ROTATE;
 
+int CONFIG_ONLINE;
+
 /* String options. */
 
 int CONFIG_PLAYER;
@@ -234,6 +236,8 @@ static struct
     { &CONFIG_CAMERA_3_SPEED, "camera_3_speed", -1 },
 
     { &CONFIG_TOUCH_ROTATE, "touch_rotate", 16 },
+
+    { &CONFIG_ONLINE, "online", 1 },
 };
 
 static struct

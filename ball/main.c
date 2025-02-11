@@ -882,7 +882,12 @@ static int main_init(int argc, char *argv[])
         return 0;
     }
 
-    fetch_init();
+    /* Intitialize configuration. */
+
+    config_init();
+    config_load();
+
+    fetch_enable(config_get_d(CONFIG_ONLINE));
 
     package_init();
 
@@ -891,11 +896,6 @@ static int main_init(int argc, char *argv[])
     /* Enable joystick events. */
 
     joy_init();
-
-    /* Intitialize configuration. */
-
-    config_init();
-    config_load();
 
     /* Initialize localization. */
 
@@ -941,7 +941,7 @@ static void main_quit(void)
     joy_quit();
     config_quit();
     package_quit();
-    fetch_quit();
+    fetch_enable(0);
     SDL_Quit();
     log_quit();
     fs_quit();

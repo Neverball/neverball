@@ -19,8 +19,26 @@
 #include "list.h"
 #include "fs.h"
 
-static unsigned int last_fetch_id = 0;
+static int fetch_enabled = 0;
 
+void fetch_enable(int enable)
+{
+    int old_value = fetch_enabled;
+
+    fetch_enabled = !!enable;
+
+    if (fetch_enabled != old_value)
+    {
+        if (fetch_enabled)
+            fetch_init();
+        else
+            fetch_quit();
+    }
+
+    log_printf("Fetch is %s\n", fetch_enabled ? "enabled": "disabled");
+}
+
+static unsigned int last_fetch_id = 0;
 struct fetch_info
 {
     struct fetch_callback callback;
@@ -202,7 +220,12 @@ static void fetch_progress_func(emscripten_fetch_t *handle)
 unsigned int fetch_file(const char *url, const char *dst, struct fetch_callback callback)
 {
     unsigned int fetch_id = 0;
-    struct fetch_info *fi = create_and_link_fetch_info();
+    struct fetch_info *fi = NULL;
+
+    if (!fetch_enabled)
+        return 0;
+
+    fi = create_and_link_fetch_info();
 
     if (fi)
     {

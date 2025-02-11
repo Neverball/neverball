@@ -54,4 +54,6 @@ unsigned int fetch_file(const char *url,
                         const char *dst,
                         struct fetch_callback);
 
+void fetch_enable(int enable);
+
 #endif

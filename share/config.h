@@ -111,6 +111,8 @@ extern int CONFIG_CAMERA_3_SPEED;
 
 extern int CONFIG_TOUCH_ROTATE;
 
+extern int CONFIG_ONLINE;
+
 /* String options. */
 
 extern int CONFIG_PLAYER;

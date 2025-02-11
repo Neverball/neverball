@@ -14,6 +14,10 @@
 
 #include "fetch.h"
 
+void fetch_enable(int enable)
+{
+}
+
 void fetch_init(void)
 {
 }

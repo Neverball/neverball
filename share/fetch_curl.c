@@ -63,6 +63,30 @@ static List fetch_list = NULL;
 /*---------------------------------------------------------------------------*/
 
 /*
+ * Set this to 0 to disable all fetch functionality.
+ */
+static int fetch_enabled = 0;
+
+void fetch_enable(int enable)
+{
+    int old_value = fetch_enabled;
+
+    fetch_enabled = !!enable;
+
+    if (fetch_enabled != old_value)
+    {
+        if (fetch_enabled)
+            fetch_init();
+        else
+            fetch_quit();
+    }
+
+    log_printf("Fetch is %s\n", fetch_enabled ? "enabled": "disabled");
+}
+
+/*---------------------------------------------------------------------------*/
+
+/*
  * Here's a bit of odd decision making:
  *
  * I was very impressed with the download speed gains of libcurl running
@@ -512,11 +536,17 @@ static void fetch_thread_quit(void)
 {
     SDL_AtomicSet(&fetch_thread_running, 0);
 
-    SDL_WaitThread(fetch_thread, NULL);
-    fetch_thread = NULL;
+    if (fetch_thread)
+    {
+        SDL_WaitThread(fetch_thread, NULL);
+        fetch_thread = NULL;
+    }
 
-    SDL_DestroyMutex(fetch_mutex);
-    fetch_mutex = NULL;
+    if (fetch_mutex)
+    {
+        SDL_DestroyMutex(fetch_mutex);
+        fetch_mutex = NULL;
+    }
 }
 
 /*
@@ -551,6 +581,9 @@ static int fetch_unlock_mutex(void)
 void fetch_init(void)
 {
     curl_version_info_data *info;
+
+    if (!fetch_enabled)
+        return;
 
     curl_global_init(CURL_GLOBAL_ALL);
 
@@ -601,9 +634,13 @@ unsigned int fetch_file(const char *url,
                         struct fetch_callback callback)
 {
     unsigned int fetch_id = 0;
-    CURL *handle;
+    CURL *handle = NULL;
+    int has_lock = 0;
 
-    int has_lock = fetch_lock_mutex();
+    if (!fetch_enabled)
+        return 0;
+
+    has_lock = fetch_lock_mutex();
 
     if (!has_lock)
     {
