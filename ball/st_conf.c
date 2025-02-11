@@ -210,7 +210,7 @@ static int conf_gui(void)
         {
             gui_label(id, "Neverball " VERSION, GUI_TNY, gui_wht, gui_wht);
             gui_multi(id, _(
-                "Copyright © 2023 Neverball authors\n"
+                "Copyright © 2025 Neverball authors\n"
                 "Neverball is free software available under the terms of GPL v2 or later."
             ), GUI_TNY, gui_wht, gui_wht);
 
