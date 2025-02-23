@@ -17,6 +17,7 @@
 #include "fetch.h"
 #include "common.h"
 #include "list.h"
+#include "log.h"
 #include "fs.h"
 
 static int fetch_enabled = 0;
