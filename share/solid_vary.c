@@ -53,6 +53,13 @@ static void setup_mover(struct alloc *alloc, const struct s_vary *fp, int pi, in
             *mi = fp->mc - 1;
 
         move->pi = pi;
+
+        move->rot.w = 1.0f;
+        move->rot.x = 0.0f;
+        move->rot.y = 0.0f;
+        move->rot.z = 0.0f;
+
+        set_move_dirty(fp, fp->mc - 1, 1u);
     }
 }
 
@@ -240,6 +247,39 @@ void sol_free_vary(struct s_vary *fp)
 
 /*---------------------------------------------------------------------------*/
 
+/*
+ * Check if path movers need their transforms recalculated.
+ *
+ * This is recursive due to hierarchical transform (paths moving along paths).
+ */
+static int is_path_dirty(const struct s_vary *vary, int pi)
+{
+    if (pi < 0 || pi >= vary->pc)
+        return 0;
+
+    return is_move_dirty(vary, vary->pv[pi].mi) || is_move_dirty(vary, vary->pv[pi].mj);
+}
+
+/*
+ * Check if mover needs its transform recalculated.
+ *
+ * This is recursive due to hierarchical transform (paths moving along paths).
+ */
+int is_move_dirty(const struct s_vary *vary, int mi)
+{
+    if (mi < 0 || mi >= vary->mc)
+        return 0;
+
+    return vary->mv[mi].dirty || is_path_dirty(vary, vary->mv[mi].pi);
+}
+
+void set_move_dirty(const struct s_vary *vary, int mi, unsigned int dirty)
+{
+    vary->mv[mi].dirty = !!dirty;
+}
+
+/*---------------------------------------------------------------------------*/
+
 int sol_vary_cmd(struct s_vary *fp, struct cmd_state *cs, const union cmd *cmd)
 {
     struct v_ball *up;
@@ -412,12 +452,22 @@ void sol_lerp_apply(struct s_lerp *fp, float a)
 
     for (i = 0; i < fp->mc; i++)
     {
+        const float old_t = fp->vary->mv[i].t;
+        const int old_pi = fp->vary->mv[i].pi;
+
         if (fp->mv[i][PREV].pi == fp->mv[i][CURR].pi)
             fp->vary->mv[i].t = flerp(fp->mv[i][PREV].t, fp->mv[i][CURR].t, a);
         else
             fp->vary->mv[i].t = fp->mv[i][CURR].t * a;
 
         fp->vary->mv[i].pi = fp->mv[i][CURR].pi;
+
+        if (!(fp->vary->mv[i].t == old_t && fp->vary->mv[i].pi == old_pi))
+        {
+            /* ^ Yes, that's a float compare. It's okay for it to fail, this isn't that important. */
+
+            set_move_dirty(fp->vary, i, 1u);
+        }
     }
 
     for (i = 0; i < fp->uc; i++)

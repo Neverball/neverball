@@ -40,16 +40,6 @@ static float derp(float t)
  * This here is a scene graph, believe it or not.
  */
 
-struct vec3
-{
-    float x, y, z;
-};
-
-struct vec4
-{
-    float w, x, y, z;
-};
-
 static const struct vec3 POS_IDENTITY = { 0.0f, 0.0f, 0.0f };
 static const struct vec4 ROT_IDENTITY = { 1.0f, 0.0f, 0.0f, 0.0f };
 
@@ -128,6 +118,8 @@ static struct vec4 get_move_rot(const struct s_vary *vary, int mi, float dt)
     return rot;
 }
 
+static void get_move_transform(const struct s_vary *vary, int mi, float dt, struct vec3 *pos_out, struct vec4 *rot_out);
+
 static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt)
 {
     if (pi < 0)
@@ -136,8 +128,11 @@ static struct vec3 get_path_pos(const struct s_vary *vary, int pi, float dt)
     const struct v_path *vp = vary->pv + pi;
     const struct b_path *pp = vary->base->pv + pi;
 
-    struct vec3 pos = get_move_pos(vary, vp->mi, dt);
-    struct vec4 rot = get_move_rot(vary, vp->mj, dt);
+    struct vec3 pos;
+    struct vec4 rot;
+
+    get_move_transform(vary, vp->mi, dt, &pos, NULL);
+    get_move_transform(vary, vp->mj, dt, NULL, &rot);
 
     if (rot.w != 1.0f)
     {
@@ -159,7 +154,9 @@ static struct vec4 get_path_rot(const struct s_vary *vary, int pi, float dt)
     const struct v_path *vp = vary->pv + pi;
     const struct b_path *pp = vary->base->pv + pi;
 
-    struct vec4 rot = get_move_rot(vary, vp->mj, dt);
+    struct vec4 rot;
+
+    get_move_transform(vary, vp->mj, dt, NULL, &rot);
 
     float e[4];
 
@@ -173,6 +170,63 @@ static struct vec4 get_path_rot(const struct s_vary *vary, int pi, float dt)
     return rot;
 }
 
+/*
+ * Recalculate mover transform if necessary.
+ */
+static void get_move_transform(const struct s_vary *vary, int mi, float dt, struct vec3 *pos_out, struct vec4 *rot_out)
+{
+    if (pos_out)
+        *pos_out = POS_IDENTITY;
+
+    if (rot_out)
+        *rot_out = ROT_IDENTITY;
+
+    if (mi < 0 || mi >= vary->mc)
+        return;
+
+    if (dt != 0.0f)
+    {
+        /* When passed a non-zero DT, bypass cache entirely. TODO: Figure out a way to cache these. */
+
+        if (pos_out)
+            *pos_out = get_move_pos(vary, mi, dt);
+
+        if (rot_out)
+            *rot_out = get_move_rot(vary, mi, dt);
+    }
+    else
+    {
+        if (is_move_dirty(vary, mi))
+        {
+            /* Cache miss: recalculate and cache transform. */
+
+            vary->mv[mi].pos = get_move_pos(vary, mi, dt);
+            vary->mv[mi].rot = get_move_rot(vary, mi, dt);
+
+            if (pos_out)
+                *pos_out = vary->mv[mi].pos;
+
+            if (rot_out)
+                *rot_out = vary->mv[mi].rot;
+
+            set_move_dirty(vary, mi, 0);
+        }
+        else
+        {
+            /* Cache hit: just use cached transform. */
+
+            if (pos_out)
+                *pos_out = vary->mv[mi].pos;
+
+            if (rot_out)
+                *rot_out = vary->mv[mi].rot;
+        }
+    }
+
+}
+
+/*---------------------------------------------------------------------------*/
+
 void sol_body_p(float p[3],
                 const struct s_vary *vary,
                 int mi,
@@ -180,7 +234,9 @@ void sol_body_p(float p[3],
 {
     if (mi >= 0)
     {
-        struct vec3 pos = get_move_pos(vary, mi, dt);
+        struct vec3 pos;
+
+        get_move_transform(vary, mi, dt, &pos, NULL);
 
         p[0] = pos.x;
         p[1] = pos.y;
@@ -227,7 +283,9 @@ void sol_body_e(float e[4],
 {
     if (mi >= 0)
     {
-        const struct vec4 rot = get_move_rot(vary, mi, dt);
+        struct vec4 rot;
+
+        get_move_transform(vary, mi, dt, NULL, &rot);
 
         e[0] = rot.w;
         e[1] = rot.x;
@@ -408,6 +466,8 @@ void sol_pendulum(struct v_ball *up,
 
 static void sol_path_flag(struct s_vary *vary, cmd_fn cmd_func, int pi, int f)
 {
+    int mi;
+
     if (pi < 0 || pi >= vary->pc)
         return;
 
@@ -423,6 +483,10 @@ static void sol_path_flag(struct s_vary *vary, cmd_fn cmd_func, int pi, int f)
         cmd.pathflag.f = vary->pv[pi].f;
         cmd_func(&cmd);
     }
+
+    for (mi = 0; mi < vary->mc; ++mi)
+        if (vary->mv[mi].pi == pi)
+            set_move_dirty(vary, mi, 1u);
 }
 
 static void sol_path_loop(struct s_vary *vary, cmd_fn cmd_func, int p0, int f)
@@ -514,6 +578,8 @@ void sol_move_step(struct s_vary *vary, cmd_fn cmd_func, float dt, int ms)
         if (vary->pv[mp->pi].f)
         {
             struct v_path *pp = vary->pv + mp->pi;
+
+            set_move_dirty(vary, i, 1u);
 
             mp->t  += dt;
             mp->tm += ms;

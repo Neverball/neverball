@@ -159,4 +159,18 @@ void q_rot(float v[3], const float r[4], const float w[3]);
 void q_euler(float v[3], const float q[4]);
 void q_slerp(float q[4], const float a[4], const float b[4], float t);
 
+/*---------------------------------------------------------------------------*/
+
+struct vec3
+{
+    float x, y, z;
+};
+
+struct vec4
+{
+    float w, x, y, z;
+};
+
+/*---------------------------------------------------------------------------*/
+
 #endif
