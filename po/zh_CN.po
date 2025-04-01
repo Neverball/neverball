@@ -305,7 +305,7 @@ msgstr "结束"
 
 #: ball/st_help.c:102
 msgid "Tricks"
-msgstr "诀窍"
+msgstr "技巧"
 
 #: ball/st_help.c:103
 msgid "Modes"
