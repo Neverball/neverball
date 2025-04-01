@@ -396,7 +396,7 @@ msgstr "单机关卡"
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
-msgstr "找不到一个可写入的回放文件\\这次不会被记录"
+msgstr "无法打开回放文件以进行写入。\\此回放将不会被记录。"
 
 #: ball/st_name.c:112
 msgid "OK"
