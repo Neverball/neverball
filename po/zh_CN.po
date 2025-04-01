@@ -137,7 +137,7 @@ msgstr "未知模式"
 
 #: ball/st_ball.c:180 ball/st_conf.c:184
 msgid "Ball Model"
-msgstr "球的样式"
+msgstr "球体皮肤"
 
 #: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
 #: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
