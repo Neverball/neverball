@@ -375,7 +375,7 @@ msgstr "同时按2个方向键会增加赛道倾斜\\的斜率（倾斜程度）
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
-msgstr "观看 demo"
+msgstr "观看演示"
 
 #: ball/st_level.c:56
 #, c-format
