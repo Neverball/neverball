@@ -32,7 +32,7 @@ msgstr "超时"
 
 #: ball/game_common.c:30
 msgid "Success"
-msgstr "呈贡"
+msgstr "成功"
 
 #: ball/game_common.c:31
 msgid "Fall-out"
