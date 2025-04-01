@@ -269,7 +269,7 @@ msgstr "选择关卡"
 
 #: ball/st_fail.c:82
 msgid "Fall-out!"
-msgstr "落下！"
+msgstr "你掉下去了！"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
