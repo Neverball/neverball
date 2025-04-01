@@ -679,7 +679,7 @@ msgstr "选择球道"
 
 #: putt/st_all.c:520
 msgid "Players?"
-msgstr "玩家？"
+msgstr "玩家数量？"
 
 #: putt/st_all.c:722
 #, c-format
