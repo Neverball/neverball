@@ -32,7 +32,7 @@ msgstr "超时"
 
 #: ball/game_common.c:30
 msgid "Success"
-msgstr "呈贡"
+msgstr "成功"
 
 #: ball/game_common.c:31
 msgid "Fall-out"
@@ -137,7 +137,7 @@ msgstr "未知模式"
 
 #: ball/st_ball.c:180 ball/st_conf.c:184
 msgid "Ball Model"
-msgstr "球的样式"
+msgstr "球体皮肤"
 
 #: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
 #: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
@@ -243,7 +243,7 @@ msgstr "重复"
 
 #: ball/st_demo.c:715
 msgid "Delete Replay?"
-msgstr "删除回放？"
+msgstr "你要删除这个回放吗？"
 
 #: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
@@ -269,7 +269,7 @@ msgstr "选择关卡"
 
 #: ball/st_fail.c:82
 msgid "Fall-out!"
-msgstr "落下！"
+msgstr "你掉下去了！"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
@@ -305,7 +305,7 @@ msgstr "结束"
 
 #: ball/st_help.c:102
 msgid "Tricks"
-msgstr "诀窍"
+msgstr "技巧"
 
 #: ball/st_help.c:103
 msgid "Modes"
@@ -375,7 +375,7 @@ msgstr "同时按2个方向键会增加赛道倾斜\\的斜率（倾斜程度）
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
-msgstr "观看 demo"
+msgstr "观看演示"
 
 #: ball/st_level.c:56
 #, c-format
@@ -396,7 +396,7 @@ msgstr "单机关卡"
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
-msgstr "找不到一个可写入的回放文件\\这次不会被记录"
+msgstr "无法打开回放文件以进行写入。\\此回放将不会被记录。"
 
 #: ball/st_name.c:112
 msgid "OK"
@@ -679,7 +679,7 @@ msgstr "选择球道"
 
 #: putt/st_all.c:520
 msgid "Players?"
-msgstr "玩家？"
+msgstr "玩家数量？"
 
 #: putt/st_all.c:722
 #, c-format
@@ -1051,7 +1051,7 @@ msgstr "=时空=，没多少空间，没多少时间。"
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=云集= 警告：违反者将会thwomped"
+msgstr "=云集= 警告：擅自闯入者将会受到重创。"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
