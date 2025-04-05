@@ -15,11 +15,8 @@ ADDON_SET_PACKAGES := $(basename $(notdir $(ADDON_SET_DIRS)))
 
 MANIFEST := $(OUTPUT_DIR)/available-packages.txt
 
-all: base $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES)
+all: $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES)
 	find $(OUTPUT_DIR) -name '*.manifest.txt' | LC_ALL=C sort | xargs cat > $(MANIFEST)
-
-base:
-	$(MAKE) -f mk/package-base.mk OUTPUT_DIR=$(OUTPUT_DIR)
 
 $(SET_PACKAGES): %: $(DATA_DIR)/%.txt
 	$(MAKE) -f mk/package-levelset.mk ADDON_SET=0 PACKAGE_ID=$@ SET_FILE=$< DATA_DIR=$(DATA_DIR) OUTPUT_DIR=$(OUTPUT_DIR)
@@ -30,6 +27,6 @@ $(BALL_PACKAGES): ball-%: $(DATA_DIR)/ball/%
 $(ADDON_SET_PACKAGES): %: $(PACKAGES_DIR)/%
 	$(MAKE) -f mk/package-levelset.mk ADDON_SET=1 PACKAGE_ID=$@ SET_FILE=$</$(notdir $<).txt DATA_DIR=$< OUTPUT_DIR=$(OUTPUT_DIR)
 
-.PHONY: all base $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES)
+.PHONY: all $(SET_PACKAGES) $(BALL_PACKAGES) $(ADDON_SET_PACKAGES)
 
 GNUMAKEFLAGS = --no-print-directory

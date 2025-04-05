@@ -22,6 +22,10 @@ EM_CFLAGS := \
 	-s USE_LIBPNG=1 \
 	-s USE_LIBJPEG=1
 
+DATA_ZIP := base-neverball.zip
+
+EM_PRELOAD := --preload-file $(DATA_ZIP)@/data/base-neverball.zip
+
 LDFLAGS := $(GL4ES_DIR)/lib/libGL.a
 EM_LDFLAGS := \
 	-s ALLOW_MEMORY_GROWTH=1 \
@@ -35,7 +39,8 @@ EM_LDFLAGS := \
 	-s FETCH=1 \
 	-s MODULARIZE=1 \
 	-s EXPORT_NAME=Neverball_createEmscriptenModule \
-	-lidbfs.js
+	-lidbfs.js \
+	$(EM_PRELOAD)
 
 ifeq ($(BUILD), devel)
 EM_LDFLAGS += -s ERROR_ON_WASM_CHANGES_AFTER_LINK -s WASM_BIGINT
@@ -127,8 +132,12 @@ BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 .PHONY: neverball
 neverball: $(JSDIR)/neverball.js
 
-$(JSDIR)/neverball.js: $(BALL_OBJS)
+$(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+$(DATA_ZIP):
+	$(MAKE) -f mk/package-base.mk OUTPUT_DIR=$$(pwd) package-only && \
+	mv base-neverball-*.zip $(DATA_ZIP)
 
 .PHONY: packages
 packages: clean-packages
@@ -140,7 +149,7 @@ clean-packages:
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(DATA_ZIP)
 
 .PHONY: watch
 watch:

@@ -29,6 +29,5 @@ autosave
 /js/mapc.js
 /js/mapc.wasm
 /js/packages
-/*.zip
-
+/base-neverball.zip
 /packages

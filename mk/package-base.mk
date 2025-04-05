@@ -35,6 +35,10 @@ all: package manifest screenshot
 package:
 	$(MAKE) -f mk/package.mk PACKAGE_ID=base-neverball DATA_DIR=$(DATA_DIR) ASSET_PATHS="$(ASSET_PATHS)"
 
+.PHONY: package-only
+package-only:
+	$(MAKE) -f mk/package.mk PACKAGE_ID=base-neverball DATA_DIR=$(DATA_DIR) ASSET_PATHS="$(ASSET_PATHS)" package
+
 manifest: package
 	printf 'files %s\nname %s\ndesc %s\nshot %s\n' \
 		"$(PACKAGE_FILES)" \
