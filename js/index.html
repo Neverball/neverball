@@ -193,7 +193,7 @@ General Public License for more details.
       background-image: linear-gradient(to right, rgb(64, 173, 71), rgb(64, 173, 71) 70%, transparent);
       border-radius: var(--size);
       z-index: 1;
-      transition: 1.4s ease-in width;
+      transition: 0.8s ease-in width;
       display: flex;
       align-items: center;
       overflow: hidden;
@@ -949,6 +949,23 @@ General Public License for more details.
         this._progressBar?.style.setProperty('--value', value);
       },
 
+      showProgress: (function () {
+        let totalFileSize = 0;
+        let totalReadSize = 0;
+
+        return (readSize) => {
+          if (readSize < 0) {
+            // Negative value is the file size, add it to the total.
+            totalFileSize += -readSize;
+            return;
+          }
+
+          totalReadSize += readSize;
+
+          Neverball.setProgress(totalReadSize / totalFileSize);
+        };
+      })(),
+
       setStatusText: function (text) {
         this._statusBar.textContent = text;
       },
@@ -968,24 +985,9 @@ General Public License for more details.
           return;
         }
 
-        let totalFileSize = 0;
-        let totalReadSize = 0;
-
-        const showProgress = (readSize) => {
-          if (readSize < 0) {
-            // Negative value is the file size, add it to the total.
-            totalFileSize += -readSize;
-            return;
-          }
-
-          totalReadSize += readSize;
-
-          this.setProgress(totalReadSize / totalFileSize);
-        }
-
         await Promise.allSettled([
           // Neverball.installPackage('base-neverball', showProgress),
-          Neverball.installPackage('set-easy', showProgress),
+          Neverball.installPackage('set-easy', Neverball.showProgress),
         ]);
 
         this._module.FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
@@ -1307,7 +1309,7 @@ General Public License for more details.
         this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
       },
 
-      initRuntime: async function (createEmscriptenModule) {
+    initRuntime: async function (createEmscriptenModule) {
 
         if (!createEmscriptenModule) {
           throw Error('createEmscriptenModule is missing');
@@ -1346,7 +1348,40 @@ General Public License for more details.
             return canvas;
           })(),
 
+          showPreloadProgress: (function () {
+            let totalSize = -1;
+            let lastTotalRead = 0;
+
+            return (text) => {
+              // Downloading data... (23560192/27475166)
+              const matches = text.match(/^Downloading data\.\.\. \(([0-9]+)\/([0-9]+)\)$/);
+
+              if (matches) {
+                const totalRead = parseInt(matches[1]);
+
+                if (totalSize < 0) {
+                  totalSize = parseInt(matches[2]);
+
+                  Neverball.showProgress(-totalSize);
+                }
+
+                Neverball.showProgress(totalRead - lastTotalRead);
+
+                lastTotalRead = totalRead;
+
+                return true;
+              }
+
+              return false;
+            };
+          })(),
+
           setStatus: function (text) {
+            // Preloaded file data download progress is also reported via here.
+            if (this.showPreloadProgress(text)) {
+              return;
+            }
+
             if (text) {
               console.log(text);
             }
@@ -1354,13 +1389,14 @@ General Public License for more details.
         };
 
         try {
+          // Preloaded file data is downloaded at this point.
           const module = await createEmscriptenModule(config);
 
           this._module = module;
 
           await this.initFilesystem();
 
-          this.setStatusText('Getting game data...');
+          this.setStatusText('Getting base addons...');
 
           await this.installBasePackages();
 
@@ -1384,7 +1420,7 @@ General Public License for more details.
       prepareApp: async function () {
         this.setProgress(0.0);
 
-        this.setStatusText('Preparing...');
+        this.setStatusText('Preparing runtime...');
 
         if ('serviceWorker' in navigator) {
           await navigator.serviceWorker.register('./service-worker.js', {
