@@ -1195,7 +1195,7 @@ msgstr "通往天堂的阶梯"
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr "这些桥梁棱形。 每一个都是越来越窄又陡。要么获取容易的路，或者所有的路但是能获取更多回报。"
+msgstr "这些桥是倾斜的。每座桥都比前一座更窄、更陡。\\你可以选择轻松拿走小额奖励，或者一路到底，争取高额回报。"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
