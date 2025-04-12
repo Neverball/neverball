@@ -1205,7 +1205,7 @@ msgstr "大量的硬币可获取，你能完全获取到吗？"
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "使用冲力到达上面的平台，但是保持球能安全着陆的控制之下，手动视图可能帮助到这里。"
+msgstr "利用惯性到达上层平台，但要控制好球，确保安全着陆。这里可以使用手动视角。"
 
 #: data/map-medium/drops.map
 msgid ""
