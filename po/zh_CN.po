@@ -1259,7 +1259,7 @@ msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "在你的视图你需要使用一些控制，按3停止自动旋转，使用鼠标按键手动旋转，按1回到自动旋转视图。"
+msgstr "在你的视图你需要使用一些控制，按3停止自动旋转，\\使用鼠标按键手动旋转，按1回到自动旋转视图。"
 
 #: data/map-medium/roundfloors.map
 msgid ""
