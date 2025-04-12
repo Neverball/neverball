@@ -995,7 +995,7 @@ msgstr "=中庭= \\把硬币从柱子上拿掉。"
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
-msgstr "=浮标= 他是控制时间，控制大门的人。"
+msgstr "=浮标= \\他是控制时间，控制大门的人。"
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
