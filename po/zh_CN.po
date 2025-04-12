@@ -424,7 +424,7 @@ msgstr "预备？"
 
 #: ball/st_play.c:184
 msgid "Set?"
-msgstr "即将…"
+msgstr "就位？"
 
 #: ball/st_play.c:325
 msgid "GO!"
