@@ -1023,7 +1023,7 @@ msgstr "=山脉= \\人生的道路上有起有伏。"
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
-msgstr "=展览馆= 请不要触碰这些展品。"
+msgstr "=展览馆= \\请不要触碰这些展品。"
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
