@@ -1039,7 +1039,7 @@ msgstr "=斜坡= \\你能到达顶部吗？"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
-msgstr "=环=按你的方式通过陷阱。"
+msgstr "=圆环= \\滚动穿过这个陷阱。"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
