@@ -1347,7 +1347,7 @@ msgstr "平静和冥想能带你涅槃。"
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter，跟随蓝色标记。"
+msgstr "学会坠落，跟随蓝色标记。"
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
