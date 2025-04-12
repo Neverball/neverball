@@ -1047,7 +1047,7 @@ msgstr "=斜坡= \\别让自己成为现代版的西西弗斯，徒劳地重复�
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=时空=，没多少空间，没多少时间。"
+msgstr "=时空= \\空间有限，时间紧迫。"
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
