@@ -1132,7 +1132,7 @@ msgstr "有如此多的不同路径...你尝试所有的路径了吗 ？"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr "Ceci不喜欢一根管子。（这个实在难以翻译）"
+msgstr "这不是你想的那样。"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
