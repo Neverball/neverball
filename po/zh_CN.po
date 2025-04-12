@@ -1051,7 +1051,7 @@ msgstr "=时空= \\空间有限，时间紧迫。"
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=云集= 警告：擅自闯入者将会受到重创。"
+msgstr "=蜂拥= \\警告：擅闯者将被压碎。"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
