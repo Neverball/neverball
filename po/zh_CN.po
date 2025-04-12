@@ -1083,7 +1083,7 @@ msgstr "要在这里取得进展，你需要用力撞击边缘\\并控制你的�
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr "因此，永不回球是一个益智游戏? 移除红色解锁下一关，每一个出发开关颜色是间接联系的。"
+msgstr "因此，Neverball 是一款解谜游戏？\\移除红色即可解锁目标。每个触发器\\会切换直接接触的物体的颜色。"
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
