@@ -1181,7 +1181,7 @@ msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr "这个球必须完全在一个传送器内才能触发它。记住，这个球通过传送器的时候也有动量，所以需要提前计算提前量。"
+msgstr "这个球必须完全在一个传送器内才能触发它。\\记住，这个球通过传送器的时候也有动量，\\所以需要提前计算提前量。"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
