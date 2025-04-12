@@ -1077,7 +1077,7 @@ msgstr "这里没有足够的楼层，希望这不是个问题。"
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "为了在这里取得进展，你需要用力地击打边缘，控制你的跳跃。通常是最容易的是击中在一个角落。"
+msgstr "要在这里取得进展，你需要用力撞击边缘\\并控制你的反弹。通常在角落撞击路缘会更容易。"
 
 #: data/map-hard/flip.map
 msgid ""
