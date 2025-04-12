@@ -1412,7 +1412,7 @@ msgstr "地狱般的下坡\\很容易开始吗？"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.注意:球上面的平台在向前移动。"
+msgstr "紧张驾驶。\\注意：球下的平台会向前移动。"
 
 #: data/map-mym/drive2.map
 msgid ""
