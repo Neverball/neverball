@@ -1003,7 +1003,7 @@ msgstr "=货船= \\让你自己被带走。"
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
-msgstr "=彩带= /救命啊！必须有一种办法来解决这个麻烦。"
+msgstr "=彩带= \\救命啊！必须有一种办法来解决这个麻烦。"
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
