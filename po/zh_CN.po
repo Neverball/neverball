@@ -1227,7 +1227,7 @@ msgstr "提升坡度到达目标.\\(说起来容易，做起来难)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr "火车离站之前赶上它。"
+msgstr "在火车离站前赶上它。"
 
 #: data/map-medium/learngrow.map
 msgid ""
