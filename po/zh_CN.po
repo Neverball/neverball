@@ -1015,7 +1015,7 @@ msgstr "=炼狱= \\火焰压路机会试图破坏你的任务。"
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
-msgstr "=瓢虫= 不要让他们打扰你。"
+msgstr "=瓢虫= \\不要让他们打扰你。"
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
