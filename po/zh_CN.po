@@ -1223,7 +1223,7 @@ msgstr "权衡风险与回报。"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "提升坡度到达目标.\\(说起来容易，做起来难)"
+msgstr "沿着斜坡向上爬，以达到你的目标。\\（说起来容易做起来难。）"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
