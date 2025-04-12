@@ -1406,7 +1406,7 @@ msgstr "舞蹈漫步。 \\让我们在移动平台上跳舞吧！ \\提示：激
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.很容易开始？"
+msgstr "地狱般的下坡\\很容易开始吗？"
 
 #: data/map-mym/drive1.map
 msgid ""
