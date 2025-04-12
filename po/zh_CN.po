@@ -1043,7 +1043,7 @@ msgstr "=圆环= \\滚动穿过这个陷阱。"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=斜坡=努力不要成为现代的西叙福斯（古希腊神话中一位邪恶的国王，死后收到惩罚）"
+msgstr "=斜坡= \\别让自己成为现代版的西西弗斯，徒劳地重复无尽的劳碌。"
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
