@@ -1007,7 +1007,7 @@ msgstr "=狂欢= /求救！必须有一种办法来解决这个麻烦。"
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr "=碟盘= 正确的使用，平台会带你到目标。"
+msgstr "=碟盘= /正确的使用，平台会带你到目标。"
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
