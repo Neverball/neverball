@@ -1055,7 +1055,7 @@ msgstr "=蜂拥= \\警告：擅闯者将被压碎。"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=网球= 有大量的奖金，这是值得争夺的。"
+msgstr "=网球= \\奖金丰厚，人人可得。"
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
