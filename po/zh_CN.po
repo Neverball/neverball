@@ -1035,7 +1035,7 @@ msgstr "=护栏= \\不要失去平衡。"
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=斜坡= 你能做到最好吗 ？"
+msgstr "=斜坡= \\你能到达顶部吗？"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
