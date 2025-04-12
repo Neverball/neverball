@@ -1299,7 +1299,7 @@ msgstr "这个迷宫没有墙壁，但这并不能使谜底更容易找到。"
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr "一个开关控制所有五个障碍。要快速，因为开关是一个计时器。当它超时后，障碍将升起。"
+msgstr "一个开关控制所有五个障碍。要快速，\\因为开关是一个计时器。当它超时后，障碍将升起。"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
