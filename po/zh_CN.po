@@ -1367,7 +1367,7 @@ msgstr "从楼梯上跌落。 哎哟！ 好疼。"
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr "让他发生...然后开始担心吧！"
+msgstr "先让它发生……然后再开始担心！"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
