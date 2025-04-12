@@ -1211,7 +1211,7 @@ msgstr "利用惯性到达上层平台，但要控制好球，确保安全着陆
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "保持关注于阴影可以帮助控制弹跳的球。并别忘了使用鼠标按钮保持球在视野范围内。"
+msgstr "记得留意球的影子，以便更好地控制反弹的球。\\别忘了使用鼠标按钮来保持球在视野内。"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
