@@ -1387,7 +1387,7 @@ msgstr "陡峭斜坡。 \\控制你的速度。"
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.你是否患有眩晕症?"
+msgstr "艰难攀登。 \\你有恐高症吗？"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
