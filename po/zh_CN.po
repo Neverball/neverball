@@ -1093,7 +1093,7 @@ msgstr "兔子！"
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr "时间开关小心地使平台的运动同步，跨越间隙的时候需要快速移动。"
+msgstr "仔细把握开关的时机，以同步平台的运动。迅速穿过缝隙。"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
