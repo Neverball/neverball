@@ -1391,7 +1391,7 @@ msgstr "艰难攀登。 \\你有恐高症吗？"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.避免传送"
+msgstr "永恒循环。\\避开传送器……"
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
