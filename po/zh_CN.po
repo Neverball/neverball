@@ -1031,7 +1031,7 @@ msgstr "=奇物= \\这里似乎有些不对劲……"
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
-msgstr "=护栏= 不要丢失你的平衡。"
+msgstr "=护栏= \\不要失去平衡。"
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
