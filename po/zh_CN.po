@@ -1383,7 +1383,7 @@ msgstr "疯狂赛跑。 \\我们来跑几圈吧。"
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\控制你的速度。"
+msgstr "陡峭斜坡。 \\控制你的速度。"
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
