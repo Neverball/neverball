@@ -1027,7 +1027,7 @@ msgstr "=展览馆= 请不要触碰这些展品。"
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr "=奇异= 这里有些东西不太对劲...."
+msgstr "=奇物= \\这里似乎有些不对劲……"
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
