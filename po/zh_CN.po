@@ -1059,7 +1059,7 @@ msgstr "=网球= \\奖金丰厚，人人可得。"
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
-msgstr "=树= 跟随螺旋梯到达目标"
+msgstr "=树= \\沿着螺旋楼梯到达终点。"
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
