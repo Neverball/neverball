@@ -999,7 +999,7 @@ msgstr "=浮标= \\他是控制时间，控制大门的人。"
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=货船= 让你自己被带走"
+msgstr "=货船= \\让你自己被带走。"
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
