@@ -1103,7 +1103,7 @@ msgstr "是的，球在那些小洞里很合适。"
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr "控制你的速度和弹跳，传送会传送你到本关的任意位置。"
+msgstr "控制好速度和反弹。传送器总会把你带回关卡中的某个位置。"
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
