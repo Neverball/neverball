@@ -1375,7 +1375,7 @@ msgstr "另外一个计时器基准测试。"
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant。准备好突击课程了吗?"
+msgstr "勇者之路。 \\准备好迎接障碍挑战了吗？"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
