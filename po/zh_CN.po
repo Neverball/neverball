@@ -1113,7 +1113,7 @@ msgstr "惯性可能会对你不利。"
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "让你的贪婪引导你。一个额外的挑战，尝试着去获取所有的硬币，不需要猜测就可以做到。"
+msgstr "让贪婪引导你。为了增加挑战性，试着收集所有的硬币。\\这可以通过技巧而非猜测来完成。"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
