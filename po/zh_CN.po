@@ -1136,7 +1136,7 @@ msgstr "这不是你想的那样。"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
-msgstr "稳扎稳打。\\"
+msgstr "慢工出细活。\\"
 
 #: data/map-hard/pyramid.map
 msgid ""
