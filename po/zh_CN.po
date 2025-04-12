@@ -424,7 +424,7 @@ msgstr "预备？"
 
 #: ball/st_play.c:184
 msgid "Set?"
-msgstr "即将…"
+msgstr "就位？"
 
 #: ball/st_play.c:325
 msgid "GO!"
@@ -991,79 +991,79 @@ msgstr "=冒险=\\很多事情要做，收集硬币，风险不小。"
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr "=中庭= 把硬币从柱子上拿掉。"
+msgstr "=中庭= \\把硬币从柱子上拿掉。"
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
-msgstr "=浮标= 他是控制时间，控制大门的人。"
+msgstr "=浮标= \\他是控制时间，控制大门的人。"
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=货船= 让你自己被带走"
+msgstr "=货船= \\让你自己被带走。"
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
-msgstr "=狂欢= 求救！必须有一种办法来解决这个麻烦。"
+msgstr "=彩带= \\救命啊！必须有一种办法来解决这个麻烦。"
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr "=碟盘= 正确的使用，平台会带你到目标。"
+msgstr "=圆盘= \\如果使用得当，这些平台会带你到达终点。"
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "=地狱= 火会挫败你的任务。"
+msgstr "=炼狱= \\火焰压路机会试图破坏你的任务。"
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
-msgstr "=瓢虫= 不要让他们打扰你。"
+msgstr "=瓢虫= \\不要让他们打扰你。"
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr "=山脉= 上上下下是生活的一部分。"
+msgstr "=山脉= \\人生的道路上有起有伏。"
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
-msgstr "=展览馆= 请不要触碰这些展品。"
+msgstr "=展览馆= \\请不要触碰这些展品。"
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr "=奇异= 这里有些东西不太对劲...."
+msgstr "=奇物= \\这里似乎有些不对劲……"
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
-msgstr "=护栏= 不要丢失你的平衡。"
+msgstr "=护栏= \\不要失去平衡。"
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=斜坡= 你能做到最好吗 ？"
+msgstr "=斜坡= \\你能到达顶部吗？"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
-msgstr "=环=按你的方式通过陷阱。"
+msgstr "=圆环= \\滚动穿过这个陷阱。"
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=斜坡=努力不要成为现代的西叙福斯（古希腊神话中一位邪恶的国王，死后收到惩罚）"
+msgstr "=斜坡= \\别让自己成为现代版的西西弗斯，徒劳地重复无尽的劳碌。"
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=时空=，没多少空间，没多少时间。"
+msgstr "=时空= \\空间有限，时间紧迫。"
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=云集= 警告：擅自闯入者将会受到重创。"
+msgstr "=蜂拥= \\警告：擅闯者将被压碎。"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=网球= 有大量的奖金，这是值得争夺的。"
+msgstr "=网球= \\奖金丰厚，人人可得。"
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
-msgstr "=树= 跟随螺旋梯到达目标"
+msgstr "=树= \\沿着螺旋楼梯到达终点。"
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr "=UFO=乘坐他们不想让你知道的宇宙飞船."
+msgstr "=UFO= \\乘坐他们不想让你知道的宇宙飞船。"
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
@@ -1077,13 +1077,13 @@ msgstr "这里没有足够的楼层，希望这不是个问题。"
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "为了在这里取得进展，你需要用力地击打边缘，控制你的跳跃。通常是最容易的是击中在一个角落。"
+msgstr "要在这里取得进展，你需要用力撞击边缘\\并控制你的反弹。通常在角落撞击路缘会更容易。"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr "因此，永不回球是一个益智游戏? 移除红色解锁下一关，每一个出发开关颜色是间接联系的。"
+msgstr "因此，Neverball 是一款解谜游戏？\\移除红色即可解锁目标。每个触发器\\会切换直接接触的物体的颜色。"
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1093,7 +1093,7 @@ msgstr "兔子！"
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr "时间开关小心地使平台的运动同步，跨越间隙的时候需要快速移动。"
+msgstr "仔细把握开关的时机，以同步平台的运动。迅速穿过缝隙。"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
@@ -1103,17 +1103,17 @@ msgstr "是的，球在那些小洞里很合适。"
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr "控制你的速度和弹跳，传送会传送你到本关的任意位置。"
+msgstr "控制好速度和反弹。传送器总会把你带回关卡中的某个位置。"
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "冲力可能对你不利。"
+msgstr "惯性可能会对你不利。"
 
 #: data/map-hard/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "让你的贪婪引导你。一个额外的挑战，尝试着去获取所有的硬币，不需要猜测就可以做到。"
+msgstr "让贪婪引导你。为了增加挑战性，试着收集所有的硬币。\\这可以通过技巧而非猜测来完成。"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
@@ -1132,11 +1132,11 @@ msgstr "有如此多的不同路径...你尝试所有的路径了吗 ？"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr "Ceci不喜欢一根管子。（这个实在难以翻译）"
+msgstr "这不是你想的那样。"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
-msgstr "稳扎稳打。\\"
+msgstr "慢工出细活。\\"
 
 #: data/map-hard/pyramid.map
 msgid ""
@@ -1181,11 +1181,11 @@ msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr "这个球必须完全在一个传送器内才能触发它。记住，这个球通过传送器的时候也有动量，所以需要提前计算提前量。"
+msgstr "这个球必须完全在一个传送器内才能触发它。\\记住，这个球通过传送器的时候也有动量，\\所以需要提前计算提前量。"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "你可以让地板非常平坦。"
+msgstr "地面的平整取决于你自己。\\"
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
@@ -1195,7 +1195,7 @@ msgstr "通往天堂的阶梯"
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr "这些桥梁棱形。 每一个都是越来越窄又陡。要么获取容易的路，或者所有的路但是能获取更多回报。"
+msgstr "这些桥是倾斜的。每座桥都比前一座更窄、更陡。\\你可以选择轻松拿走小额奖励，或者一路到底，争取高额回报。"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
@@ -1205,13 +1205,13 @@ msgstr "大量的硬币可获取，你能完全获取到吗？"
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "使用冲力到达上面的平台，但是保持球能安全着陆的控制之下，手动视图可能帮助到这里。"
+msgstr "利用惯性到达上层平台，但要控制好球，确保安全着陆。这里可以使用手动视角。"
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "保持关注于阴影可以帮助控制弹跳的球。并别忘了使用鼠标按钮保持球在视野范围内。"
+msgstr "记得留意球的影子，以便更好地控制反弹的球。\\别忘了使用鼠标按钮来保持球在视野内。"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
@@ -1219,15 +1219,15 @@ msgstr "使用传送门，否则你哪里都去不了。"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "平衡风险与回报。"
+msgstr "权衡风险与回报。"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "提升坡度到达目标.\\(说起来容易，做起来难)"
+msgstr "沿着斜坡向上爬，以达到你的目标。\\（说起来容易做起来难。）"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr "火车离站之前赶上它。"
+msgstr "在火车离站前赶上它。"
 
 #: data/map-medium/learngrow.map
 msgid ""
@@ -1244,7 +1244,7 @@ msgstr "击中开关来移动障碍物。"
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr "引诱物快速移动可以证明你毁灭的原因。\\\\再试一次，也许不是……"
+msgstr "快速移动的冲动可能会导致你的失败。\\不过，也许不会……"
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
@@ -1259,7 +1259,7 @@ msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "在你的视图你需要使用一些控制，按3停止自动旋转，使用鼠标按键手动旋转，按1回到自动旋转视图。"
+msgstr "在你的视图你需要使用一些控制，按3停止自动旋转，\\使用鼠标按键手动旋转，按1回到自动旋转视图。"
 
 #: data/map-medium/roundfloors.map
 msgid ""
@@ -1299,7 +1299,7 @@ msgstr "这个迷宫没有墙壁，但这并不能使谜底更容易找到。"
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr "一个开关控制所有五个障碍。要快速，因为开关是一个计时器。当它超时后，障碍将升起。"
+msgstr "一个开关控制所有五个障碍。要快速，\\因为开关是一个计时器。当它超时后，障碍将升起。"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
@@ -1315,7 +1315,7 @@ msgstr "如果你乐意花时间获取，这里有大量的硬币。"
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule，在求体内存货，获取蓝色硬币是一个挑战。"
+msgstr "囚于球体之中。 \\生活在球体之中。 \\收集所有蓝色硬币是一项挑战。"
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1347,7 +1347,7 @@ msgstr "平静和冥想能带你涅槃。"
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter，跟随蓝色标记。"
+msgstr "学会坠落，跟随蓝色标记。"
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
@@ -1359,15 +1359,15 @@ msgstr "这些特殊的硬币可以让你的球变大或者变小。"
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr "让我们游个泳...所有的硬币全在水下。"
+msgstr "我们去游泳吧……\\所有的硬币都完全浸没在水里。"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr "摔下楼梯，啊！受伤了。"
+msgstr "从楼梯上跌落。 哎哟！ 好疼。"
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr "让他发生...然后开始担心吧！"
+msgstr "先让它发生……然后再开始担心！"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
@@ -1375,44 +1375,44 @@ msgstr "另外一个计时器基准测试。"
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant。准备好突击课程了吗?"
+msgstr "勇者之路。 \\准备好迎接障碍挑战了吗？"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
-msgstr "La course effrénée.\\来，跑几圈。"
+msgstr "疯狂赛跑。 \\我们来跑几圈吧。"
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\控制你的速度。"
+msgstr "陡峭斜坡。 \\控制你的速度。"
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.你是否患有眩晕症?"
+msgstr "艰难攀登。 \\你有恐高症吗？"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.避免传送"
+msgstr "永恒循环。\\避开传送器……"
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.好安静的行走。"
+msgstr "宁静漫步。 \\多么安静的散步。"
 
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.让我们在移动的平台上跳舞吧！提示：激活了最后一个移动平台后，旋转Thwomp直到目标是可到达的。"
+msgstr "舞蹈漫步。 \\让我们在移动平台上跳舞吧！ \\提示：激活最后一个移动平台后，绕过压路机，直到目标可达。"
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.很容易开始？"
+msgstr "地狱般的下坡\\很容易开始吗？"
 
 #: data/map-mym/drive1.map
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.注意:球上面的平台在向前移动。"
+msgstr "紧张驾驶。\\注意：球下的平台会向前移动。"
 
 #: data/map-mym/drive2.map
 msgid ""
