@@ -1019,7 +1019,7 @@ msgstr "=瓢虫= \\不要让他们打扰你。"
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr "=山脉= 上上下下是生活的一部分。"
+msgstr "=山脉= \\人生的道路上有起有伏。"
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
