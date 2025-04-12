@@ -1244,7 +1244,7 @@ msgstr "击中开关来移动障碍物。"
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr "引诱物快速移动可以证明你毁灭的原因。\\\\再试一次，也许不是……"
+msgstr "快速移动的冲动可能会导致你的失败。\\不过，也许不会……"
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
