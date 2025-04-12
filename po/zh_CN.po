@@ -1359,7 +1359,7 @@ msgstr "这些特殊的硬币可以让你的球变大或者变小。"
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr "让我们游个泳...所有的硬币全在水下。"
+msgstr "我们去游泳吧……\\所有的硬币都完全浸没在水里。"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
