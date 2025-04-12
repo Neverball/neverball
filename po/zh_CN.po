@@ -1185,7 +1185,7 @@ msgstr "这个球必须完全在一个传送器内才能触发它。\\记住，�
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "你可以让地板非常平坦。"
+msgstr "地面的平整取决于你自己。\\"
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
