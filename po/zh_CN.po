@@ -1402,7 +1402,7 @@ msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.让我们在移动的平台上跳舞吧！提示：激活了最后一个移动平台后，旋转Thwomp直到目标是可到达的。"
+msgstr "舞蹈漫步。 \\让我们在移动平台上跳舞吧！ \\提示：激活最后一个移动平台后，绕过压路机，直到目标可达。"
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
