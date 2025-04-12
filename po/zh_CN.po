@@ -1063,7 +1063,7 @@ msgstr "=树= \\沿着螺旋楼梯到达终点。"
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr "=UFO=乘坐他们不想让你知道的宇宙飞船."
+msgstr "=UFO= \\乘坐他们不想让你知道的宇宙飞船。"
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
