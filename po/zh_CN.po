@@ -1107,7 +1107,7 @@ msgstr "控制好速度和反弹。传送器总会把你带回关卡中的某个
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "冲力可能对你不利。"
+msgstr "惯性可能会对你不利。"
 
 #: data/map-hard/invis.map
 msgid ""
