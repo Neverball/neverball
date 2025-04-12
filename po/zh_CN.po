@@ -1219,7 +1219,7 @@ msgstr "使用传送门，否则你哪里都去不了。"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "平衡风险与回报。"
+msgstr "权衡风险与回报。"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
