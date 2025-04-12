@@ -1395,7 +1395,7 @@ msgstr "永恒循环。\\避开传送器……"
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.好安静的行走。"
+msgstr "宁静漫步。 \\多么安静的散步。"
 
 #: data/map-mym/dance2.map
 msgid ""
