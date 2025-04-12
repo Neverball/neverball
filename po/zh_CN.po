@@ -991,7 +991,7 @@ msgstr "=冒险=\\很多事情要做，收集硬币，风险不小。"
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr "=中庭= 把硬币从柱子上拿掉。"
+msgstr "=中庭= \\把硬币从柱子上拿掉。"
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
