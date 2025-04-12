@@ -1011,7 +1011,7 @@ msgstr "=圆盘= \\如果使用得当，这些平台会带你到达终点。"
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "=地狱= 火会挫败你的任务。"
+msgstr "=炼狱= \\火焰压路机会试图破坏你的任务。"
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
