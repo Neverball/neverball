@@ -1315,7 +1315,7 @@ msgstr "如果你乐意花时间获取，这里有大量的硬币。"
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule，在求体内存货，获取蓝色硬币是一个挑战。"
+msgstr "囚于球体之中。 \\生活在球体之中。 \\收集所有蓝色硬币是一项挑战。"
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
