@@ -1536,7 +1536,7 @@ msgstr "不要被卷入虚无之中。\\不要掉得太低。"
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Si si, ce tuyau a une fin.在管道内存活。提示：最后一条要慢一点哦！"
+msgstr "是的，这根管道有尽头。\\生活在管道中。\\提示：最后一个跳跃要减速！"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
