@@ -1568,7 +1568,7 @@ msgstr "我去，还是不去？\\不要犹豫不决。"
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr "Préparez un petit sac.\\内部检修人。"
+msgstr "准备一个小包。\\考验你的胃。"
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
