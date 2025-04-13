@@ -1552,7 +1552,7 @@ msgstr "短暂的通道。\\相信硬币。"
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !别太快，别太慢。"
+msgstr "嘿，别推！\\不要太快，也不要太慢。"
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
