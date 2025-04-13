@@ -1418,7 +1418,7 @@ msgstr "紧张驾驶。\\注意：球下的平台会向前移动。"
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr "La conduite dangereuse.球上面的平台快速向前移动，你会很好的前进。"
+msgstr "危险驾驶。\\球下的平台迅速向前移动，\\最好向前推进。"
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
