@@ -1485,7 +1485,7 @@ msgstr "三角方向。\\转弯，等待，跳跃。"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.只有一个建议：别停下！"
+msgstr "匆忙的攀登。\\只有一条建议：不要停下来！"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
