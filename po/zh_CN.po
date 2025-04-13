@@ -1477,7 +1477,7 @@ msgstr "清凉的下坡。\\别那么快，别那么快。"
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.自信"
+msgstr "信念之路。\\自信。"
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
