@@ -1526,7 +1526,7 @@ msgstr "此级别是充满挑战： \\理解这个级别的功能 \\学会飞行
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.这是进入机舱的好时机"
+msgstr "小风车。\\进入小屋的恰当时机。"
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
