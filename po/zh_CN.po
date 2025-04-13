@@ -1444,7 +1444,7 @@ msgstr "令人晕眩的环路。\\倒过来了！"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.找到正确的角度旋转跳跃并登陆..."
+msgstr "曲线控制。\\找到正确的角度转弯、跳跃和着陆……"
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
