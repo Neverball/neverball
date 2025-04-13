@@ -516,7 +516,7 @@ msgstr "快速解锁"
 
 #: ball/util.c:205
 msgid "Change Name"
-msgstr "改名"
+msgstr "更改名字"
 
 #: ball/util.c:332
 msgid "caps"
