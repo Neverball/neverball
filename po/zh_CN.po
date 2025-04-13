@@ -1497,7 +1497,7 @@ msgstr "街道滚球，站好队，拿到3个分数点。"
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr "La machine à circonvolutions.简单，目标就在你上面。"
+msgstr "迂回机器。\\简单，目标就在你上方。"
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
