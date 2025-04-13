@@ -1530,7 +1530,7 @@ msgstr "小风车。\\进入小屋的恰当时机。"
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.不要太慢。"
+msgstr "不要被卷入虚无之中。\\不要掉得太低。"
 
 #: data/map-mym2/longpipe.map
 msgid ""
