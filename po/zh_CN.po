@@ -273,7 +273,7 @@ msgstr "你掉下去了！"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
-msgstr "时间用尽！"
+msgstr "时间到！"
 
 #: ball/st_fail.c:98
 msgid "Exit"
