@@ -1460,7 +1460,7 @@ msgstr "疯狂迷宫。\\你知道路，你看到了，\\那你为什么还要�
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\耐心和时间。提示：第一个斜坡要最大速度。"
+msgstr "狭窄小径。\\耐心和时机。\\小贴士：在第一个斜坡处最大化速度。"
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
