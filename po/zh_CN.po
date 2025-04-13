@@ -1505,7 +1505,7 @@ msgstr "大圆锥。\\生活在圆锥中。"
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr "Les flammes ardentes.这能让你想起什么吗?"
+msgstr "炽热的火焰。\\这让你想起了什么吗？"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
