@@ -1481,7 +1481,7 @@ msgstr "信念之路。\\自信。"
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.旋转等待和跳跃。"
+msgstr "三角方向。\\转弯，等待，跳跃。"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
