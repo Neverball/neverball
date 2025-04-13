@@ -1363,7 +1363,7 @@ msgstr "我们去游泳吧……\\所有的硬币都完全浸没在水里。"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr "从楼梯上跌落。 哎哟！ 好疼。"
+msgstr "从楼梯上跌落。 \\哎哟！ \\好疼。"
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
