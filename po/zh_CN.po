@@ -1501,7 +1501,7 @@ msgstr "迂回机器。\\简单，目标就在你上方。"
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr "Le grand cône.在锥体内生活。"
+msgstr "大圆锥。\\生活在圆锥中。"
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
