@@ -1434,7 +1434,7 @@ msgstr "玻璃塔。\\找到通往出口的路。"
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.你仍然认为平衡球很容易?"
+msgstr "Neverball的掌握。\\你还认为Neverball太容易了吗？"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
