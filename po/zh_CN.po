@@ -1642,7 +1642,7 @@ msgstr "让我们来先来个容易的热身。加速并且跳跃到目标。"
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
-msgstr "跳跃前要三思啊...."
+msgstr "三思而后行……"
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
