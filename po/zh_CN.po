@@ -211,7 +211,7 @@ msgstr "选择回放"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "没有"
+msgstr "啥都木有……"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
@@ -273,7 +273,7 @@ msgstr "你掉下去了！"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
-msgstr "时间用尽！"
+msgstr "时间到！"
 
 #: ball/st_fail.c:98
 msgid "Exit"
@@ -516,7 +516,7 @@ msgstr "快速解锁"
 
 #: ball/util.c:205
 msgid "Change Name"
-msgstr "改名"
+msgstr "更改名字"
 
 #: ball/util.c:332
 msgid "caps"
@@ -1160,7 +1160,7 @@ msgstr "如此接近，又如此遥远。"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr "乘坐电梯到顶部，电梯移动非常快，所以不要浪费太长时间。"
+msgstr "乘坐电梯到达顶部。它们移动很快，所以不要停留太久。\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1363,7 +1363,7 @@ msgstr "我们去游泳吧……\\所有的硬币都完全浸没在水里。"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr "从楼梯上跌落。 哎哟！ 好疼。"
+msgstr "从楼梯上跌落。 \\哎哟！ \\好疼。"
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
@@ -1418,11 +1418,11 @@ msgstr "紧张驾驶。\\注意：球下的平台会向前移动。"
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr "La conduite dangereuse.球上面的平台快速向前移动，你会很好的前进。"
+msgstr "危险驾驶。\\球下的平台迅速向前移动，\\最好向前推进。"
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.不是太容易了吗?"
+msgstr "不确定的通道。\\是不是太容易了？"
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
@@ -1430,66 +1430,66 @@ msgstr "鬼沟，来三圈到达目标。"
 
 #: data/map-mym/glasstower.map
 msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La maîtrise de Neverball.找到退出的路。"
+msgstr "玻璃塔。\\找到通往出口的路。"
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.你仍然认为平衡球很容易?"
+msgstr "Neverball的掌握。\\你还认为Neverball太容易了吗？"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.颠倒！"
+msgstr "令人晕眩的环路。\\倒过来了！"
 
 #: data/map-mym/loop2.map
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.找到正确的角度旋转跳跃并登陆..."
+msgstr "曲线控制。\\找到正确的角度转弯、跳跃和着陆……"
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé。考验你的记忆。"
+msgstr "隐藏的道路。\\测试你的记忆力。"
 
 #: data/map-mym/maze2.map
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou,你知道路，你也看到路了，为啥子你要选择另外一条路 ？"
+msgstr "疯狂迷宫。\\你知道路，你看到了，\\那你为什么还要走另一条路呢？"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\耐心和时间。提示：第一个斜坡要最大速度。"
+msgstr "狭窄小径。\\耐心和时机。\\提示：在第一个斜坡处最大化速度。"
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.跑啊宝贝儿，跑起来！"
+msgstr "限时考验。\\快跑，宝贝，快跑！"
 
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.让我们攀爬吧！跟随这个轨道提高速度。"
+msgstr "小型越野。\\我们来攀爬吧！沿着轨道走以优化速度。"
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.不要那么快，不要那么快。"
+msgstr "清凉的下坡。\\别那么快，别那么快。"
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.自信"
+msgstr "信念之路。\\自信。"
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.旋转等待和跳跃。"
+msgstr "三角方向。\\转弯，等待，跳跃。"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.只有一个建议：别停下！"
+msgstr "匆忙的攀登。\\只有一条建议：不要停下来！"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.记得激活的顺秀。"
+msgstr "令人沮丧的往返。\\记住激活顺序。"
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
@@ -1497,25 +1497,25 @@ msgstr "街道滚球，站好队，拿到3个分数点。"
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr "La machine à circonvolutions.简单，目标就在你上面。"
+msgstr "迂回机器。\\简单，目标就在你上方。"
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr "Le grand cône.在锥体内生活。"
+msgstr "大圆锥。\\生活在圆锥中。"
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr "Les flammes ardentes.这能让你想起什么吗?"
+msgstr "炽热的火焰。\\这让你想起了什么吗？"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\跟随硬币。"
+msgstr "著名水管工的跳跃​。\\跟随硬币。"
 
 #: data/map-mym2/fall.map
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr "Savoir rebondir pour aller plus haut，滚球竞技场。使用传送2解锁并到达目标。"
+msgstr "知道如何反弹以达到更高。\\Neverball竞技场。\\使用2个传送器来解锁并到达目标。"
 
 #: data/map-mym2/freefall.map
 msgid ""
@@ -1526,33 +1526,33 @@ msgstr "此级别是充满挑战： \\理解这个级别的功能 \\学会飞行
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.这是进入机舱的好时机"
+msgstr "小风车。\\进入小屋的恰当时机。"
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.不要太慢。"
+msgstr "不要被卷入虚无之中。\\不要掉得太低。"
 
 #: data/map-mym2/longpipe.map
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Si si, ce tuyau a une fin.在管道内存活。提示：最后一条要慢一点哦！"
+msgstr "是的，这根管道有尽头。\\生活在管道中。\\提示：最后一个跳跃要减速！"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.祝你好运。"
+msgstr "比困难还难。\\祝你好运。"
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.不要太难"
+msgstr "保持耐心。\\并不太难。"
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.相信硬币。"
+msgstr "短暂的通道。\\相信硬币。"
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !别太快，别太慢。"
+msgstr "嘿，别推！\\不要太快，也不要太慢。"
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
@@ -1560,31 +1560,31 @@ msgstr "彩虹道。 \\ 3圈打开目标。"
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.你将会飞速下降。"
+msgstr "Neverball 牛仔竞技。\\你会很快跌落。"
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ? 不要发抖。"
+msgstr "我去，还是不去？\\不要犹豫不决。"
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr "Préparez un petit sac.\\内部检修人。"
+msgstr "准备一个小包。\\考验你的胃。"
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement。欢迎来到 Mehdi的新系列"
+msgstr "小小的热身。\\欢迎来到Mehdi的新关卡！"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse 速度的定义。"
+msgstr "比速度更快。\\速度的定义。"
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
-msgstr "La danse asiatique 相信箭头"
+msgstr "亚洲舞蹈。\\相信箭头。"
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.警告，道路是移动的。"
+msgstr "跟随动作。\\警告：道路是移动的。"
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
@@ -1592,7 +1592,7 @@ msgstr "平静，但不要过度，使你自己和电梯保持同步。"
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\远离网络。"
+msgstr "迷人的蛛网。\\逃离蛛网。"
 
 #: data/map-tones/bigtube.map
 msgid "Speed is the name of the game."
@@ -1642,7 +1642,7 @@ msgstr "让我们来先来个容易的热身。加速并且跳跃到目标。"
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
-msgstr "跳跃前要三思啊...."
+msgstr "三思而后行……"
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
