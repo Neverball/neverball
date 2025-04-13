@@ -1464,7 +1464,7 @@ msgstr "狭窄小径。\\耐心和时机。\\小贴士：在第一个斜坡处�
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.跑啊宝贝儿，跑起来！"
+msgstr "限时考验。\\快跑，宝贝，快跑！"
 
 #: data/map-mym/scrambling.map
 msgid ""
