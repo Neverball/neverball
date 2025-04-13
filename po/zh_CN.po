@@ -1572,7 +1572,7 @@ msgstr "准备一个小包。\\考验你的胃。"
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement。欢迎来到 Mehdi的新系列"
+msgstr "小小的热身。\\欢迎来到Mehdi的新关卡！"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
