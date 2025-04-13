@@ -1544,7 +1544,7 @@ msgstr "比困难还难。\\祝你好运。"
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.不要太难"
+msgstr "保持耐心。\\并不太难。"
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
