@@ -1422,7 +1422,7 @@ msgstr "危险驾驶。\\球下的平台迅速向前移动，\\最好向前推�
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.不是太容易了吗?"
+msgstr "不确定的通道。\\是不是太容易了？"
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
