@@ -1540,7 +1540,7 @@ msgstr "是的，这根管道有尽头。\\生活在管道中。\\提示：最�
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.祝你好运。"
+msgstr "比困难还难。\\祝你好运。"
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
