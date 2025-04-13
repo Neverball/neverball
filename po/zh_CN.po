@@ -1592,7 +1592,7 @@ msgstr "平静，但不要过度，使你自己和电梯保持同步。"
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\远离网络。"
+msgstr "迷人的蛛网。\\逃离蛛网。"
 
 #: data/map-tones/bigtube.map
 msgid "Speed is the name of the game."
