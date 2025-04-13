@@ -1564,7 +1564,7 @@ msgstr "Neverball 牛仔竞技。\\你会很快跌落。"
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ? 不要发抖。"
+msgstr "我去，还是不去？\\不要犹豫不决。"
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
