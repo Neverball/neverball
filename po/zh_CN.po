@@ -1509,7 +1509,7 @@ msgstr "炽热的火焰。\\这让你想起了什么吗？"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\跟随硬币。"
+msgstr "著名水管工的跳跃​。\\跟随硬币。"
 
 #: data/map-mym2/fall.map
 msgid ""
