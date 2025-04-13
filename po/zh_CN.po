@@ -1580,7 +1580,7 @@ msgstr "比速度更快。\\速度的定义。"
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
-msgstr "La danse asiatique 相信箭头"
+msgstr "亚洲舞蹈。\\相信箭头。"
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
