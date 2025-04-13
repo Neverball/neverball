@@ -1454,7 +1454,7 @@ msgstr "隐藏的道路。\\测试你的记忆力。"
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou,你知道路，你也看到路了，为啥子你要选择另外一条路 ？"
+msgstr "疯狂迷宫。\\你知道路，你看到了，\\那你为什么还要走另一条路呢？"
 
 #: data/map-mym/narrow.map
 msgid ""
