@@ -1160,7 +1160,7 @@ msgstr "如此接近，又如此遥远。"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr "乘坐电梯到顶部，电梯移动非常快，所以不要浪费太长时间。"
+msgstr "乘坐电梯到达顶部。它们移动很快，所以不要停留太久。\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
