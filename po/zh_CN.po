@@ -1560,7 +1560,7 @@ msgstr "彩虹道。 \\ 3圈打开目标。"
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.你将会飞速下降。"
+msgstr "Neverball 牛仔竞技。\\你会很快跌落。"
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
