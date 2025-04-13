@@ -1515,7 +1515,7 @@ msgstr "著名水管工的跳跃​。\\跟随硬币。"
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr "知道如何反弹以达到更高。\\Neverball竞技场。\\使用两个传送器来解锁并到达目标。"
+msgstr "知道如何反弹以达到更高。\\Neverball竞技场。\\使用2个传送器来解锁并到达目标。"
 
 #: data/map-mym2/freefall.map
 msgid ""
