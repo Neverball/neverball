@@ -1584,7 +1584,7 @@ msgstr "亚洲舞蹈。\\相信箭头。"
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.警告，道路是移动的。"
+msgstr "跟随动作。\\警告：道路是移动的。"
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
