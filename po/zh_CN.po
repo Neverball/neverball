@@ -211,7 +211,7 @@ msgstr "选择回放"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "没有"
+msgstr "啥都木有……"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
