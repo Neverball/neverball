@@ -1448,7 +1448,7 @@ msgstr "曲线控制。\\找到正确的角度转弯、跳跃和着陆……"
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé。考验你的记忆。"
+msgstr "隐藏的道路。\\测试你的记忆力。"
 
 #: data/map-mym/maze2.map
 msgid ""
