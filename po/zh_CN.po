@@ -1469,7 +1469,7 @@ msgstr "限时考验。\\快跑，宝贝，快跑！"
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.让我们攀爬吧！跟随这个轨道提高速度。"
+msgstr "小型越野。\\我们来攀爬吧！沿着轨道走以优化速度。"
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
