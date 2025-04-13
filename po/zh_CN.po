@@ -1473,7 +1473,7 @@ msgstr "小型越野。\\我们来攀爬吧！沿着轨道走以优化速度。"
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.不要那么快，不要那么快。"
+msgstr "清凉的下坡。\\别那么快，别那么快。"
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
