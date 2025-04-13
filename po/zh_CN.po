@@ -1489,7 +1489,7 @@ msgstr "匆忙的攀登。\\只有一条建议：不要停下来！"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.记得激活的顺秀。"
+msgstr "令人沮丧的往返。\\记住激活顺序。"
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
