@@ -1576,7 +1576,7 @@ msgstr "小小的热身。\\欢迎来到Mehdi的新关卡！"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse 速度的定义。"
+msgstr "比速度更快。\\速度的定义。"
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
