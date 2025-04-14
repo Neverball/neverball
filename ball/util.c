@@ -58,6 +58,12 @@ static int score_coin[4];
 static int score_name[4];
 static int score_time[4];
 
+struct {
+    int completed;
+    int timeout;
+    int fallout;
+} stats_labels;
+
 static int score_extra_row;
 
 /* Build a top three score list with default values. */
@@ -108,6 +114,24 @@ static void gui_scores(int id, int e)
                 gui_set_rect(kd, GUI_ALL);
             }
         }
+    }
+}
+
+static void gui_stats(int id)
+{
+    int at;
+
+    if ((at = gui_vstack(id)))
+    {
+        gui_filler(at);
+        gui_label(at, _("Stats"), GUI_SML, 0, 0);
+
+        stats_labels.completed = gui_label(at, " ", GUI_SML, gui_grn, gui_wht);
+        stats_labels.timeout   = gui_label(at, " ", GUI_SML, gui_yel, gui_wht);
+        stats_labels.fallout   = gui_label(at, " ", GUI_SML, gui_red, gui_wht);
+
+        gui_set_rect(at, GUI_ALL);
+        gui_filler(at);
     }
 }
 
@@ -215,6 +239,8 @@ void gui_score_board(int pd, unsigned int types, int e, int h)
 
         gui_scores(id, e);
 
+        gui_stats(id);
+
         gui_filler(id);
     }
 }
@@ -255,6 +281,17 @@ void gui_score_set(int t)
 int  gui_score_get(void)
 {
     return score_type;
+}
+
+void gui_set_stats(const struct level *l)
+{
+    char buffer[10];
+    sprintf(buffer, "%d", l->stats.completed);
+    gui_set_label(stats_labels.completed, buffer);
+    sprintf(buffer, "%d", l->stats.timeout);
+    gui_set_label(stats_labels.timeout, buffer);
+    sprintf(buffer, "%d", l->stats.fallout);
+    gui_set_label(stats_labels.fallout, buffer);
 }
 
 /*---------------------------------------------------------------------------*/
