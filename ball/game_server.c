@@ -357,7 +357,8 @@ static void grow_step(float dt)
 
         r = up->r + up->r_vel * dt;
 
-        if (fabsf(r - up->sizes[up->size]) < 0.0005f)
+        if ((up->r < up->sizes[up->size] && r >= up->sizes[up->size]) ||
+            (up->r > up->sizes[up->size] && r <= up->sizes[up->size]))
         {
             r = up->sizes[up->size];
             up->r_vel = 0.0f;
