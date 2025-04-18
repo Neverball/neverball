@@ -631,6 +631,9 @@ static void game_update_time(float dt, int b)
     {
         time_elapsed += dt;
 
+        if (time_limit > 0.0f && time_elapsed > time_limit)
+            time_elapsed = time_limit;
+
         /* Something that works for both timed and untimed levels. */
 
         timer = fabsf(time_limit - time_elapsed);
