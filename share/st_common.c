@@ -850,6 +850,8 @@ static void joystick_set_option(int index, int value)
 
 static int joystick_action(int tok, int val)
 {
+    audio_play(AUD_MENU, 1.0f);
+
     switch (tok)
     {
         case GUI_BACK:
