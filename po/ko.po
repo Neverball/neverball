@@ -5,52 +5,60 @@
 # Translators:
 # htnever <htnever@gmail.com>, 2013
 # GunChleoc, 2014
+# GunChleoc, 2014
+# Hoseok Seo <ddinghoya@gmail.com>, 2025
 # htnever <htnever@gmail.com>, 2014
+# htnever <htnever@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-05-19 16:28+0300\n"
-"PO-Revision-Date: 2014-05-20 17:17+0000\n"
-"Last-Translator: GunChleoc\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/neverball/language/ko/)\n"
+"POT-Creation-Date: 2021-12-09 22:48+0200\n"
+"PO-Revision-Date: 2013-11-30 10:21+0000\n"
+"Last-Translator: Hoseok Seo <ddinghoya@gmail.com>, 2025\n"
+"Language-Team: Korean (http://app.transifex.com/neverball/neverball/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ball/st_play.c:100
-msgid "Ready?"
-msgstr ""
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "중단됨"
 
-#: ball/st_play.c:184
-msgid "Set?"
-msgstr "준비되니?"
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "시간 초과"
 
-#: ball/st_play.c:325
-msgid "GO!"
-msgstr "가자!"
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "성공"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "재생의 이름"
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "폴아웃"
 
-#: ball/st_save.c:111
-msgid "Save"
-msgstr ""
+#: ball/game_common.c:32 ball/progress.c:416
+msgid "Unknown"
+msgstr "알 수 없음"
 
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "돌아가기"
+#: ball/game_common.c:44 ball/st_help.c:183
+msgid "Manual Camera"
+msgstr "수동 카메라"
 
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "덮어쓰니?"
+#: ball/game_common.c:45 ball/st_help.c:182
+msgid "Lazy Camera"
+msgstr "레이지 카메라"
 
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "덮어쓰기"
+#: ball/game_common.c:46 ball/st_help.c:181
+msgid "Chase Camera"
+msgstr "추적 카메라"
+
+#: ball/game_common.c:48
+#, c-format
+msgid "Camera %d"
+msgstr "카메라 %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -84,459 +92,462 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:105
-#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "돌아오기"
+#: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
+msgid "Coins"
+msgstr "동전"
 
-#: ball/st_start.c:203 ball/progress.c:417
+#: ball/hud.c:69
+msgid "Goal"
+msgstr "목표"
+
+#: ball/hud.c:89 ball/st_goal.c:149
+msgid "Balls"
+msgstr "공"
+
+#: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
+msgid "Score"
+msgstr "점수"
+
+#: ball/progress.c:413 ball/st_help.c:267
+msgid "Challenge Mode"
+msgstr "도전 모드"
+
+#: ball/progress.c:413 ball/st_start.c:208
 msgid "Challenge"
-msgstr ""
+msgstr "도전"
 
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr ""
+#: ball/progress.c:414 ball/st_help.c:254
+msgid "Normal Mode"
+msgstr "일반 모드"
 
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr ""
+#: ball/progress.c:414
+msgid "Normal"
+msgstr "일반"
 
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr ""
+#: ball/progress.c:415
+msgid "Standalone Mode"
+msgstr "독립형 모드"
 
-#: ball/st_conf.c:156 putt/st_conf.c:104
+#: ball/progress.c:415
+msgid "Standalone"
+msgstr "독립형"
+
+#: ball/progress.c:416
+msgid "Unknown Mode"
+msgstr "알 수 없는 모드"
+
+#: ball/st_ball.c:180 ball/st_conf.c:184
+msgid "Ball Model"
+msgstr "공 모델"
+
+#: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
+#: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
+#: putt/st_all.c:543 putt/st_conf.c:106
+msgid "Back"
+msgstr "뒤로"
+
+#: ball/st_conf.c:161 putt/st_conf.c:104
 msgid "Options"
-msgstr "수정"
+msgstr "옵션"
 
-#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
+#: ball/st_conf.c:163 share/st_common.c:339 putt/st_conf.c:116
 msgid "Graphics"
 msgstr "그래픽"
 
-#: ball/st_conf.c:158 putt/st_conf.c:114
+#: ball/st_conf.c:163 ball/st_conf.c:172 putt/st_conf.c:114
 msgid "Configure"
 msgstr "구성"
 
-#: ball/st_conf.c:162
+#: ball/st_conf.c:167
 msgid "Mouse Sensitivity"
 msgstr "마우스 감도"
 
-#: ball/st_conf.c:167 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "소리 볼륨"
+#: ball/st_conf.c:172 share/st_common.c:868
+msgid "Gamepad"
+msgstr "게임패드"
 
-#: ball/st_conf.c:169 putt/st_conf.c:150
+#: ball/st_conf.c:176 putt/st_conf.c:134
+msgid "Sound Volume"
+msgstr "사운드 볼륨"
+
+#: ball/st_conf.c:178 putt/st_conf.c:150
 msgid "Music Volume"
 msgstr "음악 볼륨"
 
-#: ball/st_conf.c:174 ball/st_name.c:99
+#: ball/st_conf.c:183 ball/st_name.c:101
 msgid "Player Name"
 msgstr "이름"
 
-#: ball/st_conf.c:175 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "공 모양"
-
-#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
+#: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
 msgid "Language"
 msgstr "언어"
 
-#: ball/st_conf.c:190 share/st_common.c:666
+#: ball/st_conf.c:199 share/st_common.c:666
 msgid "Default"
-msgstr ""
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "새로운 세트 레코드"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr ""
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr ""
-
-#: ball/progress.c:417 ball/st_help.c:259
-msgid "Challenge Mode"
-msgstr ""
-
-#: ball/progress.c:418 ball/st_help.c:246
-msgid "Normal Mode"
-msgstr ""
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr ""
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr ""
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr ""
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr ""
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "미지의"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr ""
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "시간이 긑냈다"
-
-#: ball/st_fail.c:98
-msgid "Exit"
-msgstr ""
-
-#: ball/st_fail.c:101 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "다음 스테이지"
-
-#: ball/st_fail.c:104 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "다시 하기"
-
-#: ball/st_fail.c:107 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "재생을 저장하기"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
+msgstr "기본값"
 
 #: ball/st_demo.c:202
 msgid "Time"
 msgstr "시간"
 
-#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
-msgid "Coins"
-msgstr "동전"
-
 #: ball/st_demo.c:204
 msgid "Status"
-msgstr "지위"
+msgstr "상태"
 
-#: ball/st_demo.c:235 ball/st_demo.c:426
+#: ball/st_demo.c:235 ball/st_demo.c:430
 msgid "Replay"
-msgstr "재생"
+msgstr "리플레이"
 
-#: ball/st_demo.c:236 putt/st_all.c:740
+#: ball/st_demo.c:236 putt/st_all.c:731
 msgid "Player"
-msgstr "선수"
+msgstr "플레이어"
 
 #: ball/st_demo.c:237
 msgid "Date"
-msgstr "일자"
+msgstr "날짜"
 
 #: ball/st_demo.c:290
 msgid "Select Replay"
-msgstr ""
+msgstr "리플레이 선택"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "재생이 없다"
+msgstr "리플레이 없음"
 
-#: ball/st_demo.c:611
+#: ball/st_demo.c:616
 msgid "Replay Paused"
-msgstr "재생이 중지했다"
+msgstr "리플레이 일시 중지"
 
-#: ball/st_demo.c:613
+#: ball/st_demo.c:618
 msgid "Replay Ends"
-msgstr "재생이 끝냈다"
+msgstr "리플레이 끝냄"
 
-#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
+#: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
-msgstr "퇴거하기"
+msgstr "종료"
 
-#: ball/st_demo.c:623 ball/st_demo.c:709
+#: ball/st_demo.c:628 ball/st_demo.c:719
 msgid "Keep"
-msgstr "출구"
+msgstr "건너뛰기"
 
-#: ball/st_demo.c:624 ball/st_demo.c:710
+#: ball/st_demo.c:629 ball/st_demo.c:720
 msgid "Delete"
-msgstr "지우기"
+msgstr "삭제"
 
-#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
+#: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
 msgid "Continue"
-msgstr "계속하기"
+msgstr "계속"
 
-#: ball/st_demo.c:630
+#: ball/st_demo.c:635
 msgid "Repeat"
-msgstr "다시 보기"
+msgstr "반복"
 
-#: ball/st_demo.c:705
+#: ball/st_demo.c:715
 msgid "Delete Replay?"
-msgstr "재성을 지울게?"
+msgstr "리플레이를 삭제할까요?"
 
-#: ball/st_demo.c:759 ball/st_level.c:179
+#: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
-msgstr ""
+msgstr "경고!"
 
-#: ball/st_demo.c:761
+#: ball/st_demo.c:771
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr ""
+msgstr "현재 리플레이는 이 레벨의 다른\\(또는 알려지지 않은) 버전으로 녹화되었습니다.\\시각적 오류가 발생할 수 있으니 주의하세요."
 
-#: ball/st_help.c:101
-msgid "Tricks"
-msgstr ""
+#: ball/st_done.c:57
+msgid "New Set Record"
+msgstr "새로운 설정 기록"
 
-#: ball/st_help.c:102
-msgid "Modes"
-msgstr ""
+#: ball/st_done.c:58
+msgid "Set Complete"
+msgstr "설정 완료"
 
-#: ball/st_help.c:103
-msgid "Controls"
-msgstr ""
+#: ball/st_done.c:77
+msgid "Select Level"
+msgstr "레벨 선택"
 
-#: ball/st_help.c:104
-msgid "Rules"
-msgstr "규칙"
+#: ball/st_fail.c:82
+msgid "Fall-out!"
+msgstr "폴아웃!"
 
-#: ball/st_help.c:115
-msgid ""
-"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
-"causing the\\ball to roll.\\"
-msgstr ""
+#: ball/st_fail.c:84
+msgid "Time's Up!"
+msgstr "시간이 다 됐어요!"
 
-#: ball/st_help.c:120
-msgid ""
-"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
-"finish\\the level.\\"
-msgstr ""
+#: ball/st_fail.c:98
+msgid "Exit"
+msgstr "나가기"
 
-#: ball/st_help.c:177
-msgid ""
-"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
-"rotation."
-msgstr ""
+#: ball/st_fail.c:101 ball/st_goal.c:215
+msgid "Next Level"
+msgstr "다음 레벨"
 
-#: ball/st_help.c:179
-msgid "Exit / Pause"
-msgstr "끝나기 / 끊기"
+#: ball/st_fail.c:104 ball/st_goal.c:218
+msgid "Retry Level"
+msgstr "레벨 재시도"
 
-#: ball/st_help.c:180 ball/game_common.c:46
-msgid "Chase Camera"
-msgstr "달콤한 카메라"
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Save Replay"
+msgstr "리플레이 저장"
 
-#: ball/st_help.c:181 ball/game_common.c:45
-msgid "Lazy Camera"
-msgstr "중 카메라"
-
-#: ball/st_help.c:182 ball/game_common.c:44
-msgid "Manual Camera"
-msgstr "단단한 카메라"
-
-#: ball/st_help.c:183
-msgid "Screenshot"
-msgstr "사진"
-
-#: ball/st_help.c:248
-msgid ""
-"Finish a level before the time runs out.\\You need to collect coins in order"
-" to open the goal."
-msgstr ""
-
-#: ball/st_help.c:261
-msgid ""
-"Start playing from the first level of the set.\\You start with only three "
-"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr ""
-
-#: ball/st_help.c:275
-msgid ""
-"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
-"may be able\\to reach new places.\\"
-msgstr ""
-
-#: ball/st_help.c:280
-msgid ""
-"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
-"turn the camera by 45\\degrees for best results.\\"
-msgstr ""
-
-#: ball/st_help.c:300 ball/st_help.c:310
-msgid "Watch demo"
-msgstr ""
-
-#: ball/game_common.c:28
-msgid "Aborted"
-msgstr "취소했다"
-
-#: ball/game_common.c:29
-msgid "Time-out"
-msgstr "시간이 끝냈다"
-
-#: ball/game_common.c:30
-msgid "Success"
-msgstr "성공"
-
-#: ball/game_common.c:31
-msgid "Fall-out"
-msgstr "떨어졌어요"
-
-#: ball/game_common.c:48
-#, c-format
-msgid "Camera %d"
-msgstr "카메라 %d"
-
-#: ball/st_pause.c:82 putt/st_all.c:644
-msgid "Paused"
-msgstr "끊고 있는다"
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr "다시 시작하기"
-
-#: ball/hud.c:69
-msgid "Goal"
-msgstr "아직"
-
-#: ball/hud.c:89 ball/st_goal.c:154
-msgid "Balls"
-msgstr "공"
-
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
-msgid "Score"
-msgstr "점수"
-
-#: ball/st_goal.c:101
+#: ball/st_goal.c:96
 msgid "New Record"
 msgstr "새로운 기록"
 
-#: ball/st_goal.c:102
+#: ball/st_goal.c:97
 msgid "GOAL"
-msgstr "끝냈다"
+msgstr "목표"
 
-#: ball/st_goal.c:215 ball/st_goal.c:217
+#: ball/st_goal.c:210 ball/st_goal.c:212
 msgid "Finish"
 msgstr "끝내기"
 
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr ""
+#: ball/st_help.c:102
+msgid "Tricks"
+msgstr "속임수"
+
+#: ball/st_help.c:103
+msgid "Modes"
+msgstr "모드"
+
+#: ball/st_help.c:104
+msgid "Controls"
+msgstr "컨트롤"
+
+#: ball/st_help.c:105
+msgid "Rules"
+msgstr "규칙"
+
+#: ball/st_help.c:116
+msgid ""
+"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+"causing the\\ball to roll.\\"
+msgstr "마우스나 조이스틱을 움직이거나\\키보드 화살표를 사용하여 바닥을\\기울여 공이 굴러가도록 하세요."
+
+#: ball/st_help.c:121
+msgid ""
+"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+"finish\\the level.\\"
+msgstr "동전을 굴려 모으세요.\\동전을 모아 목표를 달성하고\\레벨을 완료하세요.\\"
+
+#: ball/st_help.c:178
+msgid ""
+"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+"rotation."
+msgstr "왼쪽 및 오른쪽 마우스 버튼을 사용하여 보기를 회전합니다.\\Shift 키를 누르고 있으면 보기를 더 빨리 회전할 수 있습니다."
+
+#: ball/st_help.c:180
+msgid "Exit / Pause"
+msgstr "나가기 / 일시 정지"
+
+#: ball/st_help.c:184
+msgid "Restart Level"
+msgstr "레벨 재시작"
+
+#: ball/st_help.c:185
+msgid "Screenshot"
+msgstr "스크린샷"
+
+#: ball/st_help.c:256
+msgid ""
+"Finish a level before the time runs out.\\You need to collect coins in order"
+" to open the goal."
+msgstr "시간이 끝나기 전에 레벨을 완료하세요.\\목표를 열려면 동전을 모아야 합니다."
+
+#: ball/st_help.c:269
+msgid ""
+"Start playing from the first level of the set.\\You start with only three "
+"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgstr "세트의 첫 번째 레벨부터 플레이를 시작하세요.\\공 3개만 가지고 시작하므로 잃어버리지 마세요.\\모은 코인 100개마다 추가 공을 하나씩 얻습니다."
+
+#: ball/st_help.c:283
+msgid ""
+"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+"may be able\\to reach new places.\\"
+msgstr "모서리를 이용해 점프할 수 있습니다.\\구르면서 각도를 조준하세요. 새로운\\곳에 도달할 수 있을지도 모릅니다.\\"
+
+#: ball/st_help.c:288
+msgid ""
+"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+"turn the camera by 45\\degrees for best results.\\"
+msgstr "2 방향으로 기울이면 경사도가\\커집니다. 수동 카메라를 사용하고\\최상의 결과를 얻으려면 카메라를\\45도 회전하세요.\\"
+
+#: ball/st_help.c:308 ball/st_help.c:318
+msgid "Watch demo"
+msgstr "데모 보기"
 
 #: ball/st_level.c:56
 #, c-format
 msgid "Bonus Level %s"
-msgstr ""
+msgstr "보너스 레벨 %s"
 
 #: ball/st_level.c:58
 #, c-format
 msgid "Level %s"
-msgstr ""
+msgstr "레벨 %s"
 
 #: ball/st_level.c:64
 #, c-format
 msgid "Standalone level"
-msgstr ""
+msgstr "독립형 레벨"
 
 #: ball/st_level.c:181
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
-msgstr ""
+msgstr "리플레이 파일을 쓰기용으로 열 수 없습니다.\\이 게임은 녹화되지 않습니다.\\"
+
+#: ball/st_name.c:112
+msgid "OK"
+msgstr "확인"
+
+#: ball/st_name.c:114 ball/st_save.c:113 ball/st_save.c:222
+msgid "Cancel"
+msgstr "취소"
+
+#: ball/st_over.c:41
+msgid "GAME OVER"
+msgstr "게임 오버"
+
+#: ball/st_pause.c:80 putt/st_all.c:635
+msgid "Paused"
+msgstr "일시 중지됨"
+
+#: ball/st_pause.c:89
+msgid "Restart"
+msgstr "다시 시작"
+
+#: ball/st_play.c:100
+msgid "Ready?"
+msgstr "준비되었나요?"
+
+#: ball/st_play.c:184
+msgid "Set?"
+msgstr "설정하나요?"
+
+#: ball/st_play.c:325
+msgid "GO!"
+msgstr "갑시다!"
+
+#: ball/st_save.c:100
+msgid "Replay Name"
+msgstr "리플레이 이름"
+
+#: ball/st_save.c:111
+msgid "Save"
+msgstr "저장"
+
+#: ball/st_save.c:217
+msgid "Overwrite?"
+msgstr "덮어쓸까요?"
+
+#: ball/st_save.c:223
+msgid "Overwrite"
+msgstr "덮어쓰기"
+
+#: ball/st_set.c:302
+msgid "Level Set"
+msgstr "레벨 설정"
+
+#: ball/st_start.c:228
+msgid "Unlocked"
+msgstr "잠금 해제됨"
+
+#: ball/st_start.c:229
+msgid "Locked"
+msgstr "잠김"
+
+#: ball/st_start.c:239
+msgid "Goal State in Completed Levels"
+msgstr "완료된 레벨의 목표 상태"
+
+#: ball/st_title.c:144 ball/st_title.c:179
+msgid "menu^Cheat"
+msgstr "메뉴^치트"
+
+#: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
+msgid "menu^Play"
+msgstr "메뉴^플레이"
+
+#: ball/st_title.c:185
+msgid "menu^Replay"
+msgstr "메뉴^리플레이"
+
+#: ball/st_title.c:186
+msgid "menu^Help"
+msgstr "메뉴^도움말"
+
+#: ball/st_title.c:187 putt/st_all.c:230
+msgid "menu^Options"
+msgstr "메뉴^옵션"
+
+#: ball/st_title.c:188 putt/st_all.c:231
+msgid "menu^Exit"
+msgstr "메뉴^나가기"
 
 #: ball/util.c:28
 msgid "Hard"
-msgstr "여러운게"
+msgstr "어려움"
 
 #: ball/util.c:29
 msgid "Medium"
-msgstr "보통게"
+msgstr "보통"
 
 #: ball/util.c:30
 msgid "Easy"
-msgstr "쉬운게"
+msgstr "쉬움"
 
 #: ball/util.c:76 ball/util.c:122
 msgid "Unavailable"
-msgstr ""
+msgstr "사용할 수 없음"
 
 #: ball/util.c:178 ball/util.c:228
 msgid "Most Coins"
-msgstr "더많은 동전"
+msgstr "대부분 동전"
 
 #: ball/util.c:185 ball/util.c:232
 msgid "Best Times"
-msgstr "더빠른 시간"
+msgstr "최고 시간"
 
 #: ball/util.c:192 ball/util.c:236
 msgid "Fast Unlock"
-msgstr "더빠른 승리"
+msgstr "빠른 잠금 해제"
 
 #: ball/util.c:205
 msgid "Change Name"
-msgstr "이름을 변하기"
+msgstr "이름 변경"
 
 #: ball/util.c:332
 msgid "caps"
-msgstr ""
+msgstr "caps"
 
-#: ball/st_over.c:35
-msgid "GAME OVER"
-msgstr ""
-
-#: ball/st_title.c:140 ball/st_title.c:175
-msgid "menu^Cheat"
-msgstr "컨닝하기"
-
-#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
-msgid "menu^Play"
-msgstr "놀기"
-
-#: ball/st_title.c:181
-msgid "menu^Replay"
-msgstr "재생"
-
-#: ball/st_title.c:182
-msgid "menu^Help"
-msgstr "도움말"
-
-#: ball/st_title.c:183 putt/st_all.c:239
-msgid "menu^Options"
-msgstr "수정하기"
-
-#: ball/st_title.c:184 putt/st_all.c:240
-msgid "menu^Exit"
-msgstr "출구"
-
-#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
+#: share/st_common.c:320 share/st_common.c:348 share/st_common.c:366
 #: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
 #: share/st_common.c:384
 msgid "Off"
-msgstr "아니"
-
-#: share/st_common.c:319
-msgid "2x"
-msgstr "2x"
-
-#: share/st_common.c:320
-msgid "4x"
-msgstr "4x"
+msgstr "끔"
 
 #: share/st_common.c:321
+msgid "2x"
+msgstr "2배"
+
+#: share/st_common.c:322
+msgid "4x"
+msgstr "4배"
+
+#: share/st_common.c:323
 msgid "8x"
-msgstr "8x"
+msgstr "8배"
 
 #: share/st_common.c:337
 msgid "Unknown Display"
-msgstr ""
+msgstr "알 수 없는 디스플레이"
 
 #: share/st_common.c:341 share/st_common.c:447
 msgid "Display"
-msgstr ""
+msgstr "디스플레이"
 
 #: share/st_common.c:347
 msgid "Fullscreen"
@@ -545,27 +556,27 @@ msgstr "전체 화면"
 #: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
 #: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
 msgid "On"
-msgstr "네"
+msgstr "켬"
 
 #: share/st_common.c:350 share/st_common.c:544
 msgid "Resolution"
-msgstr "화면 해상도"
+msgstr "해상도"
 
 #: share/st_common.c:365
 msgid "HMD"
-msgstr ""
+msgstr "헤드 마운티드 디스플레이"
 
 #: share/st_common.c:371
 msgid "V-Sync"
-msgstr "비-신크"
+msgstr "수직동기화"
 
 #: share/st_common.c:373
 msgid "Antialiasing"
-msgstr "안티 앨리어싱"
+msgstr "안티에일리어싱"
 
 #: share/st_common.c:379
 msgid "Reflection"
-msgstr "거울"
+msgstr "반사"
 
 #: share/st_common.c:381
 msgid "Background"
@@ -575,70 +586,122 @@ msgstr "배경"
 msgid "Shadow"
 msgstr "그림자"
 
-#: putt/st_conf.c:158
+#: share/st_common.c:782
+msgid "Button A"
+msgstr "A 버튼"
+
+#: share/st_common.c:783
+msgid "Button B"
+msgstr "B 버튼"
+
+#: share/st_common.c:784
+msgid "Button X"
+msgstr "X 버튼"
+
+#: share/st_common.c:785
+msgid "Button Y"
+msgstr "Y 버튼"
+
+#: share/st_common.c:786
+msgid "Button L1"
+msgstr "L1 버튼"
+
+#: share/st_common.c:787
+msgid "Button R1"
+msgstr "R1 버튼"
+
+#: share/st_common.c:788 putt/st_conf.c:158
 msgid "Select"
-msgstr ""
+msgstr "셀렉트"
 
-#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
+#: share/st_common.c:789
+msgid "Start"
+msgstr "스타트"
+
+#: share/st_common.c:793
+msgid "X Axis 1"
+msgstr "X 축 1"
+
+#: share/st_common.c:794
+msgid "Y Axis 1"
+msgstr "Y 축 1"
+
+#: share/st_common.c:795
+msgid "X Axis 2"
+msgstr "X 축 2"
+
+#: share/st_common.c:796
+msgid "Y Axis 2"
+msgstr "Y 축 2"
+
+#: share/st_common.c:909
+msgid "Press a button..."
+msgstr "버튼을 누르세요..."
+
+#: share/st_common.c:919
+msgid "Move a stick..."
+msgstr "스틱을 움직이세요..."
+
+#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
-msgstr ""
+msgstr "파"
 
-#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
+#: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
 msgstr "P1"
 
-#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
+#: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
 msgid "P2"
 msgstr "P2"
 
-#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
+#: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
 msgid "P3"
-msgstr "P4"
+msgstr "P3"
 
-#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
+#: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
 msgid "P4"
 msgstr "P4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:66
 msgid "O"
 msgstr "O"
 
-#: putt/st_all.c:124
+#: putt/st_all.c:115
 msgid "Tot"
-msgstr "Tot"
+msgstr "총합"
 
-#: putt/st_all.c:136
+#: putt/st_all.c:127
 msgid "I"
 msgstr "I"
 
-#: putt/st_all.c:361
+#: putt/st_all.c:352
 msgid "Select Course"
-msgstr ""
+msgstr "코스 선택"
 
-#: putt/st_all.c:529
+#: putt/st_all.c:520
 msgid "Players?"
-msgstr "선수 몇분이다?"
+msgstr "플레이어입니까?"
 
-#: putt/st_all.c:731
+#: putt/st_all.c:722
 #, c-format
 msgid "Hole %02d"
-msgstr ""
+msgstr "홀 %02d"
 
-#: putt/st_all.c:1073
+#: putt/st_all.c:1071
 msgid "It's In!"
-msgstr ""
+msgstr "들어왔습니다!"
 
-#: putt/st_all.c:1216
+#: putt/st_all.c:1214
 msgid "1 Stroke Penalty"
-msgstr ""
+msgstr "1타 페널티"
 
-#: putt/st_all.c:1294
+#: putt/st_all.c:1292
 msgid "Scores"
-msgstr ""
+msgstr "점수"
 
-#: putt/st_all.c:1347
+#: putt/st_all.c:1345
 msgid "Final Scores"
-msgstr ""
+msgstr "최종 점수"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
@@ -648,7 +711,7 @@ msgstr "쉬운 Neverball"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr ""
+msgstr "난이도: 초보자부터 중급자까지\\\\25개 레벨로 구성되어 있으며 학습 곡선이 완만합니다.\\게임 플레이 팁을 보려면 레벨 소개를 읽어보세요.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -659,7 +722,7 @@ msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
 "balanced\\challenge for players. Try to claim\\some of the records "
 "provided.\\"
-msgstr ""
+msgstr "난이도: 초보자부터 전문가까지\\\\플레이어에게 균형 잡힌 도전을\\제공하는 25개 레벨입니다. 제공된\\기록 중 일부를 획득해 보세요.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -670,965 +733,965 @@ msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr ""
+msgstr "난이도: 중급부터 전문가까지\\\\숙련된 플레이어를 위한 더욱 어려운 25개\\레벨이 준비되어 있습니다. 최고 기록, 최다\\코인 획득, 빠른 잠금 해제 기록을 달성해 보세요.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
-msgstr "유람한 Levels"
+msgstr "포스 투어"
 
 #: data/set-mym.txt
 msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater "
 "challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
+msgstr "난이도: 전문가부터 광기까지\\\\더욱 어려운 도전을 선사하는 25개 레벨입니다.\\원작자: Mehdi Yousfi-Monod(mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
-msgstr "다시 유람한 Levels"
+msgstr "포스 피드백"
 
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr ""
+msgstr "난이도: 첫 번째 세트보다 조금 더 어렵습니다.\\\\특히 동전을 잡는 것이 더 어렵습니다.\\원작자: Mehdi Yousfi-Monod(mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
-msgstr "Never 매니아"
+msgstr "Never매니아"
 
 #: data/set-fwp.txt
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr ""
+msgstr "난이도: 전문가부터 불가능까지\\\\고급 플레이어를 위한 다양한 레벨입니다.\\원작자: Florian Priester\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
-msgstr ""
+msgstr "톤 레벨"
 
 #: data/set-tones.txt
 msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
-msgstr ""
+msgstr "난이도: 보통 ~ 어려움. \\\\원작자: Ian Walker\\\\"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
-msgstr ""
+msgstr "Neverball 기타"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr ""
+msgstr "정렬되지 않은 레벨\\테스트 목적\\\\\\\\"
 
 #: data/holes-putt.txt
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr ""
+msgstr "원래 18홀 네버퍼트 코스입니다.\\완만한 학습 곡선을 가지고 있습니다.\\ \\난이도: 쉬움~중간\\원작자: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr ""
+msgstr "또 다른 18홀 코스\\ \\ \\난이도: 중간\\원작자: paxed\\"
 
 #: data/holes-paxed2.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr ""
+msgstr "또 다른 18홀 코스\\ \\ \\난이도: 중간\\원작자: paxed\\"
 
 #: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr ""
+msgstr "더 많은 홀\\ \\ \\난이도: 중간\\원작자: paxed\\"
 
 #: data/holes-abc.txt
 msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr ""
+msgstr "알파벳 순서대로 26홀 코스\\난이도: 어려움\\원작자: paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr ""
+msgstr "크레이지 골프\\ \\\\난이도: 쉬움~중간\\원작자: slippifishi\\"
 
 #: data/holes-kk.txt
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr ""
+msgstr "트릭키 골프\\\\18홀 코스와 다양한 도전 과제\\난이도: 전문가부터 광기까지\\원작자: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
 "hard.\\Author: vidski\\"
-msgstr ""
+msgstr "골프 잠발라야\\\\vidski의 악명 높은 코스.\\난이도: 중간~어려움.\\원작자: vidski\\\\"
 
-#: data/holes-easyputt.txt
+#: data/holes-iCourse.txt
 msgid ""
-"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr ""
+msgstr "Reshaun의 iPutt 코스\\\\\\난이도: 쉬움~어려움\\원작자: Reshaun Francis"
+
+#: data/gui/title.map data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
 
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr ""
+msgstr "움직이는 물체에 맞지 않도록 주의하세요.\\한 번 부딪히면 공이\\완전히 통제 불능이 될 수 있습니다."
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr ""
+msgstr "바운싱 볼을 조종하는 법을 배우세요.\\공이 어디에 떨어질지 알아보려면\\그림자를 보세요. 바운싱에 자신이\\있다면, 큰 보상을 위해 위험을 감수해\\보세요.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr ""
+msgstr "이번에는 목표를 달성하려면 50개의 코인을 모아야 합니다.\\빨간색 코인은 5개, 파란색 코인은 10개입니다.\\제한 시간 내에 목표에 도달하세요!\\클릭하여 시작하세요.\\"
 
 #: data/map-easy/corners.map
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the"
 " bump hard to\\grab some big coins and score a short time.\\"
-msgstr ""
+msgstr "허공으로 떨어질 수 있는 몇 가지 기회가 더\\있습니다. 험지를 세게 쳐서 큰 동전을 획득하고\\짧은 시간 안에 점수를 획득하세요.\\"
 
 #: data/map-easy/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level "
 "floor\\and maintain precise control.\\Build some momentum to reach the "
 "corners.\\"
-msgstr ""
+msgstr "이전과 같지만, 보조 바퀴는 없습니다.\\공을 평평한 바닥에 두고\\정확한 컨트롤을 유지하세요.\\모퉁이에 도달하기 위한 추진력을 얻으세요.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "바닥을 움직이려면 마우스를\\ 사용해본다. 끝내기 위해서 동전 열개\\ 좀 찾고 끝에 가야 된다.\\\\ 시작하기 위해 글릭하준다.\\"
+msgstr "마우스를 움직여 바닥을 기울이세요.\\10개의 동전을 모아서 골을 잠금 해제하세요.\\공을 골까지 보내서\\레벨을 완료하세요.\\\\클릭하여 시작하세요.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr ""
+msgstr "하프파이프는 재밌지만,\\넘어지기 쉽습니다.\\과속하지 않으면 컨트롤을\\유지할 수 있습니다."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr ""
+msgstr "''평평함'은 상대적입니다.\\바닥을 각도를 맞춰서 경사면이 수평을\\유지하도록 하는 법을 배우세요.\\이렇게 하면 공을 완벽하게 제어할 수 있습니다.\\기세를 이용해 큰 동전을 향해 나아가세요.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr ""
+msgstr "여기 동전 100개가 있습니다.\\실수로 먼저 골을 넣지 않는다면,\\그렇게 어렵지 않을 겁니다.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr ""
+msgstr "바닥을 최대한 기울이지 마세요.\\기울기가 적을수록 속도가 느려집니다.\\속도가 느리면 컨트롤이 좋아집니다.\\시계를 보고 시간을 현명하게 사용하세요.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr ""
+msgstr "각 다리는 이전 다리보다 좁습니다.\\하지만 이전 다리보다 수익이 더 좋습니다!\\이 다리에서 얼마나 멀리 갈지는 여러분이 결정하세요.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr ""
+msgstr "목표에 도달하는 것은\\문제가 되지 않지만,\\모든 동전을 얻으려면\\약간의 계획이 필요합니다.\\\\힌트: 구멍에 빠지는 것보다 구멍을\\피하는 것이 더 빠를 때가 많습니다."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr ""
+msgstr "가장자리에서 멀리 떨어지세요!\\낙하 지점에 접근할 때는 일찍 속도를 늦추세요.\\속도를 높일 때와 마찬가지로 속도를 줄일\\때도 충분한 공간이 필요합니다.\\"
 
 #: data/map-easy/lollipop.map
 msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr ""
+msgstr "노란색 탈주로를 따라가세요!\\\\파란색 동전은 특히 어렵지만,\\실험과 연습을 통해\\모두 모을 수 있을 거예요."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr ""
+msgstr "공이 좁은 통로에서 걷잡을 수 없이 튀어\\오르려 합니다. 천천히 굴리고 벽에 닿지\\않도록 하세요. 주어진 시간 안에 모든\\동전을 모을 수 있습니다.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr ""
+msgstr "당황스럽지만 유익합니다.\\\\범퍼의 움직임을 관찰하는 데 시간을\\투자하세요 - 목표 달성에 도움이 될 것입니다."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr ""
+msgstr "움직이는 플랫폼은 까다로울 수 있습니다.\\정확한 타이밍을 이용해 탑승하고\\정확한 균형을 유지해 그 자리를 지키세요.\\플랫폼이 움직이지 않도록 주의하세요.\\큰 동전을 잡으려면 플랫폼을 타세요.\\"
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr ""
+msgstr "마우스 버튼을 사용하여 보기를 회전합니다.\\Esc 키를 눌러 일시 중지하거나 종료합니다.\\\\\\\\클릭하여 시작합니다.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr ""
+msgstr "엘리베이터를 탈 때는 공이\\움직이지 않도록 작은 조정을 하세요.\\공을 한곳에 고정시키면 많은\\동전을 모을 수 있습니다.\\너무 많이 움직이면 떨어질 수 있습니다."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr ""
+msgstr "목표에 도달할 수 있는 길은 하나뿐이지만,\\코인을 모을 수 있는 길은 많습니다.\\목표를 달성할 만큼 충분한\\코인을 모았는지 확인하세요."
 
 #: data/map-easy/slalom.map
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr ""
+msgstr "동전의 흔적을 따라 목표 지점에 도달하세요.\\빠르게 움직이는 중에 기둥에 부딪히면\\멀리 벗어나게 됩니다."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr ""
+msgstr "언덕을 넘으려면 더 빠른 속도가 필요합니다.\\너무 빨리 가지 않도록 조심하세요!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr ""
+msgstr "공이 움직이는 플랫폼 위에 있으면,\\움직이는 방향으로 당겨집니다.\\난간을 이용하여 균형을 잡고,\\목표를 여는 데 필요한 동전을\\모으세요."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr ""
+msgstr "모든 동전을 모으세요...\\하지만 괴롭힘을 당하지 마세요!"
 
 #: data/map-easy/wakka.map
 msgid ""
 "Here's another coin grab.\\Perhaps you already know a good "
 "route.\\Teleportation might come in handy.\\"
-msgstr ""
+msgstr "또 다른 동전 획득 방법이 있습니다.\\아마도 이미 좋은 경로를 알고 계실 겁니다.\\순간이동이 유용할 수도 있습니다.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
-msgstr ""
+msgstr "=모험=\\해야 할 일이 많고, 모아야 할 동전이 많으며, 감수해야 할 위험도 많습니다."
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr ""
+msgstr "=아트리움=\\기둥에서 동전을 제거합니다."
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
-msgstr ""
+msgstr "=부표=\\타이머를 조종하는 자가 문을 조종합니다."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr ""
+msgstr "=화물=\\자신을 끌어당깁니다."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
-msgstr ""
+msgstr "=색종이 조각=\\도와주세요! 이 난국을 헤쳐나갈 방법이 분명히 있을 거예요."
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr ""
+msgstr "=디스크=\\올바르게 사용하면 플랫폼을 통해 목표 지점까지 이동할 수 있습니다."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr ""
+msgstr "=화염=\\불의 쿵쿵거림이 임무를 방해하려 할 것입니다."
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
-msgstr ""
+msgstr "=무당벌레=\\귀찮게 여기지 마세요."
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr ""
+msgstr "=산=\\기복은 삶의 일부입니다."
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
-msgstr ""
+msgstr "=박물관=\\전시품을 만지지 마세요."
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr ""
+msgstr "=이상함=\\여기 뭔가 이상한 게 있어요..."
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
-msgstr ""
+msgstr "=난간=\\균형을 잃지 마세요."
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr ""
+msgstr "=램프=\\정상까지 올라갈 수 있나요?"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
-msgstr ""
+msgstr "=링=\\이 함정을 굴려 통과하세요."
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr ""
+msgstr "=경사=\\현대판 시시포스가 되지 않도록 노력하세요."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr ""
+msgstr "=시공간=\\공간도 별로 없고, 시간도 별로 없습니다."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr ""
+msgstr "=군집=\\경고: 불법 침입자는 쫓겨납니다."
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr ""
+msgstr "=테니스=\\상금이 많이 걸려 있고, 우승자가 결정됩니다."
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
-msgstr ""
+msgstr "=나무=\\나선형 계단을 따라 목표 지점까지 가세요."
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr ""
+msgstr "=UFO=\\그들이 알리고 싶어하지 않는 우주선을 타세요."
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
-msgstr ""
+msgstr "목표에 대한 경로를 열려면 2개의 스위치를 활성화해야 합니다."
 
 #: data/map-hard/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr ""
+msgstr "여기 바닥이 부족해요.\\문제가 되지 않기를 바랍니다.\\"
 
 #: data/map-hard/curbs.map
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr ""
+msgstr "여기에서 진전을 이루려면 모서리를\\세게 치고 튀는 것을 제어해야 합니다.\\모서리에서 연석을 치는 것이 가장 쉬운 경우가 많습니다.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr ""
+msgstr "그렇다면 Neverball은 퍼즐 게임인가요?\\빨간색을 제거하여 목표를 달성하세요.\\각 트리거는 직접 접촉하면 색상이 바뀝니다."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
-msgstr ""
+msgstr "개굴!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr ""
+msgstr "플랫폼의 움직임을 동기화하기 위해 스위치의\\타이밍을 신중하게 조절하세요.\\틈새를 빠르게 이동하세요.\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr ""
+msgstr "네, 공은 그 작은 구멍에 아주\\딱 맞게 들어가요.\\"
 
 #: data/map-hard/hallways.map
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr ""
+msgstr "속도와 점프력을 조절하세요.\\순간이동 장치는 항상 여러분을\\레벨 어딘가로 데려다 줄 것입니다."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr ""
+msgstr "모멘텀이 불리하게 작용할 수도 있습니다.\\"
 
 #: data/map-hard/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr ""
+msgstr "탐욕에 따라 행동하세요.\\더 큰 도전을 원한다면\\모든 동전을 모아보세요.\\추측 없이도 가능합니다.\\"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
-msgstr ""
+msgstr "라이딩하러 가세요.\\"
 
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
 "hard way.\\Of course, by going the easy way\\you can forget about all\\those"
 " red and blue coins."
-msgstr ""
+msgstr "여기에는 두 가지 목표가 있습니다.\\쉬운 방법으로 이 레벨을 완료할\\수도 있고, 어려운 방법으로 완료할\\수도 있습니다.\\물론, 쉬운 방법을\\선택하면 빨간색과 파란색 동전을\\모두 잊을 수 있습니다."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr ""
+msgstr "선택할 수 있는 길이 너무 많네요...\\다 시도해 보셨나요?"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr ""
+msgstr "이것은 파이프가 아닙니다.\\"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
-msgstr ""
+msgstr "천천히 그리고 꾸준히.\\"
 
 #: data/map-hard/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr ""
+msgstr "각 단계마다 약 15초 정도 주어지니,\\지체하지 마세요. 동전을 모아 다음\\스위치로 이동하세요.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
-msgstr ""
+msgstr "괴롭힘을 당하지 마세요.\\"
 
 #: data/map-hard/rampup.map
 msgid "I think I can.\\I think I can.\\"
-msgstr ""
+msgstr "할 수 있다고 생각합니다.\\할 수 있다고 생각합니다.\\"
 
 #: data/map-hard/ring.map
 msgid "So close, yet so very far.\\"
-msgstr ""
+msgstr "너무 가깝지만, 너무 멉니다.\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr ""
+msgstr "엘리베이터를 타고 꼭대기까지 올라가세요.\\엘리베이터가 빠르게 움직이므로\\너무 오래 기다리지 마세요.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr ""
+msgstr "빨간색과 파란색 동전을\\모으는 재미를 느껴보세요.\\"
 
 #: data/map-hard/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
-msgstr ""
+msgstr "걱정하지 마세요.\\녹색 부분은 어디에도 가지 않을 거예요.\\"
 
 #: data/map-hard/sync.map
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they "
 "come\\together in the middle.\\"
-msgstr ""
+msgstr "스위치를 사용하여\\플랫폼을 움직이세요.\\플랫폼이 가운데에서\\만나도록 시간을 조절하세요.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr ""
+msgstr "공이 텔레포터 안에 완전히\\있어야만 작동할 수 있습니다.\\공은 텔레포터를 통해 운동량을\\전달받으므로 미리 계획하세요.\\"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr ""
+msgstr "바닥은 만드는 대로 평평해집니다.\\"
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
-msgstr ""
+msgstr "천국으로 가는 계단"
 
 #: data/map-medium/angle.map
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr ""
+msgstr "저 다리들은 각이 져 있어요.\\각각이 이전 다리보다 좁고 가파릅니다.\\쉽게 돈을 벌거나 큰 보상을\\노리고 끝까지 가세요.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
-msgstr ""
+msgstr "가져갈 동전이 잔뜩 있어요.\\다 가져갈 수 있나요?\\"
 
 #: data/map-medium/cross.map
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr ""
+msgstr "추진력을 이용해 위쪽 플랫폼에 도달하되,\\안전하게 착지할 수 있도록\\공을 잘 조종하세요.\\\\수동 보기가 도움이 될 수 있습니다.\\"
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr ""
+msgstr "튀는 공을 잘 제어하려면 그림자를\\잘 살펴보세요. 그리고 마우스 버튼을\\사용하여 공을 시야에 유지하는 것도\\잊지 마세요.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr ""
+msgstr "텔레포터를 이용하면 평소에는\\갈 수 없는 곳으로 갈 수 있습니다.\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr ""
+msgstr "위험과 보상의 균형을 맞추세요.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr ""
+msgstr "목표에 도달하기 위해 경사를 오르세요.\\(말은 쉽지만 실천하기는 어렵습니다.)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr ""
+msgstr "역을 떠나기 전에 기차를 타세요.\\"
 
 #: data/map-medium/learngrow.map
 msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr ""
+msgstr "공은 작은 구멍에도 들어갈 수 있어요.\\공 크기를 작게 만들 수 있는 걸 찾으면 되니까요.\\다른 곳에는 더 큰 공이 필요할 수도 있어요.\\한 가지 확실한 건, 계획이 필요하다는 거예요!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
-msgstr ""
+msgstr "스위치를 눌러 장벽을 옮기세요.\\"
 
 #: data/map-medium/multicurves.map
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr ""
+msgstr "빠르게 움직이려는 유혹이\\파멸로 이끌 수도 있습니다.\\\\하지만 그렇지 않을 수도 있습니다..."
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
-msgstr "천천히.\\"
+msgstr "천천히 하세요.\\"
 
 #: data/map-medium/qbert.map
 msgid "You can never go home again..."
-msgstr "집에 못돌아올 건다..."
+msgstr "다시는 집에 돌아갈 수 없을 것입니다..."
 
 #: data/map-medium/rampdn.map
 msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr ""
+msgstr "여기서는 보기를 직접 조정해야 합니다.\\자동 회전을 중지하려면 3번을 누르세요.\\마우스 버튼을 사용하여 수동으로 회전하세요.\\자동 회전 보기로 돌아가려면 1번을 누르세요.\\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
 "This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
 "layer."
-msgstr ""
+msgstr "이 웨딩 케이크는 꽤 풍성하지만,\\아래 층으로 내려갈 때는\\조심하세요."
 
 #: data/map-medium/sparselines.map
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr ""
+msgstr "빠른 속도로 통나무를 부딪혀 차선을 바꾸세요.\\꼭대기에 도달해 더욱 도전적인 경험을 해보세요!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr ""
+msgstr "천천히 움직여 가장자리에서 멀리 떨어지세요.\\아니면, 그러지 마세요.\\어느 쪽이든 효과가 있을 수 있습니다.\\"
 
 #: data/map-medium/spiralup.map
 msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
-msgstr ""
+msgstr "이전과 똑같지만, 아래로가 아닌 위로 이동합니다.\\이번에는 부정행위가 없습니다.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr ""
+msgstr "튕기는 동작을 제어하는 ​​능력을 시험해\\볼 또 다른 기회입니다. 계단을 너무 빨리\\내려가는 것은 위험할 수 있습니다.\\"
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr ""
+msgstr "이 미로에는 벽이 없습니다.\\하지만 그렇다고 해서 해결책을\\찾는 게 더 쉬운 것은 아닙니다.\\"
 
 #: data/map-medium/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr ""
-
-#: data/map-medium/title.map
-msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr ""
+msgstr "저 스위치 하나로 다섯 개의 장벽을 모두 제어할 수 있어요.\\서두르세요. 스위치에는 타이머가 걸려 있거든요.\\타이머가 만료되면 장벽이 올라갑니다.\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
-msgstr ""
+msgstr "동전의 흔적을 따라\\미로를 통과하세요."
 
 #: data/map-medium/zigzag.map
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
-msgstr ""
+msgstr "시간을 내어 획득할 의향이 있다면\\여기에는 많은 동전이 있습니다.\\"
 
 #: data/map-misc/bigball-old.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr ""
+msgstr "공의 포로입니다.\\구체 속에 살고 있습니다.\\모든 파란색 동전을 잡는 것은 어려운 일입니다."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr ""
+msgstr "모든 파란색 동전을 모아보세요...\\쉽지 않을 거예요!"
 
 #: data/map-misc/blockers.map
 msgid "Block around the clock."
-msgstr ""
+msgstr "24시간 내내 차단합니다."
 
 #: data/map-misc/bounce.map
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr ""
+msgstr "파란색 동전을 따라가세요...\\그리고 튀는 것을 조절하는 법을 배우세요!\\힌트: '추적' 카메라 모드를 사용하세요."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
-msgstr "따라본다."
+msgstr "화살표를 따라가세요."
 
 #: data/map-misc/checkers.map
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr ""
+msgstr "진짜 체커 게임이지만, 아무도 이기지 못합니다...\\파란 동전에 닿으려면 튀어야 합니다."
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
-msgstr ""
+msgstr "고요함과 명상은 열반에 이르게 할 수 있습니다."
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr ""
+msgstr "넘어지는 법을 아세요.\\파란색 표시를 따라가세요."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr ""
+msgstr "새 동전을 사용하여 공 크기를 변경해 보세요!\\마음에 드셨으면 좋겠습니다!\\-Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
-msgstr ""
+msgstr "공을 더 크게 또는 더 작게 만들 수 있는\\특수 동전이 있습니다."
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr ""
+msgstr "수영하러 갑시다...\\동전이 모두 물에 잠겼어요.\\"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr ""
+msgstr "계단에서 넘어졌어요.\\으악!\\아파요."
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr ""
+msgstr "그냥 일어나도록 두세요...\\그러면 걱정하기 시작하세요!"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
-msgstr ""
+msgstr "타이머 정확도를 테스트하는 또 다른 방법입니다."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr ""
+msgstr "장애물 코스입니다.\\장애물 코스를 준비했나요?"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
-msgstr ""
+msgstr "광란의 경주입니다.\\몇 바퀴 달려봅시다."
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr ""
+msgstr "가파른 경사로입니다.\\속도를 조절하세요."
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr ""
+msgstr "힘든 등반입니다.\\현기증을 겪고 있나요?"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr ""
+msgstr "영원한 순환입니다.\\순간이동기를 피하세요..."
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr ""
+msgstr "조용한 산책입니다.\\정말 조용한 산책이네요."
 
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr ""
+msgstr "춤추는 발라드입니다.\\움직이는 플랫폼에서 춤을 춥니다!\\팁: 마지막 이동 플랫폼을 활성화한 후,\\목표에 도달할 때까지 Thwomp를 돌리세요."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr ""
+msgstr "지옥같은 하강입니다.\\시작하기는 충분히 쉽죠?"
 
 #: data/map-mym/drive1.map
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr ""
+msgstr "스트레스가 많은 운전입니다.\\주의:\\공 아래의 플랫폼이 앞으로 이동합니다."
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr ""
+msgstr "위험한 운전입니다.\\공 아래의 플랫폼이 빠르게 앞으로 이동합니다.\\앞으로 나아가는 것이 좋습니다."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr ""
+msgstr "불확실한 통로입니다.\\너무 쉬운 거 아니예요?"
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr ""
+msgstr "유령 계곡입니다.\\목표를 열기 위해 3바퀴를 도세요."
 
 #: data/map-mym/glasstower.map
 msgid "La tour de verre.\\Find the way to the exit."
-msgstr ""
+msgstr "유리 타워입니다.\\출구로 가는 길을 찾으세요."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr ""
+msgstr "Neverball 미스테리입니다.\\아직도 Neverball이 너무 쉽다고 생각하세요?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr ""
+msgstr "눈부신 굽이입니다.\\거꾸로!"
 
 #: data/map-mym/loop2.map
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr ""
+msgstr "곡선 제어입니다.\\회전하고, 점프하고, 착지할 때\\올바른 각도를 찾으세요..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr ""
+msgstr "숨겨진 길입니다.\\기억력을 테스트해 보세요."
 
 #: data/map-mym/maze2.map
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr ""
+msgstr "미친 미로입니다.\\방법을 알고, 그것을 보고 있는데,\\왜 또 다른 방법을 택하나요?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr ""
+msgstr "좁은 길입니다.\\인내심과 타이밍입니다.\\팁: 첫 번째 경사에서 속도를 최대화하세요."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr ""
+msgstr "시간 제한 테스트입니다.\\달려라, 달려!"
 
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr ""
+msgstr "작은 십자가입니다.\\스크램블을 시작하세요!\\트랙을 고수하여 속도를 최적화하세요."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr ""
+msgstr "상쾌한 하강입니다.\\그렇게 빨리 하지 마세요, 그렇게 빨리 하지 마세요."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr ""
+msgstr "믿음의 길입니다.\\자신감을 가져요."
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr ""
+msgstr "삼각함수의 의미입니다.\\돌아서서 기다리고 점프하세요."
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr ""
+msgstr "서둘러 올라가세요.\\조언은 단 하나: 멈추지 마세요!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr ""
+msgstr "짜증나는 왕복입니다.\\활성화 순서를 기억하세요."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr ""
+msgstr "Neverball 거리\\파티를 선택하고 3점을 획득하세요."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr ""
+msgstr "복잡한 기계입니다.\\간단합니다. 목표는 바로 당신 위에 있습니다."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr ""
+msgstr "큰 원뿔입니다.\\원뿔형으로 생활합니다."
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr ""
+msgstr "타오르는 불꽃입니다.\\이게 뭔가 생각납니까?"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr ""
+msgstr "유명한 배관공의 점프입니다.\\동전을 따라가세요."
 
 #: data/map-mym2/fall.map
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr ""
+msgstr "회복해서 더 높이 올라가는 방법을 알아보세요.\\네버볼 아레나입니다.\\텔레포트를 2개를 이용해 잠금을 해제하고 목표를 달성하세요."
 
 #: data/map-mym2/freefall.map
 msgid ""
 "This level is full of challenges:\\understand the level's "
 "functioning,\\learn to fly and to survive,\\grab half of all coins to open "
 "the goal,\\find and reach the goal,\\and more..."
-msgstr ""
+msgstr "이 레벨은 다음과 같은 도전 과제로 가득함:\\레벨의 기능을 이해하고,\\날고 살아남는 법을 배우고,\\목표를 열기 위해 모든 동전의 절반을 모으고,\\목표를 찾아 도달하고,\\등..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr ""
+msgstr "작은 방앗간입니다.\\오두막에 들어가기에 좋은 타이밍이에요."
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr ""
+msgstr "허무함에 휩쓸리지 마세요.\\너무 낮게 가지 마세요."
 
 #: data/map-mym2/longpipe.map
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr ""
+msgstr "네, 네, 이 파이프에는 끝이 있어요.\\파이프 속에서 살아요.\\팁: 마지막 점프에서는 속도를 늦추세요!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\잘 지낸다."
+msgstr "어려움보다 더 어려워요.\\행운을 빌어요."
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\단단하지 만다."
+msgstr "인내심을 가지세요.\\그렇게 어렵지 않아요."
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\동정을 따라본다."
+msgstr "덧없는 통로입니다.\\동전을 믿으세요."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\빠르지 말지만 천천하지 만다."
+msgstr "이봐, 밀지 마세요 !\\너무 빠르지도, 너무 느리지도 않게요."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
-msgstr ""
+msgstr "레인보우 로드입니다.\\목표를 열기 위해 3바퀴를 도세요."
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr ""
+msgstr "Neverball 로데오입니다.\\빨리 빠질 거예요."
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr ""
+msgstr "가야 할까요 말까요 ?\\망설이지 마세요."
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
-msgstr ""
+msgstr "작은 가방을 준비하세요.\\위 검사기입니다."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr ""
+msgstr "약간의 워밍업입니다.\\Mehdi의 새로운 설정에 오신 것을 환영합니다!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr ""
+msgstr "속도보다 빠릅니다.\\속도의 정의입니다."
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
-msgstr ""
+msgstr "아시아 댄스\\화살표를 믿으세요."
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr ""
+msgstr "흐름에 맡기세요.\\경고, 도로가 움직이고 있습니다."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr ""
+msgstr "조용하지만, 너무 조용하지는 않아요.\\엘리베이터와 동기화하세요."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr ""
+msgstr "매력적인 캔버스입니다.\\거미줄에서 나오세요."
 
 #: data/map-tones/bigtube.map
 msgid "Speed is the name of the game."
-msgstr ""
+msgstr "속도가 게임의 이름입니다."
 
 #: data/map-tones/blue.map
 msgid "Tread carefully...\\and keep moving!\\"
-msgstr ""
+msgstr "조심해서 움직이세요...\\그리고 계속 움직이세요!\\"
 
 #: data/map-tones/bumperoo.map
 msgid "Who's the boss around here anyway?"
-msgstr ""
+msgstr "여기서 보스는 누구입니까?"
 
 #: data/map-tones/canals.map
 msgid "You might have to get wet\\if you want all the coins."
-msgstr ""
+msgstr "동전을 다 모으려면 젖어야\\할지도 몰라요."
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr ""
+msgstr "하늘을 주시하세요!\\하지만 시간이 부족하지 않도록...\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
-msgstr ""
+msgstr "디딤돌입니다."
 
 #: data/map-tones/discs.map
 msgid "Work your way to the top."
-msgstr ""
+msgstr "정상까지 올라가세요."
 
 #: data/map-tones/easyian.map
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr ""
+msgstr "45개의 코인을 모아 목표를 달성하세요. 텔레포터를 사용하면 점프에 필요한 속도를 얻을\\수 있습니다."
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
-msgstr ""
+msgstr "울퉁불퉁한 주행을 피하려면\\속도를 조절하세요."
 
 #: data/map-tones/hotwheels.map
 msgid "Learn the course and stick to the rails!"
-msgstr ""
+msgstr "과정을 익히고 규칙을 고수하세요!"
 
 #: data/map-tones/hurdles.map
 msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
-msgstr ""
+msgstr "간단한 워밍업으로 시작해 봅시다.\\속도를 높이고 목표를 향해 도약하세요."
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
-msgstr ""
+msgstr "뛰어들기 전에 꼭 확인하세요..."
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
-msgstr ""
+msgstr "발밑을 조심하세요!"
 
 #: data/map-tones/marble.map
 msgid "Watch your footing..."
-msgstr ""
+msgstr "발밑을 조심하세요..."
 
 #: data/map-tones/runner.map
 msgid "Walk the plank.\\After the teleport, go for speed!"
-msgstr ""
+msgstr "판자를 걷습니다.\\순간이동 후 속도를 내세요!"
 
 #: data/map-tones/skiball.map
 msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
-msgstr ""
+msgstr "스키볼입니다!\\\\10개에서 100개까지 순서대로\\연습하지 않으면 떨어질 거예요."
 
 #: data/map-tones/swish.map
 msgid "Timing is everything."
-msgstr ""
+msgstr "타이밍이 중요합니다."
 
 #: data/map-tones/swoop.map
 msgid "What goes down must come up!\\"
-msgstr ""
+msgstr "내려간 것은 반드시 올라와야 합니다!"
 
 #: data/map-tones/tonesmaze.map
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr ""
+msgstr "20초가 지나기 전에\\보라색 플랫폼에 안전하게\\도착했는지 확인하세요!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
-msgstr ""
+msgstr "고소공포증이 있으신가요?\\어지러움을 느끼지 않도록 주의하세요."
 
 #: data/map-tones/waves.map
 msgid "Surf's Up !!"
-msgstr ""
+msgstr "서핑이 시작됩니다 !!"
 
 #. Desktop entry comment
 #: dist/neverball.desktop.in
 msgid "A 3D arcade game with a ball"
-msgstr ""
+msgstr "공을 이용한 3D 아케이드 게임"
 
 #. Desktop entry comment
 #: dist/neverputt.desktop.in
 msgid "A 3D mini golf game"
-msgstr ""
+msgstr "3D 미니 골프 게임"
 
 #. Translators,
 #. Listed here are the Neverball materials (relative to the data directory)
@@ -1646,12 +1709,10 @@ msgstr ""
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
-msgstr ""
+msgstr "mtrl/words"
 
-#. Translators,
-#. These coin materials may be translated to the same texture path.
 msgid "item/coin/coin"
-msgstr "item/coin/won_coin"
+msgstr "item/coin/coin"
 
 msgid "item/coin/coin5"
 msgstr "item/coin/coin5"
