@@ -297,7 +297,7 @@ msgstr "新记录"
 
 #: ball/st_goal.c:97
 msgid "GOAL"
-msgstr "出口"
+msgstr "通关！"
 
 #: ball/st_goal.c:210 ball/st_goal.c:212
 msgid "Finish"
