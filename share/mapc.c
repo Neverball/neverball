@@ -2942,7 +2942,7 @@ static void dump_file(struct s_base *p, const char *name, double t)
 
     if (csv_output)
     {
-        printf("name,n,c,t,");
+        printf("file,n,c,t,");
 
         for (i = 0; i < ARRAYSIZE(stats); i++)
             printf("%s%s", stats[i].name, (i + 1 < ARRAYSIZE(stats) ?
@@ -3002,7 +3002,11 @@ int main(int argc, char *argv[])
         for (argi = 3; argi < argc; ++argi)
         {
             if (strcmp(argv[argi], "--debug") == 0) debug_output = 1;
-            if (strcmp(argv[argi], "--csv")   == 0)   csv_output = 1;
+            if (strcmp(argv[argi], "--csv")   == 0)
+            {
+                csv_output = 1;
+                fs_set_logging(0);
+            }
 #if ENABLE_RADIANT_CONSOLE
             if (strcmp(argv[argi], "--bcast") == 0) bcast_init();
 #endif

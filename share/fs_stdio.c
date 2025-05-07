@@ -94,14 +94,21 @@ static void free_path_item(struct fs_path_item *path_item)
 static char *fs_dir_base;
 static char *fs_dir_write;
 static List  fs_path;
+static int   fs_logging = 1;
 
 int fs_init(const char *argv0)
 {
     fs_dir_base  = strdup(argv0 && *argv0 ? dir_name(argv0) : ".");
     fs_dir_write = NULL;
     fs_path      = NULL;
+    fs_logging   = 1;
 
     return 1;
+}
+
+void fs_set_logging(int logging)
+{
+    fs_logging = logging;
 }
 
 int fs_quit(void)
@@ -172,7 +179,8 @@ int fs_add_path(const char *path)
 
     if (dir_exists(path))
     {
-        log_printf("FS: reading from \"%s\" (directory)\n", path);
+        if (fs_logging)
+            log_printf("FS: reading from \"%s\" (directory)\n", path);
 
         path_item->type = FS_PATH_DIRECTORY;
         path_item->path = strdup(path);
@@ -192,7 +200,8 @@ int fs_add_path(const char *path)
 
             if (mz_zip_reader_init_file(zip, path, 0))
             {
-                log_printf("FS: reading from \"%s\" (zip)\n", path);
+                if (fs_logging)
+                    log_printf("FS: reading from \"%s\" (zip)\n", path);
 
                 path_item->type = FS_PATH_ZIP;
                 path_item->path = strdup(path);
@@ -202,7 +211,7 @@ int fs_add_path(const char *path)
 
                 return 1;
             }
-            else
+            else if (fs_logging)
             {
                 mz_zip_error err = mz_zip_get_last_error(zip);
                 const char *str = mz_zip_get_error_string(err);
@@ -231,7 +240,8 @@ void fs_remove_path(const char *path)
 
         if (strcmp(path_item->path, path) == 0)
         {
-            log_printf("FS: unmounting \"%s\" (%s)\n", path, path_item->type == FS_PATH_DIRECTORY ? "directory" : "zip");
+            if (fs_logging)
+                log_printf("FS: unmounting \"%s\" (%s)\n", path, path_item->type == FS_PATH_DIRECTORY ? "directory" : "zip");
 
             free_path_item(path_item);
             path_item = NULL;
@@ -261,7 +271,9 @@ int fs_set_write_dir(const char *path)
             fs_dir_write = NULL;
         }
 
-        log_printf("FS: writing to \"%s\"\n", path);
+        if (fs_logging)
+            log_printf("FS: writing to \"%s\"\n", path);
+
         fs_dir_write = strdup(path);
         return 1;
     }
