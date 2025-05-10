@@ -449,7 +449,7 @@ msgstr "je'e"
 
 #: ball/st_name.c:116 ball/st_save.c:115 ball/st_save.c:224
 msgid "Cancel"
-msgstr "porfa'o"
+msgstr "ra'erprogau"
 
 #: ball/st_over.c:43
 msgid "GAME OVER"
