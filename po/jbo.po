@@ -461,7 +461,7 @@ msgstr "zasyde'a"
 
 #: ball/st_pause.c:88
 msgid "Give Up"
-msgstr "toirsti"
+msgstr "toisti"
 
 #: ball/st_pause.c:91
 msgid "Restart"
