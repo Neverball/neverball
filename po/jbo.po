@@ -1968,7 +1968,7 @@ msgstr "lo cimei bo cimde ke cmalu ke kelcrgolfo selkei"
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
-msgstr ""
+msgstr "mtrl/words-jbo"
 
 msgid "item/coin/coin"
 msgstr ""
