@@ -461,7 +461,7 @@ msgstr "zasyde'a"
 
 #: ball/st_pause.c:88
 msgid "Give Up"
-msgstr "toirsti"
+msgstr "toisti"
 
 #: ball/st_pause.c:91
 msgid "Restart"
@@ -708,7 +708,7 @@ msgstr "ko muvgau lo geirga'a …"
 
 #: share/st_common.c:1031
 msgid "Loading..."
-msgstr "bevtisna …"
+msgstr "tisybei …"
 
 #: share/st_package.c:389
 msgid "No addons found"
@@ -1968,7 +1968,7 @@ msgstr "lo cimei bo cimde ke cmalu ke kelcrgolfo selkei"
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
-msgstr ""
+msgstr "mtrl/words-jbo"
 
 msgid "item/coin/coin"
 msgstr ""
