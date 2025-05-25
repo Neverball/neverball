@@ -53,7 +53,7 @@ A ball.  While multiple balls may be defined, Neverball uses only the first of t
 </point>
 
 
-<point name="item_health_large" color="1 0 0" model="{'path': 'obj/editor/grow.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 8">
+<point name="item_health_large" color="1 0 0" model="{'path': 'obj/editor/grow.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 16">
 A grow coin.
 
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
@@ -61,7 +61,7 @@ A grow coin.
 </point>
 
 
-<point name="item_health_small" color="0 1 0" model="{'path': 'obj/editor/shrink.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 8">
+<point name="item_health_small" color="0 1 0" model="{'path': 'obj/editor/shrink.obj', 'scale': 0.125}" box="-8 -8 -16 8 8 16">
 A shrink coin.
 
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
@@ -76,7 +76,7 @@ A shrink coin.
   <item name="Large" value="30"/>
 </list>
 
-<point name="item_clock" color="0.5 0.25 1"  box="-8 -8 -16 8 8 8">
+<point name="item_clock" color="0.5 0.25 1"  box="-8 -8 -16 8 8 16">
 A clock. Adds time to a level.
 
 <clock key="light" name="Preset bonus" value="0">Value of the clock.  Pink clock (small) = 5, turquoise clock (medium) = 15, orange clock (large) = 30.</clock>
@@ -92,7 +92,7 @@ A clock. Adds time to a level.
   <item name="Blue" value="10"/>
 </list>
 
-<point name="light" color="1.0 1.0 0" model="{{ light >= 10 -> {'path': 'obj/editor/coin10.obj', 'scale': 1}, light >= 5 -> {'path': 'obj/editor/coin5.obj', 'scale': 1}, {'path': 'obj/editor/coin.obj', 'scale': 1} }}" box="-8 -8 -16 8 8 8">
+<point name="light" color="1.0 1.0 0" model="{{ light >= 10 -> {'path': 'obj/editor/coin10.obj', 'scale': 1}, light >= 5 -> {'path': 'obj/editor/coin5.obj', 'scale': 1}, {'path': 'obj/editor/coin.obj', 'scale': 1} }}" box="-8 -8 -16 8 8 16">
 A coin.
 
 <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
