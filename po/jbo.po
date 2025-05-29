@@ -1051,7 +1051,7 @@ msgid ""
 "\\"
 msgstr ""
 "¡sai ko ralte loka narjbi le relcimdykoi!\\.i ca lonu jbikla lo suktoldre kei ko cfagau lonu "
-"sutyjdika\\kei co clira .i do nitcu fi lonu sutyjdika kei\\fe lo satci ni canlu kei be sela'u zo'epoi pu co'e fi lonu sutyze'a"
+"sutyjdika\\kei co clira .i do nitcu nu'ixipa lo satci ni canlu kei lonu sutyjdika\\kei sedu'i lonu pu nei nu'ixipa fi lonu sutyze'a"
 "\\"
 
 #: data/map-easy/lollipop.map
