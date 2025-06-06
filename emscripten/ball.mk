@@ -149,7 +149,7 @@ clean-packages:
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(DATA_ZIP)
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
 
 .PHONY: watch
 watch:
