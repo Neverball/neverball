@@ -1,0 +1,7 @@
+brew "sdl2"
+brew "sdl2_ttf"
+brew "sdl2_net"
+brew "libpng"
+brew "jpeg-turbo"
+brew "libvorbis"
+brew "gettext"
