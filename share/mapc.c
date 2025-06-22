@@ -1205,8 +1205,8 @@ static void make_dict(struct s_base *fp,
     dp->aj = dp->ai + strlen(k) + 1;
     fp->ac = dp->aj + strlen(v) + 1;
 
-    strncpy(fp->av + dp->ai, k, space_left);
-    strncpy(fp->av + dp->aj, v, space_left - strlen(k) - 1);
+    memcpy(fp->av + dp->ai, k, strlen(k) + 1);
+    memcpy(fp->av + dp->aj, v, strlen(v) + 1);
 }
 
 static int read_dict_entries = 0;
@@ -1582,7 +1582,8 @@ static void make_targ(struct s_base *fp,
         }
     }
 
-    targ_n++;
+    if (++targ_n == MAXW)
+        overflow("target");
 }
 
 static void make_ball(struct s_base *fp,
@@ -1762,11 +1763,11 @@ static void clip_vert(struct s_base *fp,
 
         if (ok_vert(fp, lp, p))
         {
-            v_cpy(fp->vv[fp->vc].p, p);
+            int vi = incv(fp);
 
-            fp->iv[fp->ic] = fp->vc;
-            inci(fp);
-            incv(fp);
+            v_cpy(fp->vv[vi].p, p);
+
+            fp->iv[inci(fp)] = vi;
             lp->vc++;
         }
     }
@@ -1841,7 +1842,11 @@ static void clip_geom(struct s_base *fp,
             fp->tv[t[n]].u[0] = v_dot(v, plane_u[si]);
             fp->tv[t[n]].u[1] = v_dot(v, plane_v[si]);
 
-            n++;
+            if (++n >= ARRAYSIZE(m))
+            {
+                ERROR("Over 256 vertices on one side, skipping the rest\n");
+                break;
+            }
         }
     }
 
