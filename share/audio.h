@@ -6,6 +6,7 @@
 void audio_init(void);
 void audio_free(void);
 void audio_play(const char *, float);
+void audio_cache(const char *);
 
 void audio_music_fade_to(float, const char *);
 void audio_music_fade_in(float);

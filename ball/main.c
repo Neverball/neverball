@@ -45,6 +45,7 @@
 #include "package.h"
 #include "log.h"
 #include "game_client.h"
+#include "game_common.h"
 #include "strbuf/substr.h"
 #include "strbuf/joinstr.h"
 #include "lang.h"
@@ -904,6 +905,24 @@ static int main_init(int argc, char *argv[])
     /* Initialize audio. */
 
     audio_init();
+    audio_cache(AUD_MENU);
+    audio_cache(AUD_BALL);
+    audio_cache(AUD_BUMPS);
+    audio_cache(AUD_BUMPM);
+    audio_cache(AUD_BUMPL);
+    audio_cache(AUD_COIN);
+    audio_cache(AUD_TICK);
+    audio_cache(AUD_TOCK);
+    audio_cache(AUD_SWITCH);
+    audio_cache(AUD_JUMP);
+    audio_cache(AUD_GOAL);
+    audio_cache(AUD_SCORE);
+    audio_cache(AUD_FALL);
+    audio_cache(AUD_TIME);
+    audio_cache(AUD_OVER);
+    audio_cache(AUD_GROW);
+    audio_cache(AUD_SHRINK);
+    audio_cache(AUD_JUMP);
     tilt_init();
 
     /* Initialize video. */
