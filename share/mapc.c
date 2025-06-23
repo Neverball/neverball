@@ -279,9 +279,9 @@ struct _imagedata
  */
 struct mapc_context
 {
-    const char *input_file;
-    int debug_output;
-    int csv_output;
+    const char *opt_file;
+    int opt_debug;
+    int opt_csv;
 
 #if ENABLE_RADIANT_CONSOLE
     TCPsocket bcast_socket;
@@ -326,9 +326,9 @@ static void mapc_context_init(struct mapc_context *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
 
-    ctx->debug_output = 0;
-    ctx->csv_output = 0;
-    ctx->input_file = NULL;
+    ctx->opt_debug = 0;
+    ctx->opt_csv = 0;
+    ctx->opt_file = NULL;
 
 #if ENABLE_RADIANT_CONSOLE
     ctx->bcast_socket = NULL;
@@ -689,7 +689,7 @@ static int read_mtrl(struct mapc_context *ctx, struct s_base *fp, const char *na
 
     if (!mtrl_read(mp, name))
     {
-        SAFECPY(buf, ctx->input_file);
+        SAFECPY(buf, ctx->opt_file);
         SAFECAT(buf, ": unknown material \"");
         SAFECAT(buf, name);
         SAFECAT(buf, "\"\n");
@@ -2399,7 +2399,7 @@ static void uniq_file(struct mapc_context *ctx, struct s_base *fp)
 {
     /* Debug mode skips optimization, producing oversized output files. */
 
-    if (ctx->debug_output == 0)
+    if (ctx->opt_debug == 0)
     {
         uniq_mtrl(ctx, fp);
         uniq_vert(ctx, fp);
@@ -2438,7 +2438,7 @@ static void smth_file(struct mapc_context *ctx, struct s_base *fp)
 {
     struct b_trip temp, *T;
 
-    if (ctx->debug_output == 0)
+    if (ctx->opt_debug == 0)
     {
         if ((T = (struct b_trip *) malloc(fp->gc * 3 * sizeof (struct b_trip))))
         {
@@ -2761,7 +2761,7 @@ static int node_node(struct mapc_context *ctx, struct s_base *fp, int l0, int lc
         /* Flag each lump with its position WRT the side. */
 
         for (li = 0; li < lc; li++)
-            if (ctx->debug_output)
+            if (ctx->opt_debug)
             {
                 fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
             }
@@ -2989,7 +2989,7 @@ static void dump_file(struct mapc_context *ctx, struct s_base *p, const char *na
     }
 #endif
 
-    if (ctx->csv_output)
+    if (ctx->opt_csv)
     {
         printf("file,n,c,t,");
 
@@ -3050,17 +3050,17 @@ int main(int argc, char *argv[])
         int argi;
 
         /* Store input file in context */
-        ctx.input_file = argv[1];
+        ctx.opt_file = argv[1];
 
         for (argi = 3; argi < argc; ++argi)
         {
             if (strcmp(argv[argi], "--debug") == 0)
             {
-                ctx.debug_output = 1;
+                ctx.opt_debug = 1;
             }
             if (strcmp(argv[argi], "--csv")   == 0)
             {
-                ctx.csv_output = 1;
+                ctx.opt_csv = 1;
                 fs_set_logging(0);
             }
 #if ENABLE_RADIANT_CONSOLE
