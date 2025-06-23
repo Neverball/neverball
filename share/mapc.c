@@ -53,12 +53,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-static const char *input_file;
-static int         debug_output = 0;
-static int           csv_output = 0;
-
-/*---------------------------------------------------------------------------*/
-
 #if ENABLE_RADIANT_CONSOLE
 
 /*
@@ -74,74 +68,74 @@ static TCPsocket     bcast_socket;
 static unsigned char bcast_msg[MAX_BCAST_MSG];
 static size_t        bcast_msg_len;
 
-static void bcast_quit(void);
+static void bcast_quit(struct mapc_context *ctx);
 
-static int bcast_error(void)
+static int bcast_error(struct mapc_context *ctx)
 {
     fprintf(stderr, "%s\n", SDLNet_GetError());
-    bcast_quit();
+    bcast_quit(ctx);
     return 0;
 }
 
-static void bcast_write_len(size_t len)
+static void bcast_write_len(struct mapc_context *ctx, size_t len)
 {
-    unsigned char *p = &bcast_msg[bcast_msg_len];
+    unsigned char *p = &ctx->bcast_msg[ctx->bcast_msg_len];
 
-    if (bcast_msg_len + 4u < sizeof (bcast_msg))
+    if (ctx->bcast_msg_len + 4u < sizeof (ctx->bcast_msg))
     {
         p[0] =  len        & 0xff;
         p[1] = (len >> 8)  & 0xff;
         p[2] = (len >> 16) & 0xff;
         p[3] = (len >> 24) & 0xff;
 
-        bcast_msg_len += 4u;
+        ctx->bcast_msg_len += 4u;
     }
 }
 
-static void bcast_write_str(const char *str)
+static void bcast_write_str(struct mapc_context *ctx, const char *str)
 {
     if (str && *str)
     {
-        unsigned char *p = &bcast_msg[bcast_msg_len];
-        size_t         n = MIN(strlen(str), (sizeof (bcast_msg) -
-                                             bcast_msg_len - 1));
+        unsigned char *p = &ctx->bcast_msg[ctx->bcast_msg_len];
+        size_t         n = MIN(strlen(str), (sizeof (ctx->bcast_msg) -
+                                             ctx->bcast_msg_len - 1));
 
         memcpy(p, str, n);
         p[n] = 0;
 
-        bcast_msg_len += n + 1;
+        ctx->bcast_msg_len += n + 1;
     }
 }
 
-static void bcast_send_str(const char *str)
+static void bcast_send_str(struct mapc_context *ctx, const char *str)
 {
     size_t len;
 
     /* Reserve 4 bytes. */
 
-    bcast_msg_len = 4;
+    ctx->bcast_msg_len = 4;
 
     /* Write the string. */
 
-    bcast_write_str(str);
+    bcast_write_str(ctx, str);
 
     /* Write its length in the reserved 4 bytes. */
 
-    len = bcast_msg_len;
-    bcast_msg_len = 0;
-    bcast_write_len(len - 4);
-    bcast_msg_len = len;
+    len = ctx->bcast_msg_len;
+    ctx->bcast_msg_len = 0;
+    bcast_write_len(ctx, len - 4);
+    ctx->bcast_msg_len = len;
 
     /* Send data. */
 
-    if (bcast_socket &&
-        SDLNet_TCP_Send(bcast_socket,
-                        bcast_msg,
-                        bcast_msg_len) < bcast_msg_len)
-        bcast_error();
+    if (ctx->bcast_socket &&
+        SDLNet_TCP_Send(ctx->bcast_socket,
+                        ctx->bcast_msg,
+                        ctx->bcast_msg_len) < ctx->bcast_msg_len)
+        bcast_error(ctx);
 }
 
-static void bcast_send_msg(int lvl, const char *str)
+static void bcast_send_msg(struct mapc_context *ctx, int lvl, const char *str)
 {
     char buf[512];
     int maxstr;
@@ -157,29 +151,29 @@ static void bcast_send_msg(int lvl, const char *str)
 
     maxstr = sizeof (buf) - sizeof ("<message level=\"1\"></message>");
     sprintf(buf, "<message level=\"%1d\">%.*s</message>", lvl, maxstr, str);
-    bcast_send_str(buf);
+    bcast_send_str(ctx, buf);
 }
 
-static int bcast_init(void)
+static int bcast_init(struct mapc_context *ctx)
 {
     IPaddress addr;
 
     if (SDLNet_Init() == -1)
-        return bcast_error();
+        return bcast_error(ctx);
     if (SDLNet_ResolveHost(&addr, "127.0.0.1", 39000) == -1)
-        return bcast_error();
-    if (!(bcast_socket = SDLNet_TCP_Open(&addr)))
-        return bcast_error();
+        return bcast_error(ctx);
+    if (!(ctx->bcast_socket = SDLNet_TCP_Open(&addr)))
+        return bcast_error(ctx);
 
-    bcast_send_str("<?xml version=\"1.0\"?>"
+    bcast_send_str(ctx, "<?xml version=\"1.0\"?>"
                    "<q3map_feedback version=\"1\">");
     return 1;
 }
 
-static void bcast_quit(void)
+static void bcast_quit(struct mapc_context *ctx)
 {
-    SDLNet_TCP_Close(bcast_socket);
-    bcast_socket = NULL;
+    SDLNet_TCP_Close(ctx->bcast_socket);
+    ctx->bcast_socket = NULL;
     SDLNet_Quit();
 }
 
@@ -239,6 +233,142 @@ static void bcast_quit(void)
 #define MAXD    1024
 #define MAXA    16384
 #define MAXI    262144
+
+/*
+ * The following is a small  symbol table data structure.  Symbols and
+ * their integer  values are collected  in symv and  valv.  References
+ * and pointers  to their unsatisfied integer values  are collected in
+ * refv and pntv.  The resolve procedure matches references to symbols
+ * and fills waiting ints with the proper values.
+ */
+
+#define MAXSYM 2048
+
+enum
+{
+    SYM_NONE = 0,
+
+    SYM_PATH,
+    SYM_TARG,
+
+    SYM_MAX
+};
+
+struct sym
+{
+    int  type;
+    char name[MAXSTR];
+    int  val;
+};
+
+struct ref
+{
+    int  type;
+    char name[MAXSTR];
+    int *ptr;
+};
+
+struct _imagedata
+{
+    char *s;
+    int w, h;
+};
+
+/*
+ * Context structure to hold all global state.
+ */
+struct mapc_context
+{
+    const char *input_file;
+    int debug_output;
+    int csv_output;
+
+#if ENABLE_RADIANT_CONSOLE
+    TCPsocket bcast_socket;
+    unsigned char bcast_msg[MAX_BCAST_MSG];
+    size_t bcast_msg_len;
+#endif
+
+    struct sym syms[MAXSYM];
+    struct ref refs[MAXSYM];
+    int symc;
+    int refc;
+
+    float targ_p[MAXW][3];
+    int targ_wi[MAXW];
+    int targ_ji[MAXW];
+    int targ_n;
+
+    struct _imagedata *imagedata;
+    int image_n;
+    int image_alloc;
+
+    float plane_d[MAXS];
+    float plane_n[MAXS][3];
+    float plane_p[MAXS][3];
+    float plane_u[MAXS][3];
+    float plane_v[MAXS][3];
+    int plane_f[MAXS];
+    int plane_m[MAXS];
+
+    int read_dict_entries;
+
+    int mtrl_swaps[MAXM];
+    int vert_swaps[MAXV];
+    int edge_swaps[MAXE];
+    int side_swaps[MAXS];
+    int texc_swaps[MAXT];
+    int offs_swaps[MAXO];
+    int geom_swaps[MAXG];
+};
+
+static void mapc_context_init(struct mapc_context *ctx)
+{
+    memset(ctx, 0, sizeof(*ctx));
+
+    ctx->debug_output = 0;
+    ctx->csv_output = 0;
+    ctx->input_file = NULL;
+
+#if ENABLE_RADIANT_CONSOLE
+    ctx->bcast_socket = NULL;
+    ctx->bcast_msg_len = 0;
+#endif
+
+    ctx->symc = 0;
+    ctx->refc = 0;
+    ctx->targ_n = 0;
+    ctx->imagedata = NULL;
+    ctx->image_n = 0;
+    ctx->image_alloc = 0;
+    ctx->read_dict_entries = 0;
+}
+
+static void mapc_context_cleanup(struct mapc_context *ctx)
+{
+    int i;
+
+    if (ctx->imagedata)
+    {
+        for (i = 0; i < ctx->image_n; i++)
+            free(ctx->imagedata[i].s);
+        free(ctx->imagedata);
+        ctx->imagedata = NULL;
+    }
+    ctx->image_n = 0;
+    ctx->image_alloc = 0;
+
+#if ENABLE_RADIANT_CONSOLE
+    if (ctx->bcast_socket)
+    {
+        SDLNet_TCP_Close(ctx->bcast_socket);
+        ctx->bcast_socket = NULL;
+        SDLNet_Quit();
+    }
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
 
 static int overflow(const char *s)
 {
@@ -398,83 +528,43 @@ static void init_file(struct s_base *fp)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * The following is a small  symbol table data structure.  Symbols and
- * their integer  values are collected  in symv and  valv.  References
- * and pointers  to their unsatisfied integer values  are collected in
- * refv and pntv.  The resolve procedure matches references to symbols
- * and fills waiting ints with the proper values.
- */
-
-#define MAXSYM 2048
-
-enum
+static void make_sym(struct mapc_context *ctx, int type, const char *name, int val)
 {
-    SYM_NONE = 0,
-
-    SYM_PATH,
-    SYM_TARG,
-
-    SYM_MAX
-};
-
-struct sym
-{
-    int  type;
-    char name[MAXSTR];
-    int  val;
-};
-
-struct ref
-{
-    int  type;
-    char name[MAXSTR];
-    int *ptr;
-};
-
-static struct sym syms[MAXSYM];
-static struct ref refs[MAXSYM];
-
-static int symc;
-static int refc;
-
-static void make_sym(int type, const char *name, int val)
-{
-    if (symc < MAXSYM - 1)
+    if (ctx->symc < MAXSYM - 1)
     {
-        struct sym *sym = &syms[symc];
+        struct sym *sym = &ctx->syms[ctx->symc];
 
         sym->type = type;
         strncpy(sym->name, name, MAXSTR - 1);
         sym->val = val;
 
-        symc++;
+        ctx->symc++;
     }
 }
 
-static void make_ref(int type, const char *name, int *ptr)
+static void make_ref(struct mapc_context *ctx, int type, const char *name, int *ptr)
 {
-    if (refc < MAXSYM - 1)
+    if (ctx->refc < MAXSYM - 1)
     {
-        struct ref *ref = &refs[refc];
+        struct ref *ref = &ctx->refs[ctx->refc];
 
         ref->type = type;
         strncpy(ref->name, name, MAXSTR - 1);
         ref->ptr = ptr;
 
-        refc++;
+        ctx->refc++;
     }
 }
 
-static void resolve(void)
+static void resolve(struct mapc_context *ctx)
 {
     int i, j;
 
-    for (i = 0; i < refc; i++)
-        for (j = 0; j < symc; j++)
+    for (i = 0; i < ctx->refc; i++)
+        for (j = 0; j < ctx->symc; j++)
         {
-            struct ref *ref = &refs[i];
-            struct sym *sym = &syms[j];
+            struct ref *ref = &ctx->refs[i];
+            struct sym *sym = &ctx->syms[j];
 
             if (ref->type == sym->type && strcmp(ref->name, sym->name) == 0)
             {
@@ -491,20 +581,15 @@ static void resolve(void)
  * targeted by various entities and must be resolved in a second pass.
  */
 
-static float targ_p [MAXW][3];
-static int   targ_wi[MAXW];
-static int   targ_ji[MAXW];
-static int   targ_n;
-
-static void targets(struct s_base *fp)
+static void targets(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->wc; i++)
-        v_cpy(fp->wv[i].q, targ_p[targ_wi[i]]);
+        v_cpy(fp->wv[i].q, ctx->targ_p[ctx->targ_wi[i]]);
 
     for (i = 0; i < fp->jc; i++)
-        v_cpy(fp->jv[i].q, targ_p[targ_ji[i]]);
+        v_cpy(fp->jv[i].q, ctx->targ_p[ctx->targ_ji[i]]);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -516,31 +601,7 @@ static void targets(struct s_base *fp)
  * regardless of the number of surfaces referring to it.
  */
 
-struct _imagedata
-{
-    char *s;
-    int w, h;
-};
-
-static struct _imagedata *imagedata = NULL;
-static int image_n = 0;
-static int image_alloc = 0;
-
 #define IMAGE_REALLOC 32
-
-static void free_imagedata(void)
-{
-    int i;
-
-    if (imagedata)
-    {
-        for (i = 0; i < image_n; i++)
-            free(imagedata[i].s);
-        free(imagedata);
-    }
-
-    image_n = image_alloc = 0;
-}
 
 static int size_load(const char *file, int *w, int *h)
 {
@@ -554,17 +615,17 @@ static int size_load(const char *file, int *w, int *h)
     return 0;
 }
 
-static void size_image(const char *name, int *w, int *h)
+static void size_image(struct mapc_context *ctx, const char *name, int *w, int *h)
 {
     char path[MAXSTR];
     int i;
 
-    if (imagedata)
-        for (i = 0; i < image_n; i++)
-            if (strncmp(imagedata[i].s, name, MAXSTR) == 0)
+    if (ctx->imagedata)
+        for (i = 0; i < ctx->image_n; i++)
+            if (strncmp(ctx->imagedata[i].s, name, MAXSTR) == 0)
             {
-                *w = imagedata[i].w;
-                *h = imagedata[i].h;
+                *w = ctx->imagedata[i].w;
+                *h = ctx->imagedata[i].h;
 
                 return;
             }
@@ -582,30 +643,30 @@ static void size_image(const char *name, int *w, int *h)
 
     if (*w > 0 && *h > 0)
     {
-        if (image_n + 1 >= image_alloc)
+        if (ctx->image_n + 1 >= ctx->image_alloc)
         {
             struct _imagedata *tmp =
-                (struct _imagedata *) malloc(sizeof(struct _imagedata) * (image_alloc + IMAGE_REALLOC));
+                (struct _imagedata *) malloc(sizeof(struct _imagedata) * (ctx->image_alloc + IMAGE_REALLOC));
             if (!tmp)
             {
                 printf("malloc error\n");
                 exit(1);
             }
-            if (imagedata)
+            if (ctx->imagedata)
             {
-                (void) memcpy(tmp, imagedata, sizeof(struct _imagedata) * image_alloc);
-                free(imagedata);
+                (void) memcpy(tmp, ctx->imagedata, sizeof(struct _imagedata) * ctx->image_alloc);
+                free(ctx->imagedata);
             }
-            imagedata = tmp;
-            image_alloc += IMAGE_REALLOC;
+            ctx->imagedata = tmp;
+            ctx->image_alloc += IMAGE_REALLOC;
         }
 
-        imagedata[image_n].s = (char *) calloc(strlen(name) + 1, 1);
-        imagedata[image_n].w = *w;
-        imagedata[image_n].h = *h;
-        strcpy(imagedata[image_n].s, name);
+        ctx->imagedata[ctx->image_n].s = (char *) calloc(strlen(name) + 1, 1);
+        ctx->imagedata[ctx->image_n].w = *w;
+        ctx->imagedata[ctx->image_n].h = *h;
+        strcpy(ctx->imagedata[ctx->image_n].s, name);
 
-        image_n++;
+        ctx->image_n++;
     }
 }
 
@@ -613,7 +674,7 @@ static void size_image(const char *name, int *w, int *h)
 
 /* Read the given material file, adding a new material to the solid.  */
 
-static int read_mtrl(struct s_base *fp, const char *name)
+static int read_mtrl(struct mapc_context *ctx, struct s_base *fp, const char *name)
 {
     static char buf [MAXSTR];
 
@@ -628,7 +689,7 @@ static int read_mtrl(struct s_base *fp, const char *name)
 
     if (!mtrl_read(mp, name))
     {
-        SAFECPY(buf, input_file);
+        SAFECPY(buf, ctx->input_file);
         SAFECAT(buf, ": unknown material \"");
         SAFECAT(buf, name);
         SAFECAT(buf, "\"\n");
@@ -736,7 +797,7 @@ static void move_bill(struct s_base *fp,
     v_sub(rp->p, rp->p, fp->pv[rp->p0].p);
 }
 
-static void move_file(struct s_base *fp)
+static void move_file(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
@@ -859,7 +920,7 @@ static void read_f(struct s_base *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(struct s_base *fp, const char *name, int mi)
+static void read_obj(struct mapc_context *ctx, struct s_base *fp, const char *name, int mi)
 {
     char line[MAXSTR];
     char mtrl[MAXSTR];
@@ -876,7 +937,7 @@ static void read_obj(struct s_base *fp, const char *name, int mi)
             if (strncmp(line, "usemtl", 6) == 0)
             {
                 sscanf(line + 6, "%s", mtrl);
-                mi = read_mtrl(fp, mtrl);
+                mi = read_mtrl(ctx, fp, mtrl);
             }
 
             else if (strncmp(line, "f", 1) == 0)
@@ -895,15 +956,7 @@ static void read_obj(struct s_base *fp, const char *name, int mi)
 
 /*---------------------------------------------------------------------------*/
 
-static float plane_d[MAXS];
-static float plane_n[MAXS][3];
-static float plane_p[MAXS][3];
-static float plane_u[MAXS][3];
-static float plane_v[MAXS][3];
-static int   plane_f[MAXS];
-static int   plane_m[MAXS];
-
-static void make_plane(int   pi, float x0, float y0, float      z0,
+static void make_plane(struct mapc_context *ctx, int   pi, float x0, float y0, float      z0,
                        float x1, float y1, float z1,
                        float x2, float y2, float z2,
                        float tu, float tv, float r,
@@ -925,9 +978,9 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
     int   i, n = 0;
     int   w, h;
 
-    size_image(s, &w, &h);
+    size_image(ctx, s, &w, &h);
 
-    plane_f[pi] = fl ? L_DETAIL : 0;
+    ctx->plane_f[pi] = fl ? L_DETAIL : 0;
 
     p0[0] = +x0 / SCALE;
     p0[1] = +z0 / SCALE;
@@ -944,13 +997,13 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
     v_sub(u, p0, p1);
     v_sub(v, p2, p1);
 
-    v_crs(plane_n[pi], u, v);
-    v_nrm(plane_n[pi], plane_n[pi]);
+    v_crs(ctx->plane_n[pi], u, v);
+    v_nrm(ctx->plane_n[pi], ctx->plane_n[pi]);
 
-    plane_d[pi] = v_dot(plane_n[pi], p1);
+    ctx->plane_d[pi] = v_dot(ctx->plane_n[pi], p1);
 
     for (i = 0; i < 6; i++)
-        if ((k = v_dot(plane_n[pi], base[i][0])) >= d)
+        if ((k = v_dot(ctx->plane_n[pi], base[i][0])) >= d)
         {
             d = k;
             n = i;
@@ -967,15 +1020,15 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
     v_mad(p, p, base[n][1], +su * tu / SCALE);
     v_mad(p, p, base[n][2], -sv * tv / SCALE);
 
-    m_vxfm(plane_u[pi], R, base[n][1]);
-    m_vxfm(plane_v[pi], R, base[n][2]);
-    m_vxfm(plane_p[pi], R, p);
+    m_vxfm(ctx->plane_u[pi], R, base[n][1]);
+    m_vxfm(ctx->plane_v[pi], R, base[n][2]);
+    m_vxfm(ctx->plane_p[pi], R, p);
 
-    v_scl(plane_u[pi], plane_u[pi], 64.f / w);
-    v_scl(plane_v[pi], plane_v[pi], 64.f / h);
+    v_scl(ctx->plane_u[pi], ctx->plane_u[pi], 64.f / w);
+    v_scl(ctx->plane_v[pi], ctx->plane_v[pi], 64.f / h);
 
-    v_scl(plane_u[pi], plane_u[pi], 1.f / su);
-    v_scl(plane_v[pi], plane_v[pi], 1.f / sv);
+    v_scl(ctx->plane_u[pi], ctx->plane_u[pi], 1.f / su);
+    v_scl(ctx->plane_v[pi], ctx->plane_v[pi], 1.f / sv);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -987,7 +1040,7 @@ static void make_plane(int   pi, float x0, float y0, float      z0,
 #define T_END 4
 #define T_NOP 5
 
-static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
+static int map_token(struct mapc_context *ctx, fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
 {
     char buf[MAXSTR];
 
@@ -1028,7 +1081,7 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
                    &x2, &y2, &z2,
                    key, &tu, &tv, &r, &su, &sv, &fl) >= 15)
         {
-            make_plane(pi, x0, y0, z0,
+            make_plane(ctx, pi, x0, y0, z0,
                        x1, y1, z1,
                        x2, y2, z2,
                        tu, tv, r, su, sv, fl, key);
@@ -1046,7 +1099,7 @@ static int map_token(fs_file fin, int pi, char key[MAXSTR], char val[MAXSTR])
 
 /* Parse a lump from the given file and add it to the solid. */
 
-static void read_lump(struct s_base *fp, fs_file fin)
+static void read_lump(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
@@ -1056,16 +1109,16 @@ static void read_lump(struct s_base *fp, fs_file fin)
 
     lp->s0 = fp->ic;
 
-    while ((t = map_token(fin, fp->sc, k, v)))
+    while ((t = map_token(ctx, fin, fp->sc, k, v)))
     {
         if (t == T_CLP)
         {
-            fp->sv[fp->sc].n[0] = plane_n[fp->sc][0];
-            fp->sv[fp->sc].n[1] = plane_n[fp->sc][1];
-            fp->sv[fp->sc].n[2] = plane_n[fp->sc][2];
-            fp->sv[fp->sc].d    = plane_d[fp->sc];
+            fp->sv[fp->sc].n[0] = ctx->plane_n[fp->sc][0];
+            fp->sv[fp->sc].n[1] = ctx->plane_n[fp->sc][1];
+            fp->sv[fp->sc].n[2] = ctx->plane_n[fp->sc][2];
+            fp->sv[fp->sc].d    = ctx->plane_d[fp->sc];
 
-            plane_m[fp->sc] = read_mtrl(fp, k);
+            ctx->plane_m[fp->sc] = read_mtrl(ctx, fp, k);
 
             fp->iv[fp->ic] = fp->sc;
             inci(fp);
@@ -1079,7 +1132,7 @@ static void read_lump(struct s_base *fp, fs_file fin)
 
 /*---------------------------------------------------------------------------*/
 
-static void make_path(struct s_base *fp,
+static void make_path(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1100,20 +1153,20 @@ static void make_path(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "targetname") == 0)
-            make_sym(SYM_PATH, v[i], pi);
+            make_sym(ctx, SYM_PATH, v[i], pi);
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &pp->pi);
+            make_ref(ctx, SYM_PATH, v[i], &pp->pi);
 
         if (strcmp(k[i], "target2") == 0)
         {
-            make_ref(SYM_PATH, v[i], &pp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &pp->p0);
             pp->fl |= P_PARENTED;
         }
 
         if (strcmp(k[i], "target3") == 0)
         {
-            make_ref(SYM_PATH, v[i], &pp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &pp->p1);
             pp->fl |= P_PARENTED;
         }
 
@@ -1209,9 +1262,7 @@ static void make_dict(struct s_base *fp,
     memcpy(fp->av + dp->aj, v, strlen(v) + 1);
 }
 
-static int read_dict_entries = 0;
-
-static void make_body(struct s_base *fp,
+static void make_body(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
@@ -1235,21 +1286,21 @@ static void make_body(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &bp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &bp->p0);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &bp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &bp->p1);
 
         else if (strcmp(k[i], "material") == 0)
-            mi = read_mtrl(fp, v[i]);
+            mi = read_mtrl(ctx, fp, v[i]);
 
         else if (strcmp(k[i], "model") == 0)
-            read_obj(fp, v[i], mi);
+            read_obj(ctx, fp, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-        else if (read_dict_entries && strcmp(k[i], "classname") != 0)
+        else if (ctx->read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(fp, k[i], v[i]);
     }
 
@@ -1268,10 +1319,10 @@ static void make_body(struct s_base *fp,
     for (i = v0; i < fp->vc; i++)
         v_add(fp->vv[i].p, fp->vv[i].p, p);
 
-    read_dict_entries = 0;
+    ctx->read_dict_entries = 0;
 }
 
-static void make_item(struct s_base *fp,
+static void make_item(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1317,14 +1368,14 @@ static void make_item(struct s_base *fp,
         }
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &hp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &hp->p0);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &hp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &hp->p1);
     }
 }
 
-static void make_bill(struct s_base *fp,
+static void make_bill(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1360,7 +1411,7 @@ static void make_bill(struct s_base *fp,
 
         if (strcmp(k[i], "image") == 0)
         {
-            rp->mi = read_mtrl(fp, v[i]);
+            rp->mi = read_mtrl(ctx, fp, v[i]);
             fp->mv[rp->mi].fl |= M_CLAMP_S | M_CLAMP_T;
         }
 
@@ -1376,14 +1427,14 @@ static void make_bill(struct s_base *fp,
         }
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &rp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &rp->p0);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &rp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &rp->p1);
     }
 }
 
-static void make_goal(struct s_base *fp,
+static void make_goal(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1415,14 +1466,14 @@ static void make_goal(struct s_base *fp,
         }
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
-            make_ref(SYM_PATH, v[i], &zp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &zp->p0);
 
         else if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &zp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &zp->p1);
     }
 }
 
-static void make_view(struct s_base *fp,
+static void make_view(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1440,7 +1491,7 @@ static void make_view(struct s_base *fp,
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "target") == 0)
-            make_ref(SYM_TARG, v[i], targ_wi + wi);
+            make_ref(ctx, SYM_TARG, v[i], ctx->targ_wi + wi);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1455,7 +1506,7 @@ static void make_view(struct s_base *fp,
     }
 }
 
-static void make_jump(struct s_base *fp,
+static void make_jump(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1479,7 +1530,7 @@ static void make_jump(struct s_base *fp,
             sscanf(v[i], "%f", &jp->r);
 
         if (strcmp(k[i], "target") == 0)
-            make_ref(SYM_TARG, v[i], targ_ji + ji);
+            make_ref(ctx, SYM_TARG, v[i], ctx->targ_ji + ji);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1493,14 +1544,14 @@ static void make_jump(struct s_base *fp,
         }
 
         if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &jp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &jp->p0);
 
         if (strcmp(k[i], "target3") == 0)
-            make_ref(SYM_PATH, v[i], &jp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &jp->p1);
     }
 }
 
-static void make_swch(struct s_base *fp,
+static void make_swch(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1525,7 +1576,7 @@ static void make_swch(struct s_base *fp,
             sscanf(v[i], "%f", &xp->r);
 
         if (strcmp(k[i], "target") == 0)
-            make_ref(SYM_PATH, v[i], &xp->pi);
+            make_ref(ctx, SYM_PATH, v[i], &xp->pi);
 
         if (strcmp(k[i], "timer") == 0)
             sscanf(v[i], "%f", &xp->t);
@@ -1548,27 +1599,27 @@ static void make_swch(struct s_base *fp,
         }
 
         if (strcmp(k[i], "target2") == 0)
-            make_ref(SYM_PATH, v[i], &xp->p0);
+            make_ref(ctx, SYM_PATH, v[i], &xp->p0);
 
         else if (strcmp(k[i], "target3") == 0)
-            make_ref(SYM_PATH, v[i], &xp->p1);
+            make_ref(ctx, SYM_PATH, v[i], &xp->p1);
     }
 }
 
-static void make_targ(struct s_base *fp,
+static void make_targ(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
     int i;
 
-    targ_p[targ_n][0] = 0.f;
-    targ_p[targ_n][1] = 0.f;
-    targ_p[targ_n][2] = 0.f;
+    ctx->targ_p[ctx->targ_n][0] = 0.f;
+    ctx->targ_p[ctx->targ_n][1] = 0.f;
+    ctx->targ_p[ctx->targ_n][2] = 0.f;
 
     for (i = 0; i < c; i++)
     {
         if (strcmp(k[i], "targetname") == 0)
-            make_sym(SYM_TARG, v[i], targ_n);
+            make_sym(ctx, SYM_TARG, v[i], ctx->targ_n);
 
         if (strcmp(k[i], "origin") == 0)
         {
@@ -1576,17 +1627,17 @@ static void make_targ(struct s_base *fp,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            targ_p[targ_n][0] = +x / SCALE;
-            targ_p[targ_n][1] = +z / SCALE;
-            targ_p[targ_n][2] = -y / SCALE;
+            ctx->targ_p[ctx->targ_n][0] = +x / SCALE;
+            ctx->targ_p[ctx->targ_n][1] = +z / SCALE;
+            ctx->targ_p[ctx->targ_n][2] = -y / SCALE;
         }
     }
 
-    if (++targ_n == MAXW)
+    if (++ctx->targ_n == MAXW)
         overflow("target");
 }
 
-static void make_ball(struct s_base *fp,
+static void make_ball(struct mapc_context *ctx, struct s_base *fp,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1621,7 +1672,7 @@ static void make_ball(struct s_base *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void read_ent(struct s_base *fp, fs_file fin)
+static void read_ent(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
 {
     char k[MAXKEY][MAXSTR];
     char v[MAXKEY][MAXSTR];
@@ -1629,7 +1680,7 @@ static void read_ent(struct s_base *fp, fs_file fin)
 
     int l0 = fp->lc;
 
-    while ((t = map_token(fin, -1, k[c], v[c])))
+    while ((t = map_token(ctx, fin, -1, k[c], v[c])))
     {
         if (t == T_KEY)
         {
@@ -1637,45 +1688,45 @@ static void read_ent(struct s_base *fp, fs_file fin)
                 i = c;
             c++;
         }
-        if (t == T_BEG) read_lump(fp, fin);
+        if (t == T_BEG) read_lump(ctx, fp, fin);
         if (t == T_END) break;
     }
 
-    if (!strcmp(v[i], "light"))                    make_item(fp, k, v, c);
-    if (!strcmp(v[i], "item_health_large"))        make_item(fp, k, v, c);
-    if (!strcmp(v[i], "item_health_small"))        make_item(fp, k, v, c);
-    if (!strcmp(v[i], "item_clock"))               make_item(fp, k, v, c);
-    if (!strcmp(v[i], "info_camp"))                make_swch(fp, k, v, c);
-    if (!strcmp(v[i], "info_null"))                make_bill(fp, k, v, c);
-    if (!strcmp(v[i], "path_corner"))              make_path(fp, k, v, c);
-    if (!strcmp(v[i], "info_player_start"))        make_ball(fp, k, v, c);
-    if (!strcmp(v[i], "info_player_intermission")) make_view(fp, k, v, c);
-    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(fp, k, v, c);
-    if (!strcmp(v[i], "target_teleporter"))        make_jump(fp, k, v, c);
-    if (!strcmp(v[i], "target_position"))          make_targ(fp, k, v, c);
+    if (!strcmp(v[i], "light"))                    make_item(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "item_health_large"))        make_item(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "item_health_small"))        make_item(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "item_clock"))               make_item(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "info_null"))                make_bill(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "path_corner"))              make_path(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "info_player_intermission")) make_view(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "target_position"))          make_targ(ctx, fp, k, v, c);
     if (!strcmp(v[i], "worldspawn"))
     {
-        read_dict_entries = 1;
-        make_body(fp, k, v, c, l0);
+        ctx->read_dict_entries = 1;
+        make_body(ctx, fp, k, v, c, l0);
     }
-    if (!strcmp(v[i], "func_train"))               make_body(fp, k, v, c, l0);
-    if (!strcmp(v[i], "misc_model"))               make_body(fp, k, v, c, l0);
+    if (!strcmp(v[i], "func_train"))               make_body(ctx, fp, k, v, c, l0);
+    if (!strcmp(v[i], "misc_model"))               make_body(ctx, fp, k, v, c, l0);
 
     /* TrenchBroom compatibility: if func_group has any lumps, add it as a body; ignore otherwise. */
 
     if (!strcmp(v[i], "func_group") && fp->lc > l0)
-        make_body(fp, k, v, c, l0);
+        make_body(ctx, fp, k, v, c, l0);
 }
 
-static void read_map(struct s_base *fp, fs_file fin)
+static void read_map(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
     int t;
 
-    while ((t = map_token(fin, -1, k, v)))
+    while ((t = map_token(ctx, fin, -1, k, v)))
         if (t == T_BEG)
-            read_ent(fp, fin);
+            read_ent(ctx, fp, fin);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1735,7 +1786,7 @@ static int ok_vert(const struct s_base *fp,
  * Confirm that this point falls  within the current lump, and that it
  * is unique.  Add it as a vert of the solid.
  */
-static void clip_vert(struct s_base *fp,
+static void clip_vert(struct mapc_context *ctx, struct s_base *fp,
                       struct b_lump *lp, int si, int sj, int sk)
 {
     float M[16], X[16], I[16];
@@ -1778,7 +1829,8 @@ static void clip_vert(struct s_base *fp,
  * finding a pair of vertices that fall on both planes.  Add it to the
  * solid.
  */
-static void clip_edge(struct s_base *fp,
+static void clip_edge(struct mapc_context *ctx,
+                      struct s_base *fp,
                       struct b_lump *lp, int si, int sj)
 {
     int i, j;
@@ -1816,7 +1868,7 @@ static void clip_edge(struct s_base *fp,
  * verts to  have a counter-clockwise winding about  the plane normal.
  * Create geoms to tessellate the resulting convex polygon.
  */
-static void clip_geom(struct s_base *fp,
+static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
                       struct b_lump *lp, int si)
 {
     int   m[256], t[256], d, i, j, n = 0;
@@ -1837,10 +1889,10 @@ static void clip_geom(struct s_base *fp,
             m[n] = vi;
             t[n] = inct(fp);
 
-            v_add(v, fp->vv[vi].p, plane_p[si]);
+            v_add(v, fp->vv[vi].p, ctx->plane_p[si]);
 
-            fp->tv[t[n]].u[0] = v_dot(v, plane_u[si]);
-            fp->tv[t[n]].u[1] = v_dot(v, plane_v[si]);
+            fp->tv[t[n]].u[0] = v_dot(v, ctx->plane_u[si]);
+            fp->tv[t[n]].u[1] = v_dot(v, ctx->plane_v[si]);
 
             if (++n >= ARRAYSIZE(m))
             {
@@ -1883,7 +1935,7 @@ static void clip_geom(struct s_base *fp,
         struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
         struct b_offs *or = fp->ov + (gp->ok = inco(fp));
 
-        gp->mi = plane_m[si];
+        gp->mi = ctx->plane_m[si];
 
         op->ti = t[0];
         oq->ti = t[i + 1];
@@ -1908,7 +1960,7 @@ static void clip_geom(struct s_base *fp,
  * each trio of planes, a new edge  for each pair of planes, and a new
  * set of geom for each visible plane.
  */
-static void clip_lump(struct s_base *fp, struct b_lump *lp)
+static void clip_lump(struct mapc_context *ctx, struct s_base *fp, struct b_lump *lp)
 {
     int i, j, k;
 
@@ -1918,7 +1970,7 @@ static void clip_lump(struct s_base *fp, struct b_lump *lp)
     for (i = 2; i < lp->sc; i++)
         for (j = 1; j < i; j++)
             for (k = 0; k < j; k++)
-                clip_vert(fp, lp,
+                clip_vert(ctx, fp, lp,
                           fp->iv[lp->s0 + i],
                           fp->iv[lp->s0 + j],
                           fp->iv[lp->s0 + k]);
@@ -1928,7 +1980,7 @@ static void clip_lump(struct s_base *fp, struct b_lump *lp)
 
     for (i = 1; i < lp->sc; i++)
         for (j = 0; j < i; j++)
-            clip_edge(fp, lp,
+            clip_edge(ctx, fp, lp,
                       fp->iv[lp->s0 + i],
                       fp->iv[lp->s0 + j]);
 
@@ -1936,21 +1988,21 @@ static void clip_lump(struct s_base *fp, struct b_lump *lp)
     lp->gc = 0;
 
     for (i = 0; i < lp->sc; i++)
-        if (fp->mv[plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
-            clip_geom(fp, lp,
+        if (fp->mv[ctx->plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
+            clip_geom(ctx, fp, lp,
                       fp->iv[lp->s0 + i]);
 
     for (i = 0; i < lp->sc; i++)
-        if (plane_f[fp->iv[lp->s0 + i]])
+        if (ctx->plane_f[fp->iv[lp->s0 + i]])
             lp->fl |= L_DETAIL;
 }
 
-static void clip_file(struct s_base *fp)
+static void clip_file(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->lc; i++)
-        clip_lump(fp, fp->lv + i);
+        clip_lump(ctx, fp, fp->lv + i);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -2046,14 +2098,6 @@ static int comp_geom(const struct b_geom *gp, const struct b_geom *gq)
 
 /*---------------------------------------------------------------------------*/
 
-static int mtrl_swaps[MAXM];
-static int vert_swaps[MAXV];
-static int edge_swaps[MAXE];
-static int side_swaps[MAXS];
-static int texc_swaps[MAXT];
-static int offs_swaps[MAXO];
-static int geom_swaps[MAXG];
-
 /*
  * For each file  element type, replace all references  to element 'i'
  * with a  reference to element  'j'.  These are used  when optimizing
@@ -2089,94 +2133,94 @@ static void swap_vert(struct s_base *fp, int vi, int vj)
                 fp->iv[fp->lv[i].v0 + j]  = vj;
 }
 
-static void apply_mtrl_swaps(struct s_base *fp)
+static void apply_mtrl_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->gc; i++)
-        fp->gv[i].mi = mtrl_swaps[fp->gv[i].mi];
+        fp->gv[i].mi = ctx->mtrl_swaps[fp->gv[i].mi];
     for (i = 0; i < fp->rc; i++)
-        fp->rv[i].mi = mtrl_swaps[fp->rv[i].mi];
+        fp->rv[i].mi = ctx->mtrl_swaps[fp->rv[i].mi];
 }
 
 
-static void apply_vert_swaps(struct s_base *fp)
+static void apply_vert_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->ec; i++)
     {
-        fp->ev[i].vi = vert_swaps[fp->ev[i].vi];
-        fp->ev[i].vj = vert_swaps[fp->ev[i].vj];
+        fp->ev[i].vi = ctx->vert_swaps[fp->ev[i].vi];
+        fp->ev[i].vj = ctx->vert_swaps[fp->ev[i].vj];
     }
 
     for (i = 0; i < fp->oc; i++)
-        fp->ov[i].vi = vert_swaps[fp->ov[i].vi];
+        fp->ov[i].vi = ctx->vert_swaps[fp->ov[i].vi];
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].vc; j++)
-            fp->iv[fp->lv[i].v0 + j] = vert_swaps[fp->iv[fp->lv[i].v0 + j]];
+            fp->iv[fp->lv[i].v0 + j] = ctx->vert_swaps[fp->iv[fp->lv[i].v0 + j]];
 }
 
-static void apply_edge_swaps(struct s_base *fp)
+static void apply_edge_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].ec; j++)
-            fp->iv[fp->lv[i].e0 + j] = edge_swaps[fp->iv[fp->lv[i].e0 + j]];
+            fp->iv[fp->lv[i].e0 + j] = ctx->edge_swaps[fp->iv[fp->lv[i].e0 + j]];
 }
 
-static void apply_side_swaps(struct s_base *fp)
+static void apply_side_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->oc; i++)
-        fp->ov[i].si = side_swaps[fp->ov[i].si];
+        fp->ov[i].si = ctx->side_swaps[fp->ov[i].si];
     for (i = 0; i < fp->nc; i++)
-        fp->nv[i].si = side_swaps[fp->nv[i].si];
+        fp->nv[i].si = ctx->side_swaps[fp->nv[i].si];
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].sc; j++)
-            fp->iv[fp->lv[i].s0 + j] = side_swaps[fp->iv[fp->lv[i].s0 + j]];
+            fp->iv[fp->lv[i].s0 + j] = ctx->side_swaps[fp->iv[fp->lv[i].s0 + j]];
 }
 
-static void apply_texc_swaps(struct s_base *fp)
+static void apply_texc_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->oc; i++)
-        fp->ov[i].ti = texc_swaps[fp->ov[i].ti];
+        fp->ov[i].ti = ctx->texc_swaps[fp->ov[i].ti];
 }
 
-static void apply_offs_swaps(struct s_base *fp)
+static void apply_offs_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i;
 
     for (i = 0; i < fp->gc; i++)
     {
-        fp->gv[i].oi = offs_swaps[fp->gv[i].oi];
-        fp->gv[i].oj = offs_swaps[fp->gv[i].oj];
-        fp->gv[i].ok = offs_swaps[fp->gv[i].ok];
+        fp->gv[i].oi = ctx->offs_swaps[fp->gv[i].oi];
+        fp->gv[i].oj = ctx->offs_swaps[fp->gv[i].oj];
+        fp->gv[i].ok = ctx->offs_swaps[fp->gv[i].ok];
     }
 }
 
-static void apply_geom_swaps(struct s_base *fp)
+static void apply_geom_swaps(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j;
 
     for (i = 0; i < fp->lc; i++)
         for (j = 0; j < fp->lv[i].gc; j++)
-            fp->iv[fp->lv[i].g0 + j] = geom_swaps[fp->iv[fp->lv[i].g0 + j]];
+            fp->iv[fp->lv[i].g0 + j] = ctx->geom_swaps[fp->iv[fp->lv[i].g0 + j]];
 
     for (i = 0; i < fp->bc; i++)
         for (j = 0; j < fp->bv[i].gc; j++)
-            fp->iv[fp->bv[i].g0 + j] = geom_swaps[fp->iv[fp->bv[i].g0 + j]];
+            fp->iv[fp->bv[i].g0 + j] = ctx->geom_swaps[fp->iv[fp->bv[i].g0 + j]];
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void uniq_mtrl(struct s_base *fp)
+static void uniq_mtrl(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2186,7 +2230,7 @@ static void uniq_mtrl(struct s_base *fp)
             if (comp_mtrl(fp->mv + i, fp->mv + j))
                 break;
 
-        mtrl_swaps[i] = j;
+        ctx->mtrl_swaps[i] = j;
 
         if (j == k)
         {
@@ -2196,12 +2240,12 @@ static void uniq_mtrl(struct s_base *fp)
         }
     }
 
-    apply_mtrl_swaps(fp);
+    apply_mtrl_swaps(ctx, fp);
 
     fp->mc = k;
 }
 
-static void uniq_vert(struct s_base *fp)
+static void uniq_vert(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2211,7 +2255,7 @@ static void uniq_vert(struct s_base *fp)
             if (comp_vert(fp->vv + i, fp->vv + j))
                 break;
 
-        vert_swaps[i] = j;
+        ctx->vert_swaps[i] = j;
 
         if (j == k)
         {
@@ -2221,12 +2265,12 @@ static void uniq_vert(struct s_base *fp)
         }
     }
 
-    apply_vert_swaps(fp);
+    apply_vert_swaps(ctx, fp);
 
     fp->vc = k;
 }
 
-static void uniq_edge(struct s_base *fp)
+static void uniq_edge(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2236,7 +2280,7 @@ static void uniq_edge(struct s_base *fp)
             if (comp_edge(fp->ev + i, fp->ev + j))
                 break;
 
-        edge_swaps[i] = j;
+        ctx->edge_swaps[i] = j;
 
         if (j == k)
         {
@@ -2246,12 +2290,12 @@ static void uniq_edge(struct s_base *fp)
         }
     }
 
-    apply_edge_swaps(fp);
+    apply_edge_swaps(ctx, fp);
 
     fp->ec = k;
 }
 
-static void uniq_offs(struct s_base *fp)
+static void uniq_offs(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2261,7 +2305,7 @@ static void uniq_offs(struct s_base *fp)
             if (comp_offs(fp->ov + i, fp->ov + j))
                 break;
 
-        offs_swaps[i] = j;
+        ctx->offs_swaps[i] = j;
 
         if (j == k)
         {
@@ -2271,12 +2315,12 @@ static void uniq_offs(struct s_base *fp)
         }
     }
 
-    apply_offs_swaps(fp);
+    apply_offs_swaps(ctx,fp);
 
     fp->oc = k;
 }
 
-static void uniq_geom(struct s_base *fp)
+static void uniq_geom(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2286,7 +2330,7 @@ static void uniq_geom(struct s_base *fp)
             if (comp_geom(fp->gv + i, fp->gv + j))
                 break;
 
-        geom_swaps[i] = j;
+        ctx->geom_swaps[i] = j;
 
         if (j == k)
         {
@@ -2296,12 +2340,12 @@ static void uniq_geom(struct s_base *fp)
         }
     }
 
-    apply_geom_swaps(fp);
+    apply_geom_swaps(ctx,fp);
 
     fp->gc = k;
 }
 
-static void uniq_texc(struct s_base *fp)
+static void uniq_texc(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2311,7 +2355,7 @@ static void uniq_texc(struct s_base *fp)
             if (comp_texc(fp->tv + i, fp->tv + j))
                 break;
 
-        texc_swaps[i] = j;
+        ctx->texc_swaps[i] = j;
 
         if (j == k)
         {
@@ -2321,12 +2365,12 @@ static void uniq_texc(struct s_base *fp)
         }
     }
 
-    apply_texc_swaps(fp);
+    apply_texc_swaps(ctx, fp);
 
     fp->tc = k;
 }
 
-static void uniq_side(struct s_base *fp)
+static void uniq_side(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k = 0;
 
@@ -2336,7 +2380,7 @@ static void uniq_side(struct s_base *fp)
             if (comp_side(fp->sv + i, fp->sv + j))
                 break;
 
-        side_swaps[i] = j;
+        ctx->side_swaps[i] = j;
 
         if (j == k)
         {
@@ -2346,24 +2390,24 @@ static void uniq_side(struct s_base *fp)
         }
     }
 
-    apply_side_swaps(fp);
+    apply_side_swaps(ctx,fp);
 
     fp->sc = k;
 }
 
-static void uniq_file(struct s_base *fp)
+static void uniq_file(struct mapc_context *ctx, struct s_base *fp)
 {
     /* Debug mode skips optimization, producing oversized output files. */
 
-    if (debug_output == 0)
+    if (ctx->debug_output == 0)
     {
-        uniq_mtrl(fp);
-        uniq_vert(fp);
-        uniq_edge(fp);
-        uniq_side(fp);
-        uniq_texc(fp);
-        uniq_offs(fp);
-        uniq_geom(fp);
+        uniq_mtrl(ctx, fp);
+        uniq_vert(ctx, fp);
+        uniq_edge(ctx, fp);
+        uniq_side(ctx, fp);
+        uniq_texc(ctx, fp);
+        uniq_offs(ctx, fp);
+        uniq_geom(ctx, fp);
     }
 }
 
@@ -2390,11 +2434,11 @@ static int comp_trip(const void *p, const void *q)
     return 0;
 }
 
-static void smth_file(struct s_base *fp)
+static void smth_file(struct mapc_context *ctx, struct s_base *fp)
 {
     struct b_trip temp, *T;
 
-    if (debug_output == 0)
+    if (ctx->debug_output == 0)
     {
         if ((T = (struct b_trip *) malloc(fp->gc * 3 * sizeof (struct b_trip))))
         {
@@ -2516,14 +2560,14 @@ static void smth_file(struct s_base *fp)
             free(T);
         }
 
-        uniq_side(fp);
-        uniq_offs(fp);
+        uniq_side(ctx, fp);
+        uniq_offs(ctx, fp);
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void sort_file(struct s_base *fp)
+static void sort_file(struct mapc_context *ctx, struct s_base *fp)
 {
     int i, j, k;
 
@@ -2662,7 +2706,7 @@ static int test_lump_side(const struct s_base *fp,
     return 0;
 }
 
-static int node_node(struct s_base *fp, int l0, int lc, float bsphere[][4])
+static int node_node(struct mapc_context *ctx, struct s_base *fp, int l0, int lc, float bsphere[][4])
 {
     if (lc < 8)
     {
@@ -2717,7 +2761,7 @@ static int node_node(struct s_base *fp, int l0, int lc, float bsphere[][4])
         /* Flag each lump with its position WRT the side. */
 
         for (li = 0; li < lc; li++)
-            if (debug_output)
+            if (ctx->debug_output)
             {
                 fp->lv[l0+li].fl = (fp->lv[l0+li].fl & 1) | 0x20;
             }
@@ -2782,9 +2826,9 @@ static int node_node(struct s_base *fp, int l0, int lc, float bsphere[][4])
         i = incn(fp);
 
         fp->nv[i].si = sj;
-        fp->nv[i].ni = node_node(fp, li, lic, bsphere);
+        fp->nv[i].ni = node_node(ctx, fp, li, lic, bsphere);
 
-        fp->nv[i].nj = node_node(fp, lk, lkc, bsphere);
+        fp->nv[i].nj = node_node(ctx, fp, lk, lkc, bsphere);
         fp->nv[i].l0 = lj;
         fp->nv[i].lc = ljc;
 
@@ -2835,7 +2879,7 @@ static void lump_bounding_sphere(struct s_base *fp,
     bsphere[3] = fsqrtf(r);
 }
 
-static void node_file(struct s_base *fp)
+static void node_file(struct mapc_context *ctx, struct s_base *fp)
 {
     static float bsphere[MAXL][4];
     int i;
@@ -2858,7 +2902,7 @@ static void node_file(struct s_base *fp)
 
         /* Sort the solid lumps of each body into BSP nodes. */
 
-        fp->bv[i].ni = node_node(fp, fp->bv[i].l0, lc, bsphere);
+        fp->bv[i].ni = node_node(ctx, fp, fp->bv[i].l0, lc, bsphere);
     }
 }
 
@@ -2907,7 +2951,7 @@ static void dump_init(struct s_base *fp)
         stats[i].ptr = (int *) &((unsigned char *) fp)[stats[i].off];
 }
 
-static void dump_file(struct s_base *p, const char *name, double t)
+static void dump_file(struct mapc_context *ctx, struct s_base *p, const char *name, double t)
 {
     int i, j;
     int c = 0;
@@ -2928,7 +2972,7 @@ static void dump_file(struct s_base *p, const char *name, double t)
             c += p->hv[i].n;
 
 #if ENABLE_RADIANT_CONSOLE
-    if (bcast_socket)
+    if (ctx->bcast_socket)
     {
         char msg[512];
         char buf[64];
@@ -2941,11 +2985,11 @@ static void dump_file(struct s_base *p, const char *name, double t)
             SAFECAT(msg, buf);
         }
 
-        bcast_send_msg(BCAST_STD, msg);
+        bcast_send_msg(ctx, BCAST_STD, msg);
     }
 #endif
 
-    if (csv_output)
+    if (ctx->csv_output)
     {
         printf("file,n,c,t,");
 
@@ -2987,9 +3031,12 @@ int main(int argc, char *argv[])
     char dst[MAXSTR] = "";
     struct s_base f;
     fs_file fin;
+    struct mapc_context ctx;
 
     struct timeval time0;
     struct timeval time1;
+
+    mapc_context_init(&ctx);
 
     if (!fs_init(argc > 0 ? argv[0] : NULL))
     {
@@ -3002,18 +3049,22 @@ int main(int argc, char *argv[])
     {
         int argi;
 
-        input_file = argv[1];
+        /* Store input file in context */
+        ctx.input_file = argv[1];
 
         for (argi = 3; argi < argc; ++argi)
         {
-            if (strcmp(argv[argi], "--debug") == 0) debug_output = 1;
+            if (strcmp(argv[argi], "--debug") == 0)
+            {
+                ctx.debug_output = 1;
+            }
             if (strcmp(argv[argi], "--csv")   == 0)
             {
-                csv_output = 1;
+                ctx.csv_output = 1;
                 fs_set_logging(0);
             }
 #if ENABLE_RADIANT_CONSOLE
-            if (strcmp(argv[argi], "--bcast") == 0) bcast_init();
+            if (strcmp(argv[argi], "--bcast") == 0) bcast_init(&ctx);
 #endif
             if (strcmp(argv[argi], "--data")  == 0)
             {
@@ -3040,36 +3091,36 @@ int main(int argc, char *argv[])
             gettimeofday(&time0, 0);
             {
                 init_file(&f);
-                read_map(&f, fin);
+                read_map(&ctx, &f, fin);
 
-                resolve();
-                targets(&f);
+                resolve(&ctx);
+                targets(&ctx, &f);
 
-                clip_file(&f);
-                move_file(&f);
-                uniq_file(&f);
-                smth_file(&f);
-                sort_file(&f);
-                node_file(&f);
+                clip_file(&ctx, &f);
+                move_file(&ctx, &f);
+                uniq_file(&ctx, &f);
+                smth_file(&ctx, &f);
+                sort_file(&ctx, &f);
+                node_file(&ctx, &f);
 
                 sol_stor_base(&f, base_name(dst));
             }
             gettimeofday(&time1, 0);
 
-            dump_file(&f, dst, (time1.tv_sec  - time0.tv_sec) +
-                               (time1.tv_usec - time0.tv_usec) / 1000000.0);
+            dump_file(&ctx, &f, dst, (time1.tv_sec  - time0.tv_sec) +
+                                     (time1.tv_usec - time0.tv_usec) / 1000000.0);
 
             fs_close(fin);
-
-            free_imagedata();
         }
 
 #if ENABLE_RADIANT_CONSOLE
-        bcast_quit();
+        bcast_quit(&ctx);
 #endif
 
     }
     else fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv] [--data <dir>]\n", argv[0]);
+
+    mapc_context_cleanup(&ctx);
 
     return 0;
 }
