@@ -320,7 +320,11 @@ struct mapc_context
     int texc_swaps[MAXT];
     int offs_swaps[MAXO];
     int geom_swaps[MAXG];
+
+    struct s_base file;
 };
+
+static void init_file(struct s_base *fp);
 
 static void mapc_context_init(struct mapc_context *ctx)
 {
@@ -342,6 +346,8 @@ static void mapc_context_init(struct mapc_context *ctx)
     ctx->image_n = 0;
     ctx->image_alloc = 0;
     ctx->read_dict_entries = 0;
+
+    init_file(&ctx->file);
 }
 
 static void mapc_context_cleanup(struct mapc_context *ctx)
@@ -379,103 +385,123 @@ static int overflow(const char *s)
     return 0;
 }
 
-static int incm(struct s_base *fp)
+static int incm(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->mc < MAXM) ? fp->mc++ : overflow("mtrl");
 }
 
-static int incv(struct s_base *fp)
+static int incv(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->vc < MAXV) ? fp->vc++ : overflow("vert");
 }
 
-static int ince(struct s_base *fp)
+static int ince(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->ec < MAXE) ? fp->ec++ : overflow("edge");
 }
 
-static int incs(struct s_base *fp)
+static int incs(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->sc < MAXS) ? fp->sc++ : overflow("side");
 }
 
-static int inct(struct s_base *fp)
+static int inct(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->tc < MAXT) ? fp->tc++ : overflow("texc");
 }
 
-static int inco(struct s_base *fp)
+static int inco(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->oc < MAXO) ? fp->oc++ : overflow("offs");
 }
 
-static int incg(struct s_base *fp)
+static int incg(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->gc < MAXG) ? fp->gc++ : overflow("geom");
 }
 
-static int incl(struct s_base *fp)
+static int incl(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->lc < MAXL) ? fp->lc++ : overflow("lump");
 }
 
-static int incn(struct s_base *fp)
+static int incn(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->nc < MAXN) ? fp->nc++ : overflow("node");
 }
 
-static int incp(struct s_base *fp)
+static int incp(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->pc < MAXP) ? fp->pc++ : overflow("path");
 }
 
-static int incb(struct s_base *fp)
+static int incb(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->bc < MAXB) ? fp->bc++ : overflow("body");
 }
 
-static int inch(struct s_base *fp)
+static int inch(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->hc < MAXH) ? fp->hc++ : overflow("item");
 }
 
-static int incz(struct s_base *fp)
+static int incz(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->zc < MAXZ) ? fp->zc++ : overflow("goal");
 }
 
-static int incj(struct s_base *fp)
+static int incj(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->jc < MAXJ) ? fp->jc++ : overflow("jump");
 }
 
-static int incx(struct s_base *fp)
+static int incx(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->xc < MAXX) ? fp->xc++ : overflow("swch");
 }
 
-static int incr(struct s_base *fp)
+static int incr(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->rc < MAXR) ? fp->rc++ : overflow("bill");
 }
 
-static int incu(struct s_base *fp)
+static int incu(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
 }
 
-static int incw(struct s_base *fp)
+static int incw(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
 }
 
-static int incd(struct s_base *fp)
+static int incd(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->dc < MAXD) ? fp->dc++ : overflow("dict");
 }
 
-static int inci(struct s_base *fp)
+static int inci(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
 }
 
@@ -581,8 +607,9 @@ static void resolve(struct mapc_context *ctx)
  * targeted by various entities and must be resolved in a second pass.
  */
 
-static void targets(struct mapc_context *ctx, struct s_base *fp)
+static void targets(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i;
 
     for (i = 0; i < fp->wc; i++)
@@ -674,9 +701,10 @@ static void size_image(struct mapc_context *ctx, const char *name, int *w, int *
 
 /* Read the given material file, adding a new material to the solid.  */
 
-static int read_mtrl(struct mapc_context *ctx, struct s_base *fp, const char *name)
+static int read_mtrl(struct mapc_context *ctx, const char *name)
 {
     static char buf [MAXSTR];
+    struct s_base *fp = &ctx->file;
 
     struct b_mtrl *mp;
     int mi;
@@ -685,7 +713,7 @@ static int read_mtrl(struct mapc_context *ctx, struct s_base *fp, const char *na
         if (strncmp(name, fp->mv[mi].f, MAXSTR) == 0)
             return mi;
 
-    mp = fp->mv + incm(fp);
+    mp = fp->mv + incm(ctx);
 
     if (!mtrl_read(mp, name))
     {
@@ -721,9 +749,10 @@ static void move_vert(struct b_vert *vp, const float p[3])
     v_sub(vp->p, vp->p, p);
 }
 
-static void move_lump(struct s_base *fp,
+static void move_lump(struct mapc_context *ctx,
                       struct b_lump *lp, const float p[3])
 {
+    struct s_base *fp = &ctx->file;
     int i;
 
     for (i = 0; i < lp->sc; i++)
@@ -732,15 +761,16 @@ static void move_lump(struct s_base *fp,
         move_vert(fp->vv + fp->iv[lp->v0 + i], p);
 }
 
-static void move_body(struct s_base *fp,
+static void move_body(struct mapc_context *ctx,
                       struct b_body *bp)
 {
+    struct s_base *fp = &ctx->file;
     int i, *b;
 
     /* Move the lumps. */
 
     for (i = 0; i < bp->lc; i++)
-        move_lump(fp, fp->lv + bp->l0 + i, fp->pv[bp->p0].p);
+        move_lump(ctx, fp->lv + bp->l0 + i, fp->pv[bp->p0].p);
 
     /* Create an array to mark any verts referenced by moved geoms. */
 
@@ -767,63 +797,69 @@ static void move_body(struct s_base *fp,
     }
 }
 
-static void move_item(struct s_base *fp,
+static void move_item(struct mapc_context *ctx,
                       struct b_item *hp)
 {
+    struct s_base *fp = &ctx->file;
     v_sub(hp->p, hp->p, fp->pv[hp->p0].p);
 }
 
-static void move_goal(struct s_base *fp,
+static void move_goal(struct mapc_context *ctx,
                       struct b_goal *zp)
 {
+    struct s_base *fp = &ctx->file;
     v_sub(zp->p, zp->p, fp->pv[zp->p0].p);
 }
 
-static void move_jump(struct s_base *fp,
+static void move_jump(struct mapc_context *ctx,
                       struct b_jump *jp)
 {
+    struct s_base *fp = &ctx->file;
     v_sub(jp->p, jp->p, fp->pv[jp->p0].p);
 }
 
-static void move_swch(struct s_base *fp,
+static void move_swch(struct mapc_context *ctx,
                       struct b_swch *xp)
 {
+    struct s_base *fp = &ctx->file;
     v_sub(xp->p, xp->p, fp->pv[xp->p0].p);
 }
 
-static void move_bill(struct s_base *fp,
+static void move_bill(struct mapc_context *ctx,
                       struct b_bill *rp)
 {
+    struct s_base *fp = &ctx->file;
     v_sub(rp->p, rp->p, fp->pv[rp->p0].p);
 }
 
-static void move_file(struct mapc_context *ctx, struct s_base *fp)
+static void move_file(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i;
 
     for (i = 0; i < fp->bc; i++)
         if (fp->bv[i].p0 >= 0)
-            move_body(fp, fp->bv + i);
+            move_body(ctx, fp->bv + i);
 
     for (i = 0; i < fp->hc; i++)
         if (fp->hv[i].p0 >= 0)
-            move_item(fp, fp->hv + i);
+            move_item(ctx, fp->hv + i);
 
     for (i = 0; i < fp->zc; i++)
         if (fp->zv[i].p0 >= 0)
-            move_goal(fp, fp->zv + i);
+            move_goal(ctx, fp->zv + i);
 
     for (i = 0; i < fp->jc; i++)
         if (fp->jv[i].p0 >= 0)
-            move_jump(fp, fp->jv + i);
+            move_jump(ctx, fp->jv + i);
 
     for (i = 0; i < fp->xc; i++)
         if (fp->xv[i].p0 >= 0)
-            move_swch(fp, fp->xv + i);
+            move_swch(ctx, fp->xv + i);
 
     for (i = 0; i < fp->rc; i++)
         if (fp->rv[i].p0 >= 0)
-            move_bill(fp, fp->rv + i);
+            move_bill(ctx, fp->rv + i);
 
     /* Paths must be moved last and all at once. */
 
@@ -869,35 +905,39 @@ static void move_file(struct mapc_context *ctx, struct s_base *fp)
  * references to Neverball materials, rather than MTL definitions.
  */
 
-static void read_vt(struct s_base *fp, const char *line)
+static void read_vt(struct mapc_context *ctx, const char *line)
 {
-    struct b_texc *tp = fp->tv + inct(fp);
+    struct s_base *fp = &ctx->file;
+    struct b_texc *tp = fp->tv + inct(ctx);
 
     sscanf(line, "%f %f", tp->u, tp->u + 1);
 }
 
-static void read_vn(struct s_base *fp, const char *line)
+static void read_vn(struct mapc_context *ctx, const char *line)
 {
-    struct b_side *sp = fp->sv + incs(fp);
+    struct s_base *fp = &ctx->file;
+    struct b_side *sp = fp->sv + incs(ctx);
 
     sscanf(line, "%f %f %f", sp->n, sp->n + 1, sp->n + 2);
 }
 
-static void read_v(struct s_base *fp, const char *line)
+static void read_v(struct mapc_context *ctx, const char *line)
 {
-    struct b_vert *vp = fp->vv + incv(fp);
+    struct s_base *fp = &ctx->file;
+    struct b_vert *vp = fp->vv + incv(ctx);
 
     sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
 }
 
-static void read_f(struct s_base *fp, const char *line,
+static void read_f(struct mapc_context *ctx, const char *line,
                    int v0, int t0, int s0, int mi)
 {
-    struct b_geom *gp = fp->gv + incg(fp);
+    struct s_base *fp = &ctx->file;
+    struct b_geom *gp = fp->gv + incg(ctx);
 
-    struct b_offs *op = fp->ov + (gp->oi = inco(fp));
-    struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
-    struct b_offs *or = fp->ov + (gp->ok = inco(fp));
+    struct b_offs *op = fp->ov + (gp->oi = inco(ctx));
+    struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
+    struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
 
     char c1;
     char c2;
@@ -920,8 +960,9 @@ static void read_f(struct s_base *fp, const char *line,
     gp->mi  = mi;
 }
 
-static void read_obj(struct mapc_context *ctx, struct s_base *fp, const char *name, int mi)
+static void read_obj(struct mapc_context *ctx, const char *name, int mi)
 {
+    struct s_base *fp = &ctx->file;
     char line[MAXSTR];
     char mtrl[MAXSTR];
     fs_file fin;
@@ -937,18 +978,18 @@ static void read_obj(struct mapc_context *ctx, struct s_base *fp, const char *na
             if (strncmp(line, "usemtl", 6) == 0)
             {
                 sscanf(line + 6, "%s", mtrl);
-                mi = read_mtrl(ctx, fp, mtrl);
+                mi = read_mtrl(ctx, mtrl);
             }
 
             else if (strncmp(line, "f", 1) == 0)
             {
                 if (fp->mv[mi].d[3] > 0.0f)
-                    read_f(fp, line + 1, v0, t0, s0, mi);
+                    read_f(ctx, line + 1, v0, t0, s0, mi);
             }
 
-            else if (strncmp(line, "vt", 2) == 0) read_vt(fp, line + 2);
-            else if (strncmp(line, "vn", 2) == 0) read_vn(fp, line + 2);
-            else if (strncmp(line, "v",  1) == 0) read_v (fp, line + 1);
+            else if (strncmp(line, "vt", 2) == 0) read_vt(ctx, line + 2);
+            else if (strncmp(line, "vn", 2) == 0) read_vn(ctx, line + 2);
+            else if (strncmp(line, "v",  1) == 0) read_v (ctx, line + 1);
         }
         fs_close(fin);
     }
@@ -1099,13 +1140,14 @@ static int map_token(struct mapc_context *ctx, fs_file fin, int pi, char key[MAX
 
 /* Parse a lump from the given file and add it to the solid. */
 
-static void read_lump(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
+static void read_lump(struct mapc_context *ctx, fs_file fin)
 {
+    struct s_base *fp = &ctx->file;
     char k[MAXSTR];
     char v[MAXSTR];
     int t;
 
-    struct b_lump *lp = fp->lv + incl(fp);
+    struct b_lump *lp = fp->lv + incl(ctx);
 
     lp->s0 = fp->ic;
 
@@ -1118,11 +1160,11 @@ static void read_lump(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
             fp->sv[fp->sc].n[2] = ctx->plane_n[fp->sc][2];
             fp->sv[fp->sc].d    = ctx->plane_d[fp->sc];
 
-            ctx->plane_m[fp->sc] = read_mtrl(ctx, fp, k);
+            ctx->plane_m[fp->sc] = read_mtrl(ctx, k);
 
             fp->iv[fp->ic] = fp->sc;
-            inci(fp);
-            incs(fp);
+            inci(ctx);
+            incs(ctx);
             lp->sc++;
         }
         if (t == T_END)
@@ -1132,11 +1174,12 @@ static void read_lump(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
 
 /*---------------------------------------------------------------------------*/
 
-static void make_path(struct mapc_context *ctx, struct s_base *fp,
+static void make_path(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, pi = incp(fp);
+    struct s_base *fp = &ctx->file;
+    int i, pi = incp(ctx);
 
     struct b_path *pp = fp->pv + pi;
 
@@ -1237,11 +1280,12 @@ static void make_path(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_dict(struct s_base *fp,
+static void make_dict(struct mapc_context *ctx,
                       const char *k,
                       const char *v)
 {
-    int space_left, space_needed, di = incd(fp);
+    struct s_base *fp = &ctx->file;
+    int space_left, space_needed, di = incd(ctx);
 
     struct b_dict *dp = fp->dv + di;
 
@@ -1262,11 +1306,12 @@ static void make_dict(struct s_base *fp,
     memcpy(fp->av + dp->aj, v, strlen(v) + 1);
 }
 
-static void make_body(struct mapc_context *ctx, struct s_base *fp,
+static void make_body(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c, int l0)
 {
-    int i, mi = 0, bi = incb(fp);
+    struct s_base *fp = &ctx->file;
+    int i, mi = 0, bi = incb(ctx);
 
     int g0 = fp->gc;
     int v0 = fp->vc;
@@ -1292,16 +1337,16 @@ static void make_body(struct mapc_context *ctx, struct s_base *fp,
             make_ref(ctx, SYM_PATH, v[i], &bp->p1);
 
         else if (strcmp(k[i], "material") == 0)
-            mi = read_mtrl(ctx, fp, v[i]);
+            mi = read_mtrl(ctx, v[i]);
 
         else if (strcmp(k[i], "model") == 0)
-            read_obj(ctx, fp, v[i], mi);
+            read_obj(ctx, v[i], mi);
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
         else if (ctx->read_dict_entries && strcmp(k[i], "classname") != 0)
-            make_dict(fp, k[i], v[i]);
+            make_dict(ctx, k[i], v[i]);
     }
 
     bp->l0 = l0;
@@ -1310,7 +1355,7 @@ static void make_body(struct mapc_context *ctx, struct s_base *fp,
     bp->gc = fp->gc - g0;
 
     for (i = 0; i < bp->gc; i++)
-        fp->iv[inci(fp)] = g0++;
+        fp->iv[inci(ctx)] = g0++;
 
     p[0] = +x / SCALE;
     p[1] = +z / SCALE;
@@ -1322,11 +1367,12 @@ static void make_body(struct mapc_context *ctx, struct s_base *fp,
     ctx->read_dict_entries = 0;
 }
 
-static void make_item(struct mapc_context *ctx, struct s_base *fp,
+static void make_item(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, hi = inch(fp);
+    struct s_base *fp = &ctx->file;
+    int i, hi = inch(ctx);
 
     struct b_item *hp = fp->hv + hi;
 
@@ -1375,11 +1421,12 @@ static void make_item(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_bill(struct mapc_context *ctx, struct s_base *fp,
+static void make_bill(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, ri = incr(fp);
+    struct s_base *fp = &ctx->file;
+    int i, ri = incr(ctx);
 
     struct b_bill *rp = fp->rv + ri;
 
@@ -1411,7 +1458,7 @@ static void make_bill(struct mapc_context *ctx, struct s_base *fp,
 
         if (strcmp(k[i], "image") == 0)
         {
-            rp->mi = read_mtrl(ctx, fp, v[i]);
+            rp->mi = read_mtrl(ctx, v[i]);
             fp->mv[rp->mi].fl |= M_CLAMP_S | M_CLAMP_T;
         }
 
@@ -1434,11 +1481,12 @@ static void make_bill(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_goal(struct mapc_context *ctx, struct s_base *fp,
+static void make_goal(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, zi = incz(fp);
+    struct s_base *fp = &ctx->file;
+    int i, zi = incz(ctx);
 
     struct b_goal *zp = fp->zv + zi;
 
@@ -1473,11 +1521,12 @@ static void make_goal(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_view(struct mapc_context *ctx, struct s_base *fp,
+static void make_view(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, wi = incw(fp);
+    struct s_base *fp = &ctx->file;
+    int i, wi = incw(ctx);
 
     struct b_view *wp = fp->wv + wi;
 
@@ -1506,11 +1555,12 @@ static void make_view(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_jump(struct mapc_context *ctx, struct s_base *fp,
+static void make_jump(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, ji = incj(fp);
+    struct s_base *fp = &ctx->file;
+    int i, ji = incj(ctx);
 
     struct b_jump *jp = fp->jv + ji;
 
@@ -1551,11 +1601,12 @@ static void make_jump(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_swch(struct mapc_context *ctx, struct s_base *fp,
+static void make_swch(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, xi = incx(fp);
+    struct s_base *fp = &ctx->file;
+    int i, xi = incx(ctx);
 
     struct b_swch *xp = fp->xv + xi;
 
@@ -1606,7 +1657,7 @@ static void make_swch(struct mapc_context *ctx, struct s_base *fp,
     }
 }
 
-static void make_targ(struct mapc_context *ctx, struct s_base *fp,
+static void make_targ(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
@@ -1637,11 +1688,12 @@ static void make_targ(struct mapc_context *ctx, struct s_base *fp,
         overflow("target");
 }
 
-static void make_ball(struct mapc_context *ctx, struct s_base *fp,
+static void make_ball(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
 {
-    int i, ui = incu(fp);
+    struct s_base *fp = &ctx->file;
+    int i, ui = incu(ctx);
 
     struct b_ball *up = fp->uv + ui;
 
@@ -1672,8 +1724,9 @@ static void make_ball(struct mapc_context *ctx, struct s_base *fp,
 
 /*---------------------------------------------------------------------------*/
 
-static void read_ent(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
+static void read_ent(struct mapc_context *ctx, fs_file fin)
 {
+    struct s_base *fp = &ctx->file;
     char k[MAXKEY][MAXSTR];
     char v[MAXKEY][MAXSTR];
     int t, i = 0, c = 0;
@@ -1688,37 +1741,37 @@ static void read_ent(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
                 i = c;
             c++;
         }
-        if (t == T_BEG) read_lump(ctx, fp, fin);
+        if (t == T_BEG) read_lump(ctx, fin);
         if (t == T_END) break;
     }
 
-    if (!strcmp(v[i], "light"))                    make_item(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "item_health_large"))        make_item(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "item_health_small"))        make_item(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "item_clock"))               make_item(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "info_null"))                make_bill(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "path_corner"))              make_path(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "info_player_intermission")) make_view(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, fp, k, v, c);
-    if (!strcmp(v[i], "target_position"))          make_targ(ctx, fp, k, v, c);
+    if (!strcmp(v[i], "light"))                    make_item(ctx, k, v, c);
+    if (!strcmp(v[i], "item_health_large"))        make_item(ctx, k, v, c);
+    if (!strcmp(v[i], "item_health_small"))        make_item(ctx, k, v, c);
+    if (!strcmp(v[i], "item_clock"))               make_item(ctx, k, v, c);
+    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, k, v, c);
+    if (!strcmp(v[i], "info_null"))                make_bill(ctx, k, v, c);
+    if (!strcmp(v[i], "path_corner"))              make_path(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_intermission")) make_view(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, k, v, c);
+    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, k, v, c);
+    if (!strcmp(v[i], "target_position"))          make_targ(ctx, k, v, c);
     if (!strcmp(v[i], "worldspawn"))
     {
         ctx->read_dict_entries = 1;
-        make_body(ctx, fp, k, v, c, l0);
+        make_body(ctx, k, v, c, l0);
     }
-    if (!strcmp(v[i], "func_train"))               make_body(ctx, fp, k, v, c, l0);
-    if (!strcmp(v[i], "misc_model"))               make_body(ctx, fp, k, v, c, l0);
+    if (!strcmp(v[i], "func_train"))               make_body(ctx, k, v, c, l0);
+    if (!strcmp(v[i], "misc_model"))               make_body(ctx, k, v, c, l0);
 
     /* TrenchBroom compatibility: if func_group has any lumps, add it as a body; ignore otherwise. */
 
     if (!strcmp(v[i], "func_group") && fp->lc > l0)
-        make_body(ctx, fp, k, v, c, l0);
+        make_body(ctx, k, v, c, l0);
 }
 
-static void read_map(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
+static void read_map(struct mapc_context *ctx, fs_file fin)
 {
     char k[MAXSTR];
     char v[MAXSTR];
@@ -1726,7 +1779,7 @@ static void read_map(struct mapc_context *ctx, struct s_base *fp, fs_file fin)
 
     while ((t = map_token(ctx, fin, -1, k, v)))
         if (t == T_BEG)
-            read_ent(ctx, fp, fin);
+            read_ent(ctx, fin);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1786,9 +1839,10 @@ static int ok_vert(const struct s_base *fp,
  * Confirm that this point falls  within the current lump, and that it
  * is unique.  Add it as a vert of the solid.
  */
-static void clip_vert(struct mapc_context *ctx, struct s_base *fp,
+static void clip_vert(struct mapc_context *ctx,
                       struct b_lump *lp, int si, int sj, int sk)
 {
+    struct s_base *fp = &ctx->file;
     float M[16], X[16], I[16];
     float d[3],  p[3];
     int i;
@@ -1814,11 +1868,11 @@ static void clip_vert(struct mapc_context *ctx, struct s_base *fp,
 
         if (ok_vert(fp, lp, p))
         {
-            int vi = incv(fp);
+            int vi = incv(ctx);
 
             v_cpy(fp->vv[vi].p, p);
 
-            fp->iv[inci(fp)] = vi;
+            fp->iv[inci(ctx)] = vi;
             lp->vc++;
         }
     }
@@ -1830,9 +1884,9 @@ static void clip_vert(struct mapc_context *ctx, struct s_base *fp,
  * solid.
  */
 static void clip_edge(struct mapc_context *ctx,
-                      struct s_base *fp,
                       struct b_lump *lp, int si, int sj)
 {
+    struct s_base *fp = &ctx->file;
     int i, j;
 
     for (i = 1; i < lp->vc; i++)
@@ -1855,8 +1909,8 @@ static void clip_edge(struct mapc_context *ctx,
 
                 fp->iv[fp->ic] = fp->ec;
 
-                inci(fp);
-                ince(fp);
+                inci(ctx);
+                ince(ctx);
                 lp->ec++;
             }
         }
@@ -1868,9 +1922,10 @@ static void clip_edge(struct mapc_context *ctx,
  * verts to  have a counter-clockwise winding about  the plane normal.
  * Create geoms to tessellate the resulting convex polygon.
  */
-static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
+static void clip_geom(struct mapc_context *ctx,
                       struct b_lump *lp, int si)
 {
+    struct s_base *fp = &ctx->file;
     int   m[256], t[256], d, i, j, n = 0;
     float u[3];
     float v[3];
@@ -1887,7 +1942,7 @@ static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
         if (on_side(fp->vv[vi].p, sp))
         {
             m[n] = vi;
-            t[n] = inct(fp);
+            t[n] = inct(ctx);
 
             v_add(v, fp->vv[vi].p, ctx->plane_p[si]);
 
@@ -1927,13 +1982,13 @@ static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
 
     for (i = 0; i < n - 2; i++)
     {
-        const int gi = incg(fp);
+        const int gi = incg(ctx);
 
         struct b_geom *gp = fp->gv + gi;
 
-        struct b_offs *op = fp->ov + (gp->oi = inco(fp));
-        struct b_offs *oq = fp->ov + (gp->oj = inco(fp));
-        struct b_offs *or = fp->ov + (gp->ok = inco(fp));
+        struct b_offs *op = fp->ov + (gp->oi = inco(ctx));
+        struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
+        struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
 
         gp->mi = ctx->plane_m[si];
 
@@ -1951,7 +2006,7 @@ static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
 
         fp->iv[fp->ic] = gi;
         lp->gc++;
-        inci(fp);
+        inci(ctx);
     }
 }
 
@@ -1960,8 +2015,9 @@ static void clip_geom(struct mapc_context *ctx, struct s_base *fp,
  * each trio of planes, a new edge  for each pair of planes, and a new
  * set of geom for each visible plane.
  */
-static void clip_lump(struct mapc_context *ctx, struct s_base *fp, struct b_lump *lp)
+static void clip_lump(struct mapc_context *ctx, struct b_lump *lp)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k;
 
     lp->v0 = fp->ic;
@@ -1970,7 +2026,7 @@ static void clip_lump(struct mapc_context *ctx, struct s_base *fp, struct b_lump
     for (i = 2; i < lp->sc; i++)
         for (j = 1; j < i; j++)
             for (k = 0; k < j; k++)
-                clip_vert(ctx, fp, lp,
+                clip_vert(ctx, lp,
                           fp->iv[lp->s0 + i],
                           fp->iv[lp->s0 + j],
                           fp->iv[lp->s0 + k]);
@@ -1980,7 +2036,7 @@ static void clip_lump(struct mapc_context *ctx, struct s_base *fp, struct b_lump
 
     for (i = 1; i < lp->sc; i++)
         for (j = 0; j < i; j++)
-            clip_edge(ctx, fp, lp,
+            clip_edge(ctx, lp,
                       fp->iv[lp->s0 + i],
                       fp->iv[lp->s0 + j]);
 
@@ -1989,20 +2045,20 @@ static void clip_lump(struct mapc_context *ctx, struct s_base *fp, struct b_lump
 
     for (i = 0; i < lp->sc; i++)
         if (fp->mv[ctx->plane_m[fp->iv[lp->s0 + i]]].d[3] > 0.0f)
-            clip_geom(ctx, fp, lp,
-                      fp->iv[lp->s0 + i]);
+            clip_geom(ctx, lp, fp->iv[lp->s0 + i]);
 
     for (i = 0; i < lp->sc; i++)
         if (ctx->plane_f[fp->iv[lp->s0 + i]])
             lp->fl |= L_DETAIL;
 }
 
-static void clip_file(struct mapc_context *ctx, struct s_base *fp)
+static void clip_file(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i;
 
     for (i = 0; i < fp->lc; i++)
-        clip_lump(ctx, fp, fp->lv + i);
+        clip_lump(ctx, fp->lv + i);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -2220,8 +2276,9 @@ static void apply_geom_swaps(struct mapc_context *ctx, struct s_base *fp)
 
 /*---------------------------------------------------------------------------*/
 
-static void uniq_mtrl(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_mtrl(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->mc; i++)
@@ -2245,8 +2302,9 @@ static void uniq_mtrl(struct mapc_context *ctx, struct s_base *fp)
     fp->mc = k;
 }
 
-static void uniq_vert(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_vert(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->vc; i++)
@@ -2270,8 +2328,9 @@ static void uniq_vert(struct mapc_context *ctx, struct s_base *fp)
     fp->vc = k;
 }
 
-static void uniq_edge(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_edge(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->ec; i++)
@@ -2295,8 +2354,9 @@ static void uniq_edge(struct mapc_context *ctx, struct s_base *fp)
     fp->ec = k;
 }
 
-static void uniq_offs(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_offs(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->oc; i++)
@@ -2320,8 +2380,9 @@ static void uniq_offs(struct mapc_context *ctx, struct s_base *fp)
     fp->oc = k;
 }
 
-static void uniq_geom(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_geom(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->gc; i++)
@@ -2345,8 +2406,9 @@ static void uniq_geom(struct mapc_context *ctx, struct s_base *fp)
     fp->gc = k;
 }
 
-static void uniq_texc(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_texc(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->tc; i++)
@@ -2370,8 +2432,9 @@ static void uniq_texc(struct mapc_context *ctx, struct s_base *fp)
     fp->tc = k;
 }
 
-static void uniq_side(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_side(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k = 0;
 
     for (i = 0; i < fp->sc; i++)
@@ -2395,19 +2458,19 @@ static void uniq_side(struct mapc_context *ctx, struct s_base *fp)
     fp->sc = k;
 }
 
-static void uniq_file(struct mapc_context *ctx, struct s_base *fp)
+static void uniq_file(struct mapc_context *ctx)
 {
     /* Debug mode skips optimization, producing oversized output files. */
 
     if (ctx->opt_debug == 0)
     {
-        uniq_mtrl(ctx, fp);
-        uniq_vert(ctx, fp);
-        uniq_edge(ctx, fp);
-        uniq_side(ctx, fp);
-        uniq_texc(ctx, fp);
-        uniq_offs(ctx, fp);
-        uniq_geom(ctx, fp);
+        uniq_mtrl(ctx);
+        uniq_vert(ctx);
+        uniq_edge(ctx);
+        uniq_side(ctx);
+        uniq_texc(ctx);
+        uniq_offs(ctx);
+        uniq_geom(ctx);
     }
 }
 
@@ -2434,8 +2497,9 @@ static int comp_trip(const void *p, const void *q)
     return 0;
 }
 
-static void smth_file(struct mapc_context *ctx, struct s_base *fp)
+static void smth_file(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     struct b_trip temp, *T;
 
     if (ctx->opt_debug == 0)
@@ -2531,7 +2595,7 @@ static void smth_file(struct mapc_context *ctx, struct s_base *fp)
                 {
                     /* Store the accumulated normal as a new side. */
 
-                    int ss = incs(fp);
+                    int ss = incs(ctx);
 
                     v_nrm(fp->sv[ss].n, N);
                     fp->sv[ss].d = 0.0f;
@@ -2560,15 +2624,16 @@ static void smth_file(struct mapc_context *ctx, struct s_base *fp)
             free(T);
         }
 
-        uniq_side(ctx, fp);
-        uniq_offs(ctx, fp);
+        uniq_side(ctx);
+        uniq_offs(ctx);
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void sort_file(struct mapc_context *ctx, struct s_base *fp)
+static void sort_file(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     int i, j, k;
 
     /* Sort materials by type to minimize state changes. */
@@ -2706,8 +2771,10 @@ static int test_lump_side(const struct s_base *fp,
     return 0;
 }
 
-static int node_node(struct mapc_context *ctx, struct s_base *fp, int l0, int lc, float bsphere[][4])
+static int node_node(struct mapc_context *ctx, int l0, int lc, float bsphere[][4])
 {
+    struct s_base *fp = &ctx->file;
+
     if (lc < 8)
     {
         /* Base case.  Dump all given lumps into a leaf node. */
@@ -2718,7 +2785,7 @@ static int node_node(struct mapc_context *ctx, struct s_base *fp, int l0, int lc
         fp->nv[fp->nc].l0 = l0;
         fp->nv[fp->nc].lc = lc;
 
-        return incn(fp);
+        return incn(ctx);
     }
     else
     {
@@ -2823,12 +2890,12 @@ static int node_node(struct mapc_context *ctx, struct s_base *fp, int l0, int lc
 
         /* Add the lumps on the side to the node. */
 
-        i = incn(fp);
+        i = incn(ctx);
 
         fp->nv[i].si = sj;
-        fp->nv[i].ni = node_node(ctx, fp, li, lic, bsphere);
+        fp->nv[i].ni = node_node(ctx, li, lic, bsphere);
 
-        fp->nv[i].nj = node_node(ctx, fp, lk, lkc, bsphere);
+        fp->nv[i].nj = node_node(ctx, lk, lkc, bsphere);
         fp->nv[i].l0 = lj;
         fp->nv[i].lc = ljc;
 
@@ -2879,8 +2946,9 @@ static void lump_bounding_sphere(struct s_base *fp,
     bsphere[3] = fsqrtf(r);
 }
 
-static void node_file(struct mapc_context *ctx, struct s_base *fp)
+static void node_file(struct mapc_context *ctx)
 {
+    struct s_base *fp = &ctx->file;
     static float bsphere[MAXL][4];
     int i;
 
@@ -2902,7 +2970,7 @@ static void node_file(struct mapc_context *ctx, struct s_base *fp)
 
         /* Sort the solid lumps of each body into BSP nodes. */
 
-        fp->bv[i].ni = node_node(ctx, fp, fp->bv[i].l0, lc, bsphere);
+        fp->bv[i].ni = node_node(ctx, fp->bv[i].l0, lc, bsphere);
     }
 }
 
@@ -2951,8 +3019,9 @@ static void dump_init(struct s_base *fp)
         stats[i].ptr = (int *) &((unsigned char *) fp)[stats[i].off];
 }
 
-static void dump_file(struct mapc_context *ctx, struct s_base *p, const char *name, double t)
+static void dump_file(struct mapc_context *ctx, const char *name, double t)
 {
+    struct s_base *p = &ctx->file;
     int i, j;
     int c = 0;
     int n = 0;
@@ -3029,7 +3098,6 @@ int main(int argc, char *argv[])
 {
     char src[MAXSTR] = "";
     char dst[MAXSTR] = "";
-    struct s_base f;
     fs_file fin;
     struct mapc_context ctx;
 
@@ -3090,25 +3158,24 @@ int main(int argc, char *argv[])
         {
             gettimeofday(&time0, 0);
             {
-                init_file(&f);
-                read_map(&ctx, &f, fin);
+                read_map(&ctx, fin);
 
                 resolve(&ctx);
-                targets(&ctx, &f);
+                targets(&ctx);
 
-                clip_file(&ctx, &f);
-                move_file(&ctx, &f);
-                uniq_file(&ctx, &f);
-                smth_file(&ctx, &f);
-                sort_file(&ctx, &f);
-                node_file(&ctx, &f);
+                clip_file(&ctx);
+                move_file(&ctx);
+                uniq_file(&ctx);
+                smth_file(&ctx);
+                sort_file(&ctx);
+                node_file(&ctx);
 
-                sol_stor_base(&f, base_name(dst));
+                sol_stor_base(&ctx.file, base_name(dst));
             }
             gettimeofday(&time1, 0);
 
-            dump_file(&ctx, &f, dst, (time1.tv_sec  - time0.tv_sec) +
-                                     (time1.tv_usec - time0.tv_usec) / 1000000.0);
+            dump_file(&ctx, dst, (time1.tv_sec  - time0.tv_sec) +
+                                 (time1.tv_usec - time0.tv_usec) / 1000000.0);
 
             fs_close(fin);
         }
