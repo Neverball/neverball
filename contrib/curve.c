@@ -200,7 +200,7 @@ get_input_num(char *name, int defaultval, int helpnum, int minval, int maxval, i
 
     for (;;) {
 	printf("\nPlease enter %s (default = %d) -> ", name, defaultval);
-	scanf("%s", str);
+	scanf("%79s", str);
 
 	if (str[0] == 'x') return 1;
 
@@ -224,7 +224,7 @@ get_input_yn(char *question, char defval, int helpnum)
 
     for (;;) {
 	printf("\n%s? (y/n/?) -> ", question);
-	scanf("%s", str);
+	scanf("%79s", str);
 
 	if (str[0] == '?') showhelp(helpnum);
 	else if (str[0] == 'y' || str[0] == 'n') return str[0];
@@ -384,7 +384,7 @@ void gettextures(void)
         int huh;
         for (i = 0; i<4; i++)
         {
-            huh = fscanf(fp,"%s %s",c1,c2);
+            huh = fscanf(fp,"%255s %255s",c1,c2);
             if (huh == 2)
             {
                 if (strcmp(c1,"TOP") == 0) sprintf(toptex,"mtrl/%s",c2);
@@ -532,7 +532,7 @@ getfilename:
 	    do {
 		okay=0;
 		printf("\nPlease enter filename for your curve -> ");
-		scanf("%s",str);
+		scanf("%79s",str);
 		if (str[0]=='?')
 		    showhelp(16);
 		else

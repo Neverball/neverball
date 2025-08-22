@@ -1006,7 +1006,7 @@ int mtrl_read(struct b_mtrl *mp, const char *name)
 
                     p += 6;
 
-                    while (sscanf(p, "%s%n", word, &n) > 0)
+                    while (sscanf(p, "%255s%n", word, &n) > 0)
                     {
                         for (i = 0; i < ARRAYSIZE(mtrl_flags); i++)
                             if (strcmp(word, mtrl_flags[i].name) == 0)
