@@ -89,6 +89,8 @@ static void start_over_level(int i)
     {
         gui_set_image(shot_id, level_shot(l));
 
+        gui_set_stats(l);
+
         set_score_board(level_score(l, SCORE_COIN), -1,
                         level_score(l, SCORE_TIME), -1,
                         level_score(l, SCORE_GOAL), -1);

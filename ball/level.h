@@ -13,6 +13,12 @@ enum
     SCORE_COIN
 };
 
+struct stats {
+    int completed;
+    int timeout;
+    int fallout;
+};
+
 #define LEVEL_LOCKED    0x1
 #define LEVEL_COMPLETED 0x2
 
@@ -32,6 +38,7 @@ struct level
     int goal; /* Coins needed */
 
     struct score scores[3];
+    struct stats stats;
 
     /* Set information. */
 
