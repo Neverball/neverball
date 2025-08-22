@@ -380,6 +380,14 @@ static int play_loop_enter(struct state *st, struct state *prev, int intent)
 
     game_client_fly(0.0f);
 
+    if (curr_mode() != MODE_STANDALONE)
+    {
+        char lvlname[MAXSTR];
+        sprintf(lvlname, level_bonus(curr_level()) ? "%s - Bonus %s" : "%s - %s",
+          set_name(curr_set()), level_name(curr_level()));
+        hud_lvlname(lvlname);
+    }
+
     show_hud = 1;
     hud_update(0);
     hud_show(0.0f);
