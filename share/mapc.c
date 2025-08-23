@@ -21,6 +21,7 @@
 #include <math.h>
 #include <sys/time.h>
 #include <assert.h>
+#include <setjmp.h>
 
 #if ENABLE_RADIANT_CONSOLE
 /*
@@ -37,6 +38,10 @@
 #include "base_config.h"
 #include "fs.h"
 #include "common.h"
+#include "strbuf/base_name.h"
+#include "strbuf/dir_name.h"
+#include "strbuf/joinstr.h"
+#include "strbuf/substr.h"
 
 #define MAXSTR 256
 #define MAXKEY 16
@@ -63,10 +68,6 @@
 #define BCAST_ERR 3
 
 #define MAX_BCAST_MSG 512
-
-static TCPsocket     bcast_socket;
-static unsigned char bcast_msg[MAX_BCAST_MSG];
-static size_t        bcast_msg_len;
 
 static void bcast_quit(struct mapc_context *ctx);
 
@@ -274,14 +275,24 @@ struct _imagedata
     int w, h;
 };
 
+enum mapc_jump
+{
+    MAPC_JUMP_NONE = 0,
+    MAPC_JUMP_ERROR,
+};
+
 /*
  * Context structure to hold all global state.
  */
 struct mapc_context
 {
     const char *opt_file;
+    const char *opt_data;
     int opt_debug;
     int opt_csv;
+
+    struct strbuf src_file;
+    struct strbuf dst_file;
 
 #if ENABLE_RADIANT_CONSOLE
     TCPsocket bcast_socket;
@@ -322,17 +333,22 @@ struct mapc_context
     int geom_swaps[MAXG];
 
     struct s_base file;
+
+    jmp_buf jmpbuf;
+
+    double compile_time;
 };
 
 static void init_file(struct s_base *fp);
 
-static void mapc_context_init(struct mapc_context *ctx)
+static void mapc_init(struct mapc_context *ctx)
 {
     memset(ctx, 0, sizeof(*ctx));
 
     ctx->opt_debug = 0;
     ctx->opt_csv = 0;
     ctx->opt_file = NULL;
+    ctx->opt_data = NULL;
 
 #if ENABLE_RADIANT_CONSOLE
     ctx->bcast_socket = NULL;
@@ -350,7 +366,7 @@ static void mapc_context_init(struct mapc_context *ctx)
     init_file(&ctx->file);
 }
 
-static void mapc_context_cleanup(struct mapc_context *ctx)
+static void mapc_cleanup(struct mapc_context *ctx)
 {
     int i;
 
@@ -365,144 +381,139 @@ static void mapc_context_cleanup(struct mapc_context *ctx)
     ctx->image_alloc = 0;
 
 #if ENABLE_RADIANT_CONSOLE
-    if (ctx->bcast_socket)
-    {
-        SDLNet_TCP_Close(ctx->bcast_socket);
-        ctx->bcast_socket = NULL;
-        SDLNet_Quit();
-    }
+    bcast_quit(ctx);
 #endif
 }
 
 /*---------------------------------------------------------------------------*/
 
-static int overflow(const char *s)
+static int overflow(struct mapc_context *ctx, const char s[64u - sizeof (" overflow\n")])
 {
     char buf[64];
     sprintf(buf, "%s overflow\n", s);
     ERROR(buf);
-    exit(1);
+    longjmp(ctx->jmpbuf, MAPC_JUMP_ERROR);
     return 0;
 }
 
 static int incm(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->mc < MAXM) ? fp->mc++ : overflow("mtrl");
+    return (fp->mc < MAXM) ? fp->mc++ : overflow(ctx, "mtrl");
 }
 
 static int incv(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->vc < MAXV) ? fp->vc++ : overflow("vert");
+    return (fp->vc < MAXV) ? fp->vc++ : overflow(ctx, "vert");
 }
 
 static int ince(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->ec < MAXE) ? fp->ec++ : overflow("edge");
+    return (fp->ec < MAXE) ? fp->ec++ : overflow(ctx, "edge");
 }
 
 static int incs(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->sc < MAXS) ? fp->sc++ : overflow("side");
+    return (fp->sc < MAXS) ? fp->sc++ : overflow(ctx, "side");
 }
 
 static int inct(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->tc < MAXT) ? fp->tc++ : overflow("texc");
+    return (fp->tc < MAXT) ? fp->tc++ : overflow(ctx, "texc");
 }
 
 static int inco(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->oc < MAXO) ? fp->oc++ : overflow("offs");
+    return (fp->oc < MAXO) ? fp->oc++ : overflow(ctx, "offs");
 }
 
 static int incg(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->gc < MAXG) ? fp->gc++ : overflow("geom");
+    return (fp->gc < MAXG) ? fp->gc++ : overflow(ctx, "geom");
 }
 
 static int incl(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->lc < MAXL) ? fp->lc++ : overflow("lump");
+    return (fp->lc < MAXL) ? fp->lc++ : overflow(ctx, "lump");
 }
 
 static int incn(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->nc < MAXN) ? fp->nc++ : overflow("node");
+    return (fp->nc < MAXN) ? fp->nc++ : overflow(ctx, "node");
 }
 
 static int incp(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->pc < MAXP) ? fp->pc++ : overflow("path");
+    return (fp->pc < MAXP) ? fp->pc++ : overflow(ctx, "path");
 }
 
 static int incb(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->bc < MAXB) ? fp->bc++ : overflow("body");
+    return (fp->bc < MAXB) ? fp->bc++ : overflow(ctx, "body");
 }
 
 static int inch(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->hc < MAXH) ? fp->hc++ : overflow("item");
+    return (fp->hc < MAXH) ? fp->hc++ : overflow(ctx, "item");
 }
 
 static int incz(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->zc < MAXZ) ? fp->zc++ : overflow("goal");
+    return (fp->zc < MAXZ) ? fp->zc++ : overflow(ctx, "goal");
 }
 
 static int incj(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->jc < MAXJ) ? fp->jc++ : overflow("jump");
+    return (fp->jc < MAXJ) ? fp->jc++ : overflow(ctx, "jump");
 }
 
 static int incx(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->xc < MAXX) ? fp->xc++ : overflow("swch");
+    return (fp->xc < MAXX) ? fp->xc++ : overflow(ctx, "swch");
 }
 
 static int incr(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->rc < MAXR) ? fp->rc++ : overflow("bill");
+    return (fp->rc < MAXR) ? fp->rc++ : overflow(ctx, "bill");
 }
 
 static int incu(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->uc < MAXU) ? fp->uc++ : overflow("ball");
+    return (fp->uc < MAXU) ? fp->uc++ : overflow(ctx, "ball");
 }
 
 static int incw(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->wc < MAXW) ? fp->wc++ : overflow("view");
+    return (fp->wc < MAXW) ? fp->wc++ : overflow(ctx, "view");
 }
 
 static int incd(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->dc < MAXD) ? fp->dc++ : overflow("dict");
+    return (fp->dc < MAXD) ? fp->dc++ : overflow(ctx, "dict");
 }
 
 static int inci(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    return (fp->ic < MAXI) ? fp->ic++ : overflow("indx");
+    return (fp->ic < MAXI) ? fp->ic++ : overflow(ctx, "indx");
 }
 
 static void init_file(struct s_base *fp)
@@ -1685,7 +1696,7 @@ static void make_targ(struct mapc_context *ctx,
     }
 
     if (++ctx->targ_n == MAXW)
-        overflow("target");
+        overflow(ctx, "target");
 }
 
 static void make_ball(struct mapc_context *ctx,
@@ -3019,8 +3030,11 @@ static void dump_init(struct s_base *fp)
         stats[i].ptr = (int *) &((unsigned char *) fp)[stats[i].off];
 }
 
-static void dump_file(struct mapc_context *ctx, const char *name, double t)
+static void mapc_dump(struct mapc_context *ctx)
 {
+    const char *name = STR(ctx->dst_file);
+    double t = ctx->compile_time;
+
     struct s_base *p = &ctx->file;
     int i, j;
     int c = 0;
@@ -3094,100 +3108,145 @@ static void dump_file(struct mapc_context *ctx, const char *name, double t)
     }
 }
 
+static int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
+{
+    int argi;
+
+    for (argi = 1; argi < argc; ++argi)
+    {
+        if (strcmp(argv[argi], "--debug") == 0)
+        {
+            ctx->opt_debug = 1;
+        }
+        else if (strcmp(argv[argi], "--csv")   == 0)
+        {
+            ctx->opt_csv = 1;
+            fs_set_logging(0);
+        }
+        else if (strcmp(argv[argi], "--bcast") == 0)
+        {
+#if ENABLE_RADIANT_CONSOLE
+            bcast_init(ctx);
+#endif
+        }
+        else if (strcmp(argv[argi], "--data")  == 0)
+        {
+            if (++argi < argc)
+                fs_add_path(argv[argi]);
+        }
+        else if (!ctx->opt_file)
+        {
+            ctx->opt_file = argv[argi];
+
+            ctx->src_file = strbuf(ctx->opt_file);
+
+            if (str_ends_with(ctx->opt_file, ".map"))
+            {
+                ctx->dst_file = joinstr(
+                    SUBSTR(ctx->opt_file, 0, strlen(ctx->opt_file) - 4u),
+                    ".sol"
+                );
+            }
+            else
+                ctx->dst_file = joinstr(ctx->opt_file, ".sol");
+
+            fs_add_path(DIR_NAME(STR(ctx->src_file)));
+
+            fs_set_write_dir(DIR_NAME(STR(ctx->dst_file)));
+        }
+        else if (!ctx->opt_data)
+        {
+            ctx->opt_data = argv[argi];
+
+            fs_add_path_with_archives(ctx->opt_data);
+        }
+        else
+            fprintf(stderr, "Unknown option: %s\n", argv[argi]);
+    }
+
+    if (!(ctx->opt_file && ctx->opt_data))
+    {
+        fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv] [--data <dir>]\n", argv[0]);
+        return 0;
+    }
+
+    return 1;
+}
+
+static void mapc_compile(struct mapc_context *ctx)
+{
+    fs_file fin;
+
+    const char *src = BASE_NAME(STR(ctx->src_file));
+    const char *dst = BASE_NAME(STR(ctx->dst_file));
+
+    struct timeval time0, time1;
+
+    if ((fin = fs_open_read(src)))
+    {
+        gettimeofday(&time0, 0);
+        {
+            read_map(ctx, fin);
+
+            resolve(ctx);
+            targets(ctx);
+
+            clip_file(ctx);
+            move_file(ctx);
+            uniq_file(ctx);
+            smth_file(ctx);
+            sort_file(ctx);
+            node_file(ctx);
+
+            sol_stor_base(&ctx->file, dst);
+        }
+        gettimeofday(&time1, 0);
+
+        ctx->compile_time = (time1.tv_sec  - time0.tv_sec) +
+                            (time1.tv_usec - time0.tv_usec) / 1000000.0;
+
+        fs_close(fin);
+    }
+    else
+    {
+        ERROR("Failure to open file\n");
+    
+        longjmp(ctx->jmpbuf, MAPC_JUMP_ERROR);
+    }
+}
+
+static jmp_buf *mapc_jmpbuf(struct mapc_context *ctx)
+{
+    return &ctx->jmpbuf;
+}
+
 int main(int argc, char *argv[])
 {
-    char src[MAXSTR] = "";
-    char dst[MAXSTR] = "";
-    fs_file fin;
-    struct mapc_context ctx;
-
-    struct timeval time0;
-    struct timeval time1;
-
-    mapc_context_init(&ctx);
+    struct mapc_context ctx = { 0 };
 
     if (!fs_init(argc > 0 ? argv[0] : NULL))
     {
-        fprintf(stderr, "Failure to initialize virtual file system: %s\n",
-                fs_error());
+        fprintf(stderr, "Failure to initialize virtual file system: %s\n", fs_error());
         return 1;
     }
 
-    if (argc > 2)
+    mapc_init(&ctx);
+
+    if (mapc_opts(&ctx, argc, argv))
     {
-        int argi;
-
-        /* Store input file in context */
-        ctx.opt_file = argv[1];
-
-        for (argi = 3; argi < argc; ++argi)
+        switch (setjmp(*mapc_jmpbuf(&ctx)))
         {
-            if (strcmp(argv[argi], "--debug") == 0)
-            {
-                ctx.opt_debug = 1;
-            }
-            if (strcmp(argv[argi], "--csv")   == 0)
-            {
-                ctx.opt_csv = 1;
-                fs_set_logging(0);
-            }
-#if ENABLE_RADIANT_CONSOLE
-            if (strcmp(argv[argi], "--bcast") == 0) bcast_init(&ctx);
-#endif
-            if (strcmp(argv[argi], "--data")  == 0)
-            {
-                if (++argi < argc)
-                    fs_add_path(argv[argi]);
-            }
+        case MAPC_JUMP_NONE:
+            mapc_compile(&ctx);
+            mapc_dump(&ctx);
+            mapc_cleanup(&ctx);
+            break;
+        case MAPC_JUMP_ERROR:
+            mapc_cleanup(&ctx);
+            exit(EXIT_FAILURE);
+            break;
         }
-
-        strncpy(src, argv[1], MAXSTR - 1);
-        strncpy(dst, argv[1], MAXSTR - 1);
-
-        if (strcmp(dst + strlen(dst) - 4, ".map") == 0)
-            strcpy(dst + strlen(dst) - 4, ".sol");
-        else
-            strcat(dst, ".sol");
-
-        fs_add_path     (dir_name(src));
-        fs_set_write_dir(dir_name(dst));
-
-        fs_add_path_with_archives(argv[2]);
-
-        if ((fin = fs_open_read(base_name(src))))
-        {
-            gettimeofday(&time0, 0);
-            {
-                read_map(&ctx, fin);
-
-                resolve(&ctx);
-                targets(&ctx);
-
-                clip_file(&ctx);
-                move_file(&ctx);
-                uniq_file(&ctx);
-                smth_file(&ctx);
-                sort_file(&ctx);
-                node_file(&ctx);
-
-                sol_stor_base(&ctx.file, base_name(dst));
-            }
-            gettimeofday(&time1, 0);
-
-            dump_file(&ctx, dst, (time1.tv_sec  - time0.tv_sec) +
-                                 (time1.tv_usec - time0.tv_usec) / 1000000.0);
-
-            fs_close(fin);
-        }
-
-#if ENABLE_RADIANT_CONSOLE
-        bcast_quit(&ctx);
-#endif
-
     }
-    else fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv] [--data <dir>]\n", argv[0]);
-
-    mapc_context_cleanup(&ctx);
 
     return 0;
 }
