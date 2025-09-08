@@ -277,6 +277,7 @@ MAPC_OBJS := \
 	share/dir.o         \
 	share/array.o       \
 	share/list.o        \
+	share/mapclib.o     \
 	share/mapc.o
 BALL_OBJS := \
 	share/lang.o        \
@@ -321,6 +322,7 @@ BALL_OBJS := \
 	share/joy.o         \
 	share/package.o     \
 	share/st_package.o  \
+	share/mapclib.o     \
 	ball/hud.o          \
 	ball/game_common.o  \
 	ball/game_client.o  \

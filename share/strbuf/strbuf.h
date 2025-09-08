@@ -10,7 +10,7 @@ struct strbuf
 };
 
 #define STRBUF_WRAP(fn) \
-    static struct strbuf fn ## _strbuf(const char *input) \
+    inline struct strbuf fn ## _strbuf(const char *input) \
     { \
         struct strbuf sb = { "" }; \
         const char *output = fn(input); \
@@ -23,7 +23,7 @@ struct strbuf
         return sb; \
     }
 
-static struct strbuf strbuf(const char *input)
+inline struct strbuf strbuf(const char *input)
 {
     struct strbuf sb = { "" };
     const size_t len = MIN(strlen(input), sizeof (sb.buf) - 1u);
