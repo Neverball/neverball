@@ -5,7 +5,7 @@
 #include "common.h"
 #include "strbuf.h"
 
-inline struct strbuf joinstr(const char *head, const char *tail)
+static inline struct strbuf joinstr(const char *head, const char *tail)
 {
     struct strbuf sb = { "" };
 
