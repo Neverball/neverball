@@ -46,6 +46,7 @@ enum
     CONF_VIDEO = GUI_LAST,
     CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
+    CONF_JOYSTICK_RESPONSE,
     CONF_JOYSTICK,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
@@ -56,6 +57,7 @@ enum
 static int mouse_id[11];
 static int music_id[11];
 static int sound_id[11];
+static int joystick_id[11];
 
 /*
  * This maps mouse_sense 300 (default) to the 7th of an 11 button
@@ -79,11 +81,26 @@ static int sound_id[11];
 #define MOUSE_RANGE_UNMAP(i) \
     (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
 
+/*
+ * Tilt responsiveness configuration: [50, 75 .. 300].
+ */
+
+#define JOYSTICK_RANGE_MIN  50
+#define JOYSTICK_RANGE_INC  25
+#define JOYSTICK_RANGE_MAX (JOYSTICK_RANGE_MIN + (JOYSTICK_RANGE_INC * 10))
+
+#define JOYSTICK_RANGE_MAP(m) \
+    CLAMP(0, (JOYSTICK_RANGE_MAX - m) / JOYSTICK_RANGE_INC, 10)
+
+#define JOYSTICK_RANGE_UNMAP(i) \
+    (JOYSTICK_RANGE_MAX - (i * JOYSTICK_RANGE_INC))
+
 static int conf_action(int tok, int val)
 {
     int sound = config_get_d(CONFIG_SOUND_VOLUME);
     int music = config_get_d(CONFIG_MUSIC_VOLUME);
     int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
+    int joystick = JOYSTICK_RANGE_MAP(config_get_d(CONFIG_JOYSTICK_RESPONSE));
     int r = 1;
 
     audio_play(AUD_MENU, 1.0f);
@@ -119,6 +136,13 @@ static int conf_action(int tok, int val)
 
         gui_toggle(mouse_id[val]);
         gui_toggle(mouse_id[mouse]);
+        break;
+
+    case CONF_JOYSTICK_RESPONSE:
+        config_set_d(CONFIG_JOYSTICK_RESPONSE, JOYSTICK_RANGE_UNMAP(val));
+
+        gui_toggle(joystick_id[val]);
+        gui_toggle(joystick_id[joystick]);
         break;
 
     case CONF_SOUND_VOLUME:
@@ -159,6 +183,7 @@ static int conf_gui(void)
             int sound = config_get_d(CONFIG_SOUND_VOLUME);
             int music = config_get_d(CONFIG_MUSIC_VOLUME);
             int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
+            int joystick = JOYSTICK_RANGE_MAP(config_get_d(CONFIG_JOYSTICK_RESPONSE));
 
             const char *player = config_get_s(CONFIG_PLAYER);
             const char *ball   = config_get_s(CONFIG_BALL_FILE);
@@ -173,6 +198,9 @@ static int conf_gui(void)
 
             conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
                         mouse_id, ARRAYSIZE(mouse_id));
+
+            conf_slider(id, _("Tilt Responsiveness"), CONF_JOYSTICK_RESPONSE, joystick,
+                        joystick_id, ARRAYSIZE(joystick_id));
 
             gui_space(id);
 
