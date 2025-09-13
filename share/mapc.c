@@ -34,20 +34,20 @@ int main(int argc, char *argv[])
 
     mapc_init(&ctx);
 
-    if (mapc_opts(ctx, argc, argv))
+    if (!mapc_opts(ctx, argc, argv))
     {
-        if (mapc_compile(ctx))
-        {
-            mapc_dump(ctx);
-            mapc_quit(&ctx);
-            exit(EXIT_SUCCESS);
-        }
-        else
-        {
-            mapc_quit(&ctx);
-            exit(EXIT_FAILURE);
-        }
+        mapc_quit(&ctx);
+        return 1;
     }
+
+    if (!mapc_compile(ctx))
+    {
+        mapc_quit(&ctx);
+        return 1;
+    }
+
+    mapc_dump(ctx);
+    mapc_quit(&ctx);
 
     return 0;
 }
