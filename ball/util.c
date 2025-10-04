@@ -285,7 +285,7 @@ int  gui_score_get(void)
 void gui_set_stats(const struct level *l)
 {
     char buffer[10];
-    sprintf(buffer, "%d", l->stats.completed);
+    sprintf(buffer, "%d", l->stats.success);
     gui_set_label(stats_labels.completed, buffer);
     sprintf(buffer, "%d", l->stats.timeout);
     gui_set_label(stats_labels.timeout, buffer);

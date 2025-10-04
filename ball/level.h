@@ -13,8 +13,12 @@ enum
     SCORE_COIN
 };
 
+#define STATS_KEY_LENGTH 7 /* maximum key length for stats */
+#define STR_(X) #X
+#define STR(X) STR_(X)
+
 struct stats {
-    int completed;
+    int success;
     int timeout;
     int fallout;
 };

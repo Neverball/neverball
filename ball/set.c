@@ -124,8 +124,8 @@ void set_store_hs(void)
 
             fs_printf(fp, "level %d %d %s\n", flags, l->version_num, l->file);
 
-            fs_printf(fp, "stats %d %d %d\n", l->stats.completed,
-                      l->stats.timeout, l->stats.fallout);
+            fs_printf(fp, "stats success=%d timeout=%d fallout=%d\n",
+                      l->stats.success, l->stats.timeout, l->stats.fallout);
 
             put_score(fp, &l->scores[SCORE_TIME]);
             put_score(fp, &l->scores[SCORE_GOAL]);
@@ -180,23 +180,38 @@ static struct level *find_level(const struct set *s, const char *file)
 static void get_stats(fs_file fp, struct level *l)
 {
     char line[MAXSTR];
+    int offset = 5, st, bytes_read;
+    char key[STATS_KEY_LENGTH + 1];
+    int value;
 
     if (!fs_gets(line, sizeof(line), fp))
         return;
 
     strip_newline(line);
 
-    if (sscanf(line, "stats %d %d %d", &l->stats.completed,
-                                        &l->stats.timeout,
-                                        &l->stats.fallout) < 3) {
-        /* compatible with save files without stats info */
-        l->stats.completed = 0;
-        l->stats.timeout   = 0;
-        l->stats.fallout   = 0;
+    l->stats.success = 0;
+    l->stats.timeout = 0;
+    l->stats.fallout = 0;
 
-        /* stats not available, rewind file pointer */
+    if (strncmp(line, "stats", offset) != 0) {
         fs_seek(fp, - strlen(line) - 1, SEEK_CUR);
+        return;
     }
+    do {
+        /* reads every stats key=value until end of line or failure */
+        st = sscanf(line + offset, " %" STR(STATS_KEY_LENGTH) "[a-z]=%d%n",
+                    key, &value, &bytes_read);
+
+        if (strncmp(key, "success", STATS_KEY_LENGTH) == 0) {
+            l->stats.success = value;
+        } else if (strncmp(key, "timeout", STATS_KEY_LENGTH) == 0) {
+            l->stats.timeout = value;
+        } else if (strncmp(key, "fallout", STATS_KEY_LENGTH) == 0) {
+            l->stats.fallout = value;
+        }
+
+        offset += bytes_read;
+    } while (st == 2 && offset < MAXSTR);
 }
 
 static void set_load_hs_v2(fs_file fp, struct set *s, char *buf, int size)
