@@ -15,13 +15,13 @@
 ### Ubuntu / Debian
 
 ```shell
-sudo apt install build-essential libsdl2-dev libsdl2-ttf-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libvorbis-dev
+sudo apt install build-essential gettext libsdl2-dev libsdl2-ttf-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libvorbis-dev
 ```
 
 ### Fedora
 
 ```shell
-sudo dnf install @development-tools SDL2-devel SDL2_ttf-devel libcurl-devel libjpeg-turbo-devel libpng-devel libvorbis-devel
+sudo dnf install @development-tools gettext-devel SDL2-devel SDL2_ttf-devel libcurl-devel libjpeg-turbo-devel libpng-devel libvorbis-devel
 ```
 
 ## Compilation
