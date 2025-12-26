@@ -1,0 +1,196 @@
+---
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ubuntu:
+    name: Ubuntu 24.04
+    runs-on: ${{ format('ubuntu-24.04{0}', matrix.arch == 'arm64' && '-arm' || '') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    container:
+      image: ubuntu:24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends build-essential file gettext libsdl2-dev libsdl2-ttf-dev libcurl4-openssl-dev libjpeg-dev libpng-dev libvorbis-dev libgl1-mesa-dev
+      
+      - name: Build Neverball
+        run: |
+          make -j$(nproc)
+      
+      - name: Run binaries check
+        run: |
+          file neverball neverputt mapc
+          ./neverball --version
+
+      - name: Create standalone tarball
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="neverball-${{ github.sha }}-linux-${{ matrix.arch }}"
+          rm -rf "$bundle"
+          mkdir -p "$bundle"
+          cp -a neverball neverputt mapc "$bundle/"
+          cp -a data locale "$bundle/"
+          cp -a README.md LICENSE.md "$bundle/" || true
+          tar -czf "$bundle.tar.gz" "$bundle"
+
+      - name: Upload standalone tarball
+        uses: actions/upload-artifact@v6
+        with:
+          name: neverball-linux-${{ matrix.arch }}
+          path: neverball-${{ github.sha }}-linux-${{ matrix.arch }}.tar.gz
+
+  fedora:
+    name: Fedora 43
+    runs-on: ${{ format('ubuntu-24.04{0}', matrix.arch == 'arm64' && '-arm' || '') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    container:
+      image: fedora:43
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Install dependencies
+        run: |
+          dnf install -y @development-tools file gettext-devel SDL2-devel SDL2_ttf-devel libcurl-devel libjpeg-turbo-devel libpng-devel libvorbis-devel mesa-libGL-devel
+      
+      - name: Build Neverball
+        run: |
+          make -j$(nproc)
+      
+      - name: Run binaries check
+        run: |
+          file neverball neverputt mapc
+          ./neverball --version
+
+      - name: Create standalone tarball
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="neverball-${{ github.sha }}-linux-${{ matrix.arch }}"
+          rm -rf "$bundle"
+          mkdir -p "$bundle"
+          cp -a neverball neverputt mapc "$bundle/"
+          cp -a data locale "$bundle/"
+          cp -a README.md LICENSE.md "$bundle/" || true
+          tar -czf "$bundle.tar.gz" "$bundle"
+
+      - name: Upload standalone tarball
+        uses: actions/upload-artifact@v6
+        with:
+          name: neverball-linux-fedora-${{ matrix.arch }}
+          path: neverball-${{ github.sha }}-linux-${{ matrix.arch }}.tar.gz
+  
+  steam-linux-runtime:
+    name: Steam Linux Runtime 4.0
+    if: false  # Disabled due to missing libsdl2-ttf in the image (libsdl3-ttf not picked by SDL2 compat?). Should port to SDL3 anyways.
+    runs-on: ${{ format('ubuntu-24.04{0}', matrix.arch == 'arm64' && '-arm' || '') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    container:
+      image: ${{ format('registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk{0}', matrix.arch == 'arm64' && '/arm64' || '') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build Neverball
+        run: |
+          make -j$(nproc)
+      
+      - name: Run binaries check
+        run: |
+          file neverball neverputt mapc
+          ./neverball --version
+
+  windows:
+    name: Windows MSYS2
+    runs-on: ${{ matrix.arch == 'arm64' && 'windows-11-arm' || 'windows-2025' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: ${{ matrix.arch == 'arm64' && 'CLANGARM64' || 'CLANG64' }}
+          install: >
+            base-devel
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-toolchain
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-pkgconf
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-gettext
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-SDL2
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-SDL2_ttf
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-curl
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-libjpeg-turbo
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-libpng
+            mingw-w64-clang-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}-libvorbis
+      
+      - name: Build Neverball
+        shell: msys2 {0}
+        run: |
+          make CC=clang -j"$(nproc 2>/dev/null || echo 1)"
+      
+      - name: Run binaries check
+        shell: msys2 {0}
+        run: |
+          file neverball.exe neverputt.exe mapc.exe
+          ./neverball.exe --version
+
+      - name: Create standalone tarball
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          bundle="neverball-${{ github.sha }}-windows-${{ matrix.arch }}"
+          rm -rf "$bundle"
+          mkdir -p "$bundle"
+
+          cp -a neverball.exe neverputt.exe mapc.exe "$bundle/"
+          cp -a data locale "$bundle/"
+          cp -a README.md LICENSE.md "$bundle/" || true
+
+          # Resolve MinGW/Clang prefix dynamically (clang64 / clangarm64)
+          mingw_prefix="$(cygpath -u "$MINGW_PREFIX")"
+
+          # Collect DLL dependencies
+          dlls=$(
+            (ldd neverball.exe; ldd neverputt.exe; ldd mapc.exe) |
+            awk -v p="$mingw_prefix/bin/" '/=>/ {print $3} { if (index($1, p) == 1) print $1 }' |
+            grep -Ei "^$mingw_prefix/bin/.*\.dll$" |
+            sort -u
+          )
+
+          for dll in $dlls; do
+            cp -a "$dll" "$bundle/"
+          done
+
+          tar -czf "$bundle.tar.gz" "$bundle"
+
+      - name: Upload standalone tarball
+        uses: actions/upload-artifact@v6
+        with:
+          name: neverball-windows-${{ matrix.arch }}
+          path: neverball-${{ github.sha }}-windows-${{ matrix.arch }}.tar.gz
