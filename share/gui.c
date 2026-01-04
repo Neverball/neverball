@@ -1733,6 +1733,12 @@ static void gui_widget_offset(int id, int pd)
 
 void gui_set_slide(int id, int flags, float delay, float t, float stagger)
 {
+	if(config_get_d(CONFIG_TRANSITIONS) == 0){ 
+		if(t != 0 || delay != 0){ //fix for hack at hud.c:117
+			t = 0.0000000001f;
+			delay = 0.00000001f;
+		}
+	}
     if (id)
     {
         int jd, c = 0;
