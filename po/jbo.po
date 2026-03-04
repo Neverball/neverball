@@ -789,7 +789,7 @@ msgstr "romoi se pairlai"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
-msgstr "la la neverbal frili"
+msgstr "la mela neverbal frili"
 
 #: data/set-easy.txt
 msgid ""
@@ -801,7 +801,7 @@ msgstr ""
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
-msgstr "la la neverbal nulnandu"
+msgstr "la mela neverbal nulnandu"
 
 #: data/set-medium.txt
 msgid ""
@@ -815,7 +815,7 @@ msgstr ""
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
-msgstr "la neverbal zei nandu"
+msgstr "la mela neverbal nandu"
 
 #: data/set-hard.txt
 msgid ""
