@@ -52,7 +52,7 @@ msgstr "jersi kacma"
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
-msgstr "kacma co %dmoi"
+msgstr "kacma co meli %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
