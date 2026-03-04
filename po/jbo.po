@@ -210,7 +210,7 @@ msgstr "detri"
 
 #: ball/st_demo.c:319
 msgid "Select Replay"
-msgstr "cuxna fi lo favyke'u"
+msgstr "cuxna fi lo'i favyke'u"
 
 #: ball/st_demo.c:346
 msgid "No Replays"
