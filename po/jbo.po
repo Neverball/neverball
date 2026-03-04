@@ -112,11 +112,11 @@ msgstr "te talsa"
 
 #: ball/progress.c:410 ball/st_help.c:265
 msgid "Normal Mode"
-msgstr "kampu tcini"
+msgstr "fadni tcini"
 
 #: ball/progress.c:410
 msgid "Normal"
-msgstr "kampu"
+msgstr "fadni"
 
 #: ball/progress.c:411
 msgid "Standalone Mode"
