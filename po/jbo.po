@@ -1321,7 +1321,7 @@ msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
 msgstr ""
-"do ba cpacu ji'i 15 po'o snidu ne'i le koi'au te serti\\.isemu'ibo ko na tcikyze'a .i ko cpacu le "
+"do ba cpacu ji'i 15 po'o snidu ne'i lu'a'au le te serti\\.isemu'ibo ko na tcikyze'a .i ko cpacu le "
 "sicni gi'e\\klama lo bavla'i fraseljimca\\"
 
 #: data/map-hard/quads.map
