@@ -609,17 +609,20 @@ static int paused = 0;
 
 static struct state *st_continue;
 static struct state *st_quit;
+static struct state *st_forf;
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
+#define PAUSE_FORFEIT  3
 
-int goto_pause(struct state *s)
+int goto_pause(struct state *quit, struct state *forf)
 {
     if (curr_state() == &st_pause)
         return 1;
 
     st_continue = curr_state();
-    st_quit = s;
+    st_quit = quit;
+    st_forf = forf;
     paused = 1;
 
     return goto_state(&st_pause);
@@ -636,6 +639,9 @@ static int pause_action(int i)
 
     case PAUSE_QUIT:
         return goto_state(st_quit);
+
+    case PAUSE_FORFEIT:
+        return goto_state(st_forf);
     }
     return 1;
 }
@@ -654,6 +660,8 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
+            if (game_can_forfeit())
+                gui_state(jd, _("Forfeit"), GUI_SML, PAUSE_FORFEIT, 0);
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
 
@@ -721,7 +729,7 @@ static int shared_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -815,7 +823,7 @@ static int next_keybd(int c, int d)
         if (c == KEY_POSE)
             return goto_state(&st_poser);
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
         if ('0' <= c && c <= '9')
             num = num * 10 + c - '0';
     }
@@ -844,7 +852,7 @@ static int next_buttn(int b, int d)
             return goto_state(&st_flyby);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -934,7 +942,7 @@ static int flyby_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1020,7 +1028,7 @@ static int stroke_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_roll);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     else
     {
@@ -1039,13 +1047,8 @@ static int time_enter(struct state *st, struct state *prev, int intent)
     if ((id = gui_label(0, _("1 Stroke Timeout Penalty"), GUI_MED, gui_blk, gui_red)))
         gui_layout(id, 0, 0);
 
-    if (paused)
-        paused = 0;
-    else
-    {
-        hole_time();
-/*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
-    }
+    paused = 0;
+    game_forfeit();
 
     hud_init();
 
@@ -1102,7 +1105,7 @@ static int time_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1154,7 +1157,7 @@ static int roll_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1228,7 +1231,7 @@ static int goal_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1300,7 +1303,7 @@ static int stop_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1377,7 +1380,7 @@ static int fall_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1434,7 +1437,7 @@ static int score_buttn(int b, int d)
                 goto_state(&st_title);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }

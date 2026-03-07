@@ -53,6 +53,9 @@ void  game_ball(int);
 void  game_set_pos(float[3], float[3][3]);
 void  game_get_pos(float[3], float[3][3]);
 
+int   game_can_forfeit(void);
+void  game_forfeit(void);
+
 /*---------------------------------------------------------------------------*/
 
 #endif

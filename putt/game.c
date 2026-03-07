@@ -60,6 +60,7 @@ static float forf_t;                    /* Can forfeit timeout               */
 static float auto_t;                    /* Automatic timeout                 */
 
 static float putt_t;                    /* Current player putt time elapsed  */
+static int   has_forfeited;             /* Has the current player forfeited? */
 
 /*---------------------------------------------------------------------------*/
 
@@ -599,6 +600,8 @@ void game_putt(void)
     /* Start forfeit timers. */
 
     putt_t = 0.f;
+
+    has_forfeited = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -735,6 +738,51 @@ void game_set_pos(float p[3], float e[3][3])
     v_cpy(file.vary.uv[ball].e[0], e[0]);
     v_cpy(file.vary.uv[ball].e[1], e[1]);
     v_cpy(file.vary.uv[ball].e[2], e[2]);
+}
+
+int game_can_forfeit(void)
+{
+    if (forf_t < 0.f)
+        return 0;
+
+    if (has_forfeited)
+        return 0;
+
+    if (putt_t >= forf_t)
+        return 1;
+
+    return 0;
+}
+
+/*
+ * The ball is forfeited.  If not already forfeited, call ‘hole_time’.
+ *
+ * The reason this isn't a direct wrapper around ‘hole_time’ is that once a
+ * forfeit is reached, the player can pause again, and then press escape to go
+ * back to the forfeiture screen, which upon entry re-executes this function.
+ *
+ * For st_fall, the logic is that if ‘hole_all’ is only called if the game
+ * is not currently paused, thus preventing multiple calls to ‘hole_fall’
+ * for a single fall, giving multiple penalties for a single event.
+ *
+ * This trick doesn't work for manual forfeits, since they are entered from
+ * a paused state, not from an unpaused state, so we need to track separate
+ * instances differently, so that pausing from a forfeit penalty and then
+ * pressing escape doesn't apply another forfeiture.
+ */
+void game_forfeit(void)
+{
+    if (!has_forfeited)
+    {
+        /* Reset timers. */
+
+        has_forfeited = 1;
+        putt_t = 0;
+
+        /* Forfeit the ball. */
+
+        hole_time();
+    }
 }
 
 /*---------------------------------------------------------------------------*/

@@ -19,6 +19,6 @@ extern struct state st_score;
 extern struct state st_over;
 extern struct state st_pause;
 
-int goto_pause(struct state *);
+int goto_pause(struct state *, struct state *);
 
 #endif
