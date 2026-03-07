@@ -461,27 +461,27 @@ msgstr "Metas en los niveles completados"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Trucos"
+msgstr "Trucos"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Jugar"
+msgstr "Jugar"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Repeticiones"
+msgstr "Repeticiones"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Ayuda"
+msgstr "Ayuda"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Ajustes"
+msgstr "Ajustes"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Salir"
+msgstr "Salir"
 
 #: ball/util.c:28
 msgid "Hard"
