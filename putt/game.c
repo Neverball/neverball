@@ -61,6 +61,7 @@ static float auto_t;                    /* Automatic timeout                 */
 
 static float putt_t;                    /* Current player putt time elapsed  */
 static int   has_forfeited;             /* Has the current player forfeited? */
+static int   has_auto_forf;             /* Was there an auto-forfeiture?     */
 
 /*---------------------------------------------------------------------------*/
 
@@ -496,6 +497,7 @@ static int game_update_state(float dt)
         if (putt_t >= auto_t)
         {
             t = 0.f;
+            has_auto_forf = 1;
             return GAME_TIME;
         }
     }
@@ -602,6 +604,7 @@ void game_putt(void)
     putt_t = 0.f;
 
     has_forfeited = 0;
+    has_auto_forf = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -752,6 +755,11 @@ int game_can_forfeit(void)
         return 1;
 
     return 0;
+}
+
+int game_has_forced(void)
+{
+    return has_auto_forf;
 }
 
 /*

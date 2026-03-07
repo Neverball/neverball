@@ -54,6 +54,7 @@ void  game_set_pos(float[3], float[3][3]);
 void  game_get_pos(float[3], float[3][3]);
 
 int   game_can_forfeit(void);
+int   game_has_forced(void);
 void  game_forfeit(void);
 
 /*---------------------------------------------------------------------------*/

@@ -1044,7 +1044,13 @@ static int time_enter(struct state *st, struct state *prev, int intent)
 {
     int id;
 
-    if ((id = gui_label(0, _("1 Stroke Timeout Penalty"), GUI_MED, gui_blk, gui_red)))
+    const char *msg = (
+            game_has_forced()
+            ? _("1 Stroke Timeout Penalty")
+            : _("1 Stroke Penalty")
+    );
+
+    if ((id = gui_label(0, msg, GUI_MED, gui_blk, gui_red)))
         gui_layout(id, 0, 0);
 
     paused = 0;
