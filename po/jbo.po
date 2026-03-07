@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Byron Johnson <byron@byronjohnson.net>, 2025
+# Byron Johnson <byron@byronjohnson.net>, 2025-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2025-04-30 22:36-0600\n"
-"PO-Revision-Date: 2025-04-30 23:19+0000\n"
+"PO-Revision-Date: 2026-03-07 03:08+0000\n"
 "Last-Translator: Byron Johnson <byron@byronjohnson.net>\n"
 "Language-Team: \n"
 "Language: jbo\n"
