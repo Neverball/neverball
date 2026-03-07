@@ -435,10 +435,14 @@ msgstr "viska lo ja'ormupli"
 msgid "Bonus Level %s"
 msgstr "mlajerna mu'erpau co meli %s"
 
+# lo notci je'i'a .i le kurfa be seka'ai zoi zy«. mu'erpau co meli %s .»zy.
+# bei seba'i mu'a zoi zy«. mypy %s .»zy. cu satci jecuku'i mutce ganra
+#
+# ni'o mi zbasu lo simvamborbastcini jecu jdice tu'ale pamoi
 #: ball/st_level.c:82
 #, c-format
 msgid "Level %s"
-msgstr "mu'erpau co meli %s"
+msgstr "mypy %s"
 
 #: ball/st_level.c:88
 #, c-format
