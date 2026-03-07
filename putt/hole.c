@@ -389,6 +389,26 @@ void hole_fall(void)
     }
 }
 
+void hole_time(void)
+{
+    audio_play(AUD_PENALTY, 1.0f);
+
+    /* Reset to the position of the putt, and apply a one-stroke penalty. */
+
+    game_set_pos(ball_p[player], ball_e[player]);
+    score_v[hole][player] += 2;
+
+    /* Cap scores at 12 or par plus 3. */
+
+    if (score_v[hole][player] >= 12 &&
+        score_v[hole][player] >= score_v[hole][0] + 3)
+    {
+        score_v[hole][player] = (score_v[hole][0] > 12 - 3) ? score_v[hole][0] + 3 : 12;
+        stat_v[player] = 1;
+        done++;
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 void hole_song(void)

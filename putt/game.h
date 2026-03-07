@@ -31,6 +31,7 @@
 #define GAME_STOP 1
 #define GAME_GOAL 2
 #define GAME_FALL 3
+#define GAME_TIME 4
 
 /*---------------------------------------------------------------------------*/
 

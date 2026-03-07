@@ -1032,6 +1032,83 @@ static int stroke_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
+static int time_enter(struct state *st, struct state *prev, int intent)
+{
+    int id;
+
+    if ((id = gui_label(0, _("1 Stroke Timeout Penalty"), GUI_MED, gui_blk, gui_red)))
+        gui_layout(id, 0, 0);
+
+    if (paused)
+        paused = 0;
+    else
+    {
+        hole_time();
+/*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
+    }
+
+    hud_init();
+
+    return transition_slide(id, 1, intent);
+}
+
+static int time_leave(struct state *st, struct state *next, int id, int intent)
+{
+    hud_free();
+    return transition_slide(id, 0, intent);
+}
+
+static void time_paint(int id, float t)
+{
+    game_draw(0, t);
+    gui_paint(id);
+    hud_paint();
+}
+
+static void time_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+
+    if (time_state() > 3)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+}
+
+static int time_click(int b, int d)
+{
+    if (b == SDL_BUTTON_LEFT && d == 1)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+    return 1;
+}
+
+static int time_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+        {
+            if (hole_next())
+                goto_state(&st_next);
+            else
+                goto_state(&st_score);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            return goto_pause(&st_over);
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
 static int roll_enter(struct state *st, struct state *prev, int intent)
 {
     video_hide_cursor();
@@ -1067,6 +1144,7 @@ static void roll_timer(int id, float dt)
     case GAME_STOP: goto_state(&st_stop); break;
     case GAME_GOAL: goto_state(&st_goal); break;
     case GAME_FALL: goto_state(&st_fall); break;
+    case GAME_TIME: goto_state(&st_time); break;
     }
 }
 
@@ -1545,6 +1623,19 @@ struct state st_fall = {
     fall_click,
     shared_keybd,
     fall_buttn
+};
+
+struct state st_time = {
+    time_enter,
+    time_leave,
+    time_paint,
+    time_timer,
+    NULL,
+    NULL,
+    NULL,
+    time_click,
+    shared_keybd,
+    time_buttn
 };
 
 struct state st_score = {

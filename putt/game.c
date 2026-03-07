@@ -56,6 +56,10 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
 static float idle_t;                    /* Idling timeout                    */
+static float forf_t;                    /* Can forfeit timeout               */
+static float auto_t;                    /* Automatic timeout                 */
+
+static float putt_t;                    /* Current player putt time elapsed  */
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,7 +97,11 @@ int game_init(const char *s)
     jump_e = 1;
     jump_b = 0;
 
-    idle_t = 1.0f;
+    idle_t =  1.0f;
+    forf_t = 30.0f;
+    auto_t = -1.0f;
+
+    putt_t = 0.0f;
 
     view_init();
 
@@ -114,6 +122,10 @@ int game_init(const char *s)
             if (idle_t < 1.0f)
                 idle_t = 1.0f;
         }
+        else if (strcmp(k, "can_forfeit_after") == 0)
+            sscanf(v, "%f", &forf_t);
+        else if (strcmp(k, "auto_timeout") == 0)
+            sscanf(v, "%f", &auto_t);
     }
     return 1;
 }
@@ -476,6 +488,17 @@ static int game_update_state(float dt)
         return GAME_STOP;
     }
 
+    /* Test for automatic forfeit time-outs. */
+
+    if (auto_t >= 0.f)
+    {
+        if (putt_t >= auto_t)
+        {
+            t = 0.f;
+            return GAME_TIME;
+        }
+    }
+
     return GAME_NONE;
 }
 
@@ -545,6 +568,8 @@ int game_step(const float g[3], float dt)
                 b = d;
             if (m)
                 st += t;
+
+            putt_t += t;
         }
 
         /* Mix the sound of a ball bounce. */
@@ -570,6 +595,10 @@ void game_putt(void)
     file.vary.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
+
+    /* Start forfeit timers. */
+
+    putt_t = 0.f;
 }
 
 /*---------------------------------------------------------------------------*/
