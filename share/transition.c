@@ -34,19 +34,26 @@
  * That's what all this is for.
  */
 
+#define TRANSITION_MAX (16)
+
 /* Widget IDs with exit animations. */
-static int widget_ids[16];
+static int widget_ids[TRANSITION_MAX];
+
+/* How many state transitions have they lived through? */
+static int widget_ages[TRANSITION_MAX];
 
 /*---------------------------------------------------------------------------*/
 
 void transition_init(void)
 {
     memset(widget_ids, 0, sizeof (widget_ids));
+    memset(widget_ages, 0, sizeof (widget_ages));
 }
 
 void transition_quit(void)
 {
     memset(widget_ids, 0, sizeof (widget_ids));
+    memset(widget_ages, 0, sizeof (widget_ages));
 }
 
 void transition_add(int id)
@@ -57,6 +64,7 @@ void transition_add(int id)
         if (!widget_ids[i])
         {
             widget_ids[i] = id;
+            widget_ages[i] = 0;
             break;
         }
 
@@ -76,7 +84,22 @@ void transition_remove(int id)
         if (widget_ids[i] == id)
         {
             widget_ids[i] = 0;
+            widget_ages[i] = 0;
             break;
+        }
+}
+
+void transition_age(void)
+{
+    int i;
+
+    for (i = 0; i < ARRAYSIZE(widget_ids); ++i)
+        if (widget_ids[i])
+        {
+            if (++widget_ages[i] >= 1)
+            {
+                gui_remove(widget_ids[i]);
+            }
         }
 }
 

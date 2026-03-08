@@ -128,6 +128,8 @@ static int goto_state_intent(struct state *st, int intent)
 {
     struct state *prev = state;
 
+    transition_age();
+
     if (state && state->leave)
         state->leave(state, st, state->gui_id, intent);
 

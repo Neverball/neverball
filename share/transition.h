@@ -24,6 +24,8 @@ void transition_quit(void);
 void transition_add(int id);
 void transition_remove(int id);
 
+void transition_age(void);
+
 void transition_timer(float dt);
 void transition_paint(void);
 
