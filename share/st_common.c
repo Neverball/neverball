@@ -328,7 +328,7 @@ static int video_action(int tok, int val)
         goto_state(&st_video);
         break;
      case VIDEO_TRANSITIONS:
-		goto_state(&st_null);
+        goto_state(&st_null);
         config_set_d(CONFIG_TRANSITIONS, val);
         r = video_mode(f, w, h);
         goto_state(&st_video);
@@ -407,12 +407,12 @@ static int video_gui(void)
         conf_toggle(id, _("Shadow"),       VIDEO_SHADOW,
                     config_get_d(CONFIG_SHADOW),     _("On"), 1, _("Off"), 0);
 
-		gui_space(id);
-		
-        conf_toggle(id, _("UI Transitions"),   VIDEO_TRANSITIONS,
+        gui_space(id);
+
+        conf_toggle(id, _("UI Transitions"), VIDEO_TRANSITIONS,
                     config_get_d(CONFIG_TRANSITIONS), _("On"), 1, _("Off"), 0);
-		
-		gui_layout(id, 0, 0);
+
+        gui_layout(id, 0, 0);
 
     }
 

@@ -1733,12 +1733,6 @@ static void gui_widget_offset(int id, int pd)
 
 void gui_set_slide(int id, int flags, float delay, float t, float stagger)
 {
-	if(config_get_d(CONFIG_TRANSITIONS) == 0){ 
-		if(t != 0 || delay != 0){ //fix for hack at hud.c:117
-			t = 0.0000000001f;
-			delay = 0.00000001f;
-		}
-	}
     if (id)
     {
         int jd, c = 0;
@@ -2324,10 +2318,18 @@ void gui_timer(int id, float dt)
 
             widget[id].slide_time += dt;
 
-            alpha = (widget[id].slide_time - widget[id].slide_delay) / widget[id].slide_dur;
-            alpha = CLAMP(0.0f, alpha, 1.0f);
+            if (config_get_d(CONFIG_TRANSITIONS) == 0)
+            {
+                alpha = 1.0f;
+                at_end = 1;
+            }
+            else
+            {
+                alpha = (widget[id].slide_time - widget[id].slide_delay) / widget[id].slide_dur;
+                alpha = CLAMP(0.0f, alpha, 1.0f);
 
-            at_end = (alpha >= 1.0f);
+                at_end = (alpha >= 1.0f);
+            }
 
             if (widget[id].slide_flags & GUI_BACKWARD)
             {
