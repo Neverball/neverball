@@ -1131,8 +1131,8 @@ msgstr ""
 "mu'i lonu jai cfari\\"
 
 # lo cmalu notci je'i'a .i ma'i lo marbartu lu« loka ko'a kei cu brode »li'u cu
-# dunli lu« loka ko'a co'e kei cu brode »li'u jecu na gerna srera .i vi ti poi
-# xe fanva le selbri cu lakne co du zo zasti
+# dunli lu« loka ko'a co'e kei cu brode »li'u jecu na gerna srera .i viku ti
+# no'u le xe fanva be le selbri cu co'auku lakne co du zo zasti
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
