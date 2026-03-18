@@ -190,7 +190,7 @@ msgid ""
 "Neverball is free software available under the terms of GPL v2 or later."
 msgstr ""
 ".i se fukpo'e de'i li © 2025 lo mela neverbal me'u ci'arfi'i\n"
-".i la neverbal cu zifre co snikemsamtermi'e fi lonu tinbe la'oi GPL poi se favytcita li re a lo balvi"
+".i la neverbal cu zifre snikemsamtermi'e co'ai fi lonu tinbe la'oi GPL poi se favytcita li re ja lo balvi"
 
 #: ball/st_demo.c:223
 msgid "Time"
@@ -1004,7 +1004,7 @@ msgid ""
 "bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
 "vi zasti fa so'o jmina gaurtcini be fi lonu do\\farlu lo nenri be le kunti .i koda'i daxjanli be le "
-"cmalu sukydre be'o co tsali seri'a\\lonu jajyjai so'o barda sicni jecu jerna co pairlai lo tordu temci\\"
+"cmalu sukydre be'o co tsali seri'a\\lonu jajyjai so'o barda sicni jecu jerna co pairlai co'auku lo tordu temci\\"
 
 #: data/map-easy/curved.map
 msgid ""
@@ -1132,7 +1132,7 @@ msgstr ""
 
 # lo cmalu notci je'i'a .i ma'i lo marbartu lu« loka ko'a kei cu brode »li'u cu
 # dunli lu« loka ko'a co'e kei cu brode »li'u jecu na gerna srera .i vi ti poi
-# xe fanva le selbri cu lakne co du co'auku zo zasti
+# xe fanva le selbri cu lakne co du zo zasti
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
