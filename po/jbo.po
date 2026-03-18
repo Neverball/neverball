@@ -323,7 +323,7 @@ msgstr "fa'ormu'ogau"
 
 #: ball/st_help.c:110
 msgid "Tricks"
-msgstr "tortraji"
+msgstr "tortadji"
 
 #: ball/st_help.c:111
 msgid "Modes"
