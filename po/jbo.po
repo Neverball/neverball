@@ -579,7 +579,7 @@ msgstr "frili"
 
 #: ball/util.c:77 ball/util.c:123
 msgid "Unavailable"
-msgstr "na plicu'i"
+msgstr "na selplifrika'e"
 
 #: ball/util.c:179 ball/util.c:229
 msgid "Most Coins"
@@ -1255,7 +1255,7 @@ msgstr "=la cinkyce'u=\\.i .e'unai lo crucauzva ba se tu'ampe"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=la kelcrtenise=\\.i se zasti lo zmabazlai be lo selji'a jdini .ijebo ri jajyjai plicu'i"
+msgstr "=la kelcrtenise=\\.i se zasti lo zmabazlai be lo selji'a jdini .ijebo ri jajyjai se plicu'i"
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
