@@ -23,7 +23,7 @@ msgstr "ka se pruma'ufa'o"
 
 #: ball/game_common.c:29
 msgid "Time-out"
-msgstr "ka temci xakmu'o"
+msgstr "ka temci selxakmu'o"
 
 #: ball/game_common.c:30
 msgid "Success"
@@ -287,11 +287,11 @@ msgstr "ko cuxna lo mu'erpau"
 
 #: ball/st_fail.c:86
 msgid "Fall-out!"
-msgstr "¡ka farlu bancu sai!"
+msgstr "¡farlu bancu sai!"
 
 #: ball/st_fail.c:88
 msgid "Time's Up!"
-msgstr "¡ka temci xakmu'o sai!"
+msgstr "¡temci selxakmu'o sai!"
 
 #: ball/st_fail.c:104
 msgid "Back To Menu"
@@ -397,7 +397,7 @@ msgid ""
 "Finish a level before the time runs out.\n"
 "You need to collect coins in order to open the goal."
 msgstr ""
-"ko fa'urmu'o lo mu'erpau pu lonu lo temci cu xakmu'o\n"
+"ko fa'urmu'o lo mu'erpau pu lonu lo temci cu selxakmu'o\n"
 ".i do nitcu lonu jajgau lo sicni kei lonu kargau le velva'i"
 
 #: ball/st_help.c:280
@@ -1899,7 +1899,7 @@ msgstr "ko cumki nitcu lonu binxo cilmo kei\\fi'ei lonu do djcia ro le sicni"
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr "¡sai ko stagau lo do kanla loka se farna le tsani!\\jecuku'i na ckaji loka xakmu'o fa lo temci …\\"
+msgstr "¡sai ko stagau lo do kanla loka se farna le tsani!\\jecuku'i na ckaji loka selxakmu'o fa lo temci …\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
