@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Byron Johnson <byron@byronjohnson.net>, 2025
+# Byron Johnson <byron@byronjohnson.net>, 2025-2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2025-04-30 22:36-0600\n"
-"PO-Revision-Date: 2025-04-30 23:19+0000\n"
+"PO-Revision-Date: 2026-03-07 03:08+0000\n"
 "Last-Translator: Byron Johnson <byron@byronjohnson.net>\n"
 "Language-Team: \n"
 "Language: jbo\n"
@@ -23,7 +23,7 @@ msgstr "ka se pruma'ufa'o"
 
 #: ball/game_common.c:29
 msgid "Time-out"
-msgstr "ka temci xakmu'o"
+msgstr "ka temci selxakmu'o"
 
 #: ball/game_common.c:30
 msgid "Success"
@@ -49,10 +49,14 @@ msgstr "lazni kacma"
 msgid "Chase Camera"
 msgstr "jersi kacma"
 
+# lo notci be lo'u« meli »le'u je'i'a .i zoi zy«. %dmoi .»zy. ji'a jai conka
+# .iku'i lo'u« meli »le'u cu co'auke zmadu co ra'irgau zo'ei le gerna stura
+# jecuku'i satcyme'a zo'ei zo moi jecuku'i smuni banzu .i ko catlu fu'oiji'a
+# lu« 1mei bo darxi se sfapailai »li'u
 #: ball/game_common.c:48
 #, c-format
 msgid "Camera %d"
-msgstr "kacma co %dmoi"
+msgstr "kacma co meli %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -112,11 +116,11 @@ msgstr "te talsa"
 
 #: ball/progress.c:410 ball/st_help.c:265
 msgid "Normal Mode"
-msgstr "kampu tcini"
+msgstr "fadni tcini"
 
 #: ball/progress.c:410
 msgid "Normal"
-msgstr "kampu"
+msgstr "fadni"
 
 #: ball/progress.c:411
 msgid "Standalone Mode"
@@ -185,8 +189,8 @@ msgid ""
 "Copyright © 2025 Neverball authors\n"
 "Neverball is free software available under the terms of GPL v2 or later."
 msgstr ""
-"se fukpo'e © 2025 lo la neverbal ku ci'arfi'i\n"
-"la neverbal cu zifre co snikemsamtermi'e fi lonu tinbe la'oi GPL poi se favytcita li re a lo balvi"
+".i se fukpo'e de'i li © 2025 lo mela neverbal me'u ci'arfi'i\n"
+".i la neverbal cu zifre snikemsamtermi'e co'ai fi lonu tinbe la'oi GPL poi se favytcita li re ja lo balvi"
 
 #: ball/st_demo.c:223
 msgid "Time"
@@ -210,7 +214,7 @@ msgstr "detri"
 
 #: ball/st_demo.c:319
 msgid "Select Replay"
-msgstr "cuxna fi lo favyke'u"
+msgstr "cuxna fi lo'i favyke'u"
 
 #: ball/st_demo.c:346
 msgid "No Replays"
@@ -244,6 +248,13 @@ msgstr "rucra'e"
 msgid "Repeat"
 msgstr "refgau"
 
+# lo notci be le pandi fintra je'i'a .i ti pilno lo marbartu .iku'i le fintra
+# be zoi zy. «…» .zy. kuji'a cu marbartu be la me lylygy me cylyly me la lojban
+# .ijeboku'i rorexai cu plixau .ijebo le fanva cu nelci xai
+#
+# ni'o seki'iku vi lo se finti be la'o fy. mym .fy. mi gafygau fo lo fraso
+# fintra be seba'i lo spano fintra (to mu'a zoi zy. … ! .zy. seba'i zoi zy. ¡…!
+# .zy. toi) .iku'i ji'a mi so'oroi pilno lo fraso fintra jucu co'e
 #: ball/st_demo.c:775
 msgid "Delete Replay?"
 msgstr "¿pau .e'apei xu datnyvi'u lo favyke'u?"
@@ -276,11 +287,11 @@ msgstr "ko cuxna lo mu'erpau"
 
 #: ball/st_fail.c:86
 msgid "Fall-out!"
-msgstr "¡ka farlu bancu sai!"
+msgstr "¡farlu bancu sai!"
 
 #: ball/st_fail.c:88
 msgid "Time's Up!"
-msgstr "¡ka temci xakmu'o sai!"
+msgstr "¡temci selxakmu'o sai!"
 
 #: ball/st_fail.c:104
 msgid "Back To Menu"
@@ -312,7 +323,7 @@ msgstr "fa'ormu'ogau"
 
 #: ball/st_help.c:110
 msgid "Tricks"
-msgstr "tortraji"
+msgstr "tortadji"
 
 #: ball/st_help.c:111
 msgid "Modes"
@@ -326,6 +337,14 @@ msgstr "jitro"
 msgid "Rules"
 msgstr "javni"
 
+# lo notci co gerna je'i'a: .i mi baunpli la la solpa'i ku sampu ke jorne ciste
+# noi marbartu feva'ima'i le manri po'u la me lylygy me cycyly mela lojban
+#
+# ni'o zo je binxo loka sucta jecu ka'e se pilno fi lonu jongau lo simsa lo
+# simsa .i seva'o zo je na pilno va'o lo tanru po'o .iku'i pilno va'o lo tanru
+# je lo drata .i zo gi'e binxo lu« jecu »li'u .i zo ge binxo lu« gaje »li'u .i
+# zo gu'e binxo lu« guje »li'u .i gaje zo gi'i binxo loka ma'orfa'o zo ga je zo
+# gu'e gi zo gi ka'e se rapygau gi mu'a simsa ti fu'ela'i'a [gi'i] fu'o
 #: ball/st_help.c:124
 msgid ""
 "Move the mouse or joystick\n"
@@ -333,8 +352,8 @@ msgid ""
 "tilt the floor causing the\n"
 "ball to roll.\n"
 msgstr ""
-"ko muvgau lo samxa'e co samcu ja geirga'a\n"
-"gi'a pilno lo batkyfoi farsni vau seri'a\n"
+"ko muvgau lo samxa'e co smacu ja geirga'a\n"
+"jacu pilno lo batkyfoi farsni vau seri'a\n"
 "lonu sa'orgau le loldi kei noi rinka lonu le\n"
 "bolci cu gunro\n"
 
@@ -347,7 +366,7 @@ msgid ""
 msgstr ""
 "ko gunro lo sicni seri'a lonu jajgau\n"
 "ri .i ko jajgau lo sicni seri'a\n"
-"lonu naltelgau fi le velva'i gi'e fa'ormu'ogau\n"
+"lonu naltelgau fi le velva'i jecu fa'ormu'ogau\n"
 "le mu'erpau\n"
 
 #: ball/st_help.c:189
@@ -356,7 +375,7 @@ msgid ""
 "Hold Shift for faster view rotation."
 msgstr ""
 "lo zunle ja pritu samxa'e bo batke cu cargau le jvinu\n"
-".i koda'i ralte da'ergau la ga'eg mu'i lonu jvinu zmadu fi loni carna sutra"
+".i koda'i ralte da'ergau fi la ga'eg mu'i lonu jvinu zmadu fi loni carna sutra"
 
 #: ball/st_help.c:191
 msgid "Exit / Pause"
@@ -366,6 +385,9 @@ msgstr "barkla ja zasyde'agau"
 msgid "Restart Level"
 msgstr "refcfagau zo'eile mu'erpau"
 
+# ka'e mapti fanva fu zo vidnyxra je zo vidnyxragau .iku'i na drani fa lonu re
+# krefu be lo mintu .i mi jdice tu'a zo vidnyxra .i ji'a smuni cumki fa zo'ei
+# lu« vidnyxra fa zo'e poi gasnu lonu ke'a vidnyxra »li'u
 #: ball/st_help.c:196
 msgid "Screenshot"
 msgstr "vidnyxra"
@@ -375,7 +397,7 @@ msgid ""
 "Finish a level before the time runs out.\n"
 "You need to collect coins in order to open the goal."
 msgstr ""
-"ko fa'urmu'o lo mu'erpau pu lonu lo temci cu xakmu'o\n"
+"ko fa'urmu'o lo mu'erpau pu lonu lo temci cu selxakmu'o\n"
 ".i do nitcu lonu jajgau lo sicni kei lonu kargau le velva'i"
 
 #: ball/st_help.c:280
@@ -384,7 +406,7 @@ msgid ""
 "You start with only three balls, do not lose them.\n"
 "Earn an extra ball for each 100 coins collected."
 msgstr ""
-"ko cfagau lonu kelci teka'a lo pamoi co mu'erpau pe lo porsi\n"
+"ko cfagau lonu kelci kei teka'a lo pamoi co mu'erpau pe lo porsi\n"
 ".i do jai cfari seka'ai ci po'o bolci .ije ko na cirko ri\n"
 ".i ko jerna pa jmina bolci fi'o te parbi co tolra'i 100 jajgau sicni"
 
@@ -396,8 +418,8 @@ msgid ""
 "to reach new places.\n"
 msgstr ""
 "lo kojna ka'e se pilno fi lonu plipe\n"
-".i ko co'a gunro gi'e fargau\n"
-"le jganu .i do cumki co kakne\n"
+".i ko co'a gunro jecu fargau\n"
+"le jganu .i do co'auke cumki co kakne\n"
 "lonu kupkla lo cnino co stuzi\n"
 
 #: ball/st_help.c:299
@@ -409,7 +431,7 @@ msgid ""
 msgstr ""
 "lonu sa'orgau fi'o farna reda cu zengau\n"
 "lo se salpo .i ko pilno le macnu kacma\n"
-"gi'e cargau le kacma fo 45\n"
+"jecu cargau le kacma fu 45\n"
 "julra'o seri'a tu'alo xagrai co jalge\n"
 
 #: ball/st_help.c:322 ball/st_help.c:332
@@ -419,12 +441,16 @@ msgstr "viska lo ja'ormupli"
 #: ball/st_level.c:80
 #, c-format
 msgid "Bonus Level %s"
-msgstr "mlajerna mu'erpau co me'oi %s moi"
+msgstr "mlajerna mu'erpau co meli %s"
 
+# lo notci je'i'a .i le kurfa be seka'ai zoi zy«. mu'erpau co meli %s .»zy.
+# bei seba'i mu'a zoi zy«. mypy %s .»zy. cu satci jecuku'i mutce ganra
+#
+# ni'o mi zbasu lo simvamborbastcini jecu jdice tu'ale pamoi
 #: ball/st_level.c:82
 #, c-format
 msgid "Level %s"
-msgstr "mu'erpau co %smoi"
+msgstr "mypy %s"
 
 #: ball/st_level.c:88
 #, c-format
@@ -553,7 +579,7 @@ msgstr "frili"
 
 #: ball/util.c:77 ball/util.c:123
 msgid "Unavailable"
-msgstr "na plicu'i"
+msgstr "na selplifrika'e"
 
 #: ball/util.c:179 ball/util.c:229
 msgid "Most Coins"
@@ -569,7 +595,7 @@ msgstr "naltelgau sutrai"
 
 #: ball/util.c:206
 msgid "Change Name"
-msgstr "galfi co cmene"
+msgstr "gafygau co cmene"
 
 #: ball/util.c:333
 msgid "caps"
@@ -619,7 +645,7 @@ msgstr "vidni"
 
 #: share/st_common.c:364
 msgid "Fullscreen"
-msgstr "vidnselclu"
+msgstr "vidnyselclu"
 
 #: share/st_common.c:365 share/st_common.c:383 share/st_common.c:389
 #: share/st_common.c:397 share/st_common.c:399 share/st_common.c:401
@@ -628,7 +654,7 @@ msgstr "nalcando"
 
 #: share/st_common.c:367 share/st_common.c:561
 msgid "Resolution"
-msgstr "vidnselsatci"
+msgstr "vidnyselsatci"
 
 #: share/st_common.c:382
 msgid "HMD"
@@ -656,27 +682,27 @@ msgstr "nu ctino"
 
 #: share/st_common.c:799
 msgid "Button A"
-msgstr "la li abu batke"
+msgstr "la batke co meli abu"
 
 #: share/st_common.c:800
 msgid "Button B"
-msgstr "la li by batke"
+msgstr "la batke co meli by"
 
 #: share/st_common.c:801
 msgid "Button X"
-msgstr "la li xy batke"
+msgstr "la batke co meli xy"
 
 #: share/st_common.c:802
 msgid "Button Y"
-msgstr "la li ybu batke"
+msgstr "la batke co meli ybu"
 
 #: share/st_common.c:803
 msgid "Button L1"
-msgstr "la li lypa batke"
+msgstr "la batke co meli lypa"
 
 #: share/st_common.c:804
 msgid "Button R1"
-msgstr "la li rypa batke"
+msgstr "la batke co meli rypa"
 
 #: share/st_common.c:805 putt/st_conf.c:165
 msgid "Select"
@@ -684,23 +710,23 @@ msgstr "cuxna"
 
 #: share/st_common.c:810
 msgid "X Axis 1"
-msgstr "le li xy sircimde co 1moi"
+msgstr "la meli xy sircimde co meli 1"
 
 #: share/st_common.c:811
 msgid "Y Axis 1"
-msgstr "le li ybu sircimde co 1moi"
+msgstr "la meli ybu sircimde co meli 1"
 
 #: share/st_common.c:812
 msgid "X Axis 2"
-msgstr "le li xy sircimde co 2moi"
+msgstr "la meli xy sircimde co meli 2"
 
 #: share/st_common.c:813
 msgid "Y Axis 2"
-msgstr "le li ybu sircimde co 2moi"
+msgstr "le meli ybu sircimde co meli 2"
 
 #: share/st_common.c:928
 msgid "Press a button..."
-msgstr "ko da'ergau lo batke …"
+msgstr "ko da'ergau fi lo batke …"
 
 #: share/st_common.c:938
 msgid "Move a stick..."
@@ -712,7 +738,7 @@ msgstr "tisybei …"
 
 #: share/st_package.c:389
 msgid "No addons found"
-msgstr "no minbakfu cu se facki"
+msgstr "no minbakfu cu te facki"
 
 #: share/st_package.c:450 share/st_package.c:518
 msgid "Install"
@@ -728,31 +754,34 @@ msgstr "lairdu'i"
 
 #: putt/hole.c:163 putt/st_all.c:103 putt/st_all.c:164
 msgid "P1"
-msgstr "ky1"
+msgstr "xy1ky"
 
 #: putt/hole.c:164 putt/st_all.c:104 putt/st_all.c:165
 msgid "P2"
-msgstr "ky2"
+msgstr "xy2ky"
 
 #: putt/hole.c:165 putt/st_all.c:105 putt/st_all.c:166
 msgid "P3"
-msgstr "ky3"
+msgstr "xy3ky"
 
 #: putt/hole.c:166 putt/st_all.c:106 putt/st_all.c:167
 msgid "P4"
-msgstr "ky4"
+msgstr "xy4ky"
 
+# zo bartu
 #: putt/st_all.c:70
 msgid "O"
-msgstr "bartu"
+msgstr "by"
 
+# zo grisumji
 #: putt/st_all.c:119
 msgid "Tot"
-msgstr "grisumji"
+msgstr "gysy"
 
+# zo nenri
 #: putt/st_all.c:131
 msgid "I"
-msgstr "nenri"
+msgstr "ny"
 
 #: putt/st_all.c:368
 msgid "Select Course"
@@ -769,7 +798,7 @@ msgstr "famli'a"
 #: putt/st_all.c:738
 #, c-format
 msgid "Hole %02d"
-msgstr "kevna co %02dmoi"
+msgstr "kevna co meli %02d"
 
 #: putt/st_all.c:1090
 msgid "It's In!"
@@ -789,19 +818,22 @@ msgstr "romoi se pairlai"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
-msgstr "la la neverbal frili"
+msgstr "la mela neverbal frili"
 
+# lo notci be zo i joi zo ni'o .i mi mapti pilno le te sepli .iku'i va'o lonu
+# lo se cusku cu nenri lo drata kurfa kei mi cumki selcaugau le te sepli ki'u
+# lodu'u ra ka'e se viska semai'ai loka se cusku kei'u lo drata ja sepli
 #: data/set-easy.txt
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
 msgstr ""
-"sesa'a loni nandu kei lo nintadni bi'o lo nulnandu\\\\25 mu'erpau seka'ai lo xutla co "
+"sera'a loni nandu kei lo nintadni bi'o lo nulnandu\\\\ni'o 25 mu'erpau be seka'ai lo xutla co "
 "cilre kruvi\\.i ko tcidu lo mu'erpau cfaselsku mu'i zo'eilo kelfau djunoi\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
-msgstr "la la neverbal nulnandu"
+msgstr "la mela neverbal nulnandu"
 
 #: data/set-medium.txt
 msgid ""
@@ -809,13 +841,13 @@ msgid ""
 "balanced\\challenge for players. Try to claim\\some of the records provided."
 "\\"
 msgstr ""
-"sesa'a loni nandu kei lo nintadni bi'o lo bracre\\\\25 mu'erpau noi sabji lo "
+"sera'a loni nandu kei lo nintadni bi'o lo bracre\\\\ni'o 25 mu'erpau noi sabji lo "
 "lanxe\\te talsa lo kelci .i ko troci lonu posxu'a\\so'o lo cmima be le'i se pairlairai noi se sabji"
 "\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
-msgstr "la neverbal zei nandu"
+msgstr "la mela neverbal nandu"
 
 #: data/set-hard.txt
 msgid ""
@@ -823,9 +855,9 @@ msgid ""
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
 "and Fast Unlock records.\\"
 msgstr ""
-"sesa'a loni nandu kei lo nulnandu bi'o lo brace\\\\25 mu'erpau seka'ai lo zmadu "
-"fi lo te talsa va'o\\lo frisumji kelci .i ko troci lonu posxu'a\\lo pairlairai be "
-"loka xagrai co temci .e loka so'inrai co slici .e loka naltelgau sutrai\\"
+"sera'a loni nandu kei lo nulnandu bi'o lo bracre\\\\ni'o 25 mu'erpau be seka'ai lo zmadu be fi "
+"loni te talsa bei va'o\\le sujyfri kelci .i ko troci lonu posxu'a\\lo pairlairai be "
+"loka xagrai co temci je loka so'inrai co slici je loka naltelgau sutrai\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -836,20 +868,21 @@ msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
 "\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
-"sesa'a loni nandu kei lo bracre bi'o lo fenki\\\\25 mu'erpau seka'ai krefu zmadu co talsa"
-"\\ci'arfi'i fa la'o fy. Mehdi Yousfi-Monod (mym) .fy.\\ \\"
+"sera'a loni nandu kei lo bracre bi'o lo fenki\\\\ni'o 25 mu'erpau be seka'ai lo zmadu .ai'ai co te talsa"
+"\\.i ci'arfi'i fa la'o fy. Mehdi Yousfi-Monod (mym) .fy.\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
 msgstr "Retour de force"
 
+# .e'u lu« be fi'o vabmau »li'u ja zo tei'i noi milxe fricu zo ra'u
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
-"sesa'a loni nandu kei lo milxe nadmau be le mi pamoi porsi\\\\lo teke zmadu talsi ,"
-"be fi'o zmavanbi lonu jajyjai lo sicni\\ci'arfi'i fa la'o fy. Mehdi Yousfi-Monod (mym) .fy.\\ \\"
+"sera'a loni nandu kei lo milxe nadmau be le mi pamoi porsi\\\\ni'o lo teke jmina talsa ,"
+"be fi'o vabmau lonu jajyjai lo sicni\\.i ci'arfi'i fa la'o fy. Mehdi Yousfi-Monod (mym) .fy.\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -860,24 +893,24 @@ msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
 msgstr ""
-"loni nandu zo'u lo bracre bi'o lo narcu'i\\\\lo vrici mu'erpau fi'o se mapti lo _ "
-"kelci\\ci'arfi'i fa la'o cmene Florian Priester cmene\\\\"
+"loni nandu zo'u lo bracre bi'o lo narcu'i\\\\ni'o lo vrici mu'erpau be seva'u lo lecyvelfavne'i "
+"kelci\\.i ci'arfi'i fa la'o cmene Florian Priester cmene\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
-msgstr "la la tonga ku mu'erpau"
+msgstr "la mela tonga me'u mu'erpau"
 
 #: data/set-tones.txt
 msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
-msgstr "sera'a loni nandu kei lo nornandu bi'o lo nandu\\\\ci'arfi'i fa la .ian.uakr.\\\\"
+msgstr "sera'a loni nandu kei lo nornandu bi'o lo nandu\\\\ni'o ci'arfi'i fa la .ian.uakr.\\\\"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
-msgstr "la la neverbal vrici"
+msgstr "la mela neverbal vrici"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr "nalporgau mu'erpau\\mu'i lo cipra te pilno\\\\\\\\"
+msgstr "na'e se porganzu mu'erpau\\.i mu'i lo cipra te pilno\\\\\\\\"
 
 #: data/holes-putt.txt
 msgid ""
@@ -885,64 +918,64 @@ msgid ""
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
 msgstr ""
 "le nalbi'o pamoi ke kevna bo 18mei mela neverpyt lutpoi\\.i seka'ai lo ranxlu ke cilre kruvi\\ "
-"\\loni nandu zo'u: lo frili bi'o lo nulnandu\\ci'arfi'i fa la'oi rlk\\"
+"\\ni'o loni nandu zo'u: lo frili bi'o lo nulnandu\\.i ci'arfi'i fa la'oi rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "lo krefu ke kevna bo 18mei lutpoi\\ \\ \\loni nandu zo'u nulnandu\\ci'arfi'i fa la'oi paxed\\"
+msgstr "lo krefu ke kevna bo 18mei lutpoi\\ \\ \\ni'o loni nandu zo'u nulnandu\\.i ci'arfi'i fa la'oi paxed\\"
 
 #: data/holes-paxed2.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "lo krefu krefu ke kevna bo 18mei lutpoi\\ \\ \\loni nandu zo'u nulnandu\\ci'arfi'i fa la'oi paxed\\"
+msgstr "lo krefu krefu ke kevna bo 18mei lutpoi\\ \\ \\ni'o loni nandu zo'u nulnandu\\.i ci'arfi'i fa la'oi paxed\\"
 
 #: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "lo krefu bi'a ke jmina kevna\\ \\ \\loni nandu zo'u nulnandu\\ci'arfi'i fa la'oi paxed\\"
+msgstr "lo krefu .ai'ai ke jmina kevna\\ \\ \\ni'o loni nandu zo'u nulnandu\\.i ci'arfi'i fa la'oi paxed\\"
 
 #: data/holes-abc.txt
 msgid ""
 "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr ""
-"lo kevna bo 26mei lutpoi\\noi panra le se lerfu\\\\loni nandu zo'u nandu\\ci'arfi'i fa la'oi paxed\\"
+"lo kevna bo 26mei lutpoi\\poi panra le se lerfu\\\\ni'o loni nandu zo'u nandu\\.i ci'arfi'i fa la'oi paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr "la fenki kelcrgolfo\\ \\\\loni nandu zo'u lo frili bi'o lo nulnandu\\ci'arfi'i fa la'oi slippifishi\\"
+msgstr "la fenki kelcrgolfo\\ \\\\ni'o loni nandu zo'u lo frili bi'o lo nulnandu\\.i ci'arfi'i fa la'oi slippifishi\\"
 
 #: data/holes-kk.txt
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
 msgstr ""
-"la lujnandu kelcrgolfo\\\\lo kevna bo 18mei lutpoi seka'ai so'i te talsa\\loni nandu zo'u: lo bracre "
-"bi'o lo fenki\\ci'arfi'i fa la .bairyn.djeimyz.djansn."
+"la lujnandu kelcrgolfo\\\\ni'o lo kevna bo 18mei lutpoi seka'ai so'i te talsa\\.i loni nandu zo'u: lo bracre "
+"bi'o lo fenki\\.i ci'arfi'i fa la .bairyn.djeimyz.djansn."
 
 #: data/holes-vidski.txt
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
 "\\Author: vidski\\"
 msgstr ""
-"la kelcrgolfo djambalaia\\\\le la'oi Vidski tolmi'o lutpio\\loni nandu zo'u: nulnandu bi'o lo nandu"
-"\\ci'arfi'i fa la'oi vidski\\"
+"la kelcrgolfo djambalaia\\\\ni'o le la'oi Vidski tolmi'o lutpoi\\.i loni nandu zo'u: nulnandu bi'o lo nandu"
+"\\.i ci'arfi'i fa la'oi vidski\\"
 
 #: data/holes-iCourse.txt
 msgid ""
 "Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
 msgstr ""
-"la gy. Reshaun's iPutt Course gy.\\\\\\loni nandu zo'u lo frili bi'o lo nandu\\ci'arfi'i fa la'o cy Reshaun "
+"la gy. Reshaun's iPutt Course .gy.\\\\\\ni'o loni nandu zo'u lo frili bi'o lo nandu\\.i ci'arfi'i fa la'o cy Reshaun "
 "Francis cy"
 
 #: data/gui/title.map data/map-medium/title.map
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "la neverbal\\\\zo'oi https://neverball.org\\\\se finti la .rabrt.kuimas.\\"
+msgstr "la. neverbal.\\\\ni'o la'oi http://neverball.org\\\\ni'o se finti la .rabrt.kuimas.\\"
 
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
 msgstr ""
-"ko troci lonu rivbi lonu se darxi muvdu dacti\\.i pa cmajanli ka'e renro le "
+"ko troci lonu rivbi lonu se darxi lo muvdu dacti\\.i pa cmajanli ka'e renro le "
 "bolci\\lonu mulno loka na se jitro\\"
 
 #: data/map-easy/bumps.map
@@ -952,7 +985,7 @@ msgid ""
 "bouncing, take a risk\\for a big payoff.\\"
 msgstr ""
 "ko cilre fi lonu jitro lo mirjanli bolci\\.i ko catlu le ctino seri'a lonu djuno lodu'u makau poi stuzi ku'o "
-"le\\bolci ba seke pipmulkla .i ganai do cinmo loka lacri lo do trocre be "
+"le\\bolci ba se pipmulkla .i gajanai do cinmo loka lacri\\lo do trocre be "
 "lonu mirjanli gi ko cuxna lo xaircu'i\\mu'i zo'eilo barda ve cnemu\\"
 
 #: data/map-easy/coins.map
@@ -962,7 +995,7 @@ msgid ""
 "begin.\\"
 msgstr ""
 "le zi kerfu do jai sarcu fai lonu cpacu 50 sicni kei lonu naltelgau fi le velva'i\\.i lo xunre sicni cu se vamji li 5 , "
-".ijebo lo blanu sicni cu se vami li 10\\.i ¡ko klama le velva'i pu lonu lo temci cu se temfa'o vausai!\\\\ko samxa'eda'egau seri'a lonu"
+".ibo lo blanu sicni cu se vamji li 10\\.i ¡ko klama le velva'i pu lonu lo temci cu se temfa'o .i'ausai!\\\\ni'o ko samxa'eda'egau seri'a lonu "
 "cfari\\"
 
 #: data/map-easy/corners.map
@@ -970,8 +1003,8 @@ msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the "
 "bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
-"vi zasti fa so'o jmina nu cumki fa lonu do\\farlu lo nenri be le kunti .i koda'i daxjanli be le "
-"cmalu sukydre be'o co tsali seri'a lonu\\jajyjai so'o barda sicni gi'e jerna co pairlai lo tordu temci\\"
+"vi zasti fa so'o jmina gaurtcini be fi lonu do\\farlu lo nenri be le kunti .i koda'i daxjanli be le "
+"cmalu sukydre be'o co tsali seri'a\\lonu jajyjai so'o barda sicni jecu jerna co pairlai co'auku lo tordu temci\\"
 
 #: data/map-easy/curved.map
 msgid ""
@@ -980,26 +1013,25 @@ msgid ""
 "corners.\\"
 msgstr ""
 "panra le purci fiku'i loka claxu le crezenctu xislu\\.i ko ralte lonu lo bolci cu cpana lo pinta "
-"loldi\\kei gi'e ra'irgau lo satci jitro\\.i ko drejmina zbasu so'o niljuntysutra seri'a lonu kupkla le "
+"loldi\\kei jecu ra'irgau lo satci nu jitro\\.i ko drejmina zbasu so'o niljuntysutra seri'a lonu kupkla le "
 "kojna\\"
 
-#: data/map-easy/easy-simple0-dev.map data/map-easy/easy.autosave.map
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
 msgstr ""
-"ko muvgau le samxa'e seri'a lonu sa'orgau le loldi\\.i jajgau 10 sicni seri'a lonu naltelgau fi le velva'i"
-"\\.i ko gidva le bolci lonu klama le velva'i kei seri'a lonu\\fa'ormu'ogau le mu'erpau\\\\.i ko samxa'eda'egau seri'a lonu cfari\\"
+"ko muvgau le samxa'e seri'a lonu sa'orgau le loldi\\.i ko'oi jajgau 10 sicni seri'a lonu naltelgau fi le velva'i"
+"\\.i ko gidva le bolci lonu klama le velva'i kei seri'a lonu\\fa'ormu'ogau le mu'erpau\\\\ni'o ko samxa'eda'egau seri'a lonu cfari\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
 msgstr ""
-"lo xadba bo tubnu ka'e geirzdi\\gi'eku'i rinka lonu frili lonu farlu bancu\\.i ko na dukse "
-"nilsutyze'agau .ijebo do ba\\kakne lonu ralte lonu jitro"
+"lo xadba bo tubnu ka'e geirzdi\\jecuku'i rinka lonu frili lonu farlu bancu\\.i ko na dukse "
+"nilsutyze'agau .ijebo do ba\\kakne lonu stali loka jitro"
 
 #: data/map-easy/fence.map
 msgid ""
@@ -1007,8 +1039,8 @@ msgid ""
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
 msgstr ""
-"lu «pinta» cu se manri\\.i ko cilre co tadji be lonu ra'irjai le loldi fo tu'ale jganu\\seri'a lonu le salpo "
-"ra'erkai loka pinta\\.i ta'i ti do ra'irgau lonu mulno jitro le bolci\\.i ko pilno "
+"fu'oilu'i'u loka pinta cu se manri\\.i ko cilre coke tadji be lonu tcinyra'igau be fi le loldi lo jganu\\seri'a lonu lo salpo "
+"stali loka pinta\\.i ta'i ti do ra'irgau lonu mulno jitro le bolci\\.i ko pilno "
 "lo niljuntysutra lonu klama lo galtu ju'e le barda sicni\\"
 
 #: data/map-easy/goals.map
@@ -1024,15 +1056,15 @@ msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
 msgstr "ko sa'orgau le loldi sela'u lo jaisela'u cumrai\\.i lonu salpo mleca cu nibli lonu dizmau nilsutra\\.i lonu dizmau "
-"nilsutra cu nibli lonu xagmau jitro\\.i ko jundi le junla gi'e pilno be le temci be'o co prije\\"
+"nilsutra cu nibli lonu xagmau jitro\\.i ko jundi le junla jecu pilno be le temci be'o co prije\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
 msgstr ""
-"rodano'u le cripu cu jakmau lo ri prula'i\\.iku'i rodano'u zo'e cu pleji xagmau "
-"lo prula'i vau sai ji'a\\.i do se jai crucu'i fai lonu jdice lodu'u makau ni clani co nu do klama kei kei va'o le vi zo'e\\"
+"le'a'au cripu cu jakmau lo ri prula'i\\.iku'i lu'a'au zo'e cu pleji xagmau "
+"lo prula'i vau sai ji'a\\.i do jidge lonu jdice lodu'u makau ni clani co nu do klama .i'au va'o le vi zo'e\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
@@ -1040,9 +1072,9 @@ msgid ""
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
 msgstr ""
-"lonu klama le velva'i cu jai lanke fai lonu na nabmi\\.ijeku'i lonu cpacu ro sicni "
-"ba\\se sarcu piso'o lonu platu\\\\lo kritikti'i zo'u: se cafne lonu sutmau fa lonu rivbi\\zo'eilo kevna "
-"kei seba'i lonu farlu ra"
+"lonu klama le velva'i\\cu jai lakne fai lonu na nabmi\\.ijeku'i lonu cpacu ro sicni "
+"ba\\se sarcu piso'o lonu platu\\\\ni'o lo kritikti'i zo'u: se cafne lonu sutmau fa lonu rivbi\\zo'eilo kevna "
+"kei be seba'i lonu farlu ra"
 
 #: data/map-easy/hole.map
 msgid ""
@@ -1050,8 +1082,8 @@ msgid ""
 "down\\early. You need just as much room to slow\\down as you did to speed up."
 "\\"
 msgstr ""
-"¡sai ko ralte loka narjbi le relcimdykoi!\\.i ca lonu jbikla lo suktoldre kei ko cfagau lonu "
-"sutyjdika\\kei co clira .i do nitcu nu'ixipa lo satci ni canlu kei lonu sutyjdika\\kei sedu'i lonu pu nei nu'ixipa fi lonu sutyze'a"
+"¡sai ko stali loka narjbi le relcimdykoi!\\.i ca lonu jbikla lo suktoldre kei ko cfagau lonu "
+"sutyjdika\\kei co'ei'au clira .i do nitcu nu'ixipa lo satci ni canlu kei lonu sutyjdika\\kei sedu'i lonu pu nei nu'ixipa fi lonu sutyze'a"
 "\\"
 
 #: data/map-easy/lollipop.map
@@ -1060,8 +1092,8 @@ msgid ""
 "\\but with some experimentation and practice,\\you'll be able to collect "
 "them all."
 msgstr ""
-"ko kersi le pelxu ke tacysakli dargu vausai\\\\.i le blanu sicni cu steci talnandu"
-"\\.ijebo ku'i seka'ai so'o nu ciplanli .e so'o nu fricreze'a\\do ba kakne lonu jajgau "
+"ko jersi le pelxu ke tacysakli dargu vausai\\\\ni'o le blanu sicni cu steci talnandu"
+"\\.ijebo ku'i seka'ai so'o nu ciplanli je so'o nu crezenzu'e\\do ba kakne lonu jajgau "
 "ro ra"
 
 #: data/map-easy/maze.map
@@ -1069,15 +1101,15 @@ msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
 msgstr ""
-"le bolci cu djica lonu refmirjanli co tronalka'e\\kei ne'i lo jarki velklalu'a .i ko lonu ra masno "
-"gi'e\\narcpana le bitmu .i ro le sicni cu jajgau se kakne\\ne'i le se sabji temci\\"
+"le bolci cu djica lonu refmirjanli co tronalka'e\\kei ne'i lo jarki velklalu'a .i ko ralte lonu ra masno "
+"jecu\\narcpana le bitmu .i ro le sicni cu jajgau se kakne\\ne'i le se sabji temci\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
 "- it will help you\\to reach the goal."
 msgstr ""
-"namkeigau gi'eku'i se palgau\\\\.i ko lebna lo temci tepi'o lonu zgana lo nulmu'u\\be le cmajalgau "
+"namkeigau jecuku'i se palgau\\\\ni'o ko lebna lo temci tepi'o lonu zgana lo nunmu'u\\be le cmajalgau "
 ".ibo zo'e ba sidju do\\lonu kupkla le velva'i"
 
 #: data/map-easy/mover.map
@@ -1087,7 +1119,7 @@ msgid ""
 "the platforms to grab the big coins.\\"
 msgstr ""
 "lo muvdu tsina ka'e lujnandu\\.i ko pilno lo satci nu temsarxe ce'e lonu binxo xelklacpana\\pe'eje "
-"lo satci nu lanxe ce'e lonu ralte lonu zvati ra\\.i ko na curmi lonu ru muvdu mo'i to'o lo do cnita\\.ikoda'i selma'e "
+"lo satci nu lanxe ce'e lonu stali lonu zvati ra\\.i ko na curmi lonu ru muvdu mo'i to'o lo do cnita\\.ikoda'i selma'e "
 "le tsina seri'a lonu jajyjai le barda sicni\\"
 
 #: data/map-easy/peasy.map
@@ -1095,25 +1127,28 @@ msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
 msgstr ""
-"lo samxa'e batke cu cargau le jvinu\\.i koda'i da'ergau la rivbi seri'a lonu depygau gi'a famli'a\\\\\\\\ko samxa'eda'egau "
+"lo samxa'e batke cu cargau le jvinu\\.i koda'i da'ergau la rivbi seri'a lonu depygau jacu famli'a\\\\\\\\ni'o ko samxa'eda'egau "
 "mu'i lonu jai cfari\\"
 
+# lo cmalu notci je'i'a .i ma'i lo marbartu lu« loka ko'a kei cu brode »li'u cu
+# dunli lu« loka ko'a co'e kei cu brode »li'u jecu na gerna srera .i viku ti
+# no'u le xe fanva be le selbri cu co'auku lakne co du zo zasti
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
 msgstr ""
-"ca lonu do cpana le lafmi'i kei\\ko zbasu lo cmalu stika seri'a lonu ralte lonu le bolci "
-"stodi\\.i do ka'e jajgau so'i sicni ta'i\\lonu ralte lonu le bolci cu nenri pa stuzi\\.i lonu dukse "
-"lo nilmu'u co'e gi'e do ba ze'o farlu"
+"ca lonu do cpana le lafmi'i kei\\ko zbasu lo cmalu nu stika kei seri'a lonu stagau le bolci "
+"loka stodi\\.i do ka'e jajgau so'i sicni ta'i\\lonu stagau le bolci loka nenri pa stuzi\\.i lonu dukse "
+"lo nilmu'u kei jecu do ba ze'o farlu"
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
 msgstr ""
-"se zasti pa po'o pluta lonu kupkla le velva'i\\.ibo ku'i so'i pluta lonu jajgau "
+"se zasti pa po'o pluta be lonu kupkla le velva'i\\.ibo ku'i so'i pluta lonu jajgau "
 "sicni\\.i ko bityzba lodu'u do jajgau lo banzu\\be lonu naltelgau fi le velva'i"
 
 #: data/map-easy/slalom.map
@@ -1122,7 +1157,7 @@ msgid ""
 "quickly,\\you will bounce far off course."
 msgstr ""
 "ko jersi le ba'arlu'a be lo sicni seri'a lonu kupkla le velva'i\\.i fau lonu do darxi lo grana ca lonu muvdu "
-"co sutra kei\\do ba mirjanli ze'ovu lo lutpoi"
+"co sutra kei\\do ba mirjanli ve'umo'ize'o lo lutpoi"
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
@@ -1134,25 +1169,25 @@ msgid ""
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
 msgstr ""
-"ca lonu le bolci cu cpana le muvdu tsina kei\\ra ba cpugau fa'a lo farna "
-"be lo nunmu'u\\.i ko pilno le garna lonu stogau vo'a'e kei\\gi'e jajgau lo sicni "
+"ca lonu le bolci cu cpana le muvdu tsina kei\\ra ba se lacpu fa'a lo farna "
+"be lo nunmu'u\\.i ko pilno le garna lonu stogau vo'a'e kei\\jecu jajgau lo sicni "
 "poi do nitcu\\fi lonu kargau le velva'i"
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr "ko jajyjai ro le sicni … gi'eku'i ¡na binxo se kuskei sai!"
+msgstr "ko jajyjai ro le sicni … jecuku'i ¡na binxo se kuskei sai!"
 
 #: data/map-easy/wakka.map
 msgid ""
 "Here's another coin grab.\\Perhaps you already know a good route."
 "\\Teleportation might come in handy.\\"
 msgstr ""
-"viku se zasti lo krefu be lonu sicni jajyjai\\.i se cumki lonu do puco'a djuno fi lo xamgu pluta"
+"viku se zasti lo krefu be lonu sicni jajyjai\\.i se cumki lonu do ba'oco'a djuno fi lo xamgu pluta"
 "\\.i lonu sukmu'u cu cumki sidju\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
-msgstr "=la se darsyli'u=\\.i so'i zo'e noi ka'e se gasnu .e lo sicni noi ka'e se jajgau\\.e lo xaircu'i noi ka'e se zukte"
+msgstr "=la se darsyli'u=\\.i so'i zo'e noi ka'e se gasnu je lo sicni noi ka'e se jajgau\\je lo xaircu'i noi ka'e se zukte"
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
@@ -1164,7 +1199,7 @@ msgstr "=la sraflu=\\.i zo'e poi jitro le temymre cu jitro le vrogai"
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=la selbei=\\.i ko curmi lonu do se bevri to'o"
+msgstr "=la selbei=\\.i ko curmi lonu do se bevri to'ozo'e"
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
@@ -1172,7 +1207,7 @@ msgstr "=la konfeti=\\.i ¡ko sidju sai! .i ba'a birti se zasti lo pluta be pa'o
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr "=la bolplita=\\.i le nu pilno drani kei tsina ba klagau do le velva'i"
+msgstr "=la bolplita=\\.i le nu se pilno drani kei tsina ba klagau do le velva'i"
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
@@ -1184,7 +1219,7 @@ msgstr "=la kokcinela=\\.i ko na curmi lonu ra fazgau fi do"
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr "=la cmana=\\.i lo galtu .e lo dizlo cu pagbu lo nunji'e"
+msgstr "=la cmana=\\.i lo galtu je lo dizlo cu pagbu lo nunji'e"
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
@@ -1200,7 +1235,7 @@ msgstr "=la garna=\\.i ko na cirko lo do nu lanxe"
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=la sa'ortsina=.i xu do kakne lonu snada lonu kupkla le galraipau"
+msgstr "=la sa'ortsina=\\.i xu do kakne lonu snada lonu kupkla le galraipau"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
@@ -1212,7 +1247,7 @@ msgstr "=la salpo=\\.i ko troci lonu na binxo lo ka cabycedra mela .sisifos."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=la vonca'u=\\.i piso'u canlu .e piso'u temci"
+msgstr "=la vonca'u=\\.i piso'u canlu je piso'u temci"
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
@@ -1220,7 +1255,7 @@ msgstr "=la cinkyce'u=\\.i .e'unai lo crucauzva ba se tu'ampe"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=la kelcrtenise=\\.i se zasti lo zmabazlai be lo selji'a jdini .ijebo ri jajyjai plicu'i"
+msgstr "=la kelcrtenise=\\.i se zasti lo zmabazlai be lo selji'a jdini .ijebo ri jajyjai se plicu'i"
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
@@ -1228,11 +1263,11 @@ msgstr "=la tricu=\\.i ko jersi le sarlu serti seka'a le velva'i"
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr "=la dactrnedevede=\\.i ko selma'e le keslo'i noi zo'e na djica lonu do djuno fi ke'a"
+msgstr "=la dactrneseceve=\\.i ko selma'e le keslo'i noi zo'e na djica lonu do djuno fi ke'a"
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
-msgstr "2 fraseljimca cu jai se nitcu fai lonu se ka'ergau\\kei fi lonu kargau le velva'i"
+msgstr "2 fraseljimca cu jai se nitcu fai lonu se ka'ergau\\kei fi lonu kargau le pluta be le velva'i"
 
 #: data/map-hard/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
@@ -1243,16 +1278,16 @@ msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
 msgstr ""
-"fi lonu zbasu viku lo nu xagyfarvi cu nitcu fa do lonu darxi be le\\relcimdykoi ku co jdari gi'e jitro lo do "
-"nu mirjanli\\se cafne lonu se filrai lonu darxi le dagykoi bu'u lo kojna\\"
+"fi lonu zbasu viku lo nu xaurfarvi ba nitcu fa do lonu darxi be le\\relcimdykoi ku co jdari jecu jitro lo do "
+"nu mirjanli\\.i se cafne lonu se filrai lonu darxi le dagykoi bu'u lo kojna\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
 msgstr ""
-".ini'ibo xu la .neverbal. cu se namkei\\.i ko vimcu lo xunre seri'a lonu naltelgau fi le velva'i\\.i rodano'u "
-"lo te frati cu fraseljimca fragau lo skari poi setnaldicra pencu"
+".iseni'ibo xu la .neverbal. cu se namkei\\.i ko vimcu lo xunre seri'a lonu naltelgau fi le velva'i\\.i lo'a'au "
+"te frati cu simbasygau lokau se skari be lo setsta pencu"
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1263,31 +1298,31 @@ msgid ""
 "Time the switches carefully to synchronize\\the motion of the platforms."
 "\\Move quickly across the gaps.\\"
 msgstr ""
-"ko temsaxygau le fraseljimca fi'o racyju'i seri'a lonu temsaxygau\\lo nulmu'u be le tsina"
-"\\.i ko muvdu co sutra fi'o se kruca le kutyca'u\\"
+"ko temsaxygau le fraseljimca fi'o racyju'i seri'a lonu temsaxygau\\lo nunmu'u be le tsina"
+"\\.i ko muvdu co sutra fi'o se kruca le sukykunti\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr "je'u go'i .i le bolci cu nilbramapti co mutce zabna pa'o\\tano'u le cmalu kevna\\"
+msgstr "je'u le bolci cu nilbramapti co mutce zabna pa'o\\tano'u le cmalu kevna\\"
 
 #: data/map-hard/hallways.map
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
 msgstr ""
-".i ko jitro lo do nilsutra .e lo do nu mirjanli\\.i lo sukmu'uca'a ba roroi bevri "
+".i ko jitro lo do nilsutra je lo do nu mirjanli\\.i lo sukmu'uca'a ba roroi bevri "
 "do\\lo te xruti be bu'u da poi nenri le mu'erpau"
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "lo niljuntysutra cu cumki gasnu fi lo fapro be do\\"
+msgstr "lo niljuntysutra cu cumki gunka fi lo fapro be do\\"
 
 #: data/map-hard/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
 msgstr ""
-"ko curmi lonu lo do jdini nu vampoi cu gidva do\\.i mu'i tu'alo jmina te talsi\\koda'i troci lonu klama ro "
+"ko curmi lonu lo do nu di'irdji cu gidva do\\.i mu'i tu'alo jmina te talsa\\koda'i troci lonu klama ro "
 "le sicni\\.i ra se ke gasnu kakne secau lo smadi se gunka\\"
 
 #: data/map-hard/movers.map
@@ -1300,13 +1335,13 @@ msgid ""
 "hard way.\\Of course, by going the easy way\\you can forget about all\\those "
 "red and blue coins."
 msgstr ""
-"se zasti re velva'i viku\\.i do kakne lonu mulgau le vi mu'erpau\\kei ta'i le frili .a le "
-"nandu\\.i ju'o ta'i le frili\\do ka'e mo'icri fi ro\\le va "
+"se zasti re velva'i viku\\.i do kakne lonu mulgau le vi mu'erpau\\kei ta'i le frili ja le "
+"nandu\\.i rai'ai ta'i le frili\\do ka'e mo'icri fi ro\\le va "
 "xunre ja blanu sicni"
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr "so'i bi'a drata pluta noi ka'e jai se zukte\\.i ¿pau xu do pu troci fi ro le ra?"
+msgstr "so'i sai drata pluta noi ka'e jai se zukte\\.i ¿pau xu do pu troci fi ro le ra?"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
@@ -1314,15 +1349,15 @@ msgstr "Ceci n'est pas une pipe.\\"
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
-msgstr "lonu masno gi'e stodi\\"
+msgstr "lonu masno jecu stodi\\"
 
 #: data/map-hard/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
 msgstr ""
-"do ba cpacu ji'i 15 po'o snidu ne'i le koi'au te serti\\.isemu'ibo ko na tcikyze'a .i ko cpacu le "
-"sicni gi'e\\klama lo bavla'i fraseljimca\\"
+"do ba cpacu ji'i 15 po'o snidu ne'i le'a'au te serti\\.isemu'ibo ko na tcikyze'a .i ko cpacu le "
+"sicni jecu\\klama lo bavla'i fraseljimca\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1334,7 +1369,7 @@ msgstr ".iaru'e mi kakne\\.i .iaru'e mi kakne\\"
 
 #: data/map-hard/ring.map
 msgid "So close, yet so very far.\\"
-msgstr "mutce jibni gi'eku'i basna mutce darno\\"
+msgstr "mutce jibni jecuku'i basna mutce darno\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
@@ -1372,7 +1407,7 @@ msgstr ""
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "le loldi cu pinta sela'u zo'epoi do galfi ri\\"
+msgstr "le loldi cu pinta sela'u zo'epoi do kairgau ri\\"
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
@@ -1383,27 +1418,27 @@ msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
 "the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
-"le va cripu cu salpo\\.i lo kancau cu jakmau gi'e sa'ormau vau lo prula'i\\.i ko lebna "
-"le frili xandi'i gi'a\\klama fo lo mulno mu'i lonu barda ve cnemu\\"
+"le va cripu cu salpo\\.i lo karncau cu jakmau jecu sa'ormau vau lo prula'i\\.i ko lebna "
+"le frili xandi'i jacu\\klama fo lo mulno mu'i lonu barda ve cnemu\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
-msgstr "lo zmabazlai be lo sicni be mu'i lonu lebna\\.i xu do kakne lonu lebna le ro ra"
+msgstr "lo zmabazlai be lo sicni be mu'i lonu lebna\\.i xu do kakne lonu lebna ro ra"
 
 #: data/map-medium/cross.map
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
 msgstr ""
-"ko pilno lo niljuntysutra lonu kupkla\\le galmau tsina\\gi'eku'i ralte lonu le bolci cu "
-"se jitro\\kei mu'i lonu snura pipmulkla\\\\.i le macnu jvinu cu cumki sidju viku\\"
+"ko pilno lo niljuntysutra lonu kupkla\\le galmau tsina\\jecuku'i stagau le bolci loka "
+"se jitro\\kei mu'i lonu snura nu pipmulkla\\\\ni'o le macnu jvinu cu cumki sidju viku\\"
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
 "don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
-"ko morji fi lonu ralte lonu pa kanla cu se farna le ctino kei seri'a\\lonu sidju co jitro be lo mirjanli bolci .ije "
+"ko morji fi lonu stagau pa kanla loka se farna le ctino kei seri'a\\lonu sidju coke jitro be lo mirjanli bolci .ije "
 "ko na\\mo'icri tu'alonu pilno le samxa'e batke lonu ralte lonu le\\bolci cu nenri lo jvinu\\"
 
 #: data/map-medium/easytele.map
@@ -1412,11 +1447,11 @@ msgstr "ko pilno lo sukmu'uca'a lonu klama\\zo'epoi do va'o lo drata na kakne\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "ko laxygau lo xe karbi be lonu xaircu'i bei lonu cnemu\\"
+msgstr "ko laxygau lokau xe karbi be lonu xaircu'i bei lonu cnemu\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "ko kapkla fo le salpo seri'a lonu kupkla lo do velva'i\\(to filmau fa lonu se cusku kei lonu se gasnu toi)"
+msgstr "ko gapkla fo le salpo seri'a lonu kupkla lo do velva'i\\.i (to filmau fa lonu se cusku kei lonu se gasnu toi)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1429,19 +1464,20 @@ msgid ""
 "certain - you'll want a plan!"
 msgstr ""
 "le bolci ba nilbramapti lo nenri be le va cmalu kevna\\fau lonu do kakne ke po'o facki da poi ka'e "
-"binxo ra cmamau\\lo drata stuzi cu cumki jai se sarcu lo bramau bolci\\pa zo'e cu "
-"se birti sezo'u'e lodu'u do ba djica tu'alo se platu sai !"
+"binxo ra loka cmamau\\.i lo drata stuzi cu cumki jai se sarcu lo bramau bolci\\.i pa zo'e cu "
+"se birti .ijai'oibo do ba djica tu'alo se platu sai !"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
 msgstr "ko darxi le fraseljimca seri'a lonu muvgau le selgrebi'u\\"
 
+# lo cmalu notci je'i'a .i be'ei lo fintra mi cuxna zo i seba'i zo ni'o viku
 #: data/map-medium/multicurves.map
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
 msgstr ""
-"lo nu xlura fi lonu muvdu sutra\\cu cumki jetyja'o lonu do se daspo\\\\ju'o ma'o'ei remoi pensi "
+"le nu xlura fi lonu muvdu sutra\\cu cumki jetyja'o lonu do se daspo\\\\.i ju'a'ei remoi nu pensi "
 "se'u se cumki lonu na co'e …"
 
 #: data/map-medium/plinko.map
@@ -1450,7 +1486,7 @@ msgstr "ko zukte masno\\"
 
 #: data/map-medium/qbert.map
 msgid "You can never go home again..."
-msgstr "do ze'eba na kakne lonu klama be lo zdani be'o co krefu ci'o'eimeli'obu…"
+msgstr "do ze'eba na kakne lonu klama be lo zdani be'o co krefu .ui'ei meli li'obu…"
 
 #: data/map-medium/rampdn.map
 msgid ""
@@ -1458,7 +1494,7 @@ msgid ""
 "auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
 msgstr ""
-"do ba nitcu lonu pliri'a piso'o lonu jitro le do\\jvinu cu'e'o viku .i ko da'ergau li 3 seri'a lonu sisti lenu "
+"do ba nitcu lonu pliri'a piso'o lonu jitro le do\\jvinu cu'e'o viku .i ko da'ergau li 3 seri'a lonu stigau fi lenu "
 "zmiku carna\\.i ko pilno le samxa'e bo batke seri'a lonu cargau be ra macnu\\.i ko da'ergau li 1 seri'a lonu "
 "xruti fi loka co'e le zmiku bo carna jvinu\\"
 
@@ -1475,8 +1511,8 @@ msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
 msgstr ""
-"ko cmajanli le ricystanyzilvi'u seri'a lonu galfi loka klaji\\.i ko troci lonu kupkla le galraipau kei mu'i tu'apalo "
-"jmina te talsa cu'o'evausai !"
+"ko cmajanli le ricystanyzilvi'u seri'a lonu gafygau fi lokau klaji\\.i ko troci lonu kupkla le galraipau kei mu'i tu'apalo "
+"jmina te talsa cu'e'osai !"
 
 #: data/map-medium/spiraldn.map
 msgid ""
@@ -1505,8 +1541,8 @@ msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
 msgstr ""
-"le vi sorlutca'u cu ckaji tu'a no bitmu\\.iku'i la'edi'u na galfi lo danfu\\da poi jai frimau fai lonu "
-"facki fi ce'u\\"
+"le vi sorlutca'u cu ckaji tu'a no bitmu\\.iku'i la'edi'u na kairgau lo danfu\\da poi jai frimau fai lonu "
+"facki fi ke'a\\"
 
 #: data/map-medium/timer.map
 msgid ""
@@ -1518,7 +1554,7 @@ msgstr ""
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
-msgstr "ko jersi le ba'arlu be lo sicni\\seri'a lonu snada lonu pagre le sorlutca'u"
+msgstr "ko jersi le ba'arlu'a be lo sicni\\seri'a lonu snada lonu pagre le sorlutca'u"
 
 #: data/map-medium/zigzag.map
 msgid ""
@@ -1542,15 +1578,15 @@ msgstr "ko troci lonu jajyjai ro le blanu sicni …\\.i ri ba na frili sai !"
 
 #: data/map-misc/blockers.map
 msgid "Block around the clock."
-msgstr "ko fanta fu'u le junla"
+msgstr "ko fanta ru'u le junla"
 
 #: data/map-misc/bounce.map
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
 msgstr ""
-"ko jersi le blanu sicni …\\gi'e cilre fi lonu jitro lo do nu mirjanli sai !\\.i lo kritikti'i zo'u: ko pilno le "
-"secu'u me'au la'e zo jersi kacma tcini"
+"ko jersi le blanu sicni …\\jecu cilre fi lonu jitro lo do nu mirjanli sai !\\.i lo kritikti'i zo'u: ko pilno le "
+"jersi lu'i'u kacma tcini"
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1561,12 +1597,12 @@ msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
 msgstr ""
-"zo'e cu facyza'i ke selkei co kelcrdaumtci .ijeku'ibo no da jinga …\\.i do nitcu lonu mirjanli kei lonu "
+"zo'e cu facyza'i ke selkei co kelcrdaumtce .ijeku'ibo no da jinga …\\.i do nitcu lonu mirjanli kei lonu "
 "kupkla le blanu sicni"
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
-msgstr "lonu narxanka joi lonu sajypei cu cumki bevri do le nirvana"
+msgstr "lonu narxanka joi lonu sajypei cu cumki bevri do le mela nirvana"
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
@@ -1574,11 +1610,11 @@ msgstr "Savoir chuter.\\ko jersi le blanu barna"
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "ko pilno le cnino sicni lonu galfi loni bolci nilbra\\.i mi pacna lodu'u do nelci zo'e sai !\\.i mi'e .deiv."
+msgstr "ko pilno le cnino sicni lonu gafygau fi lokau bolci nilbra .i'ausai !\\.i mi pacna lodu'u do nelci zo'e .i'ausai !\\.i mi'e .deiv."
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
-msgstr "se zasti lo steci sicni noi ka'e galfi lo do\\bolci loka bramau .a loka cmamau"
+msgstr "se zasti lo steci sicni noi ka'e kairgau lo do\\bolci loka bramau ja loka cmamau"
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
@@ -1589,8 +1625,8 @@ msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
 "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin."
 msgstr ""
-"ko muvgau le samxa'e seri'a lonu sa'orgau le loldi\\.i jajgau 10 sicni seri'a lonu naltelgau fi le velva'i"
-"\\.i ko gidva le bolci lonu klama le velva'i kei seri'a lonu\\fa'ormu'ogau le mu'erpau\\\\.i ko samxa'eda'egau seri'a lonu cfari"
+"ko muvgau le samxa'e seri'a lonu sa'orgau le loldi\\.i ko'oi jajgau 10 sicni seri'a lonu naltelgau fi le velva'i"
+"\\.i ko gidva le bolci lonu klama le velva'i kei seri'a lonu\\fa'ormu'ogau le mu'erpau\\\\ni'o ko samxa'eda'egau seri'a lonu cfari"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
@@ -1598,7 +1634,7 @@ msgstr "ko farlu fa'a lo dizlo pa'o lo serti\\.i .oisai\\.i cortu"
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr "po'o ko curmi lonu zo'e fasnu …\\.ibabo cfagau lonu xanka"
+msgstr "po'o ko curmi lonu zo'e fasnu …\\.ibabo ko cfagau lonu xanka"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
@@ -1618,7 +1654,7 @@ msgstr "Les rampes abruptes.\\ko jitro lo do nilsutra"
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\xu do te bilma lo stuxadlaxterbi'a"
+msgstr "L'escalade ardue.\\xu do bilma fi lo stuxadlaxterbi'a"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
@@ -1634,13 +1670,13 @@ msgid ""
 "activating the last moving platform,\\ turn around the Thwomp until the goal "
 "is reachable."
 msgstr ""
-"La ballade dansante.\\mi'oko'oi dansu ga'ure'o le muvdu tsina sai !\\lo djunoi zo'u: ba "
-"lonu nalcadgau le romoi ke muvdu tsina kei\\ ko jincarna le tu'ampe co'u lonu le velva'i "
+"La ballade dansante.\\mi'oko'oi dansu ga'ure'o le muvdu tsina sai !\\.i lo djunoi zo'u: ba "
+"lonu nalcadgau le romoi ke muvdu tsina kei\\ ko jincarna le tu'ampe pu'o lonu le velva'i "
 "cu se kupkla se jai kakne"
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\frili banzu lonu cfari cu'e'ovauxu ?"
+msgstr "La descente infernale.\\frili banzu lonu cfari .i'auxu ?"
 
 #: data/map-mym/drive1.map
 msgid ""
@@ -1648,14 +1684,14 @@ msgid ""
 "forward."
 msgstr ""
 "La conduite stressante.\\ju'iko\\le tsina poi cnita le bolci cu muvdu "
-"mo'ica'uku"
+"mo'ica'uzo'e"
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly forward."
 "\\You would do well to advance."
 msgstr ""
-"La conduite dangereuse.\\le tsina poi cnita le bolci cu muvdu co sutra mo'ica'uku"
+"La conduite dangereuse.\\le tsina poi cnita le bolci cu muvdu co sutra mo'ica'uzo'e"
 "\\.i do gasnu da'i co xamgu lonu crakla"
 
 #: data/map-mym/earthquake.map
@@ -1672,7 +1708,7 @@ msgstr "La tour de verre.\\ko facki fi lo pluta be le cliva se grekla"
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\do ralte jinvi lodu'u la .neverbal. cu dukse frili cu'e'oxupau ?"
+msgstr "La maîtrise de Neverball.\\do stali jinvi lodu'u la .neverbal. cu dukse frili .i'auxupau ?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1683,7 +1719,7 @@ msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
 msgstr ""
-"Le contrôle des courbes.\\ko facki fi lo drani jganu be seta'i lonu carna\\.e lonu plipe .e lonu "
+"Le contrôle des courbes.\\ko facki fi lo drani jganu be seta'i lonu carna\\je lonu plipe je lonu "
 "pipmulkla …"
 
 #: data/map-mym/maze1.map
@@ -1703,7 +1739,7 @@ msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
 msgstr ""
-"Le sentier étroit.\\lonu depcni .e lonu temsarxe\\lo djunoi zo'u: ko zmaraigau fi lo nilsutra bu'u le pamoi "
+"Le sentier étroit.\\lonu depcni je lonu temsarxe\\.i lo djunoi zo'u: ko zmaraigau fi lokau nilsutra bu'u le pamoi "
 "salpo"
 
 #: data/map-mym/running.map
@@ -1714,7 +1750,7 @@ msgstr "Les épreuves minutées.\\ko bajra doi cifnu .i ko bajra sai !"
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
 msgstr ""
-"Le petit cross.\\mi'oko'oi klama juxyjicla sai !\\ko snipa le ba'arlu'a seri'a lonu vamraigau lo nilsutra"
+"Le petit cross.\\mi'oko'oi klama juxyjicla sai !\\.i ko snipa le ba'arlu'a seri'a lonu vamraigau lo nilsutra"
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
@@ -1726,7 +1762,7 @@ msgstr "Le chemin de la foi.\\lonu sevzi lacri"
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\ko carna gi'e denpa gi'e plipe"
+msgstr "Le sens trigonométrique.\\ko carna jecu denpa jecu plipe"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
@@ -1734,11 +1770,11 @@ msgstr "L'ascension pressée.\\pa po'o pagbu be lo djunoi zo'u: ko na sisti sai 
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\ko morji fi le nu nalcando kei se porsi"
+msgstr "Un va-et-vient frustrant.\\ko morji fi le nu nalcadgau kei porsi"
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "la lo klaji ku .neverbal.\\.i ko cuxna lo do bende gi'e pairlai 3 gradu"
+msgstr "la klaji mela .neverbal.\\.i ko cuxna lo do bende jecu pairlai 3 gradu"
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
@@ -1761,8 +1797,8 @@ msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
 msgstr ""
-"Savoir rebondir pour aller plus haut.\\la la neverbal amfite'atro\\ko pilno le re "
-"sukmu'uca'a lonu naltelgau zo'e gi'e kupkla vau le velva'i"
+"Savoir rebondir pour aller plus haut.\\la mela neverbal amfite'atro\\.i ko pilno le re "
+"sukmu'uca'a lonu naltelgau zo'e jecu kupkla vau le velva'i"
 
 #: data/map-mym2/freefall.map
 msgid ""
@@ -1770,9 +1806,9 @@ msgid ""
 "\\learn to fly and to survive,\\grab half of all coins to open the goal,"
 "\\find and reach the goal,\\and more..."
 msgstr ""
-"le vi mu'erpau cu culno lo te talsa sezo'u'e:\\ko jimpe fi lo le mu'erpau ku su'u sazri kei"
-"\\gi'e cilre fi lonu vofli .e lonu renvi kei\\gi'e jajyjai lo xadba be ro sicni seri'a lonu kargau le velva'i kei"
-"\\gi'e facki be zo'e je kupkla le velva'i\\gi'e me'au lo se jmina …"
+"le vi mu'erpau cu culno lo te talsa je'i'a:\\ko jimpe fi lo le mu'erpau ku su'u sazri kei"
+"\\jecu cilre fi lonu vofli je lonu renvi kei\\jecu jajyjai lo xadba be ro loi sicni seri'a lonu kargau le velva'i kei"
+"\\jecu facki be zo'e je kupkla le velva'i\\jecu me'au lo se jmina …"
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1786,7 +1822,7 @@ msgstr "Ne pas se laisser emporter dans le néant.\\ko na klama ke dukse co dizl
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Si si, ce tuyau a une fin.\\lonu nunji'e lifri ne'i lo tubnu\\lo djunoi zo'u: ko masno zengau va'o le romoi "
+msgstr "Si si, ce tuyau a une fin.\\lonu nunji'e lifri ne'i lo tubnu\\.i lo djunoi zo'u: ko masno zengau va'o le romoi "
 "nu plipe sai !"
 
 #: data/map-mym2/morenarrow.map
@@ -1803,7 +1839,7 @@ msgstr "Le passage éphémère.\\ko lacri le sicni"
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\loka na dukse sutra gi'e na dukse masno"
+msgstr "Hé, on pousse pas !\\loka na dukse sutra jecu na dukse masno"
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
@@ -1823,11 +1859,11 @@ msgstr "Préparez un petit sac.\\le djaruntyrango cipygau"
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement.\\fi'i se klama be le la .medis. cnino porsi sai !"
+msgstr "Un petit échauffement.\\fi'i klama be le la .medis. cnino porsi sai !"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse.\\le te smuki'irxu'a be fi lo nilsutra"
+msgstr "Plus vite que la vitesse.\\le xu'asmu be lo nilsutra"
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
@@ -1851,7 +1887,7 @@ msgstr "lo nilsutra cu cmene le se kelci"
 
 #: data/map-tones/blue.map
 msgid "Tread carefully...\\and keep moving!\\"
-msgstr "ko stapa capju'i …\\gi'e ¡ralte lonu muvdu sai!\\"
+msgstr "ko stapa capyju'i co'auku …\\jecu ¡stali loka muvdu sai!\\"
 
 #: data/map-tones/bumperoo.map
 msgid "Who's the boss around here anyway?"
@@ -1859,11 +1895,11 @@ msgstr "¿ma jatna ru'uviku fi'o na'e jagri'a?"
 
 #: data/map-tones/canals.map
 msgid "You might have to get wet\\if you want all the coins."
-msgstr "ko cumki nitcu lonu binxo cilmo\\fi'ei lonu do djcia ro le sicni"
+msgstr "ko cumki nitcu lonu binxo cilmo kei\\fi'ei lonu do djcia ro le sicni"
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr "!sai ko ralte lonu lo do kanla cu farna le tsani!\\gi'eku'i na ckaji loka xakmu'o fa lo temci …\\"
+msgstr "¡sai ko stagau lo do kanla loka se farna le tsani!\\jecuku'i na ckaji loka selxakmu'o fa lo temci …\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
@@ -1878,20 +1914,20 @@ msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
 msgstr ""
-"jajgau 45 sicni seri'a lonu naltelgau fi le velva'i\\.i do kakne lonu pilno le sukmu'uca'a lonu zencpa "
+"ko jajgau 45 sicni seri'a lonu naltelgau fi le velva'i\\.i do kakne lonu pilno le sukmu'uca'a lonu zencpa "
 "lo nilsutra banzu\\be lenu plipe"
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
-msgstr "ko jitro lo do nilustra\\seri'a lonu rivbi lo cmajanli nu selma'e"
+msgstr "ko jitro lo do nilsutra\\seri'a lonu rivbi lo cmajanli nu selma'e"
 
 #: data/map-tones/hotwheels.map
 msgid "Learn the course and stick to the rails!"
-msgstr "¡sai ko cilre fi le porsi gi'e snipa le garna!"
+msgstr "¡sai ko cilre fi le porsi jecu snipa le garna!"
 
 #: data/map-tones/hurdles.map
 msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
-msgstr "mi'oko'oi cfagau seka'ai lo frili nu bregau\\.i ko majgau lo nilsutra gi'e plipe le velva'i"
+msgstr "mi'oko'oi cfagau seka'ai lo frili nu bregau\\.i ko majgau lo nilsutra jecu plipe le velva'i"
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
@@ -1899,11 +1935,11 @@ msgstr "ko catlu pu lonu do plipe"
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
-msgstr "¡sai ko jagri'a pensi lo do jamfu nu stufa'i!"
+msgstr "¡sai ko jundi lo do jamfu se stufa'i!"
 
 #: data/map-tones/marble.map
 msgid "Watch your footing..."
-msgstr "ko catlu lo do jamfu nu stufa'i …"
+msgstr "ko catlu lo do jamfu se stufa'i …"
 
 #: data/map-tones/runner.map
 msgid "Walk the plank.\\After the teleport, go for speed!"
@@ -1913,7 +1949,7 @@ msgstr "ko cadzu lo tanbo\\.i ba lenu sukmu'u ¡tu'e'eisai ko klama mu'i tu'alo 
 msgid ""
 "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
 msgstr ""
-"¡sai la skiji bolci!\\\\.i ko gunka zo'eilo do pluta be li 10 bei li 100\\bei po'i .ijabo do ba farlu bancu"
+"¡sai la skiji bolci!\\\\ni'o ko gunka zo'eilo do pluta be li 10 bei li 100\\bei po'i .ijabo do ba farlu bancu"
 
 #: data/map-tones/swish.map
 msgid "Timing is everything."
@@ -1937,12 +1973,12 @@ msgstr "¿xu terpa lo galtu?\\.i ko troci lonu na binxo laxfi'uga'e"
 
 #: data/map-tones/waves.map
 msgid "Surf's Up !!"
-msgstr "kelcrsurfe bredi sai !!"
+msgstr "kelcrsurfa bredi sai !!"
 
 #. Desktop entry comment
 #: dist/neverball.desktop.in
 msgid "A 3D arcade game with a ball"
-msgstr "lo cimei bo cimde ke .arkade be seka'ai lo bolci"
+msgstr "lo cimei bo cimde ke .arkada be seka'ai lo bolci"
 
 #. Desktop entry comment
 #: dist/neverputt.desktop.in
