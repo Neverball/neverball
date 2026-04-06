@@ -49,10 +49,11 @@ jobs:
           tar -czf "$bundle.tar.gz" "$bundle"
 
       - name: Upload standalone tarball
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-linux-${{ matrix.arch }}
           path: neverball-${{ github.sha }}-linux-${{ matrix.arch }}.tar.gz
+          archive: true
 
   fedora:
     name: Fedora 43
@@ -93,10 +94,11 @@ jobs:
           tar -czf "$bundle.tar.gz" "$bundle"
 
       - name: Upload standalone tarball
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-linux-fedora-${{ matrix.arch }}
           path: neverball-${{ github.sha }}-linux-${{ matrix.arch }}.tar.gz
+          archive: true
   
   steam-linux-runtime:
     name: Steam Linux Runtime 4.0
@@ -190,7 +192,8 @@ jobs:
           tar -czf "$bundle.tar.gz" "$bundle"
 
       - name: Upload standalone tarball
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-windows-${{ matrix.arch }}
           path: neverball-${{ github.sha }}-windows-${{ matrix.arch }}.tar.gz
+          archive: true
