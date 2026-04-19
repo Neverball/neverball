@@ -206,7 +206,7 @@ msgstr "Datum"
 
 #: ball/st_demo.c:290
 msgid "Select Replay"
-msgstr "Välj inspelning"
+msgstr "Välj återspelning"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
@@ -242,7 +242,7 @@ msgstr "Upprepa"
 
 #: ball/st_demo.c:715
 msgid "Delete Replay?"
-msgstr "Ta bort inspelning?"
+msgstr "Ta bort återspelning?"
 
 #: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
@@ -288,7 +288,7 @@ msgstr "Börja om"
 
 #: ball/st_fail.c:107 ball/st_goal.c:221
 msgid "Save Replay"
-msgstr "Spara inspelning"
+msgstr "Spara återspelning"
 
 #: ball/st_goal.c:96
 msgid "New Record"
