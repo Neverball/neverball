@@ -288,7 +288,7 @@ msgstr "Börja om"
 
 #: ball/st_fail.c:107 ball/st_goal.c:221
 msgid "Save Replay"
-msgstr "Spara återspelning"
+msgstr "Spara återspelningen"
 
 #: ball/st_goal.c:96
 msgid "New Record"
