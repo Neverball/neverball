@@ -252,7 +252,7 @@ msgstr "Varning!"
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Den aktuella inspelningen spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
+msgstr "Den aktuella återspelningen spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
 
 #: ball/st_done.c:57
 msgid "New Set Record"
