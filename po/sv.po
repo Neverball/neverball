@@ -1488,7 +1488,7 @@ msgstr "Uppstigningen pressad.\\Bara ett enda råd: stanna inte!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "En frustrerande comeback.\\Kom ihåg aktiveringsordningen."
+msgstr "Ett frustrerande fram och tillbaka.\\Kom ihåg aktiveringsordningen."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
