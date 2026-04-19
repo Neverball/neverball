@@ -1551,7 +1551,7 @@ msgstr "Den efemära passagen.\\Lita på mynten."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Krysta inte !\\Inte för snabbt, inte för långsamt."
+msgstr "Hallå, tryck inte på !\\Inte för snabbt, inte för långsamt."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
