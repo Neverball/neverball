@@ -961,7 +961,7 @@ msgstr "Det finns bara en väg till målet,\\men massor av vägar för att samla
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr "Följ spår av mynt för att nå målet.\\Om du slår ett stolpe när du flyttar snabbt,\\kommer du att studsa långt ur kurs."
+msgstr "Följ spår av mynt för att nå målet.\\Om du slår en stolpe när du flyttar snabbt,\\kommer du att studsa långt ur kurs."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
