@@ -1619,7 +1619,7 @@ msgstr "Språngbrädor."
 
 #: data/map-tones/discs.map
 msgid "Work your way to the top."
-msgstr "Arbeta dig till toppen."
+msgstr "Arbeta dig upp till toppen."
 
 #: data/map-tones/easyian.map
 msgid ""
