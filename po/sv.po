@@ -1218,7 +1218,7 @@ msgstr "Använd teleportörer för att\\ta dig dit du annars inte kan.\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Balansera risk mot vinst.\\"
+msgstr "Balansera risk mot belöning.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
