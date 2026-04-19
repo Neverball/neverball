@@ -1476,7 +1476,7 @@ msgstr "Den uppfriskande nedstigningen.\\Inte så snabbt, inte så snabbt."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Sättet att tro.\\Självsäkerhet."
+msgstr "Trons väg.\\Självsäkerhet."
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
