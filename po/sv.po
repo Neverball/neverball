@@ -1587,7 +1587,7 @@ msgstr "Följ rörelsen.\\Varning, vägen rör på sig."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr "Tyst, men inte för mycket.\\Synka dig till hissarna."
+msgstr "Tyst, men inte för tyst.\\Synka dig till hissarna."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
