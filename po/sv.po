@@ -929,7 +929,7 @@ msgstr "Bollen vill studsa okontrollerat\\i en smal passage. Håll den långsamt
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr "Förbryllande men lönsamt.\\\\Ta dig tid att observera stötfångarnas\\rörelser - det kommer att hjälpa dig att nå målet."
+msgstr "Förbryllande men lönsamt.\\\\Ta dig tid att observera stötfångarnas\\rörelser - det kommer att hjälpa dig att\\nå målet."
 
 #: data/map-easy/mover.map
 msgid ""
