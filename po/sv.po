@@ -1437,7 +1437,7 @@ msgstr "Neverball mästerskap.\\Tycker du fortfarande att Neverball är för enk
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr "De fantastiska lockarna.\\Upp-och-ner!"
+msgstr "De upp-och-nervända slingorna.\\Upp-och-ner!"
 
 #: data/map-mym/loop2.map
 msgid ""
