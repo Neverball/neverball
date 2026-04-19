@@ -218,7 +218,7 @@ msgstr "Återuppspelning pausad"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
-msgstr "Återspelning avslutad"
+msgstr "Återspelningen avslutad"
 
 #: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
