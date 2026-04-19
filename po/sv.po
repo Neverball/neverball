@@ -923,7 +923,7 @@ msgstr "Följ den gula slicka vägen!\\\\Blå mynt är särskilt utmanande,\\men
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr "Bollen vill återhämta sig okontrollerat\\i en smal passage. Håll den långsamt och\\från väggarna. Alla mynt är samlarobjekt\\i den angivna tiden.\\"
+msgstr "Bollen vill studsa okontrollerat\\i en smal passage. Håll den långsamt och\\håll den borta från väggarna. Alla mynt kan samlas\\inom den givna tiden.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
