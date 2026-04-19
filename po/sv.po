@@ -4,16 +4,17 @@
 # 
 # Translators:
 # GunChleoc, 2014
-# Jonatan Nyberg <jonatan@autistici.org>, 2021-2022
+# Karl Jonatan Nyberg, 2021-2022
 # efef6ec5b435a041fce803c7f8af77d2_2341d43, 2019
+# Karl Jonatan Nyberg, 2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2021-12-09 22:48+0200\n"
-"PO-Revision-Date: 2022-01-29 07:19+0000\n"
-"Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
-"Language-Team: Swedish (http://www.transifex.com/neverball/neverball/language/sv/)\n"
+"PO-Revision-Date: 2013-11-30 10:21+0000\n"
+"Last-Translator: Karl Jonatan Nyberg, 2026\n"
+"Language-Team: Swedish (http://app.transifex.com/neverball/neverball/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -251,7 +252,7 @@ msgstr "Varning!"
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Den aktuella inspelning spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
+msgstr "Den aktuella inspelningen spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
 
 #: ball/st_done.c:57
 msgid "New Set Record"
@@ -637,7 +638,7 @@ msgstr "Tryck på en knapp..."
 
 #: share/st_common.c:919
 msgid "Move a stick..."
-msgstr "Flytta en spak..."
+msgstr "Rör en spak..."
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
