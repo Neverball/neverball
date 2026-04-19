@@ -1492,7 +1492,7 @@ msgstr "En frustrerande comeback.\\Kom ihåg aktiveringsordningen."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Street Neverball\\Välj ditt lag och ta 3 poäng."
+msgstr "Street Neverball\\Välj ditt sällskap och få 3 poäng."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
