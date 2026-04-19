@@ -998,7 +998,7 @@ msgstr "=Bojar=\\Han som styr tajmningarna, styr grindarna."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=Last=\\Låt dig transporteras bort."
+msgstr "=Last=\\Låt dig ryckas med."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
