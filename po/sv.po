@@ -47,7 +47,7 @@ msgstr "Manuell kamera"
 
 #: ball/game_common.c:45 ball/st_help.c:182
 msgid "Lazy Camera"
-msgstr "Lat kamera"
+msgstr "Trög kamera"
 
 #: ball/game_common.c:46 ball/st_help.c:181
 msgid "Chase Camera"
