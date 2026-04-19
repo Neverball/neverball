@@ -917,7 +917,7 @@ msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr "Följ den gula slicka vägen!\\\\Blå mynt är särskilt utmanande,\\men med vissa experiment och praxis,\\kommer du att kunna samla dem alla."
+msgstr "Följ den gula slickvägen!\\\\De blå mynten är särskilt utmanande,\\men med lite experimenterande och övning\\kommer du att kunna samla dem alla."
 
 #: data/map-easy/maze.map
 msgid ""
