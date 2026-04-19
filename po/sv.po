@@ -1679,7 +1679,7 @@ msgstr "Höjdrädd?\\Försök att inte bli yr."
 
 #: data/map-tones/waves.map
 msgid "Surf's Up !!"
-msgstr "Surfa är upp !!"
+msgstr "Surfningen är igång !!"
 
 #. Desktop entry comment
 #: dist/neverball.desktop.in
