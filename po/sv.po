@@ -1496,7 +1496,7 @@ msgstr "Street Neverball\\Välj ditt sällskap och få 3 poäng."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr "Circumvolution machine.\\Enkelt, målet är precis ovanför dig."
+msgstr "Konvolutionsmaskinen.\\Enkelt, målet är precis ovanför dig."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
