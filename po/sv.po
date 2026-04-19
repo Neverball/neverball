@@ -1086,7 +1086,7 @@ msgstr "Således Neverball är ett pusselspel?\\Ta bort den röda för att låsa
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
-msgstr "Kvack!\\"
+msgstr "Kväk!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
