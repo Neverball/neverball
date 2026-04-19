@@ -1484,7 +1484,7 @@ msgstr "Den trigonometriska känslan.\\Vänd, vänta och hoppa."
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "Uppstigningen pressad.\\Bara ett enda råd: stanna inte!"
+msgstr "Den hastiga uppstigningen.\\Bara ett enda råd: stanna inte!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
