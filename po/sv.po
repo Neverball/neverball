@@ -1010,7 +1010,7 @@ msgstr "=Skivor=\\Använd korrekt, plattformarna tar dig till målet."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "= Inferno= \\Eld-thwomper kommer att försöka foliera ditt uppdrag."
+msgstr "=Inferno=\\Eldsvamparna kommer att försöka omintetgöra ditt uppdrag."
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
