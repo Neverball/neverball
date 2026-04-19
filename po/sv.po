@@ -51,7 +51,7 @@ msgstr "Lat kamera"
 
 #: ball/game_common.c:46 ball/st_help.c:181
 msgid "Chase Camera"
-msgstr "Jaga kamera"
+msgstr "Följkamera"
 
 #: ball/game_common.c:48
 #, c-format
