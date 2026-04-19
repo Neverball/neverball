@@ -1222,7 +1222,7 @@ msgstr "Balansera risk mot vinst.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "Ta dig ner för backen för att nå målet.\\(Enkelt att säga...)"
+msgstr "Klättra uppför sluttningen för att nå ditt mål.\\(Lättare sagt än gjort.)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
