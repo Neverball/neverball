@@ -210,7 +210,7 @@ msgstr "Välj återspelning"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "Inga inspelningar"
+msgstr "Inga återspelningar"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
@@ -431,7 +431,7 @@ msgstr "GÅ!"
 
 #: ball/st_save.c:100
 msgid "Replay Name"
-msgstr "Inspelningsnamn"
+msgstr "Återspelningsnamn"
 
 #: ball/st_save.c:111
 msgid "Save"
