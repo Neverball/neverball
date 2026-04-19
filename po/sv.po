@@ -214,7 +214,7 @@ msgstr "Inga återspelningar"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
-msgstr "Pausad"
+msgstr "Återuppspelning pausad"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
