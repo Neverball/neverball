@@ -838,7 +838,7 @@ msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Lär dig att kontrolla en studsande boll.\\Se på skuggan för att vet var bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta en\\risk för en stor vinst.\\"
+msgstr "Lär dig att kontrollera en studsande boll.\\Se på skuggan för att vet var bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta en\\risk för en stor vinst.\\"
 
 #: data/map-easy/coins.map
 msgid ""
