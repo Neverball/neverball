@@ -194,7 +194,7 @@ msgstr "Status"
 
 #: ball/st_demo.c:235 ball/st_demo.c:430
 msgid "Replay"
-msgstr "Inspelning"
+msgstr "Återspelning"
 
 #: ball/st_demo.c:236 putt/st_all.c:731
 msgid "Player"
@@ -218,7 +218,7 @@ msgstr "Pausad"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
-msgstr "Inspelning avslutad"
+msgstr "Återspelning avslutad"
 
 #: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
@@ -471,7 +471,7 @@ msgstr "Spela"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "Inspelning"
+msgstr "Återspelning"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
