@@ -28,7 +28,7 @@ jobs:
       - name: Build base SOLs
         run: |
           sudo apt-get update
-          sudo apt-get install -y libpng-dev libjpeg-dev
+          sudo apt-get install -y libpng-dev libjpeg-dev pkg-config
           make -j2 sols
       - name: Build gl4es
         run: "./.devcontainer/install-gl4es.sh"
