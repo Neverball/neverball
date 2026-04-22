@@ -2,8 +2,6 @@ name: Deploy Neverball
 
 on:
   push:
-    branches-ignore:
-      - 'claude/**'
   pull_request:
   workflow_dispatch:
 
