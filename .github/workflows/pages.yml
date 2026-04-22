@@ -2,7 +2,6 @@ name: Deploy Neverball
 
 on:
   push:
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -10,7 +9,6 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'parasti/neverball'
     runs-on: ubuntu-latest
     concurrency:
       group: "build-${{ github.ref }}"
@@ -48,7 +46,6 @@ jobs:
 
   deploy:
     needs: build
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     concurrency:
       group: "pages"
