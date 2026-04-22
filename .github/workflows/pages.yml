@@ -40,6 +40,7 @@ jobs:
           make -j2 -f emscripten/ball.mk BUILD=release
       - name: Create source archive
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git rev-parse HEAD > neverball-commit.txt
           git archive --prefix=neverball-source/ --add-file=neverball-commit.txt --output=js/neverball-source.zip HEAD
       - name: Deploy to GitHub Pages
