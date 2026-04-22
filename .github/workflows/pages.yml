@@ -10,14 +10,13 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: "pages-${{ github.ref }}"
-  cancel-in-progress: true
-
 jobs:
   build:
     if: github.repository == 'parasti/neverball'
     runs-on: ubuntu-latest
+    concurrency:
+      group: "build-${{ github.ref }}"
+      cancel-in-progress: true
     container:
       image: emscripten/emsdk:3.1.65
       env:
@@ -43,6 +42,25 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git rev-parse HEAD > neverball-commit.txt
           git archive --prefix=neverball-source/ --add-file=neverball-commit.txt --output=js/neverball-source.zip HEAD
+      - name: Upload pages artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-${{ github.ref_name }}
+          path: ./js
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    steps:
+      - name: Download pages artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pages-${{ github.ref_name }}
+          path: ./js
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
