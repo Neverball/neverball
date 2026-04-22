@@ -1,0 +1,49 @@
+name: Deploy Neverball
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.repository == 'parasti/neverball'
+    runs-on: ubuntu-latest
+    container:
+      image: emscripten/emsdk:3.1.65
+      env:
+        GL4ES_COMMIT: "c9895df34cd466c23bc60c2bd3db3d87e98fcbe7"
+        GL4ES_DIR: "/opt/gl4es"
+        DEBIAN_FRONTEND: "noninteractive"
+    steps:
+      - name: Checkout Neverball
+        uses: actions/checkout@v4
+      - name: Build base SOLs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpng-dev libjpeg-dev
+          make -j2 sols
+      - name: Build gl4es
+        run: "./.devcontainer/install-gl4es.sh"
+      - name: Build web version
+        run: |
+          sudo apt-get install -y ffmpeg
+          make -j2 -f emscripten/ball.mk BUILD=release
+      - name: Create source archive
+        run: |
+          git rev-parse HEAD > neverball-commit.txt
+          git archive --prefix=neverball-source/ --add-file=neverball-commit.txt --output=js/neverball-source.zip HEAD
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./js
+          destination_dir: ${{ github.ref_name }}
+          keep_files: true
