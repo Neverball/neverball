@@ -868,7 +868,7 @@ General Public License for more details.
 
       loadAvailablePackages: async function () {
         // Pass options to make link rel="preload" work in Firefox, Chrome.
-        const response = await fetch(PACKAGE_BASE_URL + 'available-packages.txt', {credentials: 'include', mode: 'cors'});
+        const response = await fetch(PACKAGE_BASE_URL + 'available-packages.txt', {mode: 'cors'});
 
         return await response.text();
       },
