@@ -21,7 +21,7 @@ General Public License for more details.
 
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="neverball.webmanifest">
-  <link rel="preload" href="packages/available-packages.txt" as="fetch">
+  <link rel="preload" href="https://play.neverball.org/packages/available-packages.txt" as="fetch" crossorigin>
 
   <title>Neverball</title>
 
@@ -622,6 +622,8 @@ General Public License for more details.
   <script>
     'use strict';
 
+    const PACKAGE_BASE_URL = 'https://play.neverball.org/packages/';
+
     var Neverball = {
       EVENT_BACK: -1,
       EVENT_PAUSE: 0,
@@ -866,7 +868,7 @@ General Public License for more details.
 
       loadAvailablePackages: async function () {
         // Pass options to make link rel="preload" work in Firefox, Chrome.
-        const response = await fetch('packages/available-packages.txt', {credentials: 'include', mode: 'no-cors'});
+        const response = await fetch(PACKAGE_BASE_URL + 'available-packages.txt', {credentials: 'include', mode: 'cors'});
 
         return await response.text();
       },
@@ -891,7 +893,7 @@ General Public License for more details.
         if (matches) {
           const filename = matches[1];
           const fileSize = parseInt(matches[2]);
-          const response = await fetch('packages/' + filename);
+          const response = await fetch(PACKAGE_BASE_URL + filename);
 
           if (!response.ok) {
             return;
