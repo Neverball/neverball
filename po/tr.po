@@ -463,27 +463,27 @@ msgstr "Tamamlanmış Bölümlerdeki Hedeflerin Durumu"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Hile"
+msgstr "Hile"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Oyna"
+msgstr "Oyna"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Oynat"
+msgstr "Oynat"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Yardım"
+msgstr "Yardım"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Ayarlar"
+msgstr "Ayarlar"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Çıkış"
+msgstr "Çıkış"
 
 #: ball/util.c:28
 msgid "Hard"
