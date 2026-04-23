@@ -31,6 +31,7 @@
 #define GAME_STOP 1
 #define GAME_GOAL 2
 #define GAME_FALL 3
+#define GAME_TIME 4
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,6 +52,10 @@ void  game_set_fly(float);
 void  game_ball(int);
 void  game_set_pos(float[3], float[3][3]);
 void  game_get_pos(float[3], float[3][3]);
+
+int   game_can_forfeit(void);
+int   game_has_forced(void);
+void  game_forfeit(void);
 
 /*---------------------------------------------------------------------------*/
 
