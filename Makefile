@@ -493,7 +493,7 @@ WINDRES ?= windres
 	sh scripts/translate-desktop.sh < $< > $@
 
 %.ico.o: dist/ico/%.ico
-	echo "1 ICON \"$<\"" | $(WINDRES) -o $@
+	echo "1 ICON \"$<\"" | $(WINDRES) -o $@ -
 
 #------------------------------------------------------------------------------
 
