@@ -2318,10 +2318,18 @@ void gui_timer(int id, float dt)
 
             widget[id].slide_time += dt;
 
-            alpha = (widget[id].slide_time - widget[id].slide_delay) / widget[id].slide_dur;
-            alpha = CLAMP(0.0f, alpha, 1.0f);
+            if (config_get_d(CONFIG_TRANSITIONS) == 0)
+            {
+                alpha = 1.0f;
+                at_end = 1;
+            }
+            else
+            {
+                alpha = (widget[id].slide_time - widget[id].slide_delay) / widget[id].slide_dur;
+                alpha = CLAMP(0.0f, alpha, 1.0f);
 
-            at_end = (alpha >= 1.0f);
+                at_end = (alpha >= 1.0f);
+            }
 
             if (widget[id].slide_flags & GUI_BACKWARD)
             {
