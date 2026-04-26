@@ -4,16 +4,17 @@
 # 
 # Translators:
 # GunChleoc, 2014
-# Jonatan Nyberg <jonatan@autistici.org>, 2021-2022
+# Karl Jonatan Nyberg, 2021-2022
 # efef6ec5b435a041fce803c7f8af77d2_2341d43, 2019
+# Karl Jonatan Nyberg, 2026
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2021-12-09 22:48+0200\n"
-"PO-Revision-Date: 2022-01-29 07:19+0000\n"
-"Last-Translator: Jonatan Nyberg <jonatan@autistici.org>\n"
-"Language-Team: Swedish (http://www.transifex.com/neverball/neverball/language/sv/)\n"
+"PO-Revision-Date: 2013-11-30 10:21+0000\n"
+"Last-Translator: Karl Jonatan Nyberg, 2026\n"
+"Language-Team: Swedish (http://app.transifex.com/neverball/neverball/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,11 +47,11 @@ msgstr "Manuell kamera"
 
 #: ball/game_common.c:45 ball/st_help.c:182
 msgid "Lazy Camera"
-msgstr "Lat kamera"
+msgstr "Trög kamera"
 
 #: ball/game_common.c:46 ball/st_help.c:181
 msgid "Chase Camera"
-msgstr "Jaga kamera"
+msgstr "Följkamera"
 
 #: ball/game_common.c:48
 #, c-format
@@ -193,7 +194,7 @@ msgstr "Status"
 
 #: ball/st_demo.c:235 ball/st_demo.c:430
 msgid "Replay"
-msgstr "Inspelning"
+msgstr "Återspelning"
 
 #: ball/st_demo.c:236 putt/st_all.c:731
 msgid "Player"
@@ -205,19 +206,19 @@ msgstr "Datum"
 
 #: ball/st_demo.c:290
 msgid "Select Replay"
-msgstr "Välj inspelning"
+msgstr "Välj återspelning"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "Inga inspelningar"
+msgstr "Inga återspelningar"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
-msgstr "Pausad"
+msgstr "Återuppspelning pausad"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
-msgstr "Inspelning avslutad"
+msgstr "Återspelningen avslutad"
 
 #: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
 msgid "Quit"
@@ -241,7 +242,7 @@ msgstr "Upprepa"
 
 #: ball/st_demo.c:715
 msgid "Delete Replay?"
-msgstr "Ta bort inspelning?"
+msgstr "Ta bort återspelning?"
 
 #: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
@@ -251,7 +252,7 @@ msgstr "Varning!"
 msgid ""
 "The current replay was recorded with a\\different (or unknown) version of "
 "this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Den aktuella inspelning spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
+msgstr "Den aktuella återspelningen spelades in med en\\annan (eller okänd) version av denna nivå.\\Du kan uppleva visuella felaktigheter.\\"
 
 #: ball/st_done.c:57
 msgid "New Set Record"
@@ -287,7 +288,7 @@ msgstr "Börja om"
 
 #: ball/st_fail.c:107 ball/st_goal.c:221
 msgid "Save Replay"
-msgstr "Spara inspelning"
+msgstr "Spara återspelningen"
 
 #: ball/st_goal.c:96
 msgid "New Record"
@@ -430,7 +431,7 @@ msgstr "GÅ!"
 
 #: ball/st_save.c:100
 msgid "Replay Name"
-msgstr "Inspelningsnamn"
+msgstr "Återspelningsnamn"
 
 #: ball/st_save.c:111
 msgid "Save"
@@ -470,7 +471,7 @@ msgstr "Spela"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "Inspelning"
+msgstr "Återspelning"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
@@ -637,7 +638,7 @@ msgstr "Tryck på en knapp..."
 
 #: share/st_common.c:919
 msgid "Move a stick..."
-msgstr "Flytta en spak..."
+msgstr "Rör en spak..."
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
@@ -837,7 +838,7 @@ msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Lär dig att kontrolla en studsande boll.\\Se på skuggan för att vet var bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta en\\risk för en stor vinst.\\"
+msgstr "Lär dig att kontrollera en studsande boll.\\Se på skuggan för att veta var bollen\\kommer att landa.  Om du känner dig säker nog\\med studsandet så ta en\\risk för en stor vinst.\\"
 
 #: data/map-easy/coins.map
 msgid ""
@@ -916,19 +917,19 @@ msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr "Följ den gula slicka vägen!\\\\Blå mynt är särskilt utmanande,\\men med vissa experiment och praxis,\\kommer du att kunna samla dem alla."
+msgstr "Följ den gula slickvägen!\\\\De blå mynten är särskilt utmanande,\\men med lite experimenterande och övning\\kommer du att kunna samla dem alla."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr "Bollen vill återhämta sig okontrollerat\\i en smal passage. Håll den långsamt och\\från väggarna. Alla mynt är samlarobjekt\\i den angivna tiden.\\"
+msgstr "Bollen vill studsa okontrollerat\\i en smal passage. Håll den långsamt och\\håll den borta från väggarna. Alla mynt kan samlas\\inom den givna tiden.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr "Förbryllande men lönsamt.\\\\Ta tid att observera rörelser\\stötfångare - det kommer att hjälpa dig att nå målet."
+msgstr "Förbryllande men lönsamt.\\\\Ta dig tid att observera stötfångarnas\\rörelser - det kommer att hjälpa dig att\\nå målet."
 
 #: data/map-easy/mover.map
 msgid ""
@@ -960,7 +961,7 @@ msgstr "Det finns bara en väg till målet,\\men massor av vägar för att samla
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr "Följ spår av mynt för att nå målet.\\Om du slår ett stolpe när du flyttar snabbt,\\kommer du att studsa långt ur kurs."
+msgstr "Följ spår av mynt för att nå målet.\\Om du slår en stolpe när du flyttar snabbt,\\kommer du att studsa långt ur kurs."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
@@ -997,7 +998,7 @@ msgstr "=Bojar=\\Han som styr tajmningarna, styr grindarna."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=Last=\\Låt dig transporteras bort."
+msgstr "=Last=\\Låt dig ryckas med."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
@@ -1009,7 +1010,7 @@ msgstr "=Skivor=\\Använd korrekt, plattformarna tar dig till målet."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "= Inferno= \\Eld-thwomper kommer att försöka foliera ditt uppdrag."
+msgstr "=Inferno=\\Eldsvamparna kommer att försöka omintetgöra ditt uppdrag."
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
@@ -1085,7 +1086,7 @@ msgstr "Således Neverball är ett pusselspel?\\Ta bort den röda för att låsa
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
-msgstr "Kvack!\\"
+msgstr "Kväk!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
@@ -1217,11 +1218,11 @@ msgstr "Använd teleportörer för att\\ta dig dit du annars inte kan.\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Balansera risk mot vinst.\\"
+msgstr "Balansera risk mot belöning.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "Ta dig ner för backen för att nå målet.\\(Enkelt att säga...)"
+msgstr "Klättra uppför sluttningen för att nå ditt mål.\\(Lättare sagt än gjort.)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1436,7 +1437,7 @@ msgstr "Neverball mästerskap.\\Tycker du fortfarande att Neverball är för enk
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr "De fantastiska lockarna.\\Upp-och-ner!"
+msgstr "De upp-och-nervända slingorna.\\Upp-och-ner!"
 
 #: data/map-mym/loop2.map
 msgid ""
@@ -1475,7 +1476,7 @@ msgstr "Den uppfriskande nedstigningen.\\Inte så snabbt, inte så snabbt."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Sättet att tro.\\Självsäkerhet."
+msgstr "Trons väg.\\Självsäkerhet."
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
@@ -1483,19 +1484,19 @@ msgstr "Den trigonometriska känslan.\\Vänd, vänta och hoppa."
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "Uppstigningen pressad.\\Bara ett enda råd: stanna inte!"
+msgstr "Den hastiga uppstigningen.\\Bara ett enda råd: stanna inte!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "En frustrerande comeback.\\Kom ihåg aktiveringsordningen."
+msgstr "Ett frustrerande fram och tillbaka.\\Kom ihåg aktiveringsordningen."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Street Neverball\\Välj ditt lag och ta 3 poäng."
+msgstr "Street Neverball\\Välj ditt sällskap och få 3 poäng."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr "Circumvolution machine.\\Enkelt, målet är precis ovanför dig."
+msgstr "Konvolutionsmaskinen.\\Enkelt, målet är precis ovanför dig."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
@@ -1550,7 +1551,7 @@ msgstr "Den efemära passagen.\\Lita på mynten."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Krysta inte !\\Inte för snabbt, inte för långsamt."
+msgstr "Hallå, tryck inte på !\\Inte för snabbt, inte för långsamt."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
@@ -1586,7 +1587,7 @@ msgstr "Följ rörelsen.\\Varning, vägen rör på sig."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr "Tyst, men inte för mycket.\\Synka dig till hissarna."
+msgstr "Tyst, men inte för tyst.\\Synka dig till hissarna."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
@@ -1618,7 +1619,7 @@ msgstr "Språngbrädor."
 
 #: data/map-tones/discs.map
 msgid "Work your way to the top."
-msgstr "Arbeta dig till toppen."
+msgstr "Arbeta dig upp till toppen."
 
 #: data/map-tones/easyian.map
 msgid ""
@@ -1678,7 +1679,7 @@ msgstr "Höjdrädd?\\Försök att inte bli yr."
 
 #: data/map-tones/waves.map
 msgid "Surf's Up !!"
-msgstr "Surfa är upp !!"
+msgstr "Surfningen är igång !!"
 
 #. Desktop entry comment
 #: dist/neverball.desktop.in
