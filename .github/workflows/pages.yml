@@ -1,7 +1,6 @@
 name: Deploy Neverball
 
 on:
-  push:
   workflow_dispatch:
 
 permissions:
