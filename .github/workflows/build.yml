@@ -56,14 +56,14 @@ jobs:
           archive: true
 
   fedora:
-    name: Fedora 43
+    name: Fedora 44
     runs-on: ${{ format('ubuntu-24.04{0}', matrix.arch == 'arm64' && '-arm' || '') }}
     strategy:
       fail-fast: false
       matrix:
         arch: [x64, arm64]
     container:
-      image: fedora:43
+      image: fedora:44
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
