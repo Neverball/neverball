@@ -1553,7 +1553,7 @@ msgstr "Kısa süreli geçiş.\\Altınlara güven.\\Altındakine değil."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas!\\Ne çok hızlı, ne de çok yavaş."
+msgstr "Hey, onu itmeyin!\\Ne çok hızlı, ne de çok yavaş."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
