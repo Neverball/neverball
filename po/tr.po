@@ -1541,7 +1541,7 @@ msgstr "Si si, ce tuyau a une fin.\\Bir borunun içindesin.\\İpucu: Son sıçra
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\İyi şanslar."
+msgstr "Gördüğünden daha zor.\\İyi şanslar."
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
