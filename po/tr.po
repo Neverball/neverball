@@ -1561,7 +1561,7 @@ msgstr "Gökkuşağı Yolu.\\Hedefi açmak için üç tur at."
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.\\Çabucak düşeceksin."
+msgstr "Neverball rodeosu.\\Çabucak düşeceksin."
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
