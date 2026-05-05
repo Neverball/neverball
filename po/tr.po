@@ -1549,7 +1549,7 @@ msgstr "Sabırlı olmak.\\Çok da zor değil aslında."
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\Altınlara güven.\\Altındakine değil."
+msgstr "Kısa süreli geçiş.\\Altınlara güven.\\Altındakine değil."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
