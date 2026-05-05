@@ -1589,7 +1589,7 @@ msgstr "Suis le mouvement.\\Uyarı: Zemin hareket ediyor."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr "Tranquille, mais pas trop.\\Kendini asansörlerle senkronize et."
+msgstr "Rahatça — ama fazla değil..\\Kendini asansörlerle senkronize et."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
