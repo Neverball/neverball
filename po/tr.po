@@ -501,7 +501,7 @@ msgstr "Kolay"
 
 #: ball/util.c:76 ball/util.c:122
 msgid "Unavailable"
-msgstr "Kullanılamaz"
+msgstr "Mevcut değil"
 
 #: ball/util.c:178 ball/util.c:228
 msgid "Most Coins"
