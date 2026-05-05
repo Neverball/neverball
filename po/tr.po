@@ -1577,7 +1577,7 @@ msgstr "Un petit échauffement.\\Mehdi'nin yeni bölümlerine hoşgeldiniz!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse.\\Hızın tanımı.\\Bizzat kendiniz tanık olacaksınız."
+msgstr "Maksimum hızdan daha hızlı./Hızın tanımı.\\Bizzat kendiniz tanık olacaksınız."
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
