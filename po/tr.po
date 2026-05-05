@@ -1581,7 +1581,7 @@ msgstr "Plus vite que la vitesse.\\Hızın tanımı.\\Bizzat kendiniz tanık ola
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
-msgstr "La danse asiatique\\Oklara güven.\\Karşındakine değil."
+msgstr "Asya dansı\\Oklara güven.\\Karşındakine değil."
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
