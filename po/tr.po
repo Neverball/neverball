@@ -1573,7 +1573,7 @@ msgstr "Préparez un petit sac.\\Karın ağrısı testi."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement.\\Mehdi'nin yeni bölümlerine hoşgeldiniz!"
+msgstr "Kısa bir ısınma.\\Mehdi'nin yeni bölümlerine hoşgeldiniz!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
