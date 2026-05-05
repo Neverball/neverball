@@ -737,7 +737,7 @@ msgstr "Zorluk: Orta Seviyeden İleri Seviyeye\\\\Deneyimli oyuncular için oldu
 
 #: data/set-mym.txt
 msgid "Tour de force"
-msgstr "Tour de Force"
+msgstr "Güç gösterisi"
 
 #: data/set-mym.txt
 msgid ""
