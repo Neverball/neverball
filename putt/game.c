@@ -56,6 +56,12 @@ static float jump_dt;                   /* Jump duration                     */
 static float jump_p[3];                 /* Jump destination                  */
 
 static float idle_t;                    /* Idling timeout                    */
+static float forf_t;                    /* Can forfeit timeout               */
+static float auto_t;                    /* Automatic timeout                 */
+
+static float putt_t;                    /* Current player putt time elapsed  */
+static int   has_forfeited;             /* Has the current player forfeited? */
+static int   has_auto_forf;             /* Was there an auto-forfeiture?     */
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,7 +99,11 @@ int game_init(const char *s)
     jump_e = 1;
     jump_b = 0;
 
-    idle_t = 1.0f;
+    idle_t =  1.0f;
+    forf_t = 30.0f;
+    auto_t = -1.0f;
+
+    putt_t = 0.0f;
 
     view_init();
 
@@ -114,6 +124,10 @@ int game_init(const char *s)
             if (idle_t < 1.0f)
                 idle_t = 1.0f;
         }
+        else if (strcmp(k, "can_forfeit_after") == 0)
+            sscanf(v, "%f", &forf_t);
+        else if (strcmp(k, "auto_timeout") == 0)
+            sscanf(v, "%f", &auto_t);
     }
     return 1;
 }
@@ -476,6 +490,18 @@ static int game_update_state(float dt)
         return GAME_STOP;
     }
 
+    /* Test for automatic forfeit time-outs. */
+
+    if (auto_t >= 0.f)
+    {
+        if (putt_t >= auto_t)
+        {
+            t = 0.f;
+            has_auto_forf = 1;
+            return GAME_TIME;
+        }
+    }
+
     return GAME_NONE;
 }
 
@@ -545,6 +571,8 @@ int game_step(const float g[3], float dt)
                 b = d;
             if (m)
                 st += t;
+
+            putt_t += t;
         }
 
         /* Mix the sound of a ball bounce. */
@@ -570,6 +598,13 @@ void game_putt(void)
     file.vary.uv[ball].v[2] = -4.f * view_e[2][2] * view_m;
 
     view_m = 0.f;
+
+    /* Start forfeit timers. */
+
+    putt_t = 0.f;
+
+    has_forfeited = 0;
+    has_auto_forf = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -706,6 +741,56 @@ void game_set_pos(float p[3], float e[3][3])
     v_cpy(file.vary.uv[ball].e[0], e[0]);
     v_cpy(file.vary.uv[ball].e[1], e[1]);
     v_cpy(file.vary.uv[ball].e[2], e[2]);
+}
+
+int game_can_forfeit(void)
+{
+    if (forf_t < 0.f)
+        return 0;
+
+    if (has_forfeited)
+        return 0;
+
+    if (putt_t >= forf_t)
+        return 1;
+
+    return 0;
+}
+
+int game_has_forced(void)
+{
+    return has_auto_forf;
+}
+
+/*
+ * The ball is forfeited.  If not already forfeited, call ‘hole_time’.
+ *
+ * The reason this isn't a direct wrapper around ‘hole_time’ is that once a
+ * forfeit is reached, the player can pause again, and then press escape to go
+ * back to the forfeiture screen, which upon entry re-executes this function.
+ *
+ * For st_fall, the logic is that if ‘hole_all’ is only called if the game
+ * is not currently paused, thus preventing multiple calls to ‘hole_fall’
+ * for a single fall, giving multiple penalties for a single event.
+ *
+ * This trick doesn't work for manual forfeits, since they are entered from
+ * a paused state, not from an unpaused state, so we need to track separate
+ * instances differently, so that pausing from a forfeit penalty and then
+ * pressing escape doesn't apply another forfeiture.
+ */
+void game_forfeit(void)
+{
+    if (!has_forfeited)
+    {
+        /* Reset timers. */
+
+        has_forfeited = 1;
+        putt_t = 0;
+
+        /* Forfeit the ball. */
+
+        hole_time();
+    }
 }
 
 /*---------------------------------------------------------------------------*/
