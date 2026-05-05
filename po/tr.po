@@ -1531,7 +1531,7 @@ msgstr "Le petit moulin.\\Kabine girmek için zamanlama önemli."
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.\\Fazla aşağıya inme."
+msgstr "Hiçliğe kendinizi kaptırmayın.\\Fazla aşağıya inme."
 
 #: data/map-mym2/longpipe.map
 msgid ""
