@@ -696,6 +696,12 @@ static int pause_click(int b, int d)
 
 static int pause_keybd(int c, int d)
 {
+    if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
+    {
+        game_set_fast(d);
+        return 1;
+    }
+
     if (d && c == KEY_EXIT)
         return pause_action(PAUSE_CONTINUE);
     return 1;
@@ -718,6 +724,12 @@ static int pause_buttn(int b, int d)
 
 static int shared_keybd(int c, int d)
 {
+    if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
+    {
+        game_set_fast(d);
+        return 1;
+    }
+
     if (d)
     {
         if (c == KEY_EXIT)
@@ -810,6 +822,12 @@ static int next_click(int b, int d)
 
 static int next_keybd(int c, int d)
 {
+    if (config_tst_d(CONFIG_KEY_ROTATE_FAST, c))
+    {
+        game_set_fast(d);
+        return 1;
+    }
+
     if (d)
     {
         if (c == KEY_POSE)
