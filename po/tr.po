@@ -1545,7 +1545,7 @@ msgstr "Plus dur que la difficulté.\\İyi şanslar."
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Çok da zor değil aslında."
+msgstr "Sabırlı olmak.\\Çok da zor değil aslında."
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
