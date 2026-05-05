@@ -1565,7 +1565,7 @@ msgstr "Le rodéo de Neverball.\\Çabucak düşeceksin."
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas?\\Tereddüt etme."
+msgstr "Gideyim mi, gitmeyeyim mi?\\Tereddüt etme."
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
