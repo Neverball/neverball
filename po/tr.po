@@ -1593,7 +1593,7 @@ msgstr "Tranquille, mais pas trop.\\Kendini asansörlerle senkronize et."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\Ağlardan kurtulmaya çalış."
+msgstr "Büyüleyici Tuvaller\\Ağlardan kurtulmaya çalış."
 
 #: data/map-tones/bigtube.map
 msgid "Speed is the name of the game."
