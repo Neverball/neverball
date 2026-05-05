@@ -4,7 +4,9 @@
 # 
 # Translators:
 # Alperen Erdoğan <pokepe-e@hotmail.com>, 2016-2017
+# Bartu Mutlu, 2026
 # Berkant Ak <iberexe@gmail.com>, 2019
+# Berkay Aktepe, 2025
 # Mehmet, 2016-2017
 # Mehmet, 2022
 msgid ""
@@ -12,9 +14,9 @@ msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2021-12-09 22:48+0200\n"
-"PO-Revision-Date: 2022-02-14 01:00+0000\n"
-"Last-Translator: Mehmet\n"
-"Language-Team: Turkish (http://www.transifex.com/neverball/neverball/language/tr/)\n"
+"PO-Revision-Date: 2013-11-30 10:21+0000\n"
+"Last-Translator: Bartu Mutlu, 2026\n"
+"Language-Team: Turkish (http://app.transifex.com/neverball/neverball/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,11 +45,11 @@ msgstr "Bilinmeyen"
 
 #: ball/game_common.c:44 ball/st_help.c:183
 msgid "Manual Camera"
-msgstr "Manuel Kamera"
+msgstr "Sabit Kamera"
 
 #: ball/game_common.c:45 ball/st_help.c:182
 msgid "Lazy Camera"
-msgstr "Ağır kamera"
+msgstr "Ağır Kamera"
 
 #: ball/game_common.c:46 ball/st_help.c:181
 msgid "Chase Camera"
@@ -92,7 +94,7 @@ msgstr "snd/over.ogg"
 
 #: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
 msgid "Coins"
-msgstr "Coinler"
+msgstr "Altın"
 
 #: ball/hud.c:69
 msgid "Goal"
@@ -100,11 +102,11 @@ msgstr "Hedef"
 
 #: ball/hud.c:89 ball/st_goal.c:149
 msgid "Balls"
-msgstr "Toplar"
+msgstr "Kalan Top"
 
 #: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
 msgid "Score"
-msgstr "Sayı"
+msgstr "Skor"
 
 #: ball/progress.c:413 ball/st_help.c:267
 msgid "Challenge Mode"
@@ -112,7 +114,7 @@ msgstr "Düello Modu"
 
 #: ball/progress.c:413 ball/st_start.c:208
 msgid "Challenge"
-msgstr "Düello Modu"
+msgstr "Düello"
 
 #: ball/progress.c:414 ball/st_help.c:254
 msgid "Normal Mode"
@@ -214,7 +216,7 @@ msgstr "Tekrar Yok"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
-msgstr "Tekrar Durduruldu"
+msgstr "Durduruldu"
 
 #: ball/st_demo.c:618
 msgid "Replay Ends"
@@ -234,7 +236,7 @@ msgstr "Sil"
 
 #: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
 msgid "Continue"
-msgstr "Devam et"
+msgstr "Devam Et"
 
 #: ball/st_demo.c:635
 msgid "Repeat"
@@ -242,11 +244,11 @@ msgstr "Tekrarla"
 
 #: ball/st_demo.c:715
 msgid "Delete Replay?"
-msgstr "Kayıt Silinsin mi ?"
+msgstr "Kayıt Silinsin mi?"
 
 #: ball/st_demo.c:769 ball/st_level.c:179
 msgid "Warning!"
-msgstr "Uyarı !"
+msgstr "Uyarı!"
 
 #: ball/st_demo.c:771
 msgid ""
@@ -268,11 +270,11 @@ msgstr "Bölüm Seç"
 
 #: ball/st_fail.c:82
 msgid "Fall-out!"
-msgstr "Düştün !"
+msgstr "Hay Aksi!"
 
 #: ball/st_fail.c:84
 msgid "Time's Up!"
-msgstr "Süre Bitti !"
+msgstr "Süre Bitti!"
 
 #: ball/st_fail.c:98
 msgid "Exit"
@@ -288,7 +290,7 @@ msgstr "Tekrar Dene"
 
 #: ball/st_fail.c:107 ball/st_goal.c:221
 msgid "Save Replay"
-msgstr "Tekrarı Kaydet"
+msgstr "Kaydet"
 
 #: ball/st_goal.c:96
 msgid "New Record"
@@ -296,7 +298,7 @@ msgstr "Yeni Rekor"
 
 #: ball/st_goal.c:97
 msgid "GOAL"
-msgstr "BAŞARILI"
+msgstr "BAŞARDIN"
 
 #: ball/st_goal.c:210 ball/st_goal.c:212
 msgid "Finish"
@@ -322,55 +324,55 @@ msgstr "Kurallar"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr "Fare, oyun kolu veya klavyedeki\\yön tuşlarını kullanıp zemini eğerek topu\\yuvarlayın.\\"
+msgstr "Fareyi, oyun kolunu veya\\klavyedeki yön tuşlarını\\kullanıp topu oynatarak\\zemin üzerinde hareket et.\\"
 
 #: ball/st_help.c:121
 msgid ""
 "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
 "finish\\the level.\\"
-msgstr "Coinlerin üzerinden yuvarlanarak\\onları toplayın. Hedefe\\ ulaşıp bölümü bitirmek\\ için coinleri toplayın.\\"
+msgstr "Altınları üzerlerinden geçerek\\toplayın. Hedefe ulaşıp\\bölümü tamamlamak için\\altınları biriktirin.\\"
 
 #: ball/st_help.c:178
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
-msgstr "Farenin sol ve sağ tuşlarıyla görüntüyü döndürür.\\Shift tuşuna basıldığında görüntü daha hızlı döner."
+msgstr "Farenin sol ve sağ tuşlarıyla görüntüyü döndürün.\\Daha hızlı döndürmek için Shift tuşuna basılı tutun.\\"
 
 #: ball/st_help.c:180
 msgid "Exit / Pause"
-msgstr "Çık / Durdur"
+msgstr "Çık/Durdur"
 
 #: ball/st_help.c:184
 msgid "Restart Level"
-msgstr "Bölümü Yeniden Başlat"
+msgstr "Yeniden Başlat"
 
 #: ball/st_help.c:185
 msgid "Screenshot"
-msgstr "Ekran Görüntüsü"
+msgstr "Ekran Görüntüsü Al"
 
 #: ball/st_help.c:256
 msgid ""
 "Finish a level before the time runs out.\\You need to collect coins in order"
 " to open the goal."
-msgstr "Süre bitmeden önce bölümü bitirin.\\Hedefi açmak için coinleri toplamanız gerekiyor."
+msgstr "Süre bitmeden önce bölümü tamamla.\\Hedefe giden yolu açmak için altınları biriktir.\\"
 
 #: ball/st_help.c:269
 msgid ""
 "Start playing from the first level of the set.\\You start with only three "
 "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Setin ilk bölümünden oynamaya başlayın.\\Yalnızca üç topla başlayacaksınız, onları kaybetmeyin.\\100 coin topladığınızda bir top daha kazanırsınız."
+msgstr "Setin ilk bölümünden itibaren oynamaya başla.\\Yalnızca üç top hakkın var, onları kaybetme.\\Her 100 altın topladığınızda birer top daha kazanırsın."
 
 #: ball/st_help.c:283
 msgid ""
 "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
 "may be able\\to reach new places.\\"
-msgstr "Köşeler zıplamak için kullanılabilir.\\Yuvarlanın ve açılı nişan alın.\\Böylece bölümün farklı noktalarına ulaşabilirsiniz.\\"
+msgstr "Köşeleri zıplamak için kullanabilirsin.\\Hızlan ve köşeyi hedefle. Bu\\sayede bölümün erişmesi zor\\noktalarına ulaşabilirsin.\\"
 
 #: ball/st_help.c:288
 msgid ""
 "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
 "turn the camera by 45\\degrees for best results.\\"
-msgstr "2 doğrultuda eğerek eğimi arttırabilir ve hızlanabilirsiniz.\\En iyi sonuçlar için 45 derecelik açıyı\\ve manuel kamerayı kullanın.\\"
+msgstr "Kamera açısını iki farklı doğrultuda\\eğerek eğimi arttırabilir ve hızlanabilirsiniz.\\En iyi sonuçlar için 45 derecelik açı\\ve sabit kamerayı kullanın.\\"
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
@@ -395,7 +397,7 @@ msgstr "Bağımsız Bölüm"
 msgid ""
 "A replay file could not be opened for writing.\\This game will not be "
 "recorded.\\"
-msgstr "Yeniden oynatma dosyası yazmak için açılamıyor.\\Bu oyun kaydedilemez.\\"
+msgstr "Kayıt dosyasının üzerine yazılamıyor.\\Bu oyun kaydedilmeyecek.\\"
 
 #: ball/st_name.c:112
 msgid "OK"
@@ -419,19 +421,19 @@ msgstr "Sıfırla"
 
 #: ball/st_play.c:100
 msgid "Ready?"
-msgstr "Hazır !"
+msgstr "Yerini Al!"
 
 #: ball/st_play.c:184
 msgid "Set?"
-msgstr "Yerini Al !"
+msgstr "Hazırlan!"
 
 #: ball/st_play.c:325
 msgid "GO!"
-msgstr "Başla !"
+msgstr "Başla!"
 
 #: ball/st_save.c:100
 msgid "Replay Name"
-msgstr "Tekrar Adı"
+msgstr "Kayıt Adı"
 
 #: ball/st_save.c:111
 msgid "Save"
@@ -439,11 +441,11 @@ msgstr "Kaydet"
 
 #: ball/st_save.c:217
 msgid "Overwrite?"
-msgstr "Üzerine Yazsın mı?"
+msgstr "Üzerine Yazılsın mı?"
 
 #: ball/st_save.c:223
 msgid "Overwrite"
-msgstr "Overwrite"
+msgstr "Üzerine Yaz"
 
 #: ball/st_set.c:302
 msgid "Level Set"
@@ -459,31 +461,31 @@ msgstr "Kilitli"
 
 #: ball/st_start.c:239
 msgid "Goal State in Completed Levels"
-msgstr "Tamamlanmış Bölümlerdeki Hedeflerin Durumu"
+msgstr "Tamamlanmış Bölümlerdeki Hedefler"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Hile"
+msgstr "Hile Modu"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Oyna"
+msgstr "Başla"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Oynat"
+msgstr "Kayıtlar"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Yardım"
+msgstr "Yardım"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Ayarlar"
+msgstr "Ayarlar"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Çıkış"
+msgstr "Çıkış"
 
 #: ball/util.c:28
 msgid "Hard"
@@ -499,23 +501,23 @@ msgstr "Kolay"
 
 #: ball/util.c:76 ball/util.c:122
 msgid "Unavailable"
-msgstr "Kullanılamaz"
+msgstr "Mevcut değil"
 
 #: ball/util.c:178 ball/util.c:228
 msgid "Most Coins"
-msgstr "En Fazla Coin"
+msgstr "En Çok Altın"
 
 #: ball/util.c:185 ball/util.c:232
 msgid "Best Times"
-msgstr "En İyi Zamanlama"
+msgstr "En İyi Süre"
 
 #: ball/util.c:192 ball/util.c:236
 msgid "Fast Unlock"
-msgstr "En Hızlı Varış"
+msgstr "En Hızlı Hedef Açma"
 
 #: ball/util.c:205
 msgid "Change Name"
-msgstr "İsim Değiştirme"
+msgstr "İsmini Değiştir"
 
 #: ball/util.c:332
 msgid "caps"
@@ -566,7 +568,7 @@ msgstr "HMD"
 
 #: share/st_common.c:371
 msgid "V-Sync"
-msgstr "Dikey Senkronizasyon"
+msgstr "V-Sync"
 
 #: share/st_common.c:373
 msgid "Antialiasing"
@@ -582,7 +584,7 @@ msgstr "Arkaplan"
 
 #: share/st_common.c:383
 msgid "Shadow"
-msgstr "Gölge"
+msgstr "Gölgeler"
 
 #: share/st_common.c:782
 msgid "Button A"
@@ -642,23 +644,23 @@ msgstr "Bir analog çubuğu oynatın..."
 
 #: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
 msgid "Par"
-msgstr "Berabere"
+msgstr "Saha Parı"
 
 #: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
 msgid "P1"
-msgstr "P1"
+msgstr "Oyuncu 1"
 
 #: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
 msgid "P2"
-msgstr "P2"
+msgstr "Oyuncu 2"
 
 #: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
 msgid "P3"
-msgstr "P3"
+msgstr "Oyuncu 3"
 
 #: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
 msgid "P4"
-msgstr "P4"
+msgstr "Oyuncu 4"
 
 #: putt/st_all.c:66
 msgid "O"
@@ -674,7 +676,7 @@ msgstr "I"
 
 #: putt/st_all.c:352
 msgid "Select Course"
-msgstr "Rotanı Belirle"
+msgstr "Parkur Belirle"
 
 #: putt/st_all.c:520
 msgid "Players?"
@@ -691,7 +693,7 @@ msgstr "İçeride!"
 
 #: putt/st_all.c:1214
 msgid "1 Stroke Penalty"
-msgstr "1 Penaltı Vuruşu"
+msgstr "Penaltı Vuruşu"
 
 #: putt/st_all.c:1292
 msgid "Scores"
@@ -703,55 +705,55 @@ msgstr "Son Sayı"
 
 #: data/set-easy.txt
 msgid "Neverball Easy"
-msgstr "Neverball Kolay"
+msgstr "Neverball Kolay Seviye"
 
 #: data/set-easy.txt
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Zorluk: Başlangıçtan Orta Seviyeye\\\\Düzenli bir zorluk artışıyla 25 bölüm.\\İpuçları için bölüm açıklamalarını okuyun.\\ \\"
+msgstr "Zorluk: Başlangıçtan Orta Seviyeye\\\\Düzenli bir zorluk artışıyla 25 bölüm.\\İpuçları için bölüm açıklamalarını oku.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
-msgstr "Neverball Orta Düzey"
+msgstr "Neverball Orta Seviye"
 
 #: data/set-medium.txt
 msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
 "balanced\\challenge for players. Try to claim\\some of the records "
 "provided.\\"
-msgstr "Zorluk: Başlangıçtan Uzmanlığa\\\\25 bölüm oyuncular için düzenli bir zorluk sağlar.\\Bazı rekorları kırmaya çalışın.\\"
+msgstr "Zorluk: Başlangıçtan İleri Seviyeye\\\\25 bölüm boyunca düzenli bir zorluk seviyesi.\\Bazı rekorları kırmaya çalış.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
-msgstr "Neverball Zor"
+msgstr "Neverball Zor Seviye"
 
 #: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr "Zorluk: Orta Seviyeden Uzmanlığa\\\\Deneyimli oyuncular için oldukça zor 25 bölüm.\\\"En İyi Zamanlama\", \"En Fazla Coin\",\\ve \"En Hızlı Varış\" rekorlarını kırmayı deneyin.\\"
+msgstr "Zorluk: Orta Seviyeden İleri Seviyeye\\\\Deneyimli oyuncular için oldukça zor 25 bölüm.\\\"En İyi Süre\", \"En Çok Altın\",\\ve \"En Hızlı Hedef Açma\" rekorlarını kırmayı dene.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
-msgstr "Tour de force"
+msgstr "Güç gösterisi"
 
 #: data/set-mym.txt
 msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater "
 "challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Difficulty: Uzmanlıktan İnsanüstülüğe\\\\Daha da zor 25 bölüm.\\Yapımcı: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Zorluk: İleri Seviyeden İnsanüstülüğe\\\\Daha da zorlayıcı 25 farklı bölüm.\\Hazırlayan: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
-msgstr "Retour de force"
+msgstr "Güç gösterisi 2. Tur"
 
 #: data/set-mym2.txt
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Zorluk: İlk bölüm setimden biraz daha zor.\\\\Daha fazla bölüm, daha fazla coin.\\Yapımcı: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Zorluk: Bir önceki setimden biraz daha zor.\\\\Daha fazla bölüm, daha fazla altın.\\Hazırlayan: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -761,7 +763,7 @@ msgstr "Nevermania"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr "Zorluk: Uzmanlıktan İmkansıza\\\\Üst düzey oyuncular için çeşitli bölümler.\\Yapımcı: Florian Priester\\\\"
+msgstr "Zorluk: İleri Seviyeden İmkansızlığa\\\\Üst düzey oyuncular için çeşitli bölümler.\\Hazırlayanı: Florian Priester\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
@@ -769,25 +771,25 @@ msgstr "Tones Levelleri"
 
 #: data/set-tones.txt
 msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
-msgstr "Zorluk: Ortadan Zora.\\\\Yapımcı: Ian Walker\\\\"
+msgstr "Zorluk: Orta Seviyeden İleri Seviyeye.\\\\Hazırlayan: Ian Walker\\\\"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
-msgstr "Çeşitli Bölümler"
+msgstr "Neverball Ek Bölümler"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr "Uyarı\\Henüz sıralanmamış bölümler\\Test amaçlı\\\\\\\\"
+msgstr "Uyarı: Henüz sıralanmamış bölümler.\\Test amaçlı.\\\\\\\\"
 
 #: data/holes-putt.txt
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr "Orijinal 18 delikli Neverputt bölümleri.\\Hafif bir zorluk artışı.\\ \\Zorluk: Kolaydan Ortaya\\Yapımcı: rlk\\"
+msgstr "Orijinal 18-delikli Neverputt parkuru.\\Adil bir zorluk artışı.\\ \\Zorluk: Başlangıçtan Orta Seviyeye\\Hazırlayan: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Diğer 18-delikli kurs\\ \\ \\Zorluk: Orta\\Bölüm yapımcısı: paxed\\"
+msgstr "Bir diğer 18-delikli parkur\\ \\ \\Zorluk: Orta Seviye\\Hazırlayanı: paxed\\"
 
 #: data/holes-paxed2.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -795,218 +797,218 @@ msgstr "Bir diğer 18-delikli kurs\\ \\ \\Zorluk: Orta\\Bölüm yapımcısı: pa
 
 #: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Daha Fazla Delik\\ \\ \\Zorluk: Orta\\Bölüm yapımcısı: paxed\\"
+msgstr "Daha Fazla Bölüm!\\ \\ \\Zorluk: Orta Seviye\\Hazırlayan: paxed\\"
 
 #: data/holes-abc.txt
 msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr "Alfabeyi izleyen\\ 26-delikli bir kurs\\\\Zorluk: Zor\\Bölüm yapımcısı: paxed\\"
+msgstr "Alfabeyi izleyen 26-delikli bir kurs\\\\Zorluk: Zor Seviye\\Hazırlayan: paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
-msgstr "Çılgın Golf\\ \\\\Zorluk: Kolay-Orta\\Bölüm yapımcısı: slippifishi\\"
+msgstr "Çılgın Golf!\\ \\\\Zorluk: Başlangıçtan Orta Seviyeye\\Hazırlayan: slippifishi\\"
 
 #: data/holes-kk.txt
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr "Hileli golf\\\\18-delikli bir kurs\\Zorluk:Uzmanlıktan İnsanüstülüğe\\Yapımcı: Byron James Johnson"
+msgstr "Zorlayıcı Golf!\\\\Birçok farklı düello ile beraber 18-delikli bir kurs\\Zorluk: İleri Seviyeden İnsanüstülüğe\\Hazırlayan: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
 "hard.\\Author: vidski\\"
-msgstr "Jambalaya Golfü\\\\Vidski'nin adı kötüye çıkmış kursu.\\Zorluk: Orta-Zor.\\Bölüm yapımcısı: vidski\\"
+msgstr "Golf Jambalaya\\\\Vidski'nin adı kötüye çıkmış parkuru.\\Zorluk: Orta Seviyeden İleri Seviyeye\\Hazırlayan: vidski\\"
 
 #: data/holes-iCourse.txt
 msgid ""
 "Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr "Reshaun'un iPutt Kursu\\\\\\Zorluk: Kolaydan Zora\\Yapımcı: Reshaun Francis"
+msgstr "Reshaun'un iPutt Parkuru\\\\\\Zorluk: Başlangıçtan İleri Seviyeye\\Hazırlayan: Reshaun Francis"
 
 #: data/gui/title.map data/map-medium/title.map
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "Neverball\\\\http://neverball.org\\\\\\Robert Kooima tarafından yapıldı\\"
+msgstr "Neverball\\\\https://neverball.org\\\\Robert Kooima tarafından yapıldı.\\"
 
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr "Hareketli nesnelere vurmaktan kaçınmaya\\çalışın. Çarpışma topu fırlatıp\\tamamen kontrolden çıkartır.\\"
+msgstr "Hareketli nesnelere vurmaktan kaçınmaya\\çalış. En ufak bir temas topu elinden kaydırıp\\kontrolden çıkarabilir.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Zıplayan bir topu kontrol etmeyi\\ öğrenin. Topun nerede olduğunu\\gölgesine bakarak bilin. Eğer topu zıplatma konusunda\\kendinize güveniyorsanız, güzel bir sonuç için risk alın.\\"
+msgstr "Zıplayan bir topu kontrol etmeyi öğren.\\Topun nerede düşeceğini gölgesini\\takip ederek tahmin etmeye çalış.\\Eğer kendine güveniyorsan risk almaktan çekinme,\\buna değebilir.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr "Bu kez hedefin kilidini açmak için 50 coin toplamalısınız.\\Kırmızı coinlerin değeri 5,\\mavi coinlerin değeri 10 coindir.\\Süre dolmadan hedefe ulaşın!\\\\Başlamak için tıklayın.\\"
+msgstr "Bu kez hedefi açmak için 50 altın toplamalısın.\\Kırmızı altınların değeri 5,\\mavi altınların değeri ise 10 altın.\\Süre dolmadan hedefe ulaş!\\\\Başlamak için tıkla.\\"
 
 #: data/map-easy/corners.map
 msgid ""
 "Here are some more opportunities for you to\\fall off into the void. Hit the"
 " bump hard to\\grab some big coins and score a short time.\\"
-msgstr "Burada boşluğa düşmek için biraz daha fazla\\etken var. Kısa sürede puan kazanmak\\ve bazı büyük coinleri toplamak için\\korkuluğa hızlıca çarpın.\\"
+msgstr "Burada boşluğa düşmek birazcık daha kolay.\\Kısa sürede bölümü tamamlamak ve\\değerli altınları toplamak için kenardaki\\korkuluğa hızlıca çarpmayı dene.\\"
 
 #: data/map-easy/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level "
 "floor\\and maintain precise control.\\Build some momentum to reach the "
 "corners.\\"
-msgstr "Daha önce olduğu gibi ama bu sefer eğitim\\ korkulukları yok. Hassas\\kontrolü sağlayın ve topu\\düz bir zemin üzerinde tutun. Köşelere ulaşmak\\için biraz hız kazanmalısınız.\\"
+msgstr "Daha önce olduğu gibi, ama bu sefer eğitim korkulukları yok.\\Hassas biçimde kontrolü sağla ve topu zeminde tutmaya çalış.\\Köşelere ulaşmak için biraz hızlanmayı dene.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Fareyi oynatarak zemini eğin.\\10 coin toplayın.\\Hedefe ulaşıp bölümü bitirmek için\\topu yönlendirin.\\\\Başlamak için tıklayın.\\"
+msgstr "Fareyi kullanarak topu oynatmaya çalış.\\Şimdilik 10 altınla başlayalım.\\Hedefe ulaşıp bölümü tamamlamak için topu yönlendir.\\\\Başlamak için tıkla.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr "Yarım boru eğlenceli olabilir\\ama kolayca düşebilirsiniz.\\Hızlanmadığınızda kontrol edebileceksiniz."
+msgstr "Yarım bir boru üzerine hareket etmek eğlenceli olabilir\\ama kolayca düşebilirsin de.\\Aşırı hızlanmadığın sürece kontrolü elinde tutabilirsin."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr "\"Zemin\" görecelidir. Zemini bir açıyla tutmayı öğrenin\\böylece meyil belli bir seviyede\\kalır. Bu şekilde topu tamamıyla kontrol edersiniz.\\Büyük coinleri almak için hızlanın.\\"
+msgstr "\"Zemin\" görecelidir. Zeminde sabit bir açıyla ilerlemeyi öğren,\\böylece eğim belirli bir seviyede kalır.\\Bu şekilde topu tamamen kontrol edebilirsin.\\Değerli altınları toplamak için hızlan.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr "Burada 100 coin var.\\Yanlışlıkla hedefe girmediğin sürece\\çok da zor değil.\\"
+msgstr "Burada tamı tamına 100 altın var!\\Çok da zor değil gibi, hedefe yanlışlıkla girmediğin sürece.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr "Zemini mümkün olduğunca az eğin.\\Daha az eğmek daha az hız demek.\\Daha az hız daha iyi kontrol demek.\\Süreyi izleyin ve zamanı akıllıca kulanın.\\"
+msgstr "Topu mümkün olduğunca az oynatmaya çalış.\\Daha az hareket daha az hız demek.\\Daha az hız ise daha iyi kontrol demek.\\Zamanını akıllıca kullan.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr "Her köprü bir öncekinden daha dar. Ama her\\biri diğerinden daha kazançlı! Bir yolu seçerek\\ne kadar uzaktan gideceğine karar ver.\\"
+msgstr "Her bir köprü bir öncekinden daha da dar.\\Ama bir o kadar daha kazançlı!\\Ne kadar ilerleyeceğine kendin karar ver.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr "Hedefe ulaşmak sorun değil\\ama bütün coinleri toplamak için\\plan yapmanız gerek.\\\\İpucu: bir deliğe düşmek yerine\\delikten kaçmak çoğunlukla zaman kazandırır."
+msgstr "Hedefe ulaşmak çok büyük bir sorun değil,\\ama bütün altınları toplamak için bir plan yapman gerek.\\\\İpucu: Zaman kazanmak için bir deliğe düşüp beklemek yerine delikten kaçınmaya çalış."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
 "down\\early. You need just as much room to slow\\down as you did to speed "
 "up.\\"
-msgstr "Kenarlardan uzak durun!\\Kenarlara yaklaştığınızda yavaşlamaya başlayın.\\ Hızınızı azaltmak için alana ihtiyacın olduğu gibi\\hızınızı arttırmak için de daha fazla alana ihtiyacınız var."
+msgstr "Kenarlardan uzak dur!\\Kenarlara yaklaştığınızda yavaşlamaya başla.\\Hızını azaltmak için önünde yeterince boşluk olmalı,\\hızını arttırmak için ise daha da fazla."
 
 #: data/map-easy/lollipop.map
 msgid ""
 "Follow the yellow lick road!\\\\The blue coins are especially "
 "challenging,\\but with some experimentation and practice,\\you'll be able to"
 " collect them all."
-msgstr "Sarı yolu takip edin!\\\\Mavi coinleri toplamak zor ama\\biraz talim ve deneyim ile\\onların da tamamını toplayabilirsiniz."
+msgstr "Sarı yolu takip et!\\Mavi altınları toplamak zor olabilir,\\ama biraz deneyim ve pratikle onların da tamamını toplayabilirsin."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr "Top dar geçitlerde kontrolsüz bir şekilde seker.\\Yavaş gidin ve duvarlara değmeyin.\\Bütün coinler verilen süre içinde toplanabilir."
+msgstr "Dar bir geçitte topu kontrol etmek daha da zorlaşır.\\Yavaşça ilerle ve duvarlardan kontrolsüzce sekmemeye çalış.\\Elindeki süre tüm altınları toplamak için yeterli."
 
 #: data/map-easy/mazebump.map
 msgid ""
 "Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
 " - it will help you\\to reach the goal."
-msgstr "Kafa karıştırıcı ama kazançlı.\\\\Hareketli cisimleri gözlemlemek için\\zaman ayırmanız hedefe ulaşmakta\\size yardımcı olacaktır."
+msgstr "Kafa karıştırıcı, ama bir o kadar cazip.\\Hareketli cisimleri gözlemlemek için zaman ayır.\\Hedefe giden yolda sana yardımcı olacak."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr "Hareketli bir platform aldatıcı olabilir.\\Hedefe ulaşmak ve orada kalmak\\için dengeyi kurun ve süreyi iyi kullanın.\\Zeminin altınızdan çıkmasına izin vermeyin.\\Hareketli düzlemleri büyük coinleri toplamak için kullanın.\\"
+msgstr "Hareketli bir platform aldatıcı olabilir.\\Hedefe ulaşmak için dengeyi kur ve elindeki süreyi iyi kullan.\\Zeminin altından kaymasına izin verme.\\Hareketli platformu değerli altınları toplamak için kullan.\\"
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Farenin tuşları ekranı döndürür.\\Durdurmak veya çıkmak için Esc tuşuna basın.\\\\\\\\ Başlamak için tıklayın.\\"
+msgstr "Farenin tuşları kamera açısını döndürür.\\Durdurmak veya çıkmak için ESC tuşuna bas.\\\\Başlamak için tıkla.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr "Asansördeyken ufak ayarlamalarla\\topu sabit tutun. Topu tek bir yerde tutarak\\yeterince coin toplayabilirsiniz.\\Çok hareket ederseniz düşersiniz."
+msgstr "Asansördeyken ufak ayarlamalarla topu sabit tut.\\Topu tek bir yerde tutarak yeterince altın toplayabilirsin.\\Gereğinden fazla hareket edersen düşebilirsin de."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr "Hedefe ulaşmak için yalnızca bir yol var\\ama coin toplamak için birçok yol var.\\Hedefi açmak için yeterince coin\\topladığınızdan emin olun."
+msgstr "Hedefe giden yalnızca bir yol var,\\ama altın toplamak için bir çok farklı yol mevcut.\\Hedefi açmak için yeterince altın topladığından emin ol."
 
 #: data/map-easy/slalom.map
 msgid ""
 "Follow the trail of coins to reach the goal.\\If you hit a post while moving"
 " quickly,\\you will bounce far off course."
-msgstr "Hedefe ulaşmak için coinleri takip edin.\\Eğer hızlı giderken bir sütuna çarparsanız\\rotanın dışına çıkarsınız."
+msgstr "Hedefe ulaşmak için altınları takip et.\\Eğer hızla giderken bir sütuna çarparsan\\rotanın dışına çıkabilirsin."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Tepeleri aşmak daha fazla hız gerektirir.\\Ama çok hızlı gitmekten de sakının!"
+msgstr "Tepeleri aşmak için daha fazla hız lazım.\\Fakat aşırı hızlı gitmekten de sakın!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr "Top hareketli bir düzlemdeyken, hareket\\yönünde sürüklenecektir. Sabit durmak için\\korkulukları kullanın ve hedefi\\açmak için coinleri toplayın."
+msgstr "Top hareketli bir platformdayken\\hareket yönünde sürüklenecektir.\\Sabit durmak için korkulukları kullan\\ve hedefi açmak için altınları topla."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr "Bütün coinleri toplayın...\\ama hareketli nesnelere kabadayılık yapmayın!"
+msgstr "Bütün altınları topla...\\Ama hareketli nesnelere kabadayılık yapma!"
 
 #: data/map-easy/wakka.map
 msgid ""
 "Here's another coin grab.\\Perhaps you already know a good "
 "route.\\Teleportation might come in handy.\\"
-msgstr "Başka bir coin toplama alanı.\\Önceden de iyi bir rota biliyor olabilirsiniz.\\Işınlanma kullanışlı olabilir.\\"
+msgstr "Bir başka altın madeni daha.\\Belki şimdiden aklında iyi bir plan vardır.\\Işınlanma kullanışlı olabilir.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
-msgstr "=Macera=\\Yapacak çok şey, toplanacak coinler, alınacak riskler var."
+msgstr "=Macera=\\Toplanacak altınlar, alınacak riskler...\\Yapacak çok şey var!"
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
-msgstr "=Avlu=\\Kolonlardaki coinleri toplamaya çalış."
+msgstr "=Avlu=\\Kolonlardaki altınları toplamaya çalış."
 
 #: data/map-fwp/buoys.map
 msgid "=Buoys=\\He who controls the timers, controls the gates."
-msgstr "=Şamandıralar=\\Zamanlayıcıları kim kontrol ederse,\\kapıları da o kontrol eder."
+msgstr "=Şamandıralar=\\\"Zamana hâkim olan, kapılara da hâkim olur\"."
 
 #: data/map-fwp/cargo.map
 msgid "=Cargo=\\Let yourself be carried away."
-msgstr "=Kargo=\\Kendinizi taşıtın."
+msgstr "=Kargo=\\Kaptır kendini."
 
 #: data/map-fwp/confetti.map
 msgid "=Confetti=\\Help! There has got to be a way through this mess."
-msgstr "=Konfeti=\\Yardım edin! Bu karmaşanın içinde bir yol olmalı."
+msgstr "=Konfetiler=\\Yardım et! Bu karmaşanın kurtulmanın bir yolu olmalı!"
 
 #: data/map-fwp/discs.map
 msgid "=Discs=\\Used correctly, the platforms will take you to the goal."
-msgstr "=Diskler=\\Doğru kullandığınızda, diskler sizi hedefe götürür."
+msgstr "=Diskler=\\Diskler seni hedefe götürebilir.\\Tabii doğru kullanıldıkları takdirde."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
@@ -1014,359 +1016,359 @@ msgstr "=Cehennem=\\Ateş sihirbazları görevinizi yapamamanız\\için elllerin
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
-msgstr "=Uğurböcekleri=\\Seni rahatsız etmelerine izin verme."
+msgstr "=Uğurböcekleri=\\Vızıltılarının seni rahatsız etmesine izin verme."
 
 #: data/map-fwp/mountains.map
 msgid "=Mountains=\\Ups and downs are a part of life."
-msgstr "=Dağlar=\\İnişler ve çıkışlar hayatın bir parçasıdır."
+msgstr "=Dağlar=\\İniş ve çıkışlar hayatın bir parçasıdır."
 
 #: data/map-fwp/museum.map
 msgid "=Museum=\\Please do not touch the exhibits."
-msgstr "=Müze=\\Lütfen sergilenenlere dokunmayın."
+msgstr "=Müze=\\Lütfen sergilenen eşyalara dokunmayın."
 
 #: data/map-fwp/oddities.map
 msgid "=Oddities=\\Something is not quite right here..."
-msgstr "=Gariplikler=\\Burada bir şeyler yanlış gidiyor..."
+msgstr "=Tuhaflıklar=\\Sanki burada bir şeyler yanlış gidiyor gibi..."
 
 #: data/map-fwp/rails.map
 msgid "=Rails=\\Do not lose your balance."
-msgstr "=Raylar=\\Dengenizi kaybetmeyin."
+msgstr "=Raylar=\\Dengeni kaybetme."
 
 #: data/map-fwp/ramps.map
 msgid "=Ramps=\\Can you make it to the top?"
-msgstr "=Yokuşlar=\\En üste çıkabilir misin?"
+msgstr "=Rampalar=\\Zirveye çıkabilir misin?"
 
 #: data/map-fwp/rings.map
 msgid "=Rings=\\Roll your way through this trap."
-msgstr "=Yüzükler=\\Bu tuzaktan yuvarlanarak geçin."
+msgstr "=Çemberler=\\Tuzakları yuvarlanarak alt et."
 
 #: data/map-fwp/slope.map
 msgid "=Slope=\\Try not to become a modern-day Sisyphus."
-msgstr "=Yokuş=\\Günümüzün Sisifos'u olmayı denemeyin."
+msgstr "=Yokuş=\\Günümüzün Sisifos'una dönüşmemeye çalış."
 
 #: data/map-fwp/spacetime.map
 msgid "=Spacetime=\\Not much space, not much time."
-msgstr "=Boş zaman=\\Yeterince boşluk ve yeterince zaman yok."
+msgstr "=Uzay-Zaman=\\Ne yeterince yer var, ne de yeterince zaman."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=Üşüşenler=\\Uyarı: İzinsiz girenler atılacaktır."
+msgstr "=Arı Sürüsü=\\Uyarı: İzinsiz girenler atılacaktır!"
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
-msgstr "=Tenis=\\Çok miktarda coin ödülü var, ve hepsi yakalamaya hazır."
+msgstr "=Tenis=\\Fazlasıyla altın var ve hepsi seni bekliyor."
 
 #: data/map-fwp/tree.map
 msgid "=Tree=\\Follow the spiral staircase to the goal."
-msgstr "=Ağaç=\\Hedefe ulaşmak için dönel meriveni takip edin."
+msgstr "=Ağaç=\\Hedefe ulaşmak için spiral merdiveni takip et."
 
 #: data/map-fwp/ufo.map
 msgid "=UFO=\\Ride the spaceship they don't want you to know about."
-msgstr "=UFO=\\Uzay gemisini sür, onlar bilinmek istemiyor."
+msgstr "=UFO=\\Uzay gemisine atla, henüz onlar farkında değillerken."
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
-msgstr "Hedefe giden yolu açmak için\\2 anahtar da etkinleştirilmeli."
+msgstr "Hedefe giden yolu açmak için\\iki anahtar da etkinleştirilmeli."
 
 #: data/map-hard/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
-msgstr "Burada yeterince zemin yok.\\Sorun olacağını sanmıyorum.\\"
+msgstr "Burada yeterince yer yok.\\Umarım senin için sorun değildir.\\"
 
 #: data/map-hard/curbs.map
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "Burada ilerleme kaydetmek için kenarlara\\hızlıca çarpmanız ve zıplamayı kontrol\\etmeniz gerek.Genellikle köşelere çarparak\\kaldırma çıkmak daha kolaydır.\\"
+msgstr "Burada ilerleme kaydetmek için kenarlara sert bir\\şekilde vurman ve ivmeni kontrol etmen gerekiyor.\\Bir köşedeki kaldırıma vurmak genellikle\\en basit yoldur.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr "Neverball bu bölüm yüzünden dolayı bir bulmaca oyunu mu?\\Hedefi açmak için kırmızı zeminleri yeşile çevirin.\\Her bir anahtar temas ettiği renkleri değiştirir."
+msgstr "Ne yani, Neverball bir bulmaca oyunu mu?\\Hedefi açmak için kırmızı zeminleri yeşile çevir.\\Her bir anahtar çevresindeki diğer zeminlerin renklerini değiştirir."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
-msgstr "Vırak!\\"
+msgstr "Vrak!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
 "Time the switches carefully to synchronize\\the motion of the "
 "platforms.\\Move quickly across the gaps.\\"
-msgstr "Düzlemlerin hareketini eşlemek\\için anahtarları zamanlayın.\\Karşıya geçerken hızlı olun.\\"
+msgstr "Platformların hareketini eşlemek için anahtarları dikkatlice zamanla.\\Karşıya geçerken hızlı ol.\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
-msgstr "Evet, top deliklerden geçmek için\\oldukça uygun bir boyuta sahip.\\"
+msgstr "Evet, top o küçük deliklere\\oldukça güzel oturuyor."
 
 #: data/map-hard/hallways.map
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr "Hızınızı ve zıplmayı kontrol edin.\\Işınlayıcılar sizi daima bölümün gerisinde\\bir yere getirecektir."
+msgstr "Hızını ve zıplamanı kontrol et.\\Işınlayıcılar seni daima daha geriye götürecek."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
-msgstr "Eğim aleyhinize olabilir."
+msgstr "İvme her zaman senden yana olmayabilir."
 
 #: data/map-hard/invis.map
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "Hırsınızın size rehberlik etmesine izin verin.\\Ek bir macera için\\bütün coinleri toplamayı deneyin.\\Tahmin etmeden de yapılabilir.\\"
+msgstr "Bırak açgözlülüğün sana rehberlik etsin!\\Ek bir macera için bütün altınları toplamayı dene.\\Tahmin yürütmeden de yapabilirsin."
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
-msgstr "Gezintiye çıkın.\\"
+msgstr "Biraz yürüyelim mi?"
 
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
 "hard way.\\Of course, by going the easy way\\you can forget about all\\those"
 " red and blue coins."
-msgstr "Burada iki hedef var.\\Bölümü kolay ya da zor yoldan\\tamamlayabilirsiniz.\\Kolay yoldan gittiğinizde\\bütün kırmızı ve mavi coinleri unutun."
+msgstr "İki farklı hedef var.\\Bölümü kolay ya da zor yoldan da\\tamamlayabilirsin. Tabii, kolay yoldan gittiğinde\\bütün kırmızı ve mavi altınları unut."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr "Gidecek bir çok yol var...\\Hepsini denedin mi?"
+msgstr "Gidecek birçok farklı yol var...\\Hepsini denedin mi?"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
-msgstr "Boru değil.\\"
+msgstr "\"Bu bir boru değildir.\""
 
 #: data/map-hard/poker.map
 msgid "Slow and steady.\\"
-msgstr "Yavaş ve sürekli.\\"
+msgstr "Yavaşça ve sakince.\\"
 
 #: data/map-hard/pyramid.map
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr "Her basamak için yaklaşık 15 saniyeniz var,\\gecikmeyin. Coinleri toplayın ve\\bir sonraki anahtara gidin.\\"
+msgstr "Her basamak için yaklaşık 15 saniyen var, gecikmemeye çalış.\\Altınları topla ve bir sonraki anahtara geç.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
-msgstr "Kabadayılık yapma.\\"
+msgstr "Boyun eğme."
 
 #: data/map-hard/rampup.map
 msgid "I think I can.\\I think I can.\\"
-msgstr "Bence yapabilirim.\\Bence yapabilirim.\\"
+msgstr "\"Bence yapabilirim.\"\\\"Bence yapabilirim.\""
 
 #: data/map-hard/ring.map
 msgid "So close, yet so very far.\\"
-msgstr "Çok yakın, henüz çok uzak.\\"
+msgstr "Çok yakın, ama bir o kadar uzak...\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr "Yukarı çıkmak için asansörleri kullanın.\\Asansörler çok hızlı,\\bu yüzden oyalanmayın.\\"
+msgstr "Yukarı çıkmak için asansörleri kullan.\\Epey hızlılar, fazla oyalanma.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
-msgstr "Kırmızı ve mavi coinleri\\toplayarak eğlenin.\\"
+msgstr "Kırmızı ve mavi altınları toplarken iyi eğlenceler."
 
 #: data/map-hard/spread.map
 msgid "Don't worry.\\The green part isn't going anywhere.\\"
-msgstr "Endişelenmeyin.\\Yeşil parça hiçbir yere gitmiyor.\\"
+msgstr "Endişelenme.\\Yeşil platform hiçbir yere gitmiyor.\\"
 
 #: data/map-hard/sync.map
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they "
 "come\\together in the middle.\\"
-msgstr "Düzlemleri hareket ettirmek için anahtarları\\kullanın. Zamanı geldiğinde düzlemler ortada bir araya\\ gelecekler.\\"
+msgstr "Platformları hareket ettirmek için anahtarları kullan.\\Zamanı geldiğinde ortada bir araya gelecekler.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
 "The ball must be entirely within a teleporter\\in order to trigger "
 "it.\\Remember that the ball carries its momentum\\through a teleporter, so "
 "plan ahead.\\"
-msgstr "Işınlayıcıların çalışması için topun tamamı ışınlayıcının içinde olmalıdır.\\Kazandığınız ivmenin de ışınlandığını\\unutmayın, planınızı buna göre yapın. *"
+msgstr "Işınlayıcıların tetiklenmesi için topun\\tamamı ışınlayıcının içinde olmalıdır.\\Kazandığın ivmeyi de beraberinde getirdiğini\\unutma, planını buna göre yap."
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
-msgstr "Zemin, onu düz yaptığınız kadar düzdür.\\"
+msgstr "Zemin sen ne kadar karşı koyarsan o kadar düzdür."
 
 #: data/map-medium/accordian.map
 msgid "Stairway to heaven"
-msgstr "Göğe doğru bir merdiven"
+msgstr "\"Cennete doğru bir merdiven...\""
 
 #: data/map-medium/angle.map
 msgid ""
 "Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
 " the easy cash or\\go all the way for a big payoff.\\"
-msgstr "Bu köprüler meyilli.\\Her biri öncekine göre daha dar ve daha dik.\\İster kolay coinleri alın\\isterseniz büyük kazanç için her köprüden geçin.\\"
+msgstr "Bu köprüler eğimli.\\Her biri bir öncekine göre daha dar ve daha dik.\\İster kolay altınları alıp devam et,\\ister daha büyük oyna ve her köprüden geç.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
-msgstr "Toplanacak çok coin var.\\Hepsini toplayabilir misin?"
+msgstr "Toplanacak fazlasıyla altın var.\\Hepsini toplayabilir misin?"
 
 #: data/map-medium/cross.map
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "Yukardaki düzlemlere ulaşmak için hızlanın\\ama güvenli bir iniş için de topu kontrol altında tutun.\\\\Manuel görüntü burada yardımcı olabilir."
+msgstr "Yukardaki platformlara ulaşmak için hızlan,\\ama güvenli bir iniş için de topu kontrol altında tut.\\Sabit kamera burada yardımcı olabilir."
 
 #: data/map-medium/drops.map
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "Zıplayan bir topun kontrolüne yardım etmek için\\gölgenin takip edildiğini hatırlayın. Ve topu\\görüş alanında tutmak için farenin tuşlarının\\kullanıldığını unutmayın.\\"
+msgstr "Zıplayan bir topun kontrolüne yardım etmek için\\gölgeyi takip edebileceğini hatırla.\\Topu görüş alanında tutmak için farenin tuşlarının\\kullanıldığını unutma."
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr "Gidecek bir yer bulamadığınızda\\ışınlayıcıları kullanın.\\"
+msgstr "Gidecek yer kalmadığında ışınlayıcıları kullan."
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Ödüle karşı denge riski.\\"
+msgstr "Ne kadar ekmek, o kadar köfte."
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "Hedefe ulaşmak için yokuş yukarı çıkın.\\(Söylemesi yapmaktan kolay.)"
+msgstr "Hedefe ulaşmak için yokuş yukarı çık.\\(Söylemesi yapmaktan kolay)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
-msgstr "Tren istasyondan ayrılmadan onu yakalayın.\\"
+msgstr "Tren istasyondan ayrılmadan yakala.\\"
 
 #: data/map-medium/learngrow.map
 msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr "Eğer topu küçültmek için bir şeyler\\bulabilirseniz top küçük deliklere sığabilir.\\Bazı yerler de daha büyük bir top gerektirebilir.\\Kesin olan tek bir şey var. Plan yapmak isteyeceksin!"
+msgstr "Eğer topu küçültmenin bir yolu olsaydı küçük deliklere sığabilirdi...\\Bazı yerler için de daha büyük bir top lazım.\\Kesin olan tek bir şey var. Planla!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
-msgstr "Hücreler arasında hareket etmek için butonları aktive et.\\"
+msgstr "Bariyerleri kaldırmak için anahtarları aktive et."
 
 #: data/map-medium/multicurves.map
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr "Hızlı gitmek felaketiniz olabilir.\\ Sonraki tekrarda belki de olmaz..."
+msgstr "Acele giden ecele gider.\\Hızlı gitmek felaketin olabilir.\\Sonraki tekrarda belki de olmaz..."
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
-msgstr "Yavaş gidin.\\"
+msgstr "Ağır ol."
 
 #: data/map-medium/qbert.map
 msgid "You can never go home again..."
-msgstr "Eve asla geri dönemezsin..."
+msgstr "Başladığın noktaya geri dönemezsin..."
 
 #: data/map-medium/rampdn.map
 msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "Burada görünümü biraz kontrol etmeniz\\gerekecek. Otomatik döndümeyi kapatmak için\\3 tuşuna basın. Görünümü elle döndürmek için\\farenin tuşlarını kullanın. Yeniden otomatik döndürmeye\\geçmek için 1 tuşuna basın.\\"
+msgstr "Burada görünümü biraz kontrol etmen gerekiyor.\\Otomatik döndümeyi kapatmak için 3 tuşuna bas.\\Görünümü elle döndürmek için farenin tuşlarını kullan.\\Yeniden otomatik döndürmeye geçmek için 1 tuşuna bas.\\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
 "This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
 "layer."
-msgstr "Bu düğün pastası oldukça zengin.\\Alt katlara geçerken dikkatli olun."
+msgstr "Bu düğün pastası oldukça dolgun görünüyor.\\Ama bir kattan ötekine geçerken dikkatli ol."
 
 #: data/map-medium/sparselines.map
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr "Şerit değiştirmek için kütüklere hızlıca çarpın.\\Daha fazla zorluk için üste ulaşmaya çalışın!"
+msgstr "Hat değiştirmek için aradaki bariyerlere hızla çarp.\\Ekstra zorluk için en üst kata ulaşmaya çalış!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr "Topu kenarlardan uzak tutmak için yavaş gidin.\\Ya da gitmeyin.\\Her iki yol da işe yarayabilir.\\"
+msgstr "Topu kenarlardan uzak tutmak için yavaş git.\\Ya da gitme.\\Sen bilirsin."
 
 #: data/map-medium/spiralup.map
 msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
-msgstr "Tıpkı daha önceki gibi bir bölüm\\ama bu sefer hareket\\yukarıdan aşağı yerine aşağıdan yukarıya.\\Bu kez hile yok.\\"
+msgstr "Tıpkı az önceki bölüm gibi,\\ama bu sefer hareket aşağıdan yukarıya.\\Bu kez hile yapamazsın.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr "Bir başka zıplayan top kontrol yeteneği testi.\\Merdivenlerden hızlı inmek\\tehlikeli olabilir.\\"
+msgstr "Bir başka kontrol testi.\\Merdivenlerden hızlı inmek tehlikeli olabilir.\\"
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr "Bu labirentte duvar yok.\\Ama bu daha kolay bir çözüm bulacağınız anlamına gelmiyor."
+msgstr "Bu labirentin duvarları yok.\\Ama bu daha kolay olduğu anlamına gelmiyor."
 
 #: data/map-medium/timer.map
 msgid ""
 "That one switch controls all five barriers.\\Be quick, because the switch is"
 " on a timer.\\When it expires, the barriers will rise.\\"
-msgstr "Yalnızca bir anahtar beş bariyeri de kontrol ediyor.\\Çabuk olun, çünkü anahtarın süresi var.\\Süre dolduğunda bariyerler yükselecek.\\"
+msgstr "Yalnızca bir anahtar beş bariyeri de kontrol ediyor.\\Çabuk ol, çünkü anahtarın belirli bir süresi var.\\Süre dolduğunda bariyerler tekrar kapanacak.\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
-msgstr "Labirentten çıkmak için\\coinlerin yolunu takip et."
+msgstr "Labirentten çıkmak için altınları takip et."
 
 #: data/map-medium/zigzag.map
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
-msgstr "Burada yeterince coin var.\\Tabi eğer onları toplamaya istekliyseniz.\\"
+msgstr "Herkese yetecek kadar altın var.\\Tabii eğer onları toplamak istiyorsan.\\"
 
 #: data/map-misc/bigball-old.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule.\\Bu sefer bir kürenin içindesin.\\Deneyebilirsen bütün mavi coinleri topla."
+msgstr "Topun Mahkûmu\\Bir kürenin içindesin.\\Bütün mavi altınları toplamayı dene."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
-msgstr "Bütün mavi coinleri toplamayı deneyin..\\işte bu kolay olmayacak!"
+msgstr "Bütün mavi altınları toplamayı dene...\\İşte bu kolay olmayacak!"
 
 #: data/map-misc/blockers.map
 msgid "Block around the clock."
-msgstr "Gün boyunca engelleyin."
+msgstr "Bir zamanlayıcı ve çevresinde bloklar."
 
 #: data/map-misc/bounce.map
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr "Mavi coinleri takip et...\\ve kontrollü bir şekilde sekmeye çalış!\\İpucu: \"Takip\" kamerasını kullanmayı dene."
+msgstr "Mavi altınları takip et...\\ve kontrollü kaybetmeden sekmeye çalış!\\İpucu: Takip kamerasını kullanmayı dene."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
-msgstr "Okları takip edin."
+msgstr "Okları takip et."
 
 #: data/map-misc/checkers.map
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr "Gerçek bir dama oyunu, fakat kazanan yok...\\Mavi coinlere ulaşmak için sıçramalısınız."
+msgstr "Gerçek bir dama oyunu, fakat kazananı yok...\\Mavi altınlara ulaşmak için taşların üzerinden sıçra."
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
-msgstr "Sakinlik ve meditasyon sizi Nirvana'ya ulaştırabilir."
+msgstr "Sükûnet ve meditasyon seni Nirvana'ya ulaştırabilir."
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Mavi işaretçileri takip edin."
+msgstr "Savoir chuter.\\Mavi işaretleri takip et."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "Topun büyüklüğünü değiştirmek için yeni coinleri kullanın!\\Beğeneceğinizi umuyorum!\\-Dave"
+msgstr "Topun büyüklüğünü değiştirmek için yeni altınları kullan!\\Umarım beğenirsin!\\- Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
-msgstr "Topunuzu büyültecek ya da küçültecek farklı coinler var."
+msgstr "Burada topunu büyütebilecek ya da\\küçültebilecek farklı altınlar mevcut."
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
-msgstr "Hadi yüzmeye gidelim...\\bütün coinler suyun içinde.\\"
+msgstr "Haydi yüzmeye gidelim...\\Bütün altınlar suyun içinde.\\"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
-msgstr "Merdivenlerden düşüm.\\Aaah!\\Acıtıyor."
+msgstr "Merdivenlerden düşüyorum.\\Aaah!\\Bu acıttı işte!."
 
 #: data/map-misc/thwomp1.map
 msgid "Just let it happen...\\then start to worry!"
-msgstr "Olmasına izin verin...\\sonra endişe etmeye başlarsınız!"
+msgstr "Bırak çarpsın sana...\\Sonra endişe etmeye başlarsın!"
 
 #: data/map-misc/timer-test_2.map
 msgid "Another test for timer accuracy."
@@ -1374,19 +1376,19 @@ msgstr "Zamanlayıcının doğruluğu için bir başka test."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant.\\Suikast kursuna hazır mısınız?"
+msgstr "Le parcours du combattant.\\Eğitim parkuru için hazır mısın?"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
-msgstr "La course effrénée.\\Hadi biraz tur atalım."
+msgstr "La course effrénée.\\Haydi birkaç tur atalım."
 
 #: data/map-mym/circuit2.map
 msgid "Les rampes abruptes.\\Control your speed."
-msgstr "Les rampes abruptes.\\Hızınızı kontrol edin."
+msgstr "Les rampes abruptes.\\Hızını kontrol et."
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Baş dönmesi sizi rahatsız eder mi?"
+msgstr "L'escalade ardue.\\Yoksa başın mı dönüyor?"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
@@ -1394,97 +1396,97 @@ msgstr "Le cycle éternel.\\Işınlayıcılardan kaç..."
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "La ballade tranquille.\\Ne kadar sessiz bir yürüyüş."
+msgstr "La ballade tranquille.\\Ne kadar da sessiz bir yürüyüş..."
 
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.\\Hareketli düzlem üzerinde dans edin!\\İpucu: Son hareketli düzlemi etkinleştirdikten sonra,\\hedef ulaşılablir olana kadar Thwomp'un etrafında dönün."
+msgstr "La ballade dansante.\\Hareketli düzlem üzerinde dans et!\\\\İpucu: Son hareketli platformu etkinleştirdikten sonra,\\hedef ulaşılabilir olana kadar Thwomp'un etrafında dön."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Başlamak için yeterli değil mi?"
+msgstr "La descente infernale.\\Başlamak için yeterince kolay değil mi?"
 
 #: data/map-mym/drive1.map
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.\\Dikkat:\\Topun altındaki düzlem ilerliyor."
+msgstr "La conduite stressante.\\Dikkat!\\Topun altındaki platform hareket ediyor."
 
 #: data/map-mym/drive2.map
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr "La conduite dangereuse.\\Topun altındaki düzlem hızla ilerliyor.\\İlerleseniz iyi olur."
+msgstr "La conduite dangereuse.\\Topun altındaki düzlem hızla hareket ediyor.\\İlerlesen iyi olur."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\Çok kolay görünüyor, değil mi?"
+msgstr "Le passage incertain.\\Kolay görünüyor, değil mi?"
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
-msgstr "Hayalet vadi.\\Hedefin açılması için 3 tur atın."
+msgstr "Ghost Valley.\\Hedefin açılması için üç tur at."
 
 #: data/map-mym/glasstower.map
 msgid "La tour de verre.\\Find the way to the exit."
-msgstr "La tour de verre.\\Çıkış yolunu bulun."
+msgstr "La tour de verre.\\Çıkış yolunu bul."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\Sizce Neverball hâlâ kolay mı?"
+msgstr "La maîtrise de Neverball.\\Hâlâ Neverball'un çok kolay olduğunu mu düşünüyorsun?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
-msgstr "Les boucles renversantes.\\Aşağıdan yukarıya!"
+msgstr "Les boucles renversantes.\\Baş aşağı!"
 
 #: data/map-mym/loop2.map
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.\\Dönmek, sıçramak ve yere inmek için\\doğru açıyı bulun..."
+msgstr "Le contrôle des courbes.\\Dönmek, sıçramak ve yere inmek\\için en doğru açıyı bul."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Hafızanızı test edin."
+msgstr "Le chemin dissimulé.\\Hafıza testi."
 
 #: data/map-mym/maze2.map
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou.\\Yolu biliyorsunu, görebiliyorsunuz.\\Öyleyse niçin farklı bir yoldan gitmiyorsunuz?"
+msgstr "Le labyrinthe fou.\\Yolu biliyorsun, görebiliyorsun.\\Öyleyse problem ne ki?"
 
 #: data/map-mym/narrow.map
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\Sabır ve zamanlama\\İpucu: İlk yokuşu en yüksek hızla tırmanın."
+msgstr "Le sentier étroit.\\Sabır ve zamanlama\\\\İpucu: İlk yokuşa mümkün olabilecek\\ en yüksek hızla gir."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.\\Koş, koş, koş!"
+msgstr "Les épreuves minutées.\\Koş bebeğim, koş!"
 
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.\\Mücadeleye başla!\\Hızınızı ayarlamak için yüzeyden ayrılmayın."
+msgstr "Le petit cross.\\Haydi yarışalım!\\Hızını ayarlamak için yüzeyden ayrılmamaya çalış."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\Çok hızlı gitmeyin."
+msgstr "La descente rafraîchissante.\\O kadar hızlı değil, o kadar da hızlı değil."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
-msgstr "Le chemin de la foi.\\Özgüven."
+msgstr "Le chemin de la foi.\\Özgüven testi."
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Dönün, bekleyin ve zıplayın."
+msgstr "Le sens trigonométrique.\\Dön, bekle ve sıçra!"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
-msgstr "L'ascension pressée.\\Yalnızca bir öneri kırıntısı: durma!"
+msgstr "L'ascension pressée.\\Tek bir tavsiyem var: Asla durma!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
@@ -1492,15 +1494,15 @@ msgstr "Un va-et-vient frustrant.\\Etkinleştirme sırasını hatırla."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
-msgstr "Sokak Neverball'u\\Takımını seç ve 3 sayı yap."
+msgstr "Sokak Neverball'u\\Takımını seç ve üç sayı yap."
 
 #: data/map-mym2/bigball.map
 msgid "La machine à circonvolutions.\\Easy, the goal is just above you."
-msgstr "La machine à circonvolutions.\\Kolay, hedef hemen altında."
+msgstr "La machine à circonvolutions.\\Çok kolay, hedef hemen üzerinde."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr "Le grand cône.\\Bir konide yaşamak."
+msgstr "Le grand cône.\\Bir koninin içerisindesin."
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
@@ -1508,62 +1510,62 @@ msgstr "Les flammes ardentes.\\Bu sana bir şey hatırlatıyor mu?"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\Coinleri takip edin."
+msgstr "Les sauts du célèbre plombier.\\Altınları takip et."
 
 #: data/map-mym2/fall.map
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr "Savoir rebondir pour aller plus haut.\\Neverball Arena.\\2 ışınlayıcıyı da hedefi açmak ve\\hedefe ulaşmak için kullanın."
+msgstr "Savoir rebondir pour aller plus haut.\\Neverball Arena.\\İki ışınlayıcıyı da hedefi açmak\\ve ona ulaşmak için kullan."
 
 #: data/map-mym2/freefall.map
 msgid ""
 "This level is full of challenges:\\understand the level's "
 "functioning,\\learn to fly and to survive,\\grab half of all coins to open "
 "the goal,\\find and reach the goal,\\and more..."
-msgstr "Bu bölüm zor parçalardan oluşuyor:\\bölüm işlevlerini anlamak,\\uçmayı ve hayatta kalmayı öğrenmek\\hedefi açmak için coinlerin yarısını toplamak\\hedefi bulmak ona ulaşmak\\ve daha fazlası..."
+msgstr "Bu bölüm zorluklarla dolu:\\Bölümün mantığını kavra,\\havada süzülmeyi ve hayatta kalmayı öğren.\\Hedefi açmak için tüm altınların yarısını topla.\\Hedefi ara, yerini bul ve ulaşmaya çalış.\\Hepsi ve daha fazlası..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
-msgstr "Le petit moulin.\\Kabine gitmek için zamanlama önemli."
+msgstr "Küçük değirmen.\\Kabine girmek için zamanlama önemli."
 
 #: data/map-mym2/littlecones.map
 msgid "Ne pas se laisser emporter dans le néant.\\Don't go too low."
-msgstr "Ne pas se laisser emporter dans le néant.\\Çok aşağı inme."
+msgstr "Hiçliğe kendinizi kaptırmayın.\\Fazla aşağıya inme."
 
 #: data/map-mym2/longpipe.map
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Si si, ce tuyau a une fin.\\Bir borunun içindesin.\\İpucu: Son sıçrama için yavaşla!"
+msgstr "Evet, evet, bu borunun bir ucu var.\\Bir borunun içindesin.\\İpucu: Son sıçrama için yavaşla!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
-msgstr "Plus dur que la difficulté.\\İyi şanslar."
+msgstr "Gördüğünden daha zor.\\İyi şanslar."
 
 #: data/map-mym2/movinglumps.map
 msgid "Être patient.\\Not too hard."
-msgstr "Être patient.\\Çok zor değil."
+msgstr "Sabırlı olmak.\\Çok da zor değil aslında."
 
 #: data/map-mym2/movingpath.map
 msgid "Le passage éphémère.\\Trust the coins."
-msgstr "Le passage éphémère.\\Coinlere güvenin.\\Ama zemine değil."
+msgstr "Kısa süreli geçiş.\\Altınlara güven.\\Altındakine değil."
 
 #: data/map-mym2/push.map
 msgid "Hé, on pousse pas !\\Not too fast, not too slow."
-msgstr "Hé, on pousse pas !\\Ne çok hızlı, ne de yavaş."
+msgstr "Hey, onu itmeyin!\\Ne çok hızlı, ne de çok yavaş."
 
 #: data/map-mym2/rainbow.map
 msgid "Rainbow Road.\\Do 3 laps to open the goal."
-msgstr "Gökkuşağı Yolu.\\Hedefi açmak için 3 tur atın."
+msgstr "Gökkuşağı Yolu.\\Hedefi açmak için üç tur at."
 
 #: data/map-mym2/rodeo.map
 msgid "Le rodéo de Neverball.\\You'll fall quickly."
-msgstr "Le rodéo de Neverball.\\Çabucak düşeceksin."
+msgstr "Neverball rodeosu.\\Çabucak düşeceksin."
 
 #: data/map-mym2/runstop.map
 msgid "J'y vais, ou j'y vais pas ?\\Do not dither."
-msgstr "J'y vais, ou j'y vais pas ?\\Tereddüt etme."
+msgstr "Gideyim mi, gitmeyeyim mi?\\Tereddüt etme."
 
 #: data/map-mym2/shaker.map
 msgid "Préparez un petit sac.\\The stomach-tester."
@@ -1571,93 +1573,93 @@ msgstr "Préparez un petit sac.\\Karın ağrısı testi."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement.\\Mehdi'nin yeni bölümlerine hoşgeldiniz!"
+msgstr "Kısa bir ısınma.\\Mehdi'nin yeni bölümlerine hoşgeldiniz!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
-msgstr "Plus vite que la vitesse.\\Hızın tanımı.\\Bizzat kendiniz tanık olacaksınız."
+msgstr "Maksimum hızdan daha hızlı./Hızın tanımı.\\Bizzat kendiniz tanık olacaksınız."
 
 #: data/map-mym2/speeddance.map
 msgid "La danse asiatique\\Trust the arrows."
-msgstr "La danse asiatique\\Oklara güvenin.\\Karşınızdakine değil."
+msgstr "Asya dansı\\Oklara güven.\\Karşındakine değil."
 
 #: data/map-mym2/translation.map
 msgid "Suis le mouvement.\\Warning, the road is moving."
-msgstr "Suis le mouvement.\\Uyarı: göründüğünden bir tık daha zor."
+msgstr "Hareketi takip et.\\Uyarı: Zemin hareket ediyor."
 
 #: data/map-mym2/updown.map
 msgid "Tranquille, mais pas trop.\\Sync yourself to the elevators."
-msgstr "Tranquille, mais pas trop.\\Kendinizi asansörle eşleştirin."
+msgstr "Rahatça — ama fazla değil.\\Kendini asansörlerle senkronize et."
 
 #: data/map-mym2/webs.map
 msgid "Les toiles attirantes.\\Get out of the webs."
-msgstr "Les toiles attirantes.\\Ağların dışına çıkın."
+msgstr "Büyüleyici Tuvaller\\Ağlardan kurtulmaya çalış."
 
 #: data/map-tones/bigtube.map
 msgid "Speed is the name of the game."
-msgstr "Hız bu bölümün adıdır.\\Tabiki şaka yapıyorum."
+msgstr "İşte hız diye buna derim!"
 
 #: data/map-tones/blue.map
 msgid "Tread carefully...\\and keep moving!\\"
-msgstr "Dikkatlice yürüyün...\\ve devam edin!\\"
+msgstr "Dikkatlice yürü...\\ve oyalanma!\\"
 
 #: data/map-tones/bumperoo.map
 msgid "Who's the boss around here anyway?"
-msgstr "Buraların patronu kim?"
+msgstr "Buraların patronu kim?!"
 
 #: data/map-tones/canals.map
 msgid "You might have to get wet\\if you want all the coins."
-msgstr "Bütün coinleri istiyorsan\\sanırım biraz ıslanacaksın."
+msgstr "Bütün altınları istiyorsan\\sanırım biraz ıslanacaksın."
 
 #: data/map-tones/check.map
 msgid "Keep your eye on the sky!\\but don't run out of time...\\"
-msgstr "Gözlerinizi gökten ayırmayın!\\Ama süreyi kontrol etmeyi de unutmayın...\\"
+msgstr "Gözlerini gökten ayırma!\\Ama süreyi kontrol etmeyi de unutma...\\"
 
 #: data/map-tones/city.map
 msgid "Stepping stones."
-msgstr "Basamak taşları."
+msgstr "Kaldırımlar."
 
 #: data/map-tones/discs.map
 msgid "Work your way to the top."
-msgstr "Zirveye doğru ilerleyin."
+msgstr "Zirveye doğru ilerle."
 
 #: data/map-tones/easyian.map
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr "Hedefi açmak için 45 coin toplayın.\\Yeterli hıza ulaştığınızda,\\zıplamak için ışınlayıcıyı kullanabilirsiniz. "
+msgstr "Hedefi açmak için 45 altın topla.\\Yeterli hıza ulaşmak için ışınlayıcıyı kullan. "
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
-msgstr "Sarsıntılı bir sürüşten kaçınmak için\\hızınızı kontrol edin."
+msgstr "Sarsıntılı bir yolculuktan kaçınmak için\\hızını kontrol et."
 
 #: data/map-tones/hotwheels.map
 msgid "Learn the course and stick to the rails!"
-msgstr "Parkuru ve korkuluklara yapışmayı öğrenin!"
+msgstr "Kemerlerini bağla! Yolu öğren ve korkuluklara güven!"
 
 #: data/map-tones/hurdles.map
 msgid "Let's start with an easy warm-up.\\Build speed and leap to the goal."
-msgstr "Kolay bir ısınma turuyla başlayalım.\\Hızınızı ayarlayın ve hedefe sıçrayın."
+msgstr "Kolay bir ısınma turuyla başlayalım.\\Hızını ayarla ve doğruca hedefe sıçra."
 
 #: data/map-tones/leaps.map
 msgid "Look before you leap..."
-msgstr "Sıçramadan önce bakın..."
+msgstr "Sıçramadan önce kontrol et..."
 
 #: data/map-tones/marble.map
 msgid "Mind your footing!"
-msgstr "Fikirler senin temellerin!"
+msgstr "Adımlarını gözden geçir!"
 
 #: data/map-tones/marble.map
 msgid "Watch your footing..."
-msgstr "Yeri izle..."
+msgstr "Adımlarına dikkat et!"
 
 #: data/map-tones/runner.map
 msgid "Walk the plank.\\After the teleport, go for speed!"
-msgstr "Tahtanın üstünde yavaş gidin.\\Işınlayıcıdan sonra hızlanın!"
+msgstr "Güvertenin üzerinde yavaşça ilerle.\\Işınlayıcıdan ardından hızlan!"
 
 #: data/map-tones/skiball.map
 msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
-msgstr "Kayan Top!\\\\Yolu 10'dan 100'e doğru sırayla açın ya da düşersiniz."
+msgstr "Ski-Ball!\\\\10 ile 100 arasında bir noktayı hedeflediğinden emin ol./Yoksa düşersin."
 
 #: data/map-tones/swish.map
 msgid "Timing is everything."
@@ -1665,31 +1667,31 @@ msgstr "Zamanlama her şeydir."
 
 #: data/map-tones/swoop.map
 msgid "What goes down must come up!\\"
-msgstr "Aşağı inen yukarı çıkmalı!\\"
+msgstr "Her çıkışın bir inişi vardır!"
 
 #: data/map-tones/tonesmaze.map
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr "20 saniye dolmadan\\güvenli pembe düzlemlere\\ulaştığınızdan emin olun!"
+msgstr "20 saniye içerisinde mor bir platformun/üzerinde olduğundan emin ol!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
-msgstr "Yüksekten korkuyor musun?\\Umarım başınız dönmez."
+msgstr "Yüksekten mi korkuyorsun?\\Umarım başın dönmez."
 
 #: data/map-tones/waves.map
 msgid "Surf's Up !!"
-msgstr "Sörf zamanı !!"
+msgstr "Sörf zamanı!!"
 
 #. Desktop entry comment
 #: dist/neverball.desktop.in
 msgid "A 3D arcade game with a ball"
-msgstr "3 Boyutlu Arcade Oyunu "
+msgstr "Bir Üç-Boyutlu Arcade Oyunu "
 
 #. Desktop entry comment
 #: dist/neverputt.desktop.in
 msgid "A 3D mini golf game"
-msgstr "Bir 3 Boyutlu mini golf oyunu"
+msgstr "Bir Üç-Boyutlu Mini Golf Oyunu"
 
 #. Translators,
 #. Listed here are the Neverball materials (relative to the data directory)
