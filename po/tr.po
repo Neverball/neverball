@@ -1490,7 +1490,7 @@ msgstr "Aceleci tırmanış.\\Tek bir tavsiyem var: Asla durma!"
 
 #: data/map-mym2/backforth.map
 msgid "Un va-et-vient frustrant.\\Remember the activation order."
-msgstr "Un va-et-vient frustrant.\\Etkinleştirme sırasını hatırla."
+msgstr "Sinir bozucu iniş çıkış.\\Etkinleştirme sırasını hatırla."
 
 #: data/map-mym2/basket.map
 msgid "Street Neverball\\Choose your party and score 3 points."
