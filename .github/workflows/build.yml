@@ -10,14 +10,14 @@ on:
 
 jobs:
   ubuntu:
-    name: Ubuntu 24.04
+    name: Ubuntu 26.04
     runs-on: ${{ format('ubuntu-24.04{0}', matrix.arch == 'arm64' && '-arm' || '') }}
     strategy:
       fail-fast: false
       matrix:
         arch: [x64, arm64]
     container:
-      image: ubuntu:24.04
+      image: ubuntu:26.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
