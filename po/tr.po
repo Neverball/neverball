@@ -1470,7 +1470,7 @@ msgstr "Zamana karşı yarışlar.\\Koş bebeğim, koş!"
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Le petit cross.\\Haydi yarışalım!\\Hızını ayarlamak için yüzeyden ayrılmamaya çalış."
+msgstr "Küçük çapraz koşu.\\Haydi yarışalım!\\Hızını ayarlamak için yüzeyden ayrılmamaya çalış."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
