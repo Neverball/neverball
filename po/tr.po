@@ -1445,7 +1445,7 @@ msgstr "Nefes kesici bukleler.\\Baş aşağı!"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Le contrôle des courbes.\\Dönmek, sıçramak ve yere inmek\\için en doğru açıyı bul."
+msgstr "Eğrileri kontrol etmek.\\Dönmek, sıçramak ve yere inmek\\için en doğru açıyı bul."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
