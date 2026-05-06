@@ -1465,7 +1465,7 @@ msgstr "Dar patika.\\Sabır ve zamanlama\\\\İpucu: İlk yokuşa mümkün olabil
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
-msgstr "Les épreuves minutées.\\Koş bebeğim, koş!"
+msgstr "Zamana karşı yarışlar.\\Koş bebeğim, koş!"
 
 #: data/map-mym/scrambling.map
 msgid ""
