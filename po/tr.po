@@ -767,7 +767,7 @@ msgstr "Zorluk: İleri Seviyeden İmkansızlığa\\\\Üst düzey oyuncular için
 
 #: data/set-tones.txt
 msgid "Tones Levels"
-msgstr "Tones Levelleri"
+msgstr "Ton Düzeyleri"
 
 #: data/set-tones.txt
 msgid "Difficulty: Moderate to Difficult.\\\\Author: Ian Walker\\\\"
