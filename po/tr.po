@@ -811,7 +811,7 @@ msgstr "Çılgın Golf!\\ \\\\Zorluk: Başlangıçtan Orta Seviyeye\\Hazırlayan
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr "Zorlayıcı Golf!\\\\Birçok farklı düello ile beraber 18-delikli bir kurs\\Zorluk: İleri Seviyeden İnsanüstülüğe\\Hazırlayan: Byron James Johnson"
+msgstr "Zorlayıcı Golf!\\\\Birçok zorluk barındıran 18 delikli bir golf sahası\\Zorluk: İleri Seviyeden İnsanüstülüğe\\Hazırlayan: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
