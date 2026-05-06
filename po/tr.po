@@ -1376,7 +1376,7 @@ msgstr "Zamanlayıcının doğruluğu için bir başka test."
 
 #: data/map-mym/assault.map
 msgid "Le parcours du combattant.\\Ready for the assault course?"
-msgstr "Le parcours du combattant.\\Eğitim parkuru için hazır mısın?"
+msgstr "Savaşçıların yolu.\\Saldırı kursuna hazır mısın?"
 
 #: data/map-mym/circuit1.map
 msgid "La course effrénée.\\Let's run some laps."
