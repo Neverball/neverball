@@ -1396,7 +1396,7 @@ msgstr "Sonsuz döngü.\\Işınlayıcılardan kaç..."
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
-msgstr "Sakin yürüyüş.\\Ne kadar da sessiz bir yürüyüş..."
+msgstr "Hoş bir gezinti.\\Ne kadar da sessiz bir yürüyüş..."
 
 #: data/map-mym/dance2.map
 msgid ""
