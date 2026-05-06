@@ -1506,7 +1506,7 @@ msgstr "Büyük koni.\\Bir koninin içerisindesin."
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
-msgstr "Les flammes ardentes.\\Bu sana bir şey hatırlatıyor mu?"
+msgstr "Parlak alevler.\\Bu sana bir şey hatırlatıyor mu?"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
