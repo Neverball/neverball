@@ -1482,7 +1482,7 @@ msgstr "İnanç yolu.\\Özgüveninizi sınayın."
 
 #: data/map-mym/turn.map
 msgid "Le sens trigonométrique.\\Turn, wait and jump."
-msgstr "Le sens trigonométrique.\\Dön, bekle ve sıçra!"
+msgstr "Trigonometrik açı.\\Dön, bekle ve sıçra!"
 
 #: data/map-mym/up.map
 msgid "L'ascension pressée.\\Only one piece of advice: don't stop!"
