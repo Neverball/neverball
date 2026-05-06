@@ -1474,7 +1474,7 @@ msgstr "Küçük çapraz koşu.\\Haydi yarışalım!\\Hızını ayarlamak için 
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
-msgstr "La descente rafraîchissante.\\O kadar hızlı değil, o kadar da hızlı değil."
+msgstr "Ferahlatıcı iniş.\\Yavaşla kardeş, yavaşla."
 
 #: data/map-mym/trust.map
 msgid "Le chemin de la foi.\\Self-confidence."
