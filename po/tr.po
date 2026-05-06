@@ -1407,7 +1407,7 @@ msgstr "Danslı gezinti.\\Hareketli düzlem üzerinde dans et!\\\\İpucu: Son ha
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
-msgstr "La descente infernale.\\Başlamak için yeterince kolay değil mi?"
+msgstr "Cehennem yolculuğu.\\Başlamak için yeterince kolay değil mi?"
 
 #: data/map-mym/drive1.map
 msgid ""
