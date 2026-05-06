@@ -1455,7 +1455,7 @@ msgstr "Saklı yol.\\Hafızanızı sınayın."
 msgid ""
 "Le labyrinthe fou.\\You know the way, you see it,\\so why are you taking "
 "another one?"
-msgstr "Le labyrinthe fou.\\Yolu biliyorsun, görebiliyorsun.\\Öyleyse problem ne ki?"
+msgstr "Çılgın labirent.\\Yol gözünün önünde, o zaman neden başka bir yol seçiyorsun?"
 
 #: data/map-mym/narrow.map
 msgid ""
