@@ -1423,7 +1423,7 @@ msgstr "Tehlikeli sürüş.\\La conduite dangereuse.\\Topun altındaki düzlem h
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
-msgstr "Le passage incertain.\\Kolay görünüyor, değil mi?"
+msgstr "Belirsiz geçit.\\Kolay görünüyor, değil mi?"
 
 #: data/map-mym/ghosts.map
 msgid "Ghost Valley.\\Make 3 laps to open the goal."
