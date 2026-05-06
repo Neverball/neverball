@@ -1388,7 +1388,7 @@ msgstr "Dik yokuşlar.\\Hızını kontrol et."
 
 #: data/map-mym/climb.map
 msgid "L'escalade ardue.\\Do you suffer from vertigo?"
-msgstr "L'escalade ardue.\\Yoksa başın mı dönüyor?"
+msgstr "Zorlu tırmanış.\\Yoksa başın mı dönüyor?"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
