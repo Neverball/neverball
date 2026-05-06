@@ -1510,7 +1510,7 @@ msgstr "Parlak alevler.\\Bu sana bir şey hatırlatıyor mu?"
 
 #: data/map-mym2/bounces.map
 msgid "Les sauts du célèbre plombier.\\Follow the coins."
-msgstr "Les sauts du célèbre plombier.\\Altınları takip et."
+msgstr "Ünlü tesisatçının zıplamaları.\\Altınları takip et."
 
 #: data/map-mym2/fall.map
 msgid ""
