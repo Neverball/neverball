@@ -1348,7 +1348,7 @@ msgstr "Sükûnet ve meditasyon seni Nirvana'ya ulaştırabilir."
 
 #: data/map-misc/freefall-old.map
 msgid "Savoir chuter.\\Follow the blue markers."
-msgstr "Savoir chuter.\\Mavi işaretleri takip et."
+msgstr "Düşmeyi bil.\\Mavi işaretleri takip et."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
