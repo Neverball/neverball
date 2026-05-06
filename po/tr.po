@@ -1392,7 +1392,7 @@ msgstr "Zorlu tırmanış.\\Yoksa başın mı dönüyor?"
 
 #: data/map-mym/comeback.map
 msgid "Le cycle éternel.\\Avoid teleporters..."
-msgstr "Le cycle éternel.\\Işınlayıcılardan kaç..."
+msgstr "Sonsuz döngü.\\Işınlayıcılardan kaç..."
 
 #: data/map-mym/dance1.map
 msgid "La ballade tranquille.\\What a quiet walk."
