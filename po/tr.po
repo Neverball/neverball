@@ -1502,7 +1502,7 @@ msgstr "Girdap makinesi.\\Çok kolay, hedef hemen üzerinde."
 
 #: data/map-mym2/bigcone.map
 msgid "Le grand cône.\\Living in a cone."
-msgstr "Le grand cône.\\Bir koninin içerisindesin."
+msgstr "Büyük koni.\\Bir koninin içerisindesin."
 
 #: data/map-mym2/bombman.map
 msgid "Les flammes ardentes.\\Does this remind you of something?"
