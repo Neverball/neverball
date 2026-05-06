@@ -1413,7 +1413,7 @@ msgstr "Cehennem yolculuğu.\\Başlamak için yeterince kolay değil mi?"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.\\Dikkat!\\Topun altındaki platform hareket ediyor."
+msgstr "Stresli sürüş.\\Dikkat!\\Topun altındaki platform hareket ediyor."
 
 #: data/map-mym/drive2.map
 msgid ""
