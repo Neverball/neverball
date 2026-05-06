@@ -1161,7 +1161,7 @@ msgstr "Çok yakın, ama bir o kadar uzak...\\"
 msgid ""
 "Ride the elevators to the top.\\They move quickly,\\so don't dally too "
 "long.\\"
-msgstr "Yukarı çıkmak için asansörleri kullan.\\Epey hızlılar, fazla oyalanma.\\"
+msgstr "Yukarı çıkmak için asansörleri kullan.\\Epey hızlılar, o yüzden fazla oyalanma.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
