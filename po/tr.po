@@ -1461,7 +1461,7 @@ msgstr "Çılgın labirent.\\Yol gözünün önünde, o zaman neden başka bir y
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Le sentier étroit.\\Sabır ve zamanlama\\\\İpucu: İlk yokuşa mümkün olabilecek\\ en yüksek hızla gir."
+msgstr "Dar patika.\\Sabır ve zamanlama\\\\İpucu: İlk yokuşa mümkün olabilecek\\ en yüksek hızla gir."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
