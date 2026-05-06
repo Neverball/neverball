@@ -1114,7 +1114,7 @@ msgstr "İvme her zaman senden yana olmayabilir."
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "Bırak açgözlülüğün sana rehberlik etsin!\\Ek bir macera için bütün altınları toplamayı dene.\\Tahmin yürütmeden de yapabilirsin."
+msgstr "Bırak açgözlülüğün sana rehberlik etsin!\\Ek bir zorluk için bütün altınları toplamayı dene.\\Tahmin yürütmeden de yapabilirsin."
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
