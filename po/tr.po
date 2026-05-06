@@ -1449,7 +1449,7 @@ msgstr "Eğrileri kontrol etmek.\\Dönmek, sıçramak ve yere inmek\\için en do
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
-msgstr "Le chemin dissimulé.\\Hafıza testi."
+msgstr "Saklı yol.\\Hafızanızı sınayın."
 
 #: data/map-mym/maze2.map
 msgid ""
