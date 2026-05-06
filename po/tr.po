@@ -1068,7 +1068,7 @@ msgstr "=UFO=\\Uzay gemisine atla, henüz onlar farkında değillerken."
 
 #: data/map-hard/airways.map
 msgid "2 switches have to be enabled\\to open the path to the goal."
-msgstr "Hedefe giden yolu açmak için\\iki anahtar da etkinleştirilmeli."
+msgstr "Hedefe giden yolu açmak için\\iki anahtar etkinleştirilmeli."
 
 #: data/map-hard/check.map
 msgid "There's not enough floor here.\\Hopefully that's not a problem.\\"
