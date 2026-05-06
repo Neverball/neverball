@@ -817,7 +817,7 @@ msgstr "Zorlayıcı Golf!\\\\Birçok zorluk barındıran 18 delikli bir golf sah
 msgid ""
 "Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
 "hard.\\Author: vidski\\"
-msgstr "Golf Jambalaya\\\\Vidski'nin adı kötüye çıkmış parkuru.\\Zorluk: Orta Seviyeden İleri Seviyeye\\Hazırlayan: vidski\\"
+msgstr "Golf Jambalaya\\\\Vidski'nin meşhur parkuru.\\Zorluk: Orta Seviyeden İleri Seviyeye\\Hazırlayan: vidski\\"
 
 #: data/holes-iCourse.txt
 msgid ""
