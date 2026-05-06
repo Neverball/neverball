@@ -1220,7 +1220,7 @@ msgstr "Gidecek yer kalmadığında ışınlayıcıları kullan."
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
-msgstr "Ne kadar ekmek, o kadar köfte."
+msgstr "Risk ile getirinin harmonisi.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
