@@ -1419,7 +1419,7 @@ msgstr "Stresli sürüş.\\Dikkat!\\Topun altındaki platform hareket ediyor."
 msgid ""
 "La conduite dangereuse.\\The platform under the ball moves quickly "
 "forward.\\You would do well to advance."
-msgstr "La conduite dangereuse.\\Topun altındaki düzlem hızla hareket ediyor.\\İlerlesen iyi olur."
+msgstr "Tehlikeli sürüş.\\La conduite dangereuse.\\Topun altındaki düzlem hızla hareket ediyor.\\İlerlesen iyi olur."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
