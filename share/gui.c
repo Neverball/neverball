@@ -1159,9 +1159,27 @@ static void gui_widget_size(int id)
             break;
 
         case GUI_CLOCK:
-            widget[id].w = widget[digit_id[widget[id].size][0]].text_w * 6;
+        {
+            int digits = 6;
+            int value  = widget[id].init_value;
+
+            if (value >= 360000)
+            {
+                int hours = value / 360000;
+                int hour_digits = 0;
+
+                while (hours > 0)
+                {
+                    hour_digits++;
+                    hours /= 10;
+                }
+                digits += hour_digits + 1;
+            }
+
+            widget[id].w = widget[digit_id[widget[id].size][0]].text_w * digits;
             widget[id].h = widget[digit_id[widget[id].size][0]].text_h;
             break;
+        }
 
         default:
             widget[id].w = 0;
@@ -2111,23 +2129,46 @@ static void gui_paint_count(int id)
 static void gui_paint_clock(int id)
 {
     int i  =   widget[id].size;
-    int mt =  (widget[id].value / 6000) / 10;
-    int mo =  (widget[id].value / 6000) % 10;
-    int st = ((widget[id].value % 6000) / 100) / 10;
-    int so = ((widget[id].value % 6000) / 100) % 10;
-    int ht = ((widget[id].value % 6000) % 100) / 10;
-    int ho = ((widget[id].value % 6000) % 100) % 10;
+    int value = widget[id].value;
+    int hours = value / 360000;
+    int minutes = (value % 360000) / 6000;
+    int seconds = (value % 6000) / 100;
+    int hundredths = value % 100;
+
+    int ht = hundredths / 10;
+    int ho = hundredths % 10;
+    int st = seconds / 10;
+    int so = seconds % 10;
+    int mt = minutes / 10;
+    int mo = minutes % 10;
 
     GLfloat dx_large = (GLfloat) widget[digit_id[i][0]].text_w;
     GLfloat dx_small = (GLfloat) widget[digit_id[i][0]].text_w * 0.75f;
+    GLfloat total_width = 0.0f;
+    int minute_digits = (hours > 0 || mt > 0) ? 2 : 1;
+    int hour_digits = 0;
 
-    if (widget[id].value < 0)
+    if (value < 0)
         return;
+
+    if (hours > 0)
+    {
+        int h = hours;
+        while (h > 0)
+        {
+            hour_digits++;
+            h /= 10;
+        }
+        total_width += hour_digits * dx_large + dx_small;
+    }
+
+    total_width += minute_digits * dx_large;
+    total_width += dx_small;
+    total_width += 2 * dx_large;
+    total_width += dx_large;
 
     glPushMatrix();
     {
-        /* Translate to the widget center, and apply the pulse scale. */
-
         glTranslatef((GLfloat) (widget[id].x + widget[id].w / 2 + widget[id].offset_x),
                      (GLfloat) (widget[id].y + widget[id].h / 2 + widget[id].offset_y), 0.f);
 
@@ -2135,16 +2176,23 @@ static void gui_paint_clock(int id)
                  widget[id].scale,
                  widget[id].scale);
 
-        /* Translate left by half the total width of the rendered value. */
+        glTranslatef(-total_width * 0.5f, 0.0f, 0.0f);
 
-        if (mt > 0)
-            glTranslatef(-2.25f * dx_large, 0.0f, 0.0f);
-        else
-            glTranslatef(-1.75f * dx_large, 0.0f, 0.0f);
+        if (hours > 0)
+        {
+            if (hours >= 10)
+            {
+                glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][hours / 10]].image);
+                draw_text(digit_id[i][hours / 10]);
+                glTranslatef(dx_large, 0.0f, 0.0f);
+            }
 
-        /* Render the minutes counter. */
+            glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][hours % 10]].image);
+            draw_text(digit_id[i][hours % 10]);
+            glTranslatef(dx_small, 0.0f, 0.0f);
+        }
 
-        if (mt > 0)
+        if (hours > 0 || mt > 0)
         {
             glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][mt]].image);
             draw_text(digit_id[i][mt]);
@@ -2155,13 +2203,9 @@ static void gui_paint_clock(int id)
         draw_text(digit_id[i][mo]);
         glTranslatef(dx_small, 0.0f, 0.0f);
 
-        /* Render the colon. */
-
         glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][10]].image);
         draw_text(digit_id[i][10]);
         glTranslatef(dx_small, 0.0f, 0.0f);
-
-        /* Render the seconds counter. */
 
         glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][st]].image);
         draw_text(digit_id[i][st]);
@@ -2170,8 +2214,6 @@ static void gui_paint_clock(int id)
         glBindTexture_(GL_TEXTURE_2D, widget[digit_id[i][so]].image);
         draw_text(digit_id[i][so]);
         glTranslatef(dx_small, 0.0f, 0.0f);
-
-        /* Render hundredths counter half size. */
 
         glScalef(0.5f, 0.5f, 1.0f);
 
