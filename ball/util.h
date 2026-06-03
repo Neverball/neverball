@@ -19,6 +19,8 @@
 void gui_score_set(int);
 int  gui_score_get(void);
 
+void gui_set_stats(const struct level *);
+
 void gui_score_board(int, unsigned int, int, int);
 void set_score_board(const struct score *, int,
                      const struct score *, int,
