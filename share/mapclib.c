@@ -193,7 +193,6 @@ struct mapc_context
     int read_dict_entries;
 
     int mtrl_swaps[MAXM];
-    int vert_swaps[MAXV];
     int edge_swaps[MAXE];
     int side_swaps[MAXS];
     int texc_swaps[MAXT];
@@ -2536,6 +2535,7 @@ static void uniq_file(struct mapc_context *ctx)
 
 struct b_trip
 {
+    int ci;
     int vi;
     int mi;
     int si;
@@ -2547,8 +2547,8 @@ static int comp_trip(const void *p, const void *q)
     const struct b_trip *tp = (const struct b_trip *) p;
     const struct b_trip *tq = (const struct b_trip *) q;
 
-    if (tp->vi < tq->vi) return -1;
-    if (tp->vi > tq->vi) return +1;
+    if (tp->ci < tq->ci) return -1;
+    if (tp->ci > tq->ci) return +1;
     if (tp->mi < tq->mi) return -1;
     if (tp->mi > tq->mi) return +1;
 
@@ -2562,6 +2562,32 @@ static void smth_file(struct mapc_context *ctx)
 
     if (ctx->opt_debug == 0)
     {
+        /* Build vertex equivalence map by position. */
+
+        int *canonical_verts = (int *) malloc(fp->vc * sizeof (int));
+        int idx;
+
+        if (canonical_verts)
+        {
+            for (idx = 0; idx < fp->vc; idx++)
+            {
+                int jdx;
+
+                for (jdx = 0; jdx < idx; jdx++)
+                    if (fabsf(fp->vv[idx].p[0] - fp->vv[jdx].p[0]) < SMALL_VERT &&
+                        fabsf(fp->vv[idx].p[1] - fp->vv[jdx].p[1]) < SMALL_VERT &&
+                        fabsf(fp->vv[idx].p[2] - fp->vv[jdx].p[2]) < SMALL_VERT)
+                        break;
+
+                canonical_verts[idx] = jdx;
+            }
+        }
+        else
+        {
+            overflow(ctx, "canonical vertices");
+            return;
+        }
+
         if ((T = (struct b_trip *) malloc(fp->gc * 3 * sizeof (struct b_trip))))
         {
             int gi, i, j, k, l, c = 0;
@@ -2576,18 +2602,21 @@ static void smth_file(struct mapc_context *ctx)
                 T[c].si = fp->ov[gp->oi].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
 
                 T[c].vi = fp->ov[gp->oj].vi;
                 T[c].si = fp->ov[gp->oj].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
 
                 T[c].vi = fp->ov[gp->ok].vi;
                 T[c].si = fp->ov[gp->ok].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
             }
 
@@ -2606,16 +2635,16 @@ static void smth_file(struct mapc_context *ctx)
 
                 /* Sort the set by side similarity to the first. */
 
-                for (j = i + 1; j < c && (T[j].vi == T[i].vi &&
+                for (j = i + 1; j < c && (T[j].ci == T[i].ci &&
                                           T[j].mi == T[i].mi); ++j)
                 {
-                    for (k = j + 1; k < c && (T[k].vi == T[i].vi &&
+                    for (k = j + 1; k < c && (T[k].ci == T[i].ci &&
                                               T[k].mi == T[i].mi); ++k)
                     {
                         const float *Nj = fp->sv[T[j].si].n;
                         const float *Nk = fp->sv[T[k].si].n;
 
-                        if (T[j].si != T[k].si && v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                        if (v_dot(Nk, Ni) > v_dot(Nj, Ni))
                         {
                             temp = T[k];
                             T[k] = T[j];
@@ -2630,9 +2659,9 @@ static void smth_file(struct mapc_context *ctx)
                 N[1] = Ni[1];
                 N[2] = Ni[2];
 
-                for (l = i + 1; l < c && (T[l].vi == T[i].vi &&
+                for (l = i + 1; l < c && (T[l].ci == T[i].ci &&
                                           T[l].mi == T[i].mi); ++l)
-                    if (T[l].si != T[i].si)
+                    if (v_dot(fp->sv[T[l].si].n, Ni) < 1.0f)
                     {
                         const float *Nl = fp->sv[T[l].si].n;
                         float deg = V_DEG(facosf(v_dot(Ni, Nl)));
@@ -2681,6 +2710,8 @@ static void smth_file(struct mapc_context *ctx)
 
             free(T);
         }
+
+        free(canonical_verts);
 
         uniq_side(ctx);
         uniq_offs(ctx);
