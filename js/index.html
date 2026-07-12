@@ -940,25 +940,42 @@ General Public License for more details.
         for (const addon of addons) {
           const elem = document.createElement('li');
           elem.classList.add('neverball-box', 'p-1', 'flex', 'gap-1', 'items-center');
-          elem.innerHTML = `
-            <div>
-              <span class="neverball-text text-xs">
-                ${addon.filename}
-              </span>
-            </div>
 
-            <button type="button" class="neverball-button" onclick="Neverball.downloadFile('/neverball/${addon.filename}')" title="Download">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
-                <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
-              </svg>
-            </button>
+          const nameDiv = document.createElement('div');
+          const nameSpan = document.createElement('span');
+          nameSpan.classList.add('neverball-text', 'text-xs');
+          nameSpan.textContent = addon.filename;
+          nameDiv.appendChild(nameSpan);
+          elem.appendChild(nameDiv);
 
-            <button type="button" class="neverball-button" onclick="Neverball.deleteAddon('${addon.filename}')" title="Delete">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
-                <path d="M 2 1 L 2 2 L 1 2 L 1 3 L 9 3 L 9 2 L 8 2 L 8 1 Z M 2 4 L 2 9 C 2 9.5 2.5 10 3 10 L 7 10 C 7.5 10 8 9.5 8 9 L 8 4 Z" fill="#fff"/>
-              </svg>
-            </button>
+          const downloadBtn = document.createElement('button');
+          downloadBtn.type = 'button';
+          downloadBtn.classList.add('neverball-button');
+          downloadBtn.title = 'Download';
+          downloadBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+              <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
+            </svg>
           `;
+          downloadBtn.addEventListener('click', () => {
+            Neverball.downloadFile('/neverball/' + addon.filename);
+          });
+          elem.appendChild(downloadBtn);
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.type = 'button';
+          deleteBtn.classList.add('neverball-button');
+          deleteBtn.title = 'Delete';
+          deleteBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+              <path d="M 2 1 L 2 2 L 1 2 L 1 3 L 9 3 L 9 2 L 8 2 L 8 1 Z M 2 4 L 2 9 C 2 9.5 2.5 10 3 10 L 7 10 C 7.5 10 8 9.5 8 9 L 8 4 Z" fill="#fff"/>
+            </svg>
+          `;
+          deleteBtn.addEventListener('click', () => {
+            Neverball.deleteAddon(addon.filename);
+          });
+          elem.appendChild(deleteBtn);
+
           fragment.appendChild(elem);
         }
 
