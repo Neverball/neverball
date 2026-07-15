@@ -731,6 +731,7 @@ General Public License for more details.
 
       isRunning: false,
       pauseOnPointerRelease: true,
+      ignoreNextMouseMove: false,
       arguments: [],
 
       _canvas: document.getElementById('canvas'),
@@ -794,6 +795,12 @@ General Public License for more details.
           if (!document.pointerLockElement) {
             if (Neverball.pauseOnPointerRelease) {
               Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            }
+          } else {
+            // Firefox Android workaround: Flag that pointer lock was just acquired
+            // so that we can ignore the first buggy movement event with massive delta.
+            if (navigator.userAgent.toLowerCase().includes('firefox')) {
+              Neverball.ignoreNextMouseMove = true;
             }
           }
         },
@@ -1526,6 +1533,20 @@ General Public License for more details.
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
 
         this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
+
+        // Firefox Android workaround: capturing event listener to discard the first
+        // non-zero mousemove event right after pointer lock is acquired.
+        window.addEventListener('mousemove', event => {
+          if (Neverball.ignoreNextMouseMove) {
+            const mx = event.movementX || 0;
+            const my = event.movementY || 0;
+            if (mx !== 0 || my !== 0) {
+              Neverball.ignoreNextMouseMove = false;
+              event.stopImmediatePropagation();
+              console.log('Workaround: Discarded first non-zero mousemove after pointer lock on Firefox (dx=' + mx + ', dy=' + my + ')');
+            }
+          }
+        }, true);
 
         this.updateVersionText();
       },
