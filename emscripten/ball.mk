@@ -131,10 +131,14 @@ BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
 .PHONY: neverball
-neverball: $(JSDIR)/neverball.js
+neverball: $(JSDIR)/neverball.js $(JSDIR)/service-worker.js
 
 $(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+$(JSDIR)/service-worker.js: $(JSDIR)/service-worker.in.js neverball-version.txt neverball-build.txt
+	@echo "Generating $@..."
+	@sed "s/@BUILD_VERSION@/$(VERSION)-$(shell date +%s)/g" $< > $@
 
 $(DATA_ZIP):
 	$(MAKE) -f mk/package-base.mk OUTPUT_DIR=$$(pwd) package-only && \
@@ -150,7 +154,7 @@ clean-packages:
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(JSDIR)/service-worker.js $(DATA_ZIP)
 
 .PHONY: watch
 watch:

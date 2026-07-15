@@ -26,6 +26,7 @@ autosave
 /js/neverball.data
 /js/neverball.js
 /js/neverball.wasm
+/js/service-worker.js
 /js/mapc.js
 /js/mapc.wasm
 /js/packages
