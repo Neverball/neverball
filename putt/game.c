@@ -57,6 +57,8 @@ static float jump_p[3];                 /* Jump destination                  */
 
 static float idle_t;                    /* Idling timeout                    */
 
+static int   fast_timescale;            /* Whether fast-timescale mode is on */
+
 /*---------------------------------------------------------------------------*/
 
 static void view_init(void)
@@ -509,6 +511,15 @@ int game_step(const float g[3], float dt)
     if (!state)
         return GAME_NONE;
 
+    if (config_cheat())
+    {
+        if (fast_timescale)
+        {
+            /* Apply timescale when shift is pressed down. */
+            dt *= 3.0f;
+        }
+    }
+
     s = (7.f * s + dt) / 8.f;
     t = s;
 
@@ -706,6 +717,18 @@ void game_set_pos(float p[3], float e[3][3])
     v_cpy(file.vary.uv[ball].e[0], e[0]);
     v_cpy(file.vary.uv[ball].e[1], e[1]);
     v_cpy(file.vary.uv[ball].e[2], e[2]);
+}
+
+void game_set_fast(int d)
+{
+    if (!config_cheat())
+    {
+        fast_timescale = 0;
+    }
+    else
+    {
+        fast_timescale = d;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
