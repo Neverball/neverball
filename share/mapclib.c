@@ -990,6 +990,18 @@ static void read_v(struct mapc_context *ctx, const char *line)
     sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
 }
 
+static void parse_triplet(const char *token, int *vi, int *ti, int *si)
+{
+    *vi = 0;
+    *ti = 0;
+    *si = 0;
+
+    if (sscanf(token, "%d/%d/%d", vi, ti, si) == 3) return;
+    if (sscanf(token, "%d//%d", vi, si) == 2)       return;
+    if (sscanf(token, "%d/%d", vi, ti) == 2)        return;
+    if (sscanf(token, "%d", vi) == 1)               return;
+}
+
 static void read_f(struct mapc_context *ctx, const char *line,
                    int v0, int t0, int s0, int mi)
 {
@@ -1000,23 +1012,32 @@ static void read_f(struct mapc_context *ctx, const char *line,
     struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
     struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
 
-    char c1;
-    char c2;
+    char tok1[64] = "";
+    char tok2[64] = "";
+    char tok3[64] = "";
 
-    sscanf(line, "%d%c%d%c%d %d%c%d%c%d %d%c%d%c%d",
-           &op->vi, &c1, &op->ti, &c2, &op->si,
-           &oq->vi, &c1, &oq->ti, &c2, &oq->si,
-           &or->vi, &c1, &or->ti, &c2, &or->si);
+    int vi1 = 0, ti1 = 0, si1 = 0;
+    int vi2 = 0, ti2 = 0, si2 = 0;
+    int vi3 = 0, ti3 = 0, si3 = 0;
 
-    op->vi += (v0 - 1);
-    oq->vi += (v0 - 1);
-    or->vi += (v0 - 1);
-    op->ti += (t0 - 1);
-    oq->ti += (t0 - 1);
-    or->ti += (t0 - 1);
-    op->si += (s0 - 1);
-    oq->si += (s0 - 1);
-    or->si += (s0 - 1);
+    if (sscanf(line, "%63s %63s %63s", tok1, tok2, tok3) == 3)
+    {
+        parse_triplet(tok1, &vi1, &ti1, &si1);
+        parse_triplet(tok2, &vi2, &ti2, &si2);
+        parse_triplet(tok3, &vi3, &ti3, &si3);
+    }
+
+    op->vi = v0 + vi1 - 1;
+    oq->vi = v0 + vi2 - 1;
+    or->vi = v0 + vi3 - 1;
+
+    op->ti = ti1 > 0 ? (t0 + ti1 - 1) : (t0 < fp->tc ? t0 : 0);
+    oq->ti = ti2 > 0 ? (t0 + ti2 - 1) : (t0 < fp->tc ? t0 : 0);
+    or->ti = ti3 > 0 ? (t0 + ti3 - 1) : (t0 < fp->tc ? t0 : 0);
+
+    op->si = si1 > 0 ? (s0 + si1 - 1) : (s0 < fp->sc ? s0 : 0);
+    oq->si = si2 > 0 ? (s0 + si2 - 1) : (s0 < fp->sc ? s0 : 0);
+    or->si = si3 > 0 ? (s0 + si3 - 1) : (s0 < fp->sc ? s0 : 0);
 
     gp->mi  = mi;
 }
