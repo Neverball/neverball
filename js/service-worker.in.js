@@ -1,4 +1,4 @@
-const cacheName = 'neverball-v15';
+const cacheName = 'neverball-@BUILD_VERSION@';
 
 const urls = [
   '/',
@@ -13,7 +13,20 @@ const urls = [
 
 async function installWorker(event) {
   const cache = await caches.open(cacheName);
-  return cache.addAll(urls);
+  
+  const responses = await Promise.all(
+    urls.map(async (url) => {
+      const response = await fetch(url, { cache: 'reload' });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+      }
+      return { url, response };
+    })
+  );
+
+  await Promise.all(
+    responses.map(({ url, response }) => cache.put(url, response))
+  );
 }
 
 async function serveCachedResponse(event) {
@@ -34,8 +47,6 @@ async function serveCachedResponse(event) {
 }
 
 self.addEventListener('install', event => {
-  self.skipWaiting();
-
   event.waitUntil(installWorker(event));
 });
 
@@ -44,6 +55,16 @@ self.addEventListener('fetch', event => {
 
   if (urls.includes(url.pathname)) {
     event.respondWith(serveCachedResponse(event));
+  }
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  } else if (event.data && event.data.type === 'GET_VERSION') {
+    if (event.ports && event.ports[0]) {
+      event.ports[0].postMessage({ version: cacheName });
+    }
   }
 });
 
