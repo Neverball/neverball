@@ -480,6 +480,89 @@ General Public License for more details.
         min-width: 0;
       }
     }
+
+    .update-toast {
+      position: fixed;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(150%);
+      background: rgba(64, 173, 71, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: none;
+      border-radius: 1.2rem;
+      padding: 1.2rem 2.4rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      z-index: 10000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+      opacity: 0;
+      pointer-events: none;
+      font-family: "DejaVu Sans", Verdana, sans-serif;
+      width: max-content;
+      max-width: calc(100% - 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .update-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .update-toast__text {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .update-button-focused {
+      background: rgba(255, 178, 76, 0.73);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-button-secondary {
+      background: rgba(25, 25, 25, 0.6);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-toast__buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 576px) {
+      .update-toast {
+        bottom: 1.6rem;
+        padding: 1.2rem 1.6rem;
+        width: calc(100% - 3.2rem);
+        border-radius: 1rem;
+        gap: 1.2rem;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      
+      .update-toast__buttons {
+        width: 100%;
+      }
+      
+      .update-toast__buttons .neverball-button {
+        flex: 1;
+        justify-content: center;
+        white-space: normal;
+        padding: 0.8rem 0.4rem;
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 
@@ -628,7 +711,7 @@ General Public License for more details.
 
     <div class="text-center text-xs in-game:hidden in-app:hidden">
       <p>
-        This version of Neverball is built with <a href="https://emscripten.org/">Emscripten</a> and <a href="https://github.com/ptitSeb/gl4es">gl4es</a>.
+        <span id="version-indicator"></span>This version of Neverball is built with <a href="https://emscripten.org/">Emscripten</a> and <a href="https://github.com/ptitSeb/gl4es">gl4es</a>.
 
         You have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a>
       </p>
@@ -1443,6 +1526,8 @@ General Public License for more details.
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
 
         this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
+
+        this.updateVersionText();
       },
 
     initRuntime: async function (createEmscriptenModule) {
@@ -1560,8 +1645,35 @@ General Public License for more details.
         this.setStatusText('Preparing runtime...');
 
         if ('serviceWorker' in navigator) {
-          await navigator.serviceWorker.register('./service-worker.js', {
+          const registration = await navigator.serviceWorker.register('./service-worker.js', {
             updateViaCache: 'none',
+          });
+
+          this.updateVersionText();
+
+          if (registration.waiting) {
+            this.showUpdatePrompt(registration.waiting);
+          }
+
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed') {
+                  if (navigator.serviceWorker.controller) {
+                    this.showUpdatePrompt(newWorker);
+                  }
+                }
+              });
+            }
+          });
+
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
           });
         }
 
@@ -1569,12 +1681,64 @@ General Public License for more details.
 
         this.setStatusText('Ready to play. Good luck!');
       },
+
+      showUpdatePrompt: function (worker) {
+        const toast = document.getElementById('update-toast');
+        const btn = document.getElementById('update-button');
+        const dismissBtn = document.getElementById('dismiss-button');
+        if (toast && btn) {
+          btn.onclick = () => {
+            worker.postMessage({ type: 'SKIP_WAITING' });
+          };
+          toast.classList.add('show');
+        }
+        if (toast && dismissBtn) {
+          dismissBtn.onclick = () => {
+            toast.classList.remove('show');
+          };
+        }
+      },
+
+      updateVersionText: function () {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+          const messageChannel = new MessageChannel();
+          messageChannel.port1.onmessage = (event) => {
+            const versionStr = event.data.version;
+            const parts = versionStr.split('-');
+            const timestamp = parseInt(parts[parts.length - 1], 10);
+            if (!isNaN(timestamp)) {
+              const date = new Date(timestamp * 1000);
+              const pad = (num) => String(num).padStart(2, '0');
+              const yyyy = date.getFullYear();
+              const mm = pad(date.getMonth() + 1);
+              const dd = pad(date.getDate());
+              const hh = pad(date.getHours());
+              const min = pad(date.getMinutes());
+              const ss = pad(date.getSeconds());
+              const dateString = `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+              const indicator = document.getElementById('version-indicator');
+              if (indicator) {
+                indicator.textContent = 'You are running Neverball build ' + dateString + '. ';
+              }
+            }
+          };
+          navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' }, [messageChannel.port2]);
+        }
+      },
     };
 
     Neverball.initPage();
   </script>
 
   <script async src="neverball.js" onload="Neverball.prepareLauncher();"></script>
+
+  <div id="update-toast" class="update-toast">
+    <span class="update-toast__text">A new version is available!</span>
+    <div class="update-toast__buttons">
+      <button id="update-button" class="neverball-button update-button-focused">Update & Refresh</button>
+      <button id="dismiss-button" class="neverball-button update-button-secondary">Not Now</button>
+    </div>
+  </div>
 </body>
 
 </html>
