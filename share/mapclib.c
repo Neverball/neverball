@@ -2652,37 +2652,41 @@ static void smth_file(struct mapc_context *ctx)
                 int acc = 0;
 
                 float N[3], angle = fp->mv[T[i].mi].angle;
-                const float   *Ni = fp->sv[T[i].si].n;
+                const float   *Ni  = (T[i].si >= 0) ? fp->sv[T[i].si].n : NULL;
 
                 /* Sort the set by side similarity to the first. */
 
-                for (j = i + 1; j < c && (T[j].ci == T[i].ci &&
-                                          T[j].mi == T[i].mi); ++j)
+                if (Ni)
                 {
-                    for (k = j + 1; k < c && (T[k].ci == T[i].ci &&
-                                              T[k].mi == T[i].mi); ++k)
+                    for (j = i + 1; j < c && (T[j].ci == T[i].ci &&
+                                              T[j].mi == T[i].mi); ++j)
                     {
-                        const float *Nj = fp->sv[T[j].si].n;
-                        const float *Nk = fp->sv[T[k].si].n;
-
-                        if (v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                        for (k = j + 1; k < c && (T[k].ci == T[i].ci &&
+                                                  T[k].mi == T[i].mi); ++k)
                         {
-                            temp = T[k];
-                            T[k] = T[j];
-                            T[j] = temp;
+                            const float *Nj = fp->sv[T[j].si].n;
+                            const float *Nk = fp->sv[T[k].si].n;
+
+                            if (v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                            {
+                                temp = T[k];
+                                T[k] = T[j];
+                                T[j] = temp;
+                            }
                         }
                     }
+
+                    /* Accumulate all similar side normals. */
+
+                    N[0] = Ni[0];
+                    N[1] = Ni[1];
+                    N[2] = Ni[2];
                 }
 
-                /* Accumulate all similar side normals. */
-
-                N[0] = Ni[0];
-                N[1] = Ni[1];
-                N[2] = Ni[2];
-
                 for (l = i + 1; l < c && (T[l].ci == T[i].ci &&
-                                          T[l].mi == T[i].mi); ++l)
-                    if (v_dot(fp->sv[T[l].si].n, Ni) < 1.0f)
+                                           T[l].mi == T[i].mi); ++l)
+                {
+                    if (Ni && v_dot(fp->sv[T[l].si].n, Ni) < 1.0f)
                     {
                         const float *Nl = fp->sv[T[l].si].n;
                         float deg = V_DEG(facosf(v_dot(Ni, Nl)));
@@ -2696,10 +2700,11 @@ static void smth_file(struct mapc_context *ctx)
 
                         acc++;
                     }
+                }
 
                 /* If at least two normals have been accumulated... */
 
-                if (acc)
+                if (acc && Ni)
                 {
                     /* Store the accumulated normal as a new side. */
 
