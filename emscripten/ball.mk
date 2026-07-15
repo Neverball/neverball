@@ -117,6 +117,7 @@ BALL_SRCS := \
 	share/solid_vary.c \
 	share/st_common.c \
 	share/st_package.c \
+	share/mapclib.c \
 	share/state.c \
 	share/text.c \
 	share/theme.c \

@@ -52,6 +52,11 @@ static Array available_packages;
 /*
  * Get a download URL.
  */
+
+#ifndef PACKAGE_BASE_URL
+#define PACKAGE_BASE_URL "https://play.neverball.org/packages/"
+#endif
+
 static const char *get_package_url(const char *filename)
 {
     if (filename && *filename)
@@ -60,12 +65,7 @@ static const char *get_package_url(const char *filename)
 
         memset(url, 0, sizeof (url));
 
-#ifdef __EMSCRIPTEN__
-        /* Same origin. */
-        SAFECPY(url, "packages/");
-#else
-        SAFECPY(url, "https://play.neverball.org/packages/");
-#endif
+        SAFECPY(url, PACKAGE_BASE_URL);
         SAFECAT(url, filename);
 
         return url;

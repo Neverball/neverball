@@ -13,9 +13,7 @@
  */
 
 #include "transition.h"
-#include "common.h"
 #include "gui.h"
-#include "log.h"
 
 /*
  * How to create a screen transition:
@@ -32,70 +30,52 @@
  * new GUI of the following screen for the duration of the transition. It needs
  * to be painted to be visible and it needs to be stepped forward to animate.
  * That's what all this is for.
+ *
+ * Only one exit animation is tracked at a time. If a new outgoing widget is
+ * registered while one is already animating out (e.g. from rapid page clicks),
+ * the previous widget is removed immediately. This prevents widget-pool
+ * exhaustion.
  */
 
-/* Widget IDs with exit animations. */
-static int widget_ids[16];
+/* Widget ID with an exit animation. */
+static int out_id;
 
 /*---------------------------------------------------------------------------*/
 
 void transition_init(void)
 {
-    memset(widget_ids, 0, sizeof (widget_ids));
+    out_id = 0;
 }
 
 void transition_quit(void)
 {
-    memset(widget_ids, 0, sizeof (widget_ids));
+    out_id = 0;
 }
 
 void transition_add(int id)
 {
-    int i;
+    if (out_id)
+        gui_remove(out_id);
 
-    for (i = 0; i < ARRAYSIZE(widget_ids); ++i)
-        if (!widget_ids[i])
-        {
-            widget_ids[i] = id;
-            break;
-        }
-
-    if (i == ARRAYSIZE(widget_ids))
-    {
-        log_printf("Out of transition slots\n");
-
-        gui_remove(id);
-    }
+    out_id = id;
 }
 
 void transition_remove(int id)
 {
-    int i;
-
-    for (i = 0; i < ARRAYSIZE(widget_ids); ++i)
-        if (widget_ids[i] == id)
-        {
-            widget_ids[i] = 0;
-            break;
-        }
+    if (out_id == id)
+        out_id = 0;
 }
 
 void transition_timer(float dt)
 {
-    int i;
-
-    for (i = 0; i < ARRAYSIZE(widget_ids); ++i)
-        if (widget_ids[i])
-            gui_timer(widget_ids[i], dt);
+    if (out_id)
+        gui_timer(out_id, dt);
 }
 
 void transition_paint(void)
 {
-    int i;
-
-    for (i = 0; i < ARRAYSIZE(widget_ids); ++i)
-        if (widget_ids[i])
-            gui_paint(widget_ids[i]);
+    if (out_id)
+        gui_paint(out_id);
 }
 
 /*---------------------------------------------------------------------------*/
