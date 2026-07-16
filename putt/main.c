@@ -216,7 +216,7 @@ static int loop(void)
             {
             case SDL_WINDOWEVENT_FOCUS_LOST:
                 if (video_get_grab())
-                    goto_pause(&st_over);
+                    goto_pause(&st_over, &st_time);
                 break;
 
             case SDL_WINDOWEVENT_MOVED:

@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"can_forfeit_after" "60"
 // brush 0
 {
 ( 72 640 264 ) ( 72 640 240 ) ( 72 656 264 ) mtrl/invisible 128 128 0 0.5 0.5 0 0 0

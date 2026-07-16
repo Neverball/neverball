@@ -1,9 +1,9 @@
-
 // entity 0
 {
 "classname" "worldspawn"
 "grad" "back/space.png"
 "back" "map-back/jupitor.sol"
+"can_forfeit_after" "60"
 // brush 0
 {
 ( -384 6016 -160 ) ( -400 6032 -160 ) ( -384 6016 -184 ) mtrl/invisible 128 128 0 0.5 0.5 0 0 0
