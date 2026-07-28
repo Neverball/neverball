@@ -6,7 +6,7 @@
 
 struct strbuf
 {
-    char buf[64];
+    char buf[256];
 };
 
 #define STRBUF_WRAP(fn) \
