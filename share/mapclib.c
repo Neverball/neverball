@@ -154,10 +154,10 @@ struct mapc_context
     int opt_debug;
     int opt_csv;
 
-    struct strbuf src_path;
-    struct strbuf dst_path;
+    STRBUF src_path;
+    STRBUF dst_path;
 
-    struct strbuf full_dst_path;
+    STRBUF full_dst_path;
 
 #if ENABLE_RADIANT_CONSOLE
     TCPsocket bcast_socket;
@@ -3136,7 +3136,7 @@ static void dump_init(struct s_base *fp)
 
 void mapc_dump(struct mapc_context *ctx)
 {
-    const char *name = STR(ctx->dst_path);
+    const char *name = CSTR(ctx->dst_path);
     double t = ctx->compile_time;
 
     struct s_base *p = &ctx->file;
@@ -3265,24 +3265,24 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
 
             if (str_ends_with(ctx->opt_file, ".map"))
             {
-                ctx->dst_path = joinstr(
-                    SUBSTR(ctx->opt_file, 0, strlen(ctx->opt_file) - 4u),
-                    ".sol"
-                );
+                STRBUF name_part = substr(ctx->opt_file, 0, strlen(ctx->opt_file) - 4u);
+                ctx->dst_path = joinstr(CSTR(name_part), ".sol");
             }
             else
                 ctx->dst_path = joinstr(ctx->opt_file, ".sol");
 
-            fs_add_path(DIR_NAME(STR(ctx->src_path)));
+            STRBUF src_dir = dir_name_strbuf(CSTR(ctx->src_path));
+            fs_add_path(CSTR(src_dir));
 
-            fs_set_write_dir(DIR_NAME(STR(ctx->dst_path)));
+            STRBUF dst_dir = dir_name_strbuf(CSTR(ctx->dst_path));
+            fs_set_write_dir(CSTR(dst_dir));
 
             // Save the full path for the dump.
 
             ctx->full_dst_path = ctx->dst_path;
 
-            ctx->src_path = base_name_strbuf(STR(ctx->src_path));
-            ctx->dst_path = base_name_strbuf(STR(ctx->dst_path));
+            ctx->src_path = base_name_strbuf(CSTR(ctx->src_path));
+            ctx->dst_path = base_name_strbuf(CSTR(ctx->dst_path));
         }
         else if (!ctx->opt_data)
         {
@@ -3307,8 +3307,8 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
 
 static void mapc_compile_internal(struct mapc_context *ctx)
 {
-    const char *src = STR(ctx->src_path);
-    const char *dst = STR(ctx->dst_path);
+    const char *src = CSTR(ctx->src_path);
+    const char *dst = CSTR(ctx->dst_path);
 
     struct timeval time0, time1;
 
