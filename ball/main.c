@@ -396,35 +396,35 @@ static int link_handle(const char *link)
 
         const size_t prefix_len = strcspn(link, "/");
 
-        const char *set_part = SUBSTR(link, 0, prefix_len);
-        const char *map_part = SUBSTR(link, prefix_len + 1, 64);
-        const char *set_file = JOINSTR(set_part, ".txt");
+        STRBUF set_part = substr(link, 0, prefix_len);
+        STRBUF map_part = substr(link, prefix_len + 1, 64);
+        STRBUF set_file = joinstr(CSTR(set_part), ".txt");
 
         int index;
         int found_level = 0;
 
-        log_printf("Link: searching for set %s\n", set_file);
+        log_printf("Link: searching for set %s\n", CSTR(set_file));
 
         set_init();
 
-        if ((index = set_find(set_file)) >= 0)
+        if ((index = set_find(CSTR(set_file))) >= 0)
         {
-            log_printf("Link: found set match for %s\n", set_file);
+            log_printf("Link: found set match for %s\n", CSTR(set_file));
 
             set_goto(index);
 
-            if (map_part && *map_part)
+            if (*CSTR(map_part))
             {
                 /* Search for the given level. */
 
-                const char *sol_basename = JOINSTR(map_part, ".sol");
+                STRBUF sol_basename = joinstr(CSTR(map_part), ".sol");
                 struct level *level;
 
-                log_printf("Link: searching for level %s\n", sol_basename);
+                log_printf("Link: searching for level %s\n", CSTR(sol_basename));
 
-                if ((level = set_find_level(sol_basename)))
+                if ((level = set_find_level(CSTR(sol_basename))))
                 {
-                    log_printf("Link: found level match for %s\n", sol_basename);
+                    log_printf("Link: found level match for %s\n", CSTR(sol_basename));
 
                     progress_init(MODE_NORMAL);
 
@@ -447,9 +447,9 @@ static int link_handle(const char *link)
                 processed = 1;
             }
         }
-        else if ((index = package_search(set_file)) >= 0)
+        else if ((index = package_search(CSTR(set_file))) >= 0)
         {
-            log_printf("Link: found package match for %s\n", set_file);
+            log_printf("Link: found package match for %s\n", CSTR(set_file));
             goto_package(index, &st_title);
             processed = 1;
         }
@@ -788,12 +788,12 @@ static int handle_installed_action(int pi)
     if (pi >= 0 && strcmp(package_get_type(pi), "set") == 0)
     {
         const char *package_id = package_get_id(pi);
-        const char *file = JOINSTR(package_id, ".txt");
+        STRBUF file = joinstr(package_id, ".txt");
         int index = -1;
 
         set_init();
 
-        index = set_find(file);
+        index = set_find(CSTR(file));
 
         return index >= 0 ? goto_start(index, &st_package) : 1;
     }
