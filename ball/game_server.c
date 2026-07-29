@@ -516,10 +516,13 @@ static void game_update_view(float dt)
     int torque = cam_torque(cam);
     int free_rotate = cam_free_rotate(cam);
     int velocity_xz = cam_velocity_xz(cam);
+    float rotate_max = (float) cam_rotate_max(cam) / 100.0f;
 
     float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
-    float da = 90.0f * input_get_r() * dt;
-    float dx = (!velocity_xz && spd >= 0.0f) ? (input_get_r() * dt * 5.0f) : 0.0f;
+    float ball_spd = v_len(vary.uv->v);
+    float rot_mult = torque ? CLAMP(1.0f, 1.0f + ball_spd / 24.0f, rotate_max) : 1.0f;
+    float da = 90.0f * input_get_r() * rot_mult * dt;
+    float dx = (!velocity_xz && spd >= 0.0f) ? (input_get_r() * rot_mult * dt * 5.0f) : 0.0f;
     float k;
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };

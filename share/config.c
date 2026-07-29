@@ -118,16 +118,19 @@ int CONFIG_CAMERA_1_SPEED;
 int CONFIG_CAMERA_1_TORQUE;
 int CONFIG_CAMERA_1_FREE_ROTATE;
 int CONFIG_CAMERA_1_VELOCITY_XZ;
+int CONFIG_CAMERA_1_ROTATE_MAX;
 
 int CONFIG_CAMERA_2_SPEED;
 int CONFIG_CAMERA_2_TORQUE;
 int CONFIG_CAMERA_2_FREE_ROTATE;
 int CONFIG_CAMERA_2_VELOCITY_XZ;
+int CONFIG_CAMERA_2_ROTATE_MAX;
 
 int CONFIG_CAMERA_3_SPEED;
 int CONFIG_CAMERA_3_TORQUE;
 int CONFIG_CAMERA_3_FREE_ROTATE;
 int CONFIG_CAMERA_3_VELOCITY_XZ;
+int CONFIG_CAMERA_3_ROTATE_MAX;
 
 int CONFIG_TOUCH_ROTATE;
 
@@ -246,16 +249,19 @@ static struct
     { &CONFIG_CAMERA_1_TORQUE,      "camera_1_torque",      1 },
     { &CONFIG_CAMERA_1_FREE_ROTATE, "camera_1_free_rotate", 1 },
     { &CONFIG_CAMERA_1_VELOCITY_XZ, "camera_1_velocity_xz", 1 },
+    { &CONFIG_CAMERA_1_ROTATE_MAX,  "camera_1_rotate_max",  150 },
 
     { &CONFIG_CAMERA_2_SPEED,       "camera_2_speed",       0 },
     { &CONFIG_CAMERA_2_TORQUE,      "camera_2_torque",      1 },
     { &CONFIG_CAMERA_2_FREE_ROTATE, "camera_2_free_rotate", 1 },
     { &CONFIG_CAMERA_2_VELOCITY_XZ, "camera_2_velocity_xz", 1 },
+    { &CONFIG_CAMERA_2_ROTATE_MAX,  "camera_2_rotate_max",  150 },
 
     { &CONFIG_CAMERA_3_SPEED,       "camera_3_speed",       -1 },
     { &CONFIG_CAMERA_3_TORQUE,      "camera_3_torque",      0 },
     { &CONFIG_CAMERA_3_FREE_ROTATE, "camera_3_free_rotate", 1 },
     { &CONFIG_CAMERA_3_VELOCITY_XZ, "camera_3_velocity_xz", 1 },
+    { &CONFIG_CAMERA_3_ROTATE_MAX,  "camera_3_rotate_max",  150 },
 
     { &CONFIG_TOUCH_ROTATE, "touch_rotate", 16 },
 

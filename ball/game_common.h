@@ -63,6 +63,7 @@ int cam_speed(int);
 int cam_torque(int);
 int cam_free_rotate(int);
 int cam_velocity_xz(int);
+int cam_rotate_max(int);
 
 /*---------------------------------------------------------------------------*/
 

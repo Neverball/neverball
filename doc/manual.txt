@@ -177,6 +177,7 @@ values follow.
     camera_N_torque
     camera_N_free_rotate
     camera_N_velocity_xz
+    camera_N_rotate_max
 
         These options configure physics and behavior parameters per camera
         slot N (for camera 1, 2, or 3):
@@ -204,18 +205,26 @@ values follow.
             (setting vy = 0), or 0 to track full 3D velocity vectors (allowing
             vertical jumps and falls to tilt the camera along 1.4.0 classic flight paths).
 
+        camera_N_rotate_max
+            Controls how fast manual camera rotation speeds up when rolling
+            at high speeds. Set to 150 (the default) so rotation speeds up
+            smoothly when the ball moves fast, or 100 to keep manual rotation
+            at a steady, fixed speed regardless of how fast the ball rolls.
+
         Historical Camera Presets:
             To configure any camera slot (e.g., camera 1) for 1.4 Classic:
                 camera_1_speed       = 250
                 camera_1_torque      = 1
                 camera_1_free_rotate = 0
                 camera_1_velocity_xz = 0
+                camera_1_rotate_max  = 100
 
             To configure any camera slot (e.g., camera 1) for 1.5 Classic:
                 camera_1_speed       = 250
                 camera_1_torque      = 0
                 camera_1_free_rotate = 1
                 camera_1_velocity_xz = 1
+                camera_1_rotate_max  = 150
 
     mouse_camera_1      none
     mouse_camera_2      none

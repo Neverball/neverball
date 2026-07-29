@@ -43,22 +43,23 @@ const char *cam_to_str(int c)
     int torque   = cam_torque(c);
     int free_rot = cam_free_rotate(c);
     int vxz      = cam_velocity_xz(c);
+    int rot_max  = cam_rotate_max(c);
 
     if (spd < 0)
         return _("Manual Camera");
     if (spd == 0)
         return _("Lazy Camera");
 
-    /* Exact 1.4 Classic check: torque=1, free_rot=0, vxz=0 */
-    if (torque == 1 && free_rot == 0 && vxz == 0)
+    /* Exact 1.4 Classic check: torque=1, free_rot=0, vxz=0, rot_max=100 */
+    if (torque == 1 && free_rot == 0 && vxz == 0 && rot_max == 100)
         return _("1.4 Classic");
 
     /* Exact 1.5 Classic check: torque=0, free_rot=1, vxz=1 */
     if (torque == 0 && free_rot == 1 && vxz == 1)
         return _("1.5 Classic");
 
-    /* Standard Hybrid Chase Camera check: torque=1, free_rot=1, vxz=1 */
-    if (torque == 1 && free_rot == 1 && vxz == 1)
+    /* Standard Hybrid Chase Camera check: torque=1, free_rot=1, vxz=1, rot_max=150 */
+    if (torque == 1 && free_rot == 1 && vxz == 1 && rot_max == 150)
         return _("Chase Camera");
 
     /* Custom configuration fallback */
@@ -107,6 +108,17 @@ int cam_velocity_xz(int c)
     case CAM_2: return config_get_d(CONFIG_CAMERA_2_VELOCITY_XZ);
     case CAM_3: return config_get_d(CONFIG_CAMERA_3_VELOCITY_XZ);
     default:    return 1;
+    }
+}
+
+int cam_rotate_max(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_ROTATE_MAX);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_ROTATE_MAX);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_ROTATE_MAX);
+    default:    return 150;
     }
 }
 
