@@ -171,7 +171,51 @@ values follow.
 
         3 - Manual camera  does not rotate  except by  player command.
 
-	key_camera_toggle toggles camera behaviour between 1 and 3.
+        key_camera_toggle toggles camera behaviour between 1 and 3.
+
+    camera_N_speed
+    camera_N_torque
+    camera_N_free_rotate
+    camera_N_velocity_xz
+
+        These options configure physics and behavior parameters per camera
+        slot N (for camera 1, 2, or 3):
+
+        camera_N_speed
+            Controls how quickly the camera automatically rotates to align
+            behind the direction the ball is moving (-1 disables auto-chase
+            for manual rotation, 0 sets lazy tracking, 250 is standard).
+
+        camera_N_torque
+            Determines how aggressively the camera follows velocity changes.
+            Set to 1 for classic torque where higher ball speeds pull the
+            camera faster for hyper-responsive tracking, or 0 for uniform
+            tracking speed regardless of ball velocity.
+
+        camera_N_free_rotate
+            Controls automatic tracking during manual rotation. Set to 1 to
+            allow free manual rotation (pausing auto-chasing while turning
+            using keys or mouse buttons), or 0 to keep auto-chase pulling
+            continuously while rotating.
+
+        camera_N_velocity_xz
+            Controls whether camera tracking flattens the velocity vector.
+            Set to 1 to track velocity strictly on the horizontal XZ ground plane
+            (setting vy = 0), or 0 to track full 3D velocity vectors (allowing
+            vertical jumps and falls to tilt the camera along 1.4.0 classic flight paths).
+
+        Historical Camera Presets:
+            To configure any camera slot (e.g., camera 1) for 1.4 Classic:
+                camera_1_speed       = 250
+                camera_1_torque      = 1
+                camera_1_free_rotate = 0
+                camera_1_velocity_xz = 0
+
+            To configure any camera slot (e.g., camera 1) for 1.5 Classic:
+                camera_1_speed       = 250
+                camera_1_torque      = 0
+                camera_1_free_rotate = 1
+                camera_1_velocity_xz = 1
 
     mouse_camera_1      none
     mouse_camera_2      none

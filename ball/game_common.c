@@ -39,29 +39,75 @@ const char *cam_to_str(int c)
 {
     static char str[64];
 
-    int s = cam_speed(c);
+    int spd      = cam_speed(c);
+    int torque   = cam_torque(c);
+    int free_rot = cam_free_rotate(c);
+    int vxz      = cam_velocity_xz(c);
 
-    if (s <    0) return _("Manual Camera");
-    if (s <= 100) return _("Lazy Camera");
-    if (s <= 500) return _("Chase Camera");
+    if (spd < 0)
+        return _("Manual Camera");
+    if (spd == 0)
+        return _("Lazy Camera");
 
+    /* Exact 1.4 Classic check: torque=1, free_rot=0, vxz=0 */
+    if (torque == 1 && free_rot == 0 && vxz == 0)
+        return _("1.4 Classic");
+
+    /* Exact 1.5 Classic check: torque=0, free_rot=1, vxz=1 */
+    if (torque == 0 && free_rot == 1 && vxz == 1)
+        return _("1.5 Classic");
+
+    /* Standard Hybrid Chase Camera check: torque=1, free_rot=1, vxz=1 */
+    if (torque == 1 && free_rot == 1 && vxz == 1)
+        return _("Chase Camera");
+
+    /* Custom configuration fallback */
     sprintf(str, _("Camera %d"), c + 1);
-
     return str;
 }
 
 int cam_speed(int c)
 {
-    static const int *cfgs[] = {
-        &CONFIG_CAMERA_1_SPEED,
-        &CONFIG_CAMERA_2_SPEED,
-        &CONFIG_CAMERA_3_SPEED
-    };
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_SPEED);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_SPEED);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_SPEED);
+    default:    return 250;
+    }
+}
 
-    if (c >= 0 && c < ARRAYSIZE(cfgs))
-        return config_get_d(*cfgs[c]);
+int cam_torque(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_TORQUE);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_TORQUE);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_TORQUE);
+    default:    return 1;
+    }
+}
 
-    return 250;
+int cam_free_rotate(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_FREE_ROTATE);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_FREE_ROTATE);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_FREE_ROTATE);
+    default:    return 1;
+    }
+}
+
+int cam_velocity_xz(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_VELOCITY_XZ);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_VELOCITY_XZ);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_VELOCITY_XZ);
+    default:    return 1;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
