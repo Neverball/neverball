@@ -243,7 +243,7 @@ static struct
     { &CONFIG_LOCK_GOALS,  "lock_goals",  1 },
 
     { &CONFIG_CAMERA_1_SPEED,       "camera_1_speed",       250 },
-    { &CONFIG_CAMERA_1_TORQUE,      "camera_1_torque",      0 },
+    { &CONFIG_CAMERA_1_TORQUE,      "camera_1_torque",      1 },
     { &CONFIG_CAMERA_1_FREE_ROTATE, "camera_1_free_rotate", 1 },
     { &CONFIG_CAMERA_1_VELOCITY_XZ, "camera_1_velocity_xz", 1 },
 
