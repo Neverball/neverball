@@ -57,6 +57,14 @@ enum
     CAM_MAX
 };
 
+enum
+{
+    CAM_PRESET_DEFAULT = 0,
+    CAM_PRESET_1_4,
+    CAM_PRESET_1_5,
+    CAM_PRESET_CUSTOM
+};
+
 const char *cam_to_str(int);
 
 int cam_speed(int);
@@ -64,6 +72,9 @@ int cam_torque(int);
 int cam_free_rotate(int);
 int cam_velocity_xz(int);
 int cam_rotate_max(int);
+
+int  cam_preset_get(int);
+void cam_preset_set(int, int);
 
 /*---------------------------------------------------------------------------*/
 

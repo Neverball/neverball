@@ -39,28 +39,19 @@ const char *cam_to_str(int c)
 {
     static char str[64];
 
-    int spd      = cam_speed(c);
-    int torque   = cam_torque(c);
-    int free_rot = cam_free_rotate(c);
-    int vxz      = cam_velocity_xz(c);
-    int rot_max  = cam_rotate_max(c);
+    int spd = cam_speed(c);
 
     if (spd < 0)
         return _("Manual Camera");
     if (spd == 0)
         return _("Lazy Camera");
 
-    /* Exact 1.4 Classic check: torque=1, free_rot=0, vxz=0, rot_max=100 */
-    if (torque == 1 && free_rot == 0 && vxz == 0 && rot_max == 100)
-        return _("1.4 Classic");
-
-    /* Exact 1.5 Classic check: torque=0, free_rot=1, vxz=1 */
-    if (torque == 0 && free_rot == 1 && vxz == 1)
-        return _("1.5 Classic");
-
-    /* Standard Hybrid Chase Camera check: torque=1, free_rot=1, vxz=1, rot_max=150 */
-    if (torque == 1 && free_rot == 1 && vxz == 1 && rot_max == 150)
-        return _("Chase Camera");
+    switch (cam_preset_get(c))
+    {
+    case CAM_PRESET_1_4:     return _("1.4 Classic");
+    case CAM_PRESET_1_5:     return _("1.5 Classic");
+    case CAM_PRESET_DEFAULT: return _("Chase Camera");
+    }
 
     /* Custom configuration fallback */
     sprintf(str, _("Camera %d"), c + 1);
@@ -119,6 +110,59 @@ int cam_rotate_max(int c)
     case CAM_2: return config_get_d(CONFIG_CAMERA_2_ROTATE_MAX);
     case CAM_3: return config_get_d(CONFIG_CAMERA_3_ROTATE_MAX);
     default:    return 150;
+    }
+}
+
+int cam_preset_get(int c)
+{
+    int torque   = cam_torque(c);
+    int free_rot = cam_free_rotate(c);
+    int vxz      = cam_velocity_xz(c);
+    int rot_max  = cam_rotate_max(c);
+
+    if (torque == 1 && free_rot == 0 && vxz == 0 && rot_max == 100)
+        return CAM_PRESET_1_4;
+
+    if (torque == 0 && free_rot == 1 && vxz == 1)
+        return CAM_PRESET_1_5;
+
+    if (torque == 1 && free_rot == 1 && vxz == 1 && rot_max == 150)
+        return CAM_PRESET_DEFAULT;
+
+    return CAM_PRESET_CUSTOM;
+}
+
+void cam_preset_set(int c, int preset)
+{
+    if (c != CAM_1)
+        return;
+
+    switch (preset)
+    {
+    case CAM_PRESET_1_4:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      1);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 0);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 0);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  100);
+        break;
+
+    case CAM_PRESET_1_5:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      0);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 1);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 1);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  150);
+        break;
+
+    case CAM_PRESET_DEFAULT:
+    default:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      1);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 1);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 1);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  150);
+        break;
     }
 }
 

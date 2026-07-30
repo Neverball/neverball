@@ -6,6 +6,8 @@
 extern struct state st_conf;
 extern struct state st_null;
 
+extern struct state st_conf_gameplay;
+
 extern struct state st_conf_video;
 extern struct state st_conf_display;
 
