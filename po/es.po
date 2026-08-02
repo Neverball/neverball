@@ -1210,7 +1210,7 @@ msgstr "Utiliza el impulso para\\llegar a las plataformas\\superiores, pero mant
 msgid ""
 "Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
 " don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "Vigila la sombra para controlar\\el salto. No te de olvides usar los\\botones del ratón para no perder de vista la bola.\\"
+msgstr "Vigila la sombra para controlar\\el salto. No te de olvides usar los\\botones del mouse para no perder de vista la bola.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
