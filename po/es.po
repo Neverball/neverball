@@ -158,7 +158,7 @@ msgstr "Configurar"
 
 #: ball/st_conf.c:167
 msgid "Mouse Sensitivity"
-msgstr "Sensibilidad del ratón"
+msgstr "Sensibilidad del mouse"
 
 #: ball/st_conf.c:172 share/st_common.c:868
 msgid "Gamepad"
