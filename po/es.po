@@ -942,7 +942,7 @@ msgstr "Las plataformas móviles pueden ser difíciles.\\Sube a ellas en el mome
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Los botones del ratón hacen girar\\la cámara. Pulsa Esc. para hacer una pausa o\\salir de la partida.\\\\\\\\Haz clic para empezar.\\"
+msgstr "Los botones del mouse hacen girar\\la cámara. Pulsa Esc. para hacer una pausa o\\salir de la partida.\\\\\\\\Haz clic para empezar.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
