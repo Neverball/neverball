@@ -761,7 +761,7 @@ msgstr "Nevermanía"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr "Dificultad: Experto a Imposible.\\\\Varios niveles para jugadores avanzados.\\Autor: Florian Priester.\\\\"
+msgstr "Dificultad: Experta a Imposible.\\\\Varios niveles para jugadores avanzados.\\Autor: Florian Priester.\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
