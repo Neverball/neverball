@@ -206,7 +206,7 @@ msgstr "Fecha"
 
 #: ball/st_demo.c:290
 msgid "Select Replay"
-msgstr "Selecciona una repetición"
+msgstr "Elige una repetición"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
