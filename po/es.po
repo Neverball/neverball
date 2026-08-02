@@ -210,7 +210,7 @@ msgstr "Elige una repetición"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
-msgstr "No hay ninguna repetición"
+msgstr "No hay repeticiones"
 
 #: ball/st_demo.c:616
 msgid "Replay Paused"
