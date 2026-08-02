@@ -865,7 +865,7 @@ msgstr "Como antes, pero sin ruedines.\\Mantén el suelo nivelado\\y un control 
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Mueve el mouse para inclinar el suelo.\\Recoge 10 monedas para desbloquear la meta\\y guía ahí la bola para\\finalizar el nivel.\\\\Haz clic para empezar.\\"
+msgstr "Mueve el mouse para inclinar el suelo.\\Agarra 10 monedas para desbloquear la meta\\y guía ahí la bola para\\finalizar el nivel.\\\\Haz clic para empezar.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
