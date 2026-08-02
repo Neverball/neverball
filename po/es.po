@@ -334,7 +334,7 @@ msgstr "Rueda hacia las monedas\\para recolectarlas. Recolecta\\monedas para des
 msgid ""
 "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
 "rotation."
-msgstr "Los botones izquierdo y derecho del ratón\\giran la camara. Manten pulsado Mayus\\para girar más rapido."
+msgstr "Los botones izquierdo y derecho del mouse\\giran la camara. Manten pulsado Mayus\\para girar más rapido."
 
 #: ball/st_help.c:180
 msgid "Exit / Pause"
