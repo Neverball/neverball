@@ -741,7 +741,7 @@ msgstr "Tour de force"
 msgid ""
 "Difficulty: Expert through Insane\\\\25 levels with even greater "
 "challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Dificultad: Experto a Insano.\\\\25 niveles con retos aún más dificiles.\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Dificultad: Experta a Insana.\\\\25 niveles con retos aún más difíciles.\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
