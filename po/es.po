@@ -322,7 +322,7 @@ msgstr "Reglas"
 msgid ""
 "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
 "causing the\\ball to roll.\\"
-msgstr "Mueve el ratón o el joystick\\o usa las flechas del teclado\\para inclinar el suelo y hacer\\que la bola se mueva.\\ "
+msgstr "Mueve el mouse o el joystick\\o usa las flechas del teclado\\para inclinar el suelo y hacer\\que la bola se mueva.\\ "
 
 #: ball/st_help.c:121
 msgid ""
