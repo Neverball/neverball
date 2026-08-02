@@ -777,7 +777,7 @@ msgstr "Neverball Misceláneo"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
-msgstr "Niveles sin orden.\\Para propósitos de pruebas.\\\\\\\\"
+msgstr "Niveles sin orden.\\Set con finalidad de pruebas.\\\\\\\\"
 
 #: data/holes-putt.txt
 msgid ""
