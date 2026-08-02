@@ -773,7 +773,7 @@ msgstr "Dificultad: Moderada a Difícil.\\\\Autor: Ian Walker\\\\"
 
 #: data/set-misc.txt
 msgid "Neverball Misc"
-msgstr "Miscelanea de Neverball"
+msgstr "Neverball Misceláneo"
 
 #: data/set-misc.txt
 msgid "Unsorted levels\\For testing purposes\\\\\\\\"
