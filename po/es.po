@@ -865,7 +865,7 @@ msgstr "Como antes, pero sin ruedines.\\Mantén el suelo nivelado\\y un control 
 msgid ""
 "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
 "goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Mueve el mouse para inclinar el suelo.\\Agarra 10 monedas para desbloquear la meta\\y guía ahí la bola para\\finalizar el nivel.\\\\Haz clic para empezar.\\"
+msgstr "Mueve el ratón para inclinar el suelo.\\Agarra 10 monedas para desbloquear la meta\\y guía ahí la bola para\\finalizar el nivel.\\\\Haz clic para empezar.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
@@ -942,7 +942,7 @@ msgstr "Las plataformas móviles pueden ser difíciles.\\Sube a ellas en el mome
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Los botones del mouse hacen girar\\la cámara. Pulsa Esc. para hacer una pausa o\\salir de la partida.\\\\\\\\Haz clic para empezar.\\"
+msgstr "Los botones del ratón hacen girar\\la cámara. Pulsa Esc. para hacer una pausa o\\salir de la partida.\\\\\\\\Haz clic para empezar.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
