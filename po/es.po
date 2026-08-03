@@ -1258,7 +1258,7 @@ msgid ""
 "You'll need to exert some control over your\\view here.  Press 3 to stop the"
 " auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "Aquí tendrás que ejercer un mínimo de control de cámara.\\Presiona 3 para desactivar la rotación automática.\\Utiliza los botones del mouse para rotar manualmente.\\Presiona 1 para volver a rotar automáticamente."
+msgstr "Aquí tendrás que ejercer un mínimo de control de cámara.\\Presiona 3 para desactivar la rotación automática.\\Utiliza los botones del ratón para rotar manualmente.\\Presiona 1 para volver a rotar automáticamente."
 
 #: data/map-medium/roundfloors.map
 msgid ""
