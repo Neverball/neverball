@@ -13,6 +13,16 @@ enum
     SCORE_COIN
 };
 
+#define STATS_KEY_LENGTH 7 /* maximum key length for stats */
+#define STR_(X) #X
+#define STR(X) STR_(X)
+
+struct stats {
+    int success;
+    int timeout;
+    int fallout;
+};
+
 #define LEVEL_LOCKED    0x1
 #define LEVEL_COMPLETED 0x2
 
@@ -32,6 +42,7 @@ struct level
     int goal; /* Coins needed */
 
     struct score scores[3];
+    struct stats stats;
 
     /* Set information. */
 
