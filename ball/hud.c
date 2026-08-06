@@ -42,6 +42,7 @@ static int scor_id;
 static int goal_id;
 static int cam_id;
 static int fps_id;
+static int lvlname_id = 0;
 
 static int speed_id;
 static int speed_ids[SPEED_MAX];
@@ -139,8 +140,8 @@ void hud_init(void)
 
     if ((fps_id = gui_count(0, 1000, GUI_SML)))
     {
-        gui_set_rect(fps_id, GUI_SE);
-        gui_layout(fps_id, -1, 1);
+        gui_set_rect(fps_id, GUI_BOT);
+        gui_layout(fps_id, 0, 1);
     }
 
     if ((speed_id = gui_varray(0)))
@@ -179,6 +180,7 @@ void hud_paint(void)
 
     gui_paint(Rhud_id);
     gui_paint(time_id);
+    gui_paint(lvlname_id);
 
     if (config_get_d(CONFIG_FPS))
         gui_paint(fps_id);
@@ -347,6 +349,17 @@ int hud_touch(const SDL_TouchFingerEvent *event)
     }
 
     return 0;
+}
+
+void hud_lvlname(const char *name)
+{
+    gui_delete(lvlname_id);
+
+    if ((lvlname_id = gui_label(0, name, GUI_SML, gui_yel, gui_wht)))
+    {
+        gui_set_rect(lvlname_id, GUI_SE);
+        gui_layout(lvlname_id, -1, +1);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
