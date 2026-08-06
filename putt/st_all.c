@@ -612,6 +612,7 @@ static struct state *st_quit;
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
+#define PAUSE_SKIP     3
 
 int goto_pause(struct state *s)
 {
@@ -634,6 +635,10 @@ static int pause_action(int i)
     case PAUSE_CONTINUE:
         return goto_state(st_continue ? st_continue : &st_title);
 
+    case PAUSE_SKIP:
+        hole_skip();
+        return goto_state(&st_score);
+
     case PAUSE_QUIT:
         return goto_state(st_quit);
     }
@@ -654,7 +659,8 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
-            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
+            gui_state(jd, _("Skip"), GUI_SML, PAUSE_SKIP, 1);
+            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 2);
         }
 
         gui_pulse(td, 1.2f);
