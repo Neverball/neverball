@@ -1,7 +1,7 @@
-
 // entity 0
 {
 "classname" "worldspawn"
+"can_forfeit_after" "60"
 // brush 0
 {
 ( -66 -328 -128 ) ( -128 -352 -128 ) ( -70 -326 -128 ) mtrl/turf-green-small 0 0 0 0.5 0.5 0 0 0
