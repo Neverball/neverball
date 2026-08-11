@@ -152,6 +152,12 @@ General Public License for more details.
       min-height: auto;
     }
 
+    @media (max-width: 815px) {
+      #fullscreen-checkbox-wrapper {
+        display: none !important;
+      }
+    }
+
     #canvas-wrapper:fullscreen #canvas {
       position: static;
     }
@@ -256,6 +262,18 @@ General Public License for more details.
       transition: background 0.1s ease-in-out;
       animation: pulse 0.2s;
       animation-timing-function: ease-in-out;
+    }
+
+    .update-button-focused {
+      background: rgba(255, 178, 76, 0.73);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-button-focused:not(:disabled):hover, .update-button-focused:focus {
+      background: rgba(255, 195, 110, 0.9);
+      cursor: pointer;
     }
 
     #screenshot {
@@ -394,6 +412,18 @@ General Public License for more details.
 
     .in-game .in-game\:hidden {
       display: none;
+    }
+
+    .is-suspended .is-suspended\:hidden {
+      display: none !important;
+    }
+
+    .is-suspended .is-suspended\:block {
+      display: block !important;
+    }
+
+    .is-suspended .is-suspended\:inline-flex {
+      display: inline-flex !important;
     }
 
     .no-js .no-js\:hidden {
@@ -580,7 +610,7 @@ General Public License for more details.
 
         <!-- <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png"> -->
 
-        <div id="screenshot">
+        <div id="screenshot" class="is-suspended:hidden">
           <video src="anim.mp4" poster="anim.jpg" width="640" height="360" loop muted autoplay playsinline></video>
         </div>
 
@@ -637,11 +667,12 @@ General Public License for more details.
 
 
           <div class="flex gap-2 items-center mb-4">
-            <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
+            <button id="run-button" type="button" class="neverball-button is-suspended:hidden" disabled autocomplete="off">Play Now</button>
+            <button id="resume-button" type="button" class="neverball-button update-button-focused hidden is-suspended:inline-flex" autocomplete="off">Resume</button>
             <div id="status" class="text-white"></div>
           </div>
 
-          <div class="mb-4 text-xs flex items-center gap-1">
+          <div id="fullscreen-checkbox-wrapper" class="mb-4 text-xs flex items-center gap-1">
             <input type="checkbox" id="fullscreen-checkbox" autocomplete="off">
             <label for="fullscreen-checkbox">Start game in fullscreen mode</label>
           </div>
@@ -651,7 +682,7 @@ General Public License for more details.
 
     </div>
 
-    <div id="canvas-wrapper" class="hidden in-game:block">
+    <div id="canvas-wrapper" class="hidden in-game:block is-suspended:hidden">
       <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
       <div id="overlay">
@@ -737,6 +768,7 @@ General Public License for more details.
 
       _canvas: document.getElementById('canvas'),
       _runButton: document.getElementById('run-button'),
+      _resumeButton: document.getElementById('resume-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
       _replayListBox: document.getElementById('replay-list-box'),
       _replayListDesc: document.getElementById('replay-list-desc'),
@@ -751,6 +783,10 @@ General Public License for more details.
       events: {
         runButtonClick: async function (event) {
           this.disabled = true;
+
+          if (Neverball.isSmallViewport() || Neverball._fullscreenCheckbox.checked) {
+            Neverball.requestFullscreen();
+          }
 
           try {
             if (window.localStorage.getItem('isAppInstalled') !== '1') {
@@ -779,16 +815,14 @@ General Public License for more details.
          * Pause the game upon exiting fullscreen.
          */
         fullscreenChange: function (event) {
-          var fullscreenElement = null;
+          var fullscreenElement = Neverball.getFullscreenElement();
 
-          if ('webkitFullscreenElement' in document) {
-            fullscreenElement = document.webkitFullscreenElement;
-          } else {
-            fullscreenElement = document.fullscreenElement;
-          }
-
-          if (!fullscreenElement) {
-            Neverball.pushEvent(Neverball.EVENT_PAUSE);
+          if (!fullscreenElement && Neverball.isRunning) {
+            if (Neverball.isSmallViewport()) {
+              Neverball.pauseGameMobile();
+            } else {
+              Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            }
           }
         },
 
@@ -1230,13 +1264,96 @@ General Public License for more details.
         this.setProgress(1.0);
       },
 
+      wasSmallViewportOnLaunch: false,
+
+      isSmallViewport: function () {
+        return this.wasSmallViewportOnLaunch || window.matchMedia('(max-width: 815px)').matches;
+      },
+
+      pauseEmscriptenLoop: function () {
+        if (!this._module) return;
+        if (typeof this._module.pauseMainLoop === 'function') {
+          this._module.pauseMainLoop();
+        } else if (this._module.Browser && typeof this._module.Browser.mainLoop?.pause === 'function') {
+          this._module.Browser.mainLoop.pause();
+        }
+      },
+
+      resumeEmscriptenLoop: function () {
+        if (!this._module) return;
+        if (typeof this._module.resumeMainLoop === 'function') {
+          this._module.resumeMainLoop();
+        } else if (this._module.Browser && typeof this._module.Browser.mainLoop?.resume === 'function') {
+          this._module.Browser.mainLoop.resume();
+        }
+      },
+
+      pauseAudio: function () {
+        if (this.audioContext && this.audioContext.state === 'running') {
+          this.audioContext.suspend();
+        }
+        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
+          this.audioMusicSourceNode.mediaElement.pause();
+        }
+      },
+
+      resumeAudio: function () {
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+          this.audioContext.resume();
+        }
+        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
+          this.audioMusicSourceNode.mediaElement.play();
+        }
+      },
+
+      pauseGameMobile: function () {
+        if (!this.isRunning) return;
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+        this.pushEvent(this.EVENT_PAUSE);
+        this.pauseEmscriptenLoop();
+        this.pauseAudio();
+        document.body.classList.remove('in-game');
+        document.body.classList.add('is-suspended');
+      },
+
+      resumeGameMobile: function () {
+        if (!this.isRunning) return;
+        document.body.classList.add('in-game');
+        document.body.classList.remove('is-suspended');
+        this.requestFullscreen();
+        this.resumeAudio();
+        this.resumeEmscriptenLoop();
+      },
+
+      getFullscreenElement: function () {
+        return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
+      },
+
       requestFullscreen: function () {
         var wrapper = document.getElementById('canvas-wrapper');
 
-        if ('webkitRequestFullscreen' in wrapper) {
+        if (wrapper.requestFullscreen) {
+          wrapper.requestFullscreen().catch(() => {});
+        } else if (wrapper.webkitRequestFullscreen) {
           wrapper.webkitRequestFullscreen();
-        } else {
-          wrapper.requestFullscreen();
+        } else if (wrapper.mozRequestFullScreen) {
+          wrapper.mozRequestFullScreen();
+        } else if (wrapper.msRequestFullscreen) {
+          wrapper.msRequestFullscreen();
+        }
+      },
+
+      exitFullscreen: function () {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
         }
       },
 
@@ -1245,41 +1362,33 @@ General Public License for more details.
           throw Error('Module missing');
         }
 
+        this.wasSmallViewportOnLaunch = window.matchMedia('(max-width: 815px)').matches;
         this.isRunning = true;
-
+        document.body.classList.remove('is-suspended');
         document.body.classList.add('in-game');
 
         this._module.callMain(this.arguments);
 
-        if (this._fullscreenCheckbox.checked) {
+        if (!this.getFullscreenElement() && (this.isSmallViewport() || this._fullscreenCheckbox.checked)) {
           this.requestFullscreen();
         }
       },
 
       quit: function () {
         this.isRunning = false;
+        this.wasSmallViewportOnLaunch = false;
+
+        document.body.classList.remove('is-suspended');
 
         this._runButton.disabled = false;
-        document.body.classList.remove('in-game');
-
-        var fullscreenElement = null;
-
-        if ('webkitFullscreenElement' in document) {
-          fullscreenElement = document.webkitFullscreenElement;
-        } else {
-          fullscreenElement = document.fullscreenElement;
-        }
-
-        if (fullscreenElement) {
-          if ('webkitExitFullscreen' in document) {
-            document.webkitExitFullscreen();
-          } else {
-            document.exitFullscreen();
-          }
-        }
-
         this._runButton.textContent = 'Play Now';
         this.arguments = [];
+
+        if (this.getFullscreenElement()) {
+          this.exitFullscreen();
+        }
+
+        document.body.classList.remove('in-game');
       },
 
       downloadFile: function (path) {
@@ -1536,10 +1645,22 @@ General Public License for more details.
 
         this._runButton.addEventListener('click', this.events.runButtonClick);
 
+        if (this._resumeButton) {
+          this._resumeButton.addEventListener('click', () => this.resumeGameMobile());
+        }
+
         this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
 
         document.addEventListener('fullscreenchange', this.events.fullscreenChange);
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
+
+        ['keydown', 'keyup', 'keypress'].forEach(eventType => {
+          window.addEventListener(eventType, event => {
+            if (document.body.classList.contains('is-suspended')) {
+              event.stopImmediatePropagation();
+            }
+          }, true);
+        });
 
         this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
 
