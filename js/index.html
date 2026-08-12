@@ -1875,13 +1875,13 @@ General Public License for more details.
             if (!isNaN(timestamp)) {
               const date = new Date(timestamp * 1000);
               const pad = (num) => String(num).padStart(2, '0');
-              const yyyy = date.getFullYear();
-              const mm = pad(date.getMonth() + 1);
-              const dd = pad(date.getDate());
-              const hh = pad(date.getHours());
-              const min = pad(date.getMinutes());
-              const ss = pad(date.getSeconds());
-              const dateString = `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+              const yyyy = date.getUTCFullYear();
+              const mm = pad(date.getUTCMonth() + 1);
+              const dd = pad(date.getUTCDate());
+              const hh = pad(date.getUTCHours());
+              const min = pad(date.getUTCMinutes());
+              const ss = pad(date.getUTCSeconds());
+              const dateString = `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss} UTC`;
               const indicator = document.getElementById('version-indicator');
               if (indicator) {
                 indicator.textContent = 'You are running Neverball build ' + dateString + '. ';
