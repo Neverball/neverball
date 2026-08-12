@@ -500,6 +500,10 @@ General Public License for more details.
         display: none;
       }
 
+      .in-app\:block {
+        display: block;
+      }
+
       body {
         display: flex;
         align-items: center;
@@ -614,7 +618,8 @@ General Public License for more details.
           <video src="anim.mp4" poster="anim.jpg" width="640" height="360" loop muted autoplay playsinline></video>
         </div>
 
-        <p>Play Neverball in your browser!</p>
+        <p class="in-app:hidden">Play Neverball in your browser!</p>
+        <p class="hidden in-app:block">Welcome back to Neverball!</p>
 
         <noscript>
           <p>
