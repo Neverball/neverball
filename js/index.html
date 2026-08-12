@@ -426,6 +426,14 @@ General Public License for more details.
       display: inline-flex !important;
     }
 
+    .is-installed .is-installed\:hidden {
+      display: none !important;
+    }
+
+    .is-installed .is-installed\:block {
+      display: block !important;
+    }
+
     .no-js .no-js\:hidden {
       display: none;
     }
@@ -498,10 +506,6 @@ General Public License for more details.
     @media (display-mode: standalone) {
       .in-app\:hidden {
         display: none;
-      }
-
-      .in-app\:block {
-        display: block;
       }
 
       body {
@@ -618,8 +622,8 @@ General Public License for more details.
           <video src="anim.mp4" poster="anim.jpg" width="640" height="360" loop muted autoplay playsinline></video>
         </div>
 
-        <p class="in-app:hidden">Play Neverball in your browser!</p>
-        <p class="hidden in-app:block">Welcome back to Neverball!</p>
+        <p class="is-installed:hidden">Play Neverball in your browser!</p>
+        <p class="hidden is-installed:block">Welcome back to Neverball!</p>
 
         <noscript>
           <p>
@@ -1637,9 +1641,16 @@ General Public License for more details.
         }
       },
 
+      initInstalledState: function () {
+        if (window.localStorage.getItem('isAppInstalled') === '1' || ('serviceWorker' in navigator && navigator.serviceWorker.controller)) {
+          document.body.classList.add('is-installed');
+        }
+      },
+
       initPage: function () {
         const launchInFullscreen = (window.localStorage.getItem('launchInFullscreen') === '1');
 
+        this.initInstalledState();
         this.initLinks();
         this.initBackButton();
 
