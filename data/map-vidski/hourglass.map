@@ -1,7 +1,7 @@
-
 // entity 0
 {
 "classname" "worldspawn"
+"can_forfeit_after" "60"
 // brush 0
 {
 ( -568 0 1066 ) ( -567 -18 1066 ) ( -568 0 1082 ) mtrl/edge-green-dark 240 4 0 -0.5 0.5 0 0 0

@@ -1,6 +1,7 @@
 // entity 0
 {
 "classname" "worldspawn"
+"can_forfeit_after" "60"
 // brush 0
 {
 ( 64 -176 -8 ) ( 64 -304 -8 ) ( -32 -176 -8 ) mtrl/arrow-green-light 128 160 0 0.5 0.5 134217728 0 0
@@ -4043,8 +4044,9 @@
 }
 // entity 1
 {
-"classname" "func_train"
-"target" "t2"
+"classname" "info_player_start"
+"origin" "0.000000 16.000000 16.000000"
+"radius" "0.0625"
 }
 // entity 2
 {
@@ -4072,37 +4074,31 @@
 }
 // entity 6
 {
-"classname" "info_player_start"
-"origin" "0.000000 16.000000 16.000000"
-"radius" "0.0625"
-}
-// entity 7
-{
 "classname" "target_position"
 "origin" "-392.000000 376.000000 528.000000"
 "targetname" "target_position1"
 "angle" "-179.999985"
 }
-// entity 8
+// entity 7
 {
 "classname" "info_player_intermission"
 "origin" "1424.000000 -960.000000 1504.000000"
 "target" "target_position1"
 "angle" "-179.999985"
 }
-// entity 9
+// entity 8
 {
 "classname" "info_player_deathmatch"
 "origin" "0.000000 64.000000 1312.000000"
 "radius" "0.1375"
 }
-// entity 10
+// entity 9
 {
 "classname" "target_position"
 "origin" "272.000000 -152.000000 288.000000"
 "targetname" "target_position2"
 }
-// entity 11
+// entity 10
 {
 "classname" "info_player_intermission"
 "origin" "-2072.000000 1344.000000 2272.000000"

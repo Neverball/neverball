@@ -389,6 +389,12 @@ void hole_fall(void)
     }
 }
 
+void hole_time(void)
+{
+    /* Just use the same logic as hole_fall. */
+    hole_fall();
+}
+
 /*---------------------------------------------------------------------------*/
 
 void hole_song(void)

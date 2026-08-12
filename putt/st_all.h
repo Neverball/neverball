@@ -14,10 +14,11 @@ extern struct state st_roll;
 extern struct state st_goal;
 extern struct state st_stop;
 extern struct state st_fall;
+extern struct state st_time;
 extern struct state st_score;
 extern struct state st_over;
 extern struct state st_pause;
 
-int goto_pause(struct state *);
+int goto_pause(struct state *, struct state *);
 
 #endif

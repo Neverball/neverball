@@ -609,17 +609,20 @@ static int paused = 0;
 
 static struct state *st_continue;
 static struct state *st_quit;
+static struct state *st_forf;
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
+#define PAUSE_FORFEIT  3
 
-int goto_pause(struct state *s)
+int goto_pause(struct state *quit, struct state *forf)
 {
     if (curr_state() == &st_pause)
         return 1;
 
     st_continue = curr_state();
-    st_quit = s;
+    st_quit = quit;
+    st_forf = forf;
     paused = 1;
 
     return goto_state(&st_pause);
@@ -636,6 +639,9 @@ static int pause_action(int i)
 
     case PAUSE_QUIT:
         return goto_state(st_quit);
+
+    case PAUSE_FORFEIT:
+        return goto_state(st_forf);
     }
     return 1;
 }
@@ -654,6 +660,8 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
+            if (game_can_forfeit())
+                gui_state(jd, _("Forfeit"), GUI_SML, PAUSE_FORFEIT, 0);
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
 
@@ -721,7 +729,7 @@ static int shared_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -815,7 +823,7 @@ static int next_keybd(int c, int d)
         if (c == KEY_POSE)
             return goto_state(&st_poser);
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
         if ('0' <= c && c <= '9')
             num = num * 10 + c - '0';
     }
@@ -844,7 +852,7 @@ static int next_buttn(int b, int d)
             return goto_state(&st_flyby);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -934,7 +942,7 @@ static int flyby_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1020,12 +1028,90 @@ static int stroke_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return goto_state(&st_roll);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     else
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_X, b))
             stroke_rotate_alt = 0;
+    }
+    return 1;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int time_enter(struct state *st, struct state *prev, int intent)
+{
+    int id;
+
+    const char *msg = (
+            game_has_forced()
+            ? _("1 Stroke Timeout Penalty")
+            : _("1 Stroke Penalty")
+    );
+
+    if ((id = gui_label(0, msg, GUI_MED, gui_blk, gui_red)))
+        gui_layout(id, 0, 0);
+
+    paused = 0;
+    game_forfeit();
+
+    hud_init();
+
+    return transition_slide(id, 1, intent);
+}
+
+static int time_leave(struct state *st, struct state *next, int id, int intent)
+{
+    hud_free();
+    return transition_slide(id, 0, intent);
+}
+
+static void time_paint(int id, float t)
+{
+    game_draw(0, t);
+    gui_paint(id);
+    hud_paint();
+}
+
+static void time_timer(int id, float dt)
+{
+    gui_timer(id, dt);
+
+    if (time_state() > 3)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+}
+
+static int time_click(int b, int d)
+{
+    if (b == SDL_BUTTON_LEFT && d == 1)
+    {
+        if (hole_next())
+            goto_state(&st_next);
+        else
+            goto_state(&st_score);
+    }
+    return 1;
+}
+
+static int time_buttn(int b, int d)
+{
+    if (d)
+    {
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+        {
+            if (hole_next())
+                goto_state(&st_next);
+            else
+                goto_state(&st_score);
+        }
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1067,6 +1153,7 @@ static void roll_timer(int id, float dt)
     case GAME_STOP: goto_state(&st_stop); break;
     case GAME_GOAL: goto_state(&st_goal); break;
     case GAME_FALL: goto_state(&st_fall); break;
+    case GAME_TIME: goto_state(&st_time); break;
     }
 }
 
@@ -1076,7 +1163,7 @@ static int roll_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1150,7 +1237,7 @@ static int goal_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1222,7 +1309,7 @@ static int stop_buttn(int b, int d)
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1299,7 +1386,7 @@ static int fall_buttn(int b, int d)
                 goto_state(&st_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1356,7 +1443,7 @@ static int score_buttn(int b, int d)
                 goto_state(&st_title);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_pause(&st_over, &st_time);
     }
     return 1;
 }
@@ -1545,6 +1632,19 @@ struct state st_fall = {
     fall_click,
     shared_keybd,
     fall_buttn
+};
+
+struct state st_time = {
+    time_enter,
+    time_leave,
+    time_paint,
+    time_timer,
+    NULL,
+    NULL,
+    NULL,
+    time_click,
+    shared_keybd,
+    time_buttn
 };
 
 struct state st_score = {
