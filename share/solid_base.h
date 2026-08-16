@@ -84,18 +84,19 @@
 
 /* Material type flags */
 
-#define M_LIT         (1 << 11)
-#define M_PARTICLE    (1 << 10)
-#define M_ALPHA_TEST  (1 <<  9)
-#define M_REFLECTIVE  (1 <<  8)
-#define M_TRANSPARENT (1 <<  7)
-#define M_SHADOWED    (1 <<  6)
-#define M_DECAL       (1 <<  5)
-#define M_ENVIRONMENT (1 <<  4)
-#define M_TWO_SIDED   (1 <<  3)
-#define M_ADDITIVE    (1 <<  2)
-#define M_CLAMP_S     (1 <<  1)
-#define M_CLAMP_T     (1 <<  0)
+#define M_FILTER_NEAREST (1 << 12)
+#define M_LIT            (1 << 11)
+#define M_PARTICLE       (1 << 10)
+#define M_ALPHA_TEST     (1 <<  9)
+#define M_REFLECTIVE     (1 <<  8)
+#define M_TRANSPARENT    (1 <<  7)
+#define M_SHADOWED       (1 <<  6)
+#define M_DECAL          (1 <<  5)
+#define M_ENVIRONMENT    (1 <<  4)
+#define M_TWO_SIDED      (1 <<  3)
+#define M_ADDITIVE       (1 <<  2)
+#define M_CLAMP_S        (1 <<  1)
+#define M_CLAMP_T        (1 <<  0)
 
 /* Billboard types. */
 

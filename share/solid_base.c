@@ -921,17 +921,18 @@ static const struct
     char name[16];
     int flag;
 } mtrl_flags[] = {
-    { "additive",    M_ADDITIVE },
-    { "clamp-s",     M_CLAMP_S },
-    { "clamp-t",     M_CLAMP_T },
-    { "decal",       M_DECAL },
-    { "environment", M_ENVIRONMENT },
-    { "reflective",  M_REFLECTIVE },
-    { "shadowed",    M_SHADOWED },
-    { "transparent", M_TRANSPARENT },
-    { "two-sided",   M_TWO_SIDED },
-    { "particle",    M_PARTICLE },
-    { "lit",         M_LIT },
+    { "additive",       M_ADDITIVE },
+    { "clamp-s",        M_CLAMP_S },
+    { "clamp-t",        M_CLAMP_T },
+    { "decal",          M_DECAL },
+    { "environment",    M_ENVIRONMENT },
+    { "reflective",     M_REFLECTIVE },
+    { "shadowed",       M_SHADOWED },
+    { "transparent",    M_TRANSPARENT },
+    { "two-sided",      M_TWO_SIDED },
+    { "particle",       M_PARTICLE },
+    { "lit",            M_LIT },
+    { "filter-nearest", M_FILTER_NEAREST },
 };
 
 int mtrl_read(struct b_mtrl *mp, const char *name)

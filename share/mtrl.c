@@ -82,7 +82,7 @@ static int find_mtrl(const char *name)
 /*
  * Load a material texture.
  */
-static GLuint find_texture(const char *name)
+static GLuint find_texture(const char *name, int fl)
 {
     char path[MAXSTR];
     GLuint o;
@@ -92,7 +92,7 @@ static GLuint find_texture(const char *name)
     {
         CONCAT_PATH(path, &tex_paths[i], name);
 
-        if ((o = make_image_from_file(path, IF_MIPMAP)))
+        if ((o = make_image_from_file(path, fl)))
             return o;
     }
     return 0;
@@ -103,6 +103,8 @@ static GLuint find_texture(const char *name)
  */
 static void load_mtrl_objects(struct mtrl *mp)
 {
+    int fl = (mp->base.fl & M_FILTER_NEAREST) ? 0 : IF_MIPMAP;
+
     /* Make sure not to leak an already loaded object. */
 
     if (mp->o || !mp->base.f[0])
@@ -110,7 +112,7 @@ static void load_mtrl_objects(struct mtrl *mp)
 
     /* Load the texture. */
 
-    if ((mp->o = find_texture(_(mp->base.f))))
+    if ((mp->o = find_texture(_(mp->base.f), fl)))
     {
         /* Set the texture to clamp or repeat based on material type. */
 
@@ -123,6 +125,12 @@ static void load_mtrl_objects(struct mtrl *mp)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        if (mp->base.fl & M_FILTER_NEAREST)
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        }
     }
     else
         log_printf("Failed to load texture \"%s\"\n", _(mp->base.f));
