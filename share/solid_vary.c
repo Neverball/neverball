@@ -240,6 +240,8 @@ void sol_free_vary(struct s_vary *fp)
     free(fp->hv);
     free(fp->xv);
     free(fp->zv);
+    free(fp->jv);
+    free(fp->rv);
     free(fp->uv);
 
     memset(fp, 0, sizeof (*fp));
