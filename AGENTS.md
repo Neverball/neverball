@@ -39,3 +39,28 @@ Examples:
 
 a) User asks to rename a function.
 b) User asks to refactor a source file in a specific way.
+
+## Development and workflow conventions
+
+### Work in worktrees
+- Perform development work in isolated git worktrees rather than modifying the main repository branch directly.
+
+### Boring programming style
+- Keep commit messages, code, and test outputs as boring, plain, and understated as possible.
+- Use standard commit subjects: `<module>: <imperative summary>` (e.g. `<module>: Handle <condition> in <function>`, `<module>: Add <feature>`, `<module>: Fix <issue>`).
+- Avoid decorative banners, borders, or verbose status tags in test harnesses and tool outputs.
+
+### Atomic single-concern commits
+- Keep each commit focused on a single concern. Do not combine unrelated tasks or create commits formatted as `<do thing> and <do another thing>`.
+- Split broad multi-file or multi-function changes into single-concern atomic commits.
+
+### Clean git history and rebasing
+- Maintain a clean, linear git history.
+- Use interactive rebasing (`git rebase -i`), sequence/message editors, and `git commit --fixup` / `--autosquash` to organize and clean commit history rather than expensive `git reset` and manual recommitting.
+
+### Test organization
+- Verify behavior with test-first (red-green) verification where applicable.
+- Organize unit tests into single-concern files under `tests/`.
+- Use a single test runner executable coordinating modular test suites under `make test`.
+- Keep test output minimal and standard (`<test_name>: ok`).
+
