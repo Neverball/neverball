@@ -31,5 +31,9 @@ autosave
 /js/mapc.wasm
 /js/packages
 /base-neverball.zip
-/packages
 /.worktrees
+/build
+/.ast-cache
+/.tree-sitter-cache
+/tests/test
+/tests/test.exe
