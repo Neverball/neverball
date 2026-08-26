@@ -46,6 +46,9 @@ static int course_load(struct course *crs, const char *filename)
     fs_file fin;
     int rc = 0;
 
+    if (!crs || !filename || !*filename)
+        return 0;
+
     memset(crs, 0, sizeof (*crs));
 
     strncpy(crs->holes, filename, MAXSTR - 1);
