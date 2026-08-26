@@ -115,10 +115,12 @@ Array array_new(int elem_len)
 {
     Array a;
 
-    assert(elem_len > 0);
+    if (elem_len <= 0)
+        return NULL;
 
     if ((a = malloc(sizeof (*a))))
     {
+        a->data     = NULL;
         a->elem_num = 0;
         a->elem_len = elem_len;
 
@@ -130,7 +132,8 @@ Array array_new(int elem_len)
 
 void array_free(Array a)
 {
-    assert(a);
+    if (!a)
+        return;
 
     alloc_free(&a->alloc);
     free(a);
@@ -138,44 +141,48 @@ void array_free(Array a)
 
 void *array_add(Array a)
 {
-    assert(a);
+    if (!a)
+        return NULL;
 
     return alloc_add(&a->alloc);
 }
 
 void array_del(Array a)
 {
-    assert(a);
-    assert(a->elem_num > 0);
+    if (!a || a->elem_num <= 0)
+        return;
 
     alloc_del(&a->alloc);
 }
 
 void *array_get(Array a, int i)
 {
-    assert(a);
-    assert(i >= 0 && i < a->elem_num);
+    if (!a || i < 0 || i >= a->elem_num)
+        return NULL;
 
     return &a->data[i * a->elem_len];
 }
 
 void *array_rnd(Array a)
 {
-    assert(a);
+    if (!a || a->elem_num <= 0)
+        return NULL;
 
-    return a->elem_num ? array_get(a, rand_between(0, a->elem_num - 1)) : NULL;
+    return array_get(a, rand_between(0, a->elem_num - 1));
 }
 
 int array_len(Array a)
 {
-    assert(a);
+    if (!a)
+        return 0;
 
     return a->elem_num;
 }
 
 void array_sort(Array a, int (*cmp)(const void *, const void *))
 {
-    assert(a);
+    if (!a || !a->data || !cmp || a->elem_num <= 1)
+        return;
 
     qsort(a->data, a->elem_num, a->elem_len, cmp);
 }
