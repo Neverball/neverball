@@ -533,9 +533,30 @@ endif
 
 desktops : $(DESKTOPS)
 
+#------------------------------------------------------------------------------
+
+TEST_TARG := tests/test$(X)
+
+TEST_SRCS := \
+	tests/test_main.c \
+	tests/test_array.c \
+	tests/test_list.c \
+	tests/test_queue.c \
+	tests/test_common.c \
+	share/array.c \
+	share/common.c \
+	share/queue.c \
+	share/list.c
+
+$(TEST_TARG) : $(TEST_SRCS)
+	$(CC) $(ALL_CFLAGS) -Ishare -UNDEBUG -o $@ $^ $(LDFLAGS)
+
+test : $(TEST_TARG)
+	./$(TEST_TARG)
+
 clean-src :
-	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
-	find ball share putt \( -name '*.o' -o -name '*.d' \) -delete
+	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(TEST_TARG)
+	find ball share putt tests \( -name '*.o' -o -name '*.d' \) -delete
 	$(RM) neverball.ico.o neverputt.ico.o
 
 clean : clean-src
@@ -545,8 +566,8 @@ clean : clean-src
 
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales desktops clean-src clean
+.PHONY : all sols locales desktops clean-src clean test
 
--include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
+-include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS) $(wildcard tests/*.d)
 
 #------------------------------------------------------------------------------

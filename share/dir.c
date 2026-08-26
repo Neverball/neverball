@@ -41,10 +41,16 @@ List dir_list_files(const char *path)
 
         while ((ent = readdir(dir)))
         {
+            char *name;
+
             if (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0)
                 continue;
 
-            files = list_cons(strdup(ent->d_name), files);
+            if (!(name = strdup(ent->d_name)))
+                continue;
+
+            if (!list_push(&files, name))
+                free(name);
         }
 
         closedir(dir);
@@ -70,9 +76,17 @@ void dir_list_free(List files)
  */
 static struct dir_item *add_item(Array items, const char *dir, const char *name)
 {
-    struct dir_item *item = array_add(items);
+    struct dir_item *item;
 
-    item->path = path_join(dir, name);
+    if (!items || !name)
+        return NULL;
+
+    item = array_add(items);
+
+    if (!item)
+        return NULL;
+
+    item->path = path_join(dir ? dir : "", name);
     item->data = NULL;
 
     return item;
@@ -83,10 +97,22 @@ static struct dir_item *add_item(Array items, const char *dir, const char *name)
  */
 static void del_item(Array items)
 {
-    struct dir_item *item = array_get(items, array_len(items) - 1);
+    struct dir_item *item;
 
-    free((void *) item->path);
-    assert(!item->data);
+    if (!items || array_len(items) <= 0)
+        return;
+
+    item = array_get(items, array_len(items) - 1);
+
+    if (item)
+    {
+        if (item->path)
+        {
+            free((void *) item->path);
+            item->path = NULL;
+        }
+        item->data = NULL;
+    }
 
     array_del(items);
 }
@@ -113,7 +139,7 @@ Array dir_scan(const char *path,
 
     items = array_new(sizeof (struct dir_item));
 
-    if ((files = list_files(path)))
+    if (items && (files = list_files(path)))
     {
         for (file = files; file; file = file->next)
         {
@@ -121,8 +147,11 @@ Array dir_scan(const char *path,
 
             item = add_item(items, path, file->data);
 
-            if (filter && !filter(item))
-                del_item(items);
+            if (item)
+            {
+                if (filter && !filter(item))
+                    del_item(items);
+            }
         }
 
         free_files(files);
@@ -136,6 +165,9 @@ Array dir_scan(const char *path,
  */
 void dir_free(Array items)
 {
+    if (!items)
+        return;
+
     while (array_len(items))
         del_item(items);
 

@@ -25,5 +25,6 @@ typedef struct list *List;
 
 List list_cons(void *, List);
 List list_rest(List);
+int  list_push(List *, void *);
 
 #endif

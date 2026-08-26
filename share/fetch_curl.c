@@ -254,6 +254,8 @@ static int count_active_transfers(void)
     return n;
 }
 
+static void free_fetch_info(struct fetch_info *fi);
+
 /*
  * Allocate a new fetch_info struct.
  */
@@ -275,7 +277,13 @@ static struct fetch_info *create_and_link_fetch_info(void)
     struct fetch_info *fi = create_fetch_info();
 
     if (fi)
-        fetch_list = list_cons(fi, fetch_list);
+    {
+        if (!list_push(&fetch_list, fi))
+        {
+            free_fetch_info(fi);
+            return NULL;
+        }
+    }
 
     return fi;
 }

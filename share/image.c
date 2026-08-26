@@ -237,20 +237,23 @@ GLuint make_image_from_font(int *W, int *H,
 
             p = image_next2(src->pixels, src->w, src->h, b, &w2, &h2);
 
-            if (w) *w = src->w;
-            if (h) *h = src->h;
-            if (W) *W = w2;
-            if (H) *H = h2;
+            if (p)
+            {
+                if (w) *w = src->w;
+                if (h) *h = src->h;
+                if (W) *W = w2;
+                if (H) *H = h2;
 
-            /* Saturate the color channels.  Modulate ONLY in alpha. */
+                /* Saturate the color channels.  Modulate ONLY in alpha. */
 
-            image_white(p, w2, h2, b);
+                image_white(p, w2, h2, b);
 
-            /* Create the OpenGL texture object. */
+                /* Create the OpenGL texture object. */
 
-            o = make_texture(p, w2, h2, b, fl);
+                o = make_texture(p, w2, h2, b, fl);
 
-            free(p);
+                free(p);
+            }
             SDL_FreeSurface(src);
         }
     }
@@ -313,6 +316,8 @@ SDL_Surface *load_surface(const char *filename)
         {
             srf = SDL_CreateRGBSurfaceFrom(q, w, h, b * 8, w * b,
                                            RMASK, GMASK, BMASK, AMASK);
+            if (!srf)
+                free(q);
         }
         free(p);
     }

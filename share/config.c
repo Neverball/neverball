@@ -570,10 +570,10 @@ int config_get_d(int i)
 
 void config_set_s(int i, const char *src)
 {
-    if (option_s[i].cur)
-        free(option_s[i].cur);
+    char *dup = src ? strdup(src) : NULL;
 
-    option_s[i].cur = strdup(src);
+    free(option_s[i].cur);
+    option_s[i].cur = dup;
 
     dirty = 1;
 }

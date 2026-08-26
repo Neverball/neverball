@@ -185,8 +185,12 @@ static void free_mtrl(struct mtrl *mp)
 int mtrl_cache(const struct b_mtrl *base)
 {
     struct mtrl *mp;
+    int mi;
 
-    int mi = find_mtrl(base->f);
+    if (!base)
+        return -1;
+
+    mi = find_mtrl(base->f);
 
     if (mi < 0)
     {
@@ -198,7 +202,7 @@ int mtrl_cache(const struct b_mtrl *base)
         {
             mp = array_get(mtrls, i);
 
-            if (mp->refc == 0)
+            if (mp && mp->refc == 0)
             {
                 load_mtrl(mp, base);
                 mp->refc++;
@@ -219,7 +223,8 @@ int mtrl_cache(const struct b_mtrl *base)
     else
     {
         mp = array_get(mtrls, mi);
-        mp->refc++;
+        if (mp)
+            mp->refc++;
     }
 
     return mi;
@@ -234,7 +239,7 @@ void mtrl_free(int mi)
     {
         struct mtrl *mp = array_get(mtrls, mi);
 
-        if (mp->refc > 0)
+        if (mp && mp->refc > 0)
         {
             mp->refc--;
 
@@ -249,7 +254,14 @@ void mtrl_free(int mi)
  */
 struct mtrl *mtrl_get(int mi)
 {
-    return mtrls ? array_get(mtrls, mi) : NULL;
+    if (mtrls)
+    {
+        if (mi >= 0 && mi < array_len(mtrls))
+            return array_get(mtrls, mi);
+        if (default_mtrl >= 0 && default_mtrl < array_len(mtrls))
+            return array_get(mtrls, default_mtrl);
+    }
+    return NULL;
 }
 
 /*
@@ -257,13 +269,16 @@ struct mtrl *mtrl_get(int mi)
  */
 void mtrl_cache_sol(struct s_base *fp)
 {
+    if (!fp)
+        return;
+
     if (fp->mtrls)
     {
         free(fp->mtrls);
         fp->mtrls = NULL;
     }
 
-    if ((fp->mtrls = calloc(fp->mc, sizeof (*fp->mtrls))))
+    if (fp->mc > 0 && (fp->mtrls = calloc(fp->mc, sizeof (*fp->mtrls))))
     {
         int mi;
 

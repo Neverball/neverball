@@ -455,13 +455,17 @@ void back_init(const char *name)
 
     if (sol_load_full(&back, "geom/back/back.sol", 0))
     {
-        struct mtrl *mp = mtrl_get(back.base.mtrls[0]);
-        mp->o = make_image_from_file(name, IF_MIPMAP);
+        struct mtrl *mp = mtrl_get(back.base.mtrls ? back.base.mtrls[0] : -1);
 
-        if (!mp->o)
-            log_printf("Failed to load background image \"%s\"\n", name);
+        if (mp)
+        {
+            mp->o = make_image_from_file(name, IF_MIPMAP);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            if (!mp->o)
+                log_printf("Failed to load background image \"%s\"\n", name);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        }
         back_state = 1;
     }
 }

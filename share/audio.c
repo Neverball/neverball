@@ -153,13 +153,18 @@ static struct voice *voice_init(const char *filename, float a)
     struct voice *V;
     fs_file      fp;
 
+    if (!filename)
+        return NULL;
+
     /* Allocate and initialize a new voice structure. */
 
     if ((V = (struct voice *) calloc(1, sizeof (struct voice))))
     {
-        /* Note the name. */
-
-        V->name = strdup(filename);
+        if (!(V->name = strdup(filename)))
+        {
+            free(V);
+            return NULL;
+        }
 
         /* Attempt to open the named Ogg stream. */
 
@@ -181,11 +186,15 @@ static struct voice *voice_init(const char *filename, float a)
                 if (V->amp < 0.0f) V->amp = 0.0;
 
                 /* The file will be closed when the Ogg is cleared. */
+                return V;
             }
             else fs_close(fp);
         }
+
+        free(V->name);
+        free(V);
     }
-    return V;
+    return NULL;
 }
 
 static void voice_free(struct voice *V)
@@ -340,7 +349,7 @@ void audio_play(const char *filename, float a)
         SDL_LockAudio();
         {
             for (V = voices; V; V = V->next)
-                if (strcmp(V->name, filename) == 0)
+                if (V->name && strcmp(V->name, filename) == 0)
                 {
                     ov_raw_seek(&V->vf, 0);
 
@@ -357,16 +366,17 @@ void audio_play(const char *filename, float a)
 
         /* Create a new voice structure. */
 
-        V = voice_init(filename, a);
-
-        /* Add it to the list of sounding voices. */
-
-        SDL_LockAudio();
+        if ((V = voice_init(filename, a)))
         {
-            V->next = voices;
-            voices  = V;
+            /* Add it to the list of sounding voices. */
+
+            SDL_LockAudio();
+            {
+                V->next = voices;
+                voices  = V;
+            }
+            SDL_UnlockAudio();
         }
-        SDL_UnlockAudio();
     }
 }
 
@@ -447,7 +457,7 @@ void audio_music_fade_to(float t, const char *filename)
 {
     if (music)
     {
-        if (strcmp(filename, music->name) != 0)
+        if (!music->name || strcmp(filename, music->name) != 0)
         {
             audio_music_fade_out(t);
             audio_music_queue(filename, t);
