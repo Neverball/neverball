@@ -70,9 +70,17 @@ void dir_list_free(List files)
  */
 static struct dir_item *add_item(Array items, const char *dir, const char *name)
 {
-    struct dir_item *item = array_add(items);
+    struct dir_item *item;
 
-    item->path = path_join(dir, name);
+    if (!items || !name)
+        return NULL;
+
+    item = array_add(items);
+
+    if (!item)
+        return NULL;
+
+    item->path = path_join(dir ? dir : "", name);
     item->data = NULL;
 
     return item;
