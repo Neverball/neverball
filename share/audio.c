@@ -153,6 +153,9 @@ static struct voice *voice_init(const char *filename, float a)
     struct voice *V;
     fs_file      fp;
 
+    if (!filename)
+        return NULL;
+
     /* Allocate and initialize a new voice structure. */
 
     if ((V = (struct voice *) calloc(1, sizeof (struct voice))))
@@ -181,11 +184,15 @@ static struct voice *voice_init(const char *filename, float a)
                 if (V->amp < 0.0f) V->amp = 0.0;
 
                 /* The file will be closed when the Ogg is cleared. */
+                return V;
             }
             else fs_close(fp);
         }
+
+        free(V->name);
+        free(V);
     }
-    return V;
+    return NULL;
 }
 
 static void voice_free(struct voice *V)
