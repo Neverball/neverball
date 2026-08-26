@@ -18,6 +18,7 @@
 #include "fetch.h"
 #include "fs.h"
 #include "lang.h"
+#include "log.h"
 
 enum package_image_status
 {
@@ -253,7 +254,12 @@ static int load_installed_packages(void)
                 lpkg = array_add(pkgs);
 
                 if (lpkg)
+                {
+                    memset(lpkg, 0, sizeof (*lpkg));
                     SAFECPY(lpkg->id, line + 8);
+                }
+                else
+                    log_printf("Warning: Failed to allocate installed package slot for '%s'\n", line + 8);
             }
             else if (strncmp(line, "filename ", 9) == 0)
             {
@@ -268,6 +274,7 @@ static int load_installed_packages(void)
                 {
                     char *delim;
 
+                    memset(lpkg, 0, sizeof (*lpkg));
                     SAFECPY(lpkg->filename, line);
 
                     /* Extract package ID from the filename. */
@@ -280,6 +287,8 @@ static int load_installed_packages(void)
 
                     lpkg = NULL;
                 }
+                else
+                    log_printf("Warning: Failed to allocate installed package slot for '%s'\n", line);
             }
         }
 
@@ -435,6 +444,8 @@ static Array load_packages_from_file(const char *filename)
 
                     strncpy(pkg->type, pkg->id, MIN(sizeof (pkg->type) - 1, prefix_len));
                 }
+                else
+                    log_printf("Warning: Failed to allocate available package slot for '%s'\n", line + 8);
             }
             else if (strncmp(line, "filename ", 9) == 0)
             {
