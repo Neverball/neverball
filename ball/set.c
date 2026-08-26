@@ -261,10 +261,15 @@ static void set_load_hs(void)
 
 /*---------------------------------------------------------------------------*/
 
+static void set_free(struct set *s);
+
 static int set_load(struct set *s, const char *filename)
 {
     fs_file fin;
     char *scores, *level_name;
+
+    if (!s || !filename || !*filename)
+        return 0;
 
     /* Skip "Misc" set when not in dev mode. */
 
@@ -332,12 +337,8 @@ static int set_load(struct set *s, const char *filename)
 
     log_printf("Failure to load set file %s\n", filename);
 
-    free(s->name);
-    free(s->desc);
-    free(s->id);
-    free(s->shot);
-
     fs_close(fin);
+    set_free(s);
 
     return 0;
 }
@@ -345,6 +346,9 @@ static int set_load(struct set *s, const char *filename)
 static void set_free(struct set *s)
 {
     int i;
+
+    if (!s)
+        return;
 
     free(s->name);
     free(s->desc);
@@ -356,6 +360,8 @@ static void set_free(struct set *s)
 
     for (i = 0; i < s->count; i++)
         free(s->level_name_v[i]);
+
+    memset(s, 0, sizeof (*s));
 }
 
 /*---------------------------------------------------------------------------*/
