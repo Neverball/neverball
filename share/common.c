@@ -242,7 +242,11 @@ int path_is_abs(const char *path)
 
 char *path_join(const char *head, const char *tail)
 {
-    return *head ? concat_string(head, "/", tail, NULL) : strdup(tail);
+    if (!head || !*head)
+        return tail ? strdup(tail) : NULL;
+    if (!tail || !*tail)
+        return strdup(head);
+    return concat_string(head, "/", tail, NULL);
 }
 
 const char *path_last_sep(const char *path)
