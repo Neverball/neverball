@@ -47,3 +47,25 @@ List list_rest(List first)
     free(first);
     return rest;
 }
+
+/*
+ * Allocate a new list cell with "data" member initialised to FIRST and
+ * prepend it to *HEAD. Return 1 on success, 0 on failure.
+ */
+int list_push(List *head, void *first)
+{
+    List new;
+
+    if (!head)
+        return 0;
+
+    if ((new = malloc(sizeof (*new))))
+    {
+        new->data = first;
+        new->next = *head;
+        *head     = new;
+        return 1;
+    }
+
+    return 0;
+}
