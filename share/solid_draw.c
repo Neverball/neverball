@@ -797,16 +797,17 @@ void sol_fade(const struct s_draw *draw, struct s_rend *rend, float k)
 
 int sol_load_full(struct s_full *full, const char *filename, int s)
 {
-    if (full)
+    if (full && filename)
     {
         memset(full, 0, sizeof (*full));
 
         if (sol_load_base(&full->base, filename))
         {
-            sol_load_vary(&full->vary, &full->base);
-            sol_load_draw(&full->draw, &full->vary, s);
+            if (sol_load_vary(&full->vary, &full->base) &&
+                sol_load_draw(&full->draw, &full->vary, s))
+                return 1;
 
-            return 1;
+            sol_free_full(full);
         }
     }
 
@@ -815,9 +816,13 @@ int sol_load_full(struct s_full *full, const char *filename, int s)
 
 void sol_free_full(struct s_full *full)
 {
+    if (!full)
+        return;
+
     sol_free_draw(&full->draw);
     sol_free_vary(&full->vary);
     sol_free_base(&full->base);
+    memset(full, 0, sizeof (*full));
 }
 
 /*---------------------------------------------------------------------------*/
