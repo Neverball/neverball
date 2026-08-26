@@ -513,11 +513,17 @@ int sol_load_lerp(struct s_lerp *fp, struct s_vary *vary)
 {
     int i;
 
+    if (!fp || !vary)
+        return 0;
+
+    memset(fp, 0, sizeof (*fp));
+
     fp->vary = vary;
 
     if (fp->vary->mc)
     {
-        fp->mv = calloc(fp->vary->mc, sizeof (*fp->mv));
+        if (!(fp->mv = calloc(fp->vary->mc, sizeof (*fp->mv))))
+            goto fail;
         fp->mc = fp->vary->mc;
 
         for (i = 0; i < fp->vary->mc; i++)
@@ -526,7 +532,8 @@ int sol_load_lerp(struct s_lerp *fp, struct s_vary *vary)
 
     if (fp->vary->uc)
     {
-        fp->uv = calloc(fp->vary->uc, sizeof (*fp->uv));
+        if (!(fp->uv = calloc(fp->vary->uc, sizeof (*fp->uv))))
+            goto fail;
         fp->uc = fp->vary->uc;
 
         for (i = 0; i < fp->vary->uc; i++)
@@ -542,13 +549,19 @@ int sol_load_lerp(struct s_lerp *fp, struct s_vary *vary)
     /* Initialize with initial states. */
 
     sol_lerp_copy(fp);
-    sol_lerp_copy(fp);
 
     return 1;
+
+fail:
+    sol_free_lerp(fp);
+    return 0;
 }
 
 void sol_free_lerp(struct s_lerp *fp)
 {
+    if (!fp)
+        return;
+
     if (fp->mv) free(fp->mv);
     if (fp->uv) free(fp->uv);
 
