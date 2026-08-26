@@ -316,6 +316,8 @@ SDL_Surface *load_surface(const char *filename)
         {
             srf = SDL_CreateRGBSurfaceFrom(q, w, h, b * 8, w * b,
                                            RMASK, GMASK, BMASK, AMASK);
+            if (!srf)
+                free(q);
         }
         free(p);
     }
