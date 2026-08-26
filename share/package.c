@@ -221,7 +221,12 @@ static int mount_local_package(struct local_package *lpkg)
 {
     if (lpkg && mount_package_file(lpkg->filename))
     {
-        installed_packages = list_cons(lpkg, installed_packages);
+        if (!list_push(&installed_packages, lpkg))
+        {
+            log_printf("Warning: Failed to allocate package entry for '%s'\n", lpkg->filename);
+            return 0;
+        }
+
         unmount_duplicate_local_packages(lpkg);
         save_installed_packages();
         return 1;
