@@ -398,6 +398,9 @@ int set_init(void)
     sets = array_new(sizeof (struct set));
     curr = 0;
 
+    if (!sets)
+        return 0;
+
     /*
      * First, load the sets listed in the set file, preserving order.
      */
@@ -408,8 +411,13 @@ int set_init(void)
         {
             struct set *s = array_add(sets);
 
-            if (!set_load(s, name))
-                array_del(sets);
+            if (s)
+            {
+                if (!set_load(s, name))
+                    array_del(sets);
+            }
+            else
+                log_printf("Warning: Failed to allocate set slot for '%s'\n", name);
 
             free(name);
         }
@@ -429,8 +437,14 @@ int set_init(void)
         {
             struct set *s = array_add(sets);
 
-            if (!set_load(s, DIR_ITEM_GET(items, i)->path))
-                array_del(sets);
+            if (s)
+            {
+                if (!set_load(s, DIR_ITEM_GET(items, i)->path))
+                    array_del(sets);
+            }
+            else
+                log_printf("Warning: Failed to allocate set slot for '%s'\n",
+                           DIR_ITEM_GET(items, i)->path);
         }
 
         fs_dir_free(items);
