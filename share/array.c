@@ -93,7 +93,15 @@ void alloc_del(struct alloc *alloc)
     if (*alloc->count > 0)
     {
         if ((*alloc->count - 1) * alloc->block == alloc->size / 4)
-            *alloc->data  = realloc(*alloc->data, (alloc->size /= 4));
+        {
+            void *data;
+
+            if ((data = realloc(*alloc->data, alloc->size / 4)))
+            {
+                *alloc->data = data;
+                alloc->size /= 4;
+            }
+        }
 
         (*alloc->count)--;
     }
