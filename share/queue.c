@@ -28,13 +28,22 @@ Queue queue_new(void)
     Queue new;
 
     if ((new = malloc(sizeof (*new))))
-        new->head = new->tail = list_cons(NULL, NULL);
+    {
+        if (!(new->head = new->tail = list_cons(NULL, NULL)))
+        {
+            free(new);
+            return NULL;
+        }
+    }
 
     return new;
 }
 
 void queue_free(Queue q)
 {
+    if (!q)
+        return;
+
     assert(queue_empty(q));
     free(q->head);
     free(q);
@@ -42,25 +51,31 @@ void queue_free(Queue q)
 
 int queue_empty(Queue q)
 {
-    assert(q);
+    if (!q || !q->head)
+        return 1;
     return q->head == q->tail;
 }
 
 void queue_enq(Queue q, void *data)
 {
-    assert(q);
+    List next_node;
 
-    q->tail->data = data;
-    q->tail->next = list_cons(NULL, NULL);
+    if (!q || !q->tail)
+        return;
 
-    q->tail = q->tail->next;
+    if ((next_node = list_cons(NULL, NULL)))
+    {
+        q->tail->data = data;
+        q->tail->next = next_node;
+        q->tail = next_node;
+    }
 }
 
 void *queue_deq(Queue q)
 {
     void *data = NULL;
 
-    if (!queue_empty(q))
+    if (!queue_empty(q) && q->head)
     {
         data    = q->head->data;
         q->head = list_rest(q->head);
