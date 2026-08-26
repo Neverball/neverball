@@ -83,10 +83,22 @@ static struct dir_item *add_item(Array items, const char *dir, const char *name)
  */
 static void del_item(Array items)
 {
-    struct dir_item *item = array_get(items, array_len(items) - 1);
+    struct dir_item *item;
 
-    free((void *) item->path);
-    assert(!item->data);
+    if (!items || array_len(items) <= 0)
+        return;
+
+    item = array_get(items, array_len(items) - 1);
+
+    if (item)
+    {
+        if (item->path)
+        {
+            free((void *) item->path);
+            item->path = NULL;
+        }
+        item->data = NULL;
+    }
 
     array_del(items);
 }
@@ -113,7 +125,7 @@ Array dir_scan(const char *path,
 
     items = array_new(sizeof (struct dir_item));
 
-    if ((files = list_files(path)))
+    if (items && (files = list_files(path)))
     {
         for (file = files; file; file = file->next)
         {
@@ -121,8 +133,11 @@ Array dir_scan(const char *path,
 
             item = add_item(items, path, file->data);
 
-            if (filter && !filter(item))
-                del_item(items);
+            if (item)
+            {
+                if (filter && !filter(item))
+                    del_item(items);
+            }
         }
 
         free_files(files);
@@ -136,6 +151,9 @@ Array dir_scan(const char *path,
  */
 void dir_free(Array items)
 {
+    if (!items)
+        return;
+
     while (array_len(items))
         del_item(items);
 
