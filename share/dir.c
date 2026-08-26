@@ -41,10 +41,16 @@ List dir_list_files(const char *path)
 
         while ((ent = readdir(dir)))
         {
+            char *name;
+
             if (strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0)
                 continue;
 
-            files = list_cons(strdup(ent->d_name), files);
+            if (!(name = strdup(ent->d_name)))
+                continue;
+
+            if (!list_push(&files, name))
+                free(name);
         }
 
         closedir(dir);
