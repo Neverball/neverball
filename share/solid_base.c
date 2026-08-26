@@ -471,48 +471,27 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
 
     sol_load_indx(fin, fp);
 
-    if (fp->ac)
-        fp->av = (char *)          calloc(fp->ac, sizeof (*fp->av));
-    if (fp->mc)
-        fp->mv = (struct b_mtrl *) calloc(fp->mc, sizeof (*fp->mv));
-    if (fp->vc)
-        fp->vv = (struct b_vert *) calloc(fp->vc, sizeof (*fp->vv));
-    if (fp->ec)
-        fp->ev = (struct b_edge *) calloc(fp->ec, sizeof (*fp->ev));
-    if (fp->sc)
-        fp->sv = (struct b_side *) calloc(fp->sc, sizeof (*fp->sv));
-    if (fp->tc)
-        fp->tv = (struct b_texc *) calloc(fp->tc, sizeof (*fp->tv));
-    if (fp->oc)
-        fp->ov = (struct b_offs *) calloc(fp->oc, sizeof (*fp->ov));
-    if (fp->gc)
-        fp->gv = (struct b_geom *) calloc(fp->gc, sizeof (*fp->gv));
-    if (fp->lc)
-        fp->lv = (struct b_lump *) calloc(fp->lc, sizeof (*fp->lv));
-    if (fp->nc)
-        fp->nv = (struct b_node *) calloc(fp->nc, sizeof (*fp->nv));
-    if (fp->pc)
-        fp->pv = (struct b_path *) calloc(fp->pc, sizeof (*fp->pv));
-    if (fp->bc)
-        fp->bv = (struct b_body *) calloc(fp->bc, sizeof (*fp->bv));
-    if (fp->hc)
-        fp->hv = (struct b_item *) calloc(fp->hc, sizeof (*fp->hv));
-    if (fp->zc)
-        fp->zv = (struct b_goal *) calloc(fp->zc, sizeof (*fp->zv));
-    if (fp->jc)
-        fp->jv = (struct b_jump *) calloc(fp->jc, sizeof (*fp->jv));
-    if (fp->xc)
-        fp->xv = (struct b_swch *) calloc(fp->xc, sizeof (*fp->xv));
-    if (fp->rc)
-        fp->rv = (struct b_bill *) calloc(fp->rc, sizeof (*fp->rv));
-    if (fp->uc)
-        fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
-    if (fp->wc)
-        fp->wv = (struct b_view *) calloc(fp->wc, sizeof (*fp->wv));
-    if (fp->dc)
-        fp->dv = (struct b_dict *) calloc(fp->dc, sizeof (*fp->dv));
-    if (fp->ic)
-        fp->iv = (int *)           calloc(fp->ic, sizeof (*fp->iv));
+    if (fp->ac && !(fp->av = (char *)          calloc(fp->ac, sizeof (*fp->av)))) goto fail;
+    if (fp->mc && !(fp->mv = (struct b_mtrl *) calloc(fp->mc, sizeof (*fp->mv)))) goto fail;
+    if (fp->vc && !(fp->vv = (struct b_vert *) calloc(fp->vc, sizeof (*fp->vv)))) goto fail;
+    if (fp->ec && !(fp->ev = (struct b_edge *) calloc(fp->ec, sizeof (*fp->ev)))) goto fail;
+    if (fp->sc && !(fp->sv = (struct b_side *) calloc(fp->sc, sizeof (*fp->sv)))) goto fail;
+    if (fp->tc && !(fp->tv = (struct b_texc *) calloc(fp->tc, sizeof (*fp->tv)))) goto fail;
+    if (fp->oc && !(fp->ov = (struct b_offs *) calloc(fp->oc, sizeof (*fp->ov)))) goto fail;
+    if (fp->gc && !(fp->gv = (struct b_geom *) calloc(fp->gc, sizeof (*fp->gv)))) goto fail;
+    if (fp->lc && !(fp->lv = (struct b_lump *) calloc(fp->lc, sizeof (*fp->lv)))) goto fail;
+    if (fp->nc && !(fp->nv = (struct b_node *) calloc(fp->nc, sizeof (*fp->nv)))) goto fail;
+    if (fp->pc && !(fp->pv = (struct b_path *) calloc(fp->pc, sizeof (*fp->pv)))) goto fail;
+    if (fp->bc && !(fp->bv = (struct b_body *) calloc(fp->bc, sizeof (*fp->bv)))) goto fail;
+    if (fp->hc && !(fp->hv = (struct b_item *) calloc(fp->hc, sizeof (*fp->hv)))) goto fail;
+    if (fp->zc && !(fp->zv = (struct b_goal *) calloc(fp->zc, sizeof (*fp->zv)))) goto fail;
+    if (fp->jc && !(fp->jv = (struct b_jump *) calloc(fp->jc, sizeof (*fp->jv)))) goto fail;
+    if (fp->xc && !(fp->xv = (struct b_swch *) calloc(fp->xc, sizeof (*fp->xv)))) goto fail;
+    if (fp->rc && !(fp->rv = (struct b_bill *) calloc(fp->rc, sizeof (*fp->rv)))) goto fail;
+    if (fp->uc && !(fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv)))) goto fail;
+    if (fp->wc && !(fp->wv = (struct b_view *) calloc(fp->wc, sizeof (*fp->wv)))) goto fail;
+    if (fp->dc && !(fp->dv = (struct b_dict *) calloc(fp->dc, sizeof (*fp->dv)))) goto fail;
+    if (fp->ic && !(fp->iv = (int *)           calloc(fp->ic, sizeof (*fp->iv)))) goto fail;
 
     if (fp->ac)
         fs_read(fp->av, fp->ac, fin);
@@ -543,7 +522,8 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     if (!fp->uc)
     {
         fp->uc = 1;
-        fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv));
+        if (!(fp->uv = (struct b_ball *) calloc(fp->uc, sizeof (*fp->uv))))
+            goto fail;
     }
 
     /* Add lit flag to old materials. */
@@ -558,6 +538,10 @@ static int sol_load_file(fs_file fin, struct s_base *fp)
     }
 
     return 1;
+
+fail:
+    sol_free_base(fp);
+    return 0;
 }
 
 static int sol_load_head(fs_file fin, struct s_base *fp)
@@ -569,7 +553,8 @@ static int sol_load_head(fs_file fin, struct s_base *fp)
 
     if (fp->ac)
     {
-        fp->av = (char *) calloc(fp->ac, sizeof (*fp->av));
+        if (!(fp->av = (char *) calloc(fp->ac, sizeof (*fp->av))))
+            goto fail;
         fs_read(fp->av, fp->ac, fin);
     }
 
@@ -577,13 +562,18 @@ static int sol_load_head(fs_file fin, struct s_base *fp)
     {
         int i;
 
-        fp->dv = (struct b_dict *) calloc(fp->dc, sizeof (*fp->dv));
+        if (!(fp->dv = (struct b_dict *) calloc(fp->dc, sizeof (*fp->dv))))
+            goto fail;
 
         for (i = 0; i < fp->dc; i++)
             sol_load_dict(fin, fp->dv + i);
     }
 
     return 1;
+
+fail:
+    sol_free_base(fp);
+    return 0;
 }
 
 int sol_load_base(struct s_base *fp, const char *filename)
