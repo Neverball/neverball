@@ -26,13 +26,18 @@ void alloc_new(struct alloc *alloc,
                void **data,
                int   *count)
 {
+    if (!alloc)
+        return;
+
     memset(alloc, 0, sizeof (*alloc));
 
     alloc->data  = data;
     alloc->count = count;
 
-    *alloc->data  = NULL;
-    *alloc->count = 0;
+    if (alloc->data)
+        *alloc->data = NULL;
+    if (alloc->count)
+        *alloc->count = 0;
 
     alloc->size   = 0;
     alloc->block  = block;
@@ -40,7 +45,10 @@ void alloc_new(struct alloc *alloc,
 
 void alloc_free(struct alloc *alloc)
 {
-    if (alloc->data)
+    if (!alloc)
+        return;
+
+    if (alloc->data && *alloc->data)
     {
         free(*alloc->data);
         *alloc->data = NULL;
@@ -54,6 +62,9 @@ void alloc_free(struct alloc *alloc)
 
 void *alloc_add(struct alloc *alloc)
 {
+    if (!alloc || !alloc->data || !alloc->count || alloc->block <= 0)
+        return NULL;
+
     if ((*alloc->count + 1) * alloc->block > alloc->size)
     {
         void *new_data;
@@ -76,6 +87,9 @@ void *alloc_add(struct alloc *alloc)
 
 void alloc_del(struct alloc *alloc)
 {
+    if (!alloc || !alloc->data || !alloc->count)
+        return;
+
     if (*alloc->count > 0)
     {
         if ((*alloc->count - 1) * alloc->block == alloc->size / 4)
