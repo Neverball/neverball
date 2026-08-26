@@ -183,16 +183,25 @@ static void sol_load_geom(fs_file fin, struct b_geom *gp, struct s_base *fp)
                 oc++;
         }
 
-        if (oc && (p = realloc(fp->ov, sizeof (struct b_offs) * (fp->oc + oc))))
+        if (oc)
         {
-            fp->ov = p;
+            if ((p = realloc(fp->ov, sizeof (struct b_offs) * (fp->oc + oc))))
+            {
+                fp->ov = p;
 
-            for (i = 0; i < 3; i++)
-                if (iv[i] < 0)
-                {
-                    fp->ov[fp->oc] = ov[i];
-                    iv[i] = fp->oc++;
-                }
+                for (i = 0; i < 3; i++)
+                    if (iv[i] < 0)
+                    {
+                        fp->ov[fp->oc] = ov[i];
+                        iv[i] = fp->oc++;
+                    }
+            }
+            else
+            {
+                for (i = 0; i < 3; i++)
+                    if (iv[i] < 0)
+                        iv[i] = 0;
+            }
         }
 
         gp->oi = iv[0];
