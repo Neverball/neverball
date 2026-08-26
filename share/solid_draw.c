@@ -451,13 +451,18 @@ static void sol_load_body(struct d_body *bp,
 
     /* Allocate and initialize a mesh for each material. */
 
-    if ((bp->mv = (struct d_mesh *) calloc(bp->mc, sizeof (struct d_mesh))))
+    if (bp->mc > 0)
     {
-        int mj = 0;
+        if ((bp->mv = (struct d_mesh *) calloc(bp->mc, sizeof (struct d_mesh))))
+        {
+            int mj = 0;
 
-        for (mi = 0; mi < draw->base->mc; ++mi)
-            if (sol_count_body(bq, draw->base, mi))
-                sol_load_mesh(bp->mv + mj++, bq, draw, mi);
+            for (mi = 0; mi < draw->base->mc; ++mi)
+                if (sol_count_body(bq, draw->base, mi))
+                    sol_load_mesh(bp->mv + mj++, bq, draw, mi);
+        }
+        else
+            bp->mc = 0;
     }
 
     /* Cache a mesh count for each pass. */
@@ -473,10 +478,15 @@ static void sol_free_body(struct d_body *bp)
 {
     int mi;
 
+    if (!bp)
+        return;
+
     for (mi = 0; mi < bp->mc; ++mi)
         sol_free_mesh(bp->mv + mi);
 
     free(bp->mv);
+    bp->mv = NULL;
+    bp->mc = 0;
 }
 
 static void sol_draw_body(const struct d_body *bp, struct s_rend *rend, int p)
@@ -492,6 +502,9 @@ static void sol_draw_body(const struct d_body *bp, struct s_rend *rend, int p)
 int sol_load_draw(struct s_draw *draw, struct s_vary *vary, int s)
 {
     int i;
+
+    if (!draw || !vary || !vary->base)
+        return 0;
 
     memset(draw, 0, sizeof (struct s_draw));
 
@@ -538,7 +551,11 @@ void sol_free_draw(struct s_draw *draw)
 {
     int i;
 
-    mtrl_free_sol(draw->base);
+    if (!draw)
+        return;
+
+    if (draw->base)
+        mtrl_free_sol(draw->base);
 
     sol_free_bill(draw);
 
@@ -546,6 +563,7 @@ void sol_free_draw(struct s_draw *draw)
         sol_free_body(draw->bv + i);
 
     free(draw->bv);
+    memset(draw, 0, sizeof (*draw));
 }
 
 /*---------------------------------------------------------------------------*/
