@@ -581,6 +581,9 @@ int sol_load_base(struct s_base *fp, const char *filename)
     fs_file fin;
     int res = 0;
 
+    if (!fp || !filename)
+        return 0;
+
     memset(fp, 0, sizeof (*fp));
 
     if ((fin = fs_open_read(filename)))
@@ -596,6 +599,9 @@ int sol_load_meta(struct s_base *fp, const char *filename)
     fs_file fin;
     int res = 0;
 
+    if (!fp || !filename)
+        return 0;
+
     memset(fp, 0, sizeof (*fp));
 
     if ((fin = fs_open_read(filename)))
@@ -608,6 +614,9 @@ int sol_load_meta(struct s_base *fp, const char *filename)
 
 void sol_free_base(struct s_base *fp)
 {
+    if (!fp)
+        return;
+
     if (fp->av) free(fp->av);
     if (fp->mv) free(fp->mv);
     if (fp->vv) free(fp->vv);
