@@ -45,6 +45,9 @@ int read_line(char **dst, fs_file fin)
     char *line, *new;
     size_t len0, len1;
 
+    if (!dst || !fin)
+        return 0;
+
     line = NULL;
 
     while (fs_gets(buff, sizeof (buff), fin))
@@ -62,6 +65,9 @@ int read_line(char **dst, fs_file fin)
             line = strdup(buff);
         }
 
+        if (!line)
+            break;
+
         /* Strip newline, if any. */
 
         len0 = strlen(line);
@@ -71,12 +77,15 @@ int read_line(char **dst, fs_file fin)
         if (len1 != len0)
         {
             /* We hit a newline, clean up and break. */
-            line = realloc(line, len1 + 1);
+            new = realloc(line, len1 + 1);
+            if (new)
+                line = new;
             break;
         }
     }
 
-    return (*dst = line) ? 1 : 0;
+    *dst = line;
+    return line ? 1 : 0;
 }
 
 char *strip_newline(char *str)
