@@ -198,6 +198,9 @@ static int sol_test_mtrl(int mi, int p)
 {
     const struct mtrl *mp = mtrl_get(mi);
 
+    if (!mp)
+        return 0;
+
     /* Test whether the material flags match inclusion rules. */
 
     return ((mp->base.fl & passes[p].in) == passes[p].in &&
@@ -864,6 +867,9 @@ void r_apply_mtrl(struct s_rend *rend, int mi)
     struct mtrl *mp = mtrl_get(mi);
     struct mtrl *mq = &rend->curr_mtrl;
 
+    if (!mp)
+        return;
+
     /* Mask ignored flags. */
 
     int mp_flags = mp->base.fl & ~rend->skip_flags;
@@ -1033,7 +1039,9 @@ void r_draw_enable(struct s_rend *rend)
 
     glBindTexture_(GL_TEXTURE_2D, 0);
 
-    rend->curr_mtrl = *mtrl_get(default_mtrl);
+    const struct mtrl *def = mtrl_get(default_mtrl);
+    if (def)
+        rend->curr_mtrl = *def;
 }
 
 void r_draw_disable(struct s_rend *rend)
