@@ -324,7 +324,8 @@ void *fs_load_cache(const char *path, int *size)
                 ent->size = *size;
                 SAFECPY(ent->path, path);
 
-                fs_cache_list = list_cons(ent, fs_cache_list);
+                if (!list_push(&fs_cache_list, ent))
+                    free(ent);
             }
         }
     }
