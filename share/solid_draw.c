@@ -533,13 +533,16 @@ int sol_load_draw(struct s_draw *draw, struct s_vary *vary, int s)
 
     if (draw->base->bc)
     {
-        if ((draw->bv = calloc(draw->base->bc, sizeof (*draw->bv))))
+        if (!(draw->bv = calloc(draw->base->bc, sizeof (*draw->bv))))
         {
-            draw->bc = draw->base->bc;
-
-            for (i = 0; i < draw->bc; i++)
-                sol_load_body(draw->bv + i, draw->base->bv + i, draw);
+            sol_free_draw(draw);
+            return 0;
         }
+
+        draw->bc = draw->base->bc;
+
+        for (i = 0; i < draw->bc; i++)
+            sol_load_body(draw->bv + i, draw->base->bv + i, draw);
     }
 
     sol_load_bill(draw);
