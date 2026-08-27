@@ -42,7 +42,7 @@ When asked to finalize a session or generate provenance, the primary agent **MUS
 {
   "TypeName": "self",
   "Role": "Provenance Synthesizer",
-  "Prompt": "You are tasked with generating a high-fidelity Architectural Decision Record and Provenance document for commit <hash> (or range <base>..<head>) using the agy-session-provenance skill. Follow SKILL.md: generate the scaffold, inspect it with view_file, synthesize the document adhering strictly to Prompt-First rules, perform the Step 4 Quality Audit, and report the generated file path."
+  "Prompt": "You are tasked with generating a high-fidelity Architectural Decision Record and Provenance document for commit <hash> (or range <base>..<head>) using the agy-session-provenance skill. Follow SKILL.md: generate the scaffold, inspect it with view_file, synthesize the document adhering strictly to Prompt-First rules, perform the Step 4 Quality Audit, ensure unprompted that the file uses a concise and descriptive snake_case slug (prompts/YYYY_MM_DD_HHMMSS_<sensible_slug>.md, renaming if necessary), and report the finalized file path."
 }
 ```
 
@@ -154,9 +154,9 @@ Verify that the generated record fulfills the standard:
 - **Privacy Check:** All timestamps are normalized to UTC (`YYYY-MM-DDTHH:MM:SSZ` or `YYYY-MM-DD HH:MM:SS UTC`). No local conversation IDs or user paths.
 - **Strict Chronology Check:** All prompt timestamps appear in ascending chronological order.
 
-### Step 5: Validate Document Integrity
+### Step 5: Validate Document Integrity & Sensible Slug Naming
 
 Review the generated file in `prompts/` to ensure:
-- Filename matches `prompts/YYYY_MM_DD_HHMMSS_<slug>.md`.
+- **Sensible Filename Slug:** The file is named `prompts/YYYY_MM_DD_HHMMSS_<slug>.md` where `<slug>` is a concise, descriptive snake_case identifier capturing the core feature or bugfix (e.g. `fetch_thread_sync`, `alloc_robustness`, `camera_preset_config_ui`). If the scaffold generated a generic, truncated, or raw prompt/commit slug, rename the file unprompted using `run_command` (`git mv`) before finalizing.
 - Verbatim prompts are intact.
 - Document is lean, scannable, and free of redundant diff restatements.
