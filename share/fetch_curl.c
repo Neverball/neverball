@@ -533,12 +533,49 @@ static int fetch_thread_main(void *data)
 /*
  * Start the thread.
  */
-static void fetch_thread_init(void)
+static int fetch_thread_init(void)
 {
-    SDL_AtomicSet(&fetch_thread_running, 1);
     fetch_curl_mutex = SDL_CreateMutex();
     fetch_sync_mutex = SDL_CreateMutex();
+
+    if (!fetch_curl_mutex || !fetch_sync_mutex)
+    {
+        log_printf("Failure to create fetch mutexes\n");
+
+        if (fetch_curl_mutex)
+        {
+            SDL_DestroyMutex(fetch_curl_mutex);
+            fetch_curl_mutex = NULL;
+        }
+
+        if (fetch_sync_mutex)
+        {
+            SDL_DestroyMutex(fetch_sync_mutex);
+            fetch_sync_mutex = NULL;
+        }
+
+        return 0;
+    }
+
+    SDL_AtomicSet(&fetch_thread_running, 1);
     fetch_thread = SDL_CreateThread(fetch_thread_main, "fetch", NULL);
+
+    if (!fetch_thread)
+    {
+        log_printf("Failure to create fetch thread\n");
+
+        SDL_AtomicSet(&fetch_thread_running, 0);
+
+        SDL_DestroyMutex(fetch_curl_mutex);
+        fetch_curl_mutex = NULL;
+
+        SDL_DestroyMutex(fetch_sync_mutex);
+        fetch_sync_mutex = NULL;
+
+        return 0;
+    }
+
+    return 1;
 }
 
 /*
@@ -607,7 +644,9 @@ void fetch_init(void)
     if (!multi_handle)
     {
         log_printf("Failure to create a CURL multi handle\n");
-        abort();
+        curl_global_cleanup();
+        fetch_enabled = 0;
+        return;
     }
 
     /* Process FETCH_MAX connections in parallel, while the rest wait in a queue. */
@@ -616,7 +655,13 @@ void fetch_init(void)
 
     fetch_dispatch_init();
 
-    fetch_thread_init();
+    if (!fetch_thread_init())
+    {
+        curl_multi_cleanup(multi_handle);
+        multi_handle = NULL;
+        curl_global_cleanup();
+        fetch_enabled = 0;
+    }
 }
 
 /*
@@ -660,6 +705,8 @@ unsigned int fetch_file(const char *url,
 
         if (fi)
         {
+            CURLMcode res;
+
             log_printf("Starting transfer %u\n", fi->fetch_id);
 
             log_printf("Downloading from %s\n", url);
@@ -690,14 +737,18 @@ unsigned int fetch_file(const char *url,
 
             /* curl_easy_setopt(handle, CURLOPT_VERBOSE, 1); */
 
-            CURLMcode res = curl_multi_add_handle(multi_handle, handle);
-            if (res != 0) {
+            res = curl_multi_add_handle(multi_handle, handle);
+
+            if (res == CURLM_OK)
+            {
+                fetch_id = fi->fetch_id;
+            }
+            else
+            {
                 log_printf("curl_multi_add_handle failed: %s\n",
                            curl_multi_strerror(res));
-                abort();
+                unlink_and_free_fetch_info(fi);
             }
-
-            fetch_id = fi->fetch_id;
         }
         else curl_easy_cleanup(handle);
     }
