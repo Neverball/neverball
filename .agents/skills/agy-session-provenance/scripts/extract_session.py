@@ -193,8 +193,8 @@ def parse_transcript(transcript_path: Path) -> Optional[Dict]:
                         "raw_args": args,
                     })
 
-                    # Check for plan artifact creation
-                    if "plan" in target_file.lower() and fname == "write_to_file":
+                    # Check for plan/walkthrough artifact creation
+                    if ("plan" in target_file.lower() or "walkthrough" in target_file.lower()) and fname == "write_to_file":
                         code_content = args.get("CodeContent", "")
                         if code_content:
                             bname = os.path.basename(target_file).strip('\"\'')
@@ -220,7 +220,7 @@ def parse_transcript(transcript_path: Path) -> Optional[Dict]:
     cid_dir = transcript_path.parent.parent.parent
     if cid_dir.exists():
         for md_file in cid_dir.glob("*.md"):
-            if not md_file.name.endswith(".metadata.json") and "walkthrough" not in md_file.name.lower():
+            if not md_file.name.endswith(".metadata.json"):
                 try:
                     content = md_file.read_text(encoding="utf-8", errors="replace")
                     bname = md_file.name.strip('\"\'')
