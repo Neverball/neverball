@@ -77,6 +77,7 @@ BALL_SRCS := \
 	ball/st_shared.c \
 	ball/st_start.c \
 	ball/st_title.c \
+	ball/st_game_link.c \
 	ball/util.c \
 	share/array.c \
 	share/audio_emscripten.c \
