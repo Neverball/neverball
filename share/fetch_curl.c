@@ -487,6 +487,17 @@ static void fetch_step(void)
 
 /*
  * Thread stuff.
+ *
+ * Mutual exclusion between the main thread and the background fetch thread is
+ * coordinated using two mutexes:
+ *
+ * - fetch_curl_mutex protects multi_handle and the active transfer list. It is
+ *   held during curl_multi_poll and fetch_step in the fetch thread, and while
+ *   adding new transfers from the main thread.
+ *
+ * - fetch_sync_mutex serializes access to fetch_curl_mutex. Holding it on the
+ *   main thread prevents the fetch thread from entering a new poll iteration
+ *   while the main thread wakes it and waits for fetch_curl_mutex.
  */
 
 static SDL_mutex *fetch_curl_mutex;
@@ -508,9 +519,15 @@ static int fetch_thread_main(void *data)
     {
         CURLMcode code;
 
+        /*
+         * Pass through fetch_sync_mutex to ensure the main thread is not
+         * waiting to acquire fetch_curl_mutex, then lock fetch_curl_mutex
+         * for the duration of polling and stepping.
+         */
         SDL_LockMutex(fetch_sync_mutex);
         SDL_LockMutex(fetch_curl_mutex);
         SDL_UnlockMutex(fetch_sync_mutex);
+
         code = curl_multi_poll(multi_handle, NULL, 0u, 1000 / 30, NULL);
 
         if (code == CURLM_OK)
@@ -522,8 +539,9 @@ static int fetch_thread_main(void *data)
             log_printf("libcurl poll failure: %s\n", curl_multi_strerror(code));
             SDL_AtomicSet(&fetch_thread_running, 0);
         }
+
         SDL_UnlockMutex(fetch_curl_mutex);
-    };
+    }
 
     log_printf("Stopping fetch thread\n");
 
@@ -585,18 +603,23 @@ static void fetch_thread_quit(void)
 {
     SDL_AtomicSet(&fetch_thread_running, 0);
 
+    if (multi_handle)
+        curl_multi_wakeup(multi_handle);
+
     if (fetch_thread)
     {
         SDL_WaitThread(fetch_thread, NULL);
         fetch_thread = NULL;
     }
 
-    if (fetch_curl_mutex) {
+    if (fetch_curl_mutex)
+    {
         SDL_DestroyMutex(fetch_curl_mutex);
         fetch_curl_mutex = NULL;
     }
 
-    if (fetch_sync_mutex) {
+    if (fetch_sync_mutex)
+    {
         SDL_DestroyMutex(fetch_sync_mutex);
         fetch_sync_mutex = NULL;
     }
@@ -607,8 +630,16 @@ static void fetch_thread_quit(void)
  */
 static void fetch_lock_mutex(void)
 {
+    /*
+     * Lock fetch_sync_mutex to block the fetch thread from starting a new
+     * iteration, wake the fetch thread from curl_multi_poll, and acquire
+     * fetch_curl_mutex once the fetch thread finishes its current step.
+     */
     SDL_LockMutex(fetch_sync_mutex);
-    curl_multi_wakeup(multi_handle);
+
+    if (multi_handle)
+        curl_multi_wakeup(multi_handle);
+
     SDL_LockMutex(fetch_curl_mutex);
 }
 
@@ -617,6 +648,10 @@ static void fetch_lock_mutex(void)
  */
 static void fetch_unlock_mutex(void)
 {
+    /*
+     * Release fetch_curl_mutex and fetch_sync_mutex in reverse order so the
+     * fetch thread can resume its polling loop.
+     */
     SDL_UnlockMutex(fetch_curl_mutex);
     SDL_UnlockMutex(fetch_sync_mutex);
 }
