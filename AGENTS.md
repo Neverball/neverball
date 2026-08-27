@@ -17,10 +17,10 @@ Determine `<version>` dynamically from the runtime environment (e.g. `agy --vers
 
 ## Work finalization
 
-After completing features or fixes, generate a provenance record using the
-bundled `agy-session-provenance` skill (compatible with Antigravity CLI). The
-provenance record constitutes part of the source code and must be provided for
-every agentic coding session. If unable to use the provided skill, inform the
+Generate a provenance record using the bundled `agy-session-provenance` skill
+(compatible with Antigravity CLI) only when explicitly requested by the user.
+Do not include provenance generation tasks in `/plan` or implementation plans
+by default. If unable to use the provided skill when requested, inform the
 user.
 
 ## Attribution
