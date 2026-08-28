@@ -35,7 +35,6 @@
 enum
 {
     START_CHALLENGE = GUI_LAST,
-    START_LOCK_GOALS,
     START_LEVEL
 };
 
@@ -151,10 +150,6 @@ static int start_action(int tok, int val)
         start_over(gui_active(), 0);
         return 1;
 
-    case START_LOCK_GOALS:
-        config_set_d(CONFIG_LOCK_GOALS, val);
-        return goto_state(&st_start);
-
     case START_LEVEL:
         if (progress_play(get_level(val)))
             return goto_state(&st_level);
@@ -225,30 +220,6 @@ static int start_gui(void)
         gui_score_board(id, (GUI_SCORE_COIN |
                              GUI_SCORE_TIME |
                              GUI_SCORE_GOAL), 0, 0);
-        gui_space(id);
-
-        if ((jd = gui_hstack(id)))
-        {
-            if ((kd = gui_harray(jd)))
-            {
-                int btn0, btn1;
-
-                btn0 = gui_state(kd, _("Unlocked"), GUI_SML, START_LOCK_GOALS, 0);
-                btn1 = gui_state(kd, _("Locked"),   GUI_SML, START_LOCK_GOALS, 1);
-
-                if (config_get_d(CONFIG_LOCK_GOALS))
-                    gui_set_hilite(btn1, 1);
-                else
-                    gui_set_hilite(btn0, 1);
-            }
-
-            gui_space(jd);
-
-            kd = gui_label(jd, _("Goal State in Completed Levels"), GUI_SML, 0, 0);
-
-            gui_set_trunc(kd, TRUNC_TAIL);
-            gui_set_fill(kd);
-        }
 
         gui_layout(id, 0, 0);
 

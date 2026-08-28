@@ -349,7 +349,8 @@ enum
 {
     GAMEPLAY_CAMERA_DEFAULT = GUI_LAST,
     GAMEPLAY_CAMERA_1_4,
-    GAMEPLAY_CAMERA_1_5
+    GAMEPLAY_CAMERA_1_5,
+    GAMEPLAY_LOCK_GOALS
 };
 
 static struct state *gameplay_back;
@@ -381,6 +382,11 @@ static int gameplay_action(int tok, int val)
         cam_preset_set(CAM_1, CAM_PRESET_1_5);
         goto_state(&st_conf_gameplay);
         break;
+
+    case GAMEPLAY_LOCK_GOALS:
+        config_set_d(CONFIG_LOCK_GOALS, val);
+        goto_state(&st_conf_gameplay);
+        break;
     }
 
     return r;
@@ -394,6 +400,12 @@ static int gameplay_gui(void)
     if ((id = gui_vstack(0)))
     {
         conf_header(id, _("Gameplay"), GUI_BACK);
+
+        conf_toggle(id, _("Completed Levels"),
+                    GAMEPLAY_LOCK_GOALS, config_get_d(CONFIG_LOCK_GOALS),
+                    _("Locked"), 1, _("Unlocked"), 0);
+
+        gui_space(id);
 
         if ((jd = gui_harray(id)) && (kd = gui_vstack(jd)) && (ld = gui_vstack(jd)))
         {
