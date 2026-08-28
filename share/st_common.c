@@ -214,8 +214,7 @@ int common_buttn(int b, int d)
 
 void conf_common_init(int (*action_fn)(int, int))
 {
-    back_init("back/gui.png");
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
+    back_push("back/gui.png");
 
     common_init(action_fn);
 }
