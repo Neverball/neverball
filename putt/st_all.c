@@ -612,6 +612,7 @@ static struct state *st_quit;
 
 #define PAUSE_CONTINUE 1
 #define PAUSE_QUIT     2
+#define PAUSE_OPTIONS  3
 
 int goto_pause(struct state *s)
 {
@@ -631,6 +632,9 @@ static int pause_action(int i)
 
     switch(i)
     {
+    case PAUSE_OPTIONS:
+        return goto_state(&st_conf);
+
     case PAUSE_CONTINUE:
         return goto_state(st_continue ? st_continue : &st_title);
 
@@ -654,6 +658,7 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
+            gui_state(jd, _("Options"), GUI_SML, PAUSE_OPTIONS, 0);
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
 
@@ -668,7 +673,10 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
 static int pause_leave(struct state *st, struct state *next, int id, int intent)
 {
     hud_free();
-    audio_music_fade_in(0.5f);
+
+    if (next != &st_conf)
+        audio_music_fade_in(0.5f);
+
     return transition_slide(id, 0, intent);
 }
 
