@@ -122,6 +122,8 @@ static void set_curr_ball(int ball_index)
     gui_set_label(name_id, base_name(ball_file));
 }
 
+static struct state *ball_back;
+
 static int ball_action(int tok, int val)
 {
     audio_play(AUD_MENU, 1.0f);
@@ -145,7 +147,8 @@ static int ball_action(int tok, int val)
         break;
 
     case GUI_BACK:
-        exit_state(&st_conf);
+        exit_state(ball_back ? ball_back : &st_conf);
+        ball_back = NULL;
         break;
     }
 
@@ -212,29 +215,47 @@ static int ball_gui(void)
 
 static int ball_enter(struct state *st, struct state *prev, int intent)
 {
+    if (!ball_back)
+        ball_back = prev;
+
     scan_balls();
-    load_ball_demo();
+
+    if (!game_server_state())
+        load_ball_demo();
 
     return transition_slide(ball_gui(), 1, intent);
 }
 
 static int ball_leave(struct state *st, struct state *next, int id, int intent)
 {
-    back_free();
-    demo_replay_stop(0);
+    if (!game_server_state())
+    {
+        back_free();
+        demo_replay_stop(0);
+    }
+
     free_balls();
+
     return transition_slide(id, 0, intent);
 }
 
 static void ball_paint(int id, float t)
 {
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    if (game_server_state())
     {
-        back_draw_easy();
+        game_client_draw(0, t);
     }
-    video_pop_matrix();
+    else
+    {
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            back_draw_easy();
+        }
+        video_pop_matrix();
 
-    game_client_draw(POSE_BALL, t);
+        game_client_draw(POSE_BALL, t);
+    }
+
     gui_paint(id);
 }
 
@@ -242,13 +263,16 @@ static void ball_timer(int id, float dt)
 {
     gui_timer(id, dt);
 
-    if (!demo_replay_step(dt))
+    if (!game_server_state())
     {
-        demo_replay_stop(0);
-        load_ball_demo();
-    }
+        if (!demo_replay_step(dt))
+        {
+            demo_replay_stop(0);
+            load_ball_demo();
+        }
 
-    game_client_blend(demo_replay_blend());
+        game_client_blend(demo_replay_blend());
+    }
 }
 
 static int ball_keybd(int c, int d)
