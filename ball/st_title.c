@@ -259,6 +259,7 @@ static int filter_cmd(const union cmd *cmd)
 
 static int title_enter(struct state *st, struct state *prev, int intent)
 {
+    game_server_free(NULL);
     game_proxy_filter(filter_cmd);
 
     /* Start the title screen music. */

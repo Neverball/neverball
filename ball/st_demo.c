@@ -356,6 +356,8 @@ static int demo_gui(void)
 
 static int demo_enter(struct state *st, struct state *prev, int intent)
 {
+    game_server_free(NULL);
+
     if (!items || (prev == &st_demo_del))
     {
         if (items)

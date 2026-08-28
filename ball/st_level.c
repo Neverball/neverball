@@ -283,6 +283,8 @@ int goto_exit(void)
     struct state *curr = curr_state();
     struct state *dst;
 
+    game_server_free(NULL);
+
     if (progress_done())
         dst = &st_done;
     else if (curr_mode() == MODE_CHALLENGE)
