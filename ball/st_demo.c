@@ -664,9 +664,9 @@ static int demo_end_gui(void)
     if ((id = gui_vstack(0)))
     {
         if (demo_paused)
-            kd = gui_label(id, _("Replay Paused"), GUI_LRG, gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Paused"), GUI_MED, gui_gry, gui_red);
         else
-            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Ends"),   GUI_MED, gui_gry, gui_red);
 
         gui_space(id);
 
