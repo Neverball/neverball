@@ -78,12 +78,27 @@ static int pause_action(int tok, int val)
 
 static int pause_gui(void)
 {
-    int id, jd, title_id;
+    int id, jd, kd, title_id;
 
     /* Build the pause GUI. */
 
     if ((id = gui_vstack(0)))
     {
+        if ((jd = gui_hstack(id)))
+        {
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_GEAR, GUI_SML, 0, 0);
+                gui_label(kd, _("Options"), GUI_SML, gui_wht, gui_wht);
+
+                gui_set_state(kd, PAUSE_OPTIONS, 0);
+                gui_set_rect(kd, GUI_ALL);
+            }
+            gui_filler(jd);
+        }
+
+        gui_space(id);
+
         title_id = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
 
         gui_space(id);
@@ -94,8 +109,6 @@ static int pause_gui(void)
 
             if (progress_same_avail())
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
-
-            gui_state(jd, _("Options"), GUI_SML, PAUSE_OPTIONS, 0);
 
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 0);
         }

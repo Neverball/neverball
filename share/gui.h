@@ -86,6 +86,7 @@ enum trunc
 #define GUI_CROSS "×"
 #define GUI_ROMAN_2 "Ⅱ"
 #define GUI_FISHEYE "◉"
+#define GUI_GEAR "⚙"
 
 /*---------------------------------------------------------------------------*/
 

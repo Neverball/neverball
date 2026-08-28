@@ -646,19 +646,33 @@ static int pause_action(int i)
 
 static int pause_enter(struct state *st, struct state *prev, int intent)
 {
-    int id, jd, td;
+    int id, jd, kd, td;
 
     audio_music_fade_out(0.2f);
 
     if ((id = gui_vstack(0)))
     {
+        if ((jd = gui_hstack(id)))
+        {
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_GEAR, GUI_SML, 0, 0);
+                gui_label(kd, _("Options"), GUI_SML, gui_wht, gui_wht);
+
+                gui_set_state(kd, PAUSE_OPTIONS, 0);
+                gui_set_rect(kd, GUI_ALL);
+            }
+            gui_filler(jd);
+        }
+
+        gui_space(id);
+
         td = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
             gui_state(jd, _("Quit"), GUI_SML, PAUSE_QUIT, 0);
-            gui_state(jd, _("Options"), GUI_SML, PAUSE_OPTIONS, 0);
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 1);
         }
 
