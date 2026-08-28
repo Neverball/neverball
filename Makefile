@@ -544,13 +544,15 @@ TEST_SRCS := \
 	tests/test_list.c \
 	tests/test_queue.c \
 	tests/test_common.c \
+	tests/test_level.c \
 	share/array.c \
 	share/common.c \
 	share/queue.c \
-	share/list.c
+	share/list.c \
+	ball/level.c
 
 $(TEST_TARG) : $(TEST_SRCS)
-	$(CC) $(ALL_CFLAGS) -Ishare -UNDEBUG -o $@ $^ $(LDFLAGS)
+	$(CC) $(ALL_CFLAGS) -Ishare -Iball -UNDEBUG -o $@ $^ $(LDFLAGS)
 
 test : $(TEST_TARG)
 	./$(TEST_TARG)

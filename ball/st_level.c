@@ -20,6 +20,7 @@
 #include "progress.h"
 #include "audio.h"
 #include "config.h"
+#include "video.h"
 #include "demo.h"
 #include "lang.h"
 #include "key.h"
@@ -61,7 +62,9 @@ static int level_action(int token, int value)
 static int level_gui(void)
 {
     int id, jd, kd;
-    const char *message = level_msg(curr_level());
+    STRBUF title = level_title(curr_level());
+    const char *desc = level_desc(curr_level());
+    const char *t = CSTR(title);
 
     if ((id = gui_vstack(0)))
     {
@@ -73,24 +76,52 @@ static int level_gui(void)
             {
                 const char *ln = level_name (curr_level());
                 int b          = level_bonus(curr_level());
+                const char *hp = (ln && *ln >= '0' && *ln <= '9') ? "#" : "";
 
                 char setattr[MAXSTR], lvlattr[MAXSTR];
 
-                if (b)
-                    sprintf(lvlattr, _("Bonus Level %s"), ln);
-                else
-                    sprintf(lvlattr, _("Level %s"), ln);
+                if (*t)
+                {
+                    SAFECPY(lvlattr, t);
 
-                if (curr_mode() == MODE_CHALLENGE)
-                    sprintf(setattr, "%s: %s", set_name(curr_set()),
-                            mode_to_str(MODE_CHALLENGE, 1));
-                else if (curr_mode() == MODE_STANDALONE)
-                    sprintf(setattr, _("Standalone level"));
+                    if (curr_mode() == MODE_CHALLENGE)
+                        sprintf(setattr, "%s %s%s: %s", set_name(curr_set()),
+                                hp, ln, mode_to_str(MODE_CHALLENGE, 1));
+                    else if (curr_mode() == MODE_STANDALONE)
+                        sprintf(setattr, _("Standalone level"));
+                    else
+                        sprintf(setattr, "%s %s%s", set_name(curr_set()),
+                                hp, ln);
+                }
                 else
-                    sprintf(setattr, "%s", set_name(curr_set()));
+                {
+                    if (b)
+                        sprintf(lvlattr, _("Bonus Level %s"), ln);
+                    else
+                        sprintf(lvlattr, _("Level %s"), ln);
+
+                    if (curr_mode() == MODE_CHALLENGE)
+                        sprintf(setattr, "%s: %s", set_name(curr_set()),
+                                mode_to_str(MODE_CHALLENGE, 1));
+                    else if (curr_mode() == MODE_STANDALONE)
+                        sprintf(setattr, _("Standalone level"));
+                    else
+                        sprintf(setattr, "%s", set_name(curr_set()));
+                }
+
+                int font_size = (!*t && b) ? GUI_MED : GUI_LRG;
+                const int max_w = video.device_w;
+
+                if (gui_measure(lvlattr, font_size).w > max_w)
+                {
+                    if (font_size == GUI_LRG && gui_measure(lvlattr, GUI_MED).w <= max_w)
+                        font_size = GUI_MED;
+                    else
+                        font_size = GUI_SML;
+                }
 
                 gui_label(kd, lvlattr,
-                        b ? GUI_MED : GUI_LRG,
+                        font_size,
                         b ? gui_wht : 0,
                         b ? gui_grn : 0);
 
@@ -102,9 +133,9 @@ static int level_gui(void)
         }
         gui_space(id);
 
-        if (message && *message)
+        if (*desc)
         {
-            gui_multi(id, message, GUI_SML, gui_wht, gui_wht);
+            gui_multi(id, desc, GUI_SML, gui_wht, gui_wht);
             gui_space(id);
         }
 

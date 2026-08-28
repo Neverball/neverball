@@ -70,5 +70,6 @@ int test_array_all(void);
 int test_list_all(void);
 int test_queue_all(void);
 int test_common_all(void);
+int test_level_all(void);
 
 #endif
