@@ -36,6 +36,8 @@
 
 int   game_init(const char *);
 void  game_free(void);
+void  game_free_objects(void);
+void  game_load_objects(void);
 
 void  game_draw(int, float);
 void  game_putt(void);

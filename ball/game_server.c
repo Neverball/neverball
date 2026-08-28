@@ -481,6 +481,11 @@ void game_server_free(const char *next)
     }
 }
 
+int game_server_state(void)
+{
+    return server_state;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void game_update_view(float dt)

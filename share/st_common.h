@@ -41,6 +41,7 @@ int  common_buttn(int b, int d);
 void conf_common_init(int (*action_fn)(int, int));
 int  conf_common_leave(struct state *st, struct state *next, int id, int intent);
 void conf_common_paint(int id, float t);
+void conf_common_bg_paint(void (*)(float));
 
 /*---------------------------------------------------------------------------*/
 

@@ -153,6 +153,7 @@ void part_init(void)
 
 void part_free(void)
 {
+    glDeleteBuffers_(1, &coin_ebo);
     glDeleteBuffers_(1, &coin_vbo);
 
     mtrl_free(coin_mtrl);

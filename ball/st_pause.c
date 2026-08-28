@@ -27,12 +27,14 @@
 #include "st_play.h"
 #include "st_level.h"
 #include "st_pause.h"
+#include "st_conf.h"
 #include "st_shared.h"
 
 enum
 {
     PAUSE_CONTINUE = GUI_LAST,
     PAUSE_RESTART,
+    PAUSE_OPTIONS,
     PAUSE_EXIT
 };
 
@@ -46,6 +48,9 @@ static int pause_action(int tok, int val)
 
     switch (tok)
     {
+    case PAUSE_OPTIONS:
+        return goto_state(&st_conf);
+
     case PAUSE_CONTINUE:
         audio_music_fade_in(1.0f);
         video_set_grab(0);
@@ -90,6 +95,8 @@ static int pause_gui(void)
             if (progress_same_avail())
                 gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
 
+            gui_state(jd, _("Options"), GUI_SML, PAUSE_OPTIONS, 0);
+
             gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 0);
         }
 
@@ -102,7 +109,8 @@ static int pause_gui(void)
 
 static int pause_enter(struct state *st, struct state *prev, int intent)
 {
-    st_continue = prev;
+    if (prev != &st_conf)
+        st_continue = prev;
 
     video_clr_grab();
     audio_music_fade_out(1.0f);

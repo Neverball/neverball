@@ -446,6 +446,29 @@ void game_client_free(const char *next)
     gd.state = 0;
 }
 
+int game_client_state(void)
+{
+    return gd.state != 0;
+}
+
+void game_client_free_objects(void)
+{
+    if (gd.state)
+    {
+        sol_free_draw(&gd.draw);
+        sol_free_draw(&gd.back.draw);
+    }
+}
+
+void game_client_load_objects(void)
+{
+    if (gd.state)
+    {
+        sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW));
+        sol_load_draw(&gd.back.draw, &gd.back.vary, 0);
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 int enable_interpolation = 1;

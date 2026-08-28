@@ -80,6 +80,8 @@ static int sound_id[11];
 #define MOUSE_RANGE_UNMAP(i) \
     (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
 
+static struct state *conf_back;
+
 static int conf_action(int tok, int val)
 {
     int sound = config_get_d(CONFIG_SOUND_VOLUME);
@@ -92,7 +94,8 @@ static int conf_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        exit_state(&st_title);
+        exit_state(conf_back ? conf_back : &st_title);
+        conf_back = NULL;
         break;
 
     case CONF_VIDEO:
@@ -228,21 +231,61 @@ static int conf_gui(void)
     return root_id;
 }
 
+static void conf_bg_paint(float t)
+{
+    if (game_server_state())
+    {
+        game_client_draw(0, t);
+    }
+    else
+    {
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            back_draw_easy();
+        }
+        video_pop_matrix();
+    }
+}
+
 static int conf_enter(struct state *st, struct state *prev, int intent)
 {
-    game_client_free(NULL);
-    conf_common_init(conf_action);
+    if (!conf_back)
+        conf_back = prev;
+
+    if (!game_server_state())
+    {
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
+        back_push("back/gui.png");
+    }
+
+    conf_common_bg_paint(conf_bg_paint);
+    common_init(conf_action);
+
     return transition_slide(conf_gui(), 1, intent);
 }
 
 static int conf_leave(struct state *st, struct state *next, int id, int intent)
 {
-    return conf_common_leave(st, next, id, intent);
+    config_save();
+
+    if (next == conf_back)
+    {
+        if (!game_server_state())
+            back_pop();
+
+        conf_common_bg_paint(NULL);
+    }
+
+    return transition_slide(id, 0, intent);
 }
+
 /*---------------------------------------------------------------------------*/
 
 static int null_enter(struct state *st, struct state *prev, int intent)
 {
+    game_client_free_objects();
+    back_free_objects();
+
     hud_free();
     transition_quit();
     gui_free();
@@ -265,12 +308,16 @@ static int null_leave(struct state *st, struct state *next, int id, int intent)
     gui_init();
     transition_init();
     hud_init();
+
+    back_load_objects();
+    game_client_load_objects();
+
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
- struct state st_conf = {
+struct state st_conf = {
     conf_enter,
     conf_leave,
     conf_common_paint,

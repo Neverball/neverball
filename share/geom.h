@@ -33,11 +33,13 @@ void back_draw(struct s_rend *);
 void item_color(const struct v_item *, float *);
 void item_draw(struct s_rend *, const struct v_item *, const GLfloat *, float);
 
-/*---------------------------------------------------------------------------*/
-
-void back_init(const char *s);
+void back_push(const char *);
+void back_pop(void);
+void back_init(const char *);
 void back_free(void);
 void back_draw_easy(void);
+void back_free_objects(void);
+void back_load_objects(void);
 
 /*---------------------------------------------------------------------------*/
 
