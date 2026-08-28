@@ -1634,8 +1634,8 @@ General Public License for more details.
 
           // Remove it from the query string.
 
-          params.delete('link');
-          window.history.replaceState(null, null, window.location.pathname + (params.size ? '?' + params.toString() : ''));
+          //params.delete('link');
+          //window.history.replaceState(null, null, window.location.pathname + (params.size ? '?' + params.toString() : ''));
 
           this._runButton.textContent = 'Open In-Game Link';
         }
