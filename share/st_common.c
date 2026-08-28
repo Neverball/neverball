@@ -208,14 +208,15 @@ int common_buttn(int b, int d)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Code shared by conf screens.
- */
+static void (*conf_bg_paint_fn)(float) = NULL;
+
+void conf_common_bg_paint(void (*fn)(float))
+{
+    conf_bg_paint_fn = fn;
+}
 
 void conf_common_init(int (*action_fn)(int, int))
 {
-    back_push("back/gui.png");
-
     common_init(action_fn);
 }
 
@@ -223,18 +224,23 @@ int conf_common_leave(struct state *st, struct state *next, int id, int intent)
 {
     config_save();
 
-    back_free();
-
     return transition_slide(id, 0, intent);
 }
 
 void conf_common_paint(int id, float t)
 {
-    video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+    if (conf_bg_paint_fn)
     {
-        back_draw_easy();
+        conf_bg_paint_fn(t);
     }
-    video_pop_matrix();
+    else
+    {
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            back_draw_easy();
+        }
+        video_pop_matrix();
+    }
 
     gui_paint(id);
 }
