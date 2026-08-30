@@ -472,12 +472,12 @@ void game_server_free(const char *next)
 {
     if (server_state)
     {
+        server_state = 0;
+
         sol_quit_sim();
         sol_free_vary(&vary);
 
         game_base_free(next);
-
-        server_state = 0;
     }
 }
 

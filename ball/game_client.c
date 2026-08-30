@@ -431,6 +431,8 @@ void game_client_free(const char *next)
 {
     if (gd.state)
     {
+        gd.state = 0;
+
         game_proxy_clr();
 
         game_lerp_free(&gl);
@@ -443,7 +445,6 @@ void game_client_free(const char *next)
         sol_free_full(&gd.back);
         back_free();
     }
-    gd.state = 0;
 }
 
 int game_client_state(void)
@@ -483,8 +484,11 @@ void game_client_blend(float a)
 
 void game_client_draw(int pose, float t)
 {
-    game_lerp_apply(&gl, &gd);
-    game_draw(&gd, pose, t);
+    if (gd.state)
+    {
+        game_lerp_apply(&gl, &gd);
+        game_draw(&gd, pose, t);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
