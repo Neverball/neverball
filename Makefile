@@ -545,10 +545,14 @@ TEST_SRCS := \
 	tests/test_queue.c \
 	tests/test_common.c \
 	tests/test_level.c \
+	tests/test_solid.c \
 	share/array.c \
 	share/common.c \
 	share/queue.c \
 	share/list.c \
+	share/vec3.c \
+	share/solid_all.c \
+	share/solid_vary.c \
 	ball/level.c
 
 $(TEST_TARG) : $(TEST_SRCS)
