@@ -31,7 +31,7 @@ static int setup_mover(struct alloc *alloc, const struct s_vary *fp, int pi, int
     if (mi)
         *mi = -1;
 
-    if (pi < 0)
+    if (pi < 0 || (fp->base && pi >= fp->base->pc))
         return 1;
 
     if (!alloc || !fp)

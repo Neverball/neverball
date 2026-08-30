@@ -20,6 +20,8 @@ int main(void)
         pass = 0;
     if (!test_level_all())
         pass = 0;
+    if (!test_solid_all())
+        pass = 0;
 
     return pass ? 0 : 1;
 }
