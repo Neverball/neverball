@@ -51,6 +51,10 @@
 #define SCALE  64.f
 #define SMALL  0.0005f
 
+#define GOAL_HALF_EXTENT 48.f
+#define SWCH_HALF_EXTENT 32.f
+#define JUMP_HALF_EXTENT 32.f
+
 /* Epsilon used for vertex merging within lumps. */
 #define SMALL_VERT 1e-4f
 /* Epsilon used for plane intersection checks during vertex clipping. */
@@ -3391,6 +3395,15 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
     return 1;
 }
 
+static void calc_cylinder_pos(float p[3], const float e[4], float extent)
+{
+    float local_down[3] = { 0.0f, -extent / SCALE, 0.0f };
+    float world_offset[3];
+
+    q_rot(world_offset, e, local_down);
+    v_add(p, p, world_offset);
+}
+
 /*
  * Synthesize a stationary child orientation path node (P_PARENTED | P_ORIENTED)
  * linked to the parent mover at p0, and transform the entity's initial world
@@ -3474,18 +3487,39 @@ static void turn_file(struct mapc_context *ctx)
 
     /* Goals */
     for (i = 0; i < fp->zc; i++)
+    {
         if (ctx->goal_has_e[i])
+        {
+            if (!ctx->goal_is_legacy[i])
+                calc_cylinder_pos(fp->zv[i].p, ctx->goal_e[i], GOAL_HALF_EXTENT);
+
             turn_entity(ctx, fp->zv[i].p, &fp->zv[i].p0, &fp->zv[i].p1, ctx->goal_e[i]);
+        }
+    }
 
     /* Teleporters */
     for (i = 0; i < fp->jc; i++)
+    {
         if (ctx->jump_has_e[i])
+        {
+            if (!ctx->jump_is_legacy[i])
+                calc_cylinder_pos(fp->jv[i].p, ctx->jump_e[i], JUMP_HALF_EXTENT);
+
             turn_entity(ctx, fp->jv[i].p, &fp->jv[i].p0, &fp->jv[i].p1, ctx->jump_e[i]);
+        }
+    }
 
     /* Switches */
     for (i = 0; i < fp->xc; i++)
+    {
         if (ctx->swch_has_e[i])
+        {
+            if (!ctx->swch_is_legacy[i])
+                calc_cylinder_pos(fp->xv[i].p, ctx->swch_e[i], SWCH_HALF_EXTENT);
+
             turn_entity(ctx, fp->xv[i].p, &fp->xv[i].p0, &fp->xv[i].p1, ctx->swch_e[i]);
+        }
+    }
 
     /* Billboards */
     for (i = 0; i < fp->rc; i++)
