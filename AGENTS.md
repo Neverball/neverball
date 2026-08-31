@@ -70,3 +70,9 @@ b) User asks to refactor a source file in a specific way.
 - Use a single test runner executable coordinating modular test suites under `make test`.
 - Keep test output minimal and standard (`<test_name>: ok`).
 
+### TrenchBroom entity definitions
+- Use the `game_*` prefix for native Neverball point entities (`game_ball`, `game_goal`, `game_switch`, `game_jump`) to distinguish them from legacy Quake entities.
+- Use origin-centered symmetric bounding boxes (`box="-H -H -H H H H"`) so TrenchBroom 3D rotation pivots on the origin without coordinate drift.
+- For base-anchored cylinder entities (goals, switches, jumps), author editor preview OBJ models with base vertices at $Y = -H$ matching the bottom of the bounding box.
+- Include `<angles>` and `<target>` attributes on rotatable and parentable point entities.
+
