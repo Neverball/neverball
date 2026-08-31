@@ -377,7 +377,8 @@ static void grow_step(float dt)
 
 /*---------------------------------------------------------------------------*/
 
-static struct lockstep server_step;
+static struct game_base server_base;
+static struct lockstep  server_step;
 
 int game_server_init(const char *file_name, int t, int e)
 {
@@ -395,12 +396,12 @@ int game_server_init(const char *file_name, int t, int e)
 
     /* Load SOL data. */
 
-    if (!game_base_load(file_name))
+    if (!game_base_load(&server_base, file_name))
         return (server_state = 0);
 
-    if (!sol_load_vary(&vary, &game_base))
+    if (!sol_load_vary(&vary, &server_base.base))
     {
-        game_base_free(NULL);
+        game_base_free(&server_base, NULL);
         return (server_state = 0);
     }
 
@@ -477,7 +478,7 @@ void game_server_free(const char *next)
         sol_quit_sim();
         sol_free_vary(&vary);
 
-        game_base_free(next);
+        game_base_free(&server_base, next);
     }
 }
 
