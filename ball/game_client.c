@@ -330,6 +330,8 @@ void game_client_sync(fs_file demo_fp)
 
 /*---------------------------------------------------------------------------*/
 
+static struct game_base client_base;
+
 int  game_client_init(const char *file_name)
 {
     char *back_name = "", *grad_name = "";
@@ -342,19 +344,19 @@ int  game_client_init(const char *file_name)
 
     /* Load SOL data. */
 
-    if (!game_base_load(file_name))
+    if (!game_base_load(&client_base, file_name))
         return (gd.state = 0);
 
-    if (!sol_load_vary(&gd.vary, &game_base))
+    if (!sol_load_vary(&gd.vary, &client_base.base))
     {
-        game_base_free(NULL);
+        game_base_free(&client_base, NULL);
         return (gd.state = 0);
     }
 
     if (!sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW)))
     {
         sol_free_vary(&gd.vary);
-        game_base_free(NULL);
+        game_base_free(&client_base, NULL);
         return (gd.state = 0);
     }
 
@@ -440,7 +442,7 @@ void game_client_free(const char *next)
         sol_free_draw(&gd.draw);
         sol_free_vary(&gd.vary);
 
-        game_base_free(next);
+        game_base_free(&client_base, next);
 
         sol_free_full(&gd.back);
         back_free();

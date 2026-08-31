@@ -135,10 +135,14 @@ void lockstep_scl(struct lockstep *, float);
 
 /*---------------------------------------------------------------------------*/
 
-extern struct s_base game_base;
+struct game_base
+{
+    struct s_base base;
+    char         *path;
+};
 
-int  game_base_load(const char *);
-void game_base_free(const char *);
+int  game_base_load(struct game_base *, const char *);
+void game_base_free(struct game_base *, const char *);
 
 /*---------------------------------------------------------------------------*/
 
