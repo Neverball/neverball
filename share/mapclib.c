@@ -51,6 +51,10 @@
 #define SCALE  64.f
 #define SMALL  0.0005f
 
+#define GOAL_HALF_EXTENT 48.f
+#define SWCH_HALF_EXTENT 32.f
+#define JUMP_HALF_EXTENT 32.f
+
 /* Epsilon used for vertex merging within lumps. */
 #define SMALL_VERT 1e-4f
 /* Epsilon used for plane intersection checks during vertex clipping. */
@@ -174,6 +178,27 @@ struct mapc_context
     int targ_wi[MAXW];
     int targ_ji[MAXW];
     int targ_n;
+
+    float item_e[MAXH][4];
+    int   item_has_e[MAXH];
+
+    float goal_e[MAXZ][4];
+    int   goal_has_e[MAXZ];
+    int   goal_is_legacy[MAXZ];
+
+    float jump_e[MAXJ][4];
+    int   jump_has_e[MAXJ];
+    int   jump_is_legacy[MAXJ];
+
+    float swch_e[MAXX][4];
+    int   swch_has_e[MAXX];
+    int   swch_is_legacy[MAXX];
+
+    float bill_e[MAXR][4];
+    int   bill_has_e[MAXR];
+
+    float body_e[MAXB][4];
+    int   body_has_e[MAXB];
 
     struct _imagedata *imagedata;
     int image_n;
@@ -1257,6 +1282,30 @@ static void read_lump(struct mapc_context *ctx, fs_file fin)
 
 /*---------------------------------------------------------------------------*/
 
+static void parse_angles(const char *val, float out_e[4])
+{
+    static const float X[3] = { 1.0f, 0.0f, 0.0f };
+    static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+    static const float Z[3] = { 0.0f, 0.0f, 1.0f };
+
+    float x = 0.0f, y = 0.0f, z = 0.0f;
+    float d[4], e[4];
+
+    /* Pitch, yaw and roll. */
+
+    sscanf(val, "%f %f %f", &x, &y, &z);
+
+    q_by_axisangle(out_e, Y, V_RAD(+y));
+
+    q_by_axisangle(d, Z, V_RAD(-x));
+    q_mul(e, out_e, d);
+    q_nrm(out_e, e);
+
+    q_by_axisangle(d, X, V_RAD(+z));
+    q_mul(e, out_e, d);
+    q_nrm(out_e, e);
+}
+
 static void make_path(struct mapc_context *ctx,
                       char k[][MAXSTR],
                       char v[][MAXSTR], int c)
@@ -1337,27 +1386,7 @@ static void make_path(struct mapc_context *ctx,
 
         if (strcmp(k[i], "angles") == 0)
         {
-            static const float X[3] = { 1.0f, 0.0f, 0.0f };
-            static const float Y[3] = { 0.0f, 1.0f, 0.0f };
-            static const float Z[3] = { 0.0f, 0.0f, 1.0f };
-
-            float x = 0.0f, y = 0.0f, z = 0.0f;
-            float d[4], e[4];
-
-            /* Pitch, yaw and roll. */
-
-            sscanf(v[i], "%f %f %f", &x, &y, &z);
-
-            q_by_axisangle(pp->e, Y, V_RAD(+y));
-
-            q_by_axisangle(d, Z, V_RAD(-x));
-            q_mul(e, pp->e, d);
-            q_nrm(pp->e, e);
-
-            q_by_axisangle(d, X, V_RAD(+z));
-            q_mul(e, pp->e, d);
-            q_nrm(pp->e, e);
-
+            parse_angles(v[i], pp->e);
             pp->fl |= P_ORIENTED;
         }
     }
@@ -1427,6 +1456,12 @@ static void make_body(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->body_e[bi]);
+            ctx->body_has_e[bi] = 1;
+        }
 
         else if (ctx->read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(ctx, k[i], v[i]);
@@ -1501,6 +1536,12 @@ static void make_item(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &hp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->item_e[hi]);
+            ctx->item_has_e[hi] = 1;
+        }
     }
 }
 
@@ -1561,12 +1602,18 @@ static void make_bill(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &rp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->bill_e[ri]);
+            ctx->bill_has_e[ri] = 1;
+        }
     }
 }
 
 static void make_goal(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, zi = incz(ctx);
@@ -1579,6 +1626,7 @@ static void make_goal(struct mapc_context *ctx,
     zp->r    = 0.75;
 
     zp->p0 = zp->p1 = -1;
+    ctx->goal_is_legacy[zi] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1591,9 +1639,9 @@ static void make_goal(struct mapc_context *ctx,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            zp->p[0] = +(x)      / SCALE;
-            zp->p[1] = +(z - 24) / SCALE;
-            zp->p[2] = -(y)      / SCALE;
+            zp->p[0] = +(x)                     / SCALE;
+            zp->p[1] = +(is_legacy ? z - 24 : z) / SCALE;
+            zp->p[2] = -(y)                     / SCALE;
         }
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
@@ -1601,6 +1649,17 @@ static void make_goal(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &zp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->goal_e[zi]);
+            ctx->goal_has_e[zi] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->goal_has_e[zi])
+    {
+        zp->p[1] -= GOAL_HALF_EXTENT / SCALE;
     }
 }
 
@@ -1640,7 +1699,7 @@ static void make_view(struct mapc_context *ctx,
 
 static void make_jump(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, ji = incj(ctx);
@@ -1656,6 +1715,7 @@ static void make_jump(struct mapc_context *ctx,
     jp->r    = 0.5;
 
     jp->p0 = jp->p1 = -1;
+    ctx->jump_is_legacy[ji] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1681,12 +1741,23 @@ static void make_jump(struct mapc_context *ctx,
 
         if (strcmp(k[i], "target3") == 0)
             make_ref(ctx, SYM_PATH, v[i], &jp->p1);
+
+        if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->jump_e[ji]);
+            ctx->jump_has_e[ji] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->jump_has_e[ji])
+    {
+        jp->p[1] -= JUMP_HALF_EXTENT / SCALE;
     }
 }
 
 static void make_swch(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, xi = incx(ctx);
@@ -1703,6 +1774,7 @@ static void make_swch(struct mapc_context *ctx,
     xp->i    = 0;
 
     xp->p0 = xp->p1 = -1;
+    ctx->swch_is_legacy[xi] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1737,6 +1809,17 @@ static void make_swch(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target3") == 0)
             make_ref(ctx, SYM_PATH, v[i], &xp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->swch_e[xi]);
+            ctx->swch_has_e[xi] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->swch_has_e[xi])
+    {
+        xp->p[1] -= SWCH_HALF_EXTENT / SCALE;
     }
 }
 
@@ -1773,7 +1856,7 @@ static void make_targ(struct mapc_context *ctx,
 
 static void make_ball(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, ui = incu(ctx);
@@ -1796,13 +1879,14 @@ static void make_ball(struct mapc_context *ctx,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            up->p[0] = +(x)      / SCALE;
-            up->p[1] = +(z - 24) / SCALE;
-            up->p[2] = -(y)      / SCALE;
+            up->p[0] = +(x)                     / SCALE;
+            up->p[1] = +(is_legacy ? z - 24 : z) / SCALE;
+            up->p[2] = -(y)                     / SCALE;
         }
     }
 
-    up->p[1] += up->r + SMALL;
+    if (is_legacy)
+        up->p[1] += up->r + SMALL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1832,13 +1916,21 @@ static void read_ent(struct mapc_context *ctx, fs_file fin)
     if (!strcmp(v[i], "item_health_large"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_health_small"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_clock"))               make_item(ctx, k, v, c);
-    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, k, v, c);
+    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_switch") ||
+        !strcmp(v[i], "info_switch"))              make_swch(ctx, k, v, c, 0);
     if (!strcmp(v[i], "info_null"))                make_bill(ctx, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(ctx, k, v, c);
-    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_ball") ||
+        !strcmp(v[i], "info_ball"))                make_ball(ctx, k, v, c, 0);
     if (!strcmp(v[i], "info_player_intermission")) make_view(ctx, k, v, c);
-    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, k, v, c);
-    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_goal") ||
+        !strcmp(v[i], "info_goal"))                make_goal(ctx, k, v, c, 0);
+    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_jump") ||
+        !strcmp(v[i], "info_jump"))                make_jump(ctx, k, v, c, 0);
     if (!strcmp(v[i], "target_position"))          make_targ(ctx, k, v, c);
     if (!strcmp(v[i], "worldspawn"))
     {
@@ -3303,6 +3395,144 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
     return 1;
 }
 
+static void calc_cylinder_pos(float p[3], const float e[4], float extent)
+{
+    float local_down[3] = { 0.0f, -extent / SCALE, 0.0f };
+    float world_offset[3];
+
+    q_rot(world_offset, e, local_down);
+    v_add(p, p, world_offset);
+}
+
+/*
+ * Synthesize a stationary child orientation path node (P_PARENTED | P_ORIENTED)
+ * linked to the parent mover at p0, and transform the entity's initial world
+ * position into the local reference frame of the parent body.
+ */
+static void make_parented_path(struct mapc_context *ctx,
+                               float p[3], int p0, int *p1, const float e[4])
+{
+    struct s_base *fp = &ctx->file;
+    float inv_e[4], d[3];
+
+    int pi = incp(ctx);
+    struct b_path *pp = fp->pv + pi;
+    memset(pp, 0, sizeof (*pp));
+    pp->pi = pi;
+    pp->t  = 1.0f;
+    pp->f  = 1;
+    pp->s  = 1;
+    pp->p0 = p0;
+    pp->p1 = p0;
+    pp->fl |= P_PARENTED | P_ORIENTED;
+    q_cpy(pp->e, e);
+    *p1 = pi;
+
+    if (p)
+    {
+        v_sub(d, p, fp->pv[p0].p);
+        q_conj(inv_e, e);
+        q_rot(d, inv_e, d);
+        v_add(p, fp->pv[p0].p, d);
+    }
+}
+
+/*
+ * Synthesize a stationary unparented orientation path node (P_ORIENTED)
+ * holding a constant orientation e for an unmoving entity.
+ */
+static void make_stationary_path(struct mapc_context *ctx,
+                                 const float p[3], int *p0, int *p1, const float e[4])
+{
+    struct s_base *fp = &ctx->file;
+
+    int pi = incp(ctx);
+    struct b_path *pp = fp->pv + pi;
+    memset(pp, 0, sizeof (*pp));
+    pp->pi = pi;
+    pp->t  = 1.0f;
+    pp->f  = 1;
+    pp->s  = 1;
+    pp->p0 = -1;
+    pp->p1 = -1;
+    pp->fl |= P_ORIENTED;
+    v_cpy(pp->p, p);
+    q_cpy(pp->e, e);
+    *p0 = pi;
+    *p1 = pi;
+}
+
+/*
+ * Synthesize an orientation path node for an angled entity if no explicit
+ * rotation path (p1) was already assigned.
+ */
+static void turn_entity(struct mapc_context *ctx,
+                        float p[3], int *p0, int *p1, const float e[4])
+{
+    if (*p0 >= 0 && *p1 < 0)
+        make_parented_path(ctx, p, *p0, p1, e);
+    else if (*p0 < 0 && *p1 < 0)
+        make_stationary_path(ctx, p, p0, p1, e);
+}
+
+static void turn_file(struct mapc_context *ctx)
+{
+    struct s_base *fp = &ctx->file;
+    int i;
+
+    /* Items */
+    for (i = 0; i < fp->hc; i++)
+        if (ctx->item_has_e[i])
+            turn_entity(ctx, fp->hv[i].p, &fp->hv[i].p0, &fp->hv[i].p1, ctx->item_e[i]);
+
+    /* Goals */
+    for (i = 0; i < fp->zc; i++)
+    {
+        if (ctx->goal_has_e[i])
+        {
+            if (!ctx->goal_is_legacy[i])
+                calc_cylinder_pos(fp->zv[i].p, ctx->goal_e[i], GOAL_HALF_EXTENT);
+
+            turn_entity(ctx, fp->zv[i].p, &fp->zv[i].p0, &fp->zv[i].p1, ctx->goal_e[i]);
+        }
+    }
+
+    /* Teleporters */
+    for (i = 0; i < fp->jc; i++)
+    {
+        if (ctx->jump_has_e[i])
+        {
+            if (!ctx->jump_is_legacy[i])
+                calc_cylinder_pos(fp->jv[i].p, ctx->jump_e[i], JUMP_HALF_EXTENT);
+
+            turn_entity(ctx, fp->jv[i].p, &fp->jv[i].p0, &fp->jv[i].p1, ctx->jump_e[i]);
+        }
+    }
+
+    /* Switches */
+    for (i = 0; i < fp->xc; i++)
+    {
+        if (ctx->swch_has_e[i])
+        {
+            if (!ctx->swch_is_legacy[i])
+                calc_cylinder_pos(fp->xv[i].p, ctx->swch_e[i], SWCH_HALF_EXTENT);
+
+            turn_entity(ctx, fp->xv[i].p, &fp->xv[i].p0, &fp->xv[i].p1, ctx->swch_e[i]);
+        }
+    }
+
+    /* Billboards */
+    for (i = 0; i < fp->rc; i++)
+        if (ctx->bill_has_e[i])
+            turn_entity(ctx, fp->rv[i].p, &fp->rv[i].p0, &fp->rv[i].p1, ctx->bill_e[i]);
+
+    /* Bodies (func_train) */
+    for (i = 0; i < fp->bc; i++)
+        if (ctx->body_has_e[i])
+            if (fp->bv[i].p0 >= 0 && fp->bv[i].p1 < 0)
+                make_parented_path(ctx, NULL, fp->bv[i].p0, &fp->bv[i].p1, ctx->body_e[i]);
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void mapc_compile_internal(struct mapc_context *ctx)
@@ -3332,6 +3562,7 @@ static void mapc_compile_internal(struct mapc_context *ctx)
         resolve(ctx);
         targets(ctx);
 
+        turn_file(ctx);
         clip_file(ctx);
         move_file(ctx);
         uniq_file(ctx);
