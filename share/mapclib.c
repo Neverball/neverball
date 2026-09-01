@@ -197,9 +197,6 @@ struct mapc_context
     float bill_e[MAXR][4];
     int   bill_has_e[MAXR];
 
-    float body_e[MAXB][4];
-    int   body_has_e[MAXB];
-
     struct _imagedata *imagedata;
     int image_n;
     int image_alloc;
@@ -1456,12 +1453,6 @@ static void make_body(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "origin") == 0)
             sscanf(v[i], "%f %f %f", &x, &y, &z);
-
-        else if (strcmp(k[i], "angles") == 0)
-        {
-            parse_angles(v[i], ctx->body_e[bi]);
-            ctx->body_has_e[bi] = 1;
-        }
 
         else if (ctx->read_dict_entries && strcmp(k[i], "classname") != 0)
             make_dict(ctx, k[i], v[i]);
@@ -3525,12 +3516,6 @@ static void turn_file(struct mapc_context *ctx)
     for (i = 0; i < fp->rc; i++)
         if (ctx->bill_has_e[i])
             turn_entity(ctx, fp->rv[i].p, &fp->rv[i].p0, &fp->rv[i].p1, ctx->bill_e[i]);
-
-    /* Bodies (func_train) */
-    for (i = 0; i < fp->bc; i++)
-        if (ctx->body_has_e[i])
-            if (fp->bv[i].p0 >= 0 && fp->bv[i].p1 < 0)
-                make_parented_path(ctx, NULL, fp->bv[i].p0, &fp->bv[i].p1, ctx->body_e[i]);
 }
 
 /*---------------------------------------------------------------------------*/
