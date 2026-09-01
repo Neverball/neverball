@@ -54,6 +54,7 @@ b) User asks to refactor a source file in a specific way.
 ### Boring programming style
 - Keep commit messages, code, and test outputs as boring, plain, and understated as possible.
 - Use standard commit subjects: `<module>: <imperative summary>` (e.g. `<module>: Handle <condition> in <function>`, `<module>: Add <feature>`, `<module>: Fix <issue>`).
+- Keep commit bodies focused on context and rationale; do not restate the patch or list data points; do not invent context and rationale.
 - Avoid decorative banners, borders, or verbose status tags in test harnesses and tool outputs.
 
 ### Atomic single-concern commits
