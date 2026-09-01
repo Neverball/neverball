@@ -3428,6 +3428,41 @@ static void make_parented_path(struct mapc_context *ctx,
     }
 }
 
+static const char *get_sym_name(const struct mapc_context *ctx, int type, int val)
+{
+    int i;
+    for (i = 0; i < ctx->symc; i++)
+        if (ctx->syms[i].type == type && ctx->syms[i].val == val)
+            return ctx->syms[i].name;
+    return NULL;
+}
+
+static void check_oriented_path(struct mapc_context *ctx, int p0, int has_angles)
+{
+    struct s_base *fp = &ctx->file;
+
+    if (p0 >= 0 && (fp->pv[p0].fl & P_ORIENTED))
+    {
+        char buf[MAXSTR];
+        const char *name = get_sym_name(ctx, SYM_PATH, p0);
+
+        SAFECPY(buf, ctx->opt_file ? ctx->opt_file : "mapc");
+        if (has_angles)
+            SAFECAT(buf, ": warning: entity with angles connected to oriented path");
+        else
+            SAFECAT(buf, ": warning: entity connected to path node with initial angles");
+
+        if (name && *name)
+        {
+            SAFECAT(buf, " \"");
+            SAFECAT(buf, name);
+            SAFECAT(buf, "\"");
+        }
+        SAFECAT(buf, " (in-game orientation will differ from editor)\n");
+        WARNING(ctx, buf);
+    }
+}
+
 /*
  * Synthesize a stationary unparented orientation path node (P_ORIENTED)
  * holding a constant orientation e for an unmoving entity.
@@ -3471,14 +3506,25 @@ static void turn_file(struct mapc_context *ctx)
     struct s_base *fp = &ctx->file;
     int i;
 
+    /* Bodies (func_train) */
+    for (i = 0; i < fp->bc; i++)
+        if (fp->bv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->bv[i].p0, 0);
+
     /* Items */
     for (i = 0; i < fp->hc; i++)
+    {
+        if (fp->hv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->hv[i].p0, ctx->item_has_e[i]);
         if (ctx->item_has_e[i])
             turn_entity(ctx, fp->hv[i].p, &fp->hv[i].p0, &fp->hv[i].p1, ctx->item_e[i]);
+    }
 
     /* Goals */
     for (i = 0; i < fp->zc; i++)
     {
+        if (fp->zv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->zv[i].p0, ctx->goal_has_e[i]);
         if (ctx->goal_has_e[i])
         {
             if (!ctx->goal_is_legacy[i])
@@ -3491,6 +3537,8 @@ static void turn_file(struct mapc_context *ctx)
     /* Teleporters */
     for (i = 0; i < fp->jc; i++)
     {
+        if (fp->jv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->jv[i].p0, ctx->jump_has_e[i]);
         if (ctx->jump_has_e[i])
         {
             if (!ctx->jump_is_legacy[i])
@@ -3503,6 +3551,8 @@ static void turn_file(struct mapc_context *ctx)
     /* Switches */
     for (i = 0; i < fp->xc; i++)
     {
+        if (fp->xv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->xv[i].p0, ctx->swch_has_e[i]);
         if (ctx->swch_has_e[i])
         {
             if (!ctx->swch_is_legacy[i])
@@ -3514,8 +3564,12 @@ static void turn_file(struct mapc_context *ctx)
 
     /* Billboards */
     for (i = 0; i < fp->rc; i++)
+    {
+        if (fp->rv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->rv[i].p0, ctx->bill_has_e[i]);
         if (ctx->bill_has_e[i])
             turn_entity(ctx, fp->rv[i].p, &fp->rv[i].p0, &fp->rv[i].p1, ctx->bill_e[i]);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
