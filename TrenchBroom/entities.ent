@@ -6,7 +6,6 @@ Defines the geometry of a moving object.  Think of it as a container or a groupi
 
 <target key="target" name="Path">Path that the train will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the train, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
-<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the object (pitch, yaw, and roll).</angles>
 </group>
 
 
