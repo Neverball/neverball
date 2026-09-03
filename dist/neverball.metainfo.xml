@@ -5,6 +5,7 @@
   <project_license>GPL-2.0-or-later</project_license>
   <name>Neverball</name>
   <summary>Deftly Guide a Rolling Ball through Many Slick 3D Levels</summary>
+  <summary xml:lang="fr">Guidez habilement une boule à travers de nombreux niveaux 3D</summary>
   <description>
     <p>
       Guide a rolling ball through dangerous territory that you control by
@@ -14,8 +15,23 @@
       physics and very clean and appealing 3D graphics, this is definitely a
       must play.
     </p>
+    <p xml:lang="fr">
+      Guidez une boule à travers des environnements dangereux en inclinant le
+      sol. Gardez l’équilibre sur des ponts étroits, parcourez des labyrinthes,
+      empruntez des plateformes mobiles et évitez les obstacles qui vous
+      poussent ou vous bousculent afin d’atteindre l’arrivée. Faites la course
+      contre la montre et ramassez des pièces pour gagner des boules
+      supplémentaires. Avec sa physique soignée et ses graphismes 3D épurés et
+      attrayants, Neverball est assurément un jeu à essayer.
+    </p>
   </description>
-  <url type="homepage">https://neverball.org/</url>
+  <url type="homepage">https://neverball.org</url>
+  <url type="vcs-browser">https://github.com/Neverball/neverball</url>
+  <url type="bugtracker">https://github.com/Neverball/neverball/issues</url>
+  <categories>
+    <category>ArcadeGame</category>
+    <category>Game</category>
+  </categories>
   <screenshots>
     <screenshot type="default">
       <image>https://neverball.org/images/shots/01-neverball-easy/easy-07-01.jpg</image>
@@ -27,6 +43,11 @@
       <image>https://neverball.org/images/shots/04-neverball-mym1/mym1-13-04.jpg</image>
     </screenshot>
   </screenshots>
-  <url type="bugtracker">https://github.com/Neverball/neverball</url>
   <content_rating type="oars-1.1" />
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>gamepad</control>
+    <internet>offline-only</internet>
+  </supports>
 </component>
