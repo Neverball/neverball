@@ -168,6 +168,10 @@ static int start_gui(void)
 
     int id, jd, kd, ld;
 
+    shot_id = 0;
+    file_id = 0;
+    challenge_id = 0;
+
     if ((id = gui_vstack(0)))
     {
         if ((jd = gui_hstack(id)))
