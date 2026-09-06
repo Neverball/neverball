@@ -276,35 +276,51 @@ void sol_free_vary(struct s_vary *fp)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Check if path movers need their transforms recalculated.
- *
- * This is recursive due to hierarchical transform (paths moving along paths).
- */
-static int is_path_dirty(const struct s_vary *vary, int pi)
+static int is_move_driving(const struct s_vary *fp, int mi, int mj)
 {
-    if (pi < 0 || pi >= vary->pc)
-        return 0;
+    const int curr_pi = fp->mv[mj].pi;
+    const int next_pi = (fp->base && curr_pi >= 0 && curr_pi < fp->base->pc)
+                      ? fp->base->pv[curr_pi].pi : -1;
 
-    return is_move_dirty(vary, vary->pv[pi].mi) || is_move_dirty(vary, vary->pv[pi].mj);
+    if (curr_pi >= 0 && curr_pi < fp->pc)
+        if (fp->pv[curr_pi].mi == mi || fp->pv[curr_pi].mj == mi)
+            return 1;
+
+    if (next_pi >= 0 && next_pi < fp->pc)
+        if (fp->pv[next_pi].mi == mi || fp->pv[next_pi].mj == mi)
+            return 1;
+
+    return 0;
 }
 
-/*
- * Check if mover needs its transform recalculated.
- *
- * This is recursive due to hierarchical transform (paths moving along paths).
- */
-int is_move_dirty(const struct s_vary *vary, int mi)
+int is_move_dirty(const struct s_vary *fp, int mi)
 {
-    if (mi < 0 || mi >= vary->mc)
+    if (!fp || mi < 0 || mi >= fp->mc)
         return 0;
 
-    return vary->mv[mi].dirty || is_path_dirty(vary, vary->mv[mi].pi);
+    return fp->mv[mi].dirty;
 }
 
-void set_move_dirty(const struct s_vary *vary, int mi, unsigned int dirty)
+void set_move_dirty(const struct s_vary *fp, int mi, unsigned int dirty)
 {
-    vary->mv[mi].dirty = !!dirty;
+    int mj;
+
+    if (!fp || mi < 0 || mi >= fp->mc)
+        return;
+
+    if (dirty)
+    {
+        if (fp->mv[mi].dirty)
+            return;
+
+        fp->mv[mi].dirty = 1u;
+
+        for (mj = 0; mj < fp->mc; mj++)
+            if (mj != mi && is_move_driving(fp, mi, mj))
+                set_move_dirty(fp, mj, 1u);
+    }
+    else
+        fp->mv[mi].dirty = 0;
 }
 
 /*---------------------------------------------------------------------------*/
