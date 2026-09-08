@@ -826,11 +826,21 @@ General Public License for more details.
         fullscreenChange: function (event) {
           var fullscreenElement = Neverball.getFullscreenElement();
 
-          if (!fullscreenElement && Neverball.isRunning) {
-            if (Neverball.isSmallViewport()) {
-              Neverball.pauseGameMobile();
-            } else {
-              Neverball.pushEvent(Neverball.EVENT_PAUSE);
+          if (fullscreenElement) {
+            if (navigator.keyboard && navigator.keyboard.lock) {
+              navigator.keyboard.lock(['Escape']).catch(function () {});
+            }
+          } else {
+            if (navigator.keyboard && navigator.keyboard.unlock) {
+              navigator.keyboard.unlock();
+            }
+
+            if (Neverball.isRunning) {
+              if (Neverball.isSmallViewport()) {
+                Neverball.pauseGameMobile();
+              } else {
+                Neverball.pushEvent(Neverball.EVENT_PAUSE);
+              }
             }
           }
         },
