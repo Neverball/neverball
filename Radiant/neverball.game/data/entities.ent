@@ -6,11 +6,28 @@ Defines the geometry of a moving object.  Think of it as a container or a groupi
 
 <target key="target" name="Path">Path that the train will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the train, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the object (pitch, yaw, and roll).</angles>
 </group>
 
 
-<point name="info_camp" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+<point name="game_switch" color="0 0.5 0" box="-8 -8 -8 8 8 8">
 Defines a switch.
+
+It is preferable to use this entity in place of info_camp.
+
+<target key="target" name="Target">Refers to the path that the switch controls.</target>
+<target key="target2" name="Path">Path that the switch will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the switch, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<real key="radius" name="Radius" value="0.5">Switch radius in meters.  The default is "0.5".</real>
+<boolean key="state" name="State" value="0">Initial state of the switch.  "0" is off, "1" is on.  The default is off.  This parallels the state attribute of the path_corner.  An game_switch entity should always have the same initial "state" value as the path_corner it targets.</boolean>
+<real key="timer" name="Timer" value="0">A delay time.  The time begins when a switch is toggled to its non-initial state.  The switch toggles back to its initial state when the timer expires.  A timer value of zero indicates an untimed switch.  The default is zero.  This may be used to define a door that opens only for a moment before closing, or a func_train that moves along its path in discrete activated steps.</real>
+<boolean key="invisible" name="Invisible" value="0">Determines whether the switch is invisible or not.  "0" is off, "1" is on.  The default is off.</boolean>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the switch (pitch, yaw, and roll).</angles>
+</point>
+
+
+<point name="info_camp" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines a switch.  This entity exists for backward compatibility; game_switch is preferable.
 
 <target key="target" name="Target">Refers to the path that the switch controls.</target>
 <target key="target2" name="Path">Path that the switch will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
@@ -19,6 +36,7 @@ Defines a switch.
 <boolean key="state" name="State" value="0">Initial state of the switch.  "0" is off, "1" is on.  The default is off.  This parallels the state attribute of the path_corner.  An info_camp entity should always have the same initial "state" value as the path_corner it targets.</boolean>
 <real key="timer" name="Timer" value="0">A delay time.  The time begins when a switch is toggled to its non-initial state.  The switch toggles back to its initial state when the timer expires.  A timer value of zero indicates an untimed switch.  The default is zero.  This may be used to define a door that opens only for a moment before closing, or a func_train that moves along its path in discrete activated steps.</real>
 <boolean key="invisible" name="Invisible" value="0">Determines whether the switch is invisible or not.  "0" is off, "1" is on.  The default is off.</boolean>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the switch (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -27,15 +45,29 @@ Defines a billboard.
 
 <target key="target" name="Path">Path that the billboard will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the billboard, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the billboard (pitch, yaw, and roll).</angles>
 </point>
 
 
-<point name="info_player_deathmatch" color="1 0 1" box="-16 -16 -24 16 16 32">
+<point name="game_goal" color="1 0 1" box="-16 -16 -16 16 16 16">
 Defines a goal.
+
+It is preferable to use this entity in place of info_player_deathmatch.
 
 <real key="radius" name="Radius" value="0.75">Goal radius in meters.  The default radius is "0.75".  The ball must fall entirely within this radius to trigger a goal.</real>
 <target key="target" name="Path">Path that the goal will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the goal, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the goal (pitch, yaw, and roll).</angles>
+</point>
+
+
+<point name="info_player_deathmatch" color="1 0 1" box="-16 -16 -24 16 16 32">
+Defines a goal.  This entity exists for backward compatibility; game_goal is preferable.
+
+<real key="radius" name="Radius" value="0.75">Goal radius in meters.  The default radius is "0.75".  The ball must fall entirely within this radius to trigger a goal.</real>
+<target key="target" name="Path">Path that the goal will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the goal, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the goal (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -46,10 +78,21 @@ Defines the camera position at the beginning of a level fly-in
 </point>
 
 
-<point name="info_player_start" color="1 0 0" box="-16 -16 -24 16 16 32">
-Defines a ball.  While multiple balls may be defined, Neverball uses only the first of them.  Neverputt requires an info_player_start entity for each player slot plus one.
+<point name="game_ball" color="1 0 0" box="-16 -16 -16 16 16 16">
+Defines a ball spawn.
+
+It is preferable to use this entity in place of info_player_start.
 
 <real key="radius" name="Radius" value="0.25">Ball radius in meters.  The default radius is "0.25".  In Neverputt, this should be set to "0.0625".</real>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the initial ball / tee launch orientation (pitch, yaw, and roll).</angles>
+</point>
+
+
+<point name="info_player_start" color="1 0 0" box="-16 -16 -24 16 16 32">
+Defines a ball.  This entity exists for backward compatibility; game_ball is preferable.  While multiple balls may be defined, Neverball uses only the first of them.  Neverputt requires an info_player_start entity for each player slot plus one.
+
+<real key="radius" name="Radius" value="0.25">Ball radius in meters.  The default radius is "0.25".  In Neverputt, this should be set to "0.0625".</real>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the ball / tee direction (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -58,6 +101,7 @@ Defines a grow coin.
 
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the item (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -66,6 +110,7 @@ Defines a shrink coin.
 
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the item (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -82,6 +127,7 @@ Defines a clock, adding time to a level.
 <clock key="light" name="Preset bonus" value="0">Value of the clock.  Pink clock (small) = 5, turquoise clock (medium) = 15, orange clock (large) = 30.</clock>
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the item (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -91,12 +137,13 @@ Defines a clock, adding time to a level.
   <item name="Blue" value="10"/>
 </list>
 
-<point name="light" color="0.65 0.65 1" box="-8 -8 -8 8 8 8">
+<point name="light" color="0.65 0.65 1" box="-16 -16 -16 16 16 16">
 Defines a coin.
 
 <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the item (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -108,6 +155,7 @@ misc_model entities define visible geometry, but not physical geometry.  So, if 
 <model key="model" name="Model">Path to the model file.  The model must be in OBJ format.  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
 <target key="target" name="Path">Path that the model will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the model, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the model (pitch, yaw, and roll).</angles>
 </point>
 
 
@@ -131,13 +179,27 @@ Defines the initial view direction of a level fly-in, as well as the destination
 </point>
 
 
-<point name="target_teleporter" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+<point name="game_jump" color="0 0.5 0" box="-8 -8 -8 8 8 8">
 Defines a teleporter.
+
+It is preferable to use this entity in place of target_teleporter.
 
 <target key="target" name="Target">Refers to a target_position entity defining the destination of the teleporter.</target>
 <target key="target2" name="Path">Path that the teleporter will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the teleporter, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 <real key="radius" name="Radius" value="0.5">Teleporter radius.  The default is "0.5".  The ball must fall entirely within this radius to trigger the teleport.</real>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the teleporter (pitch, yaw, and roll).</angles>
+</point>
+
+
+<point name="target_teleporter" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+Defines a teleporter.  This entity exists for backward compatibility; game_jump is preferable.
+
+<target key="target" name="Target">Refers to a target_position entity defining the destination of the teleporter.</target>
+<target key="target2" name="Path">Path that the teleporter will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target3" name="Path (rotation)">An optional second path that controls the orientation of the teleporter, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<real key="radius" name="Radius" value="0.5">Teleporter radius.  The default is "0.5".  The ball must fall entirely within this radius to trigger the teleport.</real>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the teleporter (pitch, yaw, and roll).</angles>
 </point>
 
 <list name="background">

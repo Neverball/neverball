@@ -883,6 +883,9 @@ static char *gui_trunc_tail(const char *text,
     int left, right, mid;
     char *str = NULL;
 
+    if (!text)
+        return NULL;
+
     left  = 0;
     right = strlen(text);
 
@@ -890,7 +893,8 @@ static char *gui_trunc_tail(const char *text,
     {
         mid = (left + right) / 2;
 
-        str = malloc(mid + sizeof (GUI_ELLIPSIS));
+        if (!(str = malloc(mid + sizeof (GUI_ELLIPSIS))))
+            break;
 
         memcpy(str,       text,  mid);
         memcpy(str + mid, GUI_ELLIPSIS, sizeof (GUI_ELLIPSIS));
@@ -901,12 +905,14 @@ static char *gui_trunc_tail(const char *text,
             right = mid;
 
         free(str);
+        str = NULL;
     }
 
-    str = malloc(left + sizeof (GUI_ELLIPSIS));
-
-    memcpy(str,        text,  left);
-    memcpy(str + left, GUI_ELLIPSIS, sizeof (GUI_ELLIPSIS));
+    if ((str = malloc(left + sizeof (GUI_ELLIPSIS))))
+    {
+        memcpy(str,        text,  left);
+        memcpy(str + left, GUI_ELLIPSIS, sizeof (GUI_ELLIPSIS));
+    }
 
     return str;
 }

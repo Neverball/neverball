@@ -44,6 +44,7 @@ extern const char ICON[];
 enum
 {
     CONF_VIDEO = GUI_LAST,
+    CONF_GAMEPLAY,
     CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
     CONF_JOYSTICK,
@@ -79,6 +80,8 @@ static int sound_id[11];
 #define MOUSE_RANGE_UNMAP(i) \
     (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
 
+static struct state *conf_back;
+
 static int conf_action(int tok, int val)
 {
     int sound = config_get_d(CONFIG_SOUND_VOLUME);
@@ -91,11 +94,16 @@ static int conf_action(int tok, int val)
     switch (tok)
     {
     case GUI_BACK:
-        exit_state(&st_title);
+        exit_state(conf_back ? conf_back : &st_title);
+        conf_back = NULL;
         break;
 
     case CONF_VIDEO:
         goto_state(&st_video);
+        break;
+
+    case CONF_GAMEPLAY:
+        goto_state(&st_conf_gameplay);
         break;
 
     case CONF_JOYSTICK:
@@ -168,6 +176,7 @@ static int conf_gui(void)
             conf_header(id, _("Options"), GUI_BACK);
 
             conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
+            conf_state(id, _("Gameplay"), _("Configure"), CONF_GAMEPLAY);
 
             gui_space(id);
 
@@ -222,21 +231,61 @@ static int conf_gui(void)
     return root_id;
 }
 
+static void conf_bg_paint(float t)
+{
+    if (game_server_state())
+    {
+        game_client_draw(0, t);
+    }
+    else
+    {
+        video_push_persp((float) config_get_d(CONFIG_VIEW_FOV), 0.1f, FAR_DIST);
+        {
+            back_draw_easy();
+        }
+        video_pop_matrix();
+    }
+}
+
 static int conf_enter(struct state *st, struct state *prev, int intent)
 {
-    game_client_free(NULL);
-    conf_common_init(conf_action);
+    if (!conf_back)
+        conf_back = prev;
+
+    if (!game_server_state())
+    {
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
+        back_push("back/gui.png");
+    }
+
+    conf_common_bg_paint(conf_bg_paint);
+    common_init(conf_action);
+
     return transition_slide(conf_gui(), 1, intent);
 }
 
 static int conf_leave(struct state *st, struct state *next, int id, int intent)
 {
-    return conf_common_leave(st, next, id, intent);
+    config_save();
+
+    if (next == conf_back)
+    {
+        if (!game_server_state())
+            back_pop();
+
+        conf_common_bg_paint(NULL);
+    }
+
+    return transition_slide(id, 0, intent);
 }
+
 /*---------------------------------------------------------------------------*/
 
 static int null_enter(struct state *st, struct state *prev, int intent)
 {
+    game_client_free_objects();
+    back_free_objects();
+
     hud_free();
     transition_quit();
     gui_free();
@@ -259,12 +308,16 @@ static int null_leave(struct state *st, struct state *next, int id, int intent)
     gui_init();
     transition_init();
     hud_init();
+
+    back_load_objects();
+    game_client_load_objects();
+
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
- struct state st_conf = {
+struct state st_conf = {
     conf_enter,
     conf_leave,
     conf_common_paint,
@@ -288,4 +341,110 @@ struct state st_null = {
     NULL,
     NULL,
     NULL
+};
+
+/*---------------------------------------------------------------------------*/
+
+enum
+{
+    GAMEPLAY_CAMERA_DEFAULT = GUI_LAST,
+    GAMEPLAY_CAMERA_1_4,
+    GAMEPLAY_CAMERA_1_5,
+    GAMEPLAY_LOCK_GOALS
+};
+
+static struct state *gameplay_back;
+
+static int gameplay_action(int tok, int val)
+{
+    int r = 1;
+
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (tok)
+    {
+    case GUI_BACK:
+        exit_state(gameplay_back);
+        gameplay_back = NULL;
+        break;
+
+    case GAMEPLAY_CAMERA_DEFAULT:
+        cam_preset_set(CAM_1, CAM_PRESET_DEFAULT);
+        goto_state(&st_conf_gameplay);
+        break;
+
+    case GAMEPLAY_CAMERA_1_4:
+        cam_preset_set(CAM_1, CAM_PRESET_1_4);
+        goto_state(&st_conf_gameplay);
+        break;
+
+    case GAMEPLAY_CAMERA_1_5:
+        cam_preset_set(CAM_1, CAM_PRESET_1_5);
+        goto_state(&st_conf_gameplay);
+        break;
+
+    case GAMEPLAY_LOCK_GOALS:
+        config_set_d(CONFIG_LOCK_GOALS, val);
+        goto_state(&st_conf_gameplay);
+        break;
+    }
+
+    return r;
+}
+
+static int gameplay_gui(void)
+{
+    int id, jd, kd, ld;
+    int curr = cam_preset_get(CAM_1);
+
+    if ((id = gui_vstack(0)))
+    {
+        conf_header(id, _("Gameplay"), GUI_BACK);
+
+        conf_toggle(id, _("Completed Levels"),
+                    GAMEPLAY_LOCK_GOALS, config_get_d(CONFIG_LOCK_GOALS),
+                    _("Locked"), 1, _("Unlocked"), 0);
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)) && (kd = gui_vstack(jd)) && (ld = gui_vstack(jd)))
+        {
+            int btn0 = gui_state(kd, _("Default"),     GUI_SML, GAMEPLAY_CAMERA_DEFAULT, 0);
+            int btn1 = gui_state(kd, _("1.4 Classic"), GUI_SML, GAMEPLAY_CAMERA_1_4,     0);
+            int btn2 = gui_state(kd, _("1.5 Classic"), GUI_SML, GAMEPLAY_CAMERA_1_5,     0);
+
+            gui_set_hilite(btn0, (curr == CAM_PRESET_DEFAULT));
+            gui_set_hilite(btn1, (curr == CAM_PRESET_1_4));
+            gui_set_hilite(btn2, (curr == CAM_PRESET_1_5));
+
+            gui_label(ld, _("Camera Preset"), GUI_SML, 0, 0);
+            gui_filler(ld);
+        }
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int gameplay_enter(struct state *st, struct state *prev, int intent)
+{
+    if (!gameplay_back)
+        gameplay_back = prev;
+
+    conf_common_init(gameplay_action);
+    return transition_slide(gameplay_gui(), 1, intent);
+}
+
+struct state st_conf_gameplay = {
+    gameplay_enter,
+    conf_common_leave,
+    conf_common_paint,
+    common_timer,
+    common_point,
+    common_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    common_buttn
 };

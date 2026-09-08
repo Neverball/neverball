@@ -33,7 +33,7 @@ EM_LDFLAGS := \
 	-s INVOKE_RUN=0 \
 	-s NO_EXIT_RUNTIME=1 \
 	-s EXPORTED_FUNCTIONS=_main,_push_user_event,_config_set \
-	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap,FS,IDBFS \
+	-s EXPORTED_RUNTIME_METHODS=callMain,ccall,cwrap,FS,IDBFS,pauseMainLoop,resumeMainLoop \
 	-s HTML5_SUPPORT_DEFERRING_USER_SENSITIVE_REQUESTS=0 \
 	-s LLD_REPORT_UNDEFINED \
 	-s FETCH=1 \
@@ -77,6 +77,7 @@ BALL_SRCS := \
 	ball/st_shared.c \
 	ball/st_start.c \
 	ball/st_title.c \
+	ball/st_game_link.c \
 	ball/util.c \
 	share/array.c \
 	share/audio_emscripten.c \
@@ -117,6 +118,7 @@ BALL_SRCS := \
 	share/solid_vary.c \
 	share/st_common.c \
 	share/st_package.c \
+	share/mapclib.c \
 	share/state.c \
 	share/text.c \
 	share/theme.c \
@@ -130,10 +132,14 @@ BALL_OBJS := $(BALL_SRCS:.c=.emscripten.o)
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
 .PHONY: neverball
-neverball: $(JSDIR)/neverball.js
+neverball: $(JSDIR)/neverball.js $(JSDIR)/service-worker.js
 
 $(JSDIR)/neverball.js: $(BALL_OBJS) $(DATA_ZIP)
 	$(CC) -o $@ $(BALL_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+$(JSDIR)/service-worker.js: $(JSDIR)/service-worker.in.js neverball-version.txt neverball-build.txt
+	@echo "Generating $@..."
+	@sed "s/@BUILD_VERSION@/$(VERSION)-$(shell date +%s)/g" $< > $@
 
 $(DATA_ZIP):
 	$(MAKE) -f mk/package-base.mk OUTPUT_DIR=$$(pwd) package-only && \
@@ -149,7 +155,7 @@ clean-packages:
 
 .PHONY: clean
 clean:
-	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(DATA_ZIP)
+	$(RM) $(BALL_OBJS) $(JSDIR)/neverball.js $(JSDIR)/neverball.wasm $(JSDIR)/neverball.data $(JSDIR)/service-worker.js $(DATA_ZIP)
 
 .PHONY: watch
 watch:

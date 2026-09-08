@@ -5,9 +5,9 @@
 #include "common.h"
 #include "strbuf.h"
 
-static inline struct strbuf substr(const char *str, size_t start, size_t count)
+static inline STRBUF substr(const char *str, size_t start, size_t count)
 {
-    struct strbuf sb = { "" };
+    STRBUF sb = { "" };
 
     if (str)
     {
@@ -26,10 +26,5 @@ static inline struct strbuf substr(const char *str, size_t start, size_t count)
 
     return sb;
 }
-
-/*
- * Allocate a fixed-size buffer on the stack and fill it with the given substring.
- */
-#define SUBSTR(str, start, count) (substr((str), (start), (count)).buf)
 
 #endif

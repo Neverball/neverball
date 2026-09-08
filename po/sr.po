@@ -459,27 +459,27 @@ msgstr "Стање циља у завршеним нивоима"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "мени^Вари"
+msgstr "Вари"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "мени^Пусти"
+msgstr "Пусти"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "мени^Понови"
+msgstr "Понови"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "мени^Помоћ"
+msgstr "Помоћ"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "мени^Опције"
+msgstr "Опције"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "мени^Излаз"
+msgstr "Излаз"
 
 #: ball/util.c:28
 msgid "Hard"

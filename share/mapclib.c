@@ -51,6 +51,19 @@
 #define SCALE  64.f
 #define SMALL  0.0005f
 
+#define GOAL_HALF_EXTENT 48.f
+#define SWCH_HALF_EXTENT 32.f
+#define JUMP_HALF_EXTENT 32.f
+
+/* Epsilon used for vertex merging within lumps. */
+#define SMALL_VERT 1e-4f
+/* Epsilon used for plane intersection checks during vertex clipping. */
+#define SMALL_CLIP 1e-7 /* double */
+/* Epsilon used for stable lump side testing during BSP construction. */
+#define SMALL_NODE 1e-5f
+
+#define MAX_VERT_PLANES 128
+
 /*
  * The overall design  of this map converter is  very stupid, but very
  * simple. It  begins by assuming  that every mtrl, vert,  edge, side,
@@ -145,10 +158,10 @@ struct mapc_context
     int opt_debug;
     int opt_csv;
 
-    struct strbuf src_path;
-    struct strbuf dst_path;
+    STRBUF src_path;
+    STRBUF dst_path;
 
-    struct strbuf full_dst_path;
+    STRBUF full_dst_path;
 
 #if ENABLE_RADIANT_CONSOLE
     TCPsocket bcast_socket;
@@ -166,22 +179,42 @@ struct mapc_context
     int targ_ji[MAXW];
     int targ_n;
 
+    float item_e[MAXH][4];
+    int   item_has_e[MAXH];
+
+    float goal_e[MAXZ][4];
+    int   goal_has_e[MAXZ];
+    int   goal_is_legacy[MAXZ];
+
+    float jump_e[MAXJ][4];
+    int   jump_has_e[MAXJ];
+    int   jump_is_legacy[MAXJ];
+
+    float swch_e[MAXX][4];
+    int   swch_has_e[MAXX];
+    int   swch_is_legacy[MAXX];
+
+    float bill_e[MAXR][4];
+    int   bill_has_e[MAXR];
+
     struct _imagedata *imagedata;
     int image_n;
     int image_alloc;
 
-    float plane_d[MAXS];
-    float plane_n[MAXS][3];
+    double plane_d[MAXS];
+    double plane_n[MAXS][3];
     float plane_p[MAXS][3];
     float plane_u[MAXS][3];
     float plane_v[MAXS][3];
     int plane_f[MAXS];
     int plane_m[MAXS];
 
+    int vert_planes[MAXV][MAX_VERT_PLANES];
+    int vert_plane_count[MAXV];
+
     int read_dict_entries;
 
     int mtrl_swaps[MAXM];
-    int vert_swaps[MAXV];
     int edge_swaps[MAXE];
     int side_swaps[MAXS];
     int texc_swaps[MAXT];
@@ -398,7 +431,7 @@ void mapc_quit(struct mapc_context **ctx_ptr)
         return;
 
     ctx = *ctx_ptr;
-    
+
     if (!ctx)
         return;
 
@@ -979,6 +1012,18 @@ static void read_v(struct mapc_context *ctx, const char *line)
     sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
 }
 
+static void parse_triplet(const char *token, int *vi, int *ti, int *si)
+{
+    *vi = 0;
+    *ti = 0;
+    *si = 0;
+
+    if (sscanf(token, "%d/%d/%d", vi, ti, si) == 3) return;
+    if (sscanf(token, "%d//%d", vi, si) == 2)       return;
+    if (sscanf(token, "%d/%d", vi, ti) == 2)        return;
+    if (sscanf(token, "%d", vi) == 1)               return;
+}
+
 static void read_f(struct mapc_context *ctx, const char *line,
                    int v0, int t0, int s0, int mi)
 {
@@ -989,23 +1034,32 @@ static void read_f(struct mapc_context *ctx, const char *line,
     struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
     struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
 
-    char c1;
-    char c2;
+    char tok1[64] = "";
+    char tok2[64] = "";
+    char tok3[64] = "";
 
-    sscanf(line, "%d%c%d%c%d %d%c%d%c%d %d%c%d%c%d",
-           &op->vi, &c1, &op->ti, &c2, &op->si,
-           &oq->vi, &c1, &oq->ti, &c2, &oq->si,
-           &or->vi, &c1, &or->ti, &c2, &or->si);
+    int vi1 = 0, ti1 = 0, si1 = 0;
+    int vi2 = 0, ti2 = 0, si2 = 0;
+    int vi3 = 0, ti3 = 0, si3 = 0;
 
-    op->vi += (v0 - 1);
-    oq->vi += (v0 - 1);
-    or->vi += (v0 - 1);
-    op->ti += (t0 - 1);
-    oq->ti += (t0 - 1);
-    or->ti += (t0 - 1);
-    op->si += (s0 - 1);
-    oq->si += (s0 - 1);
-    or->si += (s0 - 1);
+    if (sscanf(line, "%63s %63s %63s", tok1, tok2, tok3) == 3)
+    {
+        parse_triplet(tok1, &vi1, &ti1, &si1);
+        parse_triplet(tok2, &vi2, &ti2, &si2);
+        parse_triplet(tok3, &vi3, &ti3, &si3);
+    }
+
+    op->vi = v0 + vi1 - 1;
+    oq->vi = v0 + vi2 - 1;
+    or->vi = v0 + vi3 - 1;
+
+    op->ti = ti1 > 0 ? (t0 + ti1 - 1) : (t0 < fp->tc ? t0 : 0);
+    oq->ti = ti2 > 0 ? (t0 + ti2 - 1) : (t0 < fp->tc ? t0 : 0);
+    or->ti = ti3 > 0 ? (t0 + ti3 - 1) : (t0 < fp->tc ? t0 : 0);
+
+    op->si = si1 > 0 ? (s0 + si1 - 1) : (s0 < fp->sc ? s0 : 0);
+    oq->si = si2 > 0 ? (s0 + si2 - 1) : (s0 < fp->sc ? s0 : 0);
+    or->si = si3 > 0 ? (s0 + si3 - 1) : (s0 < fp->sc ? s0 : 0);
 
     gp->mi  = mi;
 }
@@ -1047,9 +1101,9 @@ static void read_obj(struct mapc_context *ctx, const char *name, int mi)
 
 /*---------------------------------------------------------------------------*/
 
-static void make_plane(struct mapc_context *ctx, int   pi, float x0, float y0, float      z0,
-                       float x1, float y1, float z1,
-                       float x2, float y2, float z2,
+static void make_plane(struct mapc_context *ctx, int   pi, double x0, double y0, double z0,
+                       double x1, double y1, double z1,
+                       double x2, double y2, double z2,
                        float tu, float tv, float r,
                        float su, float sv, int   fl, const char *s)
 {
@@ -1063,8 +1117,9 @@ static void make_plane(struct mapc_context *ctx, int   pi, float x0, float y0, f
     };
 
     float R[16];
-    float p0[3], p1[3], p2[3];
-    float u[3],  v[3],  p[3];
+    double p0[3], p1[3], p2[3];
+    double u[3], v[3];
+    float p[3];
     float k, d = 0.0f;
     int   i, n = 0;
     int   w, h;
@@ -1073,23 +1128,23 @@ static void make_plane(struct mapc_context *ctx, int   pi, float x0, float y0, f
 
     ctx->plane_f[pi] = fl ? L_DETAIL : 0;
 
-    p0[0] = +x0 / SCALE;
-    p0[1] = +z0 / SCALE;
-    p0[2] = -y0 / SCALE;
+    p0[0] = +x0 / (double) SCALE;
+    p0[1] = +z0 / (double) SCALE;
+    p0[2] = -y0 / (double) SCALE;
 
-    p1[0] = +x1 / SCALE;
-    p1[1] = +z1 / SCALE;
-    p1[2] = -y1 / SCALE;
+    p1[0] = +x1 / (double) SCALE;
+    p1[1] = +z1 / (double) SCALE;
+    p1[2] = -y1 / (double) SCALE;
 
-    p2[0] = +x2 / SCALE;
-    p2[1] = +z2 / SCALE;
-    p2[2] = -y2 / SCALE;
+    p2[0] = +x2 / (double) SCALE;
+    p2[1] = +z2 / (double) SCALE;
+    p2[2] = -y2 / (double) SCALE;
 
     v_sub(u, p0, p1);
     v_sub(v, p2, p1);
 
     v_crs(ctx->plane_n[pi], u, v);
-    v_nrm(ctx->plane_n[pi], ctx->plane_n[pi]);
+    v_nrm_d(ctx->plane_n[pi], ctx->plane_n[pi]);
 
     ctx->plane_d[pi] = v_dot(ctx->plane_n[pi], p1);
 
@@ -1137,9 +1192,9 @@ static int map_token(struct mapc_context *ctx, fs_file fin, int pi, char key[MAX
 
     if (fs_gets(buf, MAXSTR, fin))
     {
-        float x0, y0, z0;
-        float x1, y1, z1;
-        float x2, y2, z2;
+        double x0, y0, z0;
+        double x1, y1, z1;
+        double x2, y2, z2;
         float tu, tv, r;
         float su, sv;
         int fl = 0;
@@ -1163,9 +1218,9 @@ static int map_token(struct mapc_context *ctx, fs_file fin, int pi, char key[MAX
         /* Scan a plane. */
 
         if (sscanf(buf,
-                   "( %f %f %f ) "
-                   "( %f %f %f ) "
-                   "( %f %f %f ) "
+                   "( %lf %lf %lf ) "
+                   "( %lf %lf %lf ) "
+                   "( %lf %lf %lf ) "
                    "%s %f %f %f %f %f %d",
                    &x0, &y0, &z0,
                    &x1, &y1, &z1,
@@ -1205,10 +1260,10 @@ static void read_lump(struct mapc_context *ctx, fs_file fin)
     {
         if (t == T_CLP)
         {
-            fp->sv[fp->sc].n[0] = ctx->plane_n[fp->sc][0];
-            fp->sv[fp->sc].n[1] = ctx->plane_n[fp->sc][1];
-            fp->sv[fp->sc].n[2] = ctx->plane_n[fp->sc][2];
-            fp->sv[fp->sc].d    = ctx->plane_d[fp->sc];
+            fp->sv[fp->sc].n[0] = (float) ctx->plane_n[fp->sc][0];
+            fp->sv[fp->sc].n[1] = (float) ctx->plane_n[fp->sc][1];
+            fp->sv[fp->sc].n[2] = (float) ctx->plane_n[fp->sc][2];
+            fp->sv[fp->sc].d    = (float) ctx->plane_d[fp->sc];
 
             ctx->plane_m[fp->sc] = read_mtrl(ctx, k);
 
@@ -1223,6 +1278,30 @@ static void read_lump(struct mapc_context *ctx, fs_file fin)
 }
 
 /*---------------------------------------------------------------------------*/
+
+static void parse_angles(const char *val, float out_e[4])
+{
+    static const float X[3] = { 1.0f, 0.0f, 0.0f };
+    static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+    static const float Z[3] = { 0.0f, 0.0f, 1.0f };
+
+    float x = 0.0f, y = 0.0f, z = 0.0f;
+    float d[4], e[4];
+
+    /* Pitch, yaw and roll. */
+
+    sscanf(val, "%f %f %f", &x, &y, &z);
+
+    q_by_axisangle(out_e, Y, V_RAD(+y));
+
+    q_by_axisangle(d, Z, V_RAD(-x));
+    q_mul(e, out_e, d);
+    q_nrm(out_e, e);
+
+    q_by_axisangle(d, X, V_RAD(+z));
+    q_mul(e, out_e, d);
+    q_nrm(out_e, e);
+}
 
 static void make_path(struct mapc_context *ctx,
                       char k[][MAXSTR],
@@ -1304,27 +1383,7 @@ static void make_path(struct mapc_context *ctx,
 
         if (strcmp(k[i], "angles") == 0)
         {
-            static const float X[3] = { 1.0f, 0.0f, 0.0f };
-            static const float Y[3] = { 0.0f, 1.0f, 0.0f };
-            static const float Z[3] = { 0.0f, 0.0f, 1.0f };
-
-            float x = 0.0f, y = 0.0f, z = 0.0f;
-            float d[4], e[4];
-
-            /* Pitch, yaw and roll. */
-
-            sscanf(v[i], "%f %f %f", &x, &y, &z);
-
-            q_by_axisangle(pp->e, Y, V_RAD(+y));
-
-            q_by_axisangle(d, Z, V_RAD(-x));
-            q_mul(e, pp->e, d);
-            q_nrm(pp->e, e);
-
-            q_by_axisangle(d, X, V_RAD(+z));
-            q_mul(e, pp->e, d);
-            q_nrm(pp->e, e);
-
+            parse_angles(v[i], pp->e);
             pp->fl |= P_ORIENTED;
         }
     }
@@ -1468,6 +1527,12 @@ static void make_item(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &hp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->item_e[hi]);
+            ctx->item_has_e[hi] = 1;
+        }
     }
 }
 
@@ -1528,12 +1593,18 @@ static void make_bill(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &rp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->bill_e[ri]);
+            ctx->bill_has_e[ri] = 1;
+        }
     }
 }
 
 static void make_goal(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, zi = incz(ctx);
@@ -1546,6 +1617,7 @@ static void make_goal(struct mapc_context *ctx,
     zp->r    = 0.75;
 
     zp->p0 = zp->p1 = -1;
+    ctx->goal_is_legacy[zi] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1558,9 +1630,9 @@ static void make_goal(struct mapc_context *ctx,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            zp->p[0] = +(x)      / SCALE;
-            zp->p[1] = +(z - 24) / SCALE;
-            zp->p[2] = -(y)      / SCALE;
+            zp->p[0] = +(x)                     / SCALE;
+            zp->p[1] = +(is_legacy ? z - 24 : z) / SCALE;
+            zp->p[2] = -(y)                     / SCALE;
         }
 
         if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
@@ -1568,6 +1640,17 @@ static void make_goal(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target2") == 0)
             make_ref(ctx, SYM_PATH, v[i], &zp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->goal_e[zi]);
+            ctx->goal_has_e[zi] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->goal_has_e[zi])
+    {
+        zp->p[1] -= GOAL_HALF_EXTENT / SCALE;
     }
 }
 
@@ -1607,7 +1690,7 @@ static void make_view(struct mapc_context *ctx,
 
 static void make_jump(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, ji = incj(ctx);
@@ -1623,6 +1706,7 @@ static void make_jump(struct mapc_context *ctx,
     jp->r    = 0.5;
 
     jp->p0 = jp->p1 = -1;
+    ctx->jump_is_legacy[ji] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1648,12 +1732,23 @@ static void make_jump(struct mapc_context *ctx,
 
         if (strcmp(k[i], "target3") == 0)
             make_ref(ctx, SYM_PATH, v[i], &jp->p1);
+
+        if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->jump_e[ji]);
+            ctx->jump_has_e[ji] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->jump_has_e[ji])
+    {
+        jp->p[1] -= JUMP_HALF_EXTENT / SCALE;
     }
 }
 
 static void make_swch(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, xi = incx(ctx);
@@ -1670,6 +1765,7 @@ static void make_swch(struct mapc_context *ctx,
     xp->i    = 0;
 
     xp->p0 = xp->p1 = -1;
+    ctx->swch_is_legacy[xi] = is_legacy;
 
     for (i = 0; i < c; i++)
     {
@@ -1704,6 +1800,17 @@ static void make_swch(struct mapc_context *ctx,
 
         else if (strcmp(k[i], "target3") == 0)
             make_ref(ctx, SYM_PATH, v[i], &xp->p1);
+
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], ctx->swch_e[xi]);
+            ctx->swch_has_e[xi] = 1;
+        }
+    }
+
+    if (!is_legacy && !ctx->swch_has_e[xi])
+    {
+        xp->p[1] -= SWCH_HALF_EXTENT / SCALE;
     }
 }
 
@@ -1740,7 +1847,7 @@ static void make_targ(struct mapc_context *ctx,
 
 static void make_ball(struct mapc_context *ctx,
                       char k[][MAXSTR],
-                      char v[][MAXSTR], int c)
+                      char v[][MAXSTR], int c, int is_legacy)
 {
     struct s_base *fp = &ctx->file;
     int i, ui = incu(ctx);
@@ -1763,13 +1870,14 @@ static void make_ball(struct mapc_context *ctx,
 
             sscanf(v[i], "%f %f %f", &x, &y, &z);
 
-            up->p[0] = +(x)      / SCALE;
-            up->p[1] = +(z - 24) / SCALE;
-            up->p[2] = -(y)      / SCALE;
+            up->p[0] = +(x)                     / SCALE;
+            up->p[1] = +(is_legacy ? z - 24 : z) / SCALE;
+            up->p[2] = -(y)                     / SCALE;
         }
     }
 
-    up->p[1] += up->r + SMALL;
+    if (is_legacy)
+        up->p[1] += up->r + SMALL;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1799,13 +1907,21 @@ static void read_ent(struct mapc_context *ctx, fs_file fin)
     if (!strcmp(v[i], "item_health_large"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_health_small"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_clock"))               make_item(ctx, k, v, c);
-    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, k, v, c);
+    if (!strcmp(v[i], "info_camp"))                make_swch(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_switch") ||
+        !strcmp(v[i], "info_switch"))              make_swch(ctx, k, v, c, 0);
     if (!strcmp(v[i], "info_null"))                make_bill(ctx, k, v, c);
     if (!strcmp(v[i], "path_corner"))              make_path(ctx, k, v, c);
-    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_start"))        make_ball(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_ball") ||
+        !strcmp(v[i], "info_ball"))                make_ball(ctx, k, v, c, 0);
     if (!strcmp(v[i], "info_player_intermission")) make_view(ctx, k, v, c);
-    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, k, v, c);
-    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, k, v, c);
+    if (!strcmp(v[i], "info_player_deathmatch"))   make_goal(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_goal") ||
+        !strcmp(v[i], "info_goal"))                make_goal(ctx, k, v, c, 0);
+    if (!strcmp(v[i], "target_teleporter"))        make_jump(ctx, k, v, c, 1);
+    if (!strcmp(v[i], "game_jump") ||
+        !strcmp(v[i], "info_jump"))                make_jump(ctx, k, v, c, 0);
     if (!strcmp(v[i], "target_position"))          make_targ(ctx, k, v, c);
     if (!strcmp(v[i], "worldspawn"))
     {
@@ -1836,40 +1952,51 @@ static void read_map(struct mapc_context *ctx, fs_file fin)
 
 /* Test the location of a point with respect to a side plane. */
 
-static int fore_side(const float p[3], const struct b_side *sp)
+static void vert_side_add(struct mapc_context *ctx, int vi, int si)
 {
-    return (v_dot(p, sp->n) - sp->d > +SMALL) ? 1 : 0;
-}
-
-static int on_side(const float p[3], const struct b_side *sp)
-{
-    float d = v_dot(p, sp->n) - sp->d;
-
-    return (-SMALL < d && d < +SMALL) ? 1 : 0;
-}
-
-/*---------------------------------------------------------------------------*/
-/*
- * Confirm  that  the addition  of  a vert  would  not  result in  degenerate
- * geometry.
- */
-
-static int ok_vert(const struct s_base *fp,
-                   const struct b_lump *lp, const float p[3])
-{
-    float r[3];
     int i;
 
+    for (i = 0; i < ctx->vert_plane_count[vi]; i++)
+        if (ctx->vert_planes[vi][i] == si)
+            return;
+
+    if (ctx->vert_plane_count[vi] < MAX_VERT_PLANES)
+    {
+        ctx->vert_planes[vi][ctx->vert_plane_count[vi]] = si;
+        ctx->vert_plane_count[vi]++;
+        return;
+    }
+
+    overflow(ctx, "vertex plane");
+}
+
+static int vert_side_test(struct mapc_context *ctx, int vi, int si)
+{
+    int i;
+
+    for (i = 0; i < ctx->vert_plane_count[vi]; i++)
+        if (ctx->vert_planes[vi][i] == si)
+            return 1;
+
+    return 0;
+}
+
+static int vert_lump_find(const struct s_base *fp,
+                          const struct b_lump *lp, const float p[3])
+{
+    int i;
     for (i = 0; i < lp->vc; i++)
     {
-        float *q = fp->vv[fp->iv[lp->v0 + i]].p;
+        int vi = fp->iv[lp->v0 + i];
+        float *q = fp->vv[vi].p;
 
-        v_sub(r, p, q);
-
-        if (v_len(r) < SMALL)
-            return 0;
+        /* Component-wise testing provides an axis-aligned neighborhood for merging. */
+        if (fabsf(p[0] - q[0]) < SMALL_VERT &&
+            fabsf(p[1] - q[1]) < SMALL_VERT &&
+            fabsf(p[2] - q[2]) < SMALL_VERT)
+            return vi;
     }
-    return 1;
+    return -1;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1893,46 +2020,79 @@ static void clip_vert(struct mapc_context *ctx,
                       struct b_lump *lp, int si, int sj, int sk)
 {
     struct s_base *fp = &ctx->file;
-    float M[16], X[16], I[16];
-    float d[3],  p[3];
     int i;
+    double X[9], I[9], d[3], p[3];
+    float p3f[3];
 
-    d[0] = fp->sv[si].d;
-    d[1] = fp->sv[sj].d;
-    d[2] = fp->sv[sk].d;
+    d[0] = ctx->plane_d[si];
+    d[1] = ctx->plane_d[sj];
+    d[2] = ctx->plane_d[sk];
 
-    m_basis(M, fp->sv[si].n, fp->sv[sj].n, fp->sv[sk].n);
-    m_xps(X, M);
+    X[0] = ctx->plane_n[si][0];
+    X[1] = ctx->plane_n[sj][0];
+    X[2] = ctx->plane_n[sk][0];
 
-    if (m_inv(I, X))
+    X[3] = ctx->plane_n[si][1];
+    X[4] = ctx->plane_n[sj][1];
+    X[5] = ctx->plane_n[sk][1];
+
+    X[6] = ctx->plane_n[si][2];
+    X[7] = ctx->plane_n[sj][2];
+    X[8] = ctx->plane_n[sk][2];
+
+    if (m_inv3d(I, X))
     {
-        m_vxfm(p, I, d);
+        m_vxfm3d(p, I, d);
+
+        p3f[0] = (float) p[0];
+        p3f[1] = (float) p[1];
+        p3f[2] = (float) p[2];
+
+        /*
+         * Verify that the generated vertex lies inside the convex lump by
+         * testing it against every plane that defines the lump.
+         */
+
+        int sls[MAX_VERT_PLANES]; /* Planes this vertex lies on. */
+        int slc = 0;
 
         for (i = 0; i < lp->sc; i++)
         {
             int sl = fp->iv[lp->s0 + i];
 
-            if (fore_side(p, fp->sv + sl))
+            /* The point's distance from the origin along the plane's normal. */
+            double pd = v_dot(ctx->plane_n[sl], p);
+
+            /* Short-circuit: if the point is significantly in front of any plane, it's outside the lump. */
+            if (pd - ctx->plane_d[sl] > SMALL_CLIP)
                 return;
+
+            /* If the point is within clip range from plane, record connectivity. */
+            if (fabs(pd - ctx->plane_d[sl]) < SMALL_CLIP)
+            {
+                if (slc < MAX_VERT_PLANES)
+                    sls[slc++] = sl;
+                else
+                    overflow(ctx, "vertex plane");
+            }
         }
 
-        if (ok_vert(fp, lp, p))
+        int vi = vert_lump_find(fp, lp, p3f);
+
+        if (vi < 0)
         {
-            int vi = incv(ctx);
-
-            v_cpy(fp->vv[vi].p, p);
-
+            vi = incv(ctx);
+            v_cpy(fp->vv[vi].p, p3f);
+            ctx->vert_plane_count[vi] = 0;
             fp->iv[inci(ctx)] = vi;
             lp->vc++;
         }
+
+        for (i = 0; i < slc; i++)
+            vert_side_add(ctx, vi, sls[i]);
     }
 }
 
-/*
- * Given two  side planes,  find an edge  along their  intersection by
- * finding a pair of vertices that fall on both planes.  Add it to the
- * solid.
- */
 static void clip_edge(struct mapc_context *ctx,
                       struct b_lump *lp, int si, int sj)
 {
@@ -1943,16 +2103,16 @@ static void clip_edge(struct mapc_context *ctx,
     {
         int vi = fp->iv[lp->v0 + i];
 
-        if (!on_side(fp->vv[vi].p, fp->sv + si) ||
-            !on_side(fp->vv[vi].p, fp->sv + sj))
+        if (!vert_side_test(ctx, vi, si) ||
+            !vert_side_test(ctx, vi, sj))
             continue;
 
         for (j = 0; j < i; j++)
         {
             int vj = fp->iv[lp->v0 + j];
 
-            if (on_side(fp->vv[vj].p, fp->sv + si) &&
-                on_side(fp->vv[vj].p, fp->sv + sj))
+            if (vert_side_test(ctx, vj, si) &&
+                vert_side_test(ctx, vj, sj))
             {
                 fp->ev[fp->ec].vi = vi;
                 fp->ev[fp->ec].vj = vj;
@@ -1977,11 +2137,7 @@ static void clip_geom(struct mapc_context *ctx,
 {
     struct s_base *fp = &ctx->file;
     int   m[256], t[256], d, i, j, n = 0;
-    float u[3];
-    float v[3];
-    float w[3];
-
-    struct b_side *sp = fp->sv + si;
+    double u[3], v[3], w[3];
 
     /* Find em. */
 
@@ -1989,15 +2145,17 @@ static void clip_geom(struct mapc_context *ctx,
     {
         int vi = fp->iv[lp->v0 + i];
 
-        if (on_side(fp->vv[vi].p, sp))
+        if (vert_side_test(ctx, vi, si))
         {
+            float p[3];
+
             m[n] = vi;
             t[n] = inct(ctx);
 
-            v_add(v, fp->vv[vi].p, ctx->plane_p[si]);
+            v_add(p, fp->vv[vi].p, ctx->plane_p[si]);
 
-            fp->tv[t[n]].u[0] = v_dot(v, ctx->plane_u[si]);
-            fp->tv[t[n]].u[1] = v_dot(v, ctx->plane_v[si]);
+            fp->tv[t[n]].u[0] = v_dot(p, ctx->plane_u[si]);
+            fp->tv[t[n]].u[1] = v_dot(p, ctx->plane_v[si]);
 
             if (++n >= ARRAYSIZE(m))
             {
@@ -2012,11 +2170,20 @@ static void clip_geom(struct mapc_context *ctx,
     for (i = 1; i < n; i++)
         for (j = i + 1; j < n; j++)
         {
-            v_sub(u, fp->vv[m[i]].p, fp->vv[m[0]].p);
-            v_sub(v, fp->vv[m[j]].p, fp->vv[m[0]].p);
+            double vip[3], vjp[3], v0p[3];
+
+            // Upgrade to double precision to prevent flipped windings.
+
+            v_cpy(vip, fp->vv[m[i]].p);
+            v_cpy(vjp, fp->vv[m[j]].p);
+            v_cpy(v0p, fp->vv[m[0]].p);
+
+            v_sub(u, vip, v0p);
+            v_sub(v, vjp, v0p);
+
             v_crs(w, u, v);
 
-            if (v_dot(w, sp->n) < 0.f)
+            if (v_dot(w, ctx->plane_n[si]) < 0.0)
             {
                 d     = m[i];
                 m[i]  = m[j];
@@ -2150,15 +2317,6 @@ static int comp_mtrl(const struct b_mtrl *mp, const struct b_mtrl *mq)
     return 1;
 }
 
-static int comp_vert(const struct b_vert *vp, const struct b_vert *vq)
-{
-    if (fabsf(vp->p[0] - vq->p[0]) > SMALL) return 0;
-    if (fabsf(vp->p[1] - vq->p[1]) > SMALL) return 0;
-    if (fabsf(vp->p[2] - vq->p[2]) > SMALL) return 0;
-
-    return 1;
-}
-
 static int comp_edge(const struct b_edge *ep, const struct b_edge *eq)
 {
     if (ep->vi != eq->vi && ep->vi != eq->vj) return 0;
@@ -2169,8 +2327,8 @@ static int comp_edge(const struct b_edge *ep, const struct b_edge *eq)
 
 static int comp_side(const struct b_side *sp, const struct b_side *sq)
 {
-    if (fabsf(sp->d - sq->d) > SMALL) return 0;
-    if (v_dot(sp->n,  sq->n) < 1.0f)  return 0;
+    if (sp->d != sq->d) return 0;
+    if (v_dot(sp->n, sq->n) < 1.0f) return 0;
 
     return 1;
 }
@@ -2247,25 +2405,6 @@ static void apply_mtrl_swaps(struct mapc_context *ctx, struct s_base *fp)
         fp->gv[i].mi = ctx->mtrl_swaps[fp->gv[i].mi];
     for (i = 0; i < fp->rc; i++)
         fp->rv[i].mi = ctx->mtrl_swaps[fp->rv[i].mi];
-}
-
-
-static void apply_vert_swaps(struct mapc_context *ctx, struct s_base *fp)
-{
-    int i, j;
-
-    for (i = 0; i < fp->ec; i++)
-    {
-        fp->ev[i].vi = ctx->vert_swaps[fp->ev[i].vi];
-        fp->ev[i].vj = ctx->vert_swaps[fp->ev[i].vj];
-    }
-
-    for (i = 0; i < fp->oc; i++)
-        fp->ov[i].vi = ctx->vert_swaps[fp->ov[i].vi];
-
-    for (i = 0; i < fp->lc; i++)
-        for (j = 0; j < fp->lv[i].vc; j++)
-            fp->iv[fp->lv[i].v0 + j] = ctx->vert_swaps[fp->iv[fp->lv[i].v0 + j]];
 }
 
 static void apply_edge_swaps(struct mapc_context *ctx, struct s_base *fp)
@@ -2352,32 +2491,6 @@ static void uniq_mtrl(struct mapc_context *ctx)
     fp->mc = k;
 }
 
-static void uniq_vert(struct mapc_context *ctx)
-{
-    struct s_base *fp = &ctx->file;
-    int i, j, k = 0;
-
-    for (i = 0; i < fp->vc; i++)
-    {
-        for (j = 0; j < k; j++)
-            if (comp_vert(fp->vv + i, fp->vv + j))
-                break;
-
-        ctx->vert_swaps[i] = j;
-
-        if (j == k)
-        {
-            if (i != k)
-                fp->vv[k] = fp->vv[i];
-            k++;
-        }
-    }
-
-    apply_vert_swaps(ctx, fp);
-
-    fp->vc = k;
-}
-
 static void uniq_edge(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
@@ -2425,7 +2538,7 @@ static void uniq_offs(struct mapc_context *ctx)
         }
     }
 
-    apply_offs_swaps(ctx,fp);
+    apply_offs_swaps(ctx, fp);
 
     fp->oc = k;
 }
@@ -2451,7 +2564,7 @@ static void uniq_geom(struct mapc_context *ctx)
         }
     }
 
-    apply_geom_swaps(ctx,fp);
+    apply_geom_swaps(ctx, fp);
 
     fp->gc = k;
 }
@@ -2503,7 +2616,7 @@ static void uniq_side(struct mapc_context *ctx)
         }
     }
 
-    apply_side_swaps(ctx,fp);
+    apply_side_swaps(ctx, fp);
 
     fp->sc = k;
 }
@@ -2515,9 +2628,7 @@ static void uniq_file(struct mapc_context *ctx)
     if (ctx->opt_debug == 0)
     {
         uniq_mtrl(ctx);
-        uniq_vert(ctx);
         uniq_edge(ctx);
-        uniq_side(ctx);
         uniq_texc(ctx);
         uniq_offs(ctx);
         uniq_geom(ctx);
@@ -2528,6 +2639,7 @@ static void uniq_file(struct mapc_context *ctx)
 
 struct b_trip
 {
+    int ci;
     int vi;
     int mi;
     int si;
@@ -2539,8 +2651,8 @@ static int comp_trip(const void *p, const void *q)
     const struct b_trip *tp = (const struct b_trip *) p;
     const struct b_trip *tq = (const struct b_trip *) q;
 
-    if (tp->vi < tq->vi) return -1;
-    if (tp->vi > tq->vi) return +1;
+    if (tp->ci < tq->ci) return -1;
+    if (tp->ci > tq->ci) return +1;
     if (tp->mi < tq->mi) return -1;
     if (tp->mi > tq->mi) return +1;
 
@@ -2554,6 +2666,32 @@ static void smth_file(struct mapc_context *ctx)
 
     if (ctx->opt_debug == 0)
     {
+        /* Build vertex equivalence map by position. */
+
+        int *canonical_verts = (int *) malloc(fp->vc * sizeof (int));
+        int idx;
+
+        if (canonical_verts)
+        {
+            for (idx = 0; idx < fp->vc; idx++)
+            {
+                int jdx;
+
+                for (jdx = 0; jdx < idx; jdx++)
+                    if (fabsf(fp->vv[idx].p[0] - fp->vv[jdx].p[0]) < SMALL_VERT &&
+                        fabsf(fp->vv[idx].p[1] - fp->vv[jdx].p[1]) < SMALL_VERT &&
+                        fabsf(fp->vv[idx].p[2] - fp->vv[jdx].p[2]) < SMALL_VERT)
+                        break;
+
+                canonical_verts[idx] = jdx;
+            }
+        }
+        else
+        {
+            overflow(ctx, "canonical vertices");
+            return;
+        }
+
         if ((T = (struct b_trip *) malloc(fp->gc * 3 * sizeof (struct b_trip))))
         {
             int gi, i, j, k, l, c = 0;
@@ -2568,18 +2706,21 @@ static void smth_file(struct mapc_context *ctx)
                 T[c].si = fp->ov[gp->oi].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
 
                 T[c].vi = fp->ov[gp->oj].vi;
                 T[c].si = fp->ov[gp->oj].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
 
                 T[c].vi = fp->ov[gp->ok].vi;
                 T[c].si = fp->ov[gp->ok].si;
                 T[c].mi = gp->mi;
                 T[c].gi = gi;
+                T[c].ci = canonical_verts[T[c].vi];
                 c++;
             }
 
@@ -2594,37 +2735,41 @@ static void smth_file(struct mapc_context *ctx)
                 int acc = 0;
 
                 float N[3], angle = fp->mv[T[i].mi].angle;
-                const float   *Ni = fp->sv[T[i].si].n;
+                const float   *Ni  = (T[i].si >= 0) ? fp->sv[T[i].si].n : NULL;
 
                 /* Sort the set by side similarity to the first. */
 
-                for (j = i + 1; j < c && (T[j].vi == T[i].vi &&
-                                          T[j].mi == T[i].mi); ++j)
+                if (Ni)
                 {
-                    for (k = j + 1; k < c && (T[k].vi == T[i].vi &&
-                                              T[k].mi == T[i].mi); ++k)
+                    for (j = i + 1; j < c && (T[j].ci == T[i].ci &&
+                                              T[j].mi == T[i].mi); ++j)
                     {
-                        const float *Nj = fp->sv[T[j].si].n;
-                        const float *Nk = fp->sv[T[k].si].n;
-
-                        if (T[j].si != T[k].si && v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                        for (k = j + 1; k < c && (T[k].ci == T[i].ci &&
+                                                  T[k].mi == T[i].mi); ++k)
                         {
-                            temp = T[k];
-                            T[k] = T[j];
-                            T[j] = temp;
+                            const float *Nj = fp->sv[T[j].si].n;
+                            const float *Nk = fp->sv[T[k].si].n;
+
+                            if (v_dot(Nk, Ni) > v_dot(Nj, Ni))
+                            {
+                                temp = T[k];
+                                T[k] = T[j];
+                                T[j] = temp;
+                            }
                         }
                     }
+
+                    /* Accumulate all similar side normals. */
+
+                    N[0] = Ni[0];
+                    N[1] = Ni[1];
+                    N[2] = Ni[2];
                 }
 
-                /* Accumulate all similar side normals. */
-
-                N[0] = Ni[0];
-                N[1] = Ni[1];
-                N[2] = Ni[2];
-
-                for (l = i + 1; l < c && (T[l].vi == T[i].vi &&
-                                          T[l].mi == T[i].mi); ++l)
-                    if (T[l].si != T[i].si)
+                for (l = i + 1; l < c && (T[l].ci == T[i].ci &&
+                                           T[l].mi == T[i].mi); ++l)
+                {
+                    if (Ni && v_dot(fp->sv[T[l].si].n, Ni) < 1.0f)
                     {
                         const float *Nl = fp->sv[T[l].si].n;
                         float deg = V_DEG(facosf(v_dot(Ni, Nl)));
@@ -2638,10 +2783,11 @@ static void smth_file(struct mapc_context *ctx)
 
                         acc++;
                     }
+                }
 
                 /* If at least two normals have been accumulated... */
 
-                if (acc)
+                if (acc && Ni)
                 {
                     /* Store the accumulated normal as a new side. */
 
@@ -2673,6 +2819,8 @@ static void smth_file(struct mapc_context *ctx)
 
             free(T);
         }
+
+        free(canonical_verts);
 
         uniq_side(ctx);
         uniq_offs(ctx);
@@ -2807,8 +2955,8 @@ static int test_lump_side(const struct s_base *fp,
     {
         d = v_dot(fp->vv[fp->iv[lp->v0 + vi]].p, sp->n) - sp->d;
 
-        if (d > 0) f++;
-        if (d < 0) b++;
+        if (d > +SMALL_NODE) f++;
+        if (d < -SMALL_NODE) b++;
     }
 
     /* If no verts are behind, the lump is in front, and vice versa. */
@@ -3071,7 +3219,7 @@ static void dump_init(struct s_base *fp)
 
 void mapc_dump(struct mapc_context *ctx)
 {
-    const char *name = STR(ctx->dst_path);
+    const char *name = CSTR(ctx->dst_path);
     double t = ctx->compile_time;
 
     struct s_base *p = &ctx->file;
@@ -3200,24 +3348,24 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
 
             if (str_ends_with(ctx->opt_file, ".map"))
             {
-                ctx->dst_path = joinstr(
-                    SUBSTR(ctx->opt_file, 0, strlen(ctx->opt_file) - 4u),
-                    ".sol"
-                );
+                STRBUF name_part = substr(ctx->opt_file, 0, strlen(ctx->opt_file) - 4u);
+                ctx->dst_path = joinstr(CSTR(name_part), ".sol");
             }
             else
                 ctx->dst_path = joinstr(ctx->opt_file, ".sol");
-            
-            fs_add_path(DIR_NAME(STR(ctx->src_path)));
 
-            fs_set_write_dir(DIR_NAME(STR(ctx->dst_path)));
+            STRBUF src_dir = dir_name_strbuf(CSTR(ctx->src_path));
+            fs_add_path(CSTR(src_dir));
+
+            STRBUF dst_dir = dir_name_strbuf(CSTR(ctx->dst_path));
+            fs_set_write_dir(CSTR(dst_dir));
 
             // Save the full path for the dump.
 
             ctx->full_dst_path = ctx->dst_path;
 
-            ctx->src_path = base_name_strbuf(STR(ctx->src_path));
-            ctx->dst_path = base_name_strbuf(STR(ctx->dst_path));
+            ctx->src_path = base_name_strbuf(CSTR(ctx->src_path));
+            ctx->dst_path = base_name_strbuf(CSTR(ctx->dst_path));
         }
         else if (!ctx->opt_data)
         {
@@ -3238,12 +3386,198 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
     return 1;
 }
 
+static void calc_cylinder_pos(float p[3], const float e[4], float extent)
+{
+    float local_down[3] = { 0.0f, -extent / SCALE, 0.0f };
+    float world_offset[3];
+
+    q_rot(world_offset, e, local_down);
+    v_add(p, p, world_offset);
+}
+
+/*
+ * Synthesize a stationary child orientation path node (P_PARENTED | P_ORIENTED)
+ * linked to the parent mover at p0, and transform the entity's initial world
+ * position into the local reference frame of the parent body.
+ */
+static void make_parented_path(struct mapc_context *ctx,
+                               float p[3], int p0, int *p1, const float e[4])
+{
+    struct s_base *fp = &ctx->file;
+    float inv_e[4], d[3];
+
+    int pi = incp(ctx);
+    struct b_path *pp = fp->pv + pi;
+    memset(pp, 0, sizeof (*pp));
+    pp->pi = pi;
+    pp->t  = 1.0f;
+    pp->f  = 1;
+    pp->s  = 1;
+    pp->p0 = p0;
+    pp->p1 = p0;
+    pp->fl |= P_PARENTED | P_ORIENTED;
+    q_cpy(pp->e, e);
+    *p1 = pi;
+
+    if (p)
+    {
+        v_sub(d, p, fp->pv[p0].p);
+        q_conj(inv_e, e);
+        q_rot(d, inv_e, d);
+        v_add(p, fp->pv[p0].p, d);
+    }
+}
+
+static const char *get_sym_name(const struct mapc_context *ctx, int type, int val)
+{
+    int i;
+    for (i = 0; i < ctx->symc; i++)
+        if (ctx->syms[i].type == type && ctx->syms[i].val == val)
+            return ctx->syms[i].name;
+    return NULL;
+}
+
+static void check_oriented_path(struct mapc_context *ctx, int p0, int has_angles)
+{
+    struct s_base *fp = &ctx->file;
+
+    if (p0 >= 0 && (fp->pv[p0].fl & P_ORIENTED))
+    {
+        char buf[MAXSTR];
+        const char *name = get_sym_name(ctx, SYM_PATH, p0);
+
+        SAFECPY(buf, ctx->opt_file ? ctx->opt_file : "mapc");
+        if (has_angles)
+            SAFECAT(buf, ": warning: entity with angles connected to oriented path");
+        else
+            SAFECAT(buf, ": warning: entity connected to path node with initial angles");
+
+        if (name && *name)
+        {
+            SAFECAT(buf, " \"");
+            SAFECAT(buf, name);
+            SAFECAT(buf, "\"");
+        }
+        SAFECAT(buf, " (in-game orientation will differ from editor)\n");
+        WARNING(ctx, buf);
+    }
+}
+
+/*
+ * Synthesize a stationary unparented orientation path node (P_ORIENTED)
+ * holding a constant orientation e for an unmoving entity.
+ */
+static void make_stationary_path(struct mapc_context *ctx,
+                                 const float p[3], int *p0, int *p1, const float e[4])
+{
+    struct s_base *fp = &ctx->file;
+
+    int pi = incp(ctx);
+    struct b_path *pp = fp->pv + pi;
+    memset(pp, 0, sizeof (*pp));
+    pp->pi = pi;
+    pp->t  = 1.0f;
+    pp->f  = 1;
+    pp->s  = 1;
+    pp->p0 = -1;
+    pp->p1 = -1;
+    pp->fl |= P_ORIENTED;
+    v_cpy(pp->p, p);
+    q_cpy(pp->e, e);
+    *p0 = pi;
+    *p1 = pi;
+}
+
+/*
+ * Synthesize an orientation path node for an angled entity if no explicit
+ * rotation path (p1) was already assigned.
+ */
+static void turn_entity(struct mapc_context *ctx,
+                        float p[3], int *p0, int *p1, const float e[4])
+{
+    if (*p0 >= 0 && *p1 < 0)
+        make_parented_path(ctx, p, *p0, p1, e);
+    else if (*p0 < 0 && *p1 < 0)
+        make_stationary_path(ctx, p, p0, p1, e);
+}
+
+static void turn_file(struct mapc_context *ctx)
+{
+    struct s_base *fp = &ctx->file;
+    int i;
+
+    /* Bodies (func_train) */
+    for (i = 0; i < fp->bc; i++)
+        if (fp->bv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->bv[i].p0, 0);
+
+    /* Items */
+    for (i = 0; i < fp->hc; i++)
+    {
+        if (fp->hv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->hv[i].p0, ctx->item_has_e[i]);
+        if (ctx->item_has_e[i])
+            turn_entity(ctx, fp->hv[i].p, &fp->hv[i].p0, &fp->hv[i].p1, ctx->item_e[i]);
+    }
+
+    /* Goals */
+    for (i = 0; i < fp->zc; i++)
+    {
+        if (fp->zv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->zv[i].p0, ctx->goal_has_e[i]);
+        if (ctx->goal_has_e[i])
+        {
+            if (!ctx->goal_is_legacy[i])
+                calc_cylinder_pos(fp->zv[i].p, ctx->goal_e[i], GOAL_HALF_EXTENT);
+
+            turn_entity(ctx, fp->zv[i].p, &fp->zv[i].p0, &fp->zv[i].p1, ctx->goal_e[i]);
+        }
+    }
+
+    /* Teleporters */
+    for (i = 0; i < fp->jc; i++)
+    {
+        if (fp->jv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->jv[i].p0, ctx->jump_has_e[i]);
+        if (ctx->jump_has_e[i])
+        {
+            if (!ctx->jump_is_legacy[i])
+                calc_cylinder_pos(fp->jv[i].p, ctx->jump_e[i], JUMP_HALF_EXTENT);
+
+            turn_entity(ctx, fp->jv[i].p, &fp->jv[i].p0, &fp->jv[i].p1, ctx->jump_e[i]);
+        }
+    }
+
+    /* Switches */
+    for (i = 0; i < fp->xc; i++)
+    {
+        if (fp->xv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->xv[i].p0, ctx->swch_has_e[i]);
+        if (ctx->swch_has_e[i])
+        {
+            if (!ctx->swch_is_legacy[i])
+                calc_cylinder_pos(fp->xv[i].p, ctx->swch_e[i], SWCH_HALF_EXTENT);
+
+            turn_entity(ctx, fp->xv[i].p, &fp->xv[i].p0, &fp->xv[i].p1, ctx->swch_e[i]);
+        }
+    }
+
+    /* Billboards */
+    for (i = 0; i < fp->rc; i++)
+    {
+        if (fp->rv[i].p0 >= 0)
+            check_oriented_path(ctx, fp->rv[i].p0, ctx->bill_has_e[i]);
+        if (ctx->bill_has_e[i])
+            turn_entity(ctx, fp->rv[i].p, &fp->rv[i].p0, &fp->rv[i].p1, ctx->bill_e[i]);
+    }
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void mapc_compile_internal(struct mapc_context *ctx)
 {
-    const char *src = STR(ctx->src_path);
-    const char *dst = STR(ctx->dst_path);
+    const char *src = CSTR(ctx->src_path);
+    const char *dst = CSTR(ctx->dst_path);
 
     struct timeval time0, time1;
 
@@ -3267,6 +3601,7 @@ static void mapc_compile_internal(struct mapc_context *ctx)
         resolve(ctx);
         targets(ctx);
 
+        turn_file(ctx);
         clip_file(ctx);
         move_file(ctx);
         uniq_file(ctx);

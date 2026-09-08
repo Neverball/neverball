@@ -23,6 +23,7 @@
 #include "common.h"
 #include "config.h"
 #include "level.h"
+#include "strbuf/substr.h"
 #include "set.h"
 #include "log.h"
 #include "lang.h"
@@ -219,9 +220,106 @@ const char *level_name(const struct level *level)
 
 const char *level_msg(const struct level *level)
 {
-    if (strlen(level->message) > 0)
+    if (level && strlen(level->message) > 0)
         return _(level->message);
     return "";
+}
+
+/*
+ * Level title conventions originated in Nevermania (=Title=)
+ * and expanded with chmod's levels (delimiters, brackets, prefixes).
+ */
+
+static int is_bracket_open(char c)
+{
+    return c == '(' || c == '[' || c == '{' || c == '<' || c == '>';
+}
+
+static int is_bracket_close(char c)
+{
+    return c == ')' || c == ']' || c == '}' || c == '>' || c == '<';
+}
+
+static int is_wrapper(char c)
+{
+    return c == '=' || c == '~' || c == '!' || c == ':' || c == '>' ||
+           is_bracket_open(c);
+}
+
+STRBUF level_title(const struct level *level)
+{
+    const char *msg = level_msg(level);
+
+    if (!msg || !*msg)
+        return strbuf("");
+
+    if (strncmp(msg, "Name:", 5) == 0)
+    {
+        const char *p = msg + 5;
+        while (*p == ' ') p++;
+        return substr(p, 0, strcspn(p, "\\\r\n"));
+    }
+    if (strncmp(msg, "Level:", 6) == 0)
+    {
+        const char *p = msg + 6;
+        while (*p == ' ') p++;
+        return substr(p, 0, strcspn(p, "\\\r\n"));
+    }
+
+    if (is_wrapper(*msg))
+    {
+        size_t len = strcspn(msg, "\\\r\n");
+        const char *p = msg;
+        const char *q = msg + len - 1;
+        char wrap = *msg;
+
+        while (q >= p && *q == ' ')
+            q--;
+
+        if (is_bracket_open(wrap))
+        {
+            if (q >= p && is_bracket_close(*q))
+            {
+                while (p <= q && (is_bracket_open(*p) || *p == ' '))
+                    p++;
+                while (q >= p && (is_bracket_close(*q) || *q == ' '))
+                    q--;
+
+                if (p <= q)
+                    return substr(p, 0, q - p + 1);
+            }
+        }
+        else
+        {
+            if (q >= p && *q == wrap)
+            {
+                while (p <= q && (*p == wrap || *p == ' '))
+                    p++;
+                while (q >= p && (*q == wrap || *q == ' '))
+                    q--;
+
+                if (p <= q)
+                    return substr(p, 0, q - p + 1);
+            }
+        }
+    }
+
+    return strbuf("");
+}
+
+const char *level_desc(const struct level *level)
+{
+    const char *msg = level_msg(level);
+    STRBUF title = level_title(level);
+
+    if (msg && *CSTR(title))
+    {
+        const char *d = msg + strcspn(msg, "\\\r\n");
+        while (*d == '\r' || *d == '\n' || *d == '\\')
+            d++;
+        return d;
+    }
+    return msg ? msg : "";
 }
 
 const struct score *level_score(struct level *level, int s)

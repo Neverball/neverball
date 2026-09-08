@@ -45,6 +45,9 @@ int read_line(char **dst, fs_file fin)
     char *line, *new;
     size_t len0, len1;
 
+    if (!dst || !fin)
+        return 0;
+
     line = NULL;
 
     while (fs_gets(buff, sizeof (buff), fin))
@@ -62,6 +65,9 @@ int read_line(char **dst, fs_file fin)
             line = strdup(buff);
         }
 
+        if (!line)
+            break;
+
         /* Strip newline, if any. */
 
         len0 = strlen(line);
@@ -71,12 +77,15 @@ int read_line(char **dst, fs_file fin)
         if (len1 != len0)
         {
             /* We hit a newline, clean up and break. */
-            line = realloc(line, len1 + 1);
+            new = realloc(line, len1 + 1);
+            if (new)
+                line = new;
             break;
         }
     }
 
-    return (*dst = line) ? 1 : 0;
+    *dst = line;
+    return line ? 1 : 0;
 }
 
 char *strip_newline(char *str)
@@ -233,7 +242,11 @@ int path_is_abs(const char *path)
 
 char *path_join(const char *head, const char *tail)
 {
-    return *head ? concat_string(head, "/", tail, NULL) : strdup(tail);
+    if (!head || !*head)
+        return tail ? strdup(tail) : NULL;
+    if (!tail || !*tail)
+        return strdup(head);
+    return concat_string(head, "/", tail, NULL);
 }
 
 const char *path_last_sep(const char *path)

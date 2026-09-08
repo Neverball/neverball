@@ -26,8 +26,14 @@ autosave
 /js/neverball.data
 /js/neverball.js
 /js/neverball.wasm
+/js/service-worker.js
 /js/mapc.js
 /js/mapc.wasm
 /js/packages
 /base-neverball.zip
-/packages
+/.worktrees
+/build
+/.ast-cache
+/.tree-sitter-cache
+/tests/test
+/tests/test.exe

@@ -82,7 +82,7 @@ static int find_mtrl(const char *name)
 /*
  * Load a material texture.
  */
-static GLuint find_texture(const char *name)
+static GLuint find_texture(const char *name, int fl)
 {
     char path[MAXSTR];
     GLuint o;
@@ -92,7 +92,7 @@ static GLuint find_texture(const char *name)
     {
         CONCAT_PATH(path, &tex_paths[i], name);
 
-        if ((o = make_image_from_file(path, IF_MIPMAP)))
+        if ((o = make_image_from_file(path, fl)))
             return o;
     }
     return 0;
@@ -103,6 +103,8 @@ static GLuint find_texture(const char *name)
  */
 static void load_mtrl_objects(struct mtrl *mp)
 {
+    int fl = (mp->base.fl & M_FILTER_NEAREST) ? 0 : IF_MIPMAP;
+
     /* Make sure not to leak an already loaded object. */
 
     if (mp->o || !mp->base.f[0])
@@ -110,7 +112,7 @@ static void load_mtrl_objects(struct mtrl *mp)
 
     /* Load the texture. */
 
-    if ((mp->o = find_texture(_(mp->base.f))))
+    if ((mp->o = find_texture(_(mp->base.f), fl)))
     {
         /* Set the texture to clamp or repeat based on material type. */
 
@@ -123,6 +125,12 @@ static void load_mtrl_objects(struct mtrl *mp)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         else
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        if (mp->base.fl & M_FILTER_NEAREST)
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        }
     }
     else
         log_printf("Failed to load texture \"%s\"\n", _(mp->base.f));
@@ -177,8 +185,12 @@ static void free_mtrl(struct mtrl *mp)
 int mtrl_cache(const struct b_mtrl *base)
 {
     struct mtrl *mp;
+    int mi;
 
-    int mi = find_mtrl(base->f);
+    if (!base)
+        return -1;
+
+    mi = find_mtrl(base->f);
 
     if (mi < 0)
     {
@@ -190,7 +202,7 @@ int mtrl_cache(const struct b_mtrl *base)
         {
             mp = array_get(mtrls, i);
 
-            if (mp->refc == 0)
+            if (mp && mp->refc == 0)
             {
                 load_mtrl(mp, base);
                 mp->refc++;
@@ -211,7 +223,8 @@ int mtrl_cache(const struct b_mtrl *base)
     else
     {
         mp = array_get(mtrls, mi);
-        mp->refc++;
+        if (mp)
+            mp->refc++;
     }
 
     return mi;
@@ -226,7 +239,7 @@ void mtrl_free(int mi)
     {
         struct mtrl *mp = array_get(mtrls, mi);
 
-        if (mp->refc > 0)
+        if (mp && mp->refc > 0)
         {
             mp->refc--;
 
@@ -241,7 +254,14 @@ void mtrl_free(int mi)
  */
 struct mtrl *mtrl_get(int mi)
 {
-    return mtrls ? array_get(mtrls, mi) : NULL;
+    if (mtrls)
+    {
+        if (mi >= 0 && mi < array_len(mtrls))
+            return array_get(mtrls, mi);
+        if (default_mtrl >= 0 && default_mtrl < array_len(mtrls))
+            return array_get(mtrls, default_mtrl);
+    }
+    return NULL;
 }
 
 /*
@@ -249,13 +269,16 @@ struct mtrl *mtrl_get(int mi)
  */
 void mtrl_cache_sol(struct s_base *fp)
 {
+    if (!fp)
+        return;
+
     if (fp->mtrls)
     {
         free(fp->mtrls);
         fp->mtrls = NULL;
     }
 
-    if ((fp->mtrls = calloc(fp->mc, sizeof (*fp->mtrls))))
+    if (fp->mc > 0 && (fp->mtrls = calloc(fp->mc, sizeof (*fp->mtrls))))
     {
         int mi;
 

@@ -465,27 +465,27 @@ msgstr "완료된 레벨의 목표 상태"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "메뉴^치트"
+msgstr "치트"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "메뉴^플레이"
+msgstr "플레이"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "메뉴^리플레이"
+msgstr "리플레이"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "메뉴^도움말"
+msgstr "도움말"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "메뉴^옵션"
+msgstr "옵션"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "메뉴^나가기"
+msgstr "나가기"
 
 #: ball/util.c:28
 msgid "Hard"

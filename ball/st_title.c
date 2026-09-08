@@ -147,6 +147,17 @@ static int title_action(int tok, int val)
         if (strcmp(queue, keyphrase) == 0)
         {
             config_set_cheat();
+            /*
+             * Translators: ‘menu^’ is not displayed to users but is a
+             * contextual prefix so that if the same string appears in a
+             * different context but should be translated differently there,
+             * they can have separate translations even though the source
+             * string is equivalent.  If no translation is available, the
+             * prefix is removed.
+             *
+             * Please remove contextual prefixes like ‘menu^’ from the output
+             * translation strings.
+             */
             gui_set_label(play_id, gt_prefix("menu^Cheat"));
             gui_pulse(play_id, 1.2f);
         }
@@ -248,6 +259,7 @@ static int filter_cmd(const union cmd *cmd)
 
 static int title_enter(struct state *st, struct state *prev, int intent)
 {
+    game_server_free(NULL);
     game_proxy_filter(filter_cmd);
 
     /* Start the title screen music. */

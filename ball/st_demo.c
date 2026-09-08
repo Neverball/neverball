@@ -356,6 +356,8 @@ static int demo_gui(void)
 
 static int demo_enter(struct state *st, struct state *prev, int intent)
 {
+    game_server_free(NULL);
+
     if (!items || (prev == &st_demo_del))
     {
         if (items)
@@ -664,9 +666,9 @@ static int demo_end_gui(void)
     if ((id = gui_vstack(0)))
     {
         if (demo_paused)
-            kd = gui_label(id, _("Replay Paused"), GUI_LRG, gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Paused"), GUI_MED, gui_gry, gui_red);
         else
-            kd = gui_label(id, _("Replay Ends"),   GUI_LRG, gui_gry, gui_red);
+            kd = gui_label(id, _("Replay Ends"),   GUI_MED, gui_gry, gui_red);
 
         gui_space(id);
 

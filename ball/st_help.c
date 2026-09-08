@@ -189,9 +189,9 @@ static int page_controls(int id)
     const char *s_rotate  = _("Left and right mouse buttons rotate the view\n"
                               "Hold Shift for faster view rotation.");
     const char *s_exit    = _("Exit / Pause");
-    const char *s_camera1 = _("Chase Camera");
-    const char *s_camera2 = _("Lazy Camera");
-    const char *s_camera3 = _("Manual Camera");
+    const char *s_camera1 = cam_to_str(CAM_1);
+    const char *s_camera2 = cam_to_str(CAM_2);
+    const char *s_camera3 = cam_to_str(CAM_3);
     const char *s_restart = _("Restart Level");
     const char *s_shot    = _("Screenshot");
 

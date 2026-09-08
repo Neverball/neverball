@@ -45,6 +45,8 @@
 #include "package.h"
 #include "log.h"
 #include "game_client.h"
+#include "game_server.h"
+#include "game_proxy.h"
 #include "strbuf/substr.h"
 #include "strbuf/joinstr.h"
 #include "lang.h"
@@ -57,6 +59,7 @@
 #include "st_common.h"
 #include "st_start.h"
 #include "st_package.h"
+#include "st_game_link.h"
 
 const char TITLE[] = "Neverball";
 const char ICON[] = "icon/neverball.png";
@@ -369,101 +372,11 @@ static int goto_level(const char *path)
 
 /*---------------------------------------------------------------------------*/
 
-/*
- * Handle the link option.
- *
- * This navigates to the appropriate screen, if the asset was found.
- *
- * Supported link types:
- *
- * --link set-easy
- * --link set-easy/peasy
- */
-static int link_handle(const char *link)
-{
-    int processed = 0;
-
-    if (!(link && *link))
-        return 0;
-
-    log_printf("Link: handling %s\n", link);
-
-    if (str_starts_with(link, "set-"))
-    {
-        /* Search installed sets and package list. */
-
-        const size_t prefix_len = strcspn(link, "/");
-
-        const char *set_part = SUBSTR(link, 0, prefix_len);
-        const char *map_part = SUBSTR(link, prefix_len + 1, 64);
-        const char *set_file = JOINSTR(set_part, ".txt");
-
-        int index;
-        int found_level = 0;
-
-        log_printf("Link: searching for set %s\n", set_file);
-
-        set_init();
-
-        if ((index = set_find(set_file)) >= 0)
-        {
-            log_printf("Link: found set match for %s\n", set_file);
-
-            set_goto(index);
-
-            if (map_part && *map_part)
-            {
-                /* Search for the given level. */
-
-                const char *sol_basename = JOINSTR(map_part, ".sol");
-                struct level *level;
-
-                log_printf("Link: searching for level %s\n", sol_basename);
-
-                if ((level = set_find_level(sol_basename)))
-                {
-                    log_printf("Link: found level match for %s\n", sol_basename);
-
-                    progress_init(MODE_NORMAL);
-
-                    if (progress_play(level))
-                    {
-                        goto_state(&st_level);
-                        found_level = 1;
-                        processed = 1;
-                    }
-                }
-                else
-                    log_printf("Link: no such level\n");
-            }
-
-            if (!found_level)
-            {
-                load_title_background();
-                game_kill_fade();
-                goto_state(&st_start);
-                processed = 1;
-            }
-        }
-        else if ((index = package_search(set_file)) >= 0)
-        {
-            log_printf("Link: found package match for %s\n", set_file);
-            goto_package(index, &st_title);
-            processed = 1;
-        }
-        else log_printf("Link: no such set or package\n", link);
-    }
-
-    return processed;
-}
-
-/*---------------------------------------------------------------------------*/
-
 static void refresh_packages_done(void *data, void *extra_data)
 {
     struct state *start_state = data;
 
-    if (link_handle(opt_link))
+    if (game_link_handle(opt_link))
         return;
 
     goto_state(start_state);
@@ -493,7 +406,7 @@ static void main_preload(struct state *start_state)
 
     /* But attempt it even without a package list. */
 
-    if (link_handle(opt_link))
+    if (game_link_handle(opt_link))
     {
         /* Link processing navigates to the appropriate screen. */
         return;
@@ -786,12 +699,12 @@ static int handle_installed_action(int pi)
     if (pi >= 0 && strcmp(package_get_type(pi), "set") == 0)
     {
         const char *package_id = package_get_id(pi);
-        const char *file = JOINSTR(package_id, ".txt");
+        STRBUF file = joinstr(package_id, ".txt");
         int index = -1;
 
         set_init();
 
-        index = set_find(file);
+        index = set_find(CSTR(file));
 
         return index >= 0 ? goto_start(index, &st_package) : 1;
     }
@@ -932,6 +845,10 @@ static void main_quit(void)
     /* Free everything else. */
 
     goto_state(&st_null);
+
+    game_client_free(NULL);
+    game_server_free(NULL);
+    game_proxy_clr();
 
     mtrl_quit();
     video_quit();

@@ -1,0 +1,167 @@
+// Game: Neverball
+// Format: Quake3
+// Generator: TrenchBroom 2026.2 (Build v2026.2 Release macOS)
+// entity 0
+{
+"classname" "worldspawn"
+"author" "Neverball Pair"
+"version" "1.0"
+"message" "=Rolling Cube=\\A rotating 512x512x512 cube. Holds for 5s, flips in 3s!"
+"back" "map-back/clouds.sol"
+"grad" "back/land.png"
+"song" "bgm/track1.ogg"
+"time" "6000"
+"goal" "16"
+}
+// entity 1
+{
+"classname" "game_ball"
+"origin" "0 0 272"
+}
+// entity 2
+{
+"classname" "game_goal"
+"origin" "0 0 304"
+"target" "cube_p0a"
+"angles" "0 0 0"
+}
+// entity 3
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p0a"
+"target" "cube_p0b"
+"angles" "0 0 0"
+"speed" "5"
+"smooth" "0"
+}
+// entity 4
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p0b"
+"target" "cube_p1a"
+"angles" "0 0 0"
+"speed" "2"
+"smooth" "1"
+}
+// entity 5
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p1a"
+"target" "cube_p1b"
+"angles" "90 0 0"
+"speed" "5"
+"smooth" "0"
+}
+// entity 6
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p1b"
+"target" "cube_p2a"
+"angles" "90 0 0"
+"speed" "2"
+"smooth" "1"
+}
+// entity 7
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p2a"
+"target" "cube_p2b"
+"angles" "180 0 0"
+"speed" "5"
+"smooth" "0"
+}
+// entity 8
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p2b"
+"target" "cube_p3a"
+"angles" "180 0 0"
+"speed" "2"
+"smooth" "1"
+}
+// entity 9
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p3a"
+"target" "cube_p3b"
+"angles" "-90 0 0"
+"speed" "5"
+"smooth" "0"
+}
+// entity 10
+{
+"classname" "path_corner"
+"origin" "0 0 0"
+"targetname" "cube_p3b"
+"target" "cube_p0a"
+"angles" "-90 0 0"
+"speed" "2"
+"smooth" "1"
+}
+// entity 11
+{
+"classname" "func_train"
+"target" "cube_p0a"
+// brush 0
+{
+( -256 256 256 ) ( -256 -256 256 ) ( -256 -256 -256 ) mtrl/brick 0 0 0 0.5 0.5 0 0 0
+( -256 -256 0 ) ( 256 -256 0 ) ( 256 -256 -256 ) mtrl/turf-purple 0 0 0 0.5 0.5 0 0 0
+( 256 256 -256 ) ( -256 256 -256 ) ( -256 -256 -256 ) mtrl/turf-blue 0 0 0 0.5 0.5 0 0 0
+( -256 -256 256 ) ( -256 256 256 ) ( 256 256 256 ) mtrl/turf-green 0 0 0 0.5 0.5 0 0 0
+( 256 256 0 ) ( -256 256 0 ) ( -256 256 -256 ) mtrl/turf-orange 0 0 0 0.5 0.5 0 0 0
+( 256 -256 256 ) ( 256 256 256 ) ( 256 256 -256 ) mtrl/wood 0 0 0 0.5 0.5 0 0 0
+}
+}
+// entity 12
+{
+"classname" "light"
+"origin" "0 0 272"
+"light" "1"
+"target" "cube_p0a"
+"angles" "0 0 0"
+}
+// entity 13
+{
+"classname" "light"
+"origin" "-272 0 0"
+"light" "5"
+"target" "cube_p0a"
+"angles" "-90 0 0"
+}
+// entity 14
+{
+"classname" "light"
+"origin" "0 0 -272"
+"light" "10"
+"target" "cube_p0a"
+"angles" "180 0 0"
+}
+// entity 15
+{
+"classname" "item_health_large"
+"origin" "272 0 0"
+"target" "cube_p0a"
+"angles" "90 0 0"
+}
+// entity 16
+{
+"classname" "item_health_small"
+"origin" "0 272 0"
+"target" "cube_p0a"
+"angles" "0 0 90"
+}
+// entity 17
+{
+"classname" "item_clock"
+"origin" "0 -272 0"
+"light" "15"
+"target" "cube_p0a"
+"angles" "0 0 -90"
+}

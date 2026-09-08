@@ -21,7 +21,7 @@ General Public License for more details.
 
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="neverball.webmanifest">
-  <link rel="preload" href="packages/available-packages.txt" as="fetch">
+  <link rel="preload" href="https://play.neverball.org/packages/available-packages.txt" as="fetch" crossorigin>
 
   <title>Neverball</title>
 
@@ -152,6 +152,12 @@ General Public License for more details.
       min-height: auto;
     }
 
+    @media (max-width: 815px) {
+      #fullscreen-checkbox-wrapper {
+        display: none !important;
+      }
+    }
+
     #canvas-wrapper:fullscreen #canvas {
       position: static;
     }
@@ -256,6 +262,18 @@ General Public License for more details.
       transition: background 0.1s ease-in-out;
       animation: pulse 0.2s;
       animation-timing-function: ease-in-out;
+    }
+
+    .update-button-focused {
+      background: rgba(255, 178, 76, 0.73);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-button-focused:not(:disabled):hover, .update-button-focused:focus {
+      background: rgba(255, 195, 110, 0.9);
+      cursor: pointer;
     }
 
     #screenshot {
@@ -396,6 +414,26 @@ General Public License for more details.
       display: none;
     }
 
+    .is-suspended .is-suspended\:hidden {
+      display: none !important;
+    }
+
+    .is-suspended .is-suspended\:block {
+      display: block !important;
+    }
+
+    .is-suspended .is-suspended\:inline-flex {
+      display: inline-flex !important;
+    }
+
+    .is-installed .is-installed\:hidden {
+      display: none !important;
+    }
+
+    .is-installed .is-installed\:block {
+      display: block !important;
+    }
+
     .no-js .no-js\:hidden {
       display: none;
     }
@@ -480,6 +518,89 @@ General Public License for more details.
         min-width: 0;
       }
     }
+
+    .update-toast {
+      position: fixed;
+      bottom: 2.4rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(150%);
+      background: rgba(64, 173, 71, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: none;
+      border-radius: 1.2rem;
+      padding: 1.2rem 2.4rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      z-index: 10000;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+      opacity: 0;
+      pointer-events: none;
+      font-family: "DejaVu Sans", Verdana, sans-serif;
+      width: max-content;
+      max-width: calc(100% - 3.2rem);
+      box-sizing: border-box;
+    }
+
+    .update-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .update-toast__text {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    .update-button-focused {
+      background: rgba(255, 178, 76, 0.73);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-button-secondary {
+      background: rgba(25, 25, 25, 0.6);
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .update-toast__buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    @media (max-width: 576px) {
+      .update-toast {
+        bottom: 1.6rem;
+        padding: 1.2rem 1.6rem;
+        width: calc(100% - 3.2rem);
+        border-radius: 1rem;
+        gap: 1.2rem;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      
+      .update-toast__buttons {
+        width: 100%;
+      }
+      
+      .update-toast__buttons .neverball-button {
+        flex: 1;
+        justify-content: center;
+        white-space: normal;
+        padding: 0.8rem 0.4rem;
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 
@@ -497,11 +618,12 @@ General Public License for more details.
 
         <!-- <img id="screenshot" alt="Screenshot of the Neverball title screen." width="320" height="180" src="screenshot.png"> -->
 
-        <div id="screenshot">
+        <div id="screenshot" class="is-suspended:hidden">
           <video src="anim.mp4" poster="anim.jpg" width="640" height="360" loop muted autoplay playsinline></video>
         </div>
 
-        <p>Play Neverball in your browser!</p>
+        <p class="is-installed:hidden">Play Neverball in your browser!</p>
+        <p class="hidden is-installed:block">Welcome back to Neverball!</p>
 
         <noscript>
           <p>
@@ -554,11 +676,12 @@ General Public License for more details.
 
 
           <div class="flex gap-2 items-center mb-4">
-            <button id="run-button" type="button" class="neverball-button" disabled autocomplete="off">Play Now</button>
+            <button id="run-button" type="button" class="neverball-button is-suspended:hidden" disabled autocomplete="off">Play Now</button>
+            <button id="resume-button" type="button" class="neverball-button update-button-focused hidden is-suspended:inline-flex" autocomplete="off">Resume</button>
             <div id="status" class="text-white"></div>
           </div>
 
-          <div class="mb-4 text-xs flex items-center gap-1">
+          <div id="fullscreen-checkbox-wrapper" class="mb-4 text-xs flex items-center gap-1">
             <input type="checkbox" id="fullscreen-checkbox" autocomplete="off">
             <label for="fullscreen-checkbox">Start game in fullscreen mode</label>
           </div>
@@ -568,7 +691,7 @@ General Public License for more details.
 
     </div>
 
-    <div id="canvas-wrapper" class="hidden in-game:block">
+    <div id="canvas-wrapper" class="hidden in-game:block is-suspended:hidden">
       <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
       <div id="overlay">
@@ -610,17 +733,35 @@ General Public License for more details.
       </div>
     </div>
 
-    <div class="text-center text-xs in-game:hidden in-app:hidden">
-      <p>
-        This version of Neverball is built with <a href="https://emscripten.org/">Emscripten</a> and <a href="https://github.com/ptitSeb/gl4es">gl4es</a>.
+    <div class="neverball-box no-js:hidden in-game:hidden" id="addon-list-box">
+      <h2><span class="neverball-text">Custom Addons</span></h2>
 
-        You have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a>
+      <div class="flex flex-column gap-2.5">
+        <div id="addon-list-desc" class="min-h-7">Your uploaded custom addons (.zip, .pk3) will show up here. They are loaded automatically when the game starts.</div>
+
+        <ol class="list-none p-0 m-0 flex gap-1 flex-wrap" id="addon-list">
+        </ol>
+
+        <div>
+          <input type="file" id="addon-input" class="hidden" accept=".zip,.pk3" multiple onchange="Neverball.uploadAddons(this.files);">
+          <label for="addon-input" class="neverball-button">Upload Addon</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-xs in-game:hidden">
+      <p>
+        <span id="version-indicator"></span><span class="in-app:hidden">This version of Neverball is built with <a href="https://emscripten.org/">Emscripten</a> and <a href="https://github.com/ptitSeb/gl4es">gl4es</a>.
+
+        You have the freedom to run, study, modify, and distribute Neverball and its modified versions. Grab the source code here: <a href="./neverball-source.zip" download="neverball-source.zip">neverball-source.zip</a></span>
       </p>
     </div>
   </main>
 
   <script>
     'use strict';
+
+    const PACKAGE_BASE_URL = 'https://play.neverball.org/packages/';
 
     var Neverball = {
       EVENT_BACK: -1,
@@ -630,14 +771,20 @@ General Public License for more details.
 
       isRunning: false,
       pauseOnPointerRelease: true,
+      ignoreNextMouseMove: false,
+      ignoreNextPointerMove: false,
       arguments: [],
 
       _canvas: document.getElementById('canvas'),
       _runButton: document.getElementById('run-button'),
+      _resumeButton: document.getElementById('resume-button'),
       _fullscreenButton: document.getElementById('fullscreen-button'),
       _replayListBox: document.getElementById('replay-list-box'),
       _replayListDesc: document.getElementById('replay-list-desc'),
       _replayList: document.getElementById('replay-list'),
+      _addonListBox: document.getElementById('addon-list-box'),
+      _addonListDesc: document.getElementById('addon-list-desc'),
+      _addonList: document.getElementById('addon-list'),
       _fullscreenCheckbox: document.getElementById('fullscreen-checkbox'),
       _statusBar: document.getElementById('status'),
       _progressBar: document.getElementById('progress'),
@@ -645,6 +792,10 @@ General Public License for more details.
       events: {
         runButtonClick: async function (event) {
           this.disabled = true;
+
+          if (Neverball.isSmallViewport() || Neverball._fullscreenCheckbox.checked) {
+            Neverball.requestFullscreen();
+          }
 
           try {
             if (window.localStorage.getItem('isAppInstalled') !== '1') {
@@ -673,16 +824,14 @@ General Public License for more details.
          * Pause the game upon exiting fullscreen.
          */
         fullscreenChange: function (event) {
-          var fullscreenElement = null;
+          var fullscreenElement = Neverball.getFullscreenElement();
 
-          if ('webkitFullscreenElement' in document) {
-            fullscreenElement = document.webkitFullscreenElement;
-          } else {
-            fullscreenElement = document.fullscreenElement;
-          }
-
-          if (!fullscreenElement) {
-            Neverball.pushEvent(Neverball.EVENT_PAUSE);
+          if (!fullscreenElement && Neverball.isRunning) {
+            if (Neverball.isSmallViewport()) {
+              Neverball.pauseGameMobile();
+            } else {
+              Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            }
           }
         },
 
@@ -690,6 +839,13 @@ General Public License for more details.
           if (!document.pointerLockElement) {
             if (Neverball.pauseOnPointerRelease) {
               Neverball.pushEvent(Neverball.EVENT_PAUSE);
+            }
+          } else {
+            // Firefox Android workaround: Flag that pointer lock was just acquired
+            // so that we can ignore the first buggy movement event with massive delta.
+            if (navigator.userAgent.toLowerCase().includes('firefox')) {
+              Neverball.ignoreNextMouseMove = true;
+              Neverball.ignoreNextPointerMove = true;
             }
           }
         },
@@ -704,6 +860,13 @@ General Public License for more details.
           if (Neverball.pauseOnPointerRelease) {
             console.log('Disable pause on pointer release (Firefox workaround).')
             Neverball.pauseOnPointerRelease = false;
+          }
+
+          // Firefox Android workaround: Flag that a touch gesture started,
+          // so we can ignore the next relative move event.
+          if (navigator.userAgent.toLowerCase().includes('firefox')) {
+            Neverball.ignoreNextMouseMove = true;
+            Neverball.ignoreNextPointerMove = true;
           }
         }
       },
@@ -846,6 +1009,121 @@ General Public License for more details.
         this._replayList.replaceChildren(fragment);
       },
 
+      uploadAddons: function (fileList) {
+        const FS = this._module.FS;
+        const promises = [];
+
+        for (const file of fileList) {
+          let name = file.name;
+          const info = FS.analyzePath('/neverball/' + name);
+          if (info.exists) {
+            if (!window.confirm('Addon ' + name + ' already exists.\n\nOverwrite it?')) {
+              continue;
+            }
+          }
+          promises.push(file.arrayBuffer().then(buffer => {
+            FS.writeFile('/neverball/' + name, new Uint8Array(buffer));
+          }));
+        }
+
+        Promise.allSettled(promises).then(() => {
+          FS.syncfs(false, (err) => {
+            if (err) console.error('Failed to sync filesystem:', err);
+            Neverball.refreshAddons();
+          });
+        });
+      },
+
+      deleteAddon: function (filename) {
+        if (!window.confirm('Are you sure you want to delete addon "' + filename + '"?')) {
+          return;
+        }
+        const FS = this._module.FS;
+        try {
+          FS.unlink('/neverball/' + filename);
+          FS.syncfs(false, (err) => {
+            if (err) console.error('Failed to sync filesystem after deletion:', err);
+            Neverball.refreshAddons();
+          });
+        } catch (e) {
+          console.error('Failed to delete addon:', e);
+        }
+      },
+
+      refreshAddons: function () {
+        const FS = this._module.FS;
+        let addonNames = [];
+
+        try {
+          addonNames = FS.readdir('/neverball').filter(filename => 
+            filename.endsWith('.zip') || filename.endsWith('.pk3')
+          );
+        } catch (e) {
+          console.error('Failed to read /neverball directory:', e);
+        }
+
+        if (!addonNames.length) {
+          this._addonListDesc.classList.remove('hidden');
+        } else {
+          this._addonListDesc.classList.add('hidden');
+        }
+
+        const addons = addonNames.map(function (addon) {
+          return {
+            filename: addon,
+            mtime: FS.stat('/neverball/' + addon).mtime,
+          };
+        }).sort(function (a, b) {
+          return b.mtime - a.mtime;
+        });
+
+        const fragment = document.createDocumentFragment();
+
+        for (const addon of addons) {
+          const elem = document.createElement('li');
+          elem.classList.add('neverball-box', 'p-1', 'flex', 'gap-1', 'items-center');
+
+          const nameDiv = document.createElement('div');
+          const nameSpan = document.createElement('span');
+          nameSpan.classList.add('neverball-text', 'text-xs');
+          nameSpan.textContent = addon.filename;
+          nameDiv.appendChild(nameSpan);
+          elem.appendChild(nameDiv);
+
+          const downloadBtn = document.createElement('button');
+          downloadBtn.type = 'button';
+          downloadBtn.classList.add('neverball-button');
+          downloadBtn.title = 'Download';
+          downloadBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+              <path d="M 7 0 L 3 0 L 3 6 L 1 6 L 5 10 L 9 6 L 7 6 Z" fill="#fff"/>
+            </svg>
+          `;
+          downloadBtn.addEventListener('click', () => {
+            Neverball.downloadFile('/neverball/' + addon.filename);
+          });
+          elem.appendChild(downloadBtn);
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.type = 'button';
+          deleteBtn.classList.add('neverball-button');
+          deleteBtn.title = 'Delete';
+          deleteBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+              <path d="M 2 1 L 2 2 L 1 2 L 1 3 L 9 3 L 9 2 L 8 2 L 8 1 Z M 2 4 L 2 9 C 2 9.5 2.5 10 3 10 L 7 10 C 7.5 10 8 9.5 8 9 L 8 4 Z" fill="#fff"/>
+            </svg>
+          `;
+          deleteBtn.addEventListener('click', () => {
+            Neverball.deleteAddon(addon.filename);
+          });
+          elem.appendChild(deleteBtn);
+
+          fragment.appendChild(elem);
+        }
+
+        this._addonList.replaceChildren(fragment);
+      },
+
       readInstalledPackages: function () {
         if (!this._module) {
           throw Error('Missing module');
@@ -866,7 +1144,7 @@ General Public License for more details.
 
       loadAvailablePackages: async function () {
         // Pass options to make link rel="preload" work in Firefox, Chrome.
-        const response = await fetch('packages/available-packages.txt', {credentials: 'include', mode: 'no-cors'});
+        const response = await fetch(PACKAGE_BASE_URL + 'available-packages.txt', {mode: 'cors'});
 
         return await response.text();
       },
@@ -891,7 +1169,7 @@ General Public License for more details.
         if (matches) {
           const filename = matches[1];
           const fileSize = parseInt(matches[2]);
-          const response = await fetch('packages/' + filename);
+          const response = await fetch(PACKAGE_BASE_URL + filename);
 
           if (!response.ok) {
             return;
@@ -995,13 +1273,96 @@ General Public License for more details.
         this.setProgress(1.0);
       },
 
+      wasSmallViewportOnLaunch: false,
+
+      isSmallViewport: function () {
+        return this.wasSmallViewportOnLaunch || window.matchMedia('(max-width: 815px)').matches;
+      },
+
+      pauseEmscriptenLoop: function () {
+        if (!this._module) return;
+        if (typeof this._module.pauseMainLoop === 'function') {
+          this._module.pauseMainLoop();
+        } else if (this._module.Browser && typeof this._module.Browser.mainLoop?.pause === 'function') {
+          this._module.Browser.mainLoop.pause();
+        }
+      },
+
+      resumeEmscriptenLoop: function () {
+        if (!this._module) return;
+        if (typeof this._module.resumeMainLoop === 'function') {
+          this._module.resumeMainLoop();
+        } else if (this._module.Browser && typeof this._module.Browser.mainLoop?.resume === 'function') {
+          this._module.Browser.mainLoop.resume();
+        }
+      },
+
+      pauseAudio: function () {
+        if (this.audioContext && this.audioContext.state === 'running') {
+          this.audioContext.suspend();
+        }
+        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
+          this.audioMusicSourceNode.mediaElement.pause();
+        }
+      },
+
+      resumeAudio: function () {
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+          this.audioContext.resume();
+        }
+        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
+          this.audioMusicSourceNode.mediaElement.play();
+        }
+      },
+
+      pauseGameMobile: function () {
+        if (!this.isRunning) return;
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
+        this.pushEvent(this.EVENT_PAUSE);
+        this.pauseEmscriptenLoop();
+        this.pauseAudio();
+        document.body.classList.remove('in-game');
+        document.body.classList.add('is-suspended');
+      },
+
+      resumeGameMobile: function () {
+        if (!this.isRunning) return;
+        document.body.classList.add('in-game');
+        document.body.classList.remove('is-suspended');
+        this.requestFullscreen();
+        this.resumeAudio();
+        this.resumeEmscriptenLoop();
+      },
+
+      getFullscreenElement: function () {
+        return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
+      },
+
       requestFullscreen: function () {
         var wrapper = document.getElementById('canvas-wrapper');
 
-        if ('webkitRequestFullscreen' in wrapper) {
+        if (wrapper.requestFullscreen) {
+          wrapper.requestFullscreen().catch(() => {});
+        } else if (wrapper.webkitRequestFullscreen) {
           wrapper.webkitRequestFullscreen();
-        } else {
-          wrapper.requestFullscreen();
+        } else if (wrapper.mozRequestFullScreen) {
+          wrapper.mozRequestFullScreen();
+        } else if (wrapper.msRequestFullscreen) {
+          wrapper.msRequestFullscreen();
+        }
+      },
+
+      exitFullscreen: function () {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
         }
       },
 
@@ -1010,41 +1371,33 @@ General Public License for more details.
           throw Error('Module missing');
         }
 
+        this.wasSmallViewportOnLaunch = window.matchMedia('(max-width: 815px)').matches;
         this.isRunning = true;
-
+        document.body.classList.remove('is-suspended');
         document.body.classList.add('in-game');
 
         this._module.callMain(this.arguments);
 
-        if (this._fullscreenCheckbox.checked) {
+        if (!this.getFullscreenElement() && (this.isSmallViewport() || this._fullscreenCheckbox.checked)) {
           this.requestFullscreen();
         }
       },
 
       quit: function () {
         this.isRunning = false;
+        this.wasSmallViewportOnLaunch = false;
+
+        document.body.classList.remove('is-suspended');
 
         this._runButton.disabled = false;
-        document.body.classList.remove('in-game');
-
-        var fullscreenElement = null;
-
-        if ('webkitFullscreenElement' in document) {
-          fullscreenElement = document.webkitFullscreenElement;
-        } else {
-          fullscreenElement = document.fullscreenElement;
-        }
-
-        if (fullscreenElement) {
-          if ('webkitExitFullscreen' in document) {
-            document.webkitExitFullscreen();
-          } else {
-            document.exitFullscreen();
-          }
-        }
-
         this._runButton.textContent = 'Play Now';
         this.arguments = [];
+
+        if (this.getFullscreenElement()) {
+          this.exitFullscreen();
+        }
+
+        document.body.classList.remove('in-game');
       },
 
       downloadFile: function (path) {
@@ -1281,16 +1634,23 @@ General Public License for more details.
 
           // Remove it from the query string.
 
-          params.delete('link');
-          window.history.replaceState(null, null, window.location.pathname + (params.size ? '?' + params.toString() : ''));
+          //params.delete('link');
+          //window.history.replaceState(null, null, window.location.pathname + (params.size ? '?' + params.toString() : ''));
 
           this._runButton.textContent = 'Open In-Game Link';
+        }
+      },
+
+      initInstalledState: function () {
+        if (window.localStorage.getItem('isAppInstalled') === '1' || ('serviceWorker' in navigator && navigator.serviceWorker.controller)) {
+          document.body.classList.add('is-installed');
         }
       },
 
       initPage: function () {
         const launchInFullscreen = (window.localStorage.getItem('launchInFullscreen') === '1');
 
+        this.initInstalledState();
         this.initLinks();
         this.initBackButton();
 
@@ -1301,12 +1661,55 @@ General Public License for more details.
 
         this._runButton.addEventListener('click', this.events.runButtonClick);
 
+        if (this._resumeButton) {
+          this._resumeButton.addEventListener('click', () => this.resumeGameMobile());
+        }
+
         this._fullscreenButton.addEventListener('click', this.events.fullscreenButtonClick);
 
         document.addEventListener('fullscreenchange', this.events.fullscreenChange);
         document.addEventListener('pointerlockchange', this.events.pointerLockChange);
 
+        ['keydown', 'keyup', 'keypress'].forEach(eventType => {
+          window.addEventListener(eventType, event => {
+            if (document.body.classList.contains('is-suspended')) {
+              event.stopImmediatePropagation();
+            }
+          }, true);
+        });
+
         this._canvas.addEventListener('touchstart', this.events.canvasTouchStart);
+
+        // Firefox Android workaround: capturing event listener to discard the first
+        // mousemove/pointermove event right after pointer lock is acquired or a touch starts.
+        const discardBuggyMove = event => {
+          const isPointer = event.type === 'pointermove';
+          const ignore = isPointer ? Neverball.ignoreNextPointerMove : Neverball.ignoreNextMouseMove;
+
+          if (ignore) {
+            if (isPointer) {
+              Neverball.ignoreNextPointerMove = false;
+            } else {
+              Neverball.ignoreNextMouseMove = false;
+            }
+            event.stopImmediatePropagation();
+            console.log('Workaround: Discarded first ' + event.type + ' after pointer lock on Firefox (dx=' + event.movementX + ', dy=' + event.movementY + ')');
+          }
+        };
+
+        const handlePointerDown = event => {
+          if (navigator.userAgent.toLowerCase().includes('firefox')) {
+            Neverball.ignoreNextMouseMove = true;
+            Neverball.ignoreNextPointerMove = true;
+          }
+        };
+
+        window.addEventListener('mousedown', handlePointerDown, true);
+        window.addEventListener('pointerdown', handlePointerDown, true);
+        window.addEventListener('mousemove', discardBuggyMove, true);
+        window.addEventListener('pointermove', discardBuggyMove, true);
+
+        this.updateVersionText();
       },
 
     initRuntime: async function (createEmscriptenModule) {
@@ -1401,6 +1804,7 @@ General Public License for more details.
           await this.installBasePackages();
 
           this.refreshReplays();
+          this.refreshAddons();
         } catch (error) {
           this.setStatusText(error.message);
         }
@@ -1423,8 +1827,35 @@ General Public License for more details.
         this.setStatusText('Preparing runtime...');
 
         if ('serviceWorker' in navigator) {
-          await navigator.serviceWorker.register('./service-worker.js', {
+          const registration = await navigator.serviceWorker.register('./service-worker.js', {
             updateViaCache: 'none',
+          });
+
+          this.updateVersionText();
+
+          if (registration.waiting) {
+            this.showUpdatePrompt(registration.waiting);
+          }
+
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed') {
+                  if (navigator.serviceWorker.controller) {
+                    this.showUpdatePrompt(newWorker);
+                  }
+                }
+              });
+            }
+          });
+
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
           });
         }
 
@@ -1432,12 +1863,64 @@ General Public License for more details.
 
         this.setStatusText('Ready to play. Good luck!');
       },
+
+      showUpdatePrompt: function (worker) {
+        const toast = document.getElementById('update-toast');
+        const btn = document.getElementById('update-button');
+        const dismissBtn = document.getElementById('dismiss-button');
+        if (toast && btn) {
+          btn.onclick = () => {
+            worker.postMessage({ type: 'SKIP_WAITING' });
+          };
+          toast.classList.add('show');
+        }
+        if (toast && dismissBtn) {
+          dismissBtn.onclick = () => {
+            toast.classList.remove('show');
+          };
+        }
+      },
+
+      updateVersionText: function () {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+          const messageChannel = new MessageChannel();
+          messageChannel.port1.onmessage = (event) => {
+            const versionStr = event.data.version;
+            const parts = versionStr.split('-');
+            const timestamp = parseInt(parts[parts.length - 1], 10);
+            if (!isNaN(timestamp)) {
+              const date = new Date(timestamp * 1000);
+              const pad = (num) => String(num).padStart(2, '0');
+              const yyyy = date.getUTCFullYear();
+              const mm = pad(date.getUTCMonth() + 1);
+              const dd = pad(date.getUTCDate());
+              const hh = pad(date.getUTCHours());
+              const min = pad(date.getUTCMinutes());
+              const ss = pad(date.getUTCSeconds());
+              const dateString = `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss} UTC`;
+              const indicator = document.getElementById('version-indicator');
+              if (indicator) {
+                indicator.textContent = 'You are running Neverball build ' + dateString + '. ';
+              }
+            }
+          };
+          navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' }, [messageChannel.port2]);
+        }
+      },
     };
 
     Neverball.initPage();
   </script>
 
   <script async src="neverball.js" onload="Neverball.prepareLauncher();"></script>
+
+  <div id="update-toast" class="update-toast">
+    <span class="update-toast__text">A new version is available!</span>
+    <div class="update-toast__buttons">
+      <button id="update-button" class="neverball-button update-button-focused">Update & Refresh</button>
+      <button id="dismiss-button" class="neverball-button update-button-secondary">Not Now</button>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -19,6 +19,7 @@
 #include "ball.h"
 #include "part.h"
 #include "game.h"
+#include "hole.h"
 #include "audio.h"
 #include "config.h"
 #include "video.h"
@@ -41,6 +42,8 @@ enum
 static int music_id[11];
 static int sound_id[11];
 
+static struct state *conf_back;
+
 static int conf_action(int i)
 {
     int s = config_get_d(CONFIG_SOUND_VOLUME);
@@ -52,7 +55,8 @@ static int conf_action(int i)
     switch (i)
     {
     case CONF_BACK:
-        exit_state(&st_title);
+        exit_state(conf_back ? conf_back : &st_title);
+        conf_back = NULL;
         break;
 
     case CONF_VIDEO:
@@ -95,7 +99,10 @@ static int conf_enter(struct state *st, struct state *prev, int intent)
 {
     int root_id;
 
-    back_init("back/gui.png");
+    if (!conf_back)
+        conf_back = prev;
+
+    back_push("back/gui.png");
 
     /* Initialize the configuration GUI. */
 
@@ -178,14 +185,16 @@ static int conf_enter(struct state *st, struct state *prev, int intent)
         }
     }
 
-    audio_music_fade_to(0.5f, "bgm/inter.ogg");
+    if (!curr_party())
+        audio_music_fade_to(0.5f, "bgm/inter.ogg");
 
     return transition_slide(root_id, 1, intent);
 }
 
 static int conf_leave(struct state *st, struct state *next, int id, int intent)
 {
-    back_free();
+    back_pop();
+
     return transition_slide(id, 0, intent);
 }
 
@@ -224,7 +233,7 @@ static int conf_click(int b, int d)
 
 static int conf_keybd(int c, int d)
 {
-    return (d && c == SDLK_ESCAPE) ? goto_state(&st_title) : 1;
+    return (d && c == SDLK_ESCAPE) ? conf_action(CONF_BACK) : 1;
 }
 
 static int conf_buttn(int b, int d)
@@ -233,8 +242,9 @@ static int conf_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
             return conf_action(gui_token(gui_active()));
+
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
+            return conf_action(CONF_BACK);
     }
     return 1;
 }
@@ -243,6 +253,9 @@ static int conf_buttn(int b, int d)
 
 static int null_enter(struct state *st, struct state *prev, int intent)
 {
+    game_free_objects();
+    back_free_objects();
+
     transition_quit();
     gui_free();
     geom_free();
@@ -261,6 +274,10 @@ static int null_leave(struct state *st, struct state *next, int id, int intent)
     geom_init();
     gui_init();
     transition_init();
+
+    back_load_objects();
+    game_load_objects();
+
     return 0;
 }
 

@@ -462,27 +462,27 @@ msgstr "Goal status in voltooide levels"
 
 #: ball/st_title.c:144 ball/st_title.c:179
 msgid "menu^Cheat"
-msgstr "menu^Vals spelen"
+msgstr "Vals spelen"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "menu^Spelen"
+msgstr "Spelen"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "menu^Video's"
+msgstr "Video's"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "menu^Help"
+msgstr "Help"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "menu^Opties"
+msgstr "Opties"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "menu^Stoppen"
+msgstr "Stoppen"
 
 #: ball/util.c:28
 msgid "Hard"

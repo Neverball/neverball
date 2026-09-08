@@ -330,6 +330,8 @@ void game_client_sync(fs_file demo_fp)
 
 /*---------------------------------------------------------------------------*/
 
+static struct game_base client_base;
+
 int  game_client_init(const char *file_name)
 {
     char *back_name = "", *grad_name = "";
@@ -342,19 +344,19 @@ int  game_client_init(const char *file_name)
 
     /* Load SOL data. */
 
-    if (!game_base_load(file_name))
+    if (!game_base_load(&client_base, file_name))
         return (gd.state = 0);
 
-    if (!sol_load_vary(&gd.vary, &game_base))
+    if (!sol_load_vary(&gd.vary, &client_base.base))
     {
-        game_base_free(NULL);
+        game_base_free(&client_base, NULL);
         return (gd.state = 0);
     }
 
     if (!sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW)))
     {
         sol_free_vary(&gd.vary);
-        game_base_free(NULL);
+        game_base_free(&client_base, NULL);
         return (gd.state = 0);
     }
 
@@ -431,6 +433,8 @@ void game_client_free(const char *next)
 {
     if (gd.state)
     {
+        gd.state = 0;
+
         game_proxy_clr();
 
         game_lerp_free(&gl);
@@ -438,12 +442,34 @@ void game_client_free(const char *next)
         sol_free_draw(&gd.draw);
         sol_free_vary(&gd.vary);
 
-        game_base_free(next);
+        game_base_free(&client_base, next);
 
         sol_free_full(&gd.back);
         back_free();
     }
-    gd.state = 0;
+}
+
+int game_client_state(void)
+{
+    return gd.state != 0;
+}
+
+void game_client_free_objects(void)
+{
+    if (gd.state)
+    {
+        sol_free_draw(&gd.draw);
+        sol_free_draw(&gd.back.draw);
+    }
+}
+
+void game_client_load_objects(void)
+{
+    if (gd.state)
+    {
+        sol_load_draw(&gd.draw, &gd.vary, config_get_d(CONFIG_SHADOW));
+        sol_load_draw(&gd.back.draw, &gd.back.vary, 0);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -460,8 +486,11 @@ void game_client_blend(float a)
 
 void game_client_draw(int pose, float t)
 {
-    game_lerp_apply(&gl, &gd);
-    game_draw(&gd, pose, t);
+    if (gd.state)
+    {
+        game_lerp_apply(&gl, &gd);
+        game_draw(&gd, pose, t);
+    }
 }
 
 /*---------------------------------------------------------------------------*/

@@ -463,23 +463,23 @@ msgstr "izbornik^Varati"
 
 #: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
 msgid "menu^Play"
-msgstr "izbornik^Reproduciraj"
+msgstr "Reproduciraj"
 
 #: ball/st_title.c:185
 msgid "menu^Replay"
-msgstr "izbornik^Ponovna reprodukcija"
+msgstr "Ponovna reprodukcija"
 
 #: ball/st_title.c:186
 msgid "menu^Help"
-msgstr "izbornik^Pomoć"
+msgstr "Pomoć"
 
 #: ball/st_title.c:187 putt/st_all.c:230
 msgid "menu^Options"
-msgstr "izbornik^Opcije"
+msgstr "Opcije"
 
 #: ball/st_title.c:188 putt/st_all.c:231
 msgid "menu^Exit"
-msgstr "izbornik^Izlaz"
+msgstr "Izlaz"
 
 #: ball/util.c:28
 msgid "Hard"

@@ -1,0 +1,70 @@
+name: Web Build & Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build WebAssembly Release
+    runs-on: ubuntu-latest
+    container:
+      image: emscripten/emsdk:3.1.65
+      env:
+        GL4ES_COMMIT: "c9895df34cd466c23bc60c2bd3db3d87e98fcbe7"
+        GL4ES_DIR: "/opt/gl4es"
+        DEBIAN_FRONTEND: "noninteractive"
+    steps:
+      - name: Checkout Neverball
+        uses: actions/checkout@v4
+
+      - name: Build base SOLs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpng-dev libjpeg-dev pkg-config libsdl2-dev libcurl4-openssl-dev
+          make -j$(nproc) sols
+
+      - name: Build gl4es
+        run: "./.devcontainer/install-gl4es.sh"
+
+      - name: Build web version
+        run: |
+          sudo apt-get install -y ffmpeg
+          make -j$(nproc) -f emscripten/ball.mk BUILD=release
+
+      - name: Create source archive
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git rev-parse HEAD > neverball-commit.txt
+          git archive --prefix=neverball-source/ --add-file=neverball-commit.txt --output=js/neverball-source.zip HEAD
+
+      - name: Upload Web Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neverball-web
+          path: ./js
+          retention-days: 7
+
+  dispatch:
+    name: Dispatch Deployment
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger neverball.github.io Deployment
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/Neverball/neverball.github.io/dispatches \
+            -f event_type='deploy-web' \
+            -F client_payload[run_id]="${{ github.run_id }}" \
+            -F client_payload[sha]="${{ github.sha }}" \
+            -F client_payload[ref]="${{ github.ref_name }}"
+        env:
+          GH_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}

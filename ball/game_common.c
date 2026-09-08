@@ -39,29 +39,131 @@ const char *cam_to_str(int c)
 {
     static char str[64];
 
-    int s = cam_speed(c);
+    int spd = cam_speed(c);
 
-    if (s <    0) return _("Manual Camera");
-    if (s <= 100) return _("Lazy Camera");
-    if (s <= 500) return _("Chase Camera");
+    if (spd < 0)
+        return _("Manual Camera");
+    if (spd == 0)
+        return _("Lazy Camera");
 
+    switch (cam_preset_get(c))
+    {
+    case CAM_PRESET_1_4:     return _("1.4 Classic");
+    case CAM_PRESET_1_5:     return _("1.5 Classic");
+    case CAM_PRESET_DEFAULT: return _("Chase Camera");
+    }
+
+    /* Custom configuration fallback */
     sprintf(str, _("Camera %d"), c + 1);
-
     return str;
 }
 
 int cam_speed(int c)
 {
-    static const int *cfgs[] = {
-        &CONFIG_CAMERA_1_SPEED,
-        &CONFIG_CAMERA_2_SPEED,
-        &CONFIG_CAMERA_3_SPEED
-    };
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_SPEED);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_SPEED);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_SPEED);
+    default:    return 250;
+    }
+}
 
-    if (c >= 0 && c < ARRAYSIZE(cfgs))
-        return config_get_d(*cfgs[c]);
+int cam_torque(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_TORQUE);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_TORQUE);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_TORQUE);
+    default:    return 1;
+    }
+}
 
-    return 250;
+int cam_free_rotate(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_FREE_ROTATE);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_FREE_ROTATE);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_FREE_ROTATE);
+    default:    return 1;
+    }
+}
+
+int cam_velocity_xz(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_VELOCITY_XZ);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_VELOCITY_XZ);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_VELOCITY_XZ);
+    default:    return 1;
+    }
+}
+
+int cam_rotate_max(int c)
+{
+    switch (c)
+    {
+    case CAM_1: return config_get_d(CONFIG_CAMERA_1_ROTATE_MAX);
+    case CAM_2: return config_get_d(CONFIG_CAMERA_2_ROTATE_MAX);
+    case CAM_3: return config_get_d(CONFIG_CAMERA_3_ROTATE_MAX);
+    default:    return 150;
+    }
+}
+
+int cam_preset_get(int c)
+{
+    int torque   = cam_torque(c);
+    int free_rot = cam_free_rotate(c);
+    int vxz      = cam_velocity_xz(c);
+    int rot_max  = cam_rotate_max(c);
+
+    if (torque == 1 && free_rot == 0 && vxz == 0 && rot_max == 100)
+        return CAM_PRESET_1_4;
+
+    if (torque == 0 && free_rot == 1 && vxz == 1)
+        return CAM_PRESET_1_5;
+
+    if (torque == 1 && free_rot == 1 && vxz == 1 && rot_max == 150)
+        return CAM_PRESET_DEFAULT;
+
+    return CAM_PRESET_CUSTOM;
+}
+
+void cam_preset_set(int c, int preset)
+{
+    if (c != CAM_1)
+        return;
+
+    switch (preset)
+    {
+    case CAM_PRESET_1_4:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      1);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 0);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 0);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  100);
+        break;
+
+    case CAM_PRESET_1_5:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      0);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 1);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 1);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  150);
+        break;
+
+    case CAM_PRESET_DEFAULT:
+    default:
+        config_set_d(CONFIG_CAMERA_1_SPEED,       250);
+        config_set_d(CONFIG_CAMERA_1_TORQUE,      1);
+        config_set_d(CONFIG_CAMERA_1_FREE_ROTATE, 1);
+        config_set_d(CONFIG_CAMERA_1_VELOCITY_XZ, 1);
+        config_set_d(CONFIG_CAMERA_1_ROTATE_MAX,  150);
+        break;
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -233,25 +335,25 @@ void lockstep_scl(struct lockstep *ls, float ts)
 
 /* Poor man's cache. */
 
-struct s_base  game_base;
-static char   *base_path;
-
-int game_base_load(const char *path)
+int game_base_load(struct game_base *gb, const char *path)
 {
-    if (base_path)
+    if (!gb || !path)
+        return 0;
+
+    if (gb->path)
     {
-        if (strcmp(base_path, path) == 0)
+        if (strcmp(gb->path, path) == 0)
             return 1;
 
-        sol_free_base(&game_base);
+        sol_free_base(&gb->base);
 
-        free(base_path);
-        base_path = NULL;
+        free(gb->path);
+        gb->path = NULL;
     }
 
-    if (sol_load_base(&game_base, path))
+    if (sol_load_base(&gb->base, path))
     {
-        base_path = strdup(path);
+        gb->path = strdup(path);
         return 1;
     }
 
@@ -259,17 +361,20 @@ int game_base_load(const char *path)
 }
 
 
-void game_base_free(const char *next)
+void game_base_free(struct game_base *gb, const char *next)
 {
-    if (base_path)
+    if (!gb)
+        return;
+
+    if (gb->path)
     {
-        if (next && strcmp(base_path, next) == 0)
+        if (next && strcmp(gb->path, next) == 0)
             return;
 
-        sol_free_base(&game_base);
+        sol_free_base(&gb->base);
 
-        free(base_path);
-        base_path = NULL;
+        free(gb->path);
+        gb->path = NULL;
     }
 }
 

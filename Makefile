@@ -16,6 +16,10 @@ ifeq ($(shell uname), Darwin)
 	PLATFORM := darwin
 endif
 
+ifeq ($(shell uname), FreeBSD)
+	PLATFORM := freebsd
+endif
+
 ifeq ($(shell uname -o 2> /dev/null),Msys)
 	PLATFORM := mingw
 endif
@@ -211,6 +215,12 @@ ifeq ($(PLATFORM),darwin)
 	OGL_LIBS  := -framework OpenGL
 endif
 
+ifeq ($(PLATFORM),freebsd)
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := -lintl
+	endif
+endif
+
 ifeq ($(PLATFORM),haiku)
 	ifneq ($(ENABLE_NLS),0)
 		INTL_LIBS := -lintl
@@ -353,6 +363,7 @@ BALL_OBJS := \
 	ball/st_shared.o    \
 	ball/st_pause.o     \
 	ball/st_ball.o      \
+	ball/st_game_link.o \
 	ball/main.o
 PUTT_OBJS := \
 	share/lang.o        \
@@ -523,9 +534,36 @@ endif
 
 desktops : $(DESKTOPS)
 
+#------------------------------------------------------------------------------
+
+TEST_TARG := tests/test$(X)
+
+TEST_SRCS := \
+	tests/test_main.c \
+	tests/test_array.c \
+	tests/test_list.c \
+	tests/test_queue.c \
+	tests/test_common.c \
+	tests/test_level.c \
+	tests/test_solid.c \
+	share/array.c \
+	share/common.c \
+	share/queue.c \
+	share/list.c \
+	share/vec3.c \
+	share/solid_all.c \
+	share/solid_vary.c \
+	ball/level.c
+
+$(TEST_TARG) : $(TEST_SRCS)
+	$(CC) $(ALL_CFLAGS) -Ishare -Iball -UNDEBUG -o $@ $^ $(LDFLAGS)
+
+test : $(TEST_TARG)
+	./$(TEST_TARG)
+
 clean-src :
-	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG)
-	find ball share putt \( -name '*.o' -o -name '*.d' \) -delete
+	$(RM) $(BALL_TARG) $(PUTT_TARG) $(MAPC_TARG) $(TEST_TARG)
+	find ball share putt tests \( -name '*.o' -o -name '*.d' \) -delete
 	$(RM) neverball.ico.o neverputt.ico.o
 
 clean : clean-src
@@ -535,8 +573,8 @@ clean : clean-src
 
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales desktops clean-src clean
+.PHONY : all sols locales desktops clean-src clean test
 
--include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS)
+-include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS) $(wildcard tests/*.d)
 
 #------------------------------------------------------------------------------

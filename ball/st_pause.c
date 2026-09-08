@@ -27,12 +27,14 @@
 #include "st_play.h"
 #include "st_level.h"
 #include "st_pause.h"
+#include "st_conf.h"
 #include "st_shared.h"
 
 enum
 {
     PAUSE_CONTINUE = GUI_LAST,
     PAUSE_RESTART,
+    PAUSE_OPTIONS,
     PAUSE_EXIT
 };
 
@@ -46,6 +48,9 @@ static int pause_action(int tok, int val)
 
     switch (tok)
     {
+    case PAUSE_OPTIONS:
+        return goto_state(&st_conf);
+
     case PAUSE_CONTINUE:
         audio_music_fade_in(1.0f);
         video_set_grab(0);
@@ -73,24 +78,68 @@ static int pause_action(int tok, int val)
 
 static int pause_gui(void)
 {
-    int id, jd, title_id;
+    int id, jd, kd, ld, title_id;
 
     /* Build the pause GUI. */
 
     if ((id = gui_vstack(0)))
     {
+        if ((jd = gui_hstack(id)))
+        {
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_GEAR, GUI_SML, 0, 0);
+                gui_label(kd, _("Options"), GUI_SML, gui_wht, gui_wht);
+
+                gui_set_state(kd, PAUSE_OPTIONS, 0);
+                gui_set_rect(kd, GUI_ALL);
+            }
+            gui_filler(jd);
+        }
+
+        gui_space(id);
+
         title_id = gui_label(id, _("Paused"), GUI_LRG, 0, 0);
 
         gui_space(id);
 
         if ((jd = gui_harray(id)))
         {
-            gui_state(jd, _("Give Up"), GUI_SML, PAUSE_EXIT, 0);
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_CROSS, GUI_SML, gui_red, gui_red);
+
+                ld = gui_label(kd, _("Give Up"), GUI_SML, gui_wht, gui_wht);
+                gui_set_fill(ld);
+
+                gui_set_state(kd, PAUSE_EXIT, 0);
+                gui_set_rect(kd, GUI_ALL);
+            }
 
             if (progress_same_avail())
-                gui_state(jd, _("Restart"), GUI_SML, PAUSE_RESTART, 0);
+                if ((kd = gui_hstack(jd)))
+                {
+                    gui_label(kd, GUI_CIRCLE_ARROW, GUI_SML, gui_yel, gui_yel);
 
-            gui_start(jd, _("Continue"), GUI_SML, PAUSE_CONTINUE, 0);
+                    ld = gui_label(kd, _("Restart"), GUI_SML, gui_wht, gui_wht);
+                    gui_set_fill(ld);
+
+                    gui_set_state(kd, PAUSE_RESTART, 0);
+                    gui_set_rect(kd, GUI_ALL);
+                }
+
+            if ((kd = gui_hstack(jd)))
+            {
+                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_grn, gui_grn);
+
+                ld = gui_label(kd, _("Continue"), GUI_SML, gui_wht, gui_wht);
+                gui_set_fill(ld);
+
+                gui_set_state(kd, PAUSE_CONTINUE, 0);
+                gui_set_rect(kd, GUI_ALL);
+
+                gui_focus(kd);
+            }
         }
 
         gui_pulse(title_id, 1.2f);
@@ -102,7 +151,8 @@ static int pause_gui(void)
 
 static int pause_enter(struct state *st, struct state *prev, int intent)
 {
-    st_continue = prev;
+    if (prev != &st_conf)
+        st_continue = prev;
 
     video_clr_grab();
     audio_music_fade_out(1.0f);

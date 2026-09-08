@@ -124,6 +124,18 @@ void game_free(void)
     sol_free_full(&file);
 }
 
+void game_free_objects(void)
+{
+    if (state)
+        sol_free_draw(&file.draw);
+}
+
+void game_load_objects(void)
+{
+    if (state)
+        sol_load_draw(&file.draw, &file.vary, config_get_d(CONFIG_SHADOW));
+}
+
 /*---------------------------------------------------------------------------*/
 
 static void game_draw_vect(struct s_rend *rend, const struct s_vary *fp)
