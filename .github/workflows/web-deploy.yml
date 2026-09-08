@@ -30,7 +30,7 @@ jobs:
           make -j$(nproc) sols
 
       - name: Build gl4es
-        run: "./.devcontainer/install-gl4es.sh"
+        run: "./emscripten/install-gl4es.sh"
 
       - name: Build web version
         run: |
