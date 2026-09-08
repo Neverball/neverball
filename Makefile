@@ -573,7 +573,13 @@ clean : clean-src
 
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales desktops clean-src clean test
+web : sols
+	docker build -t neverball-emscripten emscripten
+	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/ball.mk BUILD=$(BUILD)
+
+#------------------------------------------------------------------------------
+
+.PHONY : all sols locales desktops clean-src clean test web
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS) $(wildcard tests/*.d)
 
