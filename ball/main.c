@@ -238,6 +238,13 @@ static int handle_key_dn(SDL_Event *e)
         return 0;
 #endif
 
+    if (KEY_IS_PAUSE(c))
+    {
+        if (e->key.repeat)
+            return d;
+        return st_keybd(c, 1);
+    }
+
     switch (c)
     {
     case KEY_SCREENSHOT:
@@ -263,9 +270,6 @@ static int handle_key_dn(SDL_Event *e)
         break;
     case KEY_FULLSCREEN:
         video_fullscreen(!config_get_d(CONFIG_FULLSCREEN));
-        break;
-    case KEY_EXIT:
-        d = st_keybd(KEY_EXIT, 1);
         break;
 
     default:
@@ -302,14 +306,14 @@ static int handle_key_up(SDL_Event *e)
 
     int dir = -1;
 
+    if (KEY_IS_PAUSE(c))
+        return st_keybd(c, 0);
+
     switch (c)
     {
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
         d = st_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_A), 0);
-        break;
-    case KEY_EXIT:
-        d = st_keybd(KEY_EXIT, 0);
         break;
     default:
         if (config_tst_d(CONFIG_KEY_FORWARD, c))
