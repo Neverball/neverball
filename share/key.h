@@ -17,4 +17,10 @@
 #define KEY_FULLSCREEN SDLK_F11
 #define KEY_SCREENSHOT SDLK_F12
 
+#if defined(__EMSCRIPTEN__)
+#define KEY_IS_PAUSE(c) ((c) == KEY_EXIT || (c) == SDLK_SPACE)
+#else
+#define KEY_IS_PAUSE(c) ((c) == KEY_EXIT)
+#endif
+
 #endif

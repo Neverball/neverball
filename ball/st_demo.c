@@ -595,7 +595,7 @@ static int demo_play_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == KEY_EXIT)
+        if (KEY_IS_PAUSE(c))
         {
             demo_paused = 1;
             return goto_state(&st_demo_end);
@@ -724,11 +724,11 @@ static int demo_end_keybd(int c, int d)
 {
     if (d)
     {
-        if (c == KEY_EXIT)
+        if (KEY_IS_PAUSE(c))
         {
             if (demo_paused)
                 return demo_end_action(DEMO_CONTINUE, 0);
-            else
+            else if (c == KEY_EXIT)
                 return demo_end_action(standalone ? DEMO_QUIT : DEMO_KEEP, 0);
         }
     }
