@@ -46,6 +46,30 @@ async function serveCachedResponse(event) {
   let response = await caches.match(event.request);
 
   if (response) {
+    const rangeHeader = event.request.headers.get('range');
+    const matches = rangeHeader && rangeHeader.match(/^bytes=(\d+)-(\d+)?$/);
+
+    // Safari requires HTTP 206 Partial Content for media range requests.
+    if (matches) {
+      const buffer = await response.arrayBuffer();
+      const start = parseInt(matches[1], 10);
+      const end = matches[2] ? parseInt(matches[2], 10) : buffer.byteLength - 1;
+
+      if (start < buffer.byteLength && end < buffer.byteLength && start <= end) {
+        const chunk = buffer.slice(start, end + 1);
+        return new Response(chunk, {
+          status: 206,
+          statusText: 'Partial Content',
+          headers: {
+            'Content-Range': `bytes ${start}-${end}/${buffer.byteLength}`,
+            'Content-Length': String(chunk.byteLength),
+            'Content-Type': response.headers.get('Content-Type') || 'video/mp4',
+            'Accept-Ranges': 'bytes',
+          },
+        });
+      }
+    }
+
     return response;
   }
 
