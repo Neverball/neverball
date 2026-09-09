@@ -1861,8 +1861,13 @@ General Public License for more details.
           });
 
           let refreshing = false;
+          const hadController = Boolean(navigator.serviceWorker.controller);
+
+          // Only reload when replacing an active worker on version updates.
+          // On first run, acquiring a controller via clients.claim() must not
+          // trigger an unexpected reload while the game is launching.
           navigator.serviceWorker.addEventListener('controllerchange', () => {
-            if (!refreshing) {
+            if (hadController && !refreshing) {
               refreshing = true;
               window.location.reload();
             }
