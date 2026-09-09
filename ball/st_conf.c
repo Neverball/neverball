@@ -45,6 +45,7 @@ enum
 {
     CONF_VIDEO = GUI_LAST,
     CONF_GAMEPLAY,
+    CONF_CONTROLS,
     CONF_LANGUAGE,
     CONF_MOUSE_SENSE,
     CONF_JOYSTICK,
@@ -104,6 +105,10 @@ static int conf_action(int tok, int val)
 
     case CONF_GAMEPLAY:
         goto_state(&st_conf_gameplay);
+        break;
+
+    case CONF_CONTROLS:
+        goto_state(&st_conf_controls);
         break;
 
     case CONF_JOYSTICK:
@@ -177,6 +182,7 @@ static int conf_gui(void)
 
             conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
             conf_state(id, _("Gameplay"), _("Configure"), CONF_GAMEPLAY);
+            conf_state(id, _("Controls"), _("Configure"), CONF_CONTROLS);
 
             gui_space(id);
 
@@ -438,6 +444,88 @@ static int gameplay_enter(struct state *st, struct state *prev, int intent)
 
 struct state st_conf_gameplay = {
     gameplay_enter,
+    conf_common_leave,
+    conf_common_paint,
+    common_timer,
+    common_point,
+    common_stick,
+    NULL,
+    common_click,
+    common_keybd,
+    common_buttn
+};
+
+/*---------------------------------------------------------------------------*/
+
+enum
+{
+    CONTROLS_TOUCH_MODE = GUI_LAST
+};
+
+static struct state *controls_back;
+
+static int controls_action(int tok, int val)
+{
+    int r = 1;
+
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (tok)
+    {
+    case GUI_BACK:
+        exit_state(controls_back);
+        controls_back = NULL;
+        break;
+
+    case CONTROLS_TOUCH_MODE:
+        config_set_d(CONFIG_TOUCH_MODE, val);
+        goto_state(&st_conf_controls);
+        break;
+    }
+
+    return r;
+}
+
+static int controls_gui(void)
+{
+    int id, jd, kd, ld;
+    int curr = config_get_d(CONFIG_TOUCH_MODE);
+
+    if ((id = gui_vstack(0)))
+    {
+        conf_header(id, _("Controls"), GUI_BACK);
+
+        if ((jd = gui_harray(id)) && (kd = gui_vstack(jd)) && (ld = gui_vstack(jd)))
+        {
+            int btn0 = gui_state(kd, _("Left Tilt"),  GUI_SML, CONTROLS_TOUCH_MODE, TOUCH_MODE_LR);
+            int btn1 = gui_state(kd, _("Right Tilt"), GUI_SML, CONTROLS_TOUCH_MODE, TOUCH_MODE_RL);
+            int btn2 = gui_state(kd, _("Dynamic"),    GUI_SML, CONTROLS_TOUCH_MODE, TOUCH_MODE_DYNAMIC);
+
+            gui_set_hilite(btn0, (curr == TOUCH_MODE_LR));
+            gui_set_hilite(btn1, (curr == TOUCH_MODE_RL));
+            gui_set_hilite(btn2, (curr == TOUCH_MODE_DYNAMIC));
+
+            gui_label(ld, _("Touch Controls"), GUI_SML, 0, 0);
+            gui_filler(ld);
+        }
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int controls_enter(struct state *st, struct state *prev, int intent)
+{
+    if (!controls_back)
+        controls_back = prev;
+
+    conf_common_init(controls_action);
+    return transition_slide(controls_gui(), 1, intent);
+}
+
+struct state st_conf_controls = {
+    controls_enter,
     conf_common_leave,
     conf_common_paint,
     common_timer,
