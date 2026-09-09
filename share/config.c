@@ -133,6 +133,7 @@ int CONFIG_CAMERA_3_VELOCITY_XZ;
 int CONFIG_CAMERA_3_ROTATE_MAX;
 
 int CONFIG_TOUCH_ROTATE;
+int CONFIG_TOUCH_MODE;
 
 int CONFIG_ONLINE;
 
@@ -264,6 +265,7 @@ static struct
     { &CONFIG_CAMERA_3_ROTATE_MAX,  "camera_3_rotate_max",  150 },
 
     { &CONFIG_TOUCH_ROTATE, "touch_rotate", 16 },
+    { &CONFIG_TOUCH_MODE,   "touch_mode",   TOUCH_MODE_LR },
 
     { &CONFIG_ONLINE, "online", 1 },
 };
