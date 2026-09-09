@@ -13,20 +13,33 @@ const urls = [
 
 async function installWorker(event) {
   const cache = await caches.open(cacheName);
-  
-  const responses = await Promise.all(
-    urls.map(async (url) => {
-      const response = await fetch(url, { cache: 'reload' });
-      if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
-      }
-      return { url, response };
-    })
-  );
 
-  await Promise.all(
-    responses.map(({ url, response }) => cache.put(url, response))
-  );
+  for (const url of urls) {
+    const response = await fetch(url, { cache: 'reload' });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+    }
+
+    // GitHub Pages (Fastly) naively gzips large .data archives (application/octet-stream),
+    // sending Content-Encoding: gzip with the compressed Content-Length.
+    // In Chromium, passing this decompressed streaming response directly into cache.put()
+    // triggers an internal stream length mismatch (net::ERR_FAILED), aborting installation.
+    // Buffering via arrayBuffer() and removing Content-Encoding and Content-Length ensures
+    // CacheStorage writes clean uncompressed bytes and prevents Firefox from attempting
+    // double-decompression (NS_ERROR_CORRUPTED_CONTENT).
+    const buffer = await response.arrayBuffer();
+    const headers = new Headers(response.headers);
+    headers.delete('content-encoding');
+    headers.delete('content-length');
+
+    const cachedResponse = new Response(buffer, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: headers,
+    });
+
+    await cache.put(url, cachedResponse);
+  }
 }
 
 async function serveCachedResponse(event) {
@@ -79,6 +92,6 @@ self.addEventListener('activate', (event) => {
           return caches.delete(key);
         }),
       );
-    }),
+    }).then(() => self.clients.claim())
   );
 });
