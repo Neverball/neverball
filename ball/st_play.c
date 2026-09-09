@@ -175,7 +175,7 @@ static int play_ready_keybd(int c, int d)
     {
         keybd_camera(c);
 
-        if (c == KEY_EXIT)
+        if (KEY_IS_PAUSE(c))
             goto_state(&st_pause);
     }
     return 1;
@@ -267,7 +267,7 @@ static int play_set_keybd(int c, int d)
     {
         keybd_camera(c);
 
-        if (c == KEY_EXIT)
+        if (KEY_IS_PAUSE(c))
             goto_state(&st_pause);
     }
     return 1;
@@ -535,7 +535,7 @@ static int play_loop_keybd(int c, int d)
             if (progress_same())
                 goto_state(&st_play_ready);
         }
-        if (c == KEY_EXIT)
+        if (KEY_IS_PAUSE(c))
             goto_state(&st_pause);
     }
     else
