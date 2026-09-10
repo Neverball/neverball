@@ -800,7 +800,9 @@ General Public License for more details.
           try {
             if (window.localStorage.getItem('isAppInstalled') !== '1') {
               // This is our first run. Do preparation now and note that we did.
-              await navigator.storage.persist();
+              if (navigator.storage && navigator.storage.persist) {
+                await navigator.storage.persist();
+              }
 
               await Neverball.prepareApp();
 
