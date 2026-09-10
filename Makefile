@@ -577,8 +577,11 @@ web : sols
 	docker build -t neverball-emscripten emscripten
 	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/ball.mk BUILD=$(BUILD)
 
+HOST ?= 0.0.0.0
+PORT ?= 0
+
 web-serve : web
-	python3 -m http.server 0 -d js -b 127.0.0.1
+	python3 -m http.server $(PORT) -d js -b $(HOST)
 
 #------------------------------------------------------------------------------
 
