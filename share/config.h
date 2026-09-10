@@ -125,6 +125,7 @@ extern int CONFIG_CAMERA_3_ROTATE_MAX;
 
 extern int CONFIG_TOUCH_ROTATE;
 extern int CONFIG_TOUCH_MODE;
+extern int CONFIG_TOUCH_ROTATE_INVERT;
 
 enum
 {
