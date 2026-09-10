@@ -501,6 +501,8 @@ static int controls_gui(void)
     {
         conf_header(id, _("Controls"), GUI_BACK);
 
+        gui_clr_rect(gui_label(id, _("Touch Controls"), GUI_SML, gui_yel, gui_yel));
+
         if ((jd = gui_harray(id)) && (kd = gui_vstack(jd)) && (ld = gui_vstack(jd)))
         {
             int btn0 = gui_state(kd, _("Left Tilt"),  GUI_SML, CONTROLS_TOUCH_MODE, TOUCH_MODE_LR);
@@ -511,13 +513,11 @@ static int controls_gui(void)
             gui_set_hilite(btn1, (curr == TOUCH_MODE_RL));
             gui_set_hilite(btn2, (curr == TOUCH_MODE_DYNAMIC));
 
-            gui_label(ld, _("Touch Controls"), GUI_SML, 0, 0);
+            gui_label(ld, _("Mode"), GUI_SML, 0, 0);
             gui_filler(ld);
         }
 
-        gui_space(id);
-
-        conf_toggle(id, _("Touch Invert Rotation"),
+        conf_toggle(id, _("Invert Rotation"),
                     CONTROLS_INVERT_ROTATE,
                     config_get_d(CONFIG_TOUCH_ROTATE_INVERT),
                     _("On"), 1, _("Off"), 0);
