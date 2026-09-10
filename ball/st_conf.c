@@ -47,39 +47,14 @@ enum
     CONF_GAMEPLAY,
     CONF_CONTROLS,
     CONF_LANGUAGE,
-    CONF_MOUSE_SENSE,
-    CONF_JOYSTICK,
     CONF_SOUND_VOLUME,
     CONF_MUSIC_VOLUME,
     CONF_PLAYER,
     CONF_BALL
 };
 
-static int mouse_id[11];
 static int music_id[11];
 static int sound_id[11];
-
-/*
- * This maps mouse_sense 300 (default) to the 7th of an 11 button
- * series. Effectively there are more options for a lower-than-default
- * sensitivity than for a higher one.
- */
-
-#define MOUSE_RANGE_MIN  100
-#define MOUSE_RANGE_INC  50
-#define MOUSE_RANGE_MAX (MOUSE_RANGE_MIN + (MOUSE_RANGE_INC * 10))
-
-/*
- * Map mouse_sense values to [0, 10]. A higher mouse_sense value means
- * lower sensitivity, thus counter-intuitively, 0 maps to the higher
- * value.
- */
-
-#define MOUSE_RANGE_MAP(m) \
-    CLAMP(0, (MOUSE_RANGE_MAX - m) / MOUSE_RANGE_INC, 10)
-
-#define MOUSE_RANGE_UNMAP(i) \
-    (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
 
 static struct state *conf_back;
 
@@ -87,7 +62,6 @@ static int conf_action(int tok, int val)
 {
     int sound = config_get_d(CONFIG_SOUND_VOLUME);
     int music = config_get_d(CONFIG_MUSIC_VOLUME);
-    int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
     int r = 1;
 
     audio_play(AUD_MENU, 1.0f);
@@ -111,10 +85,6 @@ static int conf_action(int tok, int val)
         goto_state(&st_conf_controls);
         break;
 
-    case CONF_JOYSTICK:
-        goto_state(&st_joystick);
-        break;
-
     case CONF_LANGUAGE:
         goto_state(&st_lang);
         break;
@@ -125,13 +95,6 @@ static int conf_action(int tok, int val)
 
     case CONF_BALL:
         goto_state(&st_ball);
-        break;
-
-    case CONF_MOUSE_SENSE:
-        config_set_d(CONFIG_MOUSE_SENSE, MOUSE_RANGE_UNMAP(val));
-
-        gui_toggle(mouse_id[val]);
-        gui_toggle(mouse_id[mouse]);
         break;
 
     case CONF_SOUND_VOLUME:
@@ -171,7 +134,6 @@ static int conf_gui(void)
         {
             int sound = config_get_d(CONFIG_SOUND_VOLUME);
             int music = config_get_d(CONFIG_MUSIC_VOLUME);
-            int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
 
             const char *player = config_get_s(CONFIG_PLAYER);
             const char *ball   = config_get_s(CONFIG_BALL_FILE);
@@ -183,15 +145,6 @@ static int conf_gui(void)
             conf_state(id, _("Graphics"), _("Configure"), CONF_VIDEO);
             conf_state(id, _("Gameplay"), _("Configure"), CONF_GAMEPLAY);
             conf_state(id, _("Controls"), _("Configure"), CONF_CONTROLS);
-
-            gui_space(id);
-
-            conf_slider(id, _("Mouse Sensitivity"), CONF_MOUSE_SENSE, mouse,
-                        mouse_id, ARRAYSIZE(mouse_id));
-
-            gui_space(id);
-
-            conf_state(id, _("Gamepad"), _("Configure"), CONF_JOYSTICK);
 
             gui_space(id);
 
@@ -457,9 +410,35 @@ struct state st_conf_gameplay = {
 
 /*---------------------------------------------------------------------------*/
 
+static int mouse_id[11];
+
+/*
+ * This maps mouse_sense 300 (default) to the 7th of an 11 button
+ * series. Effectively there are more options for a lower-than-default
+ * sensitivity than for a higher one.
+ */
+
+#define MOUSE_RANGE_MIN  100
+#define MOUSE_RANGE_INC  50
+#define MOUSE_RANGE_MAX (MOUSE_RANGE_MIN + (MOUSE_RANGE_INC * 10))
+
+/*
+ * Map mouse_sense values to [0, 10]. A higher mouse_sense value means
+ * lower sensitivity, thus counter-intuitively, 0 maps to the higher
+ * value.
+ */
+
+#define MOUSE_RANGE_MAP(m) \
+    CLAMP(0, (MOUSE_RANGE_MAX - m) / MOUSE_RANGE_INC, 10)
+
+#define MOUSE_RANGE_UNMAP(i) \
+    (MOUSE_RANGE_MAX - (i * MOUSE_RANGE_INC))
+
 enum
 {
-    CONTROLS_TOUCH_MODE = GUI_LAST,
+    CONTROLS_MOUSE_SENSE = GUI_LAST,
+    CONTROLS_JOYSTICK,
+    CONTROLS_TOUCH_MODE,
     CONTROLS_INVERT_ROTATE
 };
 
@@ -467,6 +446,7 @@ static struct state *controls_back;
 
 static int controls_action(int tok, int val)
 {
+    int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
     int r = 1;
 
     audio_play(AUD_MENU, 1.0f);
@@ -476,6 +456,17 @@ static int controls_action(int tok, int val)
     case GUI_BACK:
         exit_state(controls_back);
         controls_back = NULL;
+        break;
+
+    case CONTROLS_MOUSE_SENSE:
+        config_set_d(CONFIG_MOUSE_SENSE, MOUSE_RANGE_UNMAP(val));
+
+        gui_toggle(mouse_id[val]);
+        gui_toggle(mouse_id[mouse]);
+        break;
+
+    case CONTROLS_JOYSTICK:
+        goto_state(&st_joystick);
         break;
 
     case CONTROLS_TOUCH_MODE:
@@ -496,10 +487,20 @@ static int controls_gui(void)
 {
     int id, jd, kd, ld;
     int curr = config_get_d(CONFIG_TOUCH_MODE);
+    int mouse = MOUSE_RANGE_MAP(config_get_d(CONFIG_MOUSE_SENSE));
 
     if ((id = gui_vstack(0)))
     {
         conf_header(id, _("Controls"), GUI_BACK);
+
+        conf_slider(id, _("Mouse Sensitivity"), CONTROLS_MOUSE_SENSE, mouse,
+                    mouse_id, ARRAYSIZE(mouse_id));
+
+        gui_space(id);
+
+        conf_state(id, _("Gamepad"), _("Configure"), CONTROLS_JOYSTICK);
+
+        gui_space(id);
 
         gui_clr_rect(gui_label(id, _("Touch Controls"), GUI_SML, gui_yel, gui_yel));
 
