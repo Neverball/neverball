@@ -626,7 +626,8 @@ static void play_loop_touch_rotate(const SDL_TouchFingerEvent *event, float rmax
 
     if (rotate != 0.0f)
     {
-        const float scaled_rotate = (float) config_get_d(CONFIG_TOUCH_ROTATE) * rotate;
+        const float sign = config_get_d(CONFIG_TOUCH_ROTATE_INVERT) ? -1.0f : +1.0f;
+        const float scaled_rotate = sign * (float) config_get_d(CONFIG_TOUCH_ROTATE) * rotate;
         rot_set(DIR_L, CLAMP(-rmax, scaled_rotate, +rmax), 1);
     }
 }

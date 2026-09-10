@@ -459,7 +459,8 @@ struct state st_conf_gameplay = {
 
 enum
 {
-    CONTROLS_TOUCH_MODE = GUI_LAST
+    CONTROLS_TOUCH_MODE = GUI_LAST,
+    CONTROLS_INVERT_ROTATE
 };
 
 static struct state *controls_back;
@@ -479,6 +480,11 @@ static int controls_action(int tok, int val)
 
     case CONTROLS_TOUCH_MODE:
         config_set_d(CONFIG_TOUCH_MODE, val);
+        goto_state(&st_conf_controls);
+        break;
+
+    case CONTROLS_INVERT_ROTATE:
+        config_set_d(CONFIG_TOUCH_ROTATE_INVERT, val);
         goto_state(&st_conf_controls);
         break;
     }
@@ -508,6 +514,13 @@ static int controls_gui(void)
             gui_label(ld, _("Touch Controls"), GUI_SML, 0, 0);
             gui_filler(ld);
         }
+
+        gui_space(id);
+
+        conf_toggle(id, _("Touch Invert Rotation"),
+                    CONTROLS_INVERT_ROTATE,
+                    config_get_d(CONFIG_TOUCH_ROTATE_INVERT),
+                    _("On"), 1, _("Off"), 0);
 
         gui_layout(id, 0, 0);
     }
