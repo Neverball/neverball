@@ -124,6 +124,15 @@ extern int CONFIG_CAMERA_3_VELOCITY_XZ;
 extern int CONFIG_CAMERA_3_ROTATE_MAX;
 
 extern int CONFIG_TOUCH_ROTATE;
+extern int CONFIG_TOUCH_MODE;
+extern int CONFIG_TOUCH_ROTATE_INVERT;
+
+enum
+{
+    TOUCH_MODE_LR = 0,
+    TOUCH_MODE_RL,
+    TOUCH_MODE_DYNAMIC
+};
 
 extern int CONFIG_ONLINE;
 
