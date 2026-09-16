@@ -528,7 +528,6 @@ static void game_update_view(float dt)
     float ball_spd = v_len(vary.uv->v);
     float rot_mult = torque ? CLAMP(1.0f, 1.0f + ball_spd / 24.0f, rotate_max) : 1.0f;
     float da = 90.0f * input_get_r() * rot_mult * dt;
-    float dx = (!velocity_xz && spd >= 0.0f) ? (input_get_r() * rot_mult * dt * 5.0f) : 0.0f;
     float k;
 
     float M[16], v[3], Y[3] = { 0.0f, 1.0f, 0.0f };
@@ -615,11 +614,7 @@ static void game_update_view(float dt)
         view.e[2][0] = fsinf(V_RAD(view.a));
         view.e[2][1] = 0.0f;
         view.e[2][2] = fcosf(V_RAD(view.a));
-        dx = 0.0f;
     }
-
-    if (spd < 0.0f)
-        dx = 0.0f;
 
     /* Apply manual rotation. */
 
@@ -647,7 +642,6 @@ static void game_update_view(float dt)
 
     v_scl(v,    view.e[1], SCL * view.dp * view_k);
     v_mad(v, v, view.e[2], SCL * view.dz * view_k);
-    v_mad(v, v, view.e[0], SCL * dx      * view_k);
     v_add(view.p, v, vary.uv->p);
 
     /* Compute the new view center. */
