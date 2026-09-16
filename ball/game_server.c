@@ -526,7 +526,7 @@ static void game_update_view(float dt)
 
     float dc = view.dc * (jump_b > 0 ? 2.0f * fabsf(jump_dt - 0.5f) : 1.0f);
     float ball_spd = v_len(vary.uv->v);
-    float rot_mult = torque ? CLAMP(1.0f, 1.0f + ball_spd / 24.0f, rotate_max) : 1.0f;
+    float rot_mult = CLAMP(1.0f, 1.0f + ball_spd / 24.0f, rotate_max);
     float da = 90.0f * input_get_r() * rot_mult * dt;
     float k;
 
