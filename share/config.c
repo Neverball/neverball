@@ -105,6 +105,7 @@ int CONFIG_KEY_RESTART;
 int CONFIG_KEY_SCORE_NEXT;
 int CONFIG_KEY_ROTATE_FAST;
 int CONFIG_VIEW_FOV;
+int CONFIG_VIEW_FOV_NOSTALGIC;
 int CONFIG_VIEW_DP;
 int CONFIG_VIEW_DC;
 int CONFIG_VIEW_DZ;
@@ -236,7 +237,8 @@ static struct
     { &CONFIG_KEY_SCORE_NEXT,    "key_score_next",    SDLK_TAB },
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
 
-    { &CONFIG_VIEW_FOV,    "view_fov",    50 },
+    { &CONFIG_VIEW_FOV,           "view_fov",           50 },
+    { &CONFIG_VIEW_FOV_NOSTALGIC, "view_fov_nostalgic", 1 },
     { &CONFIG_VIEW_DP,     "view_dp",     75 },
     { &CONFIG_VIEW_DC,     "view_dc",     25 },
     { &CONFIG_VIEW_DZ,     "view_dz",     200 },
