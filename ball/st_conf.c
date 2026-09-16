@@ -308,7 +308,7 @@ enum
 {
     GAMEPLAY_CAMERA_DEFAULT = GUI_LAST,
     GAMEPLAY_CAMERA_1_4,
-    GAMEPLAY_CAMERA_1_5,
+    GAMEPLAY_CAMERA_1_6,
     GAMEPLAY_LOCK_GOALS
 };
 
@@ -337,8 +337,8 @@ static int gameplay_action(int tok, int val)
         goto_state(&st_conf_gameplay);
         break;
 
-    case GAMEPLAY_CAMERA_1_5:
-        cam_preset_set(CAM_1, CAM_PRESET_1_5);
+    case GAMEPLAY_CAMERA_1_6:
+        cam_preset_set(CAM_1, CAM_PRESET_1_6);
         goto_state(&st_conf_gameplay);
         break;
 
@@ -370,11 +370,11 @@ static int gameplay_gui(void)
         {
             int btn0 = gui_state(kd, _("Default"),     GUI_SML, GAMEPLAY_CAMERA_DEFAULT, 0);
             int btn1 = gui_state(kd, _("1.4 Classic"), GUI_SML, GAMEPLAY_CAMERA_1_4,     0);
-            int btn2 = gui_state(kd, _("1.5 Classic"), GUI_SML, GAMEPLAY_CAMERA_1_5,     0);
+            int btn2 = gui_state(kd, _("1.6 Classic"), GUI_SML, GAMEPLAY_CAMERA_1_6,     0);
 
             gui_set_hilite(btn0, (curr == CAM_PRESET_DEFAULT));
             gui_set_hilite(btn1, (curr == CAM_PRESET_1_4));
-            gui_set_hilite(btn2, (curr == CAM_PRESET_1_5));
+            gui_set_hilite(btn2, (curr == CAM_PRESET_1_6));
 
             gui_label(ld, _("Camera Preset"), GUI_SML, 0, 0);
             gui_filler(ld);
