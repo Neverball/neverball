@@ -219,12 +219,12 @@ values follow.
                 camera_1_velocity_xz = 0
                 camera_1_rotate_max  = 100
 
-            To configure any camera slot (e.g., camera 1) for 1.5 Classic:
+            To configure any camera slot (e.g., camera 1) for 1.6 Classic:
                 camera_1_speed       = 250
                 camera_1_torque      = 0
                 camera_1_free_rotate = 1
                 camera_1_velocity_xz = 1
-                camera_1_rotate_max  = 150
+                camera_1_rotate_max  = 100
 
     mouse_camera_1      none
     mouse_camera_2      none

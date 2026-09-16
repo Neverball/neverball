@@ -61,7 +61,7 @@ enum
 {
     CAM_PRESET_DEFAULT = 0,
     CAM_PRESET_1_4,
-    CAM_PRESET_1_5,
+    CAM_PRESET_1_6,
     CAM_PRESET_CUSTOM
 };
 
