@@ -614,7 +614,7 @@ msgstr "Select"
 
 #: share/st_common.c:789
 msgid "Start"
-msgstr "Start"
+msgstr "Jugar"
 
 #: share/st_common.c:793
 msgid "X Axis 1"
