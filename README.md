@@ -15,7 +15,7 @@ Release highlights can be found in [doc/release-notes.md](doc/release-notes.md).
 ## Documentation
 
 * [LICENSE.md](LICENSE.md): a description of licensing and exceptions
-* [doc/install.txt](doc/install.txt): instructions on how to build the
+* [doc/install.md](doc/install.md): instructions on how to build the
   game from source code
 * [doc/manual.txt](doc/manual.txt): a detailed description of how to
   play and configure the game
