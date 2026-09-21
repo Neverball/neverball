@@ -713,7 +713,7 @@ msgstr "Dificultad: Principiante a Intermedia\\\\25 niveles con una suave curva 
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
-msgstr "Neverball Intermedio"
+msgstr "Neverball Medio"
 
 #: data/set-medium.txt
 msgid ""
