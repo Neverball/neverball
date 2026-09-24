@@ -21,8 +21,10 @@
 #include "config.h"
 #include "common.h"
 #include "key.h"
+#include "fbo.h"
 
 #include "game_common.h"
+#include "game_client.h"
 
 #include "st_set.h"
 #include "st_level.h"
@@ -270,6 +272,90 @@ static void start_wheel(int x, int y)
     if (y < 0) start_score(+1);
 }
 
+struct snap_job
+{
+    int active;
+    int queue[MAXLVL];
+    int count;
+    int curr;
+    char *dir;
+    struct fbo fbo;
+};
+
+static struct snap_job snap;
+
+static void start_snap_finish(void)
+{
+    if (snap.fbo.framebuffer)
+        fbo_delete(&snap.fbo);
+
+    if (snap.dir)
+    {
+        free(snap.dir);
+        snap.dir = NULL;
+    }
+
+    snap.active = 0;
+    snap.count  = 0;
+    snap.curr   = 0;
+
+    load_title_background();
+    game_kill_fade();
+}
+
+static void start_snap_init(void)
+{
+    int i;
+
+    if (snap.active)
+        return;
+
+    snap.count = 0;
+    snap.curr  = 0;
+
+    for (i = 0; i < MAXLVL; i++)
+        if (level_exists(i))
+            snap.queue[snap.count++] = i;
+
+    if (snap.count == 0)
+        return;
+
+    snap.dir = concat_string("Screenshots/shot-", set_id(curr_set()), NULL);
+    fs_mkdir(snap.dir);
+
+    memset(&snap.fbo, 0, sizeof (snap.fbo));
+    if (fbo_create(&snap.fbo, 512, 512))
+        snap.active = 1;
+    else
+    {
+        fbo_delete(&snap.fbo);
+
+        for (i = 0; i < snap.count; i++)
+            level_snap(snap.queue[i], snap.dir);
+
+        free(snap.dir);
+        snap.dir = NULL;
+
+        load_title_background();
+        game_kill_fade();
+    }
+}
+
+static void start_snap_step(void)
+{
+    if (!snap.active)
+        return;
+
+    if (snap.curr < snap.count)
+    {
+        level_snap_offscreen(snap.queue[snap.curr], snap.dir, &snap.fbo);
+        snap.curr++;
+    }
+
+    if (snap.curr >= snap.count)
+        start_snap_finish();
+}
+
 static int start_keybd(int c, int d)
 {
     if (d)
@@ -284,19 +370,7 @@ static int start_keybd(int c, int d)
         }
         else if (c == KEY_LEVELSHOTS && config_cheat())
         {
-            char *dir = concat_string("Screenshots/shot-",
-                                      set_id(curr_set()), NULL);
-            int i;
-
-            fs_mkdir(dir);
-
-            /* Iterate over all levels, taking a screenshot of each. */
-
-            for (i = 0; i < MAXLVL; i++)
-                if (level_exists(i))
-                    level_snap(i, dir);
-
-            free(dir);
+            start_snap_init();
         }
         else if (config_tst_d(CONFIG_KEY_SCORE_NEXT, c))
             return start_score(+1);
@@ -328,6 +402,20 @@ static int start_click(int b, int d)
     return 1;
 }
 
+static int start_leave(struct state *st, struct state *next, int id, int intent)
+{
+    if (snap.active)
+        start_snap_finish();
+
+    return shared_leave(st, next, id, intent);
+}
+
+static void start_timer(int id, float dt)
+{
+    shared_timer(id, dt);
+    start_snap_step();
+}
+
 /*---------------------------------------------------------------------------*/
 
 int goto_start(int index, struct state *back_state)
@@ -340,9 +428,9 @@ int goto_start(int index, struct state *back_state)
 
 struct state st_start = {
     start_enter,
-    shared_leave,
+    start_leave,
     shared_paint,
-    shared_timer,
+    start_timer,
     start_point,
     start_stick,
     shared_angle,

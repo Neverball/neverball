@@ -40,8 +40,10 @@ void set_store_hs(void);
 /*---------------------------------------------------------------------------*/
 
 struct level *get_level(int);
+struct fbo;
 
 void level_snap(int, const char *);
+int  level_snap_offscreen(int, const char *, struct fbo *);
 void set_cheat(void);
 
 /*---------------------------------------------------------------------------*/

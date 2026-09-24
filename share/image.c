@@ -30,27 +30,32 @@
 
 /*---------------------------------------------------------------------------*/
 
-void image_snap(const char *filename)
+int image_save_png(const char *filename, const unsigned char *p, int w, int h)
 {
     fs_file     filep  = NULL;
     png_structp writep = NULL;
     png_infop   infop  = NULL;
     png_bytep  *bytep  = NULL;
+    int i, success = 0;
 
-    int w = video.device_w;
-    int h = video.device_h;
-    int i;
-
-    unsigned char *p = NULL;
+    if (!filename || !p || w <= 0 || h <= 0)
+        return 0;
 
     /* Initialize all PNG export data structures. */
 
     if (!(filep = fs_open_write(filename)))
-        return;
+        return 0;
     if (!(writep = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0)))
-        return;
+    {
+        fs_close(filep);
+        return 0;
+    }
     if (!(infop = png_create_info_struct(writep)))
-        return;
+    {
+        png_destroy_write_struct(&writep, NULL);
+        fs_close(filep);
+        return 0;
+    }
 
     /* Enable the default PNG error handler. */
 
@@ -64,30 +69,24 @@ void image_snap(const char *filename)
                      PNG_INTERLACE_NONE,
                      PNG_COMPRESSION_TYPE_DEFAULT,
                      PNG_FILTER_TYPE_DEFAULT);
+        png_set_compression_level(writep, 1);
 
-        /* Allocate the pixel buffer and copy pixels there. */
+        /* Allocate and initialize the row pointers. */
 
-        if ((p = (unsigned char *) malloc(w * h * 4)))
+        if ((bytep = (png_bytep *) png_malloc(writep, h * sizeof (png_bytep))))
         {
-            glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, p);
+            for (i = 0; i < h; ++i)
+                bytep[h - i - 1] = (png_bytep) (p + i * w * 4);
 
-            /* Allocate and initialize the row pointers. */
+            /* Write the PNG image file. */
 
-            if ((bytep = (png_bytep *) png_malloc(writep, h * sizeof (png_bytep))))
-            {
-                for (i = 0; i < h; ++i)
-                    bytep[h - i - 1] = (png_bytep) (p + i * w * 4);
+            png_write_info(writep, infop);
+            png_set_filler(writep, 0, PNG_FILLER_AFTER);
+            png_write_image(writep, bytep);
+            png_write_end(writep, infop);
 
-                /* Write the PNG image file. */
-
-                png_write_info(writep, infop);
-                png_set_filler(writep, 0, PNG_FILLER_AFTER);
-                png_write_image(writep, bytep);
-                png_write_end(writep, infop);
-
-                free(bytep);
-            }
-            free(p);
+            free(bytep);
+            success = 1;
         }
     }
 
@@ -95,6 +94,22 @@ void image_snap(const char *filename)
 
     png_destroy_write_struct(&writep, &infop);
     fs_close(filep);
+
+    return success;
+}
+
+void image_snap(const char *filename)
+{
+    int w = video.device_w;
+    int h = video.device_h;
+    unsigned char *p = NULL;
+
+    if ((p = (unsigned char *) malloc(w * h * 4)))
+    {
+        glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, p);
+        image_save_png(filename, p, w, h);
+        free(p);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
