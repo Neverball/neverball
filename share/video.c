@@ -534,12 +534,6 @@ void video_push_persp(float fov, float n, float f)
         GLfloat a = ((GLfloat) video.device_w /
                      (GLfloat) video.device_h);
 
-        if (config_get_d(CONFIG_VIEW_FOV_NOSTALGIC) && a > 4.0f / 3.0f)
-        {
-            GLfloat a_eff = MIN(a, 16.0f / 9.0f);
-            c *= (3.0f / 4.0f) * a_eff;
-        }
-
         glMatrixMode(GL_PROJECTION);
         {
             glLoadIdentity();

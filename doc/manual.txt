@@ -276,17 +276,6 @@ values follow.
             view_dc  0
             view_dz  600
 
-    view_fov_nostalgic 1
-
-        Little known fact, view_fov actually defines the vertical field
-        of view while the horizontal FOV is dynamically calculated from
-        the window width. This means that Neverball on a 16:9 screen or
-        window feels meaningfully different than it did back in 2004 in
-        its default 800x600 sized window with a default vertical FOV of
-        50 degrees. This setting is designed to recreate the horizontal
-        FOV feel on modern displays that Neverball had back in the day.
-        And yes this paragraph lines up without any extra spaces added.
-
     rotate_fast 300
     rotate_slow 150
 
