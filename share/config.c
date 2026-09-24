@@ -238,7 +238,7 @@ static struct
     { &CONFIG_KEY_ROTATE_FAST,   "key_rotate_fast",   SDLK_LSHIFT },
 
     { &CONFIG_VIEW_FOV,           "view_fov",           50 },
-    { &CONFIG_VIEW_FOV_NOSTALGIC, "view_fov_nostalgic", 0 },
+    { &CONFIG_VIEW_FOV_NOSTALGIC, "view_fov_nostalgic", 1 },
     { &CONFIG_VIEW_DP,     "view_dp",     75 },
     { &CONFIG_VIEW_DC,     "view_dc",     25 },
     { &CONFIG_VIEW_DZ,     "view_dz",     200 },
