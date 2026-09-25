@@ -374,7 +374,7 @@ msgstr "Inclinar en 2 direcciones incrementa la pendiente.\\Utiliza la cámara m
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
-msgstr "Ver demostración"
+msgstr "Ver demo"
 
 #: ball/st_level.c:56
 #, c-format
