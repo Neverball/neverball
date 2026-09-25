@@ -1011,7 +1011,7 @@ msgstr "=Discos=\\Bien usadas, las plataformas te llevarán a la meta."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "=Infierno=\\Los empujorrocosos ardientes intentarán frustrar tu importante misión."
+msgstr "=Infierno=\\Los Thwomps ardientes intentarán frustrar tu misión."
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
