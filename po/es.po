@@ -3,9 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Don Algo, 2026
+# Matias Bazzano, 2026
 # GunChleoc, 2014
 # Germe Fur, 2022
+# Matias Bazzano, 2026
 # Swyter <Swyterzone@gmail.com>, 2015,2021
 msgid ""
 msgstr ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
 "POT-Creation-Date: 2021-12-09 22:48+0200\n"
 "PO-Revision-Date: 2013-11-30 10:21+0000\n"
-"Last-Translator: Don Algo, 2026\n"
+"Last-Translator: Matias Bazzano, 2026\n"
 "Language-Team: Spanish (http://app.transifex.com/neverball/neverball/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -206,7 +207,7 @@ msgstr "Fecha"
 
 #: ball/st_demo.c:290
 msgid "Select Replay"
-msgstr "Elige una repetición"
+msgstr "Elegir repetición"
 
 #: ball/st_demo.c:306
 msgid "No Replays"
@@ -374,7 +375,7 @@ msgstr "Inclinar en 2 direcciones incrementa la pendiente.\\Utiliza la cámara m
 
 #: ball/st_help.c:308 ball/st_help.c:318
 msgid "Watch demo"
-msgstr "Ver demostración"
+msgstr "Ver demo"
 
 #: ball/st_level.c:56
 #, c-format
@@ -411,7 +412,7 @@ msgstr "JUEGO ACABADO"
 
 #: ball/st_pause.c:80 putt/st_all.c:635
 msgid "Paused"
-msgstr "En pausa"
+msgstr "Pausa"
 
 #: ball/st_pause.c:89
 msgid "Restart"
@@ -709,7 +710,7 @@ msgstr "Neverball Fácil"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Dificultad: Principiante a Intermedia\\\\25 niveles con una suave curva de aprendizaje.\\Lee la introducción de cada nivel para consejos útiles.\\ \\"
+msgstr "Dificultad: Principiante a Intermedia.\\\\25 niveles con una suave curva de aprendizaje.\\Lee la introducción de cada nivel para consejos útiles.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -720,7 +721,7 @@ msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
 "balanced\\challenge for players. Try to claim\\some of the records "
 "provided.\\"
-msgstr "Dificultad: Principiante a Experta.\\\\25 niveles que proporcionan un desafío balanceado a los jugadores.\\Intenta batir algunos de los récords\\propuestos."
+msgstr "Dificultad: Principiante a Experta.\\25 niveles que proporcionan\\un desafío balanceado a los jugadores.\\Intenta batir algunos de los récords\\propuestos."
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -731,7 +732,7 @@ msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr "Dificultad: Intermedio a Experta.\\\\25 niveles más complicados para jugadores experimentados.\\Intenta batir los récords de monedas, mejores tiempos,\\y desbloqueos rápidos de meta.\\"
+msgstr "Dificultad: Intermedio a Experta.\\25 niveles más complicados\\para jugadores experimentados.\\Intenta batir los récords de monedas, mejores tiempos,\\y desbloqueos rápidos de meta.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -751,7 +752,7 @@ msgstr "Retour de force"
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Dificultad: Apenas mas difícil que mi primer set.\\\\Niveles más desafiantes, particularmente para recolectar\\las monedas\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr "Dificultad: Apenas mas difícil que mi primer set.\\\\Niveles más desafiantes, sobre todo para recolectar\\las monedas\\Autor: Mehdi Yousfi-Monod (mym)\\ \\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -761,7 +762,7 @@ msgstr "Nevermanía"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr "Dificultad: Experta a Imposible.\\\\Varios niveles para jugadores avanzados.\\Autor: Florian Priester.\\\\"
+msgstr "Dificultad: Experta a Imposible.\\\\Varios niveles para jugadores avanzados.\\Autor: Florian Priester\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
@@ -1571,7 +1572,7 @@ msgstr "Préparez un petit sac.\\El saca-hígados."
 
 #: data/map-mym2/sonic.map
 msgid "Un petit échauffement.\\Welcome to Mehdi's new set!"
-msgstr "Un petit échauffement.\\¡Bienvenido a la nueva serie de Mehdi!"
+msgstr "Un petit échauffement.\\¡Bienvenido al nuevo set de Mehdi!"
 
 #: data/map-mym2/speed.map
 msgid "Plus vite que la vitesse.\\The definition of speed."
