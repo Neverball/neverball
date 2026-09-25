@@ -709,7 +709,7 @@ msgstr "Neverball Fácil"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Dificultad: Principiante a Intermedia\\\\25 niveles con una suave curva de aprendizaje.\\Lee la introducción de cada nivel para consejos útiles.\\ \\"
+msgstr "Dificultad: Principiante a Intermedia.\\\\25 niveles con una suave curva de aprendizaje.\\Lee la introducción de cada nivel para consejos útiles.\\ \\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
