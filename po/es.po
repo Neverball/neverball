@@ -1051,7 +1051,7 @@ msgstr "=Espacio temporal=\\Ni mucho espacio, ni mucho tiempo."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=El enjambre=\\Advertencia: Los empujorrocosos enrocarán a cualquier intruso que se atreva a adentrarse en sus dominios."
+msgstr "=El enjambre=\\Advertencia: Los Thwomps enrocarán a cualquier intruso\\que se atreva a adentrarse en sus dominios."
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
@@ -1402,7 +1402,7 @@ msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.\\¡A bailar a tope en la plataforma móvil!\\Consejo: tras activar la última plataforma móvil\\ rodea al empujorrocoso hasta poder llegar a la meta."
+msgstr "La ballade dansante.\\¡A bailar a tope en la plataforma móvil!\\Consejo: tras activar la última plataforma móvil\\ rodea al Thwomp hasta poder llegar a la meta."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
