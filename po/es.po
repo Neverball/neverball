@@ -732,7 +732,7 @@ msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
 "challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
 " and Fast Unlock records.\\"
-msgstr "Dificultad: Intermedio a Experta.\\\\25 niveles más complicados para jugadores experimentados.\\Intenta batir los récords de monedas, mejores tiempos,\\y desbloqueos rápidos de meta.\\"
+msgstr "Dificultad: Intermedio a Experta.\\25 niveles más complicados\\para jugadores experimentados.\\Intenta batir los récords de monedas, mejores tiempos,\\y desbloqueos rápidos de meta.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
