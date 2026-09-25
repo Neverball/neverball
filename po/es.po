@@ -412,7 +412,7 @@ msgstr "JUEGO ACABADO"
 
 #: ball/st_pause.c:80 putt/st_all.c:635
 msgid "Paused"
-msgstr "En pausa"
+msgstr "Pausa"
 
 #: ball/st_pause.c:89
 msgid "Restart"
