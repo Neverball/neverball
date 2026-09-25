@@ -177,9 +177,19 @@ int glext_init(void);
 #define glPointParameterf_     glPointParameterf
 
 #ifdef __EMSCRIPTEN__
-#define glOrtho_               glOrtho
+#define glOrtho_                    glOrtho
+#define glBindFramebuffer_          glBindFramebuffer
+#define glDeleteFramebuffers_       glDeleteFramebuffers
+#define glGenFramebuffers_          glGenFramebuffers
+#define glFramebufferTexture2D_     glFramebufferTexture2D
+#define glCheckFramebufferStatus_   glCheckFramebufferStatus
 #else
-#define glOrtho_               glOrthof
+#define glOrtho_                    glOrthof
+#define glBindFramebuffer_(t, f)    ((void) 0)
+#define glDeleteFramebuffers_(n, f) ((void) 0)
+#define glGenFramebuffers_(n, f)    ((void) 0)
+#define glFramebufferTexture2D_(t, a, tt, tx, l) ((void) 0)
+#define glCheckFramebufferStatus_(t) 0
 #endif
 
 #define glStringMarker_(s) ((void) (s))

@@ -139,6 +139,12 @@ int glext_init(void)
     if (glext_check("GL_EXT_texture_filter_anisotropic"))
         gli.texture_filter_anisotropic = 1;
 
+#if defined(__EMSCRIPTEN__)
+    if (glext_check("ARB_framebuffer_object") ||
+        glext_check("EXT_framebuffer_object"))
+        gli.framebuffer_object = 1;
+#endif
+
     /* Desktop init. */
 
 #if !ENABLE_OPENGLES && !defined(__EMSCRIPTEN__)
