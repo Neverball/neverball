@@ -977,7 +977,7 @@ msgstr "Si la bola se encuentra en una plataforma móvil\\será arrastrada en la
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
-msgstr "Coge todas las monedas...\\¡y cuidado con los empurrocosos!"
+msgstr "Agarra todas las monedas...\\¡y no te dejes empujar!"
 
 #: data/map-easy/wakka.map
 msgid ""
@@ -1011,7 +1011,7 @@ msgstr "=Discos=\\Bien usadas, las plataformas te llevarán a la meta."
 
 #: data/map-fwp/inferno.map
 msgid "=Inferno=\\The fire thwomps will try to foil your mission."
-msgstr "=Infierno=\\Los empujorrocosos ardientes intentarán frustrar tu importante misión."
+msgstr "=Infierno=\\Los Rocosos ardientes intentarán frustrar tu misión."
 
 #: data/map-fwp/ladybirds.map
 msgid "=Ladybirds=\\Don't let them bug you."
@@ -1051,7 +1051,7 @@ msgstr "=Espacio temporal=\\Ni mucho espacio, ni mucho tiempo."
 
 #: data/map-fwp/swarm.map
 msgid "=Swarm=\\Warning: Trespassers will be thwomped."
-msgstr "=El enjambre=\\Advertencia: Los empujorrocosos enrocarán a cualquier intruso que se atreva a adentrarse en sus dominios."
+msgstr "=El enjambre=\\Advertencia: Los Rocosos enrocarán a cualquier intruso\\que se atreva a adentrarse en sus dominios."
 
 #: data/map-fwp/tennis.map
 msgid "=Tennis=\\There is plenty of prize money, and it's up for grabs."
@@ -1402,7 +1402,7 @@ msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
 "activating the last moving platform,\\ turn around the Thwomp until the goal"
 " is reachable."
-msgstr "La ballade dansante.\\¡A bailar a tope en la plataforma móvil!\\Consejo: tras activar la última plataforma móvil\\ rodea al empujorrocoso hasta poder llegar a la meta."
+msgstr "La ballade dansante.\\¡A bailar a tope en la plataforma móvil!\\Consejo: tras activar la última plataforma móvil\\ rodea ese Rocoso hasta poder llegar a la meta."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
