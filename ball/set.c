@@ -707,8 +707,8 @@ int level_snap_offscreen(int i, const char *path, struct fbo *snap_fbo)
 
         saved_dw = video.device_w;
         saved_dh = video.device_h;
-        video.device_w = 4;
-        video.device_h = 3;
+        video.device_w = snap_fbo->height * 4 / 3;
+        video.device_h = snap_fbo->height;
 
         video_clear();
         game_client_draw(POSE_LEVEL, 0);
