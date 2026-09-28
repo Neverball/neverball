@@ -717,11 +717,28 @@ int level_snap_offscreen(int i, const char *path, struct fbo *snap_fbo)
 
         if ((pixels = (unsigned char *) malloc(snap_fbo->width * snap_fbo->height * 4)))
         {
+            int out_w = snap_fbo->width;
+            int out_h = snap_fbo->height;
+            unsigned char *out = pixels;
+
             glReadPixels(0, 0, snap_fbo->width, snap_fbo->height,
                          GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-            success = image_save_png(filename, pixels,
-                                     snap_fbo->width, snap_fbo->height);
+            int factor = snap_fbo->width / 512;
+
+            if (factor > 1)
+            {
+                void *scaled = image_scale(pixels, snap_fbo->width, snap_fbo->height,
+                                           4, &out_w, &out_h, factor);
+                if (scaled)
+                    out = (unsigned char *) scaled;
+            }
+
+            success = image_save_png(filename, out, out_w, out_h);
+
+            if (out != pixels)
+                free(out);
+
             free(pixels);
         }
 
