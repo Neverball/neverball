@@ -324,9 +324,18 @@ static void start_snap_init(void)
     fs_mkdir(snap.dir);
 
     memset(&snap.fbo, 0, sizeof (snap.fbo));
-    if (fbo_create(&snap.fbo, 512, 512))
+
+    if (fbo_create(&snap.fbo, 1024, 1024))
         snap.active = 1;
     else
+    {
+        fbo_delete(&snap.fbo);
+
+        if (fbo_create(&snap.fbo, 512, 512))
+            snap.active = 1;
+    }
+
+    if (!snap.active)
     {
         fbo_delete(&snap.fbo);
 
