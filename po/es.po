@@ -117,7 +117,7 @@ msgstr "Puntuación"
 
 #: ball/progress.c:409 ball/st_help.c:278
 msgid "Challenge Mode"
-msgstr "Modo Desafío"
+msgstr "Modo desafío"
 
 #: ball/progress.c:409 ball/st_start.c:219
 msgid "Challenge"
@@ -451,7 +451,7 @@ msgid ""
 "Start playing from the first level of the set.\n"
 "You start with only three balls, do not lose them.\n"
 "Earn an extra ball for each 100 coins collected."
-msgstr "Empiezas desde el primer nivel de un set.\nEmpiezas con tres bolas, no las pierdas.\nCada 100 monedas consigues una bola extra."
+msgstr "Arranca desde el primer nivel de un set.\nEmpiezas con tres bolas, no las pierdas.\nCada 100 monedas consigues una bola extra."
 
 #: ball/st_help.c:294
 msgid ""
