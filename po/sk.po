@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Robert Kooima
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # MiroslavR <miroslavr256@gmail.com>, 2014-2015
 # Miroslav Remák <Unknown>, 2014
@@ -9,47 +9,61 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2014-05-21 13:35+0300\n"
+"POT-Creation-Date: 2026-09-30 12:18+0300\n"
 "PO-Revision-Date: 2015-08-24 14:31+0000\n"
 "Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/neverball/neverball/language/sk/)\n"
+"Language-Team: Slovak (http://www.transifex.com/neverball/neverball/language/"
+"sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ball/st_play.c:100
-msgid "Ready?"
-msgstr "Pripraviť sa!"
+#: ball/game_common.c:28
+msgid "Aborted"
+msgstr "Prerušené"
 
-#: ball/st_play.c:184
-msgid "Set?"
-msgstr "Pozor!"
+#: ball/game_common.c:29
+msgid "Time-out"
+msgstr "Čas vypršal"
 
-#: ball/st_play.c:325
-msgid "GO!"
-msgstr "ŠTART!"
+#: ball/game_common.c:30
+msgid "Success"
+msgstr "Úspech"
 
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Názov záznamu"
+#: ball/game_common.c:31
+msgid "Fall-out"
+msgstr "Pád von"
 
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Uložiť"
+#: ball/game_common.c:32 ball/progress.c:412
+msgid "Unknown"
+msgstr "Neznámy"
 
-#: ball/st_save.c:113 ball/st_save.c:222 ball/st_name.c:112
-msgid "Cancel"
-msgstr "Zrušiť"
+#: ball/game_common.c:45
+msgid "Manual Camera"
+msgstr "Manuálna kamera"
 
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Prepísať?"
+#: ball/game_common.c:47
+msgid "Lazy Camera"
+msgstr "Lenivá kamera"
 
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Prepísať"
+#: ball/game_common.c:51 ball/st_conf.c:372
+msgid "1.4 Classic"
+msgstr ""
+
+#: ball/game_common.c:52 ball/st_conf.c:373
+msgid "1.6 Classic"
+msgstr ""
+
+#: ball/game_common.c:53
+msgid "Chase Camera"
+msgstr "Prenasledujúca kamera"
+
+#: ball/game_common.c:57
+#, c-format
+msgid "Camera %d"
+msgstr "Kamera %d"
 
 #: ball/game_common.h:10
 msgid "snd/select.ogg"
@@ -83,559 +97,798 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "snd/over.ogg"
 
-#: ball/st_start.c:174 ball/st_demo.c:308 ball/st_help.c:106
-#: ball/st_ball.c:182 share/gui.c:2204 share/st_common.c:97 putt/st_conf.c:106
-#: putt/st_all.c:404 putt/st_all.c:552
-msgid "Back"
-msgstr "Späť"
-
-#: ball/st_start.c:203 ball/progress.c:417
-msgid "Challenge"
-msgstr "Výzva"
-
-#: ball/st_start.c:223
-msgid "Unlocked"
-msgstr "Odomknutý"
-
-#: ball/st_start.c:224
-msgid "Locked"
-msgstr "Zamknutý"
-
-#: ball/st_start.c:234
-msgid "Goal State in Completed Levels"
-msgstr "Stav cieľa v dokončených úrovniach"
-
-#: ball/st_conf.c:156 putt/st_conf.c:104
-msgid "Options"
-msgstr "Možnosti"
-
-#: ball/st_conf.c:158 share/st_common.c:339 putt/st_conf.c:116
-msgid "Graphics"
-msgstr "Grafika"
-
-#: ball/st_conf.c:158 putt/st_conf.c:114
-msgid "Configure"
-msgstr "Konfigurovať"
-
-#: ball/st_conf.c:162
-msgid "Mouse Sensitivity"
-msgstr "Citlivosť myši"
-
-#: ball/st_conf.c:167 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Hlasitosť zvuku"
-
-#: ball/st_conf.c:169 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Hlasitosť hudby"
-
-#: ball/st_conf.c:174 ball/st_name.c:99
-msgid "Player Name"
-msgstr "Meno hráča"
-
-#: ball/st_conf.c:175 ball/st_ball.c:180
-msgid "Ball Model"
-msgstr "Model lopty"
-
-#: ball/st_conf.c:176 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Jazyk"
-
-#: ball/st_conf.c:190 share/st_common.c:666
-msgid "Default"
-msgstr "Predvolený"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Nový rekord v skupine"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Skupina dokončená"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Vyberte úroveň"
-
-#: ball/progress.c:417 ball/st_help.c:260
-msgid "Challenge Mode"
-msgstr "Režim výzvy"
-
-#: ball/progress.c:418 ball/st_help.c:247
-msgid "Normal Mode"
-msgstr "Normálny režim"
-
-#: ball/progress.c:418
-msgid "Normal"
-msgstr "Normálny"
-
-#: ball/progress.c:419
-msgid "Standalone Mode"
-msgstr "Samostatný režim"
-
-#: ball/progress.c:419
-msgid "Standalone"
-msgstr "Samostatný"
-
-#: ball/progress.c:420
-msgid "Unknown Mode"
-msgstr "Neznámy režim"
-
-#: ball/progress.c:420 ball/game_common.c:32
-msgid "Unknown"
-msgstr "Neznámy"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Pád von!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Čas vypršal!"
-
-#: ball/st_fail.c:98
-msgid "Exit"
-msgstr "Ukončiť"
-
-#: ball/st_fail.c:101 ball/st_goal.c:220
-msgid "Next Level"
-msgstr "Ďalšia úroveň"
-
-#: ball/st_fail.c:104 ball/st_goal.c:223
-msgid "Retry Level"
-msgstr "Opakovať úroveň"
-
-#: ball/st_fail.c:107 ball/st_goal.c:226
-msgid "Save Replay"
-msgstr "Uložiť záznam"
-
-#: ball/st_name.c:110
-msgid "OK"
-msgstr "OK"
-
-#: ball/st_demo.c:202
-msgid "Time"
-msgstr "Čas"
-
-#: ball/st_demo.c:203 ball/hud.c:68 ball/st_goal.c:166
+#: ball/hud.c:72 ball/st_demo.c:224 ball/st_goal.c:167
 msgid "Coins"
 msgstr "Mince"
 
-#: ball/st_demo.c:204
-msgid "Status"
-msgstr "Stav"
-
-#: ball/st_demo.c:235 ball/st_demo.c:426
-msgid "Replay"
-msgstr "Záznam"
-
-#: ball/st_demo.c:236 putt/st_all.c:740
-msgid "Player"
-msgstr "Hráč"
-
-#: ball/st_demo.c:237
-msgid "Date"
-msgstr "Dátum"
-
-#: ball/st_demo.c:290
-msgid "Select Replay"
-msgstr "Vyberte záznam"
-
-#: ball/st_demo.c:306
-msgid "No Replays"
-msgstr "Žiadne záznamy"
-
-#: ball/st_demo.c:611
-msgid "Replay Paused"
-msgstr "Záznam pozastavený"
-
-#: ball/st_demo.c:613
-msgid "Replay Ends"
-msgstr "Koniec záznamu"
-
-#: ball/st_demo.c:619 ball/st_pause.c:88 putt/st_all.c:649
-msgid "Quit"
-msgstr "Ukončiť"
-
-#: ball/st_demo.c:623 ball/st_demo.c:709
-msgid "Keep"
-msgstr "Ponechať"
-
-#: ball/st_demo.c:624 ball/st_demo.c:710
-msgid "Delete"
-msgstr "Vymazať"
-
-#: ball/st_demo.c:628 ball/st_pause.c:93 putt/st_all.c:650
-msgid "Continue"
-msgstr "Pokračovať"
-
-#: ball/st_demo.c:630
-msgid "Repeat"
-msgstr "Opakovať"
-
-#: ball/st_demo.c:705
-msgid "Delete Replay?"
-msgstr "Zmazať záznam?"
-
-#: ball/st_demo.c:759 ball/st_level.c:179
-msgid "Warning!"
-msgstr "Upozornenie"
-
-#: ball/st_demo.c:761
-msgid ""
-"The current replay was recorded with a\\different (or unknown) version of "
-"this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Aktuálny záznam bol vytvorený\\s inou (alebo neznámou) verziou tejto úrovne.\\Môžu sa vyskytnúť vizuálne chyby."
-
-#: ball/st_help.c:102
-msgid "Tricks"
-msgstr "Triky"
-
-#: ball/st_help.c:103
-msgid "Modes"
-msgstr "Režimy"
-
-#: ball/st_help.c:104
-msgid "Controls"
-msgstr "Ovládanie"
-
-#: ball/st_help.c:105
-msgid "Rules"
-msgstr "Pravidlá"
-
-#: ball/st_help.c:116
-msgid ""
-"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
-"causing the\\ball to roll.\\"
-msgstr "Pohybom myši alebo joysticku,\\či stlačením klávesov so šípkami\\môžete nakloniť podlahu,\\čo spôsobí kotúľanie lopty."
-
-#: ball/st_help.c:121
-msgid ""
-"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
-"finish\\the level.\\"
-msgstr "Mince zoberiete tak, že cez ne\\prekotúľate loptu.  Ak pozbierate dostatok\\ mincí, odomkne sa cieľ a úroveň\\ budete môcť dokončiť."
-
-#: ball/st_help.c:178
-msgid ""
-"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
-"rotation."
-msgstr "Ľavé a pravé tlačidlá myši otáčajú pohľad.\\Podržaním klávesu Shift ho môžete otáčať rýchlejšie."
-
-#: ball/st_help.c:180
-msgid "Exit / Pause"
-msgstr "Ukončiť / Pozastaviť"
-
-#: ball/st_help.c:181 ball/game_common.c:46
-msgid "Chase Camera"
-msgstr "Prenasledujúca kamera"
-
-#: ball/st_help.c:182 ball/game_common.c:45
-msgid "Lazy Camera"
-msgstr "Lenivá kamera"
-
-#: ball/st_help.c:183 ball/game_common.c:44
-msgid "Manual Camera"
-msgstr "Manuálna kamera"
-
-#: ball/st_help.c:184
-msgid "Screenshot"
-msgstr "Snímka obrazovky"
-
-#: ball/st_help.c:249
-msgid ""
-"Finish a level before the time runs out.\\You need to collect coins in order"
-" to open the goal."
-msgstr "Dokončte úroveň skôr, ako sa minie čas.\\Cieľ otvoríte zbieraním mincí."
-
-#: ball/st_help.c:262
-msgid ""
-"Start playing from the first level of the set.\\You start with only three "
-"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Začínate hrať od prvej úrovne v skupine.\\Máte len tri lopty, takže si dávajte pozor, aby ste ich nestratili.\\Za každých 100 pozbieraných mincí dostanete loptu navyše."
-
-#: ball/st_help.c:276
-msgid ""
-"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
-"may be able\\to reach new places.\\"
-msgstr "Rohy možno použiť na skákanie.\\Rozkotúľajte sa a namierte\\na roh. Takto môžete\\dosiahnuť nové miesta.\\"
-
-#: ball/st_help.c:281
-msgid ""
-"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
-"turn the camera by 45\\degrees for best results.\\"
-msgstr "Nakláňanie v 2 smeroch zvyšuje\\strmosť. Najlepšie výsledky dosiahnete\\použitím manuálnej kamery\\a otočením kamery o 45 stupňov.\\"
-
-#: ball/st_help.c:301 ball/st_help.c:311
-msgid "Watch demo"
-msgstr "Pozrieť ukážku"
-
-#: ball/game_common.c:28
-msgid "Aborted"
-msgstr "Prerušené"
-
-#: ball/game_common.c:29
-msgid "Time-out"
-msgstr "Čas vypršal"
-
-#: ball/game_common.c:30
-msgid "Success"
-msgstr "Úspech"
-
-#: ball/game_common.c:31
-msgid "Fall-out"
-msgstr "Pád von"
-
-#: ball/game_common.c:48
-#, c-format
-msgid "Camera %d"
-msgstr "Kamera %d"
-
-#: ball/st_pause.c:82 putt/st_all.c:644
-msgid "Paused"
-msgstr "Pauza"
-
-#: ball/st_pause.c:91
-msgid "Restart"
-msgstr "Reštartovať"
-
-#: ball/hud.c:69
+#: ball/hud.c:73
 msgid "Goal"
 msgstr "Cieľ"
 
-#: ball/hud.c:89 ball/st_goal.c:154
+#: ball/hud.c:93 ball/st_goal.c:155
 msgid "Balls"
 msgstr "Lopty"
 
-#: ball/hud.c:90 ball/st_goal.c:160 putt/hud.c:45
+#: ball/hud.c:94 ball/st_goal.c:161 putt/hud.c:46
 msgid "Score"
 msgstr "Skóre"
 
-#: ball/st_goal.c:101
+#: ball/progress.c:409 ball/st_help.c:278
+msgid "Challenge Mode"
+msgstr "Režim výzvy"
+
+#: ball/progress.c:409 ball/st_start.c:219
+msgid "Challenge"
+msgstr "Výzva"
+
+#: ball/progress.c:410 ball/st_help.c:265
+msgid "Normal Mode"
+msgstr "Normálny režim"
+
+#: ball/progress.c:410
+msgid "Normal"
+msgstr "Normálny"
+
+#: ball/progress.c:411
+msgid "Standalone Mode"
+msgstr "Samostatný režim"
+
+#: ball/progress.c:411
+msgid "Standalone"
+msgstr "Samostatný"
+
+#: ball/progress.c:412
+msgid "Unknown Mode"
+msgstr "Neznámy režim"
+
+#: ball/st_ball.c:185 ball/st_conf.c:159
+msgid "Ball Model"
+msgstr "Model lopty"
+
+#: ball/st_ball.c:187 ball/st_demo.c:348 ball/st_help.c:114 ball/st_start.c:184
+#: ball/util.c:387 share/gui.c:2780 share/st_common.c:98 share/st_package.c:384
+#: putt/st_all.c:411 putt/st_all.c:559 putt/st_conf.c:120
+msgid "Back"
+msgstr "Späť"
+
+#: ball/st_conf.c:143 ball/st_pause.c:92 putt/st_all.c:660 putt/st_conf.c:118
+msgid "Options"
+msgstr "Možnosti"
+
+#: ball/st_conf.c:145 share/st_common.c:361 putt/st_conf.c:130
+msgid "Graphics"
+msgstr "Grafika"
+
+#: ball/st_conf.c:145 ball/st_conf.c:146 ball/st_conf.c:147 ball/st_conf.c:493
+#: ball/st_conf.c:497 putt/st_conf.c:128
+msgid "Configure"
+msgstr "Konfigurovať"
+
+#: ball/st_conf.c:146 ball/st_conf.c:361
+#, fuzzy
+#| msgid "Replay"
+msgid "Gameplay"
+msgstr "Záznam"
+
+#: ball/st_conf.c:147 ball/st_conf.c:486 ball/st_help.c:112
+msgid "Controls"
+msgstr "Ovládanie"
+
+#: ball/st_conf.c:151 putt/st_conf.c:148
+msgid "Sound Volume"
+msgstr "Hlasitosť zvuku"
+
+#: ball/st_conf.c:153 putt/st_conf.c:164
+msgid "Music Volume"
+msgstr "Hlasitosť hudby"
+
+#: ball/st_conf.c:158 ball/st_name.c:103
+msgid "Player Name"
+msgstr "Meno hráča"
+
+#: ball/st_conf.c:160 share/st_common.c:677 putt/st_conf.c:174
+msgid "Language"
+msgstr "Jazyk"
+
+#: ball/st_conf.c:174 ball/st_conf.c:371 share/st_common.c:688
+msgid "Default"
+msgstr "Predvolený"
+
+#: ball/st_conf.c:181
+msgid ""
+"Copyright © 2025 Neverball authors\n"
+"Neverball is free software available under the terms of GPL v2 or later."
+msgstr ""
+
+#: ball/st_conf.c:363
+#, fuzzy
+#| msgid "Goal State in Completed Levels"
+msgid "Completed Levels"
+msgstr "Stav cieľa v dokončených úrovniach"
+
+#: ball/st_conf.c:365
+msgid "Locked"
+msgstr "Zamknutý"
+
+#: ball/st_conf.c:365
+msgid "Unlocked"
+msgstr "Odomknutý"
+
+#: ball/st_conf.c:379
+#, fuzzy
+#| msgid "Camera %d"
+msgid "Camera Preset"
+msgstr "Kamera %d"
+
+#: ball/st_conf.c:488
+msgid "Mouse Sensitivity"
+msgstr "Citlivosť myši"
+
+#: ball/st_conf.c:493 share/st_common.c:892
+msgid "Gamepad"
+msgstr ""
+
+#: ball/st_conf.c:497 ball/st_conf.c:571
+msgid "Touch"
+msgstr ""
+
+#: ball/st_conf.c:575
+msgid "Left Tilt"
+msgstr ""
+
+#: ball/st_conf.c:576
+msgid "Right Tilt"
+msgstr ""
+
+#: ball/st_conf.c:577
+msgid "Dynamic"
+msgstr ""
+
+#: ball/st_conf.c:583
+#, fuzzy
+#| msgid "Modes"
+msgid "Mode"
+msgstr "Režimy"
+
+#: ball/st_conf.c:589
+msgid "Invert Rotation"
+msgstr ""
+
+#: ball/st_conf.c:592 share/st_common.c:370 share/st_common.c:388
+#: share/st_common.c:394 share/st_common.c:402 share/st_common.c:404
+#: share/st_common.c:406
+msgid "On"
+msgstr "Zap."
+
+#: ball/st_conf.c:592 share/st_common.c:342 share/st_common.c:370
+#: share/st_common.c:388 share/st_common.c:394 share/st_common.c:402
+#: share/st_common.c:404 share/st_common.c:406
+msgid "Off"
+msgstr "Vyp."
+
+#: ball/st_demo.c:223
+msgid "Time"
+msgstr "Čas"
+
+#: ball/st_demo.c:225
+msgid "Status"
+msgstr "Stav"
+
+#: ball/st_demo.c:256 ball/st_demo.c:472
+msgid "Replay"
+msgstr "Záznam"
+
+#: ball/st_demo.c:257 putt/st_all.c:769
+msgid "Player"
+msgstr "Hráč"
+
+#: ball/st_demo.c:258
+msgid "Date"
+msgstr "Dátum"
+
+#: ball/st_demo.c:319
+msgid "Select Replay"
+msgstr "Vyberte záznam"
+
+#: ball/st_demo.c:346
+msgid "No Replays"
+msgstr "Žiadne záznamy"
+
+#: ball/st_demo.c:669
+msgid "Replay Paused"
+msgstr "Záznam pozastavený"
+
+#: ball/st_demo.c:671
+msgid "Replay Ends"
+msgstr "Koniec záznamu"
+
+#: ball/st_demo.c:679
+msgid "Exit"
+msgstr "Ukončiť"
+
+#: ball/st_demo.c:683 ball/st_demo.c:781
+msgid "Keep"
+msgstr "Ponechať"
+
+#: ball/st_demo.c:684 ball/st_demo.c:782
+msgid "Delete"
+msgstr "Vymazať"
+
+#: ball/st_demo.c:688 ball/st_pause.c:135 putt/st_all.c:676
+msgid "Continue"
+msgstr "Pokračovať"
+
+#: ball/st_demo.c:690
+msgid "Repeat"
+msgstr "Opakovať"
+
+#: ball/st_demo.c:777
+msgid "Delete Replay?"
+msgstr "Zmazať záznam?"
+
+#: ball/st_demo.c:831 ball/st_level.c:262
+msgid "Warning!"
+msgstr "Upozornenie"
+
+#: ball/st_demo.c:833
+#, fuzzy
+#| msgid ""
+#| "The current replay was recorded with a\\different (or unknown) version of "
+#| "this level.\\Be prepared to encounter visual errors.\\"
+msgid ""
+"The current replay was recorded with a\n"
+"different (or unknown) version of this level.\n"
+"Be prepared to encounter visual errors.\n"
+msgstr ""
+"Aktuálny záznam bol vytvorený\\s inou (alebo neznámou) verziou tejto úrovne."
+"\\Môžu sa vyskytnúť vizuálne chyby."
+
+#: ball/st_done.c:59
+msgid "New Set Record"
+msgstr "Nový rekord v skupine"
+
+#: ball/st_done.c:60
+msgid "Set Complete"
+msgstr "Skupina dokončená"
+
+#: ball/st_done.c:79
+msgid "Select Level"
+msgstr "Vyberte úroveň"
+
+#: ball/st_fail.c:86
+msgid "Fall-out!"
+msgstr "Pád von!"
+
+#: ball/st_fail.c:88
+msgid "Time's Up!"
+msgstr "Čas vypršal!"
+
+#: ball/st_fail.c:104
+msgid "Back To Menu"
+msgstr ""
+
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Next Level"
+msgstr "Ďalšia úroveň"
+
+#: ball/st_fail.c:110 ball/st_goal.c:224
+msgid "Retry Level"
+msgstr "Opakovať úroveň"
+
+#: ball/st_fail.c:113 ball/st_goal.c:227
+msgid "Save Replay"
+msgstr "Uložiť záznam"
+
+#: ball/st_game_link.c:109
+#, c-format
+msgid "Loading (%d%%)..."
+msgstr ""
+
+#: ball/st_game_link.c:113 ball/st_game_link.c:146 ball/st_game_link.c:197
+#: ball/st_game_link.c:263 share/st_common.c:1036
+msgid "Loading..."
+msgstr ""
+
+#: ball/st_game_link.c:181
+msgid "Loading (100%)..."
+msgstr ""
+
+#: ball/st_goal.c:99
 msgid "New Record"
 msgstr "Nový rekord"
 
-#: ball/st_goal.c:102
+#: ball/st_goal.c:100
 msgid "GOAL"
 msgstr "CIEĽ"
 
-#: ball/st_goal.c:215 ball/st_goal.c:217
+#: ball/st_goal.c:216 ball/st_goal.c:218
 msgid "Finish"
 msgstr "Dokončiť"
 
-#: ball/st_set.c:108
-msgid "Level Set"
-msgstr "Skupina úrovní"
+#: ball/st_help.c:110
+msgid "Tricks"
+msgstr "Triky"
 
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Bonusová úroveň %s"
+#: ball/st_help.c:111
+msgid "Modes"
+msgstr "Režimy"
 
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Úroveň %s"
+#: ball/st_help.c:113
+msgid "Rules"
+msgstr "Pravidlá"
 
-#: ball/st_level.c:64
+#: ball/st_help.c:124
+#, fuzzy
+#| msgid ""
+#| "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+#| "causing the\\ball to roll.\\"
+msgid ""
+"Move the mouse or joystick\n"
+"or use keyboard arrows to\n"
+"tilt the floor causing the\n"
+"ball to roll.\n"
+msgstr ""
+"Pohybom myši alebo joysticku,\\či stlačením klávesov so šípkami\\môžete "
+"nakloniť podlahu,\\čo spôsobí kotúľanie lopty."
+
+#: ball/st_help.c:129
+#, fuzzy
+#| msgid ""
+#| "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+#| "finish\\the level.\\"
+msgid ""
+"Roll over coins to collect\n"
+"them.  Collect coins to\n"
+"unlock the goal and finish\n"
+"the level.\n"
+msgstr ""
+"Mince zoberiete tak, že cez ne\\prekotúľate loptu.  Ak pozbierate dostatok\\ "
+"mincí, odomkne sa cieľ a úroveň\\ budete môcť dokončiť."
+
+#: ball/st_help.c:189
+#, fuzzy
+#| msgid ""
+#| "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+#| "rotation."
+msgid ""
+"Left and right mouse buttons rotate the view\n"
+"Hold Shift for faster view rotation."
+msgstr ""
+"Ľavé a pravé tlačidlá myši otáčajú pohľad.\\Podržaním klávesu Shift ho "
+"môžete otáčať rýchlejšie."
+
+#: ball/st_help.c:191
+msgid "Exit / Pause"
+msgstr "Ukončiť / Pozastaviť"
+
+#: ball/st_help.c:195
+#, fuzzy
+#| msgid "Retry Level"
+msgid "Restart Level"
+msgstr "Opakovať úroveň"
+
+#: ball/st_help.c:196
+msgid "Screenshot"
+msgstr "Snímka obrazovky"
+
+#: ball/st_help.c:267
+#, fuzzy
+#| msgid ""
+#| "Finish a level before the time runs out.\\You need to collect coins in "
+#| "order to open the goal."
+msgid ""
+"Finish a level before the time runs out.\n"
+"You need to collect coins in order to open the goal."
+msgstr ""
+"Dokončte úroveň skôr, ako sa minie čas.\\Cieľ otvoríte zbieraním mincí."
+
+#: ball/st_help.c:280
+#, fuzzy
+#| msgid ""
+#| "Start playing from the first level of the set.\\You start with only three "
+#| "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
+msgid ""
+"Start playing from the first level of the set.\n"
+"You start with only three balls, do not lose them.\n"
+"Earn an extra ball for each 100 coins collected."
+msgstr ""
+"Začínate hrať od prvej úrovne v skupine.\\Máte len tri lopty, takže si "
+"dávajte pozor, aby ste ich nestratili.\\Za každých 100 pozbieraných mincí "
+"dostanete loptu navyše."
+
+#: ball/st_help.c:294
+#, fuzzy
+#| msgid ""
+#| "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+#| "may be able\\to reach new places.\\"
+msgid ""
+"Corners can be used to jump.\n"
+"Get rolling and take aim\n"
+"at the angle. You may be able\n"
+"to reach new places.\n"
+msgstr ""
+"Rohy možno použiť na skákanie.\\Rozkotúľajte sa a namierte\\na roh. Takto "
+"môžete\\dosiahnuť nové miesta.\\"
+
+#: ball/st_help.c:299
+#, fuzzy
+#| msgid ""
+#| "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+#| "turn the camera by 45\\degrees for best results.\\"
+msgid ""
+"Tilting in 2 directions increases\n"
+"the slope. Use the manual camera\n"
+"and turn the camera by 45\n"
+"degrees for best results.\n"
+msgstr ""
+"Nakláňanie v 2 smeroch zvyšuje\\strmosť. Najlepšie výsledky "
+"dosiahnete\\použitím manuálnej kamery\\a otočením kamery o 45 stupňov.\\"
+
+#: ball/st_help.c:322 ball/st_help.c:332
+msgid "Watch demo"
+msgstr "Pozrieť ukážku"
+
+#: ball/st_level.c:91 ball/st_level.c:107
 #, c-format
 msgid "Standalone level"
 msgstr "Samostatná úroveň"
 
-#: ball/st_level.c:181
+#: ball/st_level.c:99
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Bonusová úroveň %s"
+
+#: ball/st_level.c:101
+#, c-format
+msgid "Level %s"
+msgstr "Úroveň %s"
+
+#: ball/st_level.c:147 share/st_common.c:811 share/st_package.c:501
+#, fuzzy
+#| msgid "Restart"
+msgid "Start"
+msgstr "Reštartovať"
+
+#: ball/st_level.c:264
+#, fuzzy
+#| msgid ""
+#| "A replay file could not be opened for writing.\\This game will not be "
+#| "recorded.\\"
 msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr "Súbor so záznamom sa nepodarilo otvoriť na zápis.\\Táto hra nebude zaznamenávaná.\\"
+"A replay file could not be opened for writing.\n"
+"This game will not be recorded.\n"
+msgstr ""
+"Súbor so záznamom sa nepodarilo otvoriť na zápis.\\Táto hra nebude "
+"zaznamenávaná.\\"
 
-#: ball/util.c:28
-msgid "Hard"
-msgstr "Ťažké"
+#: ball/st_name.c:114
+msgid "OK"
+msgstr "OK"
 
-#: ball/util.c:29
-msgid "Medium"
-msgstr "Stredné"
+#: ball/st_name.c:116 ball/st_save.c:115 ball/st_save.c:224
+msgid "Cancel"
+msgstr "Zrušiť"
 
-#: ball/util.c:30
-msgid "Easy"
-msgstr "Ľahké"
-
-#: ball/util.c:76 ball/util.c:122
-msgid "Unavailable"
-msgstr "Nie je k dispozícii"
-
-#: ball/util.c:178 ball/util.c:228
-msgid "Most Coins"
-msgstr "Najviac mincí"
-
-#: ball/util.c:185 ball/util.c:232
-msgid "Best Times"
-msgstr "Najlepšie časy"
-
-#: ball/util.c:192 ball/util.c:236
-msgid "Fast Unlock"
-msgstr "Rýchle odomknutie"
-
-#: ball/util.c:205
-msgid "Change Name"
-msgstr "Zmeniť meno"
-
-#: ball/util.c:332
-msgid "caps"
-msgstr "veľké"
-
-#: ball/st_over.c:35
+#: ball/st_over.c:43
 msgid "GAME OVER"
 msgstr "KONIEC HRY"
 
-#: ball/st_title.c:140 ball/st_title.c:175
+#: ball/st_pause.c:102 putt/st_all.c:670
+msgid "Paused"
+msgstr "Pauza"
+
+#: ball/st_pause.c:112
+msgid "Give Up"
+msgstr ""
+
+#: ball/st_pause.c:124
+msgid "Restart"
+msgstr "Reštartovať"
+
+#: ball/st_play.c:109
+msgid "Ready?"
+msgstr "Pripraviť sa!"
+
+#: ball/st_play.c:204
+msgid "Set?"
+msgstr "Pozor!"
+
+#: ball/st_play.c:369
+msgid "GO!"
+msgstr "ŠTART!"
+
+#: ball/st_save.c:102
+msgid "Replay Name"
+msgstr "Názov záznamu"
+
+#: ball/st_save.c:113
+msgid "Save"
+msgstr "Uložiť"
+
+#: ball/st_save.c:219
+msgid "Overwrite?"
+msgstr "Prepísať?"
+
+#: ball/st_save.c:225
+msgid "Overwrite"
+msgstr "Prepísať"
+
+#: ball/st_set.c:116 share/package.c:888
+msgid "Level Set"
+msgstr "Skupina úrovní"
+
+#. Translators: ‘menu^’ is not displayed to users but is a
+#. contextual prefix so that if the same string appears in a
+#. different context but should be translated differently there,
+#. they can have separate translations even though the source
+#. string is equivalent.  If no translation is available, the
+#. prefix is removed.
+#. *
+#. Please remove contextual prefixes like ‘menu^’ from the output
+#. translation strings.
+#.
+#: ball/st_title.c:161 ball/st_title.c:201
 msgid "menu^Cheat"
 msgstr "Podvody"
 
-#: ball/st_title.c:146 ball/st_title.c:178 putt/st_all.c:238
+#: ball/st_title.c:167 ball/st_title.c:204 putt/st_all.c:236
 msgid "menu^Play"
 msgstr "Hrať"
 
-#: ball/st_title.c:181
+#: ball/st_title.c:207
 msgid "menu^Replay"
 msgstr "Záznamy"
 
-#: ball/st_title.c:182
+#: ball/st_title.c:208
 msgid "menu^Help"
 msgstr "Pomoc"
 
-#: ball/st_title.c:183 putt/st_all.c:239
+#: ball/st_title.c:209 putt/st_all.c:237
 msgid "menu^Options"
 msgstr "Možnosti"
 
-#: ball/st_title.c:184 putt/st_all.c:240
+#: ball/st_title.c:210 putt/st_all.c:238
 msgid "menu^Exit"
 msgstr "Ukončiť"
 
-#: share/st_common.c:318 share/st_common.c:348 share/st_common.c:366
-#: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
-#: share/st_common.c:384
-msgid "Off"
-msgstr "Vyp."
+#: ball/st_title.c:240 share/st_package.c:382 share/st_package.c:401
+msgid "Addons"
+msgstr ""
 
-#: share/st_common.c:319
+#: ball/util.c:29
+msgid "Hard"
+msgstr "Ťažké"
+
+#: ball/util.c:30
+msgid "Medium"
+msgstr "Stredné"
+
+#: ball/util.c:31
+msgid "Easy"
+msgstr "Ľahké"
+
+#: ball/util.c:77 ball/util.c:123
+msgid "Unavailable"
+msgstr "Nie je k dispozícii"
+
+#: ball/util.c:179 ball/util.c:229
+msgid "Most Coins"
+msgstr "Najviac mincí"
+
+#: ball/util.c:186 ball/util.c:233
+msgid "Best Times"
+msgstr "Najlepšie časy"
+
+#: ball/util.c:193 ball/util.c:237
+msgid "Fast Unlock"
+msgstr "Rýchle odomknutie"
+
+#: ball/util.c:206
+msgid "Change Name"
+msgstr "Zmeniť meno"
+
+#: ball/util.c:333
+msgid "caps"
+msgstr "veľké"
+
+#: share/package.c:890
+#, fuzzy
+#| msgid "Balls"
+msgid "Ball"
+msgstr "Lopty"
+
+#: share/package.c:892
+#, fuzzy
+#| msgid "Select Course"
+msgid "Course"
+msgstr "Vyberte ihrisko"
+
+#: share/package.c:894
+msgid "Base"
+msgstr ""
+
+#: share/package.c:896
+msgid "Theme"
+msgstr ""
+
+#: share/st_common.c:343
 msgid "2x"
 msgstr "2x"
 
-#: share/st_common.c:320
+#: share/st_common.c:344
 msgid "4x"
 msgstr "4x"
 
-#: share/st_common.c:321
+#: share/st_common.c:345
 msgid "8x"
 msgstr "8x"
 
-#: share/st_common.c:337
+#: share/st_common.c:359
 msgid "Unknown Display"
 msgstr "Neznámy displej"
 
-#: share/st_common.c:341 share/st_common.c:447
+#: share/st_common.c:363 share/st_common.c:469
 msgid "Display"
 msgstr "Displej"
 
-#: share/st_common.c:347
+#: share/st_common.c:369
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
-#: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
-msgid "On"
-msgstr "Zap."
-
-#: share/st_common.c:350 share/st_common.c:544
+#: share/st_common.c:372 share/st_common.c:566
 msgid "Resolution"
 msgstr "Rozlíšenie"
 
-#: share/st_common.c:365
+#: share/st_common.c:387
 msgid "HMD"
 msgstr "HMD"
 
-#: share/st_common.c:371
+#: share/st_common.c:393
 msgid "V-Sync"
 msgstr "V-Sync"
 
-#: share/st_common.c:373
+#: share/st_common.c:395
 msgid "Antialiasing"
 msgstr "Antialiasing"
 
-#: share/st_common.c:379
+#: share/st_common.c:401
 msgid "Reflection"
 msgstr "Odrazy"
 
-#: share/st_common.c:381
+#: share/st_common.c:403
 msgid "Background"
 msgstr "Pozadie"
 
-#: share/st_common.c:383
+#: share/st_common.c:405
 msgid "Shadow"
 msgstr "Tiene"
 
-#: putt/st_conf.c:158
+#: share/st_common.c:804
+msgid "Button A"
+msgstr ""
+
+#: share/st_common.c:805
+msgid "Button B"
+msgstr ""
+
+#: share/st_common.c:806
+msgid "Button X"
+msgstr ""
+
+#: share/st_common.c:807
+msgid "Button Y"
+msgstr ""
+
+#: share/st_common.c:808
+msgid "Button L1"
+msgstr ""
+
+#: share/st_common.c:809
+msgid "Button R1"
+msgstr ""
+
+#: share/st_common.c:810 putt/st_conf.c:172
 msgid "Select"
 msgstr "Vybrať"
 
-#: putt/hole.c:160 putt/st_all.c:107 putt/st_all.c:168 putt/hud.c:52
+#: share/st_common.c:815
+msgid "X Axis 1"
+msgstr ""
+
+#: share/st_common.c:816
+msgid "Y Axis 1"
+msgstr ""
+
+#: share/st_common.c:817
+msgid "X Axis 2"
+msgstr ""
+
+#: share/st_common.c:818
+msgid "Y Axis 2"
+msgstr ""
+
+#: share/st_common.c:933
+msgid "Press a button..."
+msgstr ""
+
+#: share/st_common.c:943
+msgid "Move a stick..."
+msgstr ""
+
+#: share/st_package.c:389
+msgid "No addons found"
+msgstr ""
+
+#: share/st_package.c:450 share/st_package.c:518
+msgid "Install"
+msgstr ""
+
+#: share/st_package.c:516
+msgid "Update"
+msgstr ""
+
+#: putt/hole.c:161 putt/hud.c:53 putt/st_all.c:102 putt/st_all.c:163
 msgid "Par"
 msgstr "Par"
 
-#: putt/hole.c:162 putt/st_all.c:108 putt/st_all.c:169
+#: putt/hole.c:163 putt/st_all.c:103 putt/st_all.c:164
 msgid "P1"
 msgstr "H1"
 
-#: putt/hole.c:163 putt/st_all.c:109 putt/st_all.c:170
+#: putt/hole.c:164 putt/st_all.c:104 putt/st_all.c:165
 msgid "P2"
 msgstr "H2"
 
-#: putt/hole.c:164 putt/st_all.c:110 putt/st_all.c:171
+#: putt/hole.c:165 putt/st_all.c:105 putt/st_all.c:166
 msgid "P3"
 msgstr "H3"
 
-#: putt/hole.c:165 putt/st_all.c:111 putt/st_all.c:172
+#: putt/hole.c:166 putt/st_all.c:106 putt/st_all.c:167
 msgid "P4"
 msgstr "H4"
 
-#: putt/st_all.c:75
+#: putt/st_all.c:70
 msgid "O"
 msgstr ""
 
-#: putt/st_all.c:124
+#: putt/st_all.c:119
 msgid "Tot"
 msgstr "Sp."
 
-#: putt/st_all.c:136
+#: putt/st_all.c:131
 msgid "I"
 msgstr ""
 
-#: putt/st_all.c:361
+#: putt/st_all.c:368
 msgid "Select Course"
 msgstr "Vyberte ihrisko"
 
-#: putt/st_all.c:529
+#: putt/st_all.c:536
 msgid "Players?"
 msgstr "Počet hráčov?"
 
-#: putt/st_all.c:731
+#: putt/st_all.c:675
+msgid "Quit"
+msgstr "Ukončiť"
+
+#: putt/st_all.c:760
 #, c-format
 msgid "Hole %02d"
 msgstr "Jamka %02d"
 
-#: putt/st_all.c:1073
+#: putt/st_all.c:1112
 msgid "It's In!"
 msgstr "Je dnu!"
 
-#: putt/st_all.c:1216
+#: putt/st_all.c:1258
 msgid "1 Stroke Penalty"
 msgstr "1 trestný úder"
 
-#: putt/st_all.c:1294
+#: putt/st_all.c:1338
 msgid "Scores"
 msgstr "Skóre"
 
-#: putt/st_all.c:1347
+#: putt/st_all.c:1391
 msgid "Final Scores"
 msgstr "Výsledné skóre"
 
@@ -647,7 +900,9 @@ msgstr "Neverball – ľahké"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Náročnosť: začiatočnícka až stredná\\\\25 úrovní s plynulou krivkou učenia.\\Tipy ako hrať sú napísané v úvodných popisoch úrovní."
+msgstr ""
+"Náročnosť: začiatočnícka až stredná\\\\25 úrovní s plynulou krivkou učenia."
+"\\Tipy ako hrať sú napísané v úvodných popisoch úrovní."
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -656,9 +911,12 @@ msgstr "Neverball – stredné"
 #: data/set-medium.txt
 msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
-"balanced\\challenge for players. Try to claim\\some of the records "
-"provided.\\"
-msgstr "Náročnosť: začiatočnícka až veľmi ťažká\\\\25 úrovní, ktoré pre hráčov ponúkajú\\vyvážený stupeň náročnosti. Pokúste sa\\prekonať niektoré z uvedených rekordov.\\"
+"balanced\\challenge for players. Try to claim\\some of the records provided."
+"\\"
+msgstr ""
+"Náročnosť: začiatočnícka až veľmi ťažká\\\\25 úrovní, ktoré pre hráčov "
+"ponúkajú\\vyvážený stupeň náročnosti. Pokúste sa\\prekonať niektoré z "
+"uvedených rekordov.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -667,8 +925,8 @@ msgstr "Neverball – ťažké"
 #: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
-" and Fast Unlock records.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
 msgstr ""
 
 #: data/set-mym.txt
@@ -677,8 +935,8 @@ msgstr "Tour de force"
 
 #: data/set-mym.txt
 msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater "
-"challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
 msgstr ""
 
 #: data/set-mym2.txt
@@ -721,7 +979,9 @@ msgstr "Nezaradené úrovne\\Slúžia na testovacie účely\\\\\\\\"
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr "Pôvodné 18-jamkové ihrisko hry Neverputt\\s jemnou krivkou učenia.\\ \\Náročnosť: ľahká až stredná\\Autor: rlk\\"
+msgstr ""
+"Pôvodné 18-jamkové ihrisko hry Neverputt\\s jemnou krivkou učenia.\\ "
+"\\Náročnosť: ľahká až stredná\\Autor: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -729,15 +989,19 @@ msgstr "Ďalšie 18-jamkové ihrisko\\ \\ \\Náročnosť: stredná\\Autor: paxed
 
 #: data/holes-paxed2.txt
 msgid "Yet Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
-msgstr "Ešte ďalšie 18-jamkové ihrisko\\ \\ \\Náročnosť: stredná\\Autor: paxed\\"
+msgstr ""
+"Ešte ďalšie 18-jamkové ihrisko\\ \\ \\Náročnosť: stredná\\Autor: paxed\\"
 
 #: data/holes-paxed3.txt
 msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Ešte ďalšie jamky\\ \\ \\Náročnosť: stredná\\Autor: paxed\\"
 
 #: data/holes-abc.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
-msgstr "Ihrisko s 26 jamkami\\napodobňujúcich abecedu\\\\Náročnosť: ťažká\\Author: paxed\\"
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgstr ""
+"Ihrisko s 26 jamkami\\napodobňujúcich abecedu\\\\Náročnosť: ťažká\\Author: "
+"paxed\\"
 
 #: data/holes-slippi.txt
 msgid "Crazy Golf\\ \\\\Difficulty: Easy to Medium\\Author: slippifishi\\"
@@ -747,44 +1011,59 @@ msgstr "Šialený golf\\ \\\\Náročnosť: ľahká až stredná\\Autor: slippifi
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr "Zradný golf\\\\18-jamkové ihrisko s množstvom výziev\\Náročnosť: pre expertov až šialená\\Autor: Byron James Johnson"
+msgstr ""
+"Zradný golf\\\\18-jamkové ihrisko s množstvom výziev\\Náročnosť: pre "
+"expertov až šialená\\Autor: Byron James Johnson"
 
 #: data/holes-vidski.txt
 msgid ""
-"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
-"hard.\\Author: vidski\\"
-msgstr "Golfová jambalaya\\\\Vidskiho neslávne známe ihrisko.\\Náročnosť: stredná až ťažká.\\Autor: vidski\\"
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
+"\\Author: vidski\\"
+msgstr ""
+"Golfová jambalaya\\\\Vidskiho neslávne známe ihrisko.\\Náročnosť: stredná až "
+"ťažká.\\Autor: vidski\\"
 
-#: data/holes-easyputt.txt
+#: data/holes-iCourse.txt
 msgid ""
-"Reshaun's Easy-Putt\\\\Difficulty: Easy through Hard\\Author: Reshaun "
+"Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
 msgstr ""
+
+#: data/gui/title.map data/map-medium/title.map
+msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
+msgstr "Neverball\\\\http://neverball.org\\\\Vytvoril Robert Kooima\\"
 
 #: data/map-easy/bumper.map
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr "Snažte sa vyhýbať pohybujúcim sa objektom.\\Jediný náraz stačí na to, aby ste\\úplne stratili kontrolu nad loptou.\\"
+msgstr ""
+"Snažte sa vyhýbať pohybujúcim sa objektom.\\Jediný náraz stačí na to, aby "
+"ste\\úplne stratili kontrolu nad loptou.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Naučte sa ovládať skákajúcu loptu.\\Lopta dopadne tam, kde vrhá tieň.\\Ak si veríte, že dokonale ovládate skoky,\\zariskujte a možno sa to vyplatí.\\"
+msgstr ""
+"Naučte sa ovládať skákajúcu loptu.\\Lopta dopadne tam, kde vrhá tieň.\\Ak si "
+"veríte, že dokonale ovládate skoky,\\zariskujte a možno sa to vyplatí.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr "Na odomknutie cieľa musíte tentoraz získať 50 mincí.\\Červené mince majú hodnotu 5, modré 10.\\Dostaňte sa do cieľa skôr, ako vyprší čas!\\\\Začnite kliknutím.\\"
+msgstr ""
+"Na odomknutie cieľa musíte tentoraz získať 50 mincí.\\Červené mince majú "
+"hodnotu 5, modré 10.\\Dostaňte sa do cieľa skôr, ako vyprší čas!\\\\Začnite "
+"kliknutím.\\"
 
 #: data/map-easy/corners.map
 msgid ""
-"Here are some more opportunities for you to\\fall off into the void. Hit the"
-" bump hard to\\grab some big coins and score a short time.\\"
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
 msgstr ""
 
 #: data/map-easy/curved.map
@@ -797,61 +1076,83 @@ msgstr ""
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
-"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
-"goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Podlahu nakloníte pohybom myši.\\Po získaní 10 mincí sa odomkne cieľ.\\Ak chcete dokončiť úroveň,\\dostaňte loptu do cieľa.\\\\Začnete kliknutím.\\"
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+"Podlahu nakloníte pohybom myši.\\Po získaní 10 mincí sa odomkne cieľ.\\Ak "
+"chcete dokončiť úroveň,\\dostaňte loptu do cieľa.\\\\Začnete kliknutím.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr "U-rampy sú síce zábavné,\\ale môžu ľahko spôsobiť,\\že vypadnete z hracieho priestoru.\\Ak si chcete udržať kontrolu nad loptou,\\príliš nezrýchľujte."
+msgstr ""
+"U-rampy sú síce zábavné,\\ale môžu ľahko spôsobiť,\\že vypadnete z hracieho "
+"priestoru.\\Ak si chcete udržať kontrolu nad loptou,\\príliš nezrýchľujte."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr "„Plochý“ je relatívny pojem.\\Naučte sa udržať podlahu pod takým uhlom,\\že svah ostane rovný.\\Takto si môžete zachovať plnú kontrolu nad loptou.\\Na to, aby ste dosiahli vyššie položené\\mince, najprv potrebujete rozbeh.\\"
+msgstr ""
+"„Plochý“ je relatívny pojem.\\Naučte sa udržať podlahu pod takým uhlom,\\že "
+"svah ostane rovný.\\Takto si môžete zachovať plnú kontrolu nad loptou.\\Na "
+"to, aby ste dosiahli vyššie položené\\mince, najprv potrebujete rozbeh.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr "Nachádza sa tu 100 mincí.\\Nemalo by to byť nič zložité,\\teda ak omylom nenarazíte na cieľ.\\"
+msgstr ""
+"Nachádza sa tu 100 mincí.\\Nemalo by to byť nič zložité,\\teda ak omylom "
+"nenarazíte na cieľ.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr "Podlahu nakláňajte čo najmenej.\\Menší sklon znamená menšiu rýchlosť.\\Menšia rýchlosť znamená lepšiu kontrolu.\\Sledujte zostávajúci čas a využite ho rozumne.\\"
+msgstr ""
+"Podlahu nakláňajte čo najmenej.\\Menší sklon znamená menšiu rýchlosť."
+"\\Menšia rýchlosť znamená lepšiu kontrolu.\\Sledujte zostávajúci čas a "
+"využite ho rozumne.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr "Každý mostík je uzší ako ten predošlý.\\Tiež však ponúka viac ako ten predošlý!\\Záleží na vás, ako ďaleko sa chcete dostať.\\"
+msgstr ""
+"Každý mostík je uzší ako ten predošlý.\\Tiež však ponúka viac ako ten "
+"predošlý!\\Záleží na vás, ako ďaleko sa chcete dostať.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr "Dostať sa k cieľu\\by nemal byť problém,\\ale pozbierať všetky mince\\si vyžaduje určité plánovanie.\\\\Rada: ak sa vyhnete jamám,\\často ušetríte čas."
+msgstr ""
+"Dostať sa k cieľu\\by nemal byť problém,\\ale pozbierať všetky mince\\si "
+"vyžaduje určité plánovanie.\\\\Rada: ak sa vyhnete jamám,\\často ušetríte "
+"čas."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
-"down\\early. You need just as much room to slow\\down as you did to speed "
-"up.\\"
-msgstr "Držte sa od okrajov!\\Ak sa budete približovať k priepasti,\\začnite včasne spomaľovať.\\Spomalenie si vyžaduje rovnako veľa priestoru,\\ako ste potrebovali na zrýchlenie."
+"down\\early. You need just as much room to slow\\down as you did to speed up."
+"\\"
+msgstr ""
+"Držte sa od okrajov!\\Ak sa budete približovať k priepasti,\\začnite včasne "
+"spomaľovať.\\Spomalenie si vyžaduje rovnako veľa priestoru,\\ako ste "
+"potrebovali na zrýchlenie."
 
 #: data/map-easy/lollipop.map
 msgid ""
-"Follow the yellow lick road!\\\\The blue coins are especially "
-"challenging,\\but with some experimentation and practice,\\you'll be able to"
-" collect them all."
-msgstr "Nasledujte žltú cestičku na lízanke!\\\\Získať modré mince je veľká výzva,\\no s trochu skúšania a cviku\\to hravo zvládnete."
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
+msgstr ""
+"Nasledujte žltú cestičku na lízanke!\\\\Získať modré mince je veľká výzva,"
+"\\no s trochu skúšania a cviku\\to hravo zvládnete."
 
 #: data/map-easy/maze.map
 msgid ""
@@ -861,8 +1162,8 @@ msgstr ""
 
 #: data/map-easy/mazebump.map
 msgid ""
-"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
-" - it will help you\\to reach the goal."
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
 msgstr ""
 
 #: data/map-easy/mover.map
@@ -876,7 +1177,9 @@ msgstr ""
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Tlačidlá myši otáčajú pohľad.\\Stlačením klávesu Escape môžete\\ pozastaviť alebo ukončiť hru.\\\\\\\\Začnite kliknutím.\\"
+msgstr ""
+"Tlačidlá myši otáčajú pohľad.\\Stlačením klávesu Escape môžete\\ pozastaviť "
+"alebo ukončiť hru.\\\\\\\\Začnite kliknutím.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
@@ -889,24 +1192,32 @@ msgstr ""
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr "K cieľu vedie len jedna cesta,\\k minciam však množstvo.\\Cieľ sa odomkne,\\ak ich pozbierate dostatok."
+msgstr ""
+"K cieľu vedie len jedna cesta,\\k minciam však množstvo.\\Cieľ sa odomkne,"
+"\\ak ich pozbierate dostatok."
 
 #: data/map-easy/slalom.map
 msgid ""
-"Follow the trail of coins to reach the goal.\\If you hit a post while moving"
-" quickly,\\you will bounce far off course."
-msgstr "Dostaňte sa k cieľu na konci cestičky z mincí.\\Ak vo vysokej rýchlosti narazíte do stĺpu,\\odrazíte sa mimo trasy."
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
+msgstr ""
+"Dostaňte sa k cieľu na konci cestičky z mincí.\\Ak vo vysokej rýchlosti "
+"narazíte do stĺpu,\\odrazíte sa mimo trasy."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "Na prekonanie kopcov potrebujete väčšiu rýchlosť.\\Nechoďte však prirýchlo!"
+msgstr ""
+"Na prekonanie kopcov potrebujete väčšiu rýchlosť.\\Nechoďte však prirýchlo!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr "Ak sa lopta nachádza na pohyblivej plošine,\\bude priťahovaná v smere pohybu.\\Pomocou tyčí môžete naspäť získať rovnováhu\\ a pozbierať mince potrebné na otvorenie cieľa."
+msgstr ""
+"Ak sa lopta nachádza na pohyblivej plošine,\\bude priťahovaná v smere pohybu."
+"\\Pomocou tyčí môžete naspäť získať rovnováhu\\ a pozbierať mince potrebné "
+"na otvorenie cieľa."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
@@ -914,9 +1225,11 @@ msgstr "Poberte všetky mince...,\\ale nenechajte sa šikanovať!"
 
 #: data/map-easy/wakka.map
 msgid ""
-"Here's another coin grab.\\Perhaps you already know a good "
-"route.\\Teleportation might come in handy.\\"
-msgstr "Ďalšia honba za mincami.\\Možno už máte premyslenú vhodnú cestu.\\Teleportácia sa môže zísť.\\"
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
+msgstr ""
+"Ďalšia honba za mincami.\\Možno už máte premyslenú vhodnú cestu."
+"\\Teleportácia sa môže zísť.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
@@ -1024,8 +1337,8 @@ msgstr "Kvák!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
-"Time the switches carefully to synchronize\\the motion of the "
-"platforms.\\Move quickly across the gaps.\\"
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
 msgstr ""
 
 #: data/map-hard/grid.map
@@ -1055,8 +1368,8 @@ msgstr ""
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
-"hard way.\\Of course, by going the easy way\\you can forget about all\\those"
-" red and blue coins."
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
 msgstr ""
 
 #: data/map-hard/paths.map
@@ -1091,9 +1404,10 @@ msgstr "Tak blízko, a predsa tak strašne ďaleko.\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
-"Ride the elevators to the top.\\They move quickly,\\so don't dally too "
-"long.\\"
-msgstr "Vyjdite na vrchol výťahmi.\\Pohybujú sa rýchlo,\\preto nemárnite čas.\\"
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
+msgstr ""
+"Vyjdite na vrchol výťahmi.\\Pohybujú sa rýchlo,\\preto nemárnite čas.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1111,9 +1425,9 @@ msgstr ""
 
 #: data/map-hard/teleport.map
 msgid ""
-"The ball must be entirely within a teleporter\\in order to trigger "
-"it.\\Remember that the ball carries its momentum\\through a teleporter, so "
-"plan ahead.\\"
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
 msgstr ""
 
 #: data/map-hard/tilt.map
@@ -1126,8 +1440,8 @@ msgstr "Schodisko do neba"
 
 #: data/map-medium/angle.map
 msgid ""
-"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
-" the easy cash or\\go all the way for a big payoff.\\"
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
 msgstr ""
 
 #: data/map-medium/coneskeleton.map
@@ -1142,8 +1456,8 @@ msgstr ""
 
 #: data/map-medium/drops.map
 msgid ""
-"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
-" don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
 msgstr ""
 
 #: data/map-medium/easytele.map
@@ -1156,7 +1470,8 @@ msgstr "Riziko straty rovnováhy verzus odmena.\\"
 
 #: data/map-medium/hardrise.map
 msgid "Ascend the slope to reach your goal.\\(Easier said than done.)"
-msgstr "Stúpajte hore svahom a dostaňte sa k cieľu.\\(Ľahšie sa to povie ako vykoná.)"
+msgstr ""
+"Stúpajte hore svahom a dostaňte sa k cieľu.\\(Ľahšie sa to povie ako vykoná.)"
 
 #: data/map-medium/islands.map
 msgid "Catch the train before it leaves the station.\\"
@@ -1189,8 +1504,8 @@ msgstr "Domov sa už nikdy nedostanete..."
 
 #: data/map-medium/rampdn.map
 msgid ""
-"You'll need to exert some control over your\\view here.  Press 3 to stop the"
-" auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"You'll need to exert some control over your\\view here.  Press 3 to stop the "
+"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
 msgstr ""
 
@@ -1213,7 +1528,8 @@ msgid ""
 msgstr ""
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr ""
 
 #: data/map-medium/stairs.map
@@ -1230,13 +1546,9 @@ msgstr ""
 
 #: data/map-medium/timer.map
 msgid ""
-"That one switch controls all five barriers.\\Be quick, because the switch is"
-" on a timer.\\When it expires, the barriers will rise.\\"
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
 msgstr ""
-
-#: data/map-medium/title.map
-msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
-msgstr "Neverball\\\\http://neverball.org\\\\Vytvoril Robert Kooima\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
@@ -1252,7 +1564,9 @@ msgstr ""
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Prisonnier de la boule.\\Život v guli.\\Pozbierať všetky modré mince dá zabrať."
+msgstr ""
+"Prisonnier de la boule.\\Život v guli.\\Pozbierať všetky modré mince dá "
+"zabrať."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1266,7 +1580,9 @@ msgstr ""
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr "Nasledujte modré mince...\\a naučte sa ovládať svoje obíjanie!\\Rada: Aktivujte režim „prenasledujúcej“ kamery."
+msgstr ""
+"Nasledujte modré mince...\\a naučte sa ovládať svoje obíjanie!\\Rada: "
+"Aktivujte režim „prenasledujúcej“ kamery."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1276,7 +1592,14 @@ msgstr "Nasledujte šípky."
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr "Je to ozajstná partia dámy, ibaže nikto nemôže vyhrať...\\Modré mince dosiahnete výskokmi po odraze."
+msgstr ""
+"Je to ozajstná partia dámy, ibaže nikto nemôže vyhrať...\\Modré mince "
+"dosiahnete výskokmi po odraze."
+
+#: data/map-misc/cube.map
+msgid ""
+"=Rolling Cube=\\\\A rotating 512x512x512 cube. Holds for 5s, flips in 3s!"
+msgstr ""
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -1288,7 +1611,8 @@ msgstr "Savoir chuter.\\Nasledujte modré značky."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "Zmeňte veľkosť lopty pomocou nových mincí!\\Dúfam, že sa vám to páči!\\-Dave"
+msgstr ""
+"Zmeňte veľkosť lopty pomocou nových mincí!\\Dúfam, že sa vám to páči!\\-Dave"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
@@ -1297,6 +1621,18 @@ msgstr "Sú tu špeciálne mince, ktoré zväčšujú\\alebo zmenšujú loptu."
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
 msgstr "Poďme si zaplávať...\\Všetky mince sú úplne ponorené.\\"
+
+#: data/map-misc/rotation2.map
+#, fuzzy
+#| msgid ""
+#| "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+#| "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin."
+msgstr ""
+"Podlahu nakloníte pohybom myši.\\Po získaní 10 mincí sa odomkne cieľ.\\Ak "
+"chcete dokončiť úroveň,\\dostaňte loptu do cieľa.\\\\Začnete kliknutím.\\"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
@@ -1337,9 +1673,12 @@ msgstr "La ballade tranquille.\\Pokojná prechádzka."
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal"
-" is reachable."
-msgstr "La ballade dansante.\\Zatancujte si na pohybujúcej sa plošine!\\Rada: Po aktivovaní poslednej pohyblivej plošiny\\otáčajte sa okolo thwompa, pokým sa nesprístupní cesta k cieľu."
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+"La ballade dansante.\\Zatancujte si na pohybujúcej sa plošine!\\Rada: Po "
+"aktivovaní poslednej pohyblivej plošiny\\otáčajte sa okolo thwompa, pokým sa "
+"nesprístupní cesta k cieľu."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1349,12 +1688,13 @@ msgstr "La descente infernale.\\Dosť jednoduchý začiatok?"
 msgid ""
 "La conduite stressante.\\Attention:\\The platform under the ball moves "
 "forward."
-msgstr "La conduite stressante.\\Pozor:\\Plošina pod loptou sa pohybuje dopredu."
+msgstr ""
+"La conduite stressante.\\Pozor:\\Plošina pod loptou sa pohybuje dopredu."
 
 #: data/map-mym/drive2.map
 msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly "
-"forward.\\You would do well to advance."
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
 msgstr ""
 
 #: data/map-mym/earthquake.map
@@ -1371,7 +1711,9 @@ msgstr "La tour de verre.\\Nájdite cestu k východu."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "La maîtrise de Neverball.\\Stále si myslíte, že Neverball je príliš jednoduchý?"
+msgstr ""
+"La maîtrise de Neverball.\\Stále si myslíte, že Neverball je príliš "
+"jednoduchý?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1456,10 +1798,13 @@ msgstr ""
 
 #: data/map-mym2/freefall.map
 msgid ""
-"This level is full of challenges:\\understand the level's "
-"functioning,\\learn to fly and to survive,\\grab half of all coins to open "
-"the goal,\\find and reach the goal,\\and more..."
-msgstr "Táto úroveň je plná výziev:\\porozumejte jej fungovaniu,\\naučte sa lietať a aj prežiť,\\poberte polovicu všetkých mincí, aby ste otvorili cieľ,\\nájdite cieľ a cestu k nemu\\a ďalšie..."
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
+msgstr ""
+"Táto úroveň je plná výziev:\\porozumejte jej fungovaniu,\\naučte sa lietať a "
+"aj prežiť,\\poberte polovicu všetkých mincí, aby ste otvorili cieľ,\\nájdite "
+"cieľ a cestu k nemu\\a ďalšie..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1563,7 +1908,9 @@ msgstr "Dopracujte sa až na vrchol."
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr "Cieľ sa odomkne, keď pozbierate 45 mincí.\\Rýchlosť potrebnú na skok možno nabrať\\za pomoci teleportéra."
+msgstr ""
+"Cieľ sa odomkne, keď pozbierate 45 mincí.\\Rýchlosť potrebnú na skok možno "
+"nabrať\\za pomoci teleportéra."
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
@@ -1594,7 +1941,8 @@ msgid "Walk the plank.\\After the teleport, go for speed!"
 msgstr ""
 
 #: data/map-tones/skiball.map
-msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgid ""
+"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
 msgstr ""
 
 #: data/map-tones/swish.map
@@ -1630,18 +1978,21 @@ msgid "A 3D mini golf game"
 msgstr "3D minigolfová hra"
 
 #. Translators,
+#.
 #. Listed here are the Neverball materials (relative to the data directory)
 #. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
 #. texture.  To localise a material, create a localised texture for it (copy
-#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify
-#. it)
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
+#.
 #. Author's comments on the original mtrl/words texture:
+#.
 #. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
 #. For the vertical centering, the x-height is used as the reference. Some
 #. manual corrections were made; for example, the hyphen in 'Fall-out' was
 #. shortened in order to increase the margin on each side of the word."
+#.
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"

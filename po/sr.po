@@ -1,21 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Robert Kooima
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Neverball\n"
 "Report-Msgid-Bugs-To: robert.kooima@gmail.com\n"
-"POT-Creation-Date: 2021-12-09 22:48+0200\n"
+"POT-Creation-Date: 2026-09-30 12:18+0300\n"
 "PO-Revision-Date: 2013-11-30 10:21+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Serbian (http://app.transifex.com/neverball/neverball/language/sr/)\n"
+"Language-Team: Serbian (http://app.transifex.com/neverball/neverball/"
+"language/sr/)\n"
+"Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ball/game_common.c:28
 msgid "Aborted"
@@ -33,23 +35,31 @@ msgstr "Успешно"
 msgid "Fall-out"
 msgstr "Свађање"
 
-#: ball/game_common.c:32 ball/progress.c:416
+#: ball/game_common.c:32 ball/progress.c:412
 msgid "Unknown"
 msgstr "Непознат"
 
-#: ball/game_common.c:44 ball/st_help.c:183
+#: ball/game_common.c:45
 msgid "Manual Camera"
 msgstr "Ручна камера"
 
-#: ball/game_common.c:45 ball/st_help.c:182
+#: ball/game_common.c:47
 msgid "Lazy Camera"
 msgstr "Лења камера"
 
-#: ball/game_common.c:46 ball/st_help.c:181
+#: ball/game_common.c:51 ball/st_conf.c:372
+msgid "1.4 Classic"
+msgstr ""
+
+#: ball/game_common.c:52 ball/st_conf.c:373
+msgid "1.6 Classic"
+msgstr ""
+
+#: ball/game_common.c:53
 msgid "Chase Camera"
 msgstr "Чејс камера"
 
-#: ball/game_common.c:48
+#: ball/game_common.c:57
 #, c-format
 msgid "Camera %d"
 msgstr "Камера %d"
@@ -86,614 +96,795 @@ msgstr "snd/time.ogg"
 msgid "snd/over.ogg"
 msgstr "снд/овер.огг"
 
-#: ball/hud.c:68 ball/st_demo.c:203 ball/st_goal.c:161
+#: ball/hud.c:72 ball/st_demo.c:224 ball/st_goal.c:167
 msgid "Coins"
 msgstr "Кованице"
 
-#: ball/hud.c:69
+#: ball/hud.c:73
 msgid "Goal"
 msgstr "Гол"
 
-#: ball/hud.c:89 ball/st_goal.c:149
+#: ball/hud.c:93 ball/st_goal.c:155
 msgid "Balls"
 msgstr "Лоптице"
 
-#: ball/hud.c:90 ball/st_goal.c:155 putt/hud.c:45
+#: ball/hud.c:94 ball/st_goal.c:161 putt/hud.c:46
 msgid "Score"
 msgstr "Резултат"
 
-#: ball/progress.c:413 ball/st_help.c:267
+#: ball/progress.c:409 ball/st_help.c:278
 msgid "Challenge Mode"
 msgstr "Режим изазова"
 
-#: ball/progress.c:413 ball/st_start.c:208
+#: ball/progress.c:409 ball/st_start.c:219
 msgid "Challenge"
 msgstr "Изазов"
 
-#: ball/progress.c:414 ball/st_help.c:254
+#: ball/progress.c:410 ball/st_help.c:265
 msgid "Normal Mode"
 msgstr "Нормални режим"
 
-#: ball/progress.c:414
+#: ball/progress.c:410
 msgid "Normal"
 msgstr "Нормално"
 
-#: ball/progress.c:415
+#: ball/progress.c:411
 msgid "Standalone Mode"
 msgstr "Самостални режим"
 
-#: ball/progress.c:415
+#: ball/progress.c:411
 msgid "Standalone"
 msgstr "Самостално"
 
-#: ball/progress.c:416
+#: ball/progress.c:412
 msgid "Unknown Mode"
 msgstr "Непознати режим"
 
-#: ball/st_ball.c:180 ball/st_conf.c:184
+#: ball/st_ball.c:185 ball/st_conf.c:159
 msgid "Ball Model"
 msgstr "Модел лопте"
 
-#: ball/st_ball.c:182 ball/st_demo.c:308 ball/st_help.c:106
-#: ball/st_start.c:179 share/gui.c:2438 share/st_common.c:97 putt/st_all.c:395
-#: putt/st_all.c:543 putt/st_conf.c:106
+#: ball/st_ball.c:187 ball/st_demo.c:348 ball/st_help.c:114 ball/st_start.c:184
+#: ball/util.c:387 share/gui.c:2780 share/st_common.c:98 share/st_package.c:384
+#: putt/st_all.c:411 putt/st_all.c:559 putt/st_conf.c:120
 msgid "Back"
 msgstr "Назад"
 
-#: ball/st_conf.c:161 putt/st_conf.c:104
+#: ball/st_conf.c:143 ball/st_pause.c:92 putt/st_all.c:660 putt/st_conf.c:118
 msgid "Options"
 msgstr "Опције"
 
-#: ball/st_conf.c:163 share/st_common.c:339 putt/st_conf.c:116
+#: ball/st_conf.c:145 share/st_common.c:361 putt/st_conf.c:130
 msgid "Graphics"
 msgstr "Графика"
 
-#: ball/st_conf.c:163 ball/st_conf.c:172 putt/st_conf.c:114
+#: ball/st_conf.c:145 ball/st_conf.c:146 ball/st_conf.c:147 ball/st_conf.c:493
+#: ball/st_conf.c:497 putt/st_conf.c:128
 msgid "Configure"
 msgstr "Конфигуриши"
 
-#: ball/st_conf.c:167
-msgid "Mouse Sensitivity"
-msgstr "Осетљивост миша"
-
-#: ball/st_conf.c:172 share/st_common.c:868
-msgid "Gamepad"
+#: ball/st_conf.c:146 ball/st_conf.c:361
+#, fuzzy
+#| msgid "Gamepad"
+msgid "Gameplay"
 msgstr "Гејмпад"
 
-#: ball/st_conf.c:176 putt/st_conf.c:134
-msgid "Sound Volume"
-msgstr "Јачина звука"
-
-#: ball/st_conf.c:178 putt/st_conf.c:150
-msgid "Music Volume"
-msgstr "Јачина звука музике"
-
-#: ball/st_conf.c:183 ball/st_name.c:101
-msgid "Player Name"
-msgstr "Име играча"
-
-#: ball/st_conf.c:185 share/st_common.c:655 putt/st_conf.c:160
-msgid "Language"
-msgstr "Језик"
-
-#: ball/st_conf.c:199 share/st_common.c:666
-msgid "Default"
-msgstr "Подраумевано"
-
-#: ball/st_demo.c:202
-msgid "Time"
-msgstr "Време"
-
-#: ball/st_demo.c:204
-msgid "Status"
-msgstr "Стање"
-
-#: ball/st_demo.c:235 ball/st_demo.c:430
-msgid "Replay"
-msgstr "Понови"
-
-#: ball/st_demo.c:236 putt/st_all.c:731
-msgid "Player"
-msgstr "Играч"
-
-#: ball/st_demo.c:237
-msgid "Date"
-msgstr "Датум"
-
-#: ball/st_demo.c:290
-msgid "Select Replay"
-msgstr "Изаберите Понови"
-
-#: ball/st_demo.c:306
-msgid "No Replays"
-msgstr "Нема реприза"
-
-#: ball/st_demo.c:616
-msgid "Replay Paused"
-msgstr "Репродукција паузирана"
-
-#: ball/st_demo.c:618
-msgid "Replay Ends"
-msgstr "Реприза се завршава"
-
-#: ball/st_demo.c:624 ball/st_pause.c:86 putt/st_all.c:640
-msgid "Quit"
-msgstr "Одустани"
-
-#: ball/st_demo.c:628 ball/st_demo.c:719
-msgid "Keep"
-msgstr "Задржи"
-
-#: ball/st_demo.c:629 ball/st_demo.c:720
-msgid "Delete"
-msgstr "Обриши"
-
-#: ball/st_demo.c:633 ball/st_pause.c:91 putt/st_all.c:641
-msgid "Continue"
-msgstr "Наставите"
-
-#: ball/st_demo.c:635
-msgid "Repeat"
-msgstr "Понови"
-
-#: ball/st_demo.c:715
-msgid "Delete Replay?"
-msgstr "Обришите снимак?"
-
-#: ball/st_demo.c:769 ball/st_level.c:179
-msgid "Warning!"
-msgstr "Упозорење!"
-
-#: ball/st_demo.c:771
-msgid ""
-"The current replay was recorded with a\\different (or unknown) version of "
-"this level.\\Be prepared to encounter visual errors.\\"
-msgstr "Тренутни снимак је снимљен са\\другачијом (или непознатом) верзијом овог нивоа.\\Будите спремни на визуелне грешке.\\"
-
-#: ball/st_done.c:57
-msgid "New Set Record"
-msgstr "Нови рекорд"
-
-#: ball/st_done.c:58
-msgid "Set Complete"
-msgstr "Постави завршено"
-
-#: ball/st_done.c:77
-msgid "Select Level"
-msgstr "Изаберите ниво"
-
-#: ball/st_fail.c:82
-msgid "Fall-out!"
-msgstr "Свађа!"
-
-#: ball/st_fail.c:84
-msgid "Time's Up!"
-msgstr "Време је истекло!"
-
-#: ball/st_fail.c:98
-msgid "Exit"
-msgstr "Изађи"
-
-#: ball/st_fail.c:101 ball/st_goal.c:215
-msgid "Next Level"
-msgstr "Следећи ниво"
-
-#: ball/st_fail.c:104 ball/st_goal.c:218
-msgid "Retry Level"
-msgstr "Ниво поновног покушаја"
-
-#: ball/st_fail.c:107 ball/st_goal.c:221
-msgid "Save Replay"
-msgstr "Сачувај снимак"
-
-#: ball/st_goal.c:96
-msgid "New Record"
-msgstr "Нови рекорд"
-
-#: ball/st_goal.c:97
-msgid "GOAL"
-msgstr "ЦИЉ"
-
-#: ball/st_goal.c:210 ball/st_goal.c:212
-msgid "Finish"
-msgstr "Заврши"
-
-#: ball/st_help.c:102
-msgid "Tricks"
-msgstr "Трикови"
-
-#: ball/st_help.c:103
-msgid "Modes"
-msgstr "Режими"
-
-#: ball/st_help.c:104
+#: ball/st_conf.c:147 ball/st_conf.c:486 ball/st_help.c:112
 msgid "Controls"
 msgstr "Контроле"
 
-#: ball/st_help.c:105
+#: ball/st_conf.c:151 putt/st_conf.c:148
+msgid "Sound Volume"
+msgstr "Јачина звука"
+
+#: ball/st_conf.c:153 putt/st_conf.c:164
+msgid "Music Volume"
+msgstr "Јачина звука музике"
+
+#: ball/st_conf.c:158 ball/st_name.c:103
+msgid "Player Name"
+msgstr "Име играча"
+
+#: ball/st_conf.c:160 share/st_common.c:677 putt/st_conf.c:174
+msgid "Language"
+msgstr "Језик"
+
+#: ball/st_conf.c:174 ball/st_conf.c:371 share/st_common.c:688
+msgid "Default"
+msgstr "Подраумевано"
+
+#: ball/st_conf.c:181
+msgid ""
+"Copyright © 2025 Neverball authors\n"
+"Neverball is free software available under the terms of GPL v2 or later."
+msgstr ""
+
+#: ball/st_conf.c:363
+#, fuzzy
+#| msgid "Goal State in Completed Levels"
+msgid "Completed Levels"
+msgstr "Стање циља у завршеним нивоима"
+
+#: ball/st_conf.c:365
+msgid "Locked"
+msgstr "Закључано"
+
+#: ball/st_conf.c:365
+msgid "Unlocked"
+msgstr "Откључано"
+
+#: ball/st_conf.c:379
+#, fuzzy
+#| msgid "Camera %d"
+msgid "Camera Preset"
+msgstr "Камера %d"
+
+#: ball/st_conf.c:488
+msgid "Mouse Sensitivity"
+msgstr "Осетљивост миша"
+
+#: ball/st_conf.c:493 share/st_common.c:892
+msgid "Gamepad"
+msgstr "Гејмпад"
+
+#: ball/st_conf.c:497 ball/st_conf.c:571
+msgid "Touch"
+msgstr ""
+
+#: ball/st_conf.c:575
+msgid "Left Tilt"
+msgstr ""
+
+#: ball/st_conf.c:576
+msgid "Right Tilt"
+msgstr ""
+
+#: ball/st_conf.c:577
+msgid "Dynamic"
+msgstr ""
+
+#: ball/st_conf.c:583
+#, fuzzy
+#| msgid "Modes"
+msgid "Mode"
+msgstr "Режими"
+
+#: ball/st_conf.c:589
+msgid "Invert Rotation"
+msgstr ""
+
+#: ball/st_conf.c:592 share/st_common.c:370 share/st_common.c:388
+#: share/st_common.c:394 share/st_common.c:402 share/st_common.c:404
+#: share/st_common.c:406
+msgid "On"
+msgstr "Укључено"
+
+#: ball/st_conf.c:592 share/st_common.c:342 share/st_common.c:370
+#: share/st_common.c:388 share/st_common.c:394 share/st_common.c:402
+#: share/st_common.c:404 share/st_common.c:406
+msgid "Off"
+msgstr "Искључено"
+
+#: ball/st_demo.c:223
+msgid "Time"
+msgstr "Време"
+
+#: ball/st_demo.c:225
+msgid "Status"
+msgstr "Стање"
+
+#: ball/st_demo.c:256 ball/st_demo.c:472
+msgid "Replay"
+msgstr "Понови"
+
+#: ball/st_demo.c:257 putt/st_all.c:769
+msgid "Player"
+msgstr "Играч"
+
+#: ball/st_demo.c:258
+msgid "Date"
+msgstr "Датум"
+
+#: ball/st_demo.c:319
+msgid "Select Replay"
+msgstr "Изаберите Понови"
+
+#: ball/st_demo.c:346
+msgid "No Replays"
+msgstr "Нема реприза"
+
+#: ball/st_demo.c:669
+msgid "Replay Paused"
+msgstr "Репродукција паузирана"
+
+#: ball/st_demo.c:671
+msgid "Replay Ends"
+msgstr "Реприза се завршава"
+
+#: ball/st_demo.c:679
+msgid "Exit"
+msgstr "Изађи"
+
+#: ball/st_demo.c:683 ball/st_demo.c:781
+msgid "Keep"
+msgstr "Задржи"
+
+#: ball/st_demo.c:684 ball/st_demo.c:782
+msgid "Delete"
+msgstr "Обриши"
+
+#: ball/st_demo.c:688 ball/st_pause.c:135 putt/st_all.c:676
+msgid "Continue"
+msgstr "Наставите"
+
+#: ball/st_demo.c:690
+msgid "Repeat"
+msgstr "Понови"
+
+#: ball/st_demo.c:777
+msgid "Delete Replay?"
+msgstr "Обришите снимак?"
+
+#: ball/st_demo.c:831 ball/st_level.c:262
+msgid "Warning!"
+msgstr "Упозорење!"
+
+#: ball/st_demo.c:833
+#, fuzzy
+#| msgid ""
+#| "The current replay was recorded with a\\different (or unknown) version of "
+#| "this level.\\Be prepared to encounter visual errors.\\"
+msgid ""
+"The current replay was recorded with a\n"
+"different (or unknown) version of this level.\n"
+"Be prepared to encounter visual errors.\n"
+msgstr ""
+"Тренутни снимак је снимљен са\\другачијом (или непознатом) верзијом овог "
+"нивоа.\\Будите спремни на визуелне грешке.\\"
+
+#: ball/st_done.c:59
+msgid "New Set Record"
+msgstr "Нови рекорд"
+
+#: ball/st_done.c:60
+msgid "Set Complete"
+msgstr "Постави завршено"
+
+#: ball/st_done.c:79
+msgid "Select Level"
+msgstr "Изаберите ниво"
+
+#: ball/st_fail.c:86
+msgid "Fall-out!"
+msgstr "Свађа!"
+
+#: ball/st_fail.c:88
+msgid "Time's Up!"
+msgstr "Време је истекло!"
+
+#: ball/st_fail.c:104
+msgid "Back To Menu"
+msgstr ""
+
+#: ball/st_fail.c:107 ball/st_goal.c:221
+msgid "Next Level"
+msgstr "Следећи ниво"
+
+#: ball/st_fail.c:110 ball/st_goal.c:224
+msgid "Retry Level"
+msgstr "Ниво поновног покушаја"
+
+#: ball/st_fail.c:113 ball/st_goal.c:227
+msgid "Save Replay"
+msgstr "Сачувај снимак"
+
+#: ball/st_game_link.c:109
+#, c-format
+msgid "Loading (%d%%)..."
+msgstr ""
+
+#: ball/st_game_link.c:113 ball/st_game_link.c:146 ball/st_game_link.c:197
+#: ball/st_game_link.c:263 share/st_common.c:1036
+msgid "Loading..."
+msgstr ""
+
+#: ball/st_game_link.c:181
+msgid "Loading (100%)..."
+msgstr ""
+
+#: ball/st_goal.c:99
+msgid "New Record"
+msgstr "Нови рекорд"
+
+#: ball/st_goal.c:100
+msgid "GOAL"
+msgstr "ЦИЉ"
+
+#: ball/st_goal.c:216 ball/st_goal.c:218
+msgid "Finish"
+msgstr "Заврши"
+
+#: ball/st_help.c:110
+msgid "Tricks"
+msgstr "Трикови"
+
+#: ball/st_help.c:111
+msgid "Modes"
+msgstr "Режими"
+
+#: ball/st_help.c:113
 msgid "Rules"
 msgstr "Правила"
 
-#: ball/st_help.c:116
+#: ball/st_help.c:124
+#, fuzzy
+#| msgid ""
+#| "Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
+#| "causing the\\ball to roll.\\"
 msgid ""
-"Move the mouse or joystick\\or use keyboard arrows to\\tilt the floor "
-"causing the\\ball to roll.\\"
-msgstr "Померајте миш или џојстик или\\користите стрелице на тастатури\\да бисте нагнули под и\\откотрљали лоптицу.\\"
+"Move the mouse or joystick\n"
+"or use keyboard arrows to\n"
+"tilt the floor causing the\n"
+"ball to roll.\n"
+msgstr ""
+"Померајте миш или џојстик или\\користите стрелице на тастатури\\да бисте "
+"нагнули под и\\откотрљали лоптицу.\\"
 
-#: ball/st_help.c:121
+#: ball/st_help.c:129
+#, fuzzy
+#| msgid ""
+#| "Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
+#| "finish\\the level.\\"
 msgid ""
-"Roll over coins to collect\\them.  Collect coins to\\unlock the goal and "
-"finish\\the level.\\"
-msgstr "Пребацујте мишем преко новчића да\\бисте их сакупили.  Сакупљајте новчиће\\да бисте откључали циљ\\и завршили ниво.\\"
+"Roll over coins to collect\n"
+"them.  Collect coins to\n"
+"unlock the goal and finish\n"
+"the level.\n"
+msgstr ""
+"Пребацујте мишем преко новчића да\\бисте их сакупили.  Сакупљајте "
+"новчиће\\да бисте откључали циљ\\и завршили ниво.\\"
 
-#: ball/st_help.c:178
+#: ball/st_help.c:189
+#, fuzzy
+#| msgid ""
+#| "Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
+#| "rotation."
 msgid ""
-"Left and right mouse buttons rotate the view.\\Hold Shift for faster view "
-"rotation."
-msgstr "Леви и десни тастер миша ротирају приказ. Држите притиснут Shift за бржу ротацију приказа."
+"Left and right mouse buttons rotate the view\n"
+"Hold Shift for faster view rotation."
+msgstr ""
+"Леви и десни тастер миша ротирају приказ. Држите притиснут Shift за бржу "
+"ротацију приказа."
 
-#: ball/st_help.c:180
+#: ball/st_help.c:191
 msgid "Exit / Pause"
 msgstr "Излаз / Пауза"
 
-#: ball/st_help.c:184
+#: ball/st_help.c:195
 msgid "Restart Level"
 msgstr "Ниво поновног покретања"
 
-#: ball/st_help.c:185
+#: ball/st_help.c:196
 msgid "Screenshot"
 msgstr "Снимак екрана"
 
-#: ball/st_help.c:256
+#: ball/st_help.c:267
+#, fuzzy
+#| msgid ""
+#| "Finish a level before the time runs out.\\You need to collect coins in "
+#| "order to open the goal."
 msgid ""
-"Finish a level before the time runs out.\\You need to collect coins in order"
-" to open the goal."
-msgstr "Завршите ниво пре него што време истекне. Морате сакупити новчиће да бисте отворили циљ."
+"Finish a level before the time runs out.\n"
+"You need to collect coins in order to open the goal."
+msgstr ""
+"Завршите ниво пре него што време истекне. Морате сакупити новчиће да бисте "
+"отворили циљ."
 
-#: ball/st_help.c:269
+#: ball/st_help.c:280
+#, fuzzy
+#| msgid ""
+#| "Start playing from the first level of the set.\\You start with only three "
+#| "balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
 msgid ""
-"Start playing from the first level of the set.\\You start with only three "
-"balls, do not lose them.\\Earn an extra ball for each 100 coins collected."
-msgstr "Почните да играте од првог нивоа сета.\\Почињете са само три лоптице, немојте их изгубити.\\Зарадите додатну лоптицу за сваких 100 сакупљених новчића."
+"Start playing from the first level of the set.\n"
+"You start with only three balls, do not lose them.\n"
+"Earn an extra ball for each 100 coins collected."
+msgstr ""
+"Почните да играте од првог нивоа сета.\\Почињете са само три лоптице, "
+"немојте их изгубити.\\Зарадите додатну лоптицу за сваких 100 сакупљених "
+"новчића."
 
-#: ball/st_help.c:283
+#: ball/st_help.c:294
+#, fuzzy
+#| msgid ""
+#| "Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
+#| "may be able\\to reach new places.\\"
 msgid ""
-"Corners can be used to jump.\\Get rolling and take aim\\at the angle. You "
-"may be able\\to reach new places.\\"
-msgstr "Углови се могу користити за скок.\\Котрљајте се и циљајте угао.\\Можда ћете моћи да\\досегнете нова места.\\"
+"Corners can be used to jump.\n"
+"Get rolling and take aim\n"
+"at the angle. You may be able\n"
+"to reach new places.\n"
+msgstr ""
+"Углови се могу користити за скок.\\Котрљајте се и циљајте угао.\\Можда ћете "
+"моћи да\\досегнете нова места.\\"
 
-#: ball/st_help.c:288
+#: ball/st_help.c:299
+#, fuzzy
+#| msgid ""
+#| "Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
+#| "turn the camera by 45\\degrees for best results.\\"
 msgid ""
-"Tilting in 2 directions increases\\the slope. Use the manual camera\\and "
-"turn the camera by 45\\degrees for best results.\\"
-msgstr "Нагињање у 2 смера повећава\\нагиб. Користите ручну камеру\\и окрените је за 45\\степени за најбоље резултате.\\"
+"Tilting in 2 directions increases\n"
+"the slope. Use the manual camera\n"
+"and turn the camera by 45\n"
+"degrees for best results.\n"
+msgstr ""
+"Нагињање у 2 смера повећава\\нагиб. Користите ручну камеру\\и окрените је за "
+"45\\степени за најбоље резултате.\\"
 
-#: ball/st_help.c:308 ball/st_help.c:318
+#: ball/st_help.c:322 ball/st_help.c:332
 msgid "Watch demo"
 msgstr "Погледајте демо"
 
-#: ball/st_level.c:56
-#, c-format
-msgid "Bonus Level %s"
-msgstr "Бонус ниво %s"
-
-#: ball/st_level.c:58
-#, c-format
-msgid "Level %s"
-msgstr "Ниво %s"
-
-#: ball/st_level.c:64
+#: ball/st_level.c:91 ball/st_level.c:107
 #, c-format
 msgid "Standalone level"
 msgstr "Самостални ниво"
 
-#: ball/st_level.c:181
-msgid ""
-"A replay file could not be opened for writing.\\This game will not be "
-"recorded.\\"
-msgstr "Датотека за снимање није могла бити отворена за писање.\\Ова игра неће бити снимљена.\\"
+#: ball/st_level.c:99
+#, c-format
+msgid "Bonus Level %s"
+msgstr "Бонус ниво %s"
 
-#: ball/st_name.c:112
-msgid "OK"
-msgstr "ОК"
+#: ball/st_level.c:101
+#, c-format
+msgid "Level %s"
+msgstr "Ниво %s"
 
-#: ball/st_name.c:114 ball/st_save.c:113 ball/st_save.c:222
-msgid "Cancel"
-msgstr "Откажи"
-
-#: ball/st_over.c:41
-msgid "GAME OVER"
-msgstr "ИГРА ЈЕ ГОТОВА"
-
-#: ball/st_pause.c:80 putt/st_all.c:635
-msgid "Paused"
-msgstr "Паузирано"
-
-#: ball/st_pause.c:89
-msgid "Restart"
-msgstr "Поново покрени"
-
-#: ball/st_play.c:100
-msgid "Ready?"
-msgstr "Спремни?"
-
-#: ball/st_play.c:184
-msgid "Set?"
-msgstr "Сет?"
-
-#: ball/st_play.c:325
-msgid "GO!"
-msgstr "ИДИ!"
-
-#: ball/st_save.c:100
-msgid "Replay Name"
-msgstr "Име за репродукцију"
-
-#: ball/st_save.c:111
-msgid "Save"
-msgstr "Сачувај"
-
-#: ball/st_save.c:217
-msgid "Overwrite?"
-msgstr "Пребрисати?"
-
-#: ball/st_save.c:223
-msgid "Overwrite"
-msgstr "Пребриши"
-
-#: ball/st_set.c:302
-msgid "Level Set"
-msgstr "Ниво сета"
-
-#: ball/st_start.c:228
-msgid "Unlocked"
-msgstr "Откључано"
-
-#: ball/st_start.c:229
-msgid "Locked"
-msgstr "Закључано"
-
-#: ball/st_start.c:239
-msgid "Goal State in Completed Levels"
-msgstr "Стање циља у завршеним нивоима"
-
-#: ball/st_title.c:144 ball/st_title.c:179
-msgid "menu^Cheat"
-msgstr "Вари"
-
-#: ball/st_title.c:150 ball/st_title.c:182 putt/st_all.c:229
-msgid "menu^Play"
-msgstr "Пусти"
-
-#: ball/st_title.c:185
-msgid "menu^Replay"
-msgstr "Понови"
-
-#: ball/st_title.c:186
-msgid "menu^Help"
-msgstr "Помоћ"
-
-#: ball/st_title.c:187 putt/st_all.c:230
-msgid "menu^Options"
-msgstr "Опције"
-
-#: ball/st_title.c:188 putt/st_all.c:231
-msgid "menu^Exit"
-msgstr "Излаз"
-
-#: ball/util.c:28
-msgid "Hard"
-msgstr "Тешко"
-
-#: ball/util.c:29
-msgid "Medium"
-msgstr "Средње"
-
-#: ball/util.c:30
-msgid "Easy"
-msgstr "Лако"
-
-#: ball/util.c:76 ball/util.c:122
-msgid "Unavailable"
-msgstr "Недоступно"
-
-#: ball/util.c:178 ball/util.c:228
-msgid "Most Coins"
-msgstr "Већина новчића"
-
-#: ball/util.c:185 ball/util.c:232
-msgid "Best Times"
-msgstr "Најбоља времена"
-
-#: ball/util.c:192 ball/util.c:236
-msgid "Fast Unlock"
-msgstr "Брзо откључавање"
-
-#: ball/util.c:205
-msgid "Change Name"
-msgstr "Промени име"
-
-#: ball/util.c:332
-msgid "caps"
-msgstr "капе"
-
-#: share/st_common.c:320 share/st_common.c:348 share/st_common.c:366
-#: share/st_common.c:372 share/st_common.c:380 share/st_common.c:382
-#: share/st_common.c:384
-msgid "Off"
-msgstr "Искључено"
-
-#: share/st_common.c:321
-msgid "2x"
-msgstr "2x"
-
-#: share/st_common.c:322
-msgid "4x"
-msgstr "4 пута"
-
-#: share/st_common.c:323
-msgid "8x"
-msgstr "8 пута"
-
-#: share/st_common.c:337
-msgid "Unknown Display"
-msgstr "Непознати приказ"
-
-#: share/st_common.c:341 share/st_common.c:447
-msgid "Display"
-msgstr "Приказ"
-
-#: share/st_common.c:347
-msgid "Fullscreen"
-msgstr "Цео екран"
-
-#: share/st_common.c:348 share/st_common.c:366 share/st_common.c:372
-#: share/st_common.c:380 share/st_common.c:382 share/st_common.c:384
-msgid "On"
-msgstr "Укључено"
-
-#: share/st_common.c:350 share/st_common.c:544
-msgid "Resolution"
-msgstr "Резолуција"
-
-#: share/st_common.c:365
-msgid "HMD"
-msgstr "ХМД"
-
-#: share/st_common.c:371
-msgid "V-Sync"
-msgstr "V-синхронизација"
-
-#: share/st_common.c:373
-msgid "Antialiasing"
-msgstr "Антиалијасинг"
-
-#: share/st_common.c:379
-msgid "Reflection"
-msgstr "Одраз"
-
-#: share/st_common.c:381
-msgid "Background"
-msgstr "Позадина"
-
-#: share/st_common.c:383
-msgid "Shadow"
-msgstr "Сенка"
-
-#: share/st_common.c:782
-msgid "Button A"
-msgstr "Дугме А"
-
-#: share/st_common.c:783
-msgid "Button B"
-msgstr "Дугме B"
-
-#: share/st_common.c:784
-msgid "Button X"
-msgstr "Дугме X"
-
-#: share/st_common.c:785
-msgid "Button Y"
-msgstr "Дугме Y"
-
-#: share/st_common.c:786
-msgid "Button L1"
-msgstr "Дугме L1"
-
-#: share/st_common.c:787
-msgid "Button R1"
-msgstr "Дугме R1"
-
-#: share/st_common.c:788 putt/st_conf.c:158
-msgid "Select"
-msgstr "Изабери"
-
-#: share/st_common.c:789
+#: ball/st_level.c:147 share/st_common.c:811 share/st_package.c:501
 msgid "Start"
 msgstr "Започни"
 
-#: share/st_common.c:793
+#: ball/st_level.c:264
+#, fuzzy
+#| msgid ""
+#| "A replay file could not be opened for writing.\\This game will not be "
+#| "recorded.\\"
+msgid ""
+"A replay file could not be opened for writing.\n"
+"This game will not be recorded.\n"
+msgstr ""
+"Датотека за снимање није могла бити отворена за писање.\\Ова игра неће бити "
+"снимљена.\\"
+
+#: ball/st_name.c:114
+msgid "OK"
+msgstr "ОК"
+
+#: ball/st_name.c:116 ball/st_save.c:115 ball/st_save.c:224
+msgid "Cancel"
+msgstr "Откажи"
+
+#: ball/st_over.c:43
+msgid "GAME OVER"
+msgstr "ИГРА ЈЕ ГОТОВА"
+
+#: ball/st_pause.c:102 putt/st_all.c:670
+msgid "Paused"
+msgstr "Паузирано"
+
+#: ball/st_pause.c:112
+msgid "Give Up"
+msgstr ""
+
+#: ball/st_pause.c:124
+msgid "Restart"
+msgstr "Поново покрени"
+
+#: ball/st_play.c:109
+msgid "Ready?"
+msgstr "Спремни?"
+
+#: ball/st_play.c:204
+msgid "Set?"
+msgstr "Сет?"
+
+#: ball/st_play.c:369
+msgid "GO!"
+msgstr "ИДИ!"
+
+#: ball/st_save.c:102
+msgid "Replay Name"
+msgstr "Име за репродукцију"
+
+#: ball/st_save.c:113
+msgid "Save"
+msgstr "Сачувај"
+
+#: ball/st_save.c:219
+msgid "Overwrite?"
+msgstr "Пребрисати?"
+
+#: ball/st_save.c:225
+msgid "Overwrite"
+msgstr "Пребриши"
+
+#: ball/st_set.c:116 share/package.c:888
+msgid "Level Set"
+msgstr "Ниво сета"
+
+#. Translators: ‘menu^’ is not displayed to users but is a
+#. contextual prefix so that if the same string appears in a
+#. different context but should be translated differently there,
+#. they can have separate translations even though the source
+#. string is equivalent.  If no translation is available, the
+#. prefix is removed.
+#. *
+#. Please remove contextual prefixes like ‘menu^’ from the output
+#. translation strings.
+#.
+#: ball/st_title.c:161 ball/st_title.c:201
+msgid "menu^Cheat"
+msgstr "Вари"
+
+#: ball/st_title.c:167 ball/st_title.c:204 putt/st_all.c:236
+msgid "menu^Play"
+msgstr "Пусти"
+
+#: ball/st_title.c:207
+msgid "menu^Replay"
+msgstr "Понови"
+
+#: ball/st_title.c:208
+msgid "menu^Help"
+msgstr "Помоћ"
+
+#: ball/st_title.c:209 putt/st_all.c:237
+msgid "menu^Options"
+msgstr "Опције"
+
+#: ball/st_title.c:210 putt/st_all.c:238
+msgid "menu^Exit"
+msgstr "Излаз"
+
+#: ball/st_title.c:240 share/st_package.c:382 share/st_package.c:401
+msgid "Addons"
+msgstr ""
+
+#: ball/util.c:29
+msgid "Hard"
+msgstr "Тешко"
+
+#: ball/util.c:30
+msgid "Medium"
+msgstr "Средње"
+
+#: ball/util.c:31
+msgid "Easy"
+msgstr "Лако"
+
+#: ball/util.c:77 ball/util.c:123
+msgid "Unavailable"
+msgstr "Недоступно"
+
+#: ball/util.c:179 ball/util.c:229
+msgid "Most Coins"
+msgstr "Већина новчића"
+
+#: ball/util.c:186 ball/util.c:233
+msgid "Best Times"
+msgstr "Најбоља времена"
+
+#: ball/util.c:193 ball/util.c:237
+msgid "Fast Unlock"
+msgstr "Брзо откључавање"
+
+#: ball/util.c:206
+msgid "Change Name"
+msgstr "Промени име"
+
+#: ball/util.c:333
+msgid "caps"
+msgstr "капе"
+
+#: share/package.c:890
+#, fuzzy
+#| msgid "Balls"
+msgid "Ball"
+msgstr "Лоптице"
+
+#: share/package.c:892
+#, fuzzy
+#| msgid "Select Course"
+msgid "Course"
+msgstr "Изаберите курс"
+
+#: share/package.c:894
+msgid "Base"
+msgstr ""
+
+#: share/package.c:896
+msgid "Theme"
+msgstr ""
+
+#: share/st_common.c:343
+msgid "2x"
+msgstr "2x"
+
+#: share/st_common.c:344
+msgid "4x"
+msgstr "4 пута"
+
+#: share/st_common.c:345
+msgid "8x"
+msgstr "8 пута"
+
+#: share/st_common.c:359
+msgid "Unknown Display"
+msgstr "Непознати приказ"
+
+#: share/st_common.c:363 share/st_common.c:469
+msgid "Display"
+msgstr "Приказ"
+
+#: share/st_common.c:369
+msgid "Fullscreen"
+msgstr "Цео екран"
+
+#: share/st_common.c:372 share/st_common.c:566
+msgid "Resolution"
+msgstr "Резолуција"
+
+#: share/st_common.c:387
+msgid "HMD"
+msgstr "ХМД"
+
+#: share/st_common.c:393
+msgid "V-Sync"
+msgstr "V-синхронизација"
+
+#: share/st_common.c:395
+msgid "Antialiasing"
+msgstr "Антиалијасинг"
+
+#: share/st_common.c:401
+msgid "Reflection"
+msgstr "Одраз"
+
+#: share/st_common.c:403
+msgid "Background"
+msgstr "Позадина"
+
+#: share/st_common.c:405
+msgid "Shadow"
+msgstr "Сенка"
+
+#: share/st_common.c:804
+msgid "Button A"
+msgstr "Дугме А"
+
+#: share/st_common.c:805
+msgid "Button B"
+msgstr "Дугме B"
+
+#: share/st_common.c:806
+msgid "Button X"
+msgstr "Дугме X"
+
+#: share/st_common.c:807
+msgid "Button Y"
+msgstr "Дугме Y"
+
+#: share/st_common.c:808
+msgid "Button L1"
+msgstr "Дугме L1"
+
+#: share/st_common.c:809
+msgid "Button R1"
+msgstr "Дугме R1"
+
+#: share/st_common.c:810 putt/st_conf.c:172
+msgid "Select"
+msgstr "Изабери"
+
+#: share/st_common.c:815
 msgid "X Axis 1"
 msgstr "X оса 1"
 
-#: share/st_common.c:794
+#: share/st_common.c:816
 msgid "Y Axis 1"
 msgstr "Y оса 1"
 
-#: share/st_common.c:795
+#: share/st_common.c:817
 msgid "X Axis 2"
 msgstr "X оса 2"
 
-#: share/st_common.c:796
+#: share/st_common.c:818
 msgid "Y Axis 2"
 msgstr "Y оса 2"
 
-#: share/st_common.c:909
+#: share/st_common.c:933
 msgid "Press a button..."
 msgstr "Притисни дугме..."
 
-#: share/st_common.c:919
+#: share/st_common.c:943
 msgid "Move a stick..."
 msgstr "Помери штап..."
 
-#: putt/hole.c:160 putt/hud.c:52 putt/st_all.c:98 putt/st_all.c:159
+#: share/st_package.c:389
+msgid "No addons found"
+msgstr ""
+
+#: share/st_package.c:450 share/st_package.c:518
+msgid "Install"
+msgstr ""
+
+#: share/st_package.c:516
+msgid "Update"
+msgstr ""
+
+#: putt/hole.c:161 putt/hud.c:53 putt/st_all.c:102 putt/st_all.c:163
 msgid "Par"
 msgstr "Пар"
 
-#: putt/hole.c:162 putt/st_all.c:99 putt/st_all.c:160
+#: putt/hole.c:163 putt/st_all.c:103 putt/st_all.c:164
 msgid "P1"
 msgstr "П1"
 
-#: putt/hole.c:163 putt/st_all.c:100 putt/st_all.c:161
+#: putt/hole.c:164 putt/st_all.c:104 putt/st_all.c:165
 msgid "P2"
 msgstr "П2"
 
-#: putt/hole.c:164 putt/st_all.c:101 putt/st_all.c:162
+#: putt/hole.c:165 putt/st_all.c:105 putt/st_all.c:166
 msgid "P3"
 msgstr "П3"
 
-#: putt/hole.c:165 putt/st_all.c:102 putt/st_all.c:163
+#: putt/hole.c:166 putt/st_all.c:106 putt/st_all.c:167
 msgid "P4"
 msgstr "П4"
 
-#: putt/st_all.c:66
+#: putt/st_all.c:70
 msgid "O"
 msgstr "О"
 
-#: putt/st_all.c:115
+#: putt/st_all.c:119
 msgid "Tot"
 msgstr "Мало"
 
-#: putt/st_all.c:127
+#: putt/st_all.c:131
 msgid "I"
 msgstr "Ја"
 
-#: putt/st_all.c:352
+#: putt/st_all.c:368
 msgid "Select Course"
 msgstr "Изаберите курс"
 
-#: putt/st_all.c:520
+#: putt/st_all.c:536
 msgid "Players?"
 msgstr "Играчи?"
 
-#: putt/st_all.c:722
+#: putt/st_all.c:675
+msgid "Quit"
+msgstr "Одустани"
+
+#: putt/st_all.c:760
 #, c-format
 msgid "Hole %02d"
 msgstr "Рупа %02d"
 
-#: putt/st_all.c:1071
+#: putt/st_all.c:1112
 msgid "It's In!"
 msgstr "Ушло је!"
 
-#: putt/st_all.c:1214
+#: putt/st_all.c:1258
 msgid "1 Stroke Penalty"
 msgstr "Казна од 1 ударца"
 
-#: putt/st_all.c:1292
+#: putt/st_all.c:1338
 msgid "Scores"
 msgstr "Резултати"
 
-#: putt/st_all.c:1345
+#: putt/st_all.c:1391
 msgid "Final Scores"
 msgstr "Коначни резултати"
 
@@ -705,7 +896,9 @@ msgstr "Невербол Лако"
 msgid ""
 "Difficulty: Beginner through Intermediate\\\\25 levels with a smooth "
 "learning curve.\\Read level introductions for gameplay tips.\\ \\"
-msgstr "Тежина: Од почетника до средњег нивоа\\\\25 нивоа са глатком кривом учења.\\Прочитајте увод у нивое за савете о игрању.\\\\"
+msgstr ""
+"Тежина: Од почетника до средњег нивоа\\\\25 нивоа са глатком кривом учења."
+"\\Прочитајте увод у нивое за савете о игрању.\\\\"
 
 #: data/set-medium.txt
 msgid "Neverball Medium"
@@ -714,9 +907,12 @@ msgstr "Невербол Медиум"
 #: data/set-medium.txt
 msgid ""
 "Difficulty: Beginner through Expert\\\\25 levels which provide a "
-"balanced\\challenge for players. Try to claim\\some of the records "
-"provided.\\"
-msgstr "Тежина: Од почетника до стручњака\\\\25 нивоа који пружају уравнотежен\\изазов за играче. Покушајте да освојите\\неке од понуђених рекорда.\\"
+"balanced\\challenge for players. Try to claim\\some of the records provided."
+"\\"
+msgstr ""
+"Тежина: Од почетника до стручњака\\\\25 нивоа који пружају "
+"уравнотежен\\изазов за играче. Покушајте да освојите\\неке од понуђених "
+"рекорда.\\"
 
 #: data/set-hard.txt
 msgid "Neverball Hard"
@@ -725,9 +921,12 @@ msgstr "Невербол Хард"
 #: data/set-hard.txt
 msgid ""
 "Difficulty: Intermediate through Expert\\\\25 levels with more of a "
-"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins,"
-" and Fast Unlock records.\\"
-msgstr "Тежина: Од средњег до стручног нивоа\\\\25 са већим изазовом за\\искусног играча.\\Покушајте да освојите\\Најбоља времена, Највише новчића и Рекорде за брзо откључавање.\\"
+"challenge for\\the experienced player. Try to claim\\Best Times, Most Coins, "
+"and Fast Unlock records.\\"
+msgstr ""
+"Тежина: Од средњег до стручног нивоа\\\\25 са већим изазовом за\\искусног "
+"играча.\\Покушајте да освојите\\Најбоља времена, Највише новчића и Рекорде "
+"за брзо откључавање.\\"
 
 #: data/set-mym.txt
 msgid "Tour de force"
@@ -735,9 +934,11 @@ msgstr "Турнеја снаге"
 
 #: data/set-mym.txt
 msgid ""
-"Difficulty: Expert through Insane\\\\25 levels with even greater "
-"challenge.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Тежина: Експерт кроз Insane\\\\25 нивоа са још већим изазовом.\\Аутор: Мехди Јусфи-Монод (mym)\\ \\"
+"Difficulty: Expert through Insane\\\\25 levels with even greater challenge."
+"\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
+msgstr ""
+"Тежина: Експерт кроз Insane\\\\25 нивоа са још већим изазовом.\\Аутор: Мехди "
+"Јусфи-Монод (mym)\\ \\"
 
 #: data/set-mym2.txt
 msgid "Retour de force"
@@ -747,7 +948,9 @@ msgstr "Повратак силе"
 msgid ""
 "Difficulty: A little bit harder than my first set.\\\\More challenge, "
 "particularly for grabbing coins.\\Author: Mehdi Yousfi-Monod (mym)\\ \\"
-msgstr "Тежина: Мало теже него мој први сет.\\\\Више изазова, посебно за хватање новчића.\\\\Аутор: Мехди Јусфи-Монод (mym)\\\\"
+msgstr ""
+"Тежина: Мало теже него мој први сет.\\\\Више изазова, посебно за хватање "
+"новчића.\\\\Аутор: Мехди Јусфи-Монод (mym)\\\\"
 
 #: data/set-fwp.txt
 msgid "Nevermania"
@@ -757,7 +960,9 @@ msgstr "Неверманија"
 msgid ""
 "Difficulty: Expert through Impossible\\\\Assorted levels for advanced "
 "players.\\Author: Florian Priester\\\\"
-msgstr "Тежина: Од стручњака до немогућег\\\\Разни нивои за напредне играче.\\Аутор: Флоријан Пристер\\\\"
+msgstr ""
+"Тежина: Од стручњака до немогућег\\\\Разни нивои за напредне играче.\\Аутор: "
+"Флоријан Пристер\\\\"
 
 #: data/set-tones.txt
 msgid "Tones Levels"
@@ -779,7 +984,9 @@ msgstr "Несортирани нивои\\За потребе тестирањ�
 msgid ""
 "The original 18-hole Neverputt course.\\With a gentle learning curve.\\ "
 "\\Difficulty: Easy to Medium\\Author: rlk\\"
-msgstr "Оригинални терен за голф Neverputt са 18 рупа.\\Са благом кривом учења.\\\\Тежина: Лака до средња\\Аутор: rlk\\"
+msgstr ""
+"Оригинални терен за голф Neverputt са 18 рупа.\\Са благом кривом учења.\\"
+"\\Тежина: Лака до средња\\Аутор: rlk\\"
 
 #: data/holes-paxed.txt
 msgid "Another 18-hole course\\ \\ \\Difficulty: Medium\\Author: paxed\\"
@@ -794,7 +1001,8 @@ msgid "Even More Holes\\ \\ \\Difficulty: Medium\\Author: paxed\\"
 msgstr "Још више рупа\\ \\ \\Тежина: Средња\\Аутор: paxed\\"
 
 #: data/holes-abc.txt
-msgid "A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
+msgid ""
+"A 26-hole course\\following the alphabet\\\\Difficulty: Hard\\Author: paxed\\"
 msgstr "Терен са 26 рупа\\пратећи абецеду\\Тежина: Тешко\\Аутор: paxed\\"
 
 #: data/holes-slippi.txt
@@ -805,19 +1013,24 @@ msgstr "Луди голф\\ \\\\Тежина: Лака до средња\\Аут
 msgid ""
 "Tricky Golf\\\\An 18-hole course with many challenges\\Difficulty: Expert "
 "Through Insane\\Author: Byron James Johnson"
-msgstr "Трики Голф\\\\Терен са 18 рупа са много изазова\\Тежина: Од стручњака до лудила\\Аутор: Бајрон Џејмс Џонсон"
+msgstr ""
+"Трики Голф\\\\Терен са 18 рупа са много изазова\\Тежина: Од стручњака до "
+"лудила\\Аутор: Бајрон Џејмс Џонсон"
 
 #: data/holes-vidski.txt
 msgid ""
-"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to "
-"hard.\\Author: vidski\\"
-msgstr "Голф Џамбалаја\\\\Видскијев озлоглашени терен.\\Тежина: Средње до тешко.\\Аутор: видски\\"
+"Golf Jambalaya\\\\Vidski's infamous course.\\Difficulty: Medium to hard."
+"\\Author: vidski\\"
+msgstr ""
+"Голф Џамбалаја\\\\Видскијев озлоглашени терен.\\Тежина: Средње до тешко."
+"\\Аутор: видски\\"
 
 #: data/holes-iCourse.txt
 msgid ""
 "Reshaun's iPutt Course\\\\\\Difficulty: Easy through Hard\\Author: Reshaun "
 "Francis"
-msgstr "Решонова стаза за iPutt\\\\Тежина: Од лаког до тешког\\Аутор: Решон Франсис"
+msgstr ""
+"Решонова стаза за iPutt\\\\Тежина: Од лаког до тешког\\Аутор: Решон Франсис"
 
 #: data/gui/title.map data/map-medium/title.map
 msgid "Neverball\\\\http://neverball.org\\\\Created by Robert Kooima\\"
@@ -827,148 +1040,201 @@ msgstr "Невербол\\\\http://neverball.org\\\\Креирао Роберт 
 msgid ""
 "Try to avoid being hit by moving objects.\\One bump can throw the "
 "ball\\completely out of control.\\"
-msgstr "Покушајте да избегнете ударце покретних предмета.\\Један ударац може потпуно\\избацити лопту из контроле.\\"
+msgstr ""
+"Покушајте да избегнете ударце покретних предмета.\\Један ударац може "
+"потпуно\\избацити лопту из контроле.\\"
 
 #: data/map-easy/bumps.map
 msgid ""
 "Learn to control a bouncing ball.\\Look at the shadow to know where "
 "the\\ball will land.  If you're feeling confident in\\your mastery of "
 "bouncing, take a risk\\for a big payoff.\\"
-msgstr "Научите да контролишете лопту која одскаче.\\Погледајте сенку да бисте знали\\где ће лопта слетети.  Ако сте сигурни у\\своје мајсторство одскакања, ризикујте\\за велики добитак.\\"
+msgstr ""
+"Научите да контролишете лопту која одскаче.\\Погледајте сенку да бисте "
+"знали\\где ће лопта слетети.  Ако сте сигурни у\\своје мајсторство "
+"одскакања, ризикујте\\за велики добитак.\\"
 
 #: data/map-easy/coins.map
 msgid ""
 "This time you must get 50 coins to unlock the goal.\\Red coins are worth 5, "
 "blue coins are worth 10.\\Get to the goal before time expires!\\\\Click to "
 "begin.\\"
-msgstr "Овог пута морате сакупити 50 новчића да бисте откључали циљ.\\Црвени новчићи вреде 5, плави новчићи вреде 10.\\Стигните до циља пре него што време истекне!\\Кликните да бисте почели.\\"
+msgstr ""
+"Овог пута морате сакупити 50 новчића да бисте откључали циљ.\\Црвени новчићи "
+"вреде 5, плави новчићи вреде 10.\\Стигните до циља пре него што време "
+"истекне!\\Кликните да бисте почели.\\"
 
 #: data/map-easy/corners.map
 msgid ""
-"Here are some more opportunities for you to\\fall off into the void. Hit the"
-" bump hard to\\grab some big coins and score a short time.\\"
-msgstr "Ево још неколико прилика да паднете\\у празнину. Ударите снажно у неравнину да бисте\\зграбили неке велике новчиће и освојили кратко време.\\"
+"Here are some more opportunities for you to\\fall off into the void. Hit the "
+"bump hard to\\grab some big coins and score a short time.\\"
+msgstr ""
+"Ево још неколико прилика да паднете\\у празнину. Ударите снажно у неравнину "
+"да бисте\\зграбили неке велике новчиће и освојили кратко време.\\"
 
 #: data/map-easy/curved.map
 msgid ""
 "As before, but without the training wheels.\\Keep the ball on a level "
 "floor\\and maintain precise control.\\Build some momentum to reach the "
 "corners.\\"
-msgstr "Као и пре, али без помоћних точкова.\\Држите лопту на равном поду\\и одржавајте прецизну контролу.\\Створите замах да бисте стигли до углова.\\"
+msgstr ""
+"Као и пре, али без помоћних точкова.\\Држите лопту на равном поду\\и "
+"одржавајте прецизну контролу.\\Створите замах да бисте стигли до углова.\\"
 
 #: data/map-easy/easy.map data/map-misc/centrifuge.map
 #: data/map-misc/texture-debug.map data/map-misc/timer-test.map
 msgid ""
-"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the "
-"goal.\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
-msgstr "Померите миш да бисте нагнули под.\\Сакупите 10 новчића да бисте откључали циљ.\\Водите лопту до циља да бисте\\завршили ниво.\\\\Кликните да бисте почели.\\"
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgstr ""
+"Померите миш да бисте нагнули под.\\Сакупите 10 новчића да бисте откључали "
+"циљ.\\Водите лопту до циља да бисте\\завршили ниво.\\\\Кликните да бисте "
+"почели.\\"
 
 #: data/map-easy/easyhalfpipe.map
 msgid ""
 "Half-pipes can be fun,\\but they make it easy to fall out.\\Don't over "
 "accelerate and you will\\be able to stay in control."
-msgstr "Халфпајпови могу бити забавни, али због њих је лако испасти. Немојте превише убрзавати и моћи ћете да задржите контролу."
+msgstr ""
+"Халфпајпови могу бити забавни, али због њих је лако испасти. Немојте превише "
+"убрзавати и моћи ћете да задржите контролу."
 
 #: data/map-easy/fence.map
 msgid ""
 "''Flat'' is relative.\\Learn to hold the floor at an angle\\so that a slope "
 "remains level.\\This way, you maintain full control of the ball.\\Use "
 "momentum to get up to the big coins.\\"
-msgstr "„Равно“ је релативно.\\Научите да држите под под углом\\тако да нагиб остане раван.\\На овај начин одржавате потпуну контролу над лоптом.\\Искористите замах да дођете до великих новчића.\\"
+msgstr ""
+"„Равно“ је релативно.\\Научите да држите под под углом\\тако да нагиб остане "
+"раван.\\На овај начин одржавате потпуну контролу над лоптом.\\Искористите "
+"замах да дођете до великих новчића.\\"
 
 #: data/map-easy/goals.map
 msgid ""
 "There are 100 coins here.\\This one shouldn't be too difficult,\\if you "
 "don't accidentally make a goal first.\\"
-msgstr "Овде има 100 новчића.\\Ово не би требало да буде превише тешко,\\ако случајно прво не постигнете гол.\\"
+msgstr ""
+"Овде има 100 новчића.\\Ово не би требало да буде превише тешко,\\ако "
+"случајно прво не постигнете гол.\\"
 
 #: data/map-easy/goslow.map
 msgid ""
 "Tilt the floor as little as possible.\\Less tilt means lower speed.\\Lower "
 "speed means better control.\\Watch the clock and use the time wisely.\\"
-msgstr "Нагињите под што је мање могуће.\\Мањи нагиб значи мању брзину.\\Мања брзина значи бољу контролу.\\Гледајте на сат и користите време мудро.\\"
+msgstr ""
+"Нагињите под што је мање могуће.\\Мањи нагиб значи мању брзину.\\Мања брзина "
+"значи бољу контролу.\\Гледајте на сат и користите време мудро.\\"
 
 #: data/map-easy/greed.map
 msgid ""
 "Each bridge is narrower than the one before.\\But each pays better than the "
 "last as well!\\You get to decide how far you go on this one.\\"
-msgstr "Сваки мост је ужи од претходног.\\Али сваки је и боље плаћен од претходног!\\Ти одлучујеш колико далеко идеш на овом.\\"
+msgstr ""
+"Сваки мост је ужи од претходног.\\Али сваки је и боље плаћен од претходног!"
+"\\Ти одлучујеш колико далеко идеш на овом.\\"
 
 #: data/map-easy/groundbreak.map
 msgid ""
 "Getting to the goal\\shouldn't be a problem,\\but getting all of the coins "
 "will\\require some planning.\\\\Hint: often it is faster to avoid\\a hole "
 "instead of falling into it."
-msgstr "Достизање циља не би требало да буде проблем, али сакупљање свих новчића захтеваће мало планирања. Савет: често је брже избећи рупу него упасти у њу."
+msgstr ""
+"Достизање циља не би требало да буде проблем, али сакупљање свих новчића "
+"захтеваће мало планирања. Савет: често је брже избећи рупу него упасти у њу."
 
 #: data/map-easy/hole.map
 msgid ""
 "Stay away from the edges!\\When approaching a drop, begin slowing "
-"down\\early. You need just as much room to slow\\down as you did to speed "
-"up.\\"
-msgstr "Клоните се ивица!\\Када се приближавате падини, почните рано да\\успорите. Потребно вам је исто толико\\простора за успоравање колико и за убрзање.\\"
+"down\\early. You need just as much room to slow\\down as you did to speed up."
+"\\"
+msgstr ""
+"Клоните се ивица!\\Када се приближавате падини, почните рано да\\успорите. "
+"Потребно вам је исто толико\\простора за успоравање колико и за убрзање.\\"
 
 #: data/map-easy/lollipop.map
 msgid ""
-"Follow the yellow lick road!\\\\The blue coins are especially "
-"challenging,\\but with some experimentation and practice,\\you'll be able to"
-" collect them all."
-msgstr "Пратите жути пут за лизање!\\\\Плави новчићи су посебно изазовни,\\\\али уз мало експериментисања и вежбе,\\\\моћи ћете да их све сакупите."
+"Follow the yellow lick road!\\\\The blue coins are especially challenging,"
+"\\but with some experimentation and practice,\\you'll be able to collect "
+"them all."
+msgstr ""
+"Пратите жути пут за лизање!\\\\Плави новчићи су посебно изазовни,\\\\али уз "
+"мало експериментисања и вежбе,\\\\моћи ћете да их све сакупите."
 
 #: data/map-easy/maze.map
 msgid ""
 "The ball wants to rebound uncontrollably\\in a narrow passage. Keep it slow "
 "and\\off the walls. All the coins are collectable\\in the given time.\\"
-msgstr "Лопта жели неконтролисано да се одбије у\\уском пролазу. Држите је споро и држите\\је подаље од зидова. Сви новчићи се могу\\сакупити у датом времену.\\"
+msgstr ""
+"Лопта жели неконтролисано да се одбије у\\уском пролазу. Држите је споро и "
+"држите\\је подаље од зидова. Сви новчићи се могу\\сакупити у датом времену.\\"
 
 #: data/map-easy/mazebump.map
 msgid ""
-"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers"
-" - it will help you\\to reach the goal."
-msgstr "Загонетно, али профитабилно.\\\\Одвојите време да посматрате кретање\\браника - то ће вам помоћи\\да дођете до циља."
+"Puzzling but profitable.\\\\Take time to observe the motions\\of the bumpers "
+"- it will help you\\to reach the goal."
+msgstr ""
+"Загонетно, али профитабилно.\\\\Одвојите време да посматрате "
+"кретање\\браника - то ће вам помоћи\\да дођете до циља."
 
 #: data/map-easy/mover.map
 msgid ""
 "A moving platform can be tricky.\\Use precise timing to get aboard,\\and "
 "precise balance to stay there.\\Don't let it move out from under you.\\Ride "
 "the platforms to grab the big coins.\\"
-msgstr "Покретна платформа може бити незгодна.\\Користите прецизан тајминг да бисте се укрцали\\и прецизну равнотежу да бисте остали тамо.\\Не дозволите да вам се помери испод ноге.\\Возите се платформама да бисте зграбили велике новчиће.\\"
+msgstr ""
+"Покретна платформа може бити незгодна.\\Користите прецизан тајминг да бисте "
+"се укрцали\\и прецизну равнотежу да бисте остали тамо.\\Не дозволите да вам "
+"се помери испод ноге.\\Возите се платформама да бисте зграбили велике "
+"новчиће.\\"
 
 #: data/map-easy/peasy.map
 msgid ""
 "Mouse buttons rotate the view.\\Press Escape to pause or quit.\\\\\\\\Click "
 "to begin.\\"
-msgstr "Дугмад миша ротирају приказ.\\Притисните Escape да бисте паузирали или изашли.\\\\\\\\Кликните да бисте започели.\\"
+msgstr ""
+"Дугмад миша ротирају приказ.\\Притисните Escape да бисте паузирали или "
+"изашли.\\\\\\\\Кликните да бисте започели.\\"
 
 #: data/map-easy/roundcoins.map
 msgid ""
 "When you are on the elevators,\\make small adjustments to keep the ball "
 "steady.\\You can collect many coins by\\keeping the ball in one place.\\Too "
 "much movement and you will fall off."
-msgstr "Када сте у лифтовима, правите мала подешавања да би лопта била стабилна. Можете сакупити много новчића држећи лопту на једном месту. Превише кретања и пашћете."
+msgstr ""
+"Када сте у лифтовима, правите мала подешавања да би лопта била стабилна. "
+"Можете сакупити много новчића држећи лопту на једном месту. Превише кретања "
+"и пашћете."
 
 #: data/map-easy/roundlaby.map
 msgid ""
 "There is only one path to reach the goal,\\but lots of paths for collecting "
 "coins.\\Make sure you collect enough\\to unlock the goal."
-msgstr "Постоји само један пут до циља, али има много путева за сакупљање новчића. Уверите се да сакупите довољно да бисте откључали циљ."
+msgstr ""
+"Постоји само један пут до циља, али има много путева за сакупљање новчића. "
+"Уверите се да сакупите довољно да бисте откључали циљ."
 
 #: data/map-easy/slalom.map
 msgid ""
-"Follow the trail of coins to reach the goal.\\If you hit a post while moving"
-" quickly,\\you will bounce far off course."
-msgstr "Пратите траг новчића да бисте стигли до циља.\\Ако ударите у стуб док се брзо крећете,\\одскочићете далеко са курса."
+"Follow the trail of coins to reach the goal.\\If you hit a post while moving "
+"quickly,\\you will bounce far off course."
+msgstr ""
+"Пратите траг новчића да бисте стигли до циља.\\Ако ударите у стуб док се "
+"брзо крећете,\\одскочићете далеко са курса."
 
 #: data/map-easy/slightcurve.map
 msgid "Hills require more speed to get over.\\Be careful not to go too fast!"
-msgstr "За прелазак преко брда је потребна већа брзина.\\Пазите да не идете пребрзо!"
+msgstr ""
+"За прелазак преко брда је потребна већа брзина.\\Пазите да не идете пребрзо!"
 
 #: data/map-easy/speedbumps.map
 msgid ""
 "When the ball is on a moving platform,\\it will be pulled in the direction "
 "of movement.\\Use the rails to steady yourself,\\and collect the coins you "
 "need\\to open the goal."
-msgstr "Када се лопта налази на покретној платформи, биће вучена у смеру кретања. Користите шине да се стабилизујете и сакупите новчиће који су вам потребни да бисте отворили гол."
+msgstr ""
+"Када се лопта налази на покретној платформи, биће вучена у смеру кретања. "
+"Користите шине да се стабилизујете и сакупите новчиће који су вам потребни "
+"да бисте отворили гол."
 
 #: data/map-easy/thwomp2.map
 msgid "Grab all the coins...\\but don't get bullied!"
@@ -976,13 +1242,17 @@ msgstr "Зграбите све новчиће... али немојте да в�
 
 #: data/map-easy/wakka.map
 msgid ""
-"Here's another coin grab.\\Perhaps you already know a good "
-"route.\\Teleportation might come in handy.\\"
-msgstr "Ево још једног начина хватања новчића.\\Можда већ знате добру руту.\\Телепортација би могла бити корисна.\\"
+"Here's another coin grab.\\Perhaps you already know a good route."
+"\\Teleportation might come in handy.\\"
+msgstr ""
+"Ево још једног начина хватања новчића.\\Можда већ знате добру руту."
+"\\Телепортација би могла бити корисна.\\"
 
 #: data/map-fwp/adventure.map
 msgid "=Adventure=\\Many things to do, coins to collect, risks to take."
-msgstr "=Авантура=\\Много ствари за радити, новчића за сакупљање, ризика за преузимање."
+msgstr ""
+"=Авантура=\\Много ствари за радити, новчића за сакупљање, ризика за "
+"преузимање."
 
 #: data/map-fwp/atrium.map
 msgid "=Atrium=\\Remove the coins from their columns."
@@ -1072,13 +1342,17 @@ msgstr "Нема довољно пода овде.\\Надам се да то н
 msgid ""
 "To make progress here you'll need to hit the\\edges hard and control your "
 "bouncing.\\It's often easiest to hit the curb at a corner.\\"
-msgstr "Да бисте овде напредовали, мораћете снажно да ударите\\у ивице и да контролишете одскок.\\Често је најлакше ударити у ивичњак на углу.\\"
+msgstr ""
+"Да бисте овде напредовали, мораћете снажно да ударите\\у ивице и да "
+"контролишете одскок.\\Често је најлакше ударити у ивичњак на углу.\\"
 
 #: data/map-hard/flip.map
 msgid ""
 "Thus Neverball is a puzzle game?\\Remove the red to unlock the goal.\\Each "
 "trigger switches colors in direct contact."
-msgstr "Дакле, Neverball је слагалица?\\Уклоните црвену да бисте откључали циљ.\\Сваки окидач мења боје у директном контакту."
+msgstr ""
+"Дакле, Neverball је слагалица?\\Уклоните црвену да бисте откључали циљ."
+"\\Сваки окидач мења боје у директном контакту."
 
 #: data/map-hard/frogger.map
 msgid "Ribbit!\\"
@@ -1086,9 +1360,11 @@ msgstr "Крика!\\"
 
 #: data/map-hard/gaps.map
 msgid ""
-"Time the switches carefully to synchronize\\the motion of the "
-"platforms.\\Move quickly across the gaps.\\"
-msgstr "Пажљиво подесите прекидаче како бисте\\синхронизовали кретање платформи.\\Брзо прелазите преко празнина.\\"
+"Time the switches carefully to synchronize\\the motion of the platforms."
+"\\Move quickly across the gaps.\\"
+msgstr ""
+"Пажљиво подесите прекидаче како бисте\\синхронизовали кретање платформи."
+"\\Брзо прелазите преко празнина.\\"
 
 #: data/map-hard/grid.map
 msgid "Yes, the ball does fit quite nicely through\\those little holes.\\"
@@ -1098,7 +1374,8 @@ msgstr "Да, лопта се баш лепо уклапа\\кроз те мал
 msgid ""
 "Control your speed and your bounces.\\Teleporters will always bring "
 "you\\back somewhere in the level."
-msgstr "Контролишите брзину и одскоке. Телепортери ће вас увек вратити негде у нивоу."
+msgstr ""
+"Контролишите брзину и одскоке. Телепортери ће вас увек вратити негде у нивоу."
 
 #: data/map-hard/hump.map
 msgid "Momentum may work against you.\\"
@@ -1108,7 +1385,9 @@ msgstr "Замах може да ради против вас.\\"
 msgid ""
 "Allow your greed to guide you.\\For an added challenge,\\try to get to all "
 "of the coins.\\It can be done without guesswork.\\"
-msgstr "Дозволите да вас похлепа води.\\За додатни изазов,\\покушајте да дођете до свих новчића.\\То се може урадити без нагађања.\\"
+msgstr ""
+"Дозволите да вас похлепа води.\\За додатни изазов,\\покушајте да дођете до "
+"свих новчића.\\То се може урадити без нагађања.\\"
 
 #: data/map-hard/movers.map
 msgid "Go for a ride.\\"
@@ -1117,13 +1396,17 @@ msgstr "Иди на вожњу.\\"
 #: data/map-hard/nostairs.map
 msgid ""
 "There are two goals here.\\You can complete this level\\the easy way or the "
-"hard way.\\Of course, by going the easy way\\you can forget about all\\those"
-" red and blue coins."
-msgstr "Овде постоје два циља. Можете завршити овај ниво на лак или тежи начин. Наравно, идући на лак начин, можете заборавити на све оне црвене и плаве новчиће."
+"hard way.\\Of course, by going the easy way\\you can forget about all\\those "
+"red and blue coins."
+msgstr ""
+"Овде постоје два циља. Можете завршити овај ниво на лак или тежи начин. "
+"Наравно, идући на лак начин, можете заборавити на све оне црвене и плаве "
+"новчиће."
 
 #: data/map-hard/paths.map
 msgid "So many different paths to take...\\have you tried all of them?"
-msgstr "Толико различитих путева којима се може кренути... јесте ли испробали све?"
+msgstr ""
+"Толико различитих путева којима се може кренути... јесте ли испробали све?"
 
 #: data/map-hard/pipe.map
 msgid "Ceci n'est pas une pipe.\\"
@@ -1137,7 +1420,9 @@ msgstr "Споро и стабилно.\\"
 msgid ""
 "You'll only get about 15 seconds at each step,\\so don't delay.  Get the "
 "coins and\\get to the next switch.\\"
-msgstr "Имаћете само око 15 секунди за сваки корак,\\зато немојте одлагати.  Узмите новчиће и стигните до следећег прекидача.\\"
+msgstr ""
+"Имаћете само око 15 секунди за сваки корак,\\зато немојте одлагати.  Узмите "
+"новчиће и стигните до следећег прекидача.\\"
 
 #: data/map-hard/quads.map
 msgid "Don't get bullied.\\"
@@ -1153,9 +1438,11 @@ msgstr "Тако близу, а опет тако далеко.\\"
 
 #: data/map-hard/risers.map data/map-misc/edge-test.map
 msgid ""
-"Ride the elevators to the top.\\They move quickly,\\so don't dally too "
-"long.\\"
-msgstr "Возите се лифтовима до врха.\\Брзо се крећу,\\зато се немојте превише задржавати.\\"
+"Ride the elevators to the top.\\They move quickly,\\so don't dally too long."
+"\\"
+msgstr ""
+"Возите се лифтовима до врха.\\Брзо се крећу,\\зато се немојте превише "
+"задржавати.\\"
 
 #: data/map-hard/spiralin.map
 msgid "Have fun picking up those\\red and blue coins.\\"
@@ -1169,14 +1456,18 @@ msgstr "Не брини.\\Зелени део неће никуда нестат
 msgid ""
 "Use the switches to set the platforms\\in motion.  Time it so they "
 "come\\together in the middle.\\"
-msgstr "Користите прекидаче да покренете\\платформе.  Темпирај тако да\\се споје у средини.\\"
+msgstr ""
+"Користите прекидаче да покренете\\платформе.  Темпирај тако да\\се споје у "
+"средини.\\"
 
 #: data/map-hard/teleport.map
 msgid ""
-"The ball must be entirely within a teleporter\\in order to trigger "
-"it.\\Remember that the ball carries its momentum\\through a teleporter, so "
-"plan ahead.\\"
-msgstr "Лопта мора бити потпуно унутар телепортера\\да би се активирала.\\Запамтите да лопта носи свој импулс\\кроз телепорт, зато планирајте унапред.\\"
+"The ball must be entirely within a teleporter\\in order to trigger it."
+"\\Remember that the ball carries its momentum\\through a teleporter, so plan "
+"ahead.\\"
+msgstr ""
+"Лопта мора бити потпуно унутар телепортера\\да би се активирала.\\Запамтите "
+"да лопта носи свој импулс\\кроз телепорт, зато планирајте унапред.\\"
 
 #: data/map-hard/tilt.map
 msgid "The floor is as flat as you make it.\\"
@@ -1188,9 +1479,11 @@ msgstr "Степенице до неба"
 
 #: data/map-medium/angle.map
 msgid ""
-"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take"
-" the easy cash or\\go all the way for a big payoff.\\"
-msgstr "Ти мостови су под углом.\\Сваки је ужи и стрмији од претходног.\\Узмите лаку зараду или\\идите до краја за велику награду.\\"
+"Those bridges are angled.\\Each is narrower and steeper than the last.\\Take "
+"the easy cash or\\go all the way for a big payoff.\\"
+msgstr ""
+"Ти мостови су под углом.\\Сваки је ужи и стрмији од претходног.\\Узмите лаку "
+"зараду или\\идите до краја за велику награду.\\"
 
 #: data/map-medium/coneskeleton.map
 msgid "Plenty of coins for the taking.\\Can you take them all?"
@@ -1200,17 +1493,22 @@ msgstr "Много новчића за узимање.\\Можеш ли их с�
 msgid ""
 "Use momentum to reach\\the upper platforms,\\but keep the ball in "
 "control\\for safe landing.\\\\The manual view may help here.\\"
-msgstr "Искористите замах да бисте досегли горње платформе,\\али држите лопту под контролом\\за безбедно слетање.\\\\Ручни приказ може помоћи овде.\\"
+msgstr ""
+"Искористите замах да бисте досегли горње платформе,\\али држите лопту под "
+"контролом\\за безбедно слетање.\\\\Ручни приказ може помоћи овде.\\"
 
 #: data/map-medium/drops.map
 msgid ""
-"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And"
-" don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
-msgstr "Не заборавите да пратите сенку како бисте\\контролисали одскок лопте.  И не заборавите\\да користите дугмад миша да бисте лопту\\држали у видокругу.\\"
+"Remember to keep an eye on the shadow to\\help control a bouncing ball.  And "
+"don't\\forget to use the mouse buttons to keep the\\ball in view.\\"
+msgstr ""
+"Не заборавите да пратите сенку како бисте\\контролисали одскок лопте.  И не "
+"заборавите\\да користите дугмад миша да бисте лопту\\држали у видокругу.\\"
 
 #: data/map-medium/easytele.map
 msgid "Use teleporters to go\\where you otherwise couldn't.\\"
-msgstr "Користите телепортере да\\бисте отишли тамо где иначе не бисте могли.\\"
+msgstr ""
+"Користите телепортере да\\бисте отишли тамо где иначе не бисте могли.\\"
 
 #: data/map-medium/four.map
 msgid "Balance risk versus reward.\\"
@@ -1229,7 +1527,10 @@ msgid ""
 "The ball will fit in those small holes,\\if you can just find something to "
 "make it smaller.\\Other places may require a bigger ball.\\One thing is "
 "certain - you'll want a plan!"
-msgstr "Лопта ће стати у те мале рупице, ако само можете пронаћи нешто да је смањите. На другим местима може бити потребна већа лопта. Једно је сигурно - требаће вам план!"
+msgstr ""
+"Лопта ће стати у те мале рупице, ако само можете пронаћи нешто да је "
+"смањите. На другим местима може бити потребна већа лопта. Једно је сигурно - "
+"требаће вам план!"
 
 #: data/map-medium/locks.map
 msgid "Hit the switches to move the barriers.\\"
@@ -1239,7 +1540,9 @@ msgstr "Притисните прекидаче да бисте померили
 msgid ""
 "The temptation to move quickly\\could prove your undoing.\\\\Then again, "
 "maybe not..."
-msgstr "Искушење да се брзо делује може те довести у пропаст. С друге стране, можда и не..."
+msgstr ""
+"Искушење да се брзо делује може те довести у пропаст. С друге стране, можда "
+"и не..."
 
 #: data/map-medium/plinko.map
 msgid "Take it slowly.\\"
@@ -1251,50 +1554,67 @@ msgstr "Више никад не можеш кући..."
 
 #: data/map-medium/rampdn.map
 msgid ""
-"You'll need to exert some control over your\\view here.  Press 3 to stop the"
-" auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
+"You'll need to exert some control over your\\view here.  Press 3 to stop the "
+"auto-rotation.\\Use the mouse buttons to rotate it manually.\\Press 1 to "
 "return to the auto-rotating view.\\"
-msgstr "Мораћете да извршите одређену контролу\\над својим приказом овде. Притисните 3 да бисте зауставили аутоматску ротацију.\\Користите дугмад миша да бисте га ручно ротирали.\\Притисните 1 да бисте се вратили на аутоматски ротирајући приказ.\\"
+msgstr ""
+"Мораћете да извршите одређену контролу\\над својим приказом овде. Притисните "
+"3 да бисте зауставили аутоматску ротацију.\\Користите дугмад миша да бисте "
+"га ручно ротирали.\\Притисните 1 да бисте се вратили на аутоматски "
+"ротирајући приказ.\\"
 
 #: data/map-medium/roundfloors.map
 msgid ""
 "This wedding cake is plenty rich,\\but be careful as you go\\to each lower "
 "layer."
-msgstr "Ова свадбена торта је доста богата, али будите опрезни док идете на сваки доњи слој."
+msgstr ""
+"Ова свадбена торта је доста богата, али будите опрезни док идете на сваки "
+"доњи слој."
 
 #: data/map-medium/sparselines.map
 msgid ""
 "Bump the logs at speed to change lanes.\\Try to reach the top for an extra "
 "challenge!"
-msgstr "Ударајте балване великом брзином да бисте променили траку. Покушајте да стигнете до врха за додатни изазов!"
+msgstr ""
+"Ударајте балване великом брзином да бисте променили траку. Покушајте да "
+"стигнете до врха за додатни изазов!"
 
 #: data/map-medium/spiraldn.map
 msgid ""
 "Take it slow to keep it away from the edge.\\Or, don't.\\Either way might "
 "work.\\"
-msgstr "Споро да не би дошло до ивице.\\Или немојте.\\Оба начина би могла да успеју.\\"
+msgstr ""
+"Споро да не би дошло до ивице.\\Или немојте.\\Оба начина би могла да успеју."
+"\\"
 
 #: data/map-medium/spiralup.map
-msgid "Just as before, but moving up instead of down.\\No cheating this time.\\"
+msgid ""
+"Just as before, but moving up instead of down.\\No cheating this time.\\"
 msgstr "Баш као и пре, али се креће горе уместо доле.\\Овај пут нема варања.\\"
 
 #: data/map-medium/stairs.map
 msgid ""
 "Here's yet another test of your ability\\to control bouncing.  Moving down "
 "the\\stairs too quickly can be hazardous.\\"
-msgstr "Ево још једног теста ваше способности да контролишете одскакање.\\Пребрзо кретање низ степенице може бити опасно.\\"
+msgstr ""
+"Ево још једног теста ваше способности да контролишете одскакање.\\Пребрзо "
+"кретање низ степенице може бити опасно.\\"
 
 #: data/map-medium/telemaze.map
 msgid ""
 "This maze has no walls.\\But that doesn't make the solution\\any easier to "
 "find.\\"
-msgstr "Овај лавиринт нема зидове.\\Али то не чини решење нимало\\лакшим за проналажење.\\"
+msgstr ""
+"Овај лавиринт нема зидове.\\Али то не чини решење нимало\\лакшим за "
+"проналажење.\\"
 
 #: data/map-medium/timer.map
 msgid ""
-"That one switch controls all five barriers.\\Be quick, because the switch is"
-" on a timer.\\When it expires, the barriers will rise.\\"
-msgstr "Тај један прекидач контролише свих пет баријера.\\Будите брзи, јер је прекидач на тајмеру.\\Када истекне, баријере ће се подићи.\\"
+"That one switch controls all five barriers.\\Be quick, because the switch is "
+"on a timer.\\When it expires, the barriers will rise.\\"
+msgstr ""
+"Тај један прекидач контролише свих пет баријера.\\Будите брзи, јер је "
+"прекидач на тајмеру.\\Када истекне, баријере ће се подићи.\\"
 
 #: data/map-medium/woodmaze.map
 msgid "Follow the trail of coins\\to make it through the labyrinth."
@@ -1304,13 +1624,16 @@ msgstr "Пратите траг новчића да бисте прошли кр
 msgid ""
 "There are plenty of coins here if you're\\willing to take the time to grab "
 "them.\\"
-msgstr "Овде има доста новчића ако сте\\спремни да одвојите време да их узмете.\\"
+msgstr ""
+"Овде има доста новчића ако сте\\спремни да одвојите време да их узмете.\\"
 
 #: data/map-misc/bigball-old.map
 msgid ""
 "Prisonnier de la boule.\\Living in a sphere.\\Catching all blue coins is a "
 "challenge."
-msgstr "Затвореник де ла боул.\\Живот у сфери.\\Хватање свих плавих новчића је изазов."
+msgstr ""
+"Затвореник де ла боул.\\Живот у сфери.\\Хватање свих плавих новчића је "
+"изазов."
 
 #: data/map-misc/billiard.map
 msgid "Try to grab all of the blue coins...\\it won't be easy!"
@@ -1324,7 +1647,9 @@ msgstr "Блок 24 сата дневно."
 msgid ""
 "Follow the blue coins...\\and learn to control your bounce!\\Hint: Use the "
 "'chase' camera mode."
-msgstr "Пратите плаве новчиће... и научите да контролишете свој одскок! Савет: Користите режим камере „јури“."
+msgstr ""
+"Пратите плаве новчиће... и научите да контролишете свој одскок! Савет: "
+"Користите режим камере „јури“."
 
 #: data/map-misc/bounce2.map
 msgid "Follow the arrows."
@@ -1334,7 +1659,14 @@ msgstr "Пратите стрелице."
 msgid ""
 "It's a real game of checkers, but no one wins...\\You have to bounce to "
 "reach the blue coins."
-msgstr "То је права игра даме, али нико не побеђује...\\Морате да одскачете да бисте дошли до плавих новчића."
+msgstr ""
+"То је права игра даме, али нико не побеђује...\\Морате да одскачете да бисте "
+"дошли до плавих новчића."
+
+#: data/map-misc/cube.map
+msgid ""
+"=Rolling Cube=\\\\A rotating 512x512x512 cube. Holds for 5s, flips in 3s!"
+msgstr ""
 
 #: data/map-misc/elevator.map
 msgid "Calm and meditation may bring you to the Nirvana."
@@ -1346,15 +1678,31 @@ msgstr "Савоир цхутер.\\Прати плаве маркере."
 
 #: data/map-misc/grow_demo.map
 msgid "Use the new coins to change ball size!\\I hope you like it!\\-Dave"
-msgstr "Користите нове новчиће да промените величину лоптице!\\Надам се да вам се свиђа!\\-Дејв"
+msgstr ""
+"Користите нове новчиће да промените величину лоптице!\\Надам се да вам се "
+"свиђа!\\-Дејв"
 
 #: data/map-misc/groweasy.map
 msgid "There are special coins which can make your\\ball larger or smaller."
-msgstr "Постоје посебни новчићи који могу учинити вашу лоптицу већом или мањом."
+msgstr ""
+"Постоје посебни новчићи који могу учинити вашу лоптицу већом или мањом."
 
 #: data/map-misc/ocean.map
 msgid "Let's go for a swim...\\all the coins are fully submerged.\\"
 msgstr "Хајде да се купамо…\\сви новчићи су потпуно потопљени.\\"
+
+#: data/map-misc/rotation2.map
+#, fuzzy
+#| msgid ""
+#| "Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+#| "\\Guide the ball to the goal to\\finish the level.\\\\Click to begin.\\"
+msgid ""
+"Move the mouse to tilt the floor.\\Collect 10 coins to unlock the goal."
+"\\Guide the ball to the goal to\\finish the level.\\\\Click to begin."
+msgstr ""
+"Померите миш да бисте нагнули под.\\Сакупите 10 новчића да бисте откључали "
+"циљ.\\Водите лопту до циља да бисте\\завршили ниво.\\\\Кликните да бисте "
+"почели.\\"
 
 #: data/map-misc/stairs.map
 msgid "Fall down stairs.\\Ough!\\It hurts."
@@ -1395,9 +1743,12 @@ msgstr "Ла балладе транкуилле.\\Каква тиха шетњ�
 #: data/map-mym/dance2.map
 msgid ""
 "La ballade dansante.\\Let's dance on the moving platform!\\Tip: After "
-"activating the last moving platform,\\ turn around the Thwomp until the goal"
-" is reachable."
-msgstr "Плесајућа балада.\\Хајде да играмо на покретној платформи!\\Савет: Након активирања последње покретне платформе,\\ окрећите се око Твомп-а док циљ не буде достижан."
+"activating the last moving platform,\\ turn around the Thwomp until the goal "
+"is reachable."
+msgstr ""
+"Плесајућа балада.\\Хајде да играмо на покретној платформи!\\Савет: Након "
+"активирања последње покретне платформе,\\ окрећите се око Твомп-а док циљ не "
+"буде достижан."
 
 #: data/map-mym/descent.map
 msgid "La descente infernale.\\Easy enough to start?"
@@ -1411,9 +1762,11 @@ msgstr "Напрегнути канал.\\Пажња:\\Платформа исп
 
 #: data/map-mym/drive2.map
 msgid ""
-"La conduite dangereuse.\\The platform under the ball moves quickly "
-"forward.\\You would do well to advance."
-msgstr "Опасни канал.\\Платформа испод лопте се брзо креће напред.\\Било би добро да напредујете."
+"La conduite dangereuse.\\The platform under the ball moves quickly forward."
+"\\You would do well to advance."
+msgstr ""
+"Опасни канал.\\Платформа испод лопте се брзо креће напред.\\Било би добро да "
+"напредујете."
 
 #: data/map-mym/earthquake.map
 msgid "Le passage incertain.\\Isn't too easy?"
@@ -1429,7 +1782,8 @@ msgstr "Стаклени пут.\\Пронађи пут до излаза."
 
 #: data/map-mym/hard.map
 msgid "La maîtrise de Neverball.\\You still think Neverball is too easy?"
-msgstr "Ла мајсторица из Невербола.\\Још увек мислиш да је Невербол превише лак?"
+msgstr ""
+"Ла мајсторица из Невербола.\\Још увек мислиш да је Невербол превише лак?"
 
 #: data/map-mym/loop1.map
 msgid "Les boucles renversantes.\\Upside down!"
@@ -1439,7 +1793,8 @@ msgstr "Лес боуцлес ренверсантес.\\Наопако!"
 msgid ""
 "Le contrôle des courbes.\\Find the right angle to turn,\\to jump and to "
 "land..."
-msgstr "Контрола кривине.\\Пронађите прави угао за окретање,\\за скок и за слетање..."
+msgstr ""
+"Контрола кривине.\\Пронађите прави угао за окретање,\\за скок и за слетање..."
 
 #: data/map-mym/maze1.map
 msgid "Le chemin dissimulé.\\Test your memory."
@@ -1455,7 +1810,9 @@ msgstr "Луди лавиринт.\\Знаш пут, видиш га,\\па за
 msgid ""
 "Le sentier étroit.\\Patience and timing.\\Tip: maximise speed at the first "
 "slope."
-msgstr "Ле сентиер етроит.\\Стрпљење и тајминг.\\Савет: максимизирајте брзину на првој стрмини."
+msgstr ""
+"Ле сентиер етроит.\\Стрпљење и тајминг.\\Савет: максимизирајте брзину на "
+"првој стрмини."
 
 #: data/map-mym/running.map
 msgid "Les épreuves minutées.\\Run baby, run!"
@@ -1464,7 +1821,9 @@ msgstr "Лес епреувес минутеес.\\Бежи душо, бежи!"
 #: data/map-mym/scrambling.map
 msgid ""
 "Le petit cross.\\Let's go scrambling!\\Stick to the track to optimize speed."
-msgstr "Мали крст.\\Хајде да се шкргољемо!\\Држи се стазе да би се оптимизовала брзина."
+msgstr ""
+"Мали крст.\\Хајде да се шкргољемо!\\Држи се стазе да би се оптимизовала "
+"брзина."
 
 #: data/map-mym/snow.map
 msgid "La descente rafraîchissante.\\Not so fast, not so fast."
@@ -1510,14 +1869,19 @@ msgstr "Лес саутс ду целебре пломбиер.\\Прати но
 msgid ""
 "Savoir rebondir pour aller plus haut.\\The Neverball Arena.\\Use the 2 "
 "teleports to unlock and reach the goal."
-msgstr "Научите да се вратите на место изнад.\\Арена Невербол.\\Искористите 2 телепорта да бисте откључали и стигли до циља."
+msgstr ""
+"Научите да се вратите на место изнад.\\Арена Невербол.\\Искористите 2 "
+"телепорта да бисте откључали и стигли до циља."
 
 #: data/map-mym2/freefall.map
 msgid ""
-"This level is full of challenges:\\understand the level's "
-"functioning,\\learn to fly and to survive,\\grab half of all coins to open "
-"the goal,\\find and reach the goal,\\and more..."
-msgstr "Овај ниво је пун изазова:\\разумејте функционисање нивоа,\\научите да летите и преживите,\\зграбите половину свих новчића да бисте отворили циљ,\\пронађите и досегните циљ,\\и још много тога..."
+"This level is full of challenges:\\understand the level's functioning,"
+"\\learn to fly and to survive,\\grab half of all coins to open the goal,"
+"\\find and reach the goal,\\and more..."
+msgstr ""
+"Овај ниво је пун изазова:\\разумејте функционисање нивоа,\\научите да летите "
+"и преживите,\\зграбите половину свих новчића да бисте отворили циљ,"
+"\\пронађите и досегните циљ,\\и још много тога..."
 
 #: data/map-mym2/grinder.map
 msgid "Le petit moulin.\\The good timing to go in the cabin."
@@ -1531,7 +1895,8 @@ msgstr "Не пас се лаиссер емпортер данс ле неан�
 msgid ""
 "Si si, ce tuyau a une fin.\\Living in a pipe.\\Tip: slow down for the last "
 "jump!"
-msgstr "Ако си, стићи ћеш до краја.\\Живим у цеви.\\Савет: успорите за последњи скок!"
+msgstr ""
+"Ако си, стићи ћеш до краја.\\Живим у цеви.\\Савет: успорите за последњи скок!"
 
 #: data/map-mym2/morenarrow.map
 msgid "Plus dur que la difficulté.\\Good luck."
@@ -1621,7 +1986,9 @@ msgstr "Пробијте се до врха."
 msgid ""
 "Collect 45 coins to unlock the goal.\\You can use the teleporter to gain "
 "enough speed\\for the jump."
-msgstr "Сакупи 45 новчића да би откључао циљ. Можеш користити телепортер да добијеш довољну брзину за скок."
+msgstr ""
+"Сакупи 45 новчића да би откључао циљ. Можеш користити телепортер да добијеш "
+"довољну брзину за скок."
 
 #: data/map-tones/easyone.map
 msgid "Control your speed\\to avoid a bumpy ride."
@@ -1652,7 +2019,8 @@ msgid "Walk the plank.\\After the teleport, go for speed!"
 msgstr "Ходај по дасци.\\Након телепортације, иди на брзину!"
 
 #: data/map-tones/skiball.map
-msgid "Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
+msgid ""
+"Ski Ball!\\\\Work your way from 10 to 100\\in sequence or you'll fall out."
 msgstr "Ски лопта!\\\\Померајте се од 10 до 100\\у низу или ћете испасти."
 
 #: data/map-tones/swish.map
@@ -1667,7 +2035,9 @@ msgstr "Шта иде доле, мора и горе!\\"
 msgid ""
 "Make sure you are\\safely on a purple platform\\before 20 seconds have "
 "elapsed!"
-msgstr "Уверите се да сте безбедно на љубичастој платформи пре него што прође 20 секунди!"
+msgstr ""
+"Уверите се да сте безбедно на љубичастој платформи пре него што прође 20 "
+"секунди!"
 
 #: data/map-tones/twisted.map
 msgid "Afraid of heights?\\Try not to get dizzy."
@@ -1688,18 +2058,21 @@ msgid "A 3D mini golf game"
 msgstr "3Д мини голф игра"
 
 #. Translators,
+#.
 #. Listed here are the Neverball materials (relative to the data directory)
 #. that can be localised.  Each material <mtrl> has a corresponding JPG or PNG
 #. texture.  To localise a material, create a localised texture for it (copy
-#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify
-#. it)
+#. the original texture <mtrl>.<ext> to <mtrl>-<lang-code>.<ext> and modify it)
 #. and translate the material name to match (from <mtrl> to
 #. <mtrl>-<lang-code>).
+#.
 #. Author's comments on the original mtrl/words texture:
+#.
 #. "Courier New, 40pt, bold. The words are centered in cells of 256x64 pixels.
 #. For the vertical centering, the x-height is used as the reference. Some
 #. manual corrections were made; for example, the hyphen in 'Fall-out' was
 #. shortened in order to increase the margin on each side of the word."
+#.
 #. Those on GNU+Linux having the ImageMagick program suite installed may find
 #. the provided scripts/gen-words.sh shell script useful.
 msgid "mtrl/words"
