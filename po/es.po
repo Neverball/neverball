@@ -177,11 +177,11 @@ msgstr "Controles"
 
 #: ball/st_conf.c:151 putt/st_conf.c:148
 msgid "Sound Volume"
-msgstr "Volumen del Sonido"
+msgstr "Vol. del Sonido"
 
 #: ball/st_conf.c:153 putt/st_conf.c:164
 msgid "Music Volume"
-msgstr "Volumen de la Música"
+msgstr "Vol. de la Música"
 
 #: ball/st_conf.c:158 ball/st_name.c:103
 msgid "Player Name"
