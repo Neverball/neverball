@@ -516,7 +516,7 @@ msgstr "Pausa"
 
 #: ball/st_pause.c:112
 msgid "Give Up"
-msgstr "Salir "
+msgstr "Salir"
 
 #: ball/st_pause.c:124
 msgid "Restart"
