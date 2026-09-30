@@ -117,11 +117,11 @@ msgstr "Puntuación"
 
 #: ball/progress.c:409 ball/st_help.c:278
 msgid "Challenge Mode"
-msgstr "Modo de reto"
+msgstr "Modo Desafío"
 
 #: ball/progress.c:409 ball/st_start.c:219
 msgid "Challenge"
-msgstr "Reto"
+msgstr "Desafío"
 
 #: ball/progress.c:410 ball/st_help.c:265
 msgid "Normal Mode"
