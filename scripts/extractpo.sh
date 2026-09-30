@@ -28,17 +28,17 @@ SETS="$DATA/sets.txt"
 COURSES="$DATA/courses.txt"
 
 print_msg() {
-    string=$1
-    file=$2
-    comment=$3
+    string="$1"
+    file="$2"
+    comment="$3"
 
     echo
+
     if [ "$comment" != "" ]; then
-        echo "#. $comment"
+        printf '#. %s\n' "$comment"
     fi
-    echo "#: $file"
-    echo "msgid \"$string\""
-    echo "msgstr \"\""
+
+    printf '#: %s\nmsgid "%s"\nmsgstr ""\n' "$file" "$string"
 }
 
 for i in $(cat "$SETS"); do
@@ -46,7 +46,7 @@ for i in $(cat "$SETS"); do
 
     # Only translate the two first lines
     head -n 2 $i | while read -r d; do
-        msg=$(echo "$d" | sed 's/\\/\\\\/g')
+        msg=$(printf '%s\n' "$d" | sed 's/\\/\\\\/g')
         print_msg "$msg" "$i"
     done
 done
@@ -60,13 +60,13 @@ done
 for i in $(find $DATA -name "*.map" | sort); do
     # Only translatable string is "message"
     grep -E "^\"message\"" "$i" | while read -r a b; do
-        msg=$(echo "$b" | sed 's/\\/\\\\/g; s/^"\(.*\)"$/\1/')
+        msg="$(printf '%s\n' "$b" | sed 's/\\/\\\\/g; s/^"\(.*\)"$/\1/')"
         print_msg "$msg" "$i"
     done
 done
 
 for i in dist/*.desktop.in; do
-    msg=$(grep '^Comment=' $i | sed 's/^Comment=//')
+    msg="$(grep '^Comment=' $i | sed 's/^Comment=//')"
     if [ "$msg" != "" ]; then
         print_msg "$msg" "$i" "Desktop entry comment"
     fi
