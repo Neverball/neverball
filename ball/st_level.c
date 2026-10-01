@@ -33,6 +33,7 @@
 #include "st_start.h"
 #include "st_over.h"
 #include "st_done.h"
+#include "st_pause.h"
 #include "st_shared.h"
 
 /*---------------------------------------------------------------------------*/
@@ -52,6 +53,11 @@ static int level_action(int token, int value)
             return goto_state(&st_play_ready);
 
         case GUI_BACK:
+            /* Pausing protects session progress in challenge mode. */
+
+            if (curr_mode() == MODE_CHALLENGE)
+                return goto_state(&st_pause);
+
             progress_stop();
             return goto_exit();
     }
@@ -164,6 +170,7 @@ static int level_gui(void)
 
 static int level_enter(struct state *st, struct state *prev, int intent)
 {
+    video_clr_grab();
     game_client_fly(1.0f);
 
     if (check_nodemo && !demo_fp)
@@ -188,6 +195,11 @@ static int level_keybd(int c, int d)
     {
         if (c == KEY_EXIT)
         {
+            /* Pausing protects session progress in challenge mode. */
+
+            if (curr_mode() == MODE_CHALLENGE)
+                return goto_state(&st_pause);
+
             progress_stop();
             return goto_exit();
         }
