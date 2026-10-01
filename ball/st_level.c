@@ -141,18 +141,8 @@ static int level_gui(void)
 
         if ((jd = gui_hstack(id)))
         {
-            if ((kd = gui_hstack(jd)))
-            {
-                gui_label(kd, GUI_TRIANGLE_RIGHT, GUI_SML, gui_grn, gui_grn);
-                gui_label(kd, _("Start"), GUI_SML, gui_wht, gui_wht);
-
-                gui_set_state(kd, LEVEL_START, 0);
-                gui_set_rect(kd, GUI_ALL);
-                gui_focus(kd);
-            }
-
+            gui_start_icon(jd, GUI_TRIANGLE_RIGHT, gui_grn, _("Start"), GUI_SML, LEVEL_START, 0);
             gui_filler(jd);
-
             gui_back_button(jd);
         }
 

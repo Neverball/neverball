@@ -101,16 +101,21 @@ static int fail_gui(void)
             if ((jd = gui_harray(id)))
             {
                 if (progress_dead())
-                    gui_start(jd, _("Back To Menu"), GUI_SML, FAIL_OVER, 0);
+                    gui_start_icon(jd, GUI_CROSS, gui_red, _("Back To Menu"), GUI_SML, FAIL_OVER, 0);
 
                 if (progress_next_avail())
-                    gui_start(jd, _("Next Level"),  GUI_SML, FAIL_NEXT, 0);
+                {
+                    if (progress_same_avail())
+                        gui_state_icon(jd, GUI_TRIANGLE_RIGHT, gui_grn, _("Next Level"), GUI_SML, FAIL_NEXT, 0);
+                    else
+                        gui_start_icon(jd, GUI_TRIANGLE_RIGHT, gui_grn, _("Next Level"), GUI_SML, FAIL_NEXT, 0);
+                }
 
                 if (progress_same_avail())
-                    gui_start(jd, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
+                    gui_start_icon(jd, GUI_CIRCLE_ARROW, gui_yel, _("Retry Level"), GUI_SML, FAIL_SAME, 0);
 
                 if (demo_saved())
-                    gui_state(jd, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
+                    gui_state_icon(jd, GUI_STAR, gui_wht, _("Save Replay"), GUI_SML, FAIL_SAVE, 0);
             }
 
             gui_space(id);

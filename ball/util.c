@@ -379,18 +379,7 @@ char gui_keyboard_char(char c)
 
 int gui_back_button(int pd)
 {
-    int id;
-
-    if ((id = gui_hstack(pd)))
-    {
-        gui_label(id, GUI_CROSS, GUI_SML, gui_red, gui_red);
-        gui_label(id, _("Back"), GUI_SML, gui_wht, gui_wht);
-
-        gui_set_state(id, GUI_BACK, 0);
-        gui_set_rect(id, GUI_ALL);
-    }
-
-    return id;
+    return gui_state_icon(pd, GUI_CROSS, gui_red, _("Back"), GUI_SML, GUI_BACK, 0);
 }
 
 /*---------------------------------------------------------------------------*/

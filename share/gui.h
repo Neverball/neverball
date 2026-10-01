@@ -87,6 +87,7 @@ enum trunc
 #define GUI_ROMAN_2 "Ⅱ"
 #define GUI_FISHEYE "◉"
 #define GUI_GEAR "⚙"
+#define GUI_STAR "★"
 
 /*---------------------------------------------------------------------------*/
 
@@ -125,6 +126,8 @@ int  gui_root(void);
 int  gui_image(int, const char *, int, int);
 int  gui_start(int, const char *, int, int, int);
 int  gui_state(int, const char *, int, int, int);
+int  gui_start_icon(int, const char *, const GLubyte *, const char *, int, int, int);
+int  gui_state_icon(int, const char *, const GLubyte *, const char *, int, int, int);
 int  gui_label(int, const char *, int, const GLubyte *, const GLubyte *);
 int  gui_multi(int, const char *, int, const GLubyte *, const GLubyte *);
 int  gui_count(int, int, int);
