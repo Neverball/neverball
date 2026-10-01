@@ -1313,8 +1313,8 @@ General Public License for more details.
         if (this.audioContext && this.audioContext.state === 'running') {
           this.audioContext.suspend();
         }
-        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
-          this.audioMusicSourceNode.mediaElement.pause();
+        if (this.audioMusicTrack?.audioElem) {
+          this.audioMusicTrack.audioElem.pause();
         }
       },
 
@@ -1322,8 +1322,15 @@ General Public License for more details.
         if (this.audioContext && this.audioContext.state === 'suspended') {
           this.audioContext.resume();
         }
-        if (this.audioMusicSourceNode && this.audioMusicSourceNode.mediaElement) {
-          this.audioMusicSourceNode.mediaElement.play();
+        if (this.audioMusicTrack?.audioElem) {
+          const p = this.audioMusicTrack.audioElem.play();
+          if (p !== undefined) {
+            p.catch((err) => {
+              if (err.name !== 'AbortError') {
+                console.warn('Audio playback error:', err);
+              }
+            });
+          }
         }
       },
 
@@ -1505,6 +1512,8 @@ General Public License for more details.
       /** @type {GainNode?} */
       audioMusicGainNode: null,
 
+      audioMusicTrack: null,
+
       audioInit: function () {
         this.audioContext = new AudioContext({
           sampleRate: 44100.0
@@ -1524,17 +1533,144 @@ General Public License for more details.
         this.audioMusicSink?.gain.setValueAtTime(musicVolume, this.audioContext.currentTime);
       },
 
+      _createMusicTrack: function (fileName, fileData) {
+        const blob = new Blob([fileData], {type: this.audioCanPlayOgg ? 'audio/ogg' : 'audio/mp3'});
+        const url = URL.createObjectURL(blob);
+
+        const audioElem = new Audio(url);
+        audioElem.loop = true;
+
+        const sourceNode = new MediaElementAudioSourceNode(this.audioContext, {
+          mediaElement: audioElem,
+        });
+
+        const gainNode = new GainNode(this.audioContext, {
+          gain: 0.0,
+        });
+
+        sourceNode.connect(gainNode);
+        gainNode.connect(this.audioMusicSink);
+
+        let rampStartVal = 0.0;
+        let rampEndVal = 0.0;
+        let rampStartTime = 0.0;
+        let rampEndTime = 0.0;
+        let stopTimer = null;
+
+        const getCurrentGain = (now) => {
+          if (now <= rampStartTime) return rampStartVal;
+          if (now >= rampEndTime) return rampEndVal;
+          const progress = (now - rampStartTime) / (rampEndTime - rampStartTime);
+          return rampStartVal + (rampEndVal - rampStartVal) * progress;
+        };
+
+        const track = {
+          fileName: fileName,
+          audioElem: audioElem,
+          sourceNode: sourceNode,
+          gainNode: gainNode,
+          blobUrl: url,
+
+          rampGain: (target, duration) => {
+            const now = this.audioContext.currentTime;
+            const current = getCurrentGain(now);
+
+            gainNode.gain.cancelScheduledValues(now);
+            gainNode.gain.setValueAtTime(current, now);
+
+            if (duration > 0.001) {
+              gainNode.gain.linearRampToValueAtTime(target, now + duration);
+              rampStartTime = now;
+              rampEndTime = now + duration;
+              rampStartVal = current;
+              rampEndVal = target;
+            } else {
+              gainNode.gain.setValueAtTime(target, now);
+              rampStartTime = now;
+              rampEndTime = now;
+              rampStartVal = target;
+              rampEndVal = target;
+            }
+          },
+
+          fadeIn: (duration) => {
+            if (stopTimer) {
+              clearTimeout(stopTimer);
+              stopTimer = null;
+            }
+            track.rampGain(1.0, duration);
+            const p = audioElem.play();
+            if (p !== undefined) {
+              p.catch((err) => {
+                if (err.name !== 'AbortError') {
+                  console.warn('Audio playback error:', err);
+                }
+              });
+            }
+          },
+
+          fadeOut: (duration) => {
+            if (stopTimer) {
+              clearTimeout(stopTimer);
+              stopTimer = null;
+            }
+            if (duration <= 0.001) {
+              track.stop();
+              return;
+            }
+            track.rampGain(0.0, duration);
+            stopTimer = setTimeout(() => {
+              stopTimer = null;
+              track.stop();
+            }, duration * 1000);
+          },
+
+          stop: () => {
+            if (stopTimer) {
+              clearTimeout(stopTimer);
+              stopTimer = null;
+            }
+            if (this.audioContext) {
+              const now = this.audioContext.currentTime;
+              gainNode.gain.cancelScheduledValues(now);
+              gainNode.gain.setValueAtTime(0.0, now);
+            }
+
+            audioElem.pause();
+            audioElem.removeAttribute('src');
+            audioElem.load();
+
+            try {
+              sourceNode.disconnect();
+            } catch (e) {}
+            try {
+              gainNode.disconnect();
+            } catch (e) {}
+
+            if (url) {
+              URL.revokeObjectURL(url);
+            }
+          }
+        };
+
+        return track;
+      },
+
+      _syncAudioMusicProperties: function () {
+        this.audioMusicFile = this.audioMusicTrack?.fileName || null;
+        this.audioMusicSourceNode = this.audioMusicTrack?.sourceNode || null;
+        this.audioMusicGainNode = this.audioMusicTrack?.gainNode || null;
+      },
+
       audioQuit: function () {
+        this.audioMusicStop();
+
         this.audioContext?.close();
 
         this.audioContext = null;
 
         this.audioSoundSink = null;
         this.audioMusicSink = null;
-
-        this.audioMusicFile = null;
-        this.audioMusicSourceNode = null;
-        this.audioMusicGainNode = null;
       },
 
       audioPlay: async function (fileName, fileData, a) {
@@ -1573,66 +1709,46 @@ General Public License for more details.
         sourceNode.start();
       },
 
-      audioMusicFadeTo: async function (fileName, fileData, fadeTime) {
-        if (this.audioMusicFile && fileName === this.audioMusicFile) {
-          // If we're already playing this BGM, just force a fade-in.
-
-          this.audioMusicFadeIn(fadeTime);
-        } else {
-          // Fade out any existing BGM.
-
-          this.audioMusicFadeOut(fadeTime);
-
-          // Set up and fade in the new BGM.
-
-          const blob = new Blob([fileData], {type: this.audioCanPlayOgg ? 'audio/ogg' : 'audio/mp3'});
-          const url = URL.createObjectURL(blob);
-
-          const audioElem = new Audio(url);
-
-          audioElem.loop = true;
-
-          const sourceNode = new MediaElementAudioSourceNode(this.audioContext, {
-            mediaElement: audioElem,
-          });
-
-          const gainNode = new GainNode(this.audioContext, {
-            gain: 0.0,
-          });
-
-          this.audioMusicFile = fileName;
-          this.audioMusicSourceNode = sourceNode;
-          this.audioMusicGainNode = gainNode;
-
-          // Weird rules.
-          gainNode.gain.setValueAtTime(gainNode.gain.value, this.audioContext.currentTime);
-          gainNode.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
-
-          sourceNode.onended = () => {
-            gainNode.disconnect();
-          };
-
-          sourceNode.connect(gainNode);
-          gainNode.connect(this.audioMusicSink);
-
-          audioElem.play();
+      audioMusicFadeTo: function (fileName, fileData, fadeTime) {
+        if (!this.audioContext || !this.audioMusicSink) {
+          return;
         }
+
+        if (this.audioMusicTrack && fileName === this.audioMusicTrack.fileName) {
+          // If we're already playing this BGM, just force a fade-in.
+          this.audioMusicTrack.fadeIn(fadeTime);
+          this._syncAudioMusicProperties();
+          return;
+        }
+
+        // Fade out any existing BGM.
+        if (this.audioMusicTrack) {
+          this.audioMusicTrack.fadeOut(fadeTime);
+          this.audioMusicTrack = null;
+        }
+
+        // Set up and fade in the new BGM.
+        this.audioMusicTrack = this._createMusicTrack(fileName, fileData);
+        this.audioMusicTrack.fadeIn(fadeTime);
+        this._syncAudioMusicProperties();
       },
 
       audioMusicFadeIn: function (fadeTime) {
-        // Weird rules.
-        this.audioMusicGainNode?.gain.setValueAtTime(this.audioMusicGainNode?.gain.value, this.audioContext.currentTime);
-        this.audioMusicGainNode?.gain.linearRampToValueAtTime(1.0, this.audioContext.currentTime + fadeTime);
+        this.audioMusicTrack?.fadeIn(fadeTime);
       },
 
       audioMusicFadeOut: function (fadeTime) {
-        // Weird rules.
-        this.audioMusicGainNode?.gain.setValueAtTime(this.audioMusicGainNode?.gain.value, this.audioContext.currentTime);
-        this.audioMusicGainNode?.gain.linearRampToValueAtTime(0.0, this.audioContext.currentTime + fadeTime);
+        if (this.audioMusicTrack) {
+          this.audioMusicTrack.fadeOut(fadeTime);
+          this.audioMusicTrack = null;
+          this._syncAudioMusicProperties();
+        }
       },
 
       audioMusicStop: function () {
-        this.audioMusicSourceNode?.mediaElement.pause();
+        this.audioMusicTrack?.stop();
+        this.audioMusicTrack = null;
+        this._syncAudioMusicProperties();
       },
 
       initLinks: function () {
