@@ -213,18 +213,18 @@ static int goal_gui(void)
             if ((jd = gui_harray(id)))
             {
                 if      (progress_done())
-                    gui_start(jd, _("Finish"), GUI_SML, GOAL_DONE, 0);
+                    gui_start_icon(jd, GUI_CHECKMARK, gui_grn, _("Finish"), GUI_SML, GOAL_DONE, 0);
                 else if (progress_last())
-                    gui_start(jd, _("Finish"), GUI_SML, GOAL_LAST, 0);
+                    gui_start_icon(jd, GUI_CHECKMARK, gui_grn, _("Finish"), GUI_SML, GOAL_LAST, 0);
 
                 if (progress_next_avail())
-                    gui_start(jd, _("Next Level"),  GUI_SML, GOAL_NEXT, 0);
+                    gui_start_icon(jd, GUI_TRIANGLE_RIGHT, gui_grn, _("Next Level"), GUI_SML, GOAL_NEXT, 0);
 
                 if (progress_same_avail())
-                    gui_start(jd, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
+                    gui_state_icon(jd, GUI_CIRCLE_ARROW, gui_yel, _("Retry Level"), GUI_SML, GOAL_SAME, 0);
 
                 if (demo_saved())
-                    gui_state(jd, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
+                    gui_state_icon(jd, GUI_STAR, gui_wht, _("Save Replay"), GUI_SML, GOAL_SAVE, 0);
             }
 
             if (!resume)
