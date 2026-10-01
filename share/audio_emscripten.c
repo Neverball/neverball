@@ -158,7 +158,7 @@ void audio_music_fade_to(float t, const char *filename)
 void audio_music_stop(void)
 {
     EM_ASM({
-        Neverball.audioMusicStop();;
+        Neverball.audioMusicStop();
     });
 }
 
