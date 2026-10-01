@@ -53,7 +53,12 @@ static int pause_action(int tok, int val)
 
     case PAUSE_CONTINUE:
         audio_music_fade_in(1.0f);
-        video_set_grab(0);
+
+        /* Only gameplay states require mouse grab. */
+
+        if (st_continue != &st_level)
+            video_set_grab(0);
+
         return goto_state(st_continue);
 
     case PAUSE_RESTART:
@@ -127,13 +132,19 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
 static void pause_paint(int id, float t)
 {
     shared_paint(id, t);
-    hud_paint();
+
+    /* Intro screen does not display the in-game HUD. */
+
+    if (st_continue != &st_level)
+        hud_paint();
 }
 
 static void pause_timer(int id, float dt)
 {
     gui_timer(id, dt);
-    hud_timer (dt);
+
+    if (st_continue != &st_level)
+        hud_timer(dt);
 }
 
 static int pause_keybd(int c, int d)
