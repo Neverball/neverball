@@ -1236,6 +1236,36 @@ int gui_state(int pd, const char *text, int size, int token, int value)
     return id;
 }
 
+int gui_start_icon(int pd, const char *icon, const GLubyte *color,
+                   const char *text, int size, int token, int value)
+{
+    int id;
+
+    if ((id = gui_state_icon(pd, icon, color, text, size, token, value)))
+        active = id;
+
+    return id;
+}
+
+int gui_state_icon(int pd, const char *icon, const GLubyte *color,
+                   const char *text, int size, int token, int value)
+{
+    int id, ld;
+
+    if ((id = gui_hstack(pd)))
+    {
+        if (icon && *icon)
+            gui_label(id, icon, size, color, color);
+
+        if ((ld = gui_label(id, text, size, gui_wht, gui_wht)))
+            gui_set_fill(ld);
+
+        gui_set_state(id, token, value);
+        gui_set_rect(id, GUI_ALL);
+    }
+    return id;
+}
+
 int gui_label(int pd, const char *text, int size, const GLubyte *c0,
                                                   const GLubyte *c1)
 {
