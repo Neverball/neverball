@@ -35,6 +35,8 @@ is ensured using logs exported from the `git-prompt-log` tool.
 ### Boring programming style
 - Keep commit messages, code, and test outputs as boring, plain, and understated as possible.
 - Use standard commit subjects: `<module>: <imperative summary>` (e.g. `<module>: Handle <condition> in <function>`, `<module>: Add <feature>`, `<module>: Fix <issue>`).
+  - Derive `<module>` from the file path without extension: include the directory hierarchy for file-scoped changes (e.g. `ball/hud:`, `putt/hud:`, `share/gui:`, `ball/st_pause:`).
+  - Never drop the parent directory into a bare basename (e.g. use `ball/hud:`, not `hud:`; use `share/gui:`, not `gui:`).
 - Keep commit bodies focused on context and rationale; do not restate the patch or list data points; do not invent context and rationale.
 - Avoid decorative banners, borders, or verbose status tags in test harnesses and tool outputs.
 
