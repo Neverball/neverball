@@ -639,3 +639,14 @@ int config_screenshot(void)
 }
 
 /*---------------------------------------------------------------------------*/
+
+int config_online(void)
+{
+#if ENABLE_FETCH
+    return config_get_d(CONFIG_ONLINE);
+#else
+    return 0;
+#endif
+}
+
+/*---------------------------------------------------------------------------*/
