@@ -38,3 +38,4 @@ autosave
 /.tree-sitter-cache
 /tests/test
 /tests/test.exe
+/.playwright-mcp
