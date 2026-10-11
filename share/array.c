@@ -187,7 +187,7 @@ int array_len(Array a)
     return a->elem_num;
 }
 
-void array_sort(Array a, int (*cmp)(const void *, const void *))
+void array_sort(Array a, cmp_fn cmp)
 {
     if (!a || !a->data || !cmp || a->elem_num <= 1)
         return;

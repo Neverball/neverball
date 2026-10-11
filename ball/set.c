@@ -52,6 +52,8 @@ struct set
 
     int   count;                        /* Number of levels                  */
     char *level_name_v[MAXLVL];         /* List of level file names          */
+
+    unsigned int is_bundled:1;          /* comes from sets.txt               */
 };
 
 #define SET_GET(a, i) ((struct set *) array_get((a), (i)))
@@ -416,6 +418,8 @@ int set_init(void)
             {
                 if (!set_load(s, name))
                     array_del(sets);
+
+                s->is_bundled = 1u;
             }
             else
                 log_printf("Warning: Failed to allocate set slot for '%s'\n", name);
@@ -508,6 +512,11 @@ const struct score *set_score(int i, int s)
         if (s == SCORE_COIN) return &SET_GET(sets, i)->coin_score;
     }
     return NULL;
+}
+
+unsigned int set_is_bundled(int i)
+{
+    return set_exists(i) ? SET_GET(sets, i)->is_bundled : 0u;
 }
 
 /*---------------------------------------------------------------------------*/

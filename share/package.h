@@ -16,6 +16,7 @@
 #define PACKAGE_H 1
 
 #include "fetch.h"
+#include "array.h"
 
 enum package_status
 {
@@ -27,10 +28,32 @@ enum package_status
     PACKAGE_ERROR
 };
 
+enum package_image_status
+{
+    PACKAGE_IMAGE_NONE = 0,
+    PACKAGE_IMAGE_DOWNLOADING
+};
+
+struct package
+{
+    unsigned int size;
+
+    char id[64];
+    char type[64];
+    char filename[256];
+    char files[1024];
+    char name[64];
+    char desc[256];
+    char shot[64];
+
+    enum package_status status;
+    enum package_image_status image_status;
+};
+
 void package_init(void);
 void package_quit(void);
 
-unsigned int package_refresh(struct fetch_callback);
+unsigned int package_refresh(struct fetch_callback, cmp_fn);
 
 int package_count(void);
 

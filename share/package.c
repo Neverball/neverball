@@ -20,29 +20,9 @@
 #include "lang.h"
 #include "log.h"
 
-enum package_image_status
-{
-    PACKAGE_IMAGE_NONE = 0,
-    PACKAGE_IMAGE_DOWNLOADING
-};
-
-struct package
-{
-    unsigned int size;
-
-    char id[64];
-    char type[64];
-    char filename[MAXSTR];
-    char files[1024];
-    char name[64];
-    char desc[MAXSTR];
-    char shot[64];
-
-    enum package_status status;
-    enum package_image_status image_status;
-};
-
 static Array available_packages;
+
+static cmp_fn cmp_available_packages_fn;
 
 #define PACKAGE_GET(a, i) ((struct package *) array_get((a), (i)))
 
@@ -646,7 +626,12 @@ static void available_packages_done(void *data, void *extra_data)
             Array packages = load_packages_from_file(filename);
 
             if (packages)
+            {
+                if (cmp_available_packages_fn)
+                    array_sort(packages, cmp_available_packages_fn);
+
                 available_packages = packages;
+            }
         }
     }
 
@@ -728,8 +713,10 @@ void package_init(void)
 /*
  * Download the list of available packages.
  */
-unsigned int package_refresh(struct fetch_callback callback)
+unsigned int package_refresh(struct fetch_callback callback, cmp_fn cmp)
 {
+    cmp_available_packages_fn = cmp;
+
     return fetch_available_packages(callback);
 }
 
