@@ -29,7 +29,8 @@ const char         *set_file(int);
 const char         *set_desc(int);
 const char         *set_shot(int);
 const struct score *set_score(int, int);
-unsigned int        set_is_bundled(int);
+
+int set_bundle_index(const char *filename);
 
 struct level *set_find_level(const char *basename);
 

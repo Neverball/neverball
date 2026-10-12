@@ -52,8 +52,6 @@ struct set
 
     int   count;                        /* Number of levels                  */
     char *level_name_v[MAXLVL];         /* List of level file names          */
-
-    unsigned int is_bundled:1;          /* comes from sets.txt               */
 };
 
 #define SET_GET(a, i) ((struct set *) array_get((a), (i)))
@@ -62,6 +60,9 @@ static Array sets;
 static int   curr;
 
 static struct level level_v[MAXLVL];
+
+static char *bundled_filenames[64];
+static int bundled_count;
 
 /*---------------------------------------------------------------------------*/
 
@@ -418,13 +419,22 @@ int set_init(void)
             {
                 if (!set_load(s, name))
                     array_del(sets);
-
-                s->is_bundled = 1u;
             }
             else
                 log_printf("Warning: Failed to allocate set slot for '%s'\n", name);
+            
+            // Save the filename even if set wasn't loaded.
 
-            free(name);
+            if (bundled_count < ARRAYSIZE(bundled_filenames))
+            {
+                bundled_filenames[bundled_count++] = name;
+            }
+            else
+            {
+                log_printf("Warning: too many filenames in sets.txt\n");
+                free(name);
+                name = NULL;
+            }
         }
         fs_close(fin);
     }
@@ -460,9 +470,11 @@ int set_init(void)
 
 void set_quit(void)
 {
+    int i;
+
     if (sets)
     {
-        int i, n = array_len(sets);
+        int n = array_len(sets);
 
         for (i = 0; i < n; i++)
             set_free(array_get(sets, i));
@@ -470,6 +482,15 @@ void set_quit(void)
         array_free(sets);
         sets = NULL;
     }
+
+    for (i = 0; i < ARRAYSIZE(bundled_filenames); ++i)
+        if (bundled_filenames[i])
+        {
+            free(bundled_filenames[i]);
+            bundled_filenames[i] = NULL;
+        }
+
+    bundled_count = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -514,9 +535,18 @@ const struct score *set_score(int i, int s)
     return NULL;
 }
 
-unsigned int set_is_bundled(int i)
+int set_bundle_index(const char *filename)
 {
-    return set_exists(i) ? SET_GET(sets, i)->is_bundled : 0u;
+    if (!(filename && *filename))
+        return -1;
+
+    for (int i = 0; i < bundled_count; ++i)
+    {
+        if (bundled_filenames[i] && strcmp(bundled_filenames[i], filename) == 0)
+            return i;
+    }
+
+    return -1;
 }
 
 /*---------------------------------------------------------------------------*/
