@@ -60,8 +60,7 @@ static int goal_action(int tok, int val)
     {
     case GUI_BACK:
     case GOAL_LAST:
-        progress_stop();
-        return goto_exit();
+        return goto_abandon();
 
     case GOAL_SAVE:
         progress_stop();
@@ -261,7 +260,7 @@ static int goal_enter(struct state *st, struct state *prev, int intent)
 
     audio_music_fade_out(2.0f);
     video_clr_grab();
-    resume = (prev == &st_goal || prev == &st_name || prev == &st_save);
+    resume = (prev == &st_goal || prev == &st_name || prev == &st_save || prev == &st_abandon);
     return transition_slide(goal_gui(), 1, intent);
 }
 

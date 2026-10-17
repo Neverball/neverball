@@ -54,8 +54,7 @@ static int fail_action(int tok, int val)
     {
     case GUI_BACK:
     case FAIL_OVER:
-        progress_stop();
-        return goto_exit();
+        return goto_abandon();
 
     case FAIL_SAVE:
         progress_stop();
@@ -148,7 +147,7 @@ static int fail_enter(struct state *st, struct state *prev, int intent)
 
     /* Check if we came from a known previous state. */
 
-    resume = (prev == &st_fail || prev == &st_save);
+    resume = (prev == &st_fail || prev == &st_save || prev == &st_abandon);
 
     /* Note the current status if we got here from elsewhere. */
 

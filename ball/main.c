@@ -425,11 +425,7 @@ static int cmp_available_packages(const void *A, const void *B)
 
     // Rest are ordered by id (e.g., "set-mym").
 
-    int c = SDL_strcasecmp(a->id, b->id);
-
-    printf("%s cmp %s = %d\n", a->id, b->id, c);
-
-    return c;
+    return SDL_strcasecmp(a->id, b->id);
 }
 
 /*

@@ -70,10 +70,7 @@ static int pause_action(int tok, int val)
         break;
 
     case PAUSE_EXIT:
-        progress_stat(GAME_NONE);
-        progress_stop();
-        audio_music_stop();
-        return goto_exit();
+        return goto_abandon();
     }
 
     return 1;
@@ -120,7 +117,7 @@ static int pause_gui(void)
 
 static int pause_enter(struct state *st, struct state *prev, int intent)
 {
-    if (prev != &st_conf)
+    if (prev != &st_conf && prev != &st_abandon)
         st_continue = prev;
 
     video_clr_grab();

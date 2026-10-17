@@ -27,6 +27,7 @@
 
 #include "game_server.h"
 #include "game_client.h"
+#include "game_common.h"
 
 #include "st_level.h"
 #include "st_play.h"
@@ -53,13 +54,7 @@ static int level_action(int token, int value)
             return goto_state(&st_play_ready);
 
         case GUI_BACK:
-            /* Pausing protects session progress in challenge mode. */
-
-            if (curr_mode() == MODE_CHALLENGE)
-                return goto_state(&st_pause);
-
-            progress_stop();
-            return goto_exit();
+            return goto_abandon();
     }
 
     return 1;
@@ -184,15 +179,7 @@ static int level_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-        {
-            /* Pausing protects session progress in challenge mode. */
-
-            if (curr_mode() == MODE_CHALLENGE)
-                return goto_state(&st_pause);
-
-            progress_stop();
-            return goto_exit();
-        }
+            return goto_abandon();
         if (c == KEY_POSE)
             return goto_state(&st_poser);
     }
@@ -347,6 +334,109 @@ int goto_exit(void)
     return 1;
 }
 
+int goto_abandon(void)
+{
+    if (curr_mode() == MODE_CHALLENGE)
+        return goto_state(&st_abandon);
+
+    progress_stop();
+    return goto_exit();
+}
+
+/*---------------------------------------------------------------------------*/
+
+static struct state *abandon_back = NULL;
+
+enum
+{
+    ABANDON_YES = GUI_LAST,
+};
+
+static int abandon_action(int tok, int val)
+{
+    audio_play(AUD_MENU, 1.0f);
+
+    switch (tok)
+    {
+    case GUI_BACK:
+        // Back = no.
+        audio_music_fade_in(1.0f);
+        return goto_state(abandon_back);
+
+    case ABANDON_YES:
+        progress_stat(GAME_NONE);
+        progress_stop();
+        audio_music_stop();
+        return goto_exit();
+    }
+
+    return 1;
+
+}
+
+static int abandon_gui(void)
+{
+    int id, jd;
+
+    if ((id = gui_vstack(0)))
+    {
+        gui_label(id, _("Give Up?"), GUI_MED, 0, 0);
+
+        gui_space(id);
+
+        gui_multi(id, _("You are playing in challenge mode.\n"
+                        "Do you want to abandon this run?"),
+                  GUI_SML, gui_wht, gui_wht);
+
+        gui_space(id);
+
+        if ((jd = gui_harray(id)))
+        {
+            gui_state_icon(jd, GUI_CROSS, gui_red, _("Give Up"), GUI_SML, ABANDON_YES, 0);
+
+            gui_start_icon(jd, GUI_TRIANGLE_RIGHT, gui_grn, _("Never!"), GUI_SML, GUI_BACK, 0);
+        }
+
+        gui_layout(id, 0, 0);
+    }
+
+    return id;
+}
+
+static int abandon_enter(struct state *st, struct state *prev, int intent)
+{
+    abandon_back = prev;
+    audio_music_fade_out(1.0f);
+    return transition_slide(abandon_gui(), 1, intent);
+}
+
+static int abandon_buttn(int b, int d)
+{
+    if (d)
+    {
+        int active = gui_active();
+
+        int token = gui_token(active);
+        int value = gui_value(active);
+
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
+            return abandon_action(token, value);
+        if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
+            return abandon_action(GUI_BACK, 0);
+    }
+    return 1;
+}
+
+static int abandon_keybd(int c, int d)
+{
+    if (d)
+    {
+        if (c == KEY_EXIT)
+            return abandon_buttn(config_get_d(CONFIG_JOYSTICK_BUTTON_B), 1);
+    }
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 struct state st_level = {
@@ -386,4 +476,17 @@ struct state st_nodemo = {
     shared_click_basic,
     nodemo_keybd,
     nodemo_buttn
+};
+
+struct state st_abandon = {
+    abandon_enter,
+    shared_leave,
+    shared_paint,
+    shared_timer,
+    shared_point,
+    shared_stick,
+    shared_angle,
+    shared_click,
+    abandon_keybd,
+    abandon_buttn
 };
