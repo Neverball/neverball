@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# scripts/package-macos.sh - Build and package Neverball for macOS (arm64)
+# scripts/package-macos.sh - Build and package Neverball for macOS
 #
 # Creates a standalone, self-contained Neverball.app with all dynamic libraries
-# bundled, ad-hoc signed, with data packaged in base-neverball.zip, and
-# mapc and neverputt bundled inside the application bundle. Optionally creates
-# a distributable DMG image.
+# bundled and ad-hoc signed, with data packaged in base-neverball.zip, and
+# mapc and neverputt bundled inside the application bundle. Packages a
+# distributable DMG disk image.
 
 set -euo pipefail
 
@@ -20,7 +20,6 @@ ARCH="${ARCH:-$(uname -m)}"
 BUILD_TYPE="release"
 SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
-CREATE_ZIP=0
 CREATE_DMG=1
 SKIP_BUILD=0
 
@@ -34,11 +33,8 @@ Options:
   --arch <arch>         Target architecture: arm64 or x86_64 (default: host arch)
   --build-type <type>   Build configuration: release (default) or devel
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
-  --out-dir <dir>       Output directory for .app and archives (default: build/macos)
-  --dmg                 Create a compressed .dmg disk image (default: enabled)
+  --out-dir <dir>       Output directory for .app and .dmg (default: build/macos)
   --no-dmg              Skip creating the .dmg disk image
-  --zip                 Create a compressed .zip archive of the .app (default: disabled)
-  --no-zip              Skip creating the .zip archive
   --skip-build          Skip compilation and assemble bundle from existing binaries
   -h, --help            Show this help message
 EOF
@@ -64,14 +60,6 @@ while [[ $# -gt 0 ]]; do
             OUT_DIR="$2"
             shift 2
             ;;
-        --zip)
-            CREATE_ZIP=1
-            shift
-            ;;
-        --no-zip)
-            CREATE_ZIP=0
-            shift
-            ;;
         --dmg)
             CREATE_DMG=1
             shift
@@ -95,7 +83,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Ensure OUT_DIR is an absolute path
 mkdir -p "$OUT_DIR"
 OUT_DIR="$(cd "$OUT_DIR" && pwd)"
 
@@ -113,22 +100,12 @@ if [[ "$ARCH" != "arm64" && "$ARCH" != "x86_64" ]]; then
     exit 1
 fi
 
-for cmd in clang make otool install_name_tool codesign sips iconutil python3 zip; do
+for cmd in clang make otool install_name_tool codesign python3 zip hdiutil; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: Required command '$cmd' is not found in PATH." >&2
         exit 1
     fi
 done
-
-if [[ "$CREATE_ZIP" -eq 1 ]] && ! command -v ditto >/dev/null 2>&1; then
-    echo "Error: 'ditto' is required to create a ZIP archive." >&2
-    exit 1
-fi
-
-if [[ "$CREATE_DMG" -eq 1 ]] && ! command -v hdiutil >/dev/null 2>&1; then
-    echo "Error: 'hdiutil' is required to create a DMG disk image." >&2
-    exit 1
-fi
 
 VERSION="$(sh "$REPO_ROOT/scripts/version.sh")"
 echo "=== Packaging Neverball ${VERSION} (macOS ${ARCH}) ==="
@@ -145,7 +122,6 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
     make -j"$NCPU" sols locales
 
     echo "==> Compiling neverball, neverputt, and mapc for bundle (${ARCH})..."
-    # Ensure object files with bundle-relative paths are cleanly recompiled
     make clean-src
     make -j"$NCPU" \
         BUILD="$BUILD_TYPE" \
@@ -158,7 +134,6 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
         neverball neverputt mapc
 fi
 
-# Verify binaries exist
 for bin in neverball neverputt mapc; do
     if [[ ! -f "$REPO_ROOT/$bin" ]]; then
         echo "Error: Expected compiled binary '$bin' was not found." >&2
@@ -205,76 +180,13 @@ if [[ -d "$REPO_ROOT/locale" ]]; then
     cp -R "$REPO_ROOT/locale"/* "$LOCALE_DIR/" 2>/dev/null || true
 fi
 
-# 4. Generate App Icon
-ICNS_CACHE="$OUT_DIR/neverball.icns"
-ICON_SRC="$REPO_ROOT/dist/modern-icons/png/neverball-modern-512.png"
-if [[ ! -f "$ICON_SRC" ]]; then
-    ICON_SRC="$REPO_ROOT/dist/neverball_512.png"
-fi
-
-if [[ (! -f "$ICNS_CACHE" || "$ICON_SRC" -nt "$ICNS_CACHE") && -f "$ICON_SRC" ]]; then
-    echo "==> Generating application icon from ${ICON_SRC}..."
-    ICONSET_TMP="$(mktemp -d -t neverball_iconset)"
-    mkdir -p "$ICONSET_TMP/neverball.iconset"
-
-    sips -z 16 16     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16.png" >/dev/null
-    sips -z 32 32     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16@2x.png" >/dev/null
-    sips -z 32 32     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32.png" >/dev/null
-    sips -z 64 64     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32@2x.png" >/dev/null
-    sips -z 128 128   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128.png" >/dev/null
-    sips -z 256 256   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128@2x.png" >/dev/null
-    sips -z 256 256   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256.png" >/dev/null
-    sips -z 512 512   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256@2x.png" >/dev/null
-    sips -z 512 512   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_512x512.png" >/dev/null
-    sips -z 1024 1024 -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_512x512@2x.png" >/dev/null
-
-    iconutil -c icns "$ICONSET_TMP/neverball.iconset" -o "$ICNS_CACHE"
-    rm -rf "$ICONSET_TMP"
-fi
-
-if [[ -f "$ICNS_CACHE" ]]; then
-    cp "$ICNS_CACHE" "$RESOURCES_DIR/neverball.icns"
-fi
+# 4. Copy Application Icon
+echo "==> Installing application icon..."
+cp "$REPO_ROOT/dist/macos/neverball.icns" "$RESOURCES_DIR/neverball.icns"
 
 # 5. Write Info.plist and PkgInfo
-echo "==> Writing Info.plist and PkgInfo..."
-cat <<EOF > "$CONTENTS_DIR/Info.plist"
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>Neverball</string>
-	<key>CFBundleExecutable</key>
-	<string>neverball</string>
-	<key>CFBundleIconFile</key>
-	<string>neverball.icns</string>
-	<key>CFBundleIconName</key>
-	<string>neverball</string>
-	<key>CFBundleIdentifier</key>
-	<string>org.neverball.neverball</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>Neverball</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>${VERSION}</string>
-	<key>CFBundleVersion</key>
-	<string>${VERSION}</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>11.0</string>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>NSSupportsAutomaticGraphicsSwitching</key>
-	<true/>
-</dict>
-</plist>
-EOF
-
+echo "==> Configuring Info.plist and PkgInfo..."
+sed "s/@VERSION@/${VERSION}/g" "$REPO_ROOT/dist/macos/Info.plist.in" > "$CONTENTS_DIR/Info.plist"
 printf "APPLball" > "$CONTENTS_DIR/PkgInfo"
 
 # -----------------------------------------------------------------------------
@@ -282,74 +194,17 @@ printf "APPLball" > "$CONTENTS_DIR/PkgInfo"
 # -----------------------------------------------------------------------------
 
 echo "==> Resolving, copying, and relinking dynamic libraries into Frameworks..."
-python3 - <<PYEOF
-import os, sys, shutil, subprocess, re
-
-macos_dir = "$MACOS_DIR"
-fw_dir = "$FRAMEWORKS_DIR"
-
-def get_deps(path):
-    res = subprocess.check_output(["otool", "-L", path]).decode()
-    deps = []
-    for line in res.splitlines()[1:]:
-        m = re.match(r"\s+([^\s]+)", line)
-        if m:
-            dep = m.group(1)
-            # Skip system libraries and frameworks
-            if not (dep.startswith("/usr/lib/") or dep.startswith("/System/Library/")):
-                deps.append(dep)
-    return deps
-
-binaries = [
-    os.path.join(macos_dir, "neverball"),
-    os.path.join(macos_dir, "neverputt"),
-    os.path.join(macos_dir, "mapc")
-]
-
-copied_dylibs = {}
-queue = []
-
-for b in binaries:
-    if os.path.exists(b):
-        queue.append(b)
-
-while queue:
-    curr = queue.pop(0)
-    deps = get_deps(curr)
-    for dep in deps:
-        if dep.startswith("@rpath/"):
-            continue
-        base = os.path.basename(dep)
-        dest_dylib = os.path.join(fw_dir, base)
-        if base not in copied_dylibs:
-            real_dep = os.path.realpath(dep)
-            shutil.copy2(real_dep, dest_dylib)
-            os.chmod(dest_dylib, 0o755)
-            copied_dylibs[base] = dest_dylib
-            queue.append(dest_dylib)
-        # Update load path in curr
-        subprocess.check_call(["install_name_tool", "-change", dep, f"@rpath/{base}", curr])
-
-# Update library IDs for copied dylibs
-for base, dylib in copied_dylibs.items():
-    subprocess.check_call(["install_name_tool", "-id", f"@rpath/{base}", dylib])
-
-# Add @executable_path/../Frameworks to rpath of each binary
-for b in binaries:
-    if os.path.exists(b):
-        # Check existing rpaths to avoid duplicate rpath warnings
-        load_cmds = subprocess.check_output(["otool", "-l", b]).decode()
-        if "@executable_path/../Frameworks" not in load_cmds:
-            subprocess.check_call(["install_name_tool", "-add_rpath", "@executable_path/../Frameworks", b])
-
-print(f"    Relinked {len(copied_dylibs)} dynamic libraries.")
-PYEOF
+python3 "$REPO_ROOT/scripts/bundle-dylibs.py" \
+    --frameworks-dir "$FRAMEWORKS_DIR" \
+    "$MACOS_DIR/neverball" \
+    "$MACOS_DIR/neverputt" \
+    "$MACOS_DIR/mapc"
 
 # -----------------------------------------------------------------------------
 # Inside-Out Code Signing
 # -----------------------------------------------------------------------------
 
-echo "==> Ad-hoc code signing bundle (identity: '${SIGN_IDENTITY}')..."
+echo "==> Code signing bundle (identity: '${SIGN_IDENTITY}')..."
 
 # 1. Sign all dylibs in Frameworks
 if compgen -G "$FRAMEWORKS_DIR/*.dylib" >/dev/null; then
@@ -388,18 +243,8 @@ if [[ -z "${CI:-}" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Create Archives (ZIP / DMG)
+# Create DMG Disk Image
 # -----------------------------------------------------------------------------
-
-if [[ "$CREATE_ZIP" -eq 1 ]]; then
-    ZIP_NAME="Neverball-${VERSION}-${ARCH}.zip"
-    ZIP_PATH="$OUT_DIR/$ZIP_NAME"
-
-    echo "==> Creating compressed ZIP archive at ${ZIP_PATH}..."
-    rm -f "$ZIP_PATH"
-    (cd "$OUT_DIR" && ditto -c -k --keepParent "${APP_NAME}.app" "$ZIP_NAME")
-    echo "    ZIP archive created successfully."
-fi
 
 if [[ "$CREATE_DMG" -eq 1 ]]; then
     DMG_NAME="Neverball-${VERSION}-${ARCH}.dmg"
@@ -418,7 +263,7 @@ if [[ "$CREATE_DMG" -eq 1 ]]; then
     hdiutil create -volname "Neverball" -srcfolder "$DMG_STAGE" -ov -format UDZO "$DMG_PATH" >/dev/null
     rm -rf "$DMG_STAGE"
 
-    # Sign the DMG file only if an explicit identity (not ad-hoc) is provided
+    # Only sign the DMG container if an explicit identity other than '-' is provided
     if [[ "$SIGN_IDENTITY" != "-" ]]; then
         codesign --force --sign "${SIGN_IDENTITY}" "$DMG_PATH"
         echo "    DMG created and signed successfully."
@@ -429,9 +274,6 @@ fi
 
 echo "=== Packaging complete! ==="
 echo "Application: ${APP_DIR}"
-if [[ "$CREATE_ZIP" -eq 1 ]]; then
-    echo "ZIP Archive: ${OUT_DIR}/${ZIP_NAME}"
-fi
 if [[ "$CREATE_DMG" -eq 1 ]]; then
     echo "Disk Image:  ${OUT_DIR}/${DMG_NAME}"
 fi
