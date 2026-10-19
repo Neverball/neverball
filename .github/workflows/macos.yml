@@ -2,11 +2,8 @@ name: macOS Build
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+    tags:
+      - 'neverball-*'
   workflow_dispatch:
 
 permissions:
