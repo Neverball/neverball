@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install sdl2 sdl2_ttf libpng jpeg-turbo libvorbis gettext
+          brew install sdl2 sdl3 sdl2_ttf libpng jpeg-turbo libvorbis gettext
 
       - name: Package Neverball (.app and .dmg)
         run: |
