@@ -214,19 +214,19 @@ if compgen -G "$FRAMEWORKS_DIR/*.dylib" >/dev/null; then
 fi
 
 # 2. Sign all executables in MacOS
-SIGN_OPTS=()
+CODESIGN_CMD=(codesign --force --sign "${SIGN_IDENTITY}")
 if [[ "$SIGN_IDENTITY" != "-" ]]; then
-    SIGN_OPTS+=(--options runtime)
+    CODESIGN_CMD+=(--options runtime)
 fi
 
 for bin in "$MACOS_DIR"/*; do
     if [[ -f "$bin" && -x "$bin" ]]; then
-        codesign --force --sign "${SIGN_IDENTITY}" "${SIGN_OPTS[@]}" "$bin"
+        "${CODESIGN_CMD[@]}" "$bin"
     fi
 done
 
 # 3. Sign the application bundle
-codesign --force --sign "${SIGN_IDENTITY}" "${SIGN_OPTS[@]}" "$APP_DIR"
+"${CODESIGN_CMD[@]}" "$APP_DIR"
 
 # 4. Strictly verify bundle signature
 echo "==> Verifying code signature..."
