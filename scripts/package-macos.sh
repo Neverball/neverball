@@ -201,15 +201,16 @@ if [[ (! -f "$ICNS_CACHE" || "$ICON_SRC" -nt "$ICNS_CACHE") && -f "$ICON_SRC" ]]
     ICONSET_TMP="$(mktemp -d -t neverball_iconset)"
     mkdir -p "$ICONSET_TMP/neverball.iconset"
 
-    sips -z 16 16     "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16.png" >/dev/null
-    sips -z 32 32     "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16@2x.png" >/dev/null
-    sips -z 32 32     "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32.png" >/dev/null
-    sips -z 64 64     "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32@2x.png" >/dev/null
-    sips -z 128 128   "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128.png" >/dev/null
-    sips -z 256 256   "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128@2x.png" >/dev/null
-    sips -z 256 256   "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256.png" >/dev/null
-    sips -z 512 512   "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256@2x.png" >/dev/null
-    sips -z 512 512   "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_512x512.png" >/dev/null
+    sips -z 16 16     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16.png" >/dev/null
+    sips -z 32 32     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_16x16@2x.png" >/dev/null
+    sips -z 32 32     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32.png" >/dev/null
+    sips -z 64 64     -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_32x32@2x.png" >/dev/null
+    sips -z 128 128   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128.png" >/dev/null
+    sips -z 256 256   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_128x128@2x.png" >/dev/null
+    sips -z 256 256   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256.png" >/dev/null
+    sips -z 512 512   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_256x256@2x.png" >/dev/null
+    sips -z 512 512   -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_512x512.png" >/dev/null
+    sips -z 1024 1024 -s dpiWidth 72 -s dpiHeight 72 "$ICON_SRC" --out "$ICONSET_TMP/neverball.iconset/icon_512x512@2x.png" >/dev/null
 
     iconutil -c icns "$ICONSET_TMP/neverball.iconset" -o "$ICNS_CACHE"
     rm -rf "$ICONSET_TMP"
@@ -233,6 +234,8 @@ cat <<EOF > "$CONTENTS_DIR/Info.plist"
 	<key>CFBundleExecutable</key>
 	<string>neverball</string>
 	<key>CFBundleIconFile</key>
+	<string>neverball.icns</string>
+	<key>CFBundleIconName</key>
 	<string>neverball</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.neverball.neverball</string>
@@ -359,12 +362,19 @@ echo "==> Verifying code signature..."
 codesign --verify --deep --strict --verbose=2 "$APP_DIR"
 echo "    Code signature verified successfully."
 
+# Invalidate LaunchServices icon cache so Finder displays the icon immediately
+touch "$APP_DIR"
+LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+if [[ -x "$LSREGISTER" ]]; then
+    "$LSREGISTER" -f "$APP_DIR" >/dev/null 2>&1 || true
+fi
+
 # -----------------------------------------------------------------------------
 # Create DMG (Optional)
 # -----------------------------------------------------------------------------
 
 if [[ "$CREATE_DMG" -eq 1 ]]; then
-    DMG_NAME="Neverball-${VERSION}-arm64.dmg"
+    DMG_NAME="Neverball-${VERSION}-${ARCH}.dmg"
     DMG_PATH="$OUT_DIR/$DMG_NAME"
 
     echo "==> Creating compressed DMG image at ${DMG_PATH}..."
