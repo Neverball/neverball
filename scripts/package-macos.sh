@@ -20,8 +20,8 @@ ARCH="${ARCH:-$(uname -m)}"
 BUILD_TYPE="release"
 SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
-CREATE_ZIP=1
-CREATE_DMG=0
+CREATE_ZIP=0
+CREATE_DMG=1
 SKIP_BUILD=0
 
 usage() {
@@ -35,10 +35,10 @@ Options:
   --build-type <type>   Build configuration: release (default) or devel
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
   --out-dir <dir>       Output directory for .app and archives (default: build/macos)
-  --zip                 Create a compressed .zip archive of the .app (default: enabled)
-  --no-zip              Skip creating the .zip archive
-  --dmg                 Create a compressed .dmg disk image (default: disabled)
+  --dmg                 Create a compressed .dmg disk image (default: enabled)
   --no-dmg              Skip creating the .dmg disk image
+  --zip                 Create a compressed .zip archive of the .app (default: disabled)
+  --no-zip              Skip creating the .zip archive
   --skip-build          Skip compilation and assemble bundle from existing binaries
   -h, --help            Show this help message
 EOF
@@ -415,9 +415,13 @@ if [[ "$CREATE_DMG" -eq 1 ]]; then
     hdiutil create -volname "Neverball" -srcfolder "$DMG_STAGE" -ov -format UDZO "$DMG_PATH" >/dev/null
     rm -rf "$DMG_STAGE"
 
-    # Sign the DMG file
-    codesign --force --sign "${SIGN_IDENTITY}" "$DMG_PATH"
-    echo "    DMG created and signed successfully."
+    # Sign the DMG file only if an explicit identity (not ad-hoc) is provided
+    if [[ "$SIGN_IDENTITY" != "-" ]]; then
+        codesign --force --sign "${SIGN_IDENTITY}" "$DMG_PATH"
+        echo "    DMG created and signed successfully."
+    else
+        echo "    DMG created successfully (unsigned container)."
+    fi
 fi
 
 echo "=== Packaging complete! ==="
