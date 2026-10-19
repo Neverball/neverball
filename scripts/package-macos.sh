@@ -181,9 +181,12 @@ fi
 
 # 4. Generate App Icon
 ICNS_CACHE="$OUT_DIR/neverball.icns"
-ICON_SRC="$REPO_ROOT/dist/neverball_512.png"
+ICON_SRC="$REPO_ROOT/dist/modern-icons/png/neverball-modern-512.png"
+if [[ ! -f "$ICON_SRC" ]]; then
+    ICON_SRC="$REPO_ROOT/dist/neverball_512.png"
+fi
 
-if [[ ! -f "$ICNS_CACHE" && -f "$ICON_SRC" ]]; then
+if [[ (! -f "$ICNS_CACHE" || "$ICON_SRC" -nt "$ICNS_CACHE") && -f "$ICON_SRC" ]]; then
     echo "==> Generating application icon from ${ICON_SRC}..."
     ICONSET_TMP="$(mktemp -d -t neverball_iconset)"
     mkdir -p "$ICONSET_TMP/neverball.iconset"
