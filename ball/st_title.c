@@ -234,24 +234,24 @@ static int title_gui(void)
         }
 #endif
 
-    if (config_online())
-    {
-        // Original spot for Help is now occupied by Addons, so put Help here.
-
-        if ((id = gui_vstack(root_id)))
+        if (config_online())
         {
-            if ((jd = gui_hstack(id)))
+            // Original spot for Help is now occupied by Addons, so put Help here.
+
+            if ((id = gui_vstack(root_id)))
             {
-                gui_space(jd);
-                gui_state(jd, gt_prefix("menu^Help"), GUI_SML, TITLE_HELP, 0);
+                if ((jd = gui_hstack(id)))
+                {
+                    gui_space(jd);
+                    gui_state(jd, gt_prefix("menu^Help"), GUI_SML, TITLE_HELP, 0);
+                }
+                gui_space(id);
+
+                gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 1.2f, 1.4f, 0);
+
+                gui_layout(id, +1, -1);
             }
-            gui_space(id);
-
-            gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 1.2f, 1.4f, 0);
-
-            gui_layout(id, +1, -1);
         }
-    }
     }
 
     return root_id;
