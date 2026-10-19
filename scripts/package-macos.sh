@@ -362,11 +362,13 @@ echo "==> Verifying code signature..."
 codesign --verify --deep --strict --verbose=2 "$APP_DIR"
 echo "    Code signature verified successfully."
 
-# Invalidate LaunchServices icon cache so Finder displays the icon immediately
-touch "$APP_DIR"
-LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
-if [[ -x "$LSREGISTER" ]]; then
-    "$LSREGISTER" -f "$APP_DIR" >/dev/null 2>&1 || true
+# Invalidate LaunchServices icon cache for local interactive builds
+if [[ -z "${CI:-}" ]]; then
+    touch "$APP_DIR"
+    LSREGISTER="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+    if [[ -x "$LSREGISTER" ]]; then
+        "$LSREGISTER" -f "$APP_DIR" >/dev/null 2>&1 || true
+    fi
 fi
 
 # -----------------------------------------------------------------------------
