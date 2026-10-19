@@ -16,7 +16,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
-ARCH="arm64"
+ARCH="${ARCH:-$(uname -m)}"
 BUILD_TYPE="release"
 SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
@@ -27,9 +27,10 @@ usage() {
     cat <<EOF
 Usage: $(basename "$0") [options]
 
-Builds and packages Neverball as a self-contained arm64 macOS application bundle.
+Builds and packages Neverball as a self-contained macOS application bundle.
 
 Options:
+  --arch <arch>         Target architecture: arm64 or x86_64 (default: host arch)
   --build-type <type>   Build configuration: release (default) or devel
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
   --out-dir <dir>       Output directory for .app and .dmg (default: build/macos)
@@ -44,6 +45,10 @@ EOF
 # Parse command line options
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --arch)
+            ARCH="$2"
+            shift 2
+            ;;
         --build-type)
             BUILD_TYPE="$2"
             shift 2
@@ -92,6 +97,11 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
     exit 1
 fi
 
+if [[ "$ARCH" != "arm64" && "$ARCH" != "x86_64" ]]; then
+    echo "Error: Unsupported architecture '$ARCH'. Supported: arm64, x86_64." >&2
+    exit 1
+fi
+
 for cmd in clang make otool install_name_tool codesign sips iconutil python3 zip; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: Required command '$cmd' is not found in PATH." >&2
@@ -118,7 +128,7 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
     echo "==> Compiling mapc, sols, and locales..."
     make -j"$NCPU" sols locales
 
-    echo "==> Compiling neverball, neverputt, and mapc for bundle (arm64)..."
+    echo "==> Compiling neverball, neverputt, and mapc for bundle (${ARCH})..."
     # Ensure object files with bundle-relative paths are cleanly recompiled
     make clean-src
     make -j"$NCPU" \
