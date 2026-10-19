@@ -1,0 +1,43 @@
+name: macOS arm64 Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build macOS arm64 Application
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install sdl2 sdl2_ttf libpng jpeg-turbo libvorbis gettext
+
+      - name: Package Neverball (.app and .dmg)
+        run: |
+          ./scripts/package-macos.sh --dmg
+
+      - name: Upload DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neverball-macos-arm64-dmg
+          path: build/macos/*.dmg
+          retention-days: 7
+
+      - name: Upload App Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neverball-macos-arm64-app
+          path: build/macos/Neverball.app
+          retention-days: 7
