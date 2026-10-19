@@ -410,6 +410,9 @@ if [[ "$CREATE_DMG" -eq 1 ]]; then
 
     cp -R "$APP_DIR" "$DMG_STAGE/"
     ln -s /Applications "$DMG_STAGE/Applications"
+    if [[ -f "$REPO_ROOT/dist/macos/How to Open.html" ]]; then
+        cp "$REPO_ROOT/dist/macos/How to Open.html" "$DMG_STAGE/How to Open.html"
+    fi
 
     rm -f "$DMG_PATH"
     hdiutil create -volname "Neverball" -srcfolder "$DMG_STAGE" -ov -format UDZO "$DMG_PATH" >/dev/null
