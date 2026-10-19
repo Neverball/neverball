@@ -27,6 +27,40 @@ def get_dependencies(path):
     return deps
 
 
+def check_needs_sdl3(dylib_path):
+    try:
+        with open(dylib_path, "rb") as f:
+            data = f.read()
+            return b"SDL3" in data or b"sdl2-compat" in data or b"Failed loading SDL3" in data
+    except Exception:
+        return False
+
+
+def find_sdl3_dylib(dep_path):
+    candidates = []
+    dep_dir = os.path.dirname(dep_path)
+    candidates.append(os.path.join(dep_dir, "libSDL3.dylib"))
+    candidates.append(os.path.join(dep_dir, "libSDL3.0.dylib"))
+    try:
+        out = subprocess.check_output(
+            ["brew", "--prefix", "sdl3"], text=True, stderr=subprocess.DEVNULL
+        ).strip()
+        if out:
+            candidates.append(os.path.join(out, "lib", "libSDL3.dylib"))
+            candidates.append(os.path.join(out, "lib", "libSDL3.0.dylib"))
+    except Exception:
+        pass
+    for prefix in ["/opt/homebrew", "/usr/local"]:
+        candidates.append(os.path.join(prefix, "lib", "libSDL3.dylib"))
+        candidates.append(os.path.join(prefix, "lib", "libSDL3.0.dylib"))
+        candidates.append(os.path.join(prefix, "opt", "sdl3", "lib", "libSDL3.dylib"))
+        candidates.append(os.path.join(prefix, "opt", "sdl3", "lib", "libSDL3.0.dylib"))
+    for c in candidates:
+        if os.path.exists(c):
+            return os.path.realpath(c)
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Bundle and relink dynamic libraries into macOS bundle.")
     parser.add_argument("--frameworks-dir", required=True, help="Destination Frameworks directory")
@@ -61,6 +95,31 @@ def main():
                 os.chmod(dest_dylib, 0o755)
                 copied_dylibs[base] = dest_dylib
                 queue.append(dest_dylib)
+
+                # sdl2-compat dynamically loads SDL3 via dlopen without compile-time linkage
+                if "SDL2" in base and check_needs_sdl3(real_dep):
+                    sdl3_path = find_sdl3_dylib(real_dep)
+                    if sdl3_path:
+                        sdl3_base = os.path.basename(sdl3_path)
+                        dest_sdl3 = os.path.join(fw_dir, sdl3_base)
+                        if sdl3_base not in copied_dylibs:
+                            shutil.copy2(sdl3_path, dest_sdl3)
+                            os.chmod(dest_sdl3, 0o755)
+                            copied_dylibs[sdl3_base] = dest_sdl3
+                            queue.append(dest_sdl3)
+
+                        if sdl3_base != "libSDL3.dylib":
+                            symlink_path = os.path.join(fw_dir, "libSDL3.dylib")
+                            if not os.path.lexists(symlink_path):
+                                os.symlink(sdl3_base, symlink_path)
+
+                        macos_dir = os.path.join(os.path.dirname(fw_dir), "MacOS")
+                        if os.path.isdir(macos_dir):
+                            macos_symlink = os.path.join(macos_dir, "libSDL3.dylib")
+                            if not os.path.lexists(macos_symlink):
+                                os.symlink("../Frameworks/libSDL3.dylib", macos_symlink)
+                    else:
+                        print("Warning: sdl2-compat detected but libSDL3 was not found.", file=sys.stderr)
 
             # Relink current file to load dylib via @rpath
             subprocess.check_call(["install_name_tool", "-change", dep, f"@rpath/{base}", curr])
