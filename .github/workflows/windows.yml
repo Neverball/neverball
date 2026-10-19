@@ -1,0 +1,58 @@
+name: Windows Build
+
+on:
+  push:
+    tags:
+      - 'neverball-*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Windows (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    container: fedora:41
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: win64
+            pkg_prefix: mingw64
+          - arch: win32
+            pkg_prefix: mingw32
+    steps:
+      - name: Install dependencies
+        run: |
+          dnf install -y --setopt=install_weak_deps=False \
+            gcc gcc-c++ make git zip gettext diffutils \
+            libpng-devel libjpeg-turbo-devel \
+            ${{ matrix.pkg_prefix }}-gcc \
+            ${{ matrix.pkg_prefix }}-gcc-c++ \
+            ${{ matrix.pkg_prefix }}-binutils \
+            ${{ matrix.pkg_prefix }}-filesystem \
+            ${{ matrix.pkg_prefix }}-SDL2 \
+            ${{ matrix.pkg_prefix }}-SDL2_ttf \
+            ${{ matrix.pkg_prefix }}-libpng \
+            ${{ matrix.pkg_prefix }}-libjpeg-turbo \
+            ${{ matrix.pkg_prefix }}-libvorbis \
+            ${{ matrix.pkg_prefix }}-curl \
+            ${{ matrix.pkg_prefix }}-gettext
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Package Neverball (.zip)
+        run: |
+          ./scripts/package-windows.sh --arch ${{ matrix.arch }}
+
+      - name: Upload ZIP Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neverball-${{ matrix.arch }}-zip
+          path: build/windows/*.zip
+          retention-days: 7
