@@ -120,6 +120,7 @@ NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
     echo "==> Compiling mapc, sols, and locales..."
     make clean-src
+    make mapc
     make -j"$NCPU" sols locales
 
     echo "==> Compiling neverball, neverputt, and mapc for bundle (${ARCH})..."
@@ -219,7 +220,9 @@ echo "==> Code signing bundle (identity: '${SIGN_IDENTITY}')..."
 # 1. Sign all dylibs in Frameworks
 if compgen -G "$FRAMEWORKS_DIR/*.dylib" >/dev/null; then
     for dylib in "$FRAMEWORKS_DIR"/*.dylib; do
-        codesign --force --sign "${SIGN_IDENTITY}" "$dylib"
+        if [[ ! -L "$dylib" ]]; then
+            codesign --force --sign "${SIGN_IDENTITY}" "$dylib"
+        fi
     done
 fi
 
@@ -230,7 +233,7 @@ if [[ "$SIGN_IDENTITY" != "-" ]]; then
 fi
 
 for bin in "$MACOS_DIR"/*; do
-    if [[ -f "$bin" && -x "$bin" ]]; then
+    if [[ -f "$bin" && -x "$bin" && ! -L "$bin" ]]; then
         "${CODESIGN_CMD[@]}" "$bin"
     fi
 done
