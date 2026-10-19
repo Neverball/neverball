@@ -36,13 +36,6 @@ jobs:
       - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: neverball-macos-${{ matrix.arch }}-dmg
+          name: neverball-macos-${{ matrix.arch }}
           path: build/macos/*.dmg
-          retention-days: 7
-
-      - name: Upload App Bundle Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: neverball-macos-${{ matrix.arch }}-app
-          path: build/macos/Neverball.app
           retention-days: 7
