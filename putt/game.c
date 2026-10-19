@@ -86,7 +86,7 @@ static void view_init(void)
     view_e[2][2] = 1.f;
 }
 
-int game_init(const char *s)
+int putt_init(const char *s)
 {
     int i;
 
@@ -118,19 +118,19 @@ int game_init(const char *s)
     return 1;
 }
 
-void game_free(void)
+void putt_free(void)
 {
     sol_quit_sim();
     sol_free_full(&file);
 }
 
-void game_free_objects(void)
+void putt_free_objects(void)
 {
     if (state)
         sol_free_draw(&file.draw);
 }
 
-void game_load_objects(void)
+void putt_load_objects(void)
 {
     if (state)
         sol_load_draw(&file.draw, &file.vary, config_get_d(CONFIG_SHADOW));
@@ -280,7 +280,7 @@ static void game_shadow_conf(int enable)
     }
 }
 
-void game_draw(int pose, float t)
+void putt_draw(int pose, float t)
 {
     const float light_p[4] = { 8.f, 32.f, 8.f, 0.f };
 
@@ -365,7 +365,7 @@ void game_draw(int pose, float t)
 
 /*---------------------------------------------------------------------------*/
 
-void game_update_view(float dt)
+void putt_update_view(float dt)
 {
     const float y[3] = { 0.f, 1.f, 0.f };
 
@@ -472,23 +472,23 @@ static int game_update_state(float dt)
     /* Test for fall-out. */
 
     if (file.base.vc == 0 || fp->uv[ball].p[1] < file.base.vv[0].p[1])
-        return GAME_FALL;
+        return PUTT_FALL;
 
     /* Test for a goal or stop. */
 
     if (t > 1.f && sol_goal_test(fp, p, ball))
     {
         t = 0.f;
-        return GAME_GOAL;
+        return PUTT_GOAL;
     }
 
     if (t > idle_t)
     {
         t = 0.f;
-        return GAME_STOP;
+        return PUTT_STOP;
     }
 
-    return GAME_NONE;
+    return PUTT_NONE;
 }
 
 /*
@@ -506,7 +506,7 @@ static int game_update_state(float dt)
  * graphics frame rate.
  */
 
-int game_step(const float g[3], float dt)
+int putt_step(const float g[3], float dt)
 {
     struct s_vary *fp = &file.vary;
 
@@ -519,7 +519,7 @@ int game_step(const float g[3], float dt)
     int i, n = 1, m = 0;
 
     if (!state)
-        return GAME_NONE;
+        return PUTT_NONE;
 
     s = (7.f * s + dt) / 8.f;
     t = s;
@@ -565,11 +565,11 @@ int game_step(const float g[3], float dt)
             audio_play(AUD_BUMP, (b - 0.5f) * 2.0f);
     }
 
-    game_update_view(dt);
+    putt_update_view(dt);
     return game_update_state(st);
 }
 
-void game_putt(void)
+void putt_putt(void)
 {
     /*
      * HACK: The BALL_FUDGE here  guarantees that a putt doesn't drive
@@ -586,17 +586,17 @@ void game_putt(void)
 
 /*---------------------------------------------------------------------------*/
 
-void game_set_rot(int d)
+void putt_set_rot(int d)
 {
     view_a += (float) (30.f * d) / config_get_d(CONFIG_MOUSE_SENSE);
 }
 
-void game_clr_mag(void)
+void putt_clr_mag(void)
 {
     view_m = 1.f;
 }
 
-void game_set_mag(int d)
+void putt_set_mag(int d)
 {
     view_m -= (float) (1.f * d) / config_get_d(CONFIG_MOUSE_SENSE);
 
@@ -604,7 +604,7 @@ void game_set_mag(int d)
         view_m = 0.25f;
 }
 
-void game_set_fly(float k)
+void putt_set_fly(float k)
 {
     struct s_vary *fp = &file.vary;
 
@@ -683,7 +683,7 @@ void game_set_fly(float k)
     view_a = V_DEG(fatan2f(view_e[2][0], view_e[2][2]));
 }
 
-void game_ball(int i)
+void putt_ball(int i)
 {
     int ui;
 
@@ -704,7 +704,7 @@ void game_ball(int i)
     }
 }
 
-void game_get_pos(float p[3], float e[3][3])
+void putt_get_pos(float p[3], float e[3][3])
 {
     v_cpy(p,    file.vary.uv[ball].p);
     v_cpy(e[0], file.vary.uv[ball].e[0]);
@@ -712,7 +712,7 @@ void game_get_pos(float p[3], float e[3][3])
     v_cpy(e[2], file.vary.uv[ball].e[2]);
 }
 
-void game_set_pos(float p[3], float e[3][3])
+void putt_set_pos(float p[3], float e[3][3])
 {
     v_cpy(file.vary.uv[ball].p,    p);
     v_cpy(file.vary.uv[ball].e[0], e[0]);

@@ -216,7 +216,7 @@ static int loop(void)
             {
             case SDL_WINDOWEVENT_FOCUS_LOST:
                 if (video_get_grab())
-                    goto_pause(&st_over);
+                    goto_putt_pause(&st_putt_over);
                 break;
 
             case SDL_WINDOWEVENT_MOVED:
@@ -362,16 +362,16 @@ int main(int argc, char *argv[])
                         hole_load(1, path) &&
                         hole_goto(1, 1))
                     {
-                        goto_state(&st_next);
+                        goto_state(&st_putt_next);
                         loaded = 1;
                     }
                 }
 
                 if (!loaded)
-                    goto_state(&st_title);
+                    goto_state(&st_putt_title);
             }
             else
-                goto_state(&st_title);
+                goto_state(&st_putt_title);
 
             while (loop())
                 if ((t1 = SDL_GetTicks()) > t0)

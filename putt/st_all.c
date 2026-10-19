@@ -206,7 +206,7 @@ static int title_action(int i)
 
     switch (i)
     {
-    case TITLE_PLAY: return goto_state(&st_course);
+    case TITLE_PLAY: return goto_state(&st_putt_course);
     case TITLE_CONF: return goto_state(&st_conf);
     case TITLE_EXIT: return 0;
     }
@@ -274,7 +274,7 @@ static int title_leave(struct state *st, struct state *next, int id, int intent)
 
 static void title_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
 }
 
@@ -282,8 +282,8 @@ static void title_timer(int id, float dt)
 {
     float g[3] = { 0.f, 0.f, 0.f };
 
-    game_step(g, dt);
-    game_set_fly(fcosf(time_state() / 10.f));
+    putt_step(g, dt);
+    putt_set_fly(fcosf(time_state() / 10.f));
 
     gui_timer(id, dt);
 }
@@ -324,10 +324,10 @@ static int course_action(int i)
     if (course_exists(i))
     {
         course_goto(i);
-        goto_state(&st_party);
+        goto_state(&st_putt_party);
     }
     if (i == COURSE_BACK)
-        exit_state(&st_title);
+        exit_state(&st_putt_title);
 
     return 1;
 }
@@ -426,7 +426,7 @@ static int course_leave(struct state *st, struct state *next, int id, int intent
 
 static void course_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
 }
 
@@ -502,26 +502,26 @@ static int party_action(int i)
     case PARTY_1:
         audio_play(AUD_MENU, 1.f);
         if (hole_goto(1, 1))
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         break;
     case PARTY_2:
         audio_play(AUD_MENU, 1.f);
         if (hole_goto(1, 2))
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         break;
     case PARTY_3:
         audio_play(AUD_MENU, 1.f);
         if (hole_goto(1, 3))
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         break;
     case PARTY_4:
         audio_play(AUD_MENU, 1.f);
         if (hole_goto(1, 4))
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         break;
     case PARTY_B:
         audio_play(AUD_MENU, 1.f);
-        exit_state(&st_course);
+        exit_state(&st_putt_course);
         break;
     }
     return 1;
@@ -572,7 +572,7 @@ static int party_leave(struct state *st, struct state *next, int id, int intent)
 
 static void party_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
 }
 
@@ -614,16 +614,16 @@ static struct state *st_quit;
 #define PAUSE_QUIT     2
 #define PAUSE_OPTIONS  3
 
-int goto_pause(struct state *s)
+int goto_putt_pause(struct state *s)
 {
-    if (curr_state() == &st_pause)
+    if (curr_state() == &st_putt_pause)
         return 1;
 
     st_continue = curr_state();
     st_quit = s;
     paused = 1;
 
-    return goto_state(&st_pause);
+    return goto_state(&st_putt_pause);
 }
 
 static int pause_action(int i)
@@ -636,7 +636,7 @@ static int pause_action(int i)
         return goto_state(&st_conf);
 
     case PAUSE_CONTINUE:
-        return goto_state(st_continue ? st_continue : &st_title);
+        return goto_state(st_continue ? st_continue : &st_putt_title);
 
     case PAUSE_QUIT:
         return goto_state(st_quit);
@@ -680,13 +680,13 @@ static int pause_enter(struct state *st, struct state *prev, int intent)
         gui_layout(id, 0, 0);
     }
 
-    hud_init();
+    putt_hud_init();
     return transition_slide(id, 1, intent);
 }
 
 static int pause_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
 
     if (next != &st_conf)
         audio_music_fade_in(0.5f);
@@ -696,9 +696,9 @@ static int pause_leave(struct state *st, struct state *next, int id, int intent)
 
 static void pause_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
-    hud_paint();
+    putt_hud_paint();
 }
 
 static void pause_timer(int id, float dt)
@@ -743,7 +743,7 @@ static int shared_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -793,8 +793,8 @@ static int next_enter(struct state *st, struct state *prev, int intent)
         gui_layout(id, 0, 0);
     }
 
-    hud_init();
-    game_set_fly(1.f);
+    putt_hud_init();
+    putt_set_fly(1.f);
 
     if (paused)
         paused = 0;
@@ -804,14 +804,14 @@ static int next_enter(struct state *st, struct state *prev, int intent)
 
 static int next_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
     return transition_slide(id, 0, intent);
 }
 
 static void next_paint(int id, float t)
 {
-    game_draw(0, t);
-    hud_paint();
+    putt_draw(0, t);
+    putt_hud_paint();
     gui_paint(id);
 }
 
@@ -827,7 +827,7 @@ static void next_point(int id, int x, int y, int dx, int dy)
 
 static int next_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_flyby) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_putt_flyby) : 1;
 }
 
 static int next_keybd(int c, int d)
@@ -835,9 +835,9 @@ static int next_keybd(int c, int d)
     if (d)
     {
         if (c == KEY_POSE)
-            return goto_state(&st_poser);
+            return goto_state(&st_putt_poser);
         if (c == KEY_EXIT)
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
         if ('0' <= c && c <= '9')
             num = num * 10 + c - '0';
     }
@@ -855,7 +855,7 @@ static int next_buttn(int b, int d)
                 if (hole_goto(num, -1))
                 {
                     num = 0;
-                    return goto_state(&st_next);
+                    return goto_state(&st_putt_next);
                 }
                 else
                 {
@@ -863,10 +863,10 @@ static int next_buttn(int b, int d)
                     return 1;
                 }
             }
-            return goto_state(&st_flyby);
+            return goto_state(&st_putt_flyby);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -875,13 +875,13 @@ static int next_buttn(int b, int d)
 
 static int poser_enter(struct state *st, struct state *prev, int intent)
 {
-    game_set_fly(-1.f);
+    putt_set_fly(-1.f);
     return 0;
 }
 
 static void poser_paint(int id, float t)
 {
-    game_draw(1, t);
+    putt_draw(1, t);
 }
 
 static int poser_buttn(int b, int d)
@@ -889,9 +889,9 @@ static int poser_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_next);
+            return goto_state(&st_putt_next);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_next);
+            return goto_state(&st_putt_next);
     }
     return 1;
 }
@@ -905,7 +905,7 @@ static int flyby_enter(struct state *st, struct state *prev, int intent)
     if (paused)
         paused = 0;
     else
-        hud_init();
+        putt_hud_init();
 
     return 0;
 }
@@ -913,14 +913,14 @@ static int flyby_enter(struct state *st, struct state *prev, int intent)
 static int flyby_leave(struct state *st, struct state *next, int id, int intent)
 {
     video_show_cursor();
-    hud_free();
+    putt_hud_free();
     return 0;
 }
 
 static void flyby_paint(int id, float t)
 {
-    game_draw(0, t);
-    hud_paint();
+    putt_draw(0, t);
+    putt_hud_paint();
 }
 
 static void flyby_timer(int id, float dt)
@@ -928,9 +928,9 @@ static void flyby_timer(int id, float dt)
     float t = time_state();
 
     if (dt > 0.f && t > 1.f)
-        goto_state(&st_stroke);
+        goto_state(&st_putt_stroke);
     else
-        game_set_fly(1.f - t);
+        putt_set_fly(1.f - t);
 
     gui_timer(id, dt);
 }
@@ -939,8 +939,8 @@ static int flyby_click(int b, int d)
 {
     if (d && b == SDL_BUTTON_LEFT)
     {
-        game_set_fly(0.f);
-        return goto_state(&st_stroke);
+        putt_set_fly(0.f);
+        return goto_state(&st_putt_stroke);
     }
     return 1;
 }
@@ -951,12 +951,12 @@ static int flyby_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
-            game_set_fly(0.f);
-            return goto_state(&st_stroke);
+            putt_set_fly(0.f);
+            return goto_state(&st_putt_stroke);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -969,8 +969,8 @@ static int stroke_mag = 0;
 
 static int stroke_enter(struct state *st, struct state *prev, int intent)
 {
-    hud_init();
-    game_clr_mag();
+    putt_hud_init();
+    putt_clr_mag();
     config_set_d(CONFIG_CAMERA, 2);
     video_set_grab(1);
 
@@ -982,7 +982,7 @@ static int stroke_enter(struct state *st, struct state *prev, int intent)
 
 static int stroke_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
     video_clr_grab();
     config_set_d(CONFIG_CAMERA, 0);
     stroke_rotate = 0.0f;
@@ -992,8 +992,8 @@ static int stroke_leave(struct state *st, struct state *next, int id, int intent
 
 static void stroke_paint(int id, float t)
 {
-    game_draw(0, t);
-    hud_paint();
+    putt_draw(0, t);
+    putt_hud_paint();
 }
 
 static void stroke_timer(int id, float dt)
@@ -1007,17 +1007,17 @@ static void stroke_timer(int id, float dt)
     else
         k = 1.0;
 
-    game_set_rot(stroke_rotate * k);
-    game_set_mag(stroke_mag * k);
+    putt_set_rot(stroke_rotate * k);
+    putt_set_mag(stroke_mag * k);
 
-    game_update_view(dt);
-    game_step(g, dt);
+    putt_update_view(dt);
+    putt_step(g, dt);
 }
 
 static void stroke_point(int id, int x, int y, int dx, int dy)
 {
-    game_set_rot(dx);
-    game_set_mag(dy);
+    putt_set_rot(dx);
+    putt_set_mag(dy);
 }
 
 static void stroke_stick(int id, int a, float v, int bump)
@@ -1030,7 +1030,7 @@ static void stroke_stick(int id, int a, float v, int bump)
 
 static int stroke_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_roll) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_putt_roll) : 1;
 }
 
 static int stroke_buttn(int b, int d)
@@ -1040,9 +1040,9 @@ static int stroke_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_X, b))
             stroke_rotate_alt = 1;
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_roll);
+            return goto_state(&st_putt_roll);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     else
     {
@@ -1057,12 +1057,12 @@ static int stroke_buttn(int b, int d)
 static int roll_enter(struct state *st, struct state *prev, int intent)
 {
     video_hide_cursor();
-    hud_init();
+    putt_hud_init();
 
     if (paused)
         paused = 0;
     else
-        game_putt();
+        putt_putt();
 
     return 0;
 }
@@ -1070,25 +1070,25 @@ static int roll_enter(struct state *st, struct state *prev, int intent)
 static int roll_leave(struct state *st, struct state *next, int id, int intent)
 {
     video_show_cursor();
-    hud_free();
+    putt_hud_free();
     return 0;
 }
 
 static void roll_paint(int id, float t)
 {
-    game_draw(0, t);
-    hud_paint();
+    putt_draw(0, t);
+    putt_hud_paint();
 }
 
 static void roll_timer(int id, float dt)
 {
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
-    switch (game_step(g, dt))
+    switch (putt_step(g, dt))
     {
-    case GAME_STOP: goto_state(&st_stop); break;
-    case GAME_GOAL: goto_state(&st_goal); break;
-    case GAME_FALL: goto_state(&st_fall); break;
+    case PUTT_STOP: goto_state(&st_putt_stop); break;
+    case PUTT_GOAL: goto_state(&st_putt_goal); break;
+    case PUTT_FALL: goto_state(&st_putt_fall); break;
     }
 }
 
@@ -1098,7 +1098,7 @@ static int roll_buttn(int b, int d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -1117,22 +1117,22 @@ static int goal_enter(struct state *st, struct state *prev, int intent)
     else
         hole_goal();
 
-    hud_init();
+    putt_hud_init();
 
     return transition_slide(id, 1, intent);
 }
 
 static int goal_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
     return transition_slide(id, 0, intent);
 }
 
 static void goal_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
-    hud_paint();
+    putt_hud_paint();
 }
 
 static void goal_timer(int id, float dt)
@@ -1142,9 +1142,9 @@ static void goal_timer(int id, float dt)
     if (time_state() > 3)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
 }
 
@@ -1153,9 +1153,9 @@ static int goal_click(int b, int d)
     if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
     return 1;
 }
@@ -1167,12 +1167,12 @@ static int goal_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (hole_next())
-                goto_state(&st_next);
+                goto_state(&st_putt_next);
             else
-                goto_state(&st_score);
+                goto_state(&st_putt_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -1186,36 +1186,36 @@ static int stop_enter(struct state *st, struct state *prev, int intent)
     else
         hole_stop();
 
-    hud_init();
+    putt_hud_init();
 
     return 0;
 }
 
 static int stop_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
     return 0;
 }
 
 static void stop_paint(int id, float t)
 {
-    game_draw(0, t);
-    hud_paint();
+    putt_draw(0, t);
+    putt_hud_paint();
 }
 
 static void stop_timer(int id, float dt)
 {
     float g[3] = { 0.f, 0.f, 0.f };
 
-    game_update_view(dt);
-    game_step(g, dt);
+    putt_update_view(dt);
+    putt_step(g, dt);
 
     if (time_state() > 1)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
 }
 
@@ -1224,9 +1224,9 @@ static int stop_click(int b, int d)
     if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
     return 1;
 }
@@ -1238,13 +1238,13 @@ static int stop_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (hole_next())
-                goto_state(&st_next);
+                goto_state(&st_putt_next);
             else
-                goto_state(&st_score);
+                goto_state(&st_putt_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b) ||
             config_tst_d(CONFIG_JOYSTICK_BUTTON_START, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -1266,22 +1266,22 @@ static int fall_enter(struct state *st, struct state *prev, int intent)
 /*        game_draw(0);*/ /*TODO: is this call ok? */  /* No, it's not. */
     }
 
-    hud_init();
+    putt_hud_init();
 
     return transition_slide(id, 1, intent);
 }
 
 static int fall_leave(struct state *st, struct state *next, int id, int intent)
 {
-    hud_free();
+    putt_hud_free();
     return transition_slide(id, 0, intent);
 }
 
 static void fall_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
-    hud_paint();
+    putt_hud_paint();
 }
 
 static void fall_timer(int id, float dt)
@@ -1291,9 +1291,9 @@ static void fall_timer(int id, float dt)
     if (time_state() > 3)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
 }
 
@@ -1302,9 +1302,9 @@ static int fall_click(int b, int d)
     if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_next())
-            goto_state(&st_next);
+            goto_state(&st_putt_next);
         else
-            goto_state(&st_score);
+            goto_state(&st_putt_score);
     }
     return 1;
 }
@@ -1316,12 +1316,12 @@ static int fall_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (hole_next())
-                goto_state(&st_next);
+                goto_state(&st_putt_next);
             else
-                goto_state(&st_score);
+                goto_state(&st_putt_score);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -1345,7 +1345,7 @@ static int score_leave(struct state *st, struct state *next, int id, int intent)
 
 static void score_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
 }
 
@@ -1359,9 +1359,9 @@ static int score_click(int b, int d)
     if (b == SDL_BUTTON_LEFT && d == 1)
     {
         if (hole_move())
-            return goto_state(&st_next);
+            return goto_state(&st_putt_next);
         else
-            return goto_state(&st_title);
+            return goto_state(&st_putt_title);
     }
     return 1;
 }
@@ -1373,12 +1373,12 @@ static int score_buttn(int b, int d)
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
         {
             if (hole_move())
-                goto_state(&st_next);
+                goto_state(&st_putt_next);
             else
-                goto_state(&st_title);
+                goto_state(&st_putt_title);
         }
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_pause(&st_over);
+            return goto_putt_pause(&st_putt_over);
     }
     return 1;
 }
@@ -1398,7 +1398,7 @@ static int over_leave(struct state *st, struct state *next, int id, int intent)
 
 static void over_paint(int id, float t)
 {
-    game_draw(0, t);
+    putt_draw(0, t);
     gui_paint(id);
 }
 
@@ -1409,7 +1409,7 @@ static void over_timer(int id, float dt)
 
 static int over_click(int b, int d)
 {
-    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_title) : 1;
+    return (d && b == SDL_BUTTON_LEFT) ? goto_state(&st_putt_title) : 1;
 }
 
 static int over_buttn(int b, int d)
@@ -1417,16 +1417,16 @@ static int over_buttn(int b, int d)
     if (d)
     {
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_A, b))
-            return goto_state(&st_title);
+            return goto_state(&st_putt_title);
         if (config_tst_d(CONFIG_JOYSTICK_BUTTON_B, b))
-            return goto_state(&st_title);
+            return goto_state(&st_putt_title);
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-struct state st_title = {
+struct state st_putt_title = {
     title_enter,
     title_leave,
     title_paint,
@@ -1439,7 +1439,7 @@ struct state st_title = {
     title_buttn
 };
 
-struct state st_course = {
+struct state st_putt_course = {
     course_enter,
     course_leave,
     course_paint,
@@ -1452,7 +1452,7 @@ struct state st_course = {
     course_buttn
 };
 
-struct state st_party = {
+struct state st_putt_party = {
     party_enter,
     party_leave,
     party_paint,
@@ -1465,7 +1465,7 @@ struct state st_party = {
     party_buttn
 };
 
-struct state st_next = {
+struct state st_putt_next = {
     next_enter,
     next_leave,
     next_paint,
@@ -1478,7 +1478,7 @@ struct state st_next = {
     next_buttn
 };
 
-struct state st_poser = {
+struct state st_putt_poser = {
     poser_enter,
     NULL,
     poser_paint,
@@ -1491,7 +1491,7 @@ struct state st_poser = {
     poser_buttn
 };
 
-struct state st_flyby = {
+struct state st_putt_flyby = {
     flyby_enter,
     flyby_leave,
     flyby_paint,
@@ -1504,7 +1504,7 @@ struct state st_flyby = {
     flyby_buttn
 };
 
-struct state st_stroke = {
+struct state st_putt_stroke = {
     stroke_enter,
     stroke_leave,
     stroke_paint,
@@ -1517,7 +1517,7 @@ struct state st_stroke = {
     stroke_buttn
 };
 
-struct state st_roll = {
+struct state st_putt_roll = {
     roll_enter,
     roll_leave,
     roll_paint,
@@ -1530,7 +1530,7 @@ struct state st_roll = {
     roll_buttn
 };
 
-struct state st_goal = {
+struct state st_putt_goal = {
     goal_enter,
     goal_leave,
     goal_paint,
@@ -1543,7 +1543,7 @@ struct state st_goal = {
     goal_buttn
 };
 
-struct state st_stop = {
+struct state st_putt_stop = {
     stop_enter,
     stop_leave,
     stop_paint,
@@ -1556,7 +1556,7 @@ struct state st_stop = {
     stop_buttn
 };
 
-struct state st_fall = {
+struct state st_putt_fall = {
     fall_enter,
     fall_leave,
     fall_paint,
@@ -1569,7 +1569,7 @@ struct state st_fall = {
     fall_buttn
 };
 
-struct state st_score = {
+struct state st_putt_score = {
     score_enter,
     score_leave,
     score_paint,
@@ -1582,7 +1582,7 @@ struct state st_score = {
     score_buttn
 };
 
-struct state st_over = {
+struct state st_putt_over = {
     over_enter,
     over_leave,
     over_paint,
@@ -1595,7 +1595,7 @@ struct state st_over = {
     over_buttn
 };
 
-struct state st_pause = {
+struct state st_putt_pause = {
     pause_enter,
     pause_leave,
     pause_paint,

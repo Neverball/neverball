@@ -148,7 +148,7 @@ void hole_init(const char *filename)
 
 void hole_free(void)
 {
-    game_free();
+    putt_free();
     back_free();
 
     count = 0;
@@ -274,7 +274,7 @@ int hole_goto(int h, int p)
         if (h >= 0) hole  = h;
         if (p >= 0) party = p;
 
-        if (game_init(hole_v[hole].file))
+        if (putt_init(hole_v[hole].file))
         {
             back_init(hole_v[hole].back);
 
@@ -283,10 +283,10 @@ int hole_goto(int h, int p)
 
             for (i = 1; i <= party; i++)
             {
-                game_get_pos(ball_p[i], ball_e[i]);
+                putt_get_pos(ball_p[i], ball_e[i]);
                 stat_v[i] = 0;
             }
-            game_ball(player);
+            putt_ball(player);
             hole_song();
             return 1;
         }
@@ -304,8 +304,8 @@ int hole_next(void)
         }
         while (stat_v[player]);
 
-        game_ball(player);
-        game_get_pos(ball_p[player], ball_e[player]);
+        putt_ball(player);
+        putt_get_pos(ball_p[player], ball_e[player]);
 
         return 1;
     }
@@ -318,7 +318,7 @@ int hole_move(void)
     {
         hole++;
 
-        game_free();
+        putt_free();
         back_free();
 
         if (hole_goto(hole, party))
@@ -375,7 +375,7 @@ void hole_fall(void)
 
     /* Reset to the position of the putt, and apply a one-stroke penalty. */
 
-    game_set_pos(ball_p[player], ball_e[player]);
+    putt_set_pos(ball_p[player], ball_e[player]);
     score_v[hole][player] += 2;
 
     /* Cap scores at 12 or par plus 3. */

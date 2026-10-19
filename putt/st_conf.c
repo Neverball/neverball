@@ -55,7 +55,7 @@ static int conf_action(int i)
     switch (i)
     {
     case CONF_BACK:
-        exit_state(conf_back ? conf_back : &st_title);
+        exit_state(conf_back ? conf_back : &st_putt_title);
         conf_back = NULL;
         break;
 
@@ -253,7 +253,7 @@ static int conf_buttn(int b, int d)
 
 static int null_enter(struct state *st, struct state *prev, int intent)
 {
-    game_free_objects();
+    putt_free_objects();
     back_free_objects();
 
     transition_quit();
@@ -276,7 +276,7 @@ static int null_leave(struct state *st, struct state *next, int id, int intent)
     transition_init();
 
     back_load_objects();
-    game_load_objects();
+    putt_load_objects();
 
     return 0;
 }

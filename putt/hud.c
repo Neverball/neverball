@@ -29,7 +29,7 @@ static int fps_id;
 
 /*---------------------------------------------------------------------------*/
 
-void hud_init(void)
+void putt_hud_init(void)
 {
     static const GLubyte *color[5] = {
         gui_wht,
@@ -61,7 +61,7 @@ void hud_init(void)
     }
 }
 
-void hud_free(void)
+void putt_hud_free(void)
 {
     gui_delete(Lhud_id);
     gui_delete(Rhud_id);
@@ -70,7 +70,7 @@ void hud_free(void)
 
 /*---------------------------------------------------------------------------*/
 
-void hud_paint(void)
+void putt_hud_paint(void)
 {
     if (config_get_d(CONFIG_FPS))
     {

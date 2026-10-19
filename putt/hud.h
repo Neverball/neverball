@@ -3,10 +3,10 @@
 
 /*---------------------------------------------------------------------------*/
 
-void hud_init(void);
-void hud_free(void);
+void putt_hud_init(void);
+void putt_hud_free(void);
 
-void hud_paint(void);
+void putt_hud_paint(void);
 
 /*---------------------------------------------------------------------------*/
 

@@ -364,6 +364,11 @@ BALL_OBJS := \
 	ball/st_pause.o     \
 	ball/st_ball.o      \
 	ball/st_game_link.o \
+	putt/hud.o          \
+	putt/game.o         \
+	putt/hole.o         \
+	putt/course.o       \
+	putt/st_all.o       \
 	ball/main.o
 PUTT_OBJS := \
 	share/lang.o        \
