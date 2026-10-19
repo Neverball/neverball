@@ -20,7 +20,8 @@ ARCH="${ARCH:-$(uname -m)}"
 BUILD_TYPE="release"
 SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
-CREATE_DMG=1
+CREATE_ZIP=1
+CREATE_DMG=0
 SKIP_BUILD=0
 
 usage() {
@@ -33,8 +34,10 @@ Options:
   --arch <arch>         Target architecture: arm64 or x86_64 (default: host arch)
   --build-type <type>   Build configuration: release (default) or devel
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
-  --out-dir <dir>       Output directory for .app and .dmg (default: build/macos)
-  --dmg                 Create a compressed .dmg disk image (default: enabled)
+  --out-dir <dir>       Output directory for .app and archives (default: build/macos)
+  --zip                 Create a compressed .zip archive of the .app (default: enabled)
+  --no-zip              Skip creating the .zip archive
+  --dmg                 Create a compressed .dmg disk image (default: disabled)
   --no-dmg              Skip creating the .dmg disk image
   --skip-build          Skip compilation and assemble bundle from existing binaries
   -h, --help            Show this help message
@@ -60,6 +63,14 @@ while [[ $# -gt 0 ]]; do
         --out-dir)
             OUT_DIR="$2"
             shift 2
+            ;;
+        --zip)
+            CREATE_ZIP=1
+            shift
+            ;;
+        --no-zip)
+            CREATE_ZIP=0
+            shift
             ;;
         --dmg)
             CREATE_DMG=1
@@ -108,6 +119,11 @@ for cmd in clang make otool install_name_tool codesign sips iconutil python3 zip
         exit 1
     fi
 done
+
+if [[ "$CREATE_ZIP" -eq 1 ]] && ! command -v ditto >/dev/null 2>&1; then
+    echo "Error: 'ditto' is required to create a ZIP archive." >&2
+    exit 1
+fi
 
 if [[ "$CREATE_DMG" -eq 1 ]] && ! command -v hdiutil >/dev/null 2>&1; then
     echo "Error: 'hdiutil' is required to create a DMG disk image." >&2
@@ -372,8 +388,18 @@ if [[ -z "${CI:-}" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Create DMG (Optional)
+# Create Archives (ZIP / DMG)
 # -----------------------------------------------------------------------------
+
+if [[ "$CREATE_ZIP" -eq 1 ]]; then
+    ZIP_NAME="Neverball-${VERSION}-${ARCH}.zip"
+    ZIP_PATH="$OUT_DIR/$ZIP_NAME"
+
+    echo "==> Creating compressed ZIP archive at ${ZIP_PATH}..."
+    rm -f "$ZIP_PATH"
+    (cd "$OUT_DIR" && ditto -c -k --keepParent "${APP_NAME}.app" "$ZIP_NAME")
+    echo "    ZIP archive created successfully."
+fi
 
 if [[ "$CREATE_DMG" -eq 1 ]]; then
     DMG_NAME="Neverball-${VERSION}-${ARCH}.dmg"
@@ -396,6 +422,9 @@ fi
 
 echo "=== Packaging complete! ==="
 echo "Application: ${APP_DIR}"
+if [[ "$CREATE_ZIP" -eq 1 ]]; then
+    echo "ZIP Archive: ${OUT_DIR}/${ZIP_NAME}"
+fi
 if [[ "$CREATE_DMG" -eq 1 ]]; then
     echo "Disk Image:  ${OUT_DIR}/${DMG_NAME}"
 fi
