@@ -32,6 +32,8 @@
 #include "st_all.h"
 #include "st_conf.h"
 
+extern struct state st_title;
+
 /*---------------------------------------------------------------------------*/
 
 static char *number(int i)
@@ -199,6 +201,7 @@ static void shared_stick(int id, int a, float v, int bump)
 #define TITLE_PLAY 1
 #define TITLE_CONF 2
 #define TITLE_EXIT 3
+#define TITLE_BALL 4
 
 static int title_action(int i)
 {
@@ -209,6 +212,7 @@ static int title_action(int i)
     case TITLE_PLAY: return goto_state(&st_putt_course);
     case TITLE_CONF: return goto_state(&st_conf);
     case TITLE_EXIT: return 0;
+    case TITLE_BALL: return goto_state(&st_title);
     }
     return 1;
 }
@@ -247,9 +251,31 @@ static int title_enter(struct state *st, struct state *prev, int intent)
         if ((id = gui_label(root_id, "Neverputt " VERSION, GUI_TNY, gui_wht2, gui_wht2)))
         {
             gui_clr_rect(id);
-            gui_layout(id, -1, -1);
+            gui_layout(id, 0, -1);
         }
 #endif
+
+        if ((id = gui_vstack(root_id)))
+        {
+            const int w = video.device_w;
+            const int h = video.device_h;
+
+            const int ww = MIN(w, h) / 14;
+            const int hh = ww;
+
+            if ((jd = gui_hstack(id)))
+            {
+                kd = gui_image(jd, "gui/neverball-modern-256.png", ww, hh);
+                
+                gui_set_state(kd, TITLE_BALL, 0);
+
+                gui_space(jd);
+            }
+
+            gui_space(id);
+
+            gui_layout(id, -1, -1);
+        }
     }
 
     course_init();

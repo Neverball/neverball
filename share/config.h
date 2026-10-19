@@ -131,10 +131,18 @@ enum
 {
     TOUCH_MODE_LR = 0,
     TOUCH_MODE_RL,
-    TOUCH_MODE_DYNAMIC
+    TOUCH_MODE_DYNAMIC,
 };
 
 extern int CONFIG_ONLINE;
+
+enum game
+{
+    GAME_BALL = 0,
+    GAME_PUTT = 1,
+};
+
+extern int CONFIG_GAME;
 
 /* String options. */
 
@@ -174,6 +182,8 @@ void config_clr_cheat(void);
 
 int config_screenshot(void);
 int config_online(void);
+int config_ball(void);
+int config_putt(void);
 
 /*---------------------------------------------------------------------------*/
 

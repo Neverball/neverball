@@ -137,6 +137,7 @@ int CONFIG_TOUCH_MODE;
 int CONFIG_TOUCH_ROTATE_INVERT;
 
 int CONFIG_ONLINE;
+int CONFIG_GAME;
 
 /* String options. */
 
@@ -270,6 +271,7 @@ static struct
     { &CONFIG_TOUCH_ROTATE_INVERT, "touch_rotate_invert", 0 },
 
     { &CONFIG_ONLINE, "online", 1 },
+    { &CONFIG_GAME, "game", GAME_BALL },
 };
 
 static struct
@@ -528,6 +530,8 @@ void config_save(void)
                 if (!config_cheat())
                     continue;
             }
+            else if (i == CONFIG_GAME)
+                continue;
 
             if (s)
                 fs_printf(fh, "%-25s %s\n", option_d[i].name, s);
@@ -647,6 +651,18 @@ int config_online(void)
 #else
     return 0;
 #endif
+}
+
+/*---------------------------------------------------------------------------*/
+
+int config_ball(void)
+{
+    return config_get_d(CONFIG_GAME) == GAME_BALL;
+}
+
+int config_putt(void)
+{
+    return config_get_d(CONFIG_GAME) == GAME_PUTT;
 }
 
 /*---------------------------------------------------------------------------*/

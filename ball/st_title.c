@@ -43,6 +43,7 @@
 #include "st_name.h"
 #include "st_shared.h"
 #include "st_package.h"
+#include "../putt/st_all.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -93,7 +94,8 @@ enum
     TITLE_HELP,
     TITLE_DEMO,
     TITLE_CONF,
-    TITLE_PACKAGES
+    TITLE_PACKAGES,
+    TITLE_PUTT,
 };
 
 static int title_action(int tok, int val)
@@ -122,6 +124,10 @@ static int title_action(int tok, int val)
     case TITLE_DEMO: return goto_state(&st_demo); break;
     case TITLE_CONF: return goto_state(&st_conf); break;
     case TITLE_PACKAGES: return goto_state(&st_package); break;
+    case TITLE_PUTT:
+        config_set_d(CONFIG_GAME, GAME_PUTT);
+        return goto_state(&st_putt_title);
+        break;
     case GUI_CHAR:
 
         /* Let the queue fill up. */
@@ -251,6 +257,28 @@ static int title_gui(void)
 
                 gui_layout(id, +1, -1);
             }
+        }
+
+        if ((id = gui_vstack(root_id)))
+        {
+            const int w = video.device_w;
+            const int h = video.device_h;
+
+            const int ww = MIN(w, h) / 14;
+            const int hh = ww;
+
+            if ((jd = gui_hstack(id)))
+            {
+                kd = gui_image(jd, "gui/neverputt-modern-256.png", ww, hh);
+                
+                gui_set_state(kd, TITLE_PUTT, 0);
+
+                gui_space(jd);
+            }
+
+            gui_space(id);
+
+            gui_layout(id, -1, -1);
         }
     }
 

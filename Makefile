@@ -370,59 +370,11 @@ BALL_OBJS := \
 	putt/course.o       \
 	putt/st_all.o       \
 	ball/main.o
-PUTT_OBJS := \
-	share/lang.o        \
-	share/st_common.o   \
-	share/vec3.o        \
-	share/base_image.o  \
-	share/image.o       \
-	share/solid_base.o  \
-	share/solid_vary.o  \
-	share/solid_draw.o  \
-	share/solid_all.o   \
-	share/mtrl.o        \
-	share/part.o        \
-	share/geom.o        \
-	share/ball.o        \
-	share/base_config.o \
-	share/config.o      \
-	share/video.o       \
-	share/glext.o       \
-	share/binary.o      \
-	share/audio.o       \
-	share/state.o       \
-	share/ease.o        \
-	share/transition.o  \
-	share/gui.o         \
-	share/font.o        \
-	share/theme.o       \
-	share/text.o        \
-	share/common.o      \
-	share/list.o        \
-	share/fs_common.o   \
-	share/fs_png.o      \
-	share/fs_jpg.o      \
-	share/fs_ov.o       \
-	share/dir.o         \
-	share/fbo.o         \
-	share/glsl.o        \
-	share/array.o       \
-	share/log.o         \
-	share/joy.o         \
-	putt/hud.o          \
-	putt/game.o         \
-	putt/hole.o         \
-	putt/course.o       \
-	putt/st_all.o       \
-	putt/st_conf.o      \
-	putt/main.o
 
 BALL_OBJS += share/solid_sim_sol.o
-PUTT_OBJS += share/solid_sim_sol.o
 
 ifeq ($(ENABLE_FS),stdio)
 BALL_OBJS += share/fs_stdio.o share/zip.o
-PUTT_OBJS += share/fs_stdio.o share/zip.o
 MAPC_OBJS += share/fs_stdio.o share/zip.o
 endif
 
@@ -446,14 +398,11 @@ endif
 
 ifeq ($(ENABLE_HMD),openhmd)
 BALL_OBJS += share/hmd_openhmd.o share/hmd_common.o
-PUTT_OBJS += share/hmd_openhmd.o share/hmd_common.o
 else
 ifeq ($(ENABLE_HMD),libovr)
 BALL_OBJS += share/hmd_libovr.o share/hmd_common.o
-PUTT_OBJS += share/hmd_libovr.o share/hmd_common.o
 else
 BALL_OBJS += share/hmd_null.o
-PUTT_OBJS += share/hmd_null.o
 endif
 endif
 
@@ -468,6 +417,13 @@ FETCH_OBJS := share/fetch_curl.o
 endif
 
 BALL_OBJS += $(FETCH_OBJS)
+
+# Putt is just Ball in disguise.
+PUTT_OBJS := $(BALL_OBJS:ball/main.o=putt/main.o)
+ifeq ($(PLATFORM),mingw)
+PUTT_OBJS := $(PUTT_OBJS:neverball.ico.o=neverputt.ico.o)
+endif
+
 
 BALL_DEPS := $(BALL_OBJS:.o=.d)
 PUTT_DEPS := $(PUTT_OBJS:.o=.d)
