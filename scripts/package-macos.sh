@@ -119,6 +119,7 @@ NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
 
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
     echo "==> Compiling mapc, sols, and locales..."
+    make clean-src
     make -j"$NCPU" sols locales
 
     echo "==> Compiling neverball, neverputt, and mapc for bundle (${ARCH})..."
@@ -189,6 +190,15 @@ echo "==> Configuring Info.plist and PkgInfo..."
 sed "s/@VERSION@/${VERSION}/g" "$REPO_ROOT/dist/macos/Info.plist.in" > "$CONTENTS_DIR/Info.plist"
 printf "APPLball" > "$CONTENTS_DIR/PkgInfo"
 
+# 6. Copy level editor gamepacks into Resources
+for tool_dir in TrenchBroom Radiant; do
+    if [[ -d "$REPO_ROOT/$tool_dir" ]]; then
+        echo "==> Copying $tool_dir gamepack into Resources..."
+        cp -R "$REPO_ROOT/$tool_dir" "$RESOURCES_DIR/"
+        find "$RESOURCES_DIR/$tool_dir" -name ".DS_Store" -delete 2>/dev/null || true
+    fi
+done
+
 # -----------------------------------------------------------------------------
 # Bundle & Relink Dynamic Libraries
 # -----------------------------------------------------------------------------
@@ -258,6 +268,12 @@ if [[ "$CREATE_DMG" -eq 1 ]]; then
     if [[ -f "$REPO_ROOT/dist/macos/How to Open.html" ]]; then
         cp "$REPO_ROOT/dist/macos/How to Open.html" "$DMG_STAGE/How to Open.html"
     fi
+    for tool_dir in TrenchBroom Radiant; do
+        if [[ -d "$REPO_ROOT/$tool_dir" ]]; then
+            cp -R "$REPO_ROOT/$tool_dir" "$DMG_STAGE/"
+            find "$DMG_STAGE/$tool_dir" -name ".DS_Store" -delete 2>/dev/null || true
+        fi
+    done
 
     rm -f "$DMG_PATH"
     hdiutil create -volname "Neverball" -srcfolder "$DMG_STAGE" -ov -format UDZO "$DMG_PATH" >/dev/null
