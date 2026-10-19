@@ -158,8 +158,8 @@ rm -rf "$APP_DIR"
 mkdir -p "$MACOS_DIR" "$RESOURCES_DIR" "$FRAMEWORKS_DIR" "$DATA_DIR" "$LOCALE_DIR"
 
 # 1. Copy executables
-echo "==> Copying binaries (Neverball, neverputt, mapc)..."
-cp "$REPO_ROOT/neverball" "$MACOS_DIR/Neverball"
+echo "==> Copying binaries (neverball, neverputt, mapc)..."
+cp "$REPO_ROOT/neverball" "$MACOS_DIR/neverball"
 cp "$REPO_ROOT/neverputt" "$MACOS_DIR/neverputt"
 cp "$REPO_ROOT/mapc" "$MACOS_DIR/mapc"
 chmod 755 "$MACOS_DIR"/*
@@ -218,7 +218,7 @@ cat <<EOF > "$CONTENTS_DIR/Info.plist"
 	<key>CFBundleDisplayName</key>
 	<string>Neverball</string>
 	<key>CFBundleExecutable</key>
-	<string>Neverball</string>
+	<string>neverball</string>
 	<key>CFBundleIconFile</key>
 	<string>neverball</string>
 	<key>CFBundleIdentifier</key>
@@ -269,7 +269,7 @@ def get_deps(path):
     return deps
 
 binaries = [
-    os.path.join(macos_dir, "Neverball"),
+    os.path.join(macos_dir, "neverball"),
     os.path.join(macos_dir, "neverputt"),
     os.path.join(macos_dir, "mapc")
 ]
