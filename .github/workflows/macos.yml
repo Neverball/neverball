@@ -29,15 +29,15 @@ jobs:
         run: |
           brew install sdl2 sdl2_ttf libpng jpeg-turbo libvorbis gettext
 
-      - name: Package Neverball (.app and .zip)
+      - name: Package Neverball (.app and .dmg)
         run: |
           ./scripts/package-macos.sh --arch ${{ matrix.arch }}
 
-      - name: Upload ZIP Artifact
+      - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: neverball-macos-${{ matrix.arch }}-zip
-          path: build/macos/*.zip
+          name: neverball-macos-${{ matrix.arch }}-dmg
+          path: build/macos/*.dmg
           retention-days: 7
 
       - name: Upload App Bundle Artifact
