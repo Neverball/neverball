@@ -226,19 +226,20 @@ if compgen -G "$FRAMEWORKS_DIR/*.dylib" >/dev/null; then
     done
 fi
 
-# 2. Sign all executables in MacOS
+# 2. Sign auxiliary executables in MacOS (must be signed before the main bundle)
 CODESIGN_CMD=(codesign --force --sign "${SIGN_IDENTITY}")
 if [[ "$SIGN_IDENTITY" != "-" ]]; then
     CODESIGN_CMD+=(--options runtime)
 fi
 
+MAIN_BIN="$MACOS_DIR/neverball"
 for bin in "$MACOS_DIR"/*; do
-    if [[ -f "$bin" && -x "$bin" && ! -L "$bin" ]]; then
+    if [[ -f "$bin" && -x "$bin" && ! -L "$bin" && "$bin" != "$MAIN_BIN" ]]; then
         "${CODESIGN_CMD[@]}" "$bin"
     fi
 done
 
-# 3. Sign the application bundle
+# 3. Sign the application bundle (signs the main executable and seals the bundle)
 "${CODESIGN_CMD[@]}" "$APP_DIR"
 
 # 4. Strictly verify bundle signature
