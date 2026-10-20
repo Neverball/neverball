@@ -89,4 +89,9 @@ void light_load(void);
 
 /*---------------------------------------------------------------------------*/
 
+void circle_draw(float, float, float, int, const GLubyte *);
+void joystick_draw(float, float, float, float, float, float);
+
+/*---------------------------------------------------------------------------*/
+
 #endif

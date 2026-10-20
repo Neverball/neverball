@@ -863,3 +863,107 @@ void light_load(void)
 }
 
 /*---------------------------------------------------------------------------*/
+
+void circle_draw(float cx, float cy, float r, int fill, const GLubyte col[4])
+{
+    static float table[32][2];
+    static int init = 0;
+    GLfloat verts[34 * 2];
+    int i;
+
+    if (!init)
+    {
+        for (i = 0; i < 32; i++)
+        {
+            float a = (float) (2.0f * V_PI * i / 32.0f);
+            table[i][0] = cosf(a);
+            table[i][1] = sinf(a);
+        }
+        init = 1;
+    }
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    if (fill)
+    {
+        verts[0] = cx;
+        verts[1] = cy;
+        for (i = 0; i < 32; i++)
+        {
+            verts[(i + 1) * 2 + 0] = cx + table[i][0] * r;
+            verts[(i + 1) * 2 + 1] = cy + table[i][1] * r;
+        }
+        verts[33 * 2 + 0] = verts[2];
+        verts[33 * 2 + 1] = verts[3];
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, 0, verts);
+        glColor4ub(col[0], col[1], col[2], col[3]);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 34);
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
+    else
+    {
+        for (i = 0; i < 32; i++)
+        {
+            verts[i * 2 + 0] = cx + table[i][0] * r;
+            verts[i * 2 + 1] = cy + table[i][1] * r;
+        }
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, 0, verts);
+        glColor4ub(col[0], col[1], col[2], col[3]);
+        glDrawArrays(GL_LINE_LOOP, 0, 32);
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
+}
+
+void joystick_draw(float ox, float oy, float kx, float ky, float rb, float rk)
+{
+    static const GLubyte bound_fill[4] = { 0, 0, 0, 60 };
+    static const GLubyte bound_ring[4] = { 255, 255, 255, 120 };
+    static const GLubyte center_dot[4] = { 255, 255, 255, 180 };
+    static const GLubyte knob_fill[4]  = { 255, 255, 255, 160 };
+    static const GLubyte knob_ring[4]  = { 255, 255, 255, 240 };
+
+    GLfloat line_verts[4] = {
+        ox, oy,
+        kx, ky
+    };
+
+    video_push_ortho();
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glBindBuffer_(GL_ARRAY_BUFFER, 0);
+    glBindBuffer_(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    /* 1. Deflection vector line */
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, line_verts);
+    glColor4ub(255, 255, 255, 140);
+    glDrawArrays(GL_LINES, 0, 2);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+    /* 2. Outer bound circle */
+    circle_draw(ox, oy, rb, 1, bound_fill);
+    circle_draw(ox, oy, rb, 0, bound_ring);
+
+    /* 3. Center anchor dot */
+    circle_draw(ox, oy, rk * 0.25f, 1, center_dot);
+
+    /* 4. Movable knob circle */
+    circle_draw(kx, ky, rk, 1, knob_fill);
+    circle_draw(kx, ky, rk, 0, knob_ring);
+
+    glColor4ub(255, 255, 255, 255);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
+    video_pop_matrix();
+}
+
+/*---------------------------------------------------------------------------*/

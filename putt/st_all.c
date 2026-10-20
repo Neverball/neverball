@@ -14,6 +14,7 @@
 
 #include <math.h>
 
+#include "common.h"
 #include "hud.h"
 #include "geom.h"
 #include "gui.h"
@@ -997,6 +998,22 @@ static int stroke_rotate = 0;
 static int stroke_rotate_alt = 0;
 static int stroke_mag = 0;
 
+static SDL_FingerID stroke_touch_finger = -1;
+static float stroke_touch_ox = 0.0f, stroke_touch_oy = 0.0f;
+static float stroke_touch_kx = 0.0f, stroke_touch_ky = 0.0f;
+static float stroke_touch_rb = 0.0f, stroke_touch_rk = 0.0f;
+static int stroke_touch_moved = 0;
+
+static void stroke_touch_reset(void)
+{
+    stroke_touch_finger = -1;
+    stroke_touch_ox = stroke_touch_oy = 0.0f;
+    stroke_touch_kx = stroke_touch_ky = 0.0f;
+    stroke_touch_rb = stroke_touch_rk = 0.0f;
+    stroke_touch_moved = 0;
+    putt_hud_joystick_set(0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+}
+
 static int stroke_enter(struct state *st, struct state *prev, int intent)
 {
     putt_hud_init();
@@ -1007,6 +1024,8 @@ static int stroke_enter(struct state *st, struct state *prev, int intent)
     if (paused)
         paused = 0;
 
+    stroke_touch_reset();
+
     return 0;
 }
 
@@ -1015,8 +1034,9 @@ static int stroke_leave(struct state *st, struct state *next, int id, int intent
     putt_hud_free();
     video_clr_grab();
     config_set_d(CONFIG_CAMERA, 0);
-    stroke_rotate = 0.0f;
-    stroke_mag = 0.0f;
+    stroke_rotate = 0;
+    stroke_mag = 0;
+    stroke_touch_reset();
     return 0;
 }
 
@@ -1042,6 +1062,8 @@ static void stroke_timer(int id, float dt)
 
     putt_update_view(dt);
     putt_step(g, dt);
+
+    putt_hud_touch_timer(dt);
 }
 
 static void stroke_point(int id, int x, int y, int dx, int dy)
@@ -1082,6 +1104,95 @@ static int stroke_buttn(int b, int d)
     return 1;
 }
 
+static int stroke_touch(const SDL_TouchFingerEvent *event)
+{
+    int action = putt_hud_touch(event);
+    if (action)
+    {
+        if (action == PUTT_TOUCH_PAUSE)
+            return goto_putt_pause(&st_putt_over);
+        return 1;
+    }
+
+    const float x = (float) video.device_w * event->x;
+    const float y = (float) video.device_h * (1.0f - event->y);
+
+    if (event->type == SDL_FINGERDOWN)
+    {
+        if (stroke_touch_finger == -1)
+        {
+            stroke_touch_finger = event->fingerId;
+            stroke_touch_moved = 0;
+            stroke_touch_ox = stroke_touch_kx = x;
+            stroke_touch_oy = stroke_touch_ky = y;
+
+            const float s = (float) MIN(video.device_w, video.device_h);
+            stroke_touch_rb = s * 0.15f;
+            stroke_touch_rk = stroke_touch_rb * 0.40f;
+
+            stroke_rotate = 0;
+            stroke_mag = 0;
+
+            putt_hud_joystick_set(1, stroke_touch_ox, stroke_touch_oy,
+                                  stroke_touch_kx, stroke_touch_ky,
+                                  stroke_touch_rb, stroke_touch_rk);
+        }
+    }
+    else if (event->type == SDL_FINGERMOTION)
+    {
+        if (event->fingerId == stroke_touch_finger)
+        {
+            float dx = x - stroke_touch_ox;
+            float dy = y - stroke_touch_oy;
+            float dist = sqrtf(dx * dx + dy * dy);
+
+            if (dist > stroke_touch_rb && dist > 0.0001f)
+            {
+                stroke_touch_kx = stroke_touch_ox + dx * (stroke_touch_rb / dist);
+                stroke_touch_ky = stroke_touch_oy + dy * (stroke_touch_rb / dist);
+            }
+            else
+            {
+                stroke_touch_kx = x;
+                stroke_touch_ky = y;
+            }
+
+            float nx = (stroke_touch_kx - stroke_touch_ox) / stroke_touch_rb;
+            float ny = (stroke_touch_ky - stroke_touch_oy) / stroke_touch_rb;
+
+            if (fabsf(nx) > 0.08f || fabsf(ny) > 0.08f)
+                stroke_touch_moved = 1;
+
+            if (fabsf(nx) < 0.08f) nx = 0.0f;
+            if (fabsf(ny) < 0.08f) ny = 0.0f;
+
+            const float sign = config_get_d(CONFIG_TOUCH_ROTATE_INVERT) ? -1.0f : +1.0f;
+            stroke_rotate = (int) (sign * 10.0f * nx);
+            stroke_mag    = (int) (+8.0f * ny);
+
+            putt_hud_joystick_set(1, stroke_touch_ox, stroke_touch_oy,
+                                  stroke_touch_kx, stroke_touch_ky,
+                                  stroke_touch_rb, stroke_touch_rk);
+        }
+    }
+    else if (event->type == SDL_FINGERUP)
+    {
+        if (event->fingerId == stroke_touch_finger)
+        {
+            const int was_tap = !stroke_touch_moved;
+
+            stroke_touch_reset();
+            stroke_rotate = 0;
+            stroke_mag = 0;
+
+            if (was_tap)
+                return goto_state(&st_putt_roll);
+        }
+    }
+
+    return 1;
+}
+
 /*---------------------------------------------------------------------------*/
 
 static int roll_enter(struct state *st, struct state *prev, int intent)
@@ -1114,12 +1225,22 @@ static void roll_timer(int id, float dt)
 {
     float g[3] = { 0.0f, -9.8f, 0.0f };
 
+    putt_hud_touch_timer(dt);
+
     switch (putt_step(g, dt))
     {
     case PUTT_STOP: goto_state(&st_putt_stop); break;
     case PUTT_GOAL: goto_state(&st_putt_goal); break;
     case PUTT_FALL: goto_state(&st_putt_fall); break;
     }
+}
+
+static int roll_touch(const SDL_TouchFingerEvent *event)
+{
+    int action = putt_hud_touch(event);
+    if (action == PUTT_TOUCH_PAUSE)
+        return goto_putt_pause(&st_putt_over);
+    return 1;
 }
 
 static int roll_buttn(int b, int d)
@@ -1535,29 +1656,26 @@ struct state st_putt_flyby = {
 };
 
 struct state st_putt_stroke = {
-    stroke_enter,
-    stroke_leave,
-    stroke_paint,
-    stroke_timer,
-    stroke_point,
-    stroke_stick,
-    NULL,
-    stroke_click,
-    shared_keybd,
-    stroke_buttn
+    .enter = stroke_enter,
+    .leave = stroke_leave,
+    .paint = stroke_paint,
+    .timer = stroke_timer,
+    .point = stroke_point,
+    .stick = stroke_stick,
+    .click = stroke_click,
+    .keybd = shared_keybd,
+    .buttn = stroke_buttn,
+    .touch = stroke_touch
 };
 
 struct state st_putt_roll = {
-    roll_enter,
-    roll_leave,
-    roll_paint,
-    roll_timer,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    shared_keybd,
-    roll_buttn
+    .enter = roll_enter,
+    .leave = roll_leave,
+    .paint = roll_paint,
+    .timer = roll_timer,
+    .keybd = shared_keybd,
+    .buttn = roll_buttn,
+    .touch = roll_touch
 };
 
 struct state st_putt_goal = {
