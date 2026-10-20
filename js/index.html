@@ -1278,6 +1278,7 @@ General Public License for more details.
         await Promise.allSettled([
           // Neverball.installPackage('base-neverball', showProgress),
           Neverball.installPackage('set-easy', Neverball.showProgress),
+          Neverball.installPackage('course-putt', Neverball.showProgress),
         ]);
 
         this._module.FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);
