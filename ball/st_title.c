@@ -278,6 +278,8 @@ static int title_gui(void)
 
             gui_space(id);
 
+            gui_set_slide(id, GUI_N | GUI_EASE_ELASTIC, 0.0f, 1.6f, 0);
+
             gui_layout(id, -1, -1);
         }
     }
