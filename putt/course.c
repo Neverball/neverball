@@ -148,8 +148,11 @@ int course_count(void)
 
 void course_goto(int i)
 {
-    hole_init(course_v[i].holes);
-    course = i;
+    if (course_exists(i))
+    {
+        hole_init(course_v[i].holes);
+        course = i;
+    }
 }
 
 int course_curr(void)
@@ -165,8 +168,12 @@ void course_free(void)
 
 void course_rand(void)
 {
-    course_goto(rand() % count);
-    hole_goto(rand() % curr_count(), 4);
+    if (count > 0)
+    {
+        course_goto(rand() % count);
+        if (curr_count() > 0)
+            hole_goto(rand() % curr_count(), 4);
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -178,7 +185,11 @@ const char *course_desc(int i)
 
 const char *course_shot(int i)
 {
-    return course_exists(i) ? course_v[i].shot : course_v[0].shot;
+    if (course_exists(i))
+        return course_v[i].shot;
+    if (count > 0)
+        return course_v[0].shot;
+    return "";
 }
 
 /*---------------------------------------------------------------------------*/
