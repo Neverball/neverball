@@ -16,6 +16,10 @@ else
 CFLAGS := -O3 -std=gnu99 -Wall -Ishare -DNDEBUG -DENABLE_FETCH=1 -I$(GL4ES_DIR)/include
 endif
 
+ifdef PACKAGE_BASE_URL
+CFLAGS += -DPACKAGE_BASE_URL=\"$(PACKAGE_BASE_URL)\"
+endif
+
 EM_CFLAGS := \
 	-s USE_SDL=2 \
 	-s USE_SDL_TTF=2 \
