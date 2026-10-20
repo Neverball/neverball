@@ -473,36 +473,6 @@ static int package_gui(void)
     return id;
 }
 
-static const char *package_desc_for_display(int pi)
-{
-    const char *desc = package_get_desc(pi);
-
-    if (desc && strcmp(package_get_type(pi), "course") == 0)
-    {
-        const char *p = strpbrk(desc, "\r\n\\");
-
-        if (!p)
-            return "";
-
-        while (*p == '\r' || *p == '\n' || *p == '\\')
-            p++;
-
-        while (*p)
-        {
-            if (*p == ' ' && (p[1] == '\r' || p[1] == '\n' || p[1] == '\\'))
-                p++;
-            else if (*p == '\r' || *p == '\n' || *p == '\\')
-                p++;
-            else
-                break;
-        }
-
-        return p;
-    }
-
-    return desc;
-}
-
 static void package_select(int pi)
 {
     enum package_status status;
@@ -517,7 +487,7 @@ static void package_select(int pi)
     gui_set_hilite(button_ids[selected % PACKAGE_STEP], 1);
 
     gui_set_image(shot_id, package_get_shot_filename(pi));
-    gui_set_multi(desc_id, package_desc_for_display(pi));
+    gui_set_multi(desc_id, package_get_formatted_desc(pi));
     gui_set_label(type_id, package_get_formatted_type(pi));
     gui_set_label(title_id, package_get_name(pi));
 
