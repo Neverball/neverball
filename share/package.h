@@ -75,5 +75,6 @@ const char *package_get_files(int);
 
 const char *package_get_shot_filename(int);
 const char *package_get_formatted_type(int);
+const char *package_get_formatted_desc(int);
 
 #endif
