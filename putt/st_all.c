@@ -212,7 +212,9 @@ static int title_action(int i)
     case TITLE_PLAY: return goto_state(&st_putt_course);
     case TITLE_CONF: return goto_state(&st_conf);
     case TITLE_EXIT: return 0;
-    case TITLE_BALL: return goto_state(&st_title);
+    case TITLE_BALL:
+        config_set_d(CONFIG_GAME, GAME_BALL);
+        return goto_state(&st_title);
     }
     return 1;
 }
