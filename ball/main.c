@@ -63,6 +63,7 @@
 #include "st_game_link.h"
 #include "../putt/st_all.h"
 #include "../putt/hole.h"
+#include "../putt/course.h"
 
 #ifndef GAME_DEFAULT
 #define GAME_DEFAULT GAME_BALL
@@ -453,6 +454,43 @@ static int cmp_available_packages(const void *A, const void *B)
             return a_index - b_index;
     }
 
+    const int a_is_course = strcmp(a->type, "course") == 0;
+    const int b_is_course = strcmp(b->type, "course") == 0;
+
+    // Courses come after level sets.
+
+    if (a_is_course && !b_is_course)
+        return -1;
+
+    if (b_is_course && !a_is_course)
+        return +1;
+
+    if (a_is_course && b_is_course)
+    {
+        const char *a_sub = strchr(a->id, '-');
+        const char *b_sub = strchr(b->id, '-');
+
+        if (a_sub && b_sub)
+        {
+            STRBUF a_name = joinstr("holes-", a_sub + 1);
+            STRBUF b_name = joinstr("holes-", b_sub + 1);
+            STRBUF a_file = joinstr(CSTR(a_name), ".txt");
+            STRBUF b_file = joinstr(CSTR(b_name), ".txt");
+
+            int a_index = course_bundle_index(CSTR(a_file));
+            int b_index = course_bundle_index(CSTR(b_file));
+
+            if (a_index >= 0 && b_index < 0)
+                return -1;
+
+            if (b_index >= 0 && a_index < 0)
+                return +1;
+
+            if (a_index >= 0 && b_index >= 0)
+                return a_index - b_index;
+        }
+    }
+
     // Rest are ordered by id (e.g., "set-mym").
 
     return SDL_strcasecmp(a->id, b->id);
@@ -472,9 +510,10 @@ static void main_preload(struct state *start_state)
 
     goto_state(&st_loading);
 
-    /* To sort packages by sets.txt order, sets must be loaded first. */
+    /* To sort packages by sets.txt / courses.txt order, metadata must be loaded first. */
 
     set_init();
+    course_init();
 
     /* Link processing works best with a package list. */
 
@@ -795,6 +834,31 @@ static int handle_installed_action(int pi)
         index = set_find(CSTR(file));
 
         return index >= 0 ? goto_start(index, &st_package) : 1;
+    }
+    else if (pi >= 0 && strcmp(package_get_type(pi), "course") == 0)
+    {
+        const char *package_id = package_get_id(pi);
+        const char *name = strchr(package_id, '-');
+
+        if (name)
+        {
+            STRBUF course_name = joinstr("holes-", name + 1);
+            STRBUF file = joinstr(CSTR(course_name), ".txt");
+            int index;
+
+            config_set_d(CONFIG_GAME, GAME_PUTT);
+            course_init();
+
+            index = course_find(CSTR(file));
+
+            if (index >= 0)
+            {
+                course_goto(index);
+                return goto_state(&st_putt_party);
+            }
+
+            return goto_state(&st_putt_title);
+        }
     }
 
     return 1;
