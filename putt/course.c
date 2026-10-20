@@ -39,6 +39,9 @@ static int count;
 
 static struct course course_v[MAXCRS];
 
+static char *bundled_filenames[MAXCRS];
+static int bundled_count;
+
 /*---------------------------------------------------------------------------*/
 
 static int course_load(struct course *crs, const char *filename)
@@ -76,15 +79,20 @@ static int cmp_dir_items(const void *A, const void *B)
     return strcmp(a->path, b->path);
 }
 
-static int course_is_loaded(const char *path)
+int course_find(const char *path)
 {
     int i;
 
     for (i = 0; i < count; i++)
         if (strcmp(course_v[i].holes, path) == 0)
-            return 1;
+            return i;
 
-    return 0;
+    return -1;
+}
+
+static int course_is_loaded(const char *path)
+{
+    return course_find(path) >= 0;
 }
 
 static int is_unseen_course(struct dir_item *item)
@@ -105,16 +113,26 @@ void course_init(void)
     if (course_state)
         course_free();
 
+    for (i = 0; i < bundled_count; ++i)
+    {
+        free(bundled_filenames[i]);
+        bundled_filenames[i] = NULL;
+    }
+    bundled_count = 0;
+
     count = 0;
 
     if ((fin = fs_open_read(COURSE_FILE)))
     {
-        while (count < MAXCRS && read_line(&line, fin))
+        while (read_line(&line, fin))
         {
-            if (course_load(&course_v[count], line))
+            if (count < MAXCRS && course_load(&course_v[count], line))
                 count++;
 
-            free(line);
+            if (bundled_count < MAXCRS)
+                bundled_filenames[bundled_count++] = line;
+            else
+                free(line);
         }
 
         fs_close(fin);
@@ -162,8 +180,33 @@ int course_curr(void)
 
 void course_free(void)
 {
+    int i;
+
+    for (i = 0; i < bundled_count; ++i)
+    {
+        free(bundled_filenames[i]);
+        bundled_filenames[i] = NULL;
+    }
+    bundled_count = 0;
+
     hole_free();
     course_state = 0;
+}
+
+int course_bundle_index(const char *filename)
+{
+    int i;
+
+    if (!(filename && *filename))
+        return -1;
+
+    for (i = 0; i < bundled_count; ++i)
+    {
+        if (bundled_filenames[i] && strcmp(bundled_filenames[i], filename) == 0)
+            return i;
+    }
+
+    return -1;
 }
 
 void course_rand(void)
@@ -177,6 +220,11 @@ void course_rand(void)
 }
 
 /*---------------------------------------------------------------------------*/
+
+const char *course_name(int i)
+{
+    return course_exists(i) ? course_v[i].desc : "";
+}
 
 const char *course_desc(int i)
 {
