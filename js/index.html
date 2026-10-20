@@ -21,7 +21,7 @@ General Public License for more details.
 
   <link rel="icon" href="favicon.svg">
   <link rel="manifest" href="neverball.webmanifest">
-  <link rel="preload" href="https://play.neverball.org/packages/available-packages.txt" as="fetch" crossorigin>
+  <link rel="preload" href="packages/available-packages.txt" as="fetch">
 
   <title>Neverball</title>
 
@@ -761,7 +761,7 @@ General Public License for more details.
   <script>
     'use strict';
 
-    const PACKAGE_BASE_URL = 'https://play.neverball.org/packages/';
+    const PACKAGE_BASE_URL = 'packages/';
 
     var Neverball = {
       EVENT_BACK: -1,
@@ -1278,6 +1278,7 @@ General Public License for more details.
         await Promise.allSettled([
           // Neverball.installPackage('base-neverball', showProgress),
           Neverball.installPackage('set-easy', Neverball.showProgress),
+          Neverball.installPackage('course-putt', Neverball.showProgress),
         ]);
 
         this._module.FS.writeFile('/neverball/Downloads/installed-packages.txt', Neverball.installedPackages);

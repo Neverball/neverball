@@ -886,6 +886,36 @@ const char *package_get_formatted_type(int pi)
     return type;
 }
 
+const char *package_get_formatted_desc(int pi)
+{
+    const char *desc = package_get_desc(pi);
+
+    if (desc && strcmp(package_get_type(pi), "course") == 0)
+    {
+        const char *p = strpbrk(desc, "\r\n\\");
+
+        if (!p)
+            return "";
+
+        while (*p == '\r' || *p == '\n' || *p == '\\')
+            p++;
+
+        while (*p)
+        {
+            if (*p == ' ' && (p[1] == '\r' || p[1] == '\n' || p[1] == '\\'))
+                p++;
+            else if (*p == '\r' || *p == '\n' || *p == '\\')
+                p++;
+            else
+                break;
+        }
+
+        return p;
+    }
+
+    return desc;
+}
+
 /*---------------------------------------------------------------------------*/
 
 struct package_fetch_info

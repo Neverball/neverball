@@ -414,8 +414,10 @@ static int course_enter(struct state *st, struct state *prev, int intent)
 
                             if (k < n)
                             {
-                                md = gui_image(ld, course_shot(k),
-                                               w / 3 / c, h / 3 / r);
+                                const int iw = (c > 0) ? w / 3 / c : 0;
+                                const int ih = (r > 0) ? h / 3 / r : 0;
+
+                                md = gui_image(ld, course_shot(k), iw, ih);
                                 gui_set_state(md, k, 0);
 
                                 if (k == 0)

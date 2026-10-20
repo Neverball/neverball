@@ -487,13 +487,14 @@ static void package_select(int pi)
     gui_set_hilite(button_ids[selected % PACKAGE_STEP], 1);
 
     gui_set_image(shot_id, package_get_shot_filename(pi));
-    gui_set_multi(desc_id, package_get_desc(pi));
+    gui_set_multi(desc_id, package_get_formatted_desc(pi));
     gui_set_label(type_id, package_get_formatted_type(pi));
     gui_set_label(title_id, package_get_name(pi));
 
     if (status == PACKAGE_INSTALLED)
     {
-        if (strcmp(package_get_type(selected), "set") == 0)
+        if (strcmp(package_get_type(selected), "set") == 0 ||
+            strcmp(package_get_type(selected), "course") == 0)
         {
             gui_set_color(install_status_id, gui_grn, gui_grn);
             gui_set_color(install_label_id, gui_wht, gui_wht);

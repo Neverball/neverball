@@ -41,6 +41,8 @@
 #include "st_start.h"
 #include "st_title.h"
 #include "st_common.h"
+#include "../putt/course.h"
+#include "../putt/st_all.h"
 
 #define AUD_MENU "snd/menu.ogg"
 
@@ -60,6 +62,21 @@ static struct {
 static int game_link_launch_target(void)
 {
     int index;
+
+    if (str_starts_with(game_link_ctx.link, "course-"))
+    {
+        config_set_d(CONFIG_GAME, GAME_PUTT);
+        course_init();
+
+        if ((index = course_find(game_link_ctx.set_file)) >= 0)
+        {
+            course_goto(index);
+            return goto_state(&st_putt_party);
+        }
+
+        log_printf("Game Link: failed to find course %s after installation\n", game_link_ctx.set_file);
+        return goto_state(&st_putt_title);
+    }
 
     set_init();
 
@@ -267,6 +284,42 @@ int game_link_handle(const char *link)
         }
 
         log_printf("Game Link: set '%s' not found locally or in package catalog\n", CSTR(set_file));
+    }
+    else if (str_starts_with(link, "course-"))
+    {
+        const char *name = strchr(link, '-');
+        if (name)
+        {
+            STRBUF course_name = joinstr("holes-", name + 1);
+            STRBUF course_file = str_ends_with(CSTR(course_name), ".txt") ?
+                                 strbuf(CSTR(course_name)) :
+                                 joinstr(CSTR(course_name), ".txt");
+
+            SAFECPY(game_link_ctx.link, link);
+            SAFECPY(game_link_ctx.set_file, CSTR(course_file));
+            *game_link_ctx.map_part = '\0';
+
+            config_set_d(CONFIG_GAME, GAME_PUTT);
+            course_init();
+
+            if (course_find(CSTR(course_file)) >= 0)
+            {
+                return game_link_launch_target();
+            }
+
+            int pi = package_search(CSTR(course_file));
+            if (pi >= 0)
+            {
+                game_link_ctx.package_id = pi;
+                game_link_ctx.downloading = 0;
+                SAFECPY(game_link_ctx.progress_label, _("Loading..."));
+
+                goto_state(&st_game_link);
+                return 1;
+            }
+
+            log_printf("Game Link: course '%s' not found locally or in package catalog\n", CSTR(course_file));
+        }
     }
 
     return 0;

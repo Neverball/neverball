@@ -536,7 +536,7 @@ clean : clean-src
 
 web : sols
 	docker build -t neverball-emscripten emscripten
-	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/ball.mk BUILD=$(BUILD)
+	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/ball.mk BUILD=$(BUILD) $(if $(PACKAGE_BASE_URL),PACKAGE_BASE_URL=$(PACKAGE_BASE_URL))
 
 HOST ?= 0.0.0.0
 PORT ?= 0
