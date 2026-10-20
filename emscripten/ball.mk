@@ -79,6 +79,11 @@ BALL_SRCS := \
 	ball/st_title.c \
 	ball/st_game_link.c \
 	ball/util.c \
+	putt/hud.c \
+	putt/game.c \
+	putt/hole.c \
+	putt/course.c \
+	putt/st_all.c \
 	share/array.c \
 	share/audio_emscripten.c \
 	share/ball.c \
