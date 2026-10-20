@@ -493,7 +493,8 @@ static void package_select(int pi)
 
     if (status == PACKAGE_INSTALLED)
     {
-        if (strcmp(package_get_type(selected), "set") == 0)
+        if (strcmp(package_get_type(selected), "set") == 0 ||
+            strcmp(package_get_type(selected), "course") == 0)
         {
             gui_set_color(install_status_id, gui_grn, gui_grn);
             gui_set_color(install_label_id, gui_wht, gui_wht);
