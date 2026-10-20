@@ -24,15 +24,7 @@ COURSE_SHOT := $(shell sed -n 's/\r$$//; 1 p' < $(COURSE_FILE))
 COURSE_DESC := $(shell sed -n 's/\r$$//; 2 s,\\,\\n,g; 2 p' < $(COURSE_FILE))
 COURSE_SOLS := $(sort $(shell sed -n 's/\r$$//; 3,$$ s/^\([^ ]*\).*/\1/p' < $(COURSE_FILE)))
 
-ifeq ($(PACKAGE_ID),course-putt)
-COURSE_NAME ?= Neverputt
-else ifeq ($(PACKAGE_ID),course-abc)
-COURSE_NAME ?= Alphabet
-else ifeq ($(PACKAGE_ID),course-iCourse)
-COURSE_NAME ?= Reshaun's iPutt
-else
 COURSE_NAME ?= $(shell sed -n 's/\r$$//; 2 s/\\.*//; 2 p' < $(COURSE_FILE))
-endif
 ifeq ($(strip $(COURSE_NAME)),)
 COURSE_NAME := $(PACKAGE_ID)
 endif
