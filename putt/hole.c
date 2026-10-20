@@ -278,7 +278,7 @@ int hole_goto(int h, int p)
         {
             back_init(hole_v[hole].back);
 
-            player = (hole - 1) % party + 1;
+            player = (party > 0) ? (hole - 1) % party + 1 : 1;
             done   = 0;
 
             for (i = 1; i <= party; i++)
@@ -300,7 +300,7 @@ int hole_next(void)
     {
         do
         {
-            player = player % party + 1;
+            player = (party > 0) ? player % party + 1 : 1;
         }
         while (stat_v[player]);
 
