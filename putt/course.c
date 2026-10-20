@@ -223,7 +223,27 @@ void course_rand(void)
 
 const char *course_name(int i)
 {
-    return course_exists(i) ? course_v[i].desc : "";
+    static char name[MAXSTR];
+
+    if (course_exists(i))
+    {
+        const char *p = strchr(course_v[i].desc, '\\');
+
+        if (p)
+        {
+            size_t len = p - course_v[i].desc;
+
+            if (len >= sizeof (name))
+                len = sizeof (name) - 1;
+
+            strncpy(name, course_v[i].desc, len);
+            name[len] = '\0';
+
+            return name;
+        }
+        return course_v[i].desc;
+    }
+    return "";
 }
 
 const char *course_desc(int i)
