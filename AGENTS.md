@@ -60,5 +60,6 @@ is ensured using logs exported from the `git-prompt-log` tool.
 - Use the `game_*` prefix for native Neverball point entities (`game_ball`, `game_goal`, `game_switch`, `game_jump`) to distinguish them from legacy Quake entities.
 - Use origin-centered symmetric bounding boxes (`box="-H -H -H H H H"`) so TrenchBroom 3D rotation pivots on the origin without coordinate drift.
 - For base-anchored cylinder entities (goals, switches, jumps), author editor preview OBJ models with base vertices at $Y = -H$ matching the bottom of the bounding box.
+- Author OBJ models (both editor previews and misc_model props) in TrenchBroom map coordinates ($64\text{ units} = 1\text{m}$, with $+X$ forward/East, $+Y$ left/North, $+Z$ up).
 - Include `<angles>` and `<target>` attributes on rotatable and parentable point entities.
 

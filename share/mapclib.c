@@ -987,11 +987,17 @@ static void move_file(struct mapc_context *ctx)
 /*---------------------------------------------------------------------------*/
 
 /*
- * This is a basic OBJ loader.  It is by no means fully compliant with
- * the  OBJ  specification, but  it  works  well  with the  output  of
- * Wings3D.  All faces must be triangles and all vertices must include
- * normals and  texture coordinates.  Material  names are taken  to be
- * references to Neverball materials, rather than MTL definitions.
+ * This is a basic OBJ loader.  All faces must be triangles and all
+ * vertices must include normals and texture coordinates.  Material
+ * names are taken to be references to Neverball materials, rather
+ * than MTL definitions.
+ *
+ * OBJ geometry is authored in TrenchBroom map coordinates (Quake Z-up,
+ * 64 units = 1 meter).  read_v and read_vn remap the coordinates into
+ * Neverball engine space:
+ *   Neverball X = +Z_obj / 64
+ *   Neverball Y = +Y_obj / 64
+ *   Neverball Z = -X_obj / 64
  */
 
 static void read_vt(struct mapc_context *ctx, const char *line)
@@ -1006,16 +1012,26 @@ static void read_vn(struct mapc_context *ctx, const char *line)
 {
     struct s_base *fp = &ctx->file;
     struct b_side *sp = fp->sv + incs(ctx);
+    float nx, ny, nz;
 
-    sscanf(line, "%f %f %f", sp->n, sp->n + 1, sp->n + 2);
+    sscanf(line, "%f %f %f", &nx, &ny, &nz);
+
+    sp->n[0] = +nz;
+    sp->n[1] = +ny;
+    sp->n[2] = -nx;
 }
 
 static void read_v(struct mapc_context *ctx, const char *line)
 {
     struct s_base *fp = &ctx->file;
     struct b_vert *vp = fp->vv + incv(ctx);
+    float x, y, z;
 
-    sscanf(line, "%f %f %f", vp->p, vp->p + 1, vp->p + 2);
+    sscanf(line, "%f %f %f", &x, &y, &z);
+
+    vp->p[0] = +z / SCALE;
+    vp->p[1] = +y / SCALE;
+    vp->p[2] = -x / SCALE;
 }
 
 static void parse_triplet(const char *token, int *vi, int *ti, int *si)

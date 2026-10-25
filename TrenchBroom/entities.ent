@@ -152,7 +152,7 @@ Imports an arbitrary polygonal model into a level.  It may be used to increase t
 
 misc_model entities define visible geometry, but not physical geometry.  So, if the ball is to bounce off of a misc_model entity, the entity should be placed within one or more invisible structural lumps.
 
-<model key="model" name="Model">Path to the model file.  The model must be in OBJ format.  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
+<model key="model" name="Model">Path to the model file.  The model must be in OBJ format authored in TrenchBroom map coordinates (64 units = 1 meter).  It must have triangular tessellation.  All vertices must have normals and texture coordinates.</model>
 <target key="target" name="Path">Path that the model will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
 <target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the model, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
 <angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the model (pitch, yaw, and roll).</angles>
