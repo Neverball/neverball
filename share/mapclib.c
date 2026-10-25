@@ -197,6 +197,12 @@ struct mapc_context
     float bill_e[MAXR][4];
     int   bill_has_e[MAXR];
 
+    float body_e[MAXB][4];
+    int   body_has_e[MAXB];
+
+    int   static_geom[MAXG];
+    int   static_geom_count;
+
     struct _imagedata *imagedata;
     int image_n;
     int image_alloc;
@@ -1436,6 +1442,7 @@ static void make_body(struct mapc_context *ctx,
     bp->p0 = -1;
     bp->p1 = -1;
     bp->ni = -1;
+    ctx->body_has_e[bi] = 0;
 
     for (i = 0; i < c; i++)
     {
@@ -1474,6 +1481,141 @@ static void make_body(struct mapc_context *ctx,
         v_add(fp->vv[i].p, fp->vv[i].p, p);
 
     ctx->read_dict_entries = 0;
+}
+
+static void make_model(struct mapc_context *ctx,
+                       char k[][MAXSTR],
+                       char v[][MAXSTR], int c)
+{
+    struct s_base *fp = &ctx->file;
+    int i, mi = 0;
+    int v0 = fp->vc;
+    int s0 = fp->sc;
+    int g0 = fp->gc;
+
+    float p[3];
+    float e[4];
+    int has_e = 0;
+    int has_angles = 0;
+
+    int has_target = 0;
+    int has_target2 = 0;
+    char target[MAXSTR] = "";
+    char target2[MAXSTR] = "";
+    char model[MAXSTR] = "";
+
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
+
+    for (i = 0; i < c; i++)
+    {
+        if (strcmp(k[i], "target") == 0 || strcmp(k[i], "target1") == 0)
+        {
+            SAFECPY(target, v[i]);
+            has_target = 1;
+        }
+        else if (strcmp(k[i], "target2") == 0)
+        {
+            SAFECPY(target2, v[i]);
+            has_target2 = 1;
+        }
+        else if (strcmp(k[i], "material") == 0)
+        {
+            mi = read_mtrl(ctx, v[i]);
+        }
+        else if (strcmp(k[i], "model") == 0)
+        {
+            SAFECPY(model, v[i]);
+        }
+        else if (strcmp(k[i], "origin") == 0)
+        {
+            sscanf(v[i], "%f %f %f", &x, &y, &z);
+        }
+        else if (strcmp(k[i], "angle") == 0)
+        {
+            if (!has_angles)
+            {
+                static const float Y[3] = { 0.0f, 1.0f, 0.0f };
+                float yaw = 0.0f;
+                sscanf(v[i], "%f", &yaw);
+                q_by_axisangle(e, Y, V_RAD(+yaw));
+                has_e = 1;
+            }
+        }
+        else if (strcmp(k[i], "angles") == 0)
+        {
+            parse_angles(v[i], e);
+            has_e = 1;
+            has_angles = 1;
+        }
+    }
+
+    if (!*model)
+        return;
+
+    read_obj(ctx, model, mi);
+
+    p[0] = +x / SCALE;
+    p[1] = +z / SCALE;
+    p[2] = -y / SCALE;
+
+    if (has_target)
+    {
+        int bi = incb(ctx);
+        struct b_body *bp = fp->bv + bi;
+
+        bp->p0 = -1;
+        bp->p1 = -1;
+        bp->ni = -1;
+        bp->l0 = 0;
+        bp->lc = 0;
+        bp->g0 = fp->ic;
+        bp->gc = fp->gc - g0;
+
+        make_ref(ctx, SYM_PATH, target, &bp->p0);
+        if (has_target2)
+            make_ref(ctx, SYM_PATH, target2, &bp->p1);
+
+        for (i = 0; i < bp->gc; i++)
+            fp->iv[inci(ctx)] = g0++;
+
+        for (i = v0; i < fp->vc; i++)
+            v_add(fp->vv[i].p, fp->vv[i].p, p);
+
+        if (has_e)
+        {
+            q_cpy(ctx->body_e[bi], e);
+            ctx->body_has_e[bi] = 1;
+        }
+        else
+        {
+            ctx->body_has_e[bi] = 0;
+        }
+    }
+    else
+    {
+        for (i = v0; i < fp->vc; i++)
+        {
+            if (has_e)
+                q_rot(fp->vv[i].p, e, fp->vv[i].p);
+            v_add(fp->vv[i].p, fp->vv[i].p, p);
+        }
+
+        if (has_e)
+        {
+            for (i = s0; i < fp->sc; i++)
+                q_rot(fp->sv[i].n, e, fp->sv[i].n);
+        }
+
+        for (i = g0; i < fp->gc; i++)
+        {
+            if (ctx->static_geom_count < MAXG)
+                ctx->static_geom[ctx->static_geom_count++] = i;
+            else
+                overflow(ctx, "static geometry");
+        }
+    }
 }
 
 static void make_item(struct mapc_context *ctx,
@@ -1929,7 +2071,7 @@ static void read_ent(struct mapc_context *ctx, fs_file fin)
         make_body(ctx, k, v, c, l0);
     }
     if (!strcmp(v[i], "func_train"))               make_body(ctx, k, v, c, l0);
-    if (!strcmp(v[i], "misc_model"))               make_body(ctx, k, v, c, l0);
+    if (!strcmp(v[i], "misc_model"))               make_model(ctx, k, v, c);
 
     /* TrenchBroom compatibility: if func_group has any lumps, add it as a body; ignore otherwise. */
 
@@ -1939,13 +2081,42 @@ static void read_ent(struct mapc_context *ctx, fs_file fin)
 
 static void read_map(struct mapc_context *ctx, fs_file fin)
 {
+    struct s_base *fp = &ctx->file;
     char k[MAXSTR];
     char v[MAXSTR];
-    int t;
+    int t, i;
 
     while ((t = map_token(ctx, fin, -1, k, v)))
         if (t == T_BEG)
             read_ent(ctx, fin);
+
+    if (ctx->static_geom_count > 0 && fp->bc > 0)
+    {
+        if (fp->bv[0].gc > 0)
+        {
+            int old_g0 = fp->bv[0].g0;
+            int old_gc = fp->bv[0].gc;
+
+            fp->bv[0].g0 = fp->ic;
+            fp->bv[0].gc = 0;
+
+            for (i = 0; i < old_gc; i++)
+            {
+                fp->iv[inci(ctx)] = fp->iv[old_g0 + i];
+                fp->bv[0].gc++;
+            }
+        }
+        else
+        {
+            fp->bv[0].g0 = fp->ic;
+        }
+
+        for (i = 0; i < ctx->static_geom_count; i++)
+        {
+            fp->iv[inci(ctx)] = ctx->static_geom[i];
+            fp->bv[0].gc++;
+        }
+    }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -3506,10 +3677,14 @@ static void turn_file(struct mapc_context *ctx)
     struct s_base *fp = &ctx->file;
     int i;
 
-    /* Bodies (func_train) */
+    /* Bodies */
     for (i = 0; i < fp->bc; i++)
+    {
         if (fp->bv[i].p0 >= 0)
-            check_oriented_path(ctx, fp->bv[i].p0, 0);
+            check_oriented_path(ctx, fp->bv[i].p0, ctx->body_has_e[i]);
+        if (ctx->body_has_e[i])
+            turn_entity(ctx, NULL, &fp->bv[i].p0, &fp->bv[i].p1, ctx->body_e[i]);
+    }
 
     /* Items */
     for (i = 0; i < fp->hc; i++)
