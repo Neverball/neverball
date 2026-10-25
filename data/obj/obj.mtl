@@ -1,0 +1,29 @@
+newmtl default
+map_Kd ../textures/mtrl/white.png
+
+newmtl mtrl/black
+map_Kd ../textures/mtrl/black.png
+
+newmtl mtrl/chrome
+map_Kd ../textures/mtrl/chrome.jpg
+
+newmtl mtrl/invisible
+map_Kd ../textures/mtrl/invisible.png
+
+newmtl mtrl/rail
+map_Kd ../textures/mtrl/rail.png
+
+newmtl mtrl/red
+map_Kd ../textures/mtrl/red.png
+
+newmtl mtrl/turf-shiny
+map_Kd ../textures/mtrl/turf-shiny.jpg
+
+newmtl mtrl/turf-shiny-light
+map_Kd ../textures/mtrl/turf-shiny-light.jpg
+
+newmtl mtrl/white
+map_Kd ../textures/mtrl/white.png
+
+newmtl mtrl/wood
+map_Kd ../textures/mtrl/wood.jpg

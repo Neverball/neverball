@@ -1,4 +1,5 @@
 # Exported from Wings 3D 0.98.22c
+mtllib obj.mtl
 o cylinder1
 #32 vertices, 47 faces
 v 0.7803584 32 3.9231424

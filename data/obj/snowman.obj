@@ -1,4 +1,5 @@
 # Exported from Wings 3D 0.98.22c
+mtllib obj.mtl
 o sphere1
 #448 vertices, 892 faces
 v -0 100.6624 24.491712
