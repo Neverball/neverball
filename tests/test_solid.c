@@ -615,6 +615,86 @@ static void test_sol_mover_rotation_parent(void)
     sol_free_vary(&vary);
 }
 
+static void test_sol_mover_parented_orientation(void)
+{
+    struct s_base base;
+    struct s_vary vary;
+    struct b_path paths[3];
+    struct b_body body;
+    float p[3];
+    float e[4];
+
+    memset(&base, 0, sizeof (base));
+    memset(&vary, 0, sizeof (vary));
+    memset(paths, 0, sizeof (paths));
+    memset(&body, 0, sizeof (body));
+
+    /* Node 0: linear mover start */
+    paths[0].p[0] = 0.0f;
+    paths[0].e[0] = 1.0f;
+    paths[0].t    = 1.0f;
+    paths[0].tm   = 1000;
+    paths[0].pi   = 1;
+    paths[0].f    = 1;
+    paths[0].p0   = -1;
+    paths[0].p1   = -1;
+
+    /* Node 1: linear mover end */
+    paths[1].p[0] = 10.0f;
+    paths[1].e[0] = 1.0f;
+    paths[1].t    = 1.0f;
+    paths[1].tm   = 1000;
+    paths[1].pi   = 0;
+    paths[1].f    = 1;
+    paths[1].p0   = -1;
+    paths[1].p1   = -1;
+
+    /* Node 2: parented orientation mover (90 deg yaw rotation) parented to Node 0 */
+    paths[2].e[0] = 0.70710678f;
+    paths[2].e[2] = 0.70710678f;
+    paths[2].t    = 1.0f;
+    paths[2].tm   = 1000;
+    paths[2].pi   = 2;
+    paths[2].f    = 1;
+    paths[2].s    = 1;
+    paths[2].p0   = 0;
+    paths[2].p1   = 0;
+    paths[2].fl   = P_PARENTED | P_ORIENTED;
+
+    body.p0 = 0;
+    body.p1 = 2;
+
+    base.pc = 3;
+    base.pv = paths;
+    base.bc = 1;
+    base.bv = &body;
+
+    if (!sol_load_vary(&vary, &base))
+        exit(1);
+
+    /* Initial state */
+    sol_body_p(p, &vary, vary.bv[0].mi, 0.0f);
+    if (!vec3_approx(p, 0.0f, 0.0f, 0.0f))
+        exit(1);
+
+    sol_body_e(e, &vary, vary.bv[0].mj, 0.0f);
+    if (fabsf(e[0] - 0.70710678f) > 0.001f || fabsf(e[2] - 0.70710678f) > 0.001f)
+        exit(1);
+
+    /* Advance by 0.5s */
+    sol_move_step(&vary, NULL, 0.5f, 500);
+
+    sol_body_p(p, &vary, vary.bv[0].mi, 0.0f);
+    if (!vec3_approx(p, 5.0f, 0.0f, 0.0f))
+        exit(1);
+
+    sol_body_e(e, &vary, vary.bv[0].mj, 0.0f);
+    if (fabsf(e[0] - 0.70710678f) > 0.001f || fabsf(e[2] - 0.70710678f) > 0.001f)
+        exit(1);
+
+    sol_free_vary(&vary);
+}
+
 int test_solid_all(void)
 {
     int pass = 1;
@@ -629,6 +709,7 @@ int test_solid_all(void)
     RUN_TEST("test_sol_mover_multilevel_hierarchy", test_sol_mover_multilevel_hierarchy, pass);
     RUN_TEST("test_sol_mover_split_node_parents", test_sol_mover_split_node_parents, pass);
     RUN_TEST("test_sol_mover_rotation_parent", test_sol_mover_rotation_parent, pass);
+    RUN_TEST("test_sol_mover_parented_orientation", test_sol_mover_parented_orientation, pass);
 
     return pass;
 }
