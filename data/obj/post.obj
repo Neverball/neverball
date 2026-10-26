@@ -1,4 +1,5 @@
 # Exported from Wings 3D 0.98.22c
+mtllib obj.mtl
 o cube2
 #8 vertices, 12 faces
 v -5.376 10.624 -5.376
