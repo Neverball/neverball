@@ -39,7 +39,7 @@ A switch.  This entity exists for backward compatibility; game_switch is prefera
 </point>
 
 
-<point name="info_null" color="0 0.5 0" box="-8 -8 -8 8 8 8">
+<point name="info_null" color="0 0.5 0" box="-8 -8 -8 8 8 8" model="{'path': 'textures/' + image + '.png', 'scale': [width, height]}">
 A billboard.
 
 <target key="target" name="Path">Path that the billboard will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
