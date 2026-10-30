@@ -3825,8 +3825,25 @@ static void debug_paths(struct mapc_context *ctx)
     {
         int v0 = fp->vc;
         int g0 = fp->gc;
-        int j, bi;
+        int j, bi, pi_dbg;
         struct b_body *bp;
+        struct b_path *dbg;
+        int p0 = fp->pv[i].p0;
+        int p1 = fp->pv[i].p1;
+        int fl = fp->pv[i].fl;
+        float p[3], e[4];
+
+        v_cpy(p, fp->pv[i].p);
+
+        if (fl & P_ORIENTED)
+            q_cpy(e, fp->pv[i].e);
+        else
+        {
+            e[0] = 1.0f;
+            e[1] = 0.0f;
+            e[2] = 0.0f;
+            e[3] = 0.0f;
+        }
 
         read_obj(ctx, model, 0);
 
@@ -3834,13 +3851,29 @@ static void debug_paths(struct mapc_context *ctx)
             break;
 
         for (j = v0; j < fp->vc; j++)
-            v_add(fp->vv[j].p, fp->vv[j].p, fp->pv[i].p);
+            v_add(fp->vv[j].p, fp->vv[j].p, p);
+
+        pi_dbg = incp(ctx);
+        dbg = fp->pv + pi_dbg;
+        memset(dbg, 0, sizeof (*dbg));
+        dbg->pi = pi_dbg;
+        dbg->t  = 1.0f;
+        dbg->tm = 1000;
+        dbg->f  = 1;
+        dbg->s  = 1;
+        dbg->p0 = p0;
+        dbg->p1 = p1;
+        dbg->fl = fl | P_ORIENTED;
+        if (p0 >= 0 || p1 >= 0)
+            dbg->fl |= P_PARENTED;
+        v_cpy(dbg->p, p);
+        q_cpy(dbg->e, e);
 
         bi = incb(ctx);
         bp = fp->bv + bi;
         memset(bp, 0, sizeof (*bp));
-        bp->p0 = i;
-        bp->p1 = i;
+        bp->p0 = pi_dbg;
+        bp->p1 = pi_dbg;
         bp->ni = -1;
         bp->l0 = 0;
         bp->lc = 0;
