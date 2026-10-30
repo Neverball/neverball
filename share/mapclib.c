@@ -157,6 +157,8 @@ struct mapc_context
     const char *opt_data;
     int opt_debug;
     int opt_csv;
+    int opt_debug_paths;
+    const char *debug_paths_model;
 
     STRBUF src_path;
     STRBUF dst_path;
@@ -407,6 +409,8 @@ int mapc_init(struct mapc_context **ctx_ptr)
     ctx->opt_csv = 0;
     ctx->opt_file = NULL;
     ctx->opt_data = NULL;
+    ctx->opt_debug_paths = 0;
+    ctx->debug_paths_model = "obj/editor/path.obj";
 
 #if ENABLE_RADIANT_CONSOLE
     ctx->bcast_socket = NULL;
@@ -3555,6 +3559,21 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
             if (++argi < argc)
                 fs_add_path(argv[argi]);
         }
+        else if (strcmp(argv[argi], "--debug-paths") == 0)
+        {
+            ctx->opt_debug_paths = 1;
+            ctx->debug_paths_model = "obj/editor/path.obj";
+            if (argi + 1 < argc && argv[argi + 1][0] != '-' &&
+                ctx->opt_file != NULL && ctx->opt_data != NULL)
+            {
+                ctx->debug_paths_model = argv[++argi];
+            }
+        }
+        else if (strncmp(argv[argi], "--debug-paths=", 14) == 0)
+        {
+            ctx->opt_debug_paths = 1;
+            ctx->debug_paths_model = argv[argi] + 14;
+        }
         else if (!ctx->opt_file)
         {
             ctx->opt_file = argv[argi];
@@ -3594,7 +3613,7 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
 
     if (!(ctx->opt_file && ctx->opt_data))
     {
-        fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv] [--data <dir>]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <map> <data> [--debug] [--csv] [--data <dir>] [--debug-paths[=<model>]]\n", argv[0]);
         return 0;
     }
 
@@ -3793,6 +3812,48 @@ static void turn_file(struct mapc_context *ctx)
 
 /*---------------------------------------------------------------------------*/
 
+static void debug_paths(struct mapc_context *ctx)
+{
+    struct s_base *fp = &ctx->file;
+    const char *model = ctx->debug_paths_model ? ctx->debug_paths_model : "obj/editor/path.obj";
+    int i, pc = fp->pc;
+
+    if (!model || !*model || pc <= 0)
+        return;
+
+    for (i = 0; i < pc; i++)
+    {
+        int v0 = fp->vc;
+        int g0 = fp->gc;
+        int j, bi;
+        struct b_body *bp;
+
+        read_obj(ctx, model, 0);
+
+        if (fp->gc <= g0 || fp->vc <= v0)
+            break;
+
+        for (j = v0; j < fp->vc; j++)
+            v_add(fp->vv[j].p, fp->vv[j].p, fp->pv[i].p);
+
+        bi = incb(ctx);
+        bp = fp->bv + bi;
+        memset(bp, 0, sizeof (*bp));
+        bp->p0 = i;
+        bp->p1 = i;
+        bp->ni = -1;
+        bp->l0 = 0;
+        bp->lc = 0;
+        bp->g0 = fp->ic;
+        bp->gc = fp->gc - g0;
+
+        for (j = 0; j < bp->gc; j++)
+            fp->iv[inci(ctx)] = g0++;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 static void mapc_compile_internal(struct mapc_context *ctx)
 {
     const char *src = CSTR(ctx->src_path);
@@ -3821,6 +3882,8 @@ static void mapc_compile_internal(struct mapc_context *ctx)
         targets(ctx);
 
         turn_file(ctx);
+        if (ctx->opt_debug_paths)
+            debug_paths(ctx);
         clip_file(ctx);
         move_file(ctx);
         uniq_file(ctx);
