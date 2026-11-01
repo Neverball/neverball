@@ -1,0 +1,165 @@
+mtllib path.mtl
+# vertices
+v -8 -8 -8
+v -8 -8 8
+v -8 8 8
+v -8 8 -8
+v 8 8 8
+v 8 -8 8
+v 8 -8 -8
+v 8 8 -8
+v 0 -4 10
+v -4 2 10
+v -4 2 8
+v 0 -4 8
+v 4 2 10
+v 4 2 8
+v 8 -2 2
+v 8 -2 6
+v 8 2 6
+v 8 2 2
+v 10 2 6
+v 10 -2 6
+v 10 -2 2
+v 10 2 2
+v 8 -2 -6
+v 8 -2 -2
+v 8 2 -2
+v 8 2 -6
+v 10 2 -2
+v 10 -2 -2
+v 10 -2 -6
+v 10 2 -6
+v -4 8 -4
+v -4 8 4
+v -4 10 4
+v -4 10 -4
+v 4 10 4
+v 4 8 4
+v 4 8 -4
+v 4 10 -4
+
+# texture coordinates
+vt 0 -0
+vt 1 -0
+vt 1 1
+vt 0 1
+vt -1 1
+vt -1 -0
+vt 1 -1
+vt 0 -1
+vt -0.5 0.25
+vt -0.5 -0.125
+vt -0.375 -0.125
+vt -0.375 0.25
+vt 0.25 -0.125
+vt -0.25 -0.125
+vt 0 0.25
+vt -0.375 -0.25
+vt -0.5 -0.25
+vt 0.125 -0.125
+vt 0.375 -0.125
+vt 0.375 0.125
+vt 0.125 0.125
+vt 0.625 0.125
+vt 0.5 0.125
+vt 0.5 -0.125
+vt 0.625 -0.125
+vt 0.375 0.625
+vt 0.375 0.5
+vt 0.125 0.5
+vt 0.125 0.625
+vt -0.125 -0.125
+vt -0.125 0.125
+vt -0.375 0.125
+vt -0.125 0.625
+vt -0.125 0.5
+vt -0.375 0.5
+vt -0.375 0.625
+vt -0.25 0.5
+vt 0.25 0.5
+vt 0.25 0.625
+vt -0.25 0.625
+vt 0.25 0.25
+vt 0.25 -0.25
+vt -0.25 -0.25
+vt -0.25 0.25
+
+# normals
+vn -1 0 -0
+vn 0 0 1
+vn 0 -1 -0
+vn -0 1 -0
+vn 0 0 -1
+vn 1 -0 -0
+vn -0.8320502943378437 -0.5547001962252291 0
+vn 0.8320502943378437 -0.5547001962252291 -0
+
+o entity1_brush0
+usemtl mtrl/white
+f  1/1/1  2/2/1  3/3/1  4/4/1
+usemtl mtrl/white
+f  5/4/2  3/5/2  2/6/2  6/1/2
+usemtl mtrl/white
+f  6/2/3  2/7/3  1/8/3  7/1/3
+usemtl mtrl/white
+f  8/1/4  4/8/4  3/7/4  5/2/4
+usemtl mtrl/white
+f  7/1/5  1/6/5  4/5/5  8/4/5
+usemtl mtrl/white
+f  8/4/6  5/3/6  6/2/6  7/1/6
+
+o entity1_brush1
+usemtl mtrl/red
+f  9/9/7  10/10/7  11/11/7  12/12/7
+usemtl mtrl/red
+f  13/13/2  10/14/2  9/15/2
+usemtl mtrl/red
+f  14/12/4  11/16/4  10/17/4  13/9/4
+usemtl mtrl/red
+f  12/15/5  11/14/5  14/13/5
+usemtl mtrl/red
+f  14/11/8  13/10/8  9/9/8  12/12/8
+
+o entity1_brush2
+usemtl mtrl/green
+f  15/18/1  16/19/1  17/20/1  18/21/1
+usemtl mtrl/green
+f  19/22/2  17/23/2  16/24/2  20/25/2
+usemtl mtrl/green
+f  20/26/3  16/27/3  15/28/3  21/29/3
+usemtl mtrl/green
+f  22/29/4  18/28/4  17/27/4  19/26/4
+usemtl mtrl/green
+f  21/25/5  15/24/5  18/23/5  22/22/5
+usemtl mtrl/green
+f  22/21/6  19/20/6  20/19/6  21/18/6
+
+o entity1_brush3
+usemtl mtrl/green
+f  23/11/1  24/30/1  25/31/1  26/32/1
+usemtl mtrl/green
+f  27/22/2  25/23/2  24/24/2  28/25/2
+usemtl mtrl/green
+f  28/33/3  24/34/3  23/35/3  29/36/3
+usemtl mtrl/green
+f  30/36/4  26/35/4  25/34/4  27/33/4
+usemtl mtrl/green
+f  29/25/5  23/24/5  26/23/5  30/22/5
+usemtl mtrl/green
+f  30/32/6  27/31/6  28/30/6  29/11/6
+
+o entity1_brush4
+usemtl mtrl/blue
+f  31/37/1  32/38/1  33/39/1  34/40/1
+usemtl mtrl/blue
+f  35/39/2  33/40/2  32/37/2  36/38/2
+usemtl mtrl/blue
+f  36/41/3  32/42/3  31/43/3  37/44/3
+usemtl mtrl/blue
+f  38/44/4  34/43/4  33/42/4  35/41/4
+usemtl mtrl/blue
+f  37/38/5  31/37/5  34/40/5  38/39/5
+usemtl mtrl/blue
+f  38/40/6  35/39/6  36/38/6  37/37/6
+

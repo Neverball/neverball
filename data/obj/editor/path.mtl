@@ -1,0 +1,12 @@
+newmtl mtrl/blue
+map_Kd textures/mtrl/blue.png
+
+newmtl mtrl/green
+map_Kd textures/mtrl/green.png
+
+newmtl mtrl/red
+map_Kd textures/mtrl/red.png
+
+newmtl mtrl/white
+map_Kd textures/mtrl/white.png
+
