@@ -1050,40 +1050,68 @@ static void read_f(struct mapc_context *ctx, const char *line,
                    int v0, int t0, int s0, int mi)
 {
     struct s_base *fp = &ctx->file;
-    struct b_geom *gp = fp->gv + incg(ctx);
 
-    struct b_offs *op = fp->ov + (gp->oi = inco(ctx));
-    struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
-    struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
+    char tok[64] = "";
 
-    char tok1[64] = "";
-    char tok2[64] = "";
-    char tok3[64] = "";
+    int viv[128] = { 0 };
+    int tiv[128] = { 0 };
+    int siv[128] = { 0 };
 
-    int vi1 = 0, ti1 = 0, si1 = 0;
-    int vi2 = 0, ti2 = 0, si2 = 0;
-    int vi3 = 0, ti3 = 0, si3 = 0;
+    int i = 0, c = 0, n = 0;
 
-    if (sscanf(line, "%63s %63s %63s", tok1, tok2, tok3) == 3)
+    while (sscanf(line, "%63s%n", tok, &n) >= 1)
     {
-        parse_triplet(tok1, &vi1, &ti1, &si1);
-        parse_triplet(tok2, &vi2, &ti2, &si2);
-        parse_triplet(tok3, &vi3, &ti3, &si3);
+        parse_triplet(tok, &viv[c], &tiv[c], &siv[c]);
+
+        line += n;
+
+        if (c++ >= 128)
+        {
+            WARNING(ctx, "over 128 vertices on OBJ face, skipping the rest\n");
+            break;
+        }
     }
 
-    op->vi = v0 + vi1 - 1;
-    oq->vi = v0 + vi2 - 1;
-    or->vi = v0 + vi3 - 1;
+    if (c < 3)
+    {
+        WARNING(ctx, "degenerate OBJ face, less than 3 vertices\n");
+        return;
+    }
 
-    op->ti = ti1 > 0 ? (t0 + ti1 - 1) : (t0 < fp->tc ? t0 : 0);
-    oq->ti = ti2 > 0 ? (t0 + ti2 - 1) : (t0 < fp->tc ? t0 : 0);
-    or->ti = ti3 > 0 ? (t0 + ti3 - 1) : (t0 < fp->tc ? t0 : 0);
+    for (i = 1; i + 1 < c; i++)
+    {
+        struct b_geom *gp = fp->gv + incg(ctx);
 
-    op->si = si1 > 0 ? (s0 + si1 - 1) : (s0 < fp->sc ? s0 : 0);
-    oq->si = si2 > 0 ? (s0 + si2 - 1) : (s0 < fp->sc ? s0 : 0);
-    or->si = si3 > 0 ? (s0 + si3 - 1) : (s0 < fp->sc ? s0 : 0);
+        struct b_offs *op = fp->ov + (gp->oi = inco(ctx));
+        struct b_offs *oq = fp->ov + (gp->oj = inco(ctx));
+        struct b_offs *or = fp->ov + (gp->ok = inco(ctx));
 
-    gp->mi  = mi;
+        int vi = viv[0];
+        int vj = viv[i];
+        int vk = viv[i + 1];
+
+        int ti = tiv[0];
+        int tj = tiv[i];
+        int tk = tiv[i + 1];
+
+        int si = siv[0];
+        int sj = siv[i];
+        int sk = siv[i + 1];
+
+        op->vi = v0 + vi - 1;
+        oq->vi = v0 + vj - 1;
+        or->vi = v0 + vk - 1;
+
+        op->ti = ti > 0 ? (t0 + ti - 1) : (t0 < fp->tc ? t0 : 0);
+        oq->ti = tj > 0 ? (t0 + tj - 1) : (t0 < fp->tc ? t0 : 0);
+        or->ti = tk > 0 ? (t0 + tk - 1) : (t0 < fp->tc ? t0 : 0);
+
+        op->si = si > 0 ? (s0 + si - 1) : (s0 < fp->sc ? s0 : 0);
+        oq->si = sj > 0 ? (s0 + sj - 1) : (s0 < fp->sc ? s0 : 0);
+        or->si = sk > 0 ? (s0 + sk - 1) : (s0 < fp->sc ? s0 : 0);
+
+        gp->mi = mi;
+    }
 }
 
 static void read_obj(struct mapc_context *ctx, const char *name, int mi)
