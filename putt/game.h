@@ -54,6 +54,8 @@ void  putt_ball(int);
 void  putt_set_pos(float[3], float[3][3]);
 void  putt_get_pos(float[3], float[3][3]);
 
+void  game_set_fast(int);
+
 /*---------------------------------------------------------------------------*/
 
 #endif
