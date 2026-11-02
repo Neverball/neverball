@@ -158,7 +158,6 @@ struct mapc_context
     int opt_debug;
     int opt_csv;
     int opt_debug_paths;
-    const char *debug_paths_model;
 
     STRBUF src_path;
     STRBUF dst_path;
@@ -410,7 +409,6 @@ int mapc_init(struct mapc_context **ctx_ptr)
     ctx->opt_file = NULL;
     ctx->opt_data = NULL;
     ctx->opt_debug_paths = 0;
-    ctx->debug_paths_model = "obj/editor/path.obj";
 
 #if ENABLE_RADIANT_CONSOLE
     ctx->bcast_socket = NULL;
@@ -3562,17 +3560,6 @@ int mapc_opts(struct mapc_context *ctx, int argc, char *argv[])
         else if (strcmp(argv[argi], "--debug-paths") == 0)
         {
             ctx->opt_debug_paths = 1;
-            ctx->debug_paths_model = "obj/editor/path.obj";
-            if (argi + 1 < argc && argv[argi + 1][0] != '-' &&
-                ctx->opt_file != NULL && ctx->opt_data != NULL)
-            {
-                ctx->debug_paths_model = argv[++argi];
-            }
-        }
-        else if (strncmp(argv[argi], "--debug-paths=", 14) == 0)
-        {
-            ctx->opt_debug_paths = 1;
-            ctx->debug_paths_model = argv[argi] + 14;
         }
         else if (!ctx->opt_file)
         {
@@ -3815,10 +3802,9 @@ static void turn_file(struct mapc_context *ctx)
 static void debug_paths(struct mapc_context *ctx)
 {
     struct s_base *fp = &ctx->file;
-    const char *model = ctx->debug_paths_model ? ctx->debug_paths_model : "obj/editor/path.obj";
     int i, pc = fp->pc;
 
-    if (!model || !*model || pc <= 0)
+    if (pc <= 0)
         return;
 
     for (i = 0; i < pc; i++)
@@ -3845,7 +3831,7 @@ static void debug_paths(struct mapc_context *ctx)
             e[3] = 0.0f;
         }
 
-        read_obj(ctx, model, 0);
+        read_obj(ctx, "obj/editor/path.obj", 0);
 
         if (fp->gc <= g0 || fp->vc <= v0)
             break;
@@ -3915,8 +3901,10 @@ static void mapc_compile_internal(struct mapc_context *ctx)
         targets(ctx);
 
         turn_file(ctx);
+
         if (ctx->opt_debug_paths)
             debug_paths(ctx);
+
         clip_file(ctx);
         move_file(ctx);
         uniq_file(ctx);
