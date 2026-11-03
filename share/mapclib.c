@@ -1686,7 +1686,8 @@ static void make_item(struct mapc_context *ctx,
     {
         if (strcmp(k[i], "classname") == 0)
         {
-            if (strcmp(v[i], "light") == 0)
+            if (strcmp(v[i], "light") == 0 ||
+                strcmp(v[i], "item_coin") == 0)
                 hp->t = ITEM_COIN;
             else if (strcmp(v[i], "item_health_large") == 0)
                 hp->t = ITEM_GROW;
@@ -1696,7 +1697,7 @@ static void make_item(struct mapc_context *ctx,
                 hp->t = ITEM_CLOCK;
         }
 
-        if (strcmp(k[i], "light") == 0)
+        if (strcmp(k[i], "light") == 0 || strcmp(k[i], "value") == 0)
             sscanf(v[i], "%d", &hp->n);
 
         if (strcmp(k[i], "origin") == 0)
@@ -1722,6 +1723,9 @@ static void make_item(struct mapc_context *ctx,
             ctx->item_has_e[hi] = 1;
         }
     }
+
+    if (hp->t == ITEM_COIN && hp->n == 0)
+        hp->n = 1;
 }
 
 static void make_bill(struct mapc_context *ctx,
@@ -2091,7 +2095,8 @@ static void read_ent(struct mapc_context *ctx, fs_file fin)
         if (t == T_END) break;
     }
 
-    if (!strcmp(v[i], "light"))                    make_item(ctx, k, v, c);
+    if (!strcmp(v[i], "light") ||
+        !strcmp(v[i], "item_coin"))                make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_health_large"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_health_small"))        make_item(ctx, k, v, c);
     if (!strcmp(v[i], "item_clock"))               make_item(ctx, k, v, c);
