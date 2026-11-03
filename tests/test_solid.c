@@ -695,6 +695,82 @@ static void test_sol_mover_parented_orientation(void)
     sol_free_vary(&vary);
 }
 
+static void test_sol_mover_parented_relative_orientation(void)
+{
+    struct s_base base;
+    struct s_vary vary;
+    struct b_path paths[3];
+    struct b_body bodies[2];
+    float e[4];
+
+    /* 45 degree yaw: cos(22.5 deg) ~= 0.92387953, sin(22.5 deg) ~= 0.38268343 */
+    const float q45_w = 0.92387953f;
+    const float q45_y = 0.38268343f;
+
+    memset(&base, 0, sizeof (base));
+    memset(&vary, 0, sizeof (vary));
+    memset(paths, 0, sizeof (paths));
+    memset(bodies, 0, sizeof (bodies));
+
+    /* Node 0: oriented mover with 45 degree yaw */
+    paths[0].e[0] = q45_w;
+    paths[0].e[2] = q45_y;
+    paths[0].fl   = P_ORIENTED;
+    paths[0].t    = 1.0f;
+    paths[0].tm   = 1000;
+    paths[0].pi   = 0;
+    paths[0].f    = 1;
+    paths[0].p0   = -1;
+    paths[0].p1   = -1;
+
+    /* Node 1: child orientation node with identity relative orientation */
+    paths[1].e[0] = 1.0f;
+    paths[1].fl   = P_PARENTED | P_ORIENTED;
+    paths[1].t    = 1.0f;
+    paths[1].tm   = 1000;
+    paths[1].pi   = 1;
+    paths[1].f    = 1;
+    paths[1].p0   = 0;
+    paths[1].p1   = 0;
+
+    /* Node 2: child orientation node with relative 45 deg yaw to reach 90 deg */
+    paths[2].e[0] = q45_w;
+    paths[2].e[2] = q45_y;
+    paths[2].fl   = P_PARENTED | P_ORIENTED;
+    paths[2].t    = 1.0f;
+    paths[2].tm   = 1000;
+    paths[2].pi   = 2;
+    paths[2].f    = 1;
+    paths[2].p0   = 0;
+    paths[2].p1   = 0;
+
+    bodies[0].p0 = 0;
+    bodies[0].p1 = 1;
+
+    bodies[1].p0 = 0;
+    bodies[1].p1 = 2;
+
+    base.pc = 3;
+    base.pv = paths;
+    base.bc = 2;
+    base.bv = bodies;
+
+    if (!sol_load_vary(&vary, &base))
+        exit(1);
+
+    /* Child 1 with identity relative rotation matches parent 45 deg yaw */
+    sol_body_e(e, &vary, vary.bv[0].mj, 0.0f);
+    if (fabsf(e[0] - q45_w) > 0.001f || fabsf(e[2] - q45_y) > 0.001f)
+        exit(1);
+
+    /* Child 2 with 45 deg relative rotation compounds to 90 deg yaw */
+    sol_body_e(e, &vary, vary.bv[1].mj, 0.0f);
+    if (fabsf(e[0] - 0.70710678f) > 0.001f || fabsf(e[2] - 0.70710678f) > 0.001f)
+        exit(1);
+
+    sol_free_vary(&vary);
+}
+
 int test_solid_all(void)
 {
     int pass = 1;
@@ -710,6 +786,7 @@ int test_solid_all(void)
     RUN_TEST("test_sol_mover_split_node_parents", test_sol_mover_split_node_parents, pass);
     RUN_TEST("test_sol_mover_rotation_parent", test_sol_mover_rotation_parent, pass);
     RUN_TEST("test_sol_mover_parented_orientation", test_sol_mover_parented_orientation, pass);
+    RUN_TEST("test_sol_mover_parented_relative_orientation", test_sol_mover_parented_relative_orientation, pass);
 
     return pass;
 }
