@@ -137,8 +137,20 @@ Defines a clock, adding time to a level.
   <item name="Blue" value="10"/>
 </list>
 
-<point name="light" color="0.65 0.65 1" box="-16 -16 -16 16 16 16">
+<point name="item_coin" color="0.65 0.65 1" box="-16 -16 -16 16 16 16">
 Defines a coin.
+
+It is preferable to use this entity in place of light.
+
+<coin key="value" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
+<target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
+<target key="target2" name="Path (rotation)">An optional second path that controls the orientation of the item, but has no effect on position. This is useful when you want to control the position and orientation independently of each other.</target>
+<angles key="angles" name="Orientation (pitch, yaw, roll)" value="0 0 0">Defines the orientation of the item (pitch, yaw, and roll).</angles>
+</point>
+
+
+<point name="light" color="0.65 0.65 1" box="-16 -16 -16 16 16 16">
+Defines a coin.  This entity exists for backward compatibility; item_coin is preferable.
 
 <coin key="light" name="Value" value="1">Value of the coin.  Yellow coin = 1, red coin = 5, blue coin = 10.</coin>
 <target key="target" name="Path">Path that the item will travel along, starting from the linked path_corner. Both position and rotation are controlled by this path.</target>
