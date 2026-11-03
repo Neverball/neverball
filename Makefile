@@ -538,6 +538,16 @@ web : sols
 	docker build -t neverball-emscripten emscripten
 	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/ball.mk BUILD=$(BUILD) $(if $(PACKAGE_BASE_URL),PACKAGE_BASE_URL=$(PACKAGE_BASE_URL))
 
+BG_MAPS := data/geom/back/back.map $(wildcard data/map-back/*.map)
+BG_SOLS := $(BG_MAPS:%.map=%.sol)
+
+bg-data : $(BG_SOLS)
+	$(MAKE) -f mk/package-bg-data.mk bg-data
+
+bg-web : bg-data
+	docker build -t neverball-emscripten emscripten
+	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/bg.mk BUILD=$(BUILD)
+
 HOST ?= 0.0.0.0
 PORT ?= 0
 
@@ -546,7 +556,7 @@ web-serve : web
 
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales desktops clean-src clean test web web-serve
+.PHONY : all sols locales desktops clean-src clean test web web-serve bg-data bg-web
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS) $(wildcard tests/*.d)
 
