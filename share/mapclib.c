@@ -3642,7 +3642,18 @@ static void make_parented_path(struct mapc_context *ctx,
     pp->p0 = p0;
     pp->p1 = p0;
     pp->fl |= P_PARENTED | P_ORIENTED;
-    q_cpy(pp->e, e);
+
+    if (p0 >= 0 && (fp->pv[p0].fl & P_ORIENTED))
+    {
+        float inv_p0[4], rel_e[4];
+
+        q_conj(inv_p0, fp->pv[p0].e);
+        q_mul(rel_e, inv_p0, e);
+        q_nrm(pp->e, rel_e);
+    }
+    else
+        q_cpy(pp->e, e);
+
     *p1 = pi;
 
     if (p)
@@ -3667,16 +3678,16 @@ static void check_oriented_path(struct mapc_context *ctx, int p0, int has_angles
 {
     struct s_base *fp = &ctx->file;
 
+    if (has_angles)
+        return;
+
     if (p0 >= 0 && (fp->pv[p0].fl & P_ORIENTED))
     {
         char buf[MAXSTR];
         const char *name = get_sym_name(ctx, SYM_PATH, p0);
 
         SAFECPY(buf, ctx->opt_file ? ctx->opt_file : "mapc");
-        if (has_angles)
-            SAFECAT(buf, ": warning: entity with angles connected to oriented path");
-        else
-            SAFECAT(buf, ": warning: entity connected to path node with initial angles");
+        SAFECAT(buf, ": warning: entity connected to path node with initial angles");
 
         if (name && *name)
         {
