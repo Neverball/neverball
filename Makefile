@@ -548,6 +548,11 @@ bg-web : bg-data
 	docker build -t neverball-emscripten emscripten
 	docker run --rm -v "$(CURDIR):/src" -w /src neverball-emscripten make -j$$(nproc) -f emscripten/bg.mk BUILD=$(BUILD)
 
+WEBSITE_DIR ?= ../neverball-website
+
+bg-install : bg-web
+	$(MAKE) -f emscripten/bg.mk install WEBSITE_DIR="$(WEBSITE_DIR)"
+
 HOST ?= 0.0.0.0
 PORT ?= 0
 
@@ -556,7 +561,7 @@ web-serve : web
 
 #------------------------------------------------------------------------------
 
-.PHONY : all sols locales desktops clean-src clean test web web-serve bg-data bg-web
+.PHONY : all sols locales desktops clean-src clean test web web-serve bg-data bg-web bg-install
 
 -include $(BALL_DEPS) $(PUTT_DEPS) $(MAPC_DEPS) $(wildcard tests/*.d)
 
