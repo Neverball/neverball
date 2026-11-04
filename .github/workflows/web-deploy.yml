@@ -36,6 +36,8 @@ jobs:
         run: |
           sudo apt-get install -y ffmpeg
           make -j$(nproc) -f emscripten/ball.mk BUILD=release
+          make bg-data
+          make -j$(nproc) -f emscripten/bg.mk BUILD=release
 
       - name: Create source archive
         run: |

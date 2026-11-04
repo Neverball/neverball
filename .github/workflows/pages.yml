@@ -32,6 +32,8 @@ jobs:
         run: |
           sudo apt-get install -y ffmpeg
           make -j2 -f emscripten/ball.mk BUILD=release
+          make bg-data
+          make -j2 -f emscripten/bg.mk BUILD=release
       - name: Create source archive
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
