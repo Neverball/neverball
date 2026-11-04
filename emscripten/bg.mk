@@ -60,13 +60,22 @@ BG_OBJS := $(BG_SRCS:.c=.bg.emscripten.o)
 %.bg.emscripten.o: %.c
 	$(CC) -c -o $@ $(CFLAGS) $(EM_CFLAGS) $<
 
-.PHONY: all clean
+WEBSITE_DIR ?= ../neverball-website
+
+.PHONY: all clean install install-website
 
 all: $(JSDIR)/neverball-bg-engine.js
 
 $(JSDIR)/neverball-bg-engine.js: $(BG_OBJS)
 	mkdir -p $(JSDIR)
 	$(CC) -o $@ $(BG_OBJS) $(CFLAGS) $(EM_CFLAGS) $(LDFLAGS) $(EM_LDFLAGS)
+
+install:
+	mkdir -p $(WEBSITE_DIR)/js $(WEBSITE_DIR)/data
+	cp $(JSDIR)/neverball-bg-engine.js $(JSDIR)/neverball-bg-engine.wasm $(JSDIR)/neverball-bg.js $(WEBSITE_DIR)/js/
+	if [ -d $(JSDIR)/data ]; then cp -R $(JSDIR)/data/* $(WEBSITE_DIR)/data/; fi
+
+install-website: install
 
 clean:
 	$(RM) $(BG_OBJS) $(JSDIR)/neverball-bg-engine.js $(JSDIR)/neverball-bg-engine.wasm
