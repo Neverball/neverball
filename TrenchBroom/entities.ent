@@ -9,7 +9,7 @@ Defines the geometry of a moving object.  Think of it as a container or a groupi
 </group>
 
 
-<point name="game_switch" color="0 0.5 0" model="{{ state == 1 -> {'path': 'obj/editor/switch3.obj', 'scale': 1}, {'path': 'obj/editor/switch2.obj', 'scale': 1} }}" box="-32 -32 -32 32 32 32">
+<point name="game_switch" color="0 0.5 0" model="{{ state == 1 -> {'path': 'obj/editor/switch3.obj', 'scale': {{ radius != '' -> radius + ' ' + radius + ' 1', '0.5 0.5 1' }} }, {'path': 'obj/editor/switch2.obj', 'scale': {{ radius != '' -> radius + ' ' + radius + ' 1', '0.5 0.5 1' }} } }}" box="-32 -32 -32 32 32 32">
 A switch.
 
 It is preferable to use this entity in place of info_camp.
@@ -48,7 +48,7 @@ A billboard.
 </point>
 
 
-<point name="game_goal" color="0.75 0.75 0" model="{'path': 'obj/editor/goal2.obj', 'scale': 1}" box="-48 -48 -48 48 48 48">
+<point name="game_goal" color="0.75 0.75 0" model="{'path': 'obj/editor/goal2.obj', 'scale': {{ radius != '' -> radius + ' ' + radius + ' 1', '0.75 0.75 1' }}}" box="-48 -48 -48 48 48 48">
 A goal.
 
 It is preferable to use this entity in place of info_player_deathmatch.
@@ -191,7 +191,7 @@ Defines the initial view direction of a level fly-in, as well as the destination
 </point>
 
 
-<point name="game_jump" color="0 0.5 0" model="{'path': 'obj/editor/jump2.obj', 'scale': 1}" box="-32 -32 -32 32 32 32">
+<point name="game_jump" color="0 0.5 0" model="{'path': 'obj/editor/jump2.obj', 'scale': {{ radius != '' -> radius + ' ' + radius + ' 1', '0.5 0.5 1' }}}" box="-32 -32 -32 32 32 32">
 A teleporter.
 
 It is preferable to use this entity in place of target_teleporter.
