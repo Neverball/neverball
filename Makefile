@@ -255,6 +255,49 @@ ifeq ($(ENABLE_RADIANT_CONSOLE),1)
 	MAPC_LIBS += -lSDL2_net
 endif
 
+ifeq ($(PLATFORM),darwin)
+ifeq ($(STATIC),1)
+	BREW_PREFIX ?= $(shell brew --prefix 2> /dev/null || echo /opt/homebrew)
+
+	PNG_LIBS  := $(BREW_PREFIX)/opt/libpng/lib/libpng.a -lz
+	JPEG_LIBS := $(BREW_PREFIX)/opt/jpeg-turbo/lib/libjpeg.a
+	OGG_LIBS  := $(BREW_PREFIX)/opt/libvorbis/lib/libvorbisfile.a \
+	             $(BREW_PREFIX)/opt/libvorbis/lib/libvorbis.a \
+	             $(BREW_PREFIX)/opt/libogg/lib/libogg.a
+
+	ifneq ($(ENABLE_NLS),0)
+		INTL_LIBS := $(BREW_PREFIX)/opt/gettext/lib/libintl.a -liconv
+	endif
+
+	SDL_LIBS := $(BREW_PREFIX)/opt/sdl2/lib/libSDL2.a \
+	            -Wl,-framework,Cocoa \
+	            -Wl,-framework,IOKit \
+	            -Wl,-framework,CoreAudio \
+	            -Wl,-framework,AudioToolbox \
+	            -Wl,-framework,ForceFeedback \
+	            -Wl,-framework,CoreVideo \
+	            -Wl,-framework,Carbon \
+	            -Wl,-framework,GameController \
+	            -Wl,-framework,CoreHaptics \
+	            -Wl,-framework,Metal \
+	            -Wl,-framework,QuartzCore \
+	            -lobjc
+
+	TTF_STATIC_LIB      ?= $(BREW_PREFIX)/opt/sdl2_ttf/lib/libSDL2_ttf.a
+	FREETYPE_STATIC_LIB ?= $(BREW_PREFIX)/opt/freetype/lib/libfreetype.a
+	BROTLI_STATIC_LIBS  := $(wildcard $(BREW_PREFIX)/opt/brotli/lib/libbrotlidec.a $(BREW_PREFIX)/opt/brotli/lib/libbrotlicommon.a)
+
+	TTF_LIBS  := $(TTF_STATIC_LIB) $(FREETYPE_STATIC_LIB) -lbz2 $(BROTLI_STATIC_LIBS)
+	BASE_LIBS := $(JPEG_LIBS) $(PNG_LIBS) $(FS_LIBS) -lm
+	ALL_LIBS  := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
+	             $(CURL_LIBS) $(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
+	MAPC_LIBS := $(BASE_LIBS)
+
+	ALL_CFLAGS += -Wno-newline-eof
+	LDFLAGS    += -Wl,-dead_strip
+endif
+endif
+
 #------------------------------------------------------------------------------
 
 ifeq ($(PLATFORM),mingw)

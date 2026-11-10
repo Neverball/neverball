@@ -22,6 +22,7 @@ SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
 CREATE_DMG=1
 SKIP_BUILD=0
+STATIC=1
 
 usage() {
     cat <<EOF
@@ -35,6 +36,7 @@ Options:
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
   --out-dir <dir>       Output directory for .app and .dmg (default: build/macos)
   --no-dmg              Skip creating the .dmg disk image
+  --no-static           Build with dynamically bundled dylibs instead of static linking
   --skip-build          Skip compilation and assemble bundle from existing binaries
   -h, --help            Show this help message
 EOF
@@ -66,6 +68,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-dmg)
             CREATE_DMG=0
+            shift
+            ;;
+        --static)
+            STATIC=1
+            shift
+            ;;
+        --no-static|--dynamic)
+            STATIC=0
             shift
             ;;
         --skip-build)
@@ -116,8 +126,24 @@ echo "=== Packaging Neverball ${VERSION} (macOS ${ARCH}) ==="
 
 export MACOSX_DEPLOYMENT_TARGET="11.0"
 NCPU="$(sysctl -n hw.ncpu 2>/dev/null || echo 4)"
+BREW_PREFIX="$(brew --prefix 2>/dev/null || echo /opt/homebrew)"
+TTF_STATIC_LIB="$OUT_DIR/libSDL2_ttf_${ARCH}.a"
 
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
+    if [[ "$STATIC" -eq 1 ]]; then
+        echo "==> Compiling minimal SDL2_ttf for ${ARCH}..."
+        SDL_TTF_SRC="$OUT_DIR/SDL_ttf.c"
+        if [[ ! -f "$SDL_TTF_SRC" ]]; then
+            curl -sSfL "https://raw.githubusercontent.com/libsdl-org/SDL_ttf/release-2.24.0/SDL_ttf.c" -o "$SDL_TTF_SRC"
+        fi
+        clang -c "$SDL_TTF_SRC" -o "$OUT_DIR/SDL_ttf_${ARCH}.o" \
+            -arch "$ARCH" -O2 -DTTF_USE_HARFBUZZ=0 \
+            -I"$BREW_PREFIX/include/SDL2" \
+            -I"$BREW_PREFIX/include/freetype2"
+        ar rcs "$TTF_STATIC_LIB" "$OUT_DIR/SDL_ttf_${ARCH}.o"
+        rm -f "$OUT_DIR/SDL_ttf_${ARCH}.o"
+    fi
+
     echo "==> Compiling mapc, sols, and locales..."
     make clean-src
     make mapc
@@ -125,15 +151,23 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
 
     echo "==> Compiling neverball, neverputt, and mapc for bundle (${ARCH})..."
     make clean-src
-    make -j"$NCPU" \
-        BUILD="$BUILD_TYPE" \
-        PLATFORM=darwin \
-        DATADIR="../Resources/data" \
-        LOCALEDIR="../Resources/locale" \
-        CFLAGS="-arch $ARCH -O2" \
-        CXXFLAGS="-arch $ARCH -O2" \
-        LDFLAGS="-arch $ARCH" \
-        neverball neverputt mapc
+    MAKE_ARGS=(
+        -j"$NCPU"
+        BUILD="$BUILD_TYPE"
+        PLATFORM=darwin
+        DATADIR="../Resources/data"
+        LOCALEDIR="../Resources/locale"
+        CFLAGS="-arch $ARCH -O2"
+        CXXFLAGS="-arch $ARCH -O2"
+        LDFLAGS="-arch $ARCH"
+    )
+    if [[ "$STATIC" -eq 1 ]]; then
+        MAKE_ARGS+=(
+            STATIC=1
+            TTF_STATIC_LIB="$TTF_STATIC_LIB"
+        )
+    fi
+    make "${MAKE_ARGS[@]}" neverball neverputt mapc
 fi
 
 for bin in neverball neverputt mapc; do
@@ -204,12 +238,17 @@ done
 # Bundle & Relink Dynamic Libraries
 # -----------------------------------------------------------------------------
 
-echo "==> Resolving, copying, and relinking dynamic libraries into Frameworks..."
-python3 "$REPO_ROOT/scripts/bundle-dylibs.py" \
-    --frameworks-dir "$FRAMEWORKS_DIR" \
-    "$MACOS_DIR/neverball" \
-    "$MACOS_DIR/neverputt" \
-    "$MACOS_DIR/mapc"
+if [[ "$STATIC" -eq 1 ]]; then
+    echo "==> Static build: skipping dynamic library bundling."
+    rm -rf "$FRAMEWORKS_DIR"
+else
+    echo "==> Resolving, copying, and relinking dynamic libraries into Frameworks..."
+    python3 "$REPO_ROOT/scripts/bundle-dylibs.py" \
+        --frameworks-dir "$FRAMEWORKS_DIR" \
+        "$MACOS_DIR/neverball" \
+        "$MACOS_DIR/neverputt" \
+        "$MACOS_DIR/mapc"
+fi
 
 # -----------------------------------------------------------------------------
 # Inside-Out Code Signing
