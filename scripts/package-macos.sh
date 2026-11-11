@@ -2,10 +2,10 @@
 #
 # scripts/package-macos.sh - Build and package Neverball for macOS
 #
-# Creates a standalone, self-contained Neverball.app with all dynamic libraries
-# bundled and ad-hoc signed, with data packaged in base-neverball.zip, and
-# mapc and neverputt bundled inside the application bundle. Packages a
-# distributable DMG disk image.
+# Creates a standalone, self-contained Neverball.app with statically linked
+# dependencies, data packaged in base-neverball.zip, and mapc and neverputt
+# bundled inside the application bundle. Packages a distributable DMG disk
+# image.
 
 set -euo pipefail
 
@@ -22,7 +22,6 @@ SIGN_IDENTITY="-"
 OUT_DIR="build/macos"
 CREATE_DMG=1
 SKIP_BUILD=0
-STATIC=1
 
 usage() {
     cat <<EOF
@@ -36,7 +35,6 @@ Options:
   --identity <id>       Code signing identity (default: "-" for ad-hoc signing)
   --out-dir <dir>       Output directory for .app and .dmg (default: build/macos)
   --no-dmg              Skip creating the .dmg disk image
-  --no-static           Build with dynamically bundled dylibs instead of static linking
   --skip-build          Skip compilation and assemble bundle from existing binaries
   -h, --help            Show this help message
 EOF
@@ -68,14 +66,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-dmg)
             CREATE_DMG=0
-            shift
-            ;;
-        --static)
-            STATIC=1
-            shift
-            ;;
-        --no-static|--dynamic)
-            STATIC=0
             shift
             ;;
         --skip-build)
@@ -110,7 +100,7 @@ if [[ "$ARCH" != "arm64" && "$ARCH" != "x86_64" ]]; then
     exit 1
 fi
 
-for cmd in clang make otool install_name_tool codesign python3 zip hdiutil; do
+for cmd in clang make cmake codesign zip hdiutil; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: Required command '$cmd' is not found in PATH." >&2
         exit 1
@@ -130,19 +120,44 @@ BREW_PREFIX="$(brew --prefix 2>/dev/null || echo /opt/homebrew)"
 TTF_STATIC_LIB="$OUT_DIR/libSDL2_ttf_${ARCH}.a"
 
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
-    if [[ "$STATIC" -eq 1 ]]; then
-        echo "==> Compiling minimal SDL2_ttf for ${ARCH}..."
-        SDL_TTF_SRC="$OUT_DIR/SDL_ttf.c"
-        if [[ ! -f "$SDL_TTF_SRC" ]]; then
-            curl -sSfL "https://raw.githubusercontent.com/libsdl-org/SDL_ttf/release-2.24.0/SDL_ttf.c" -o "$SDL_TTF_SRC"
+    SDL_STATIC_LIB_DEFAULT="$BREW_PREFIX/opt/sdl2/lib/libSDL2.a"
+    if [[ -z "${SDL_STATIC_LIB:-}" ]]; then
+        if [[ -f "$SDL_STATIC_LIB_DEFAULT" ]]; then
+            SDL_STATIC_LIB="$SDL_STATIC_LIB_DEFAULT"
+        else
+            SDL_STATIC_LIB="$OUT_DIR/libSDL2_${ARCH}.a"
         fi
-        clang -c "$SDL_TTF_SRC" -o "$OUT_DIR/SDL_ttf_${ARCH}.o" \
-            -arch "$ARCH" -O2 -DTTF_USE_HARFBUZZ=0 \
-            -I"$BREW_PREFIX/include/SDL2" \
-            -I"$BREW_PREFIX/include/freetype2"
-        ar rcs "$TTF_STATIC_LIB" "$OUT_DIR/SDL_ttf_${ARCH}.o"
-        rm -f "$OUT_DIR/SDL_ttf_${ARCH}.o"
     fi
+
+    if [[ ! -f "$SDL_STATIC_LIB" ]]; then
+        echo "==> Compiling SDL2 static library for ${ARCH}..."
+        SDL2_VER="2.32.8"
+        SDL2_SRC_DIR="$OUT_DIR/SDL2-${SDL2_VER}"
+        if [[ ! -d "$SDL2_SRC_DIR" ]]; then
+            curl -sSfL "https://github.com/libsdl-org/SDL/releases/download/release-${SDL2_VER}/SDL2-${SDL2_VER}.tar.gz" | tar -xz -C "$OUT_DIR"
+        fi
+        cmake -S "$SDL2_SRC_DIR" -B "$SDL2_SRC_DIR/build-${ARCH}" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES="$ARCH" \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
+            -DSDL_SHARED=OFF \
+            -DSDL_STATIC=ON \
+            -DSDL_TEST=OFF
+        cmake --build "$SDL2_SRC_DIR/build-${ARCH}" -j"$NCPU"
+        cp "$SDL2_SRC_DIR/build-${ARCH}/libSDL2.a" "$SDL_STATIC_LIB"
+    fi
+
+    echo "==> Compiling minimal SDL2_ttf for ${ARCH}..."
+    SDL_TTF_SRC="$OUT_DIR/SDL_ttf.c"
+    if [[ ! -f "$SDL_TTF_SRC" ]]; then
+        curl -sSfL "https://raw.githubusercontent.com/libsdl-org/SDL_ttf/release-2.24.0/SDL_ttf.c" -o "$SDL_TTF_SRC"
+    fi
+    clang -c "$SDL_TTF_SRC" -o "$OUT_DIR/SDL_ttf_${ARCH}.o" \
+        -arch "$ARCH" -O2 -DTTF_USE_HARFBUZZ=0 \
+        -I"$BREW_PREFIX/include/SDL2" \
+        -I"$BREW_PREFIX/include/freetype2"
+    ar rcs "$TTF_STATIC_LIB" "$OUT_DIR/SDL_ttf_${ARCH}.o"
+    rm -f "$OUT_DIR/SDL_ttf_${ARCH}.o"
 
     echo "==> Compiling mapc, sols, and locales..."
     make clean-src
@@ -155,18 +170,15 @@ if [[ "$SKIP_BUILD" -eq 0 ]]; then
         -j"$NCPU"
         BUILD="$BUILD_TYPE"
         PLATFORM=darwin
+        STATIC=1
+        SDL_STATIC_LIB="$SDL_STATIC_LIB"
+        TTF_STATIC_LIB="$TTF_STATIC_LIB"
         DATADIR="../Resources/data"
         LOCALEDIR="../Resources/locale"
         CFLAGS="-arch $ARCH -O2"
         CXXFLAGS="-arch $ARCH -O2"
         LDFLAGS="-arch $ARCH"
     )
-    if [[ "$STATIC" -eq 1 ]]; then
-        MAKE_ARGS+=(
-            STATIC=1
-            TTF_STATIC_LIB="$TTF_STATIC_LIB"
-        )
-    fi
     make "${MAKE_ARGS[@]}" neverball neverputt mapc
 fi
 
@@ -186,13 +198,12 @@ APP_DIR="$OUT_DIR/${APP_NAME}.app"
 CONTENTS_DIR="$APP_DIR/Contents"
 MACOS_DIR="$CONTENTS_DIR/MacOS"
 RESOURCES_DIR="$CONTENTS_DIR/Resources"
-FRAMEWORKS_DIR="$CONTENTS_DIR/Frameworks"
 DATA_DIR="$RESOURCES_DIR/data"
 LOCALE_DIR="$RESOURCES_DIR/locale"
 
 echo "==> Assembling bundle structure at ${APP_DIR}..."
 rm -rf "$APP_DIR"
-mkdir -p "$MACOS_DIR" "$RESOURCES_DIR" "$FRAMEWORKS_DIR" "$DATA_DIR" "$LOCALE_DIR"
+mkdir -p "$MACOS_DIR" "$RESOURCES_DIR" "$DATA_DIR" "$LOCALE_DIR"
 
 # 1. Copy executables
 echo "==> Copying binaries (neverball, neverputt, mapc)..."
@@ -235,37 +246,12 @@ for tool_dir in TrenchBroom Radiant; do
 done
 
 # -----------------------------------------------------------------------------
-# Bundle & Relink Dynamic Libraries
-# -----------------------------------------------------------------------------
-
-if [[ "$STATIC" -eq 1 ]]; then
-    echo "==> Static build: skipping dynamic library bundling."
-    rm -rf "$FRAMEWORKS_DIR"
-else
-    echo "==> Resolving, copying, and relinking dynamic libraries into Frameworks..."
-    python3 "$REPO_ROOT/scripts/bundle-dylibs.py" \
-        --frameworks-dir "$FRAMEWORKS_DIR" \
-        "$MACOS_DIR/neverball" \
-        "$MACOS_DIR/neverputt" \
-        "$MACOS_DIR/mapc"
-fi
-
-# -----------------------------------------------------------------------------
-# Inside-Out Code Signing
+# Code Signing
 # -----------------------------------------------------------------------------
 
 echo "==> Code signing bundle (identity: '${SIGN_IDENTITY}')..."
 
-# 1. Sign all dylibs in Frameworks
-if compgen -G "$FRAMEWORKS_DIR/*.dylib" >/dev/null; then
-    for dylib in "$FRAMEWORKS_DIR"/*.dylib; do
-        if [[ ! -L "$dylib" ]]; then
-            codesign --force --sign "${SIGN_IDENTITY}" "$dylib"
-        fi
-    done
-fi
-
-# 2. Sign auxiliary executables in MacOS (must be signed before the main bundle)
+# 1. Sign auxiliary executables in MacOS (must be signed before the main bundle)
 CODESIGN_CMD=(codesign --force --sign "${SIGN_IDENTITY}")
 if [[ "$SIGN_IDENTITY" != "-" ]]; then
     CODESIGN_CMD+=(--options runtime)
