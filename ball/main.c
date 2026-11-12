@@ -130,7 +130,10 @@ static void opt_init(int argc, char **argv)
                 opt_error(argv[i]);
                 exit(EXIT_FAILURE);
             }
-            opt_data = argv[++i];
+            if (!opt_data)
+                opt_data = argv[++i];
+            else
+                fs_add_path(argv[++i]);
             continue;
         }
 
