@@ -79,7 +79,13 @@ ALL_CXXFLAGS := -fno-rtti -fno-exceptions $(CXXFLAGS)
 
 # Preprocessor...
 
-SDL_CPPFLAGS := $(shell sdl2-config --cflags)
+ifneq ($(FRAMEWORK_DIR),)
+	SDL_CPPFLAGS := -F$(FRAMEWORK_DIR) \
+	                -I$(FRAMEWORK_DIR)/SDL2.framework/Headers \
+	                -I$(FRAMEWORK_DIR)/SDL2_ttf.framework/Headers
+else
+	SDL_CPPFLAGS := $(shell sdl2-config --cflags)
+endif
 PNG_CPPFLAGS := $(shell libpng-config --cflags)
 JPEG_CPPFLAGS := $(shell pkg-config --cflags libjpeg)
 
@@ -266,9 +272,14 @@ ifeq ($(STATIC),1)
 	             $(BREW_PREFIX)/opt/libogg/lib/libogg.a
 
 	ifneq ($(ENABLE_NLS),0)
-		INTL_LIBS := $(BREW_PREFIX)/opt/gettext/lib/libintl.a -liconv
+		INTL_LIBS := $(BREW_PREFIX)/opt/gettext/lib/libintl.a -liconv -Wl,-framework,CoreFoundation
 	endif
 
+ifneq ($(FRAMEWORK_DIR),)
+	SDL_LIBS := -F$(FRAMEWORK_DIR) -framework SDL2 -Wl,-rpath,@executable_path/../Frameworks
+	TTF_LIBS := -framework SDL2_ttf
+	LDFLAGS  += -F$(FRAMEWORK_DIR) -Wl,-rpath,@executable_path/../Frameworks
+else
 	SDL_STATIC_LIB ?= $(BREW_PREFIX)/opt/sdl2/lib/libSDL2.a
 
 	SDL_LIBS := $(SDL_STATIC_LIB) \
@@ -290,6 +301,7 @@ ifeq ($(STATIC),1)
 	BROTLI_STATIC_LIBS  := $(wildcard $(BREW_PREFIX)/opt/brotli/lib/libbrotlidec.a $(BREW_PREFIX)/opt/brotli/lib/libbrotlicommon.a)
 
 	TTF_LIBS  := $(TTF_STATIC_LIB) $(FREETYPE_STATIC_LIB) -lbz2 $(BROTLI_STATIC_LIBS)
+endif
 	BASE_LIBS := $(JPEG_LIBS) $(PNG_LIBS) $(FS_LIBS) -lm
 	ALL_LIBS  := $(HMD_LIBS) $(TILT_LIBS) $(INTL_LIBS) $(TTF_LIBS) \
 	             $(CURL_LIBS) $(OGG_LIBS) $(SDL_LIBS) $(OGL_LIBS) $(BASE_LIBS)
