@@ -41,7 +41,7 @@ jobs:
             ${{ matrix.pkg_prefix }}-gettext
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configure Git Safe Directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -51,7 +51,7 @@ jobs:
           ./scripts/package-windows.sh --arch ${{ matrix.arch }}
 
       - name: Upload ZIP Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-${{ matrix.arch }}
           path: build/windows/*.zip

@@ -21,7 +21,7 @@ jobs:
         DEBIAN_FRONTEND: "noninteractive"
     steps:
       - name: Checkout Neverball
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build base SOLs
         run: |
@@ -46,7 +46,7 @@ jobs:
           git archive --prefix=neverball-source/ --add-file=neverball-commit.txt --output=js/neverball-source.zip HEAD
 
       - name: Upload Web Build Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-web
           path: ./js

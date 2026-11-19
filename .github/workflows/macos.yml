@@ -23,7 +23,7 @@ jobs:
             arch: x86_64
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |
@@ -34,7 +34,7 @@ jobs:
           ./scripts/package-macos.sh --arch ${{ matrix.arch }}
 
       - name: Upload DMG Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: neverball-macos-${{ matrix.arch }}
           path: build/macos/*.dmg
