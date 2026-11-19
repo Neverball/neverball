@@ -37,6 +37,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: neverball-macos-${{ matrix.arch }}
-          path: build/macos/*.dmg
+          path: build/macos/neverball-*.dmg
           retention-days: 7
           archive: false

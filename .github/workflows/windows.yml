@@ -54,5 +54,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: neverball-${{ matrix.arch }}
-          path: build/windows/*.zip
+          path: build/windows/neverball-*.zip
           retention-days: 7
+          archive: false
