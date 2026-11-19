@@ -224,7 +224,7 @@ fi
 # Create Release ZIP Archive
 # -----------------------------------------------------------------------------
 
-ZIP_NAME="Neverball-${VERSION}-${ARCH_LABEL}.zip"
+ZIP_NAME="neverball-${VERSION}-${ARCH_LABEL}.zip"
 ZIP_PATH="$OUT_DIR/$ZIP_NAME"
 
 echo "==> Step 5: Creating release ZIP archive at ${ZIP_PATH}..."

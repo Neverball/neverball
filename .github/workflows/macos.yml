@@ -39,3 +39,4 @@ jobs:
           name: neverball-macos-${{ matrix.arch }}
           path: build/macos/*.dmg
           retention-days: 7
+          archive: false

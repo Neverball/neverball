@@ -103,6 +103,15 @@ if [[ "$ARCH" != "arm64" && "$ARCH" != "x86_64" ]]; then
     exit 1
 fi
 
+case "$ARCH" in
+    arm64)
+        ARCH_LABEL="apple"
+        ;;
+    x86_64)
+        ARCH_LABEL="intel"
+        ;;
+esac
+
 for cmd in clang make cmake codesign zip hdiutil; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: Required command '$cmd' is not found in PATH." >&2
@@ -289,7 +298,7 @@ fi
 # -----------------------------------------------------------------------------
 
 if [[ "$CREATE_DMG" -eq 1 ]]; then
-    DMG_NAME="Neverball-${VERSION}-${ARCH}.dmg"
+    DMG_NAME="neverball-${VERSION}-${ARCH_LABEL}.dmg"
     DMG_PATH="$OUT_DIR/$DMG_NAME"
 
     echo "==> Creating compressed DMG image at ${DMG_PATH}..."
