@@ -77,7 +77,7 @@ Defines the camera position at the beginning of a level fly-in
 </point>
 
 
-<point name="game_ball" color="1 1 1" model="{'path': 'obj/editor/ball2.obj', 'scale': 1}" box="-16 -16 -16 16 16 16">
+<point name="game_ball" color="1 1 1" model="{'path': 'obj/editor/ball2.obj', 'scale': {{ radius != '' -> radius / 0.25, 1 }} }"  box="-16 -16 -16 16 16 16">}
 A ball spawn.
 
 It is preferable to use this entity in place of info_player_start.
