@@ -1,9 +1,7 @@
 name: Windows Build
 
 on:
-  push:
-    tags:
-      - 'neverball-*'
+  workflow_call:
   workflow_dispatch:
 
 permissions:
