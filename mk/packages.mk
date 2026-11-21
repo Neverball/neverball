@@ -13,13 +13,10 @@ BALL_PACKAGES := $(addprefix ball-,$(notdir $(BALL_DIRS)))
 COURSE_FILES := $(wildcard $(DATA_DIR)/holes-*.txt)
 COURSE_PACKAGES := $(COURSE_FILES:$(DATA_DIR)/holes-%.txt=course-%)
 
-ADDON_SET_DIRS := $(wildcard $(PACKAGES_DIR)/set-*)
-ADDON_SET_PACKAGES := $(basename $(notdir $(ADDON_SET_DIRS)))
-
 MANIFEST := $(OUTPUT_DIR)/available-packages.txt
 
-all: $(SET_PACKAGES) $(BALL_PACKAGES) $(COURSE_PACKAGES) $(ADDON_SET_PACKAGES)
-	find $(OUTPUT_DIR) -name '*.manifest.txt' | LC_ALL=C sort | xargs cat > $(MANIFEST)
+all: $(SET_PACKAGES) $(BALL_PACKAGES) $(COURSE_PACKAGES) addon-sets
+	find "$(OUTPUT_DIR)" -name '*.manifest.txt' | LC_ALL=C sort | tr '\n' '\0' | xargs -0 cat > "$(MANIFEST)"
 
 $(SET_PACKAGES): %: $(DATA_DIR)/%.txt
 	$(MAKE) -f mk/package-levelset.mk ADDON_SET=0 PACKAGE_ID=$@ SET_FILE=$< DATA_DIR=$(DATA_DIR) OUTPUT_DIR=$(OUTPUT_DIR)
@@ -30,9 +27,13 @@ $(BALL_PACKAGES): ball-%: $(DATA_DIR)/ball/%
 $(COURSE_PACKAGES): course-%: $(DATA_DIR)/holes-%.txt
 	$(MAKE) -f mk/package-course.mk PACKAGE_ID=$@ COURSE_FILE=$< DATA_DIR=$(DATA_DIR) OUTPUT_DIR=$(OUTPUT_DIR)
 
-$(ADDON_SET_PACKAGES): %: $(PACKAGES_DIR)/%
-	$(MAKE) -f mk/package-levelset.mk ADDON_SET=1 PACKAGE_ID=$@ SET_FILE=$</$(notdir $<).txt DATA_DIR=$< OUTPUT_DIR=$(OUTPUT_DIR)
+addon-sets:
+	for dir in "$(PACKAGES_DIR)"/set-*; do \
+		[ -d "$$dir" ] || continue; \
+		id=$${dir##*/}; \
+		$(MAKE) -f mk/package-levelset.mk ADDON_SET=1 PACKAGE_ID="$$id" SET_FILE="$$dir/$$id.txt" DATA_DIR="$$dir" OUTPUT_DIR="$(OUTPUT_DIR)" || exit 1; \
+	done
 
-.PHONY: all $(SET_PACKAGES) $(BALL_PACKAGES) $(COURSE_PACKAGES) $(ADDON_SET_PACKAGES)
+.PHONY: all $(SET_PACKAGES) $(BALL_PACKAGES) $(COURSE_PACKAGES) addon-sets
 
 GNUMAKEFLAGS = --no-print-directory

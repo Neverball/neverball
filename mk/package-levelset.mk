@@ -22,10 +22,10 @@ endif
 
 OUTPUT_DIR ?= $(shell pwd)/packages
 
-SET_NAME := $(shell sed -n 's/\r$$//; 1 p' < $(SET_FILE))
-SET_DESC := $(shell sed -n 's/\r$$//; 2 s,\\,\\n,g; 2 p' < $(SET_FILE)) # replace backslash with newline due to Makefile limitations
-SET_SHOT := $(shell sed -n 's/\r$$//; 4 p' < $(SET_FILE))
-SET_SOLS := $(shell sed -n 's/\r$$//; 6,$$ p' < $(SET_FILE))
+SET_NAME := $(shell sed -n 's/\r$$//; 1 p' < "$(SET_FILE)")
+SET_DESC := $(shell sed -n 's/\r$$//; 2 s,\\,\\n,g; 2 p' < "$(SET_FILE)") # replace backslash with newline due to Makefile limitations
+SET_SHOT := $(shell sed -n 's/\r$$//; 4 p' < "$(SET_FILE)")
+SET_SOLS := $(shell sed -n 's/\r$$//; 6,$$ p' < "$(SET_FILE)")
 
 ifeq ($(ADDON_SET),0)
 # This is a Neverball levelset, grab the basics.
@@ -34,24 +34,24 @@ SET_SOLS_DIR := $(dir $(firstword $(SET_SOLS)))
 ASSET_PATHS := $(notdir $(SET_FILE)) $(SET_SHOT_DIR) $(SET_SOLS_DIR)
 else
 # This is an addon levelset, grab everything.
-ASSET_PATHS := $(notdir $(wildcard $(DATA_DIR)/*))
+ASSET_PATHS := .
 endif
 
 PACKAGE_MANIFEST := $(OUTPUT_DIR)/$(PACKAGE_ID).manifest.txt
-PACKAGE_SCREENSHOT := $(OUTPUT_DIR)/$(PACKAGE_ID)-$(shell md5sum $(DATA_DIR)/$(SET_SHOT) | cut -c -32)$(suffix $(SET_SHOT))
+PACKAGE_SCREENSHOT := $(OUTPUT_DIR)/$(PACKAGE_ID)-$(shell md5sum "$(DATA_DIR)/$(SET_SHOT)" | cut -c -32)$(shell printf '%s' "$(SET_SHOT)" | sed 's/.*\(\.[^.]*\)$$/\1/')
 
 all: package manifest screenshot
 
 package:
-	$(MAKE) -f mk/package.mk PACKAGE_ID=$(PACKAGE_ID) DATA_DIR=$(DATA_DIR) ASSET_PATHS="$(ASSET_PATHS)" OUTPUT_DIR=$(OUTPUT_DIR)
+	$(MAKE) -f mk/package.mk PACKAGE_ID="$(PACKAGE_ID)" DATA_DIR="$(DATA_DIR)" ASSET_PATHS="$(ASSET_PATHS)" OUTPUT_DIR="$(OUTPUT_DIR)"
 
 # Append stuff to the generic manifest created by package.mk
 manifest: package
 	printf 'files %s %s\nname %s\ndesc %s\nshot %s\n' \
-		$(notdir $(SET_FILE)) "$(SET_SOLS)" "$(SET_NAME)" "$(SET_DESC)" $(notdir $(PACKAGE_SCREENSHOT)) >> $(PACKAGE_MANIFEST)
+		"$$(basename "$(SET_FILE)")" "$(SET_SOLS)" "$(SET_NAME)" "$(SET_DESC)" "$$(basename "$(PACKAGE_SCREENSHOT)")" >> "$(PACKAGE_MANIFEST)"
 
 screenshot: package manifest
-	cp $(DATA_DIR)/$(SET_SHOT) $(PACKAGE_SCREENSHOT)
+	cp "$(DATA_DIR)/$(SET_SHOT)" "$(PACKAGE_SCREENSHOT)"
 
 .PHONY: all package screenshot manifest
 
