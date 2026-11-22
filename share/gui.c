@@ -46,7 +46,9 @@ const GLubyte gui_blk[4] = { 0x00, 0x00, 0x00, 0xFF };  /* Black  */
 const GLubyte gui_gry[4] = { 0x55, 0x55, 0x55, 0xFF };  /* Gray   */
 const GLubyte gui_shd[4] = { 0x00, 0x00, 0x00, 0x80 };  /* Shadow */
 
-const GLubyte gui_wht2[4] = { 0xFF, 0xFF, 0xFF, 0x60 };  /* Transparent white */
+const GLubyte gui_wht2[4] = { 0xFF, 0xFF, 0xFF, 0x60 }; /* Transparent white  */
+const GLubyte gui_yel2[4] = { 0xFF, 0xFF, 0x00, 0x60 }; /* Transparent yellow */
+const GLubyte gui_grn2[4] = { 0x00, 0xFF, 0x00, 0x60 }; /* Tranparent green   */
 
 /*---------------------------------------------------------------------------*/
 

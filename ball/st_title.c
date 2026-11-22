@@ -87,6 +87,7 @@ static int   mode      = MODE_NONE;
 static Array items;
 
 static int play_id = 0;
+static int motd_id = 0;
 
 enum
 {
@@ -179,7 +180,7 @@ static int title_action(int tok, int val)
     return 1;
 }
 
-static const char *pick_splash_text(void)
+static const char *pick_motd_text(void)
 {
     static const char *const splash_texts[] = {
         N_("Leading the fight against thwomps since 2003"),
@@ -187,17 +188,24 @@ static const char *pick_splash_text(void)
         N_("Fallout 995,996,997,998,999, ***NUMERIC OVERFLOW***"),
         N_("Not compatible with Minecraft"),
         N_("Super Not-So-Empty Ball"),
-        N_("The monkeys ran away."),
-        N_("Press Alt+F4. I dare you."),
+        N_("The monkeys ran away"),
     };
 
     static int idx = -1;
 
     if (idx < 0)
-        idx = rand() % ARRAYSIZE(splash_texts);
+        idx = rand_between(0, ARRAYSIZE(splash_texts) - 1);
 
     return splash_texts[idx];
 }
+
+static int show_motd_text(void)
+{
+    return 1;
+}
+
+static const float MOTD_DELAY = 2.4f;
+static const float MOTD_TIME = 2.4f;
 
 static int title_gui(void)
 {
@@ -213,12 +221,6 @@ static int title_gui(void)
             {
                 gui_set_fill(jd);
                 gui_set_slide(jd, GUI_N | GUI_FLING | GUI_EASE_ELASTIC, 0, 1.6f, 0);
-            }
-
-            if ((jd = gui_hstack(id)))
-            {
-                gui_label(jd, pick_splash_text(), GUI_SML, gui_yel, gui_grn);
-                gui_filler(jd);
             }
 
             gui_space(id);
@@ -261,10 +263,21 @@ static int title_gui(void)
         if ((id = gui_label(root_id, "Neverball " VERSION, GUI_TNY, gui_wht2, gui_wht2)))
         {
             gui_clr_rect(id);
-            gui_set_slide(id, GUI_S, 0.85f, 0.4f, 0);
-            gui_layout(id, 0, -1);
+            gui_set_slide(id, GUI_N, 0.85f, 0.4f, 0);
+            gui_layout(id, +1, +1);
         }
 #endif
+
+        if (show_motd_text())
+        {
+            if ((motd_id = gui_label(root_id, pick_motd_text(), GUI_TNY, gui_yel2, gui_grn2)))
+            {
+                gui_set_fill(motd_id);
+                gui_clr_rect(motd_id);
+                gui_set_slide(motd_id, GUI_S, MOTD_DELAY, MOTD_TIME, 0);
+                gui_layout(motd_id, 0, -1);
+            }
+        }
 
         if (config_online())
         {
