@@ -17,33 +17,10 @@ permissions:
   contents: read
 
 jobs:
-  verify:
-    name: Verify Tag Version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout neverball-version.txt
-        uses: actions/checkout@v7
-        with:
-          ref: ${{ inputs.tag || github.ref }}
-          sparse-checkout: |
-            neverball-version.txt
-
-      - name: Check tag matches neverball-version.txt
-        run: |
-          TAG="${{ inputs.tag || github.ref_name }}"
-          TAG_VER="${TAG#neverball-}"
-          FILE_VER="$(tr -d '[:space:]' < neverball-version.txt)"
-          if [ "$TAG_VER" != "$FILE_VER" ]; then
-            echo "Error: tag version '$TAG_VER' does not match neverball-version.txt '$FILE_VER'" >&2
-            exit 1
-          fi
-
   macos:
-    needs: verify
     uses: ./.github/workflows/macos.yml
 
   windows:
-    needs: verify
     uses: ./.github/workflows/windows.yml
 
   release:
@@ -67,7 +44,12 @@ jobs:
       - name: Create source archive
         run: |
           TAG="${{ inputs.tag || github.ref_name }}"
-          git archive --format=tar.gz --prefix="${TAG}/" --output="artifacts/${TAG}.tar.gz" HEAD
+          VER="${TAG#neverball-}"
+          SRC_DIR="$(mktemp -d)"
+          git archive --format=tar --prefix="${TAG}/" HEAD | tar -xf - -C "$SRC_DIR"
+          printf '%s\n' "$VER" > "$SRC_DIR/${TAG}/neverball-version.txt"
+          tar -czf "artifacts/${TAG}.tar.gz" -C "$SRC_DIR" "${TAG}"
+          rm -rf "$SRC_DIR"
 
       - name: Generate checksums
         working-directory: artifacts
