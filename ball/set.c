@@ -431,6 +431,8 @@ static int set_load(struct set *s, const char *filename)
 
     if (fs_gets(buf, sizeof (buf), fin))
     {
+        strip_spaces(buf);
+
         fs_seek(fin, 0, SEEK_SET);
 
         if (strcmp(buf, "version 2") == 0)
