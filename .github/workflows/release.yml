@@ -98,30 +98,3 @@ jobs:
     uses: ./.github/workflows/windows.yml
     with:
       release_tag: ${{ needs.prepare.outputs.tag }}
-
-  checksums:
-    name: Update Release Checksums
-    needs: [prepare, macos, windows]
-    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Download release assets
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download "${{ needs.prepare.outputs.tag }}" \
-            --repo "$GITHUB_REPOSITORY" \
-            --dir artifacts
-
-      - name: Generate and upload SHA256SUMS.txt
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cd artifacts
-          rm -f SHA256SUMS.txt
-          sha256sum * > SHA256SUMS.txt
-          gh release upload "${{ needs.prepare.outputs.tag }}" SHA256SUMS.txt \
-            --repo "$GITHUB_REPOSITORY" \
-            --clobber
