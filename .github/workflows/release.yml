@@ -60,9 +60,13 @@ jobs:
             artifacts/*
             --repo "$GITHUB_REPOSITORY"
             --title "Neverball ${TAG#neverball-}"
-            --notes-file doc/release-notes.md
             --draft
           )
+          if [ -f doc/release-notes.md ]; then
+            ARGS+=(--notes-file doc/release-notes.md)
+          else
+            ARGS+=(--notes "")
+          fi
           case "$TAG" in
             *-alpha*|*-beta*|*-rc*)
               ARGS+=(--prerelease)
