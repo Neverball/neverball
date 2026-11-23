@@ -2,10 +2,15 @@ name: Windows Build
 
 on:
   workflow_call:
+    inputs:
+      release_tag:
+        description: 'GitHub Release tag to upload assets to'
+        required: false
+        type: string
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -24,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           dnf install -y --setopt=install_weak_deps=False \
-            gcc gcc-c++ make git zip gettext diffutils \
+            gcc gcc-c++ make git zip gettext diffutils gh \
             libpng-devel libjpeg-turbo-devel \
             ${{ matrix.pkg_prefix }}-gcc \
             ${{ matrix.pkg_prefix }}-gcc-c++ \
@@ -40,6 +45,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.release_tag || github.ref }}
 
       - name: Configure Git Safe Directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -55,3 +62,12 @@ jobs:
           path: build/windows/neverball-*.zip
           retention-days: 7
           archive: false
+
+      - name: Upload ZIP to Draft Release
+        if: ${{ inputs.release_tag != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ inputs.release_tag }}" build/windows/neverball-*.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber

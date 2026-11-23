@@ -17,52 +17,44 @@ permissions:
   contents: read
 
 jobs:
-  macos:
-    uses: ./.github/workflows/macos.yml
-
-  windows:
-    uses: ./.github/workflows/windows.yml
-
-  release:
+  prepare:
     name: Create Draft Release
-    needs: [macos, windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
     steps:
+      - name: Set release metadata
+        id: meta
+        run: |
+          TAG="${{ inputs.tag || github.ref_name }}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.tag || github.ref }}
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v8
-        with:
-          path: artifacts
-          merge-multiple: true
+          ref: ${{ steps.meta.outputs.tag }}
 
       - name: Create source archive
         run: |
-          TAG="${{ inputs.tag || github.ref_name }}"
+          TAG="${{ steps.meta.outputs.tag }}"
           VER="${TAG#neverball-}"
+          mkdir -p artifacts
           SRC_DIR="$(mktemp -d)"
           git archive --format=tar --prefix="${TAG}/" HEAD | tar -xf - -C "$SRC_DIR"
           printf '%s\n' "$VER" > "$SRC_DIR/${TAG}/neverball-version.txt"
           tar -czf "artifacts/${TAG}.tar.gz" -C "$SRC_DIR" "${TAG}"
           rm -rf "$SRC_DIR"
 
-      - name: Generate checksums
-        working-directory: artifacts
-        run: sha256sum * > SHA256SUMS.txt
-
       - name: Create GitHub Draft Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="${{ inputs.tag || github.ref_name }}"
+          TAG="${{ steps.meta.outputs.tag }}"
           ARGS=(
             "$TAG"
-            artifacts/*
+            "artifacts/${TAG}.tar.gz"
             --repo "$GITHUB_REPOSITORY"
             --title "Neverball ${TAG#neverball-}"
             --draft
@@ -78,3 +70,46 @@ jobs:
               ;;
           esac
           gh release create "${ARGS[@]}"
+
+  macos:
+    needs: prepare
+    permissions:
+      contents: write
+    uses: ./.github/workflows/macos.yml
+    with:
+      release_tag: ${{ needs.prepare.outputs.tag }}
+
+  windows:
+    needs: prepare
+    permissions:
+      contents: write
+    uses: ./.github/workflows/windows.yml
+    with:
+      release_tag: ${{ needs.prepare.outputs.tag }}
+
+  checksums:
+    name: Update Release Checksums
+    needs: [prepare, macos, windows]
+    if: ${{ !cancelled() && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "${{ needs.prepare.outputs.tag }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --dir artifacts
+
+      - name: Generate and upload SHA256SUMS.txt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd artifacts
+          rm -f SHA256SUMS.txt
+          sha256sum * > SHA256SUMS.txt
+          gh release upload "${{ needs.prepare.outputs.tag }}" SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber

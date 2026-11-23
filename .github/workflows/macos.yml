@@ -2,10 +2,15 @@ name: macOS Build
 
 on:
   workflow_call:
+    inputs:
+      release_tag:
+        description: 'GitHub Release tag to upload assets to'
+        required: false
+        type: string
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -22,6 +27,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.release_tag || github.ref }}
 
       - name: Install dependencies
         run: |
@@ -38,3 +45,12 @@ jobs:
           path: build/macos/neverball-*.dmg
           retention-days: 7
           archive: false
+
+      - name: Upload DMG to Draft Release
+        if: ${{ inputs.release_tag != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ inputs.release_tag }}" build/macos/neverball-*.dmg \
+            --repo "$GITHUB_REPOSITORY" \
+            --clobber
