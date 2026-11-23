@@ -22,10 +22,10 @@ endif
 
 OUTPUT_DIR ?= $(shell pwd)/packages
 
-SET_NAME := $(shell sed -n 's/\r$$//; 1 p' < "$(SET_FILE)")
-SET_DESC := $(shell sed -n 's/\r$$//; 2 s,\\,\\n,g; 2 p' < "$(SET_FILE)") # replace backslash with newline due to Makefile limitations
-SET_SHOT := $(shell sed -n 's/\r$$//; 4 p' < "$(SET_FILE)")
-SET_SOLS := $(shell sed -n 's/\r$$//; 6,$$ p' < "$(SET_FILE)")
+SET_NAME := $(shell sh scripts/set-info.sh "$(SET_FILE)" name)
+SET_DESC := $(shell sh scripts/set-info.sh "$(SET_FILE)" desc | sed 's/\\/\\n/g') # replace backslash with newline due to Makefile limitations
+SET_SHOT := $(shell sh scripts/set-info.sh "$(SET_FILE)" shot)
+SET_SOLS := $(shell sh scripts/set-info.sh "$(SET_FILE)" levels)
 
 ifeq ($(ADDON_SET),0)
 # This is a Neverball levelset, grab the basics.

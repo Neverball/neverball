@@ -44,10 +44,12 @@ print_msg() {
 for i in $(cat "$SETS"); do
     i="$DATA/$i"
 
-    # Only translate the two first lines
-    head -n 2 $i | while read -r d; do
-        msg=$(printf '%s\n' "$d" | sed 's/\\/\\\\/g')
-        print_msg "$msg" "$i"
+    for field in name desc; do
+        val=$(sh scripts/set-info.sh "$i" "$field")
+        if [ -n "$val" ]; then
+            msg=$(printf '%s\n' "$val" | sed 's/\\/\\\\/g')
+            print_msg "$msg" "$i"
+        fi
     done
 done
 
