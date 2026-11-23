@@ -29,6 +29,18 @@ jobs:
         id: meta
         run: |
           TAG="${{ inputs.tag || github.ref_name }}"
+          case "$TAG" in
+            neverball-[0-9][0-9][0-9][0-9].*)
+              if ! printf '%s\n' "$TAG" | grep -Eq '^neverball-[0-9]{4}\.[1-9][0-9]*(-(alpha|beta|rc)\.[1-9][0-9]*)?$'; then
+                echo "Error: tag '$TAG' does not match neverball-YYYY.<increment>[-(alpha|beta|rc).N]" >&2
+                exit 1
+              fi
+              ;;
+            *)
+              echo "Error: tag '$TAG' must start with neverball-YYYY." >&2
+              exit 1
+              ;;
+          esac
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout repository
