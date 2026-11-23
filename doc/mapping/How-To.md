@@ -155,24 +155,31 @@ Neverball levels are organized into sets which are defined in .txt files in the 
     |
     +--- shot-name_of_the_set/     (screenshots)
 
-### Set File
+### Set file
 
-The set file works differently in 1.5.4 and later than in earlier versions.
+To create a level set, you must create a set file.
 
-#### For 1.5.4
+Let's look at an example. Here is `set-easy.txt`:
 
-You have a file called "sets.txt". It may be referred to as the "master set file" as it links to all the other sets.
+```
+version 2
+name Neverball Easy
+desc Difficulty: Beginner through Intermediate\\25 levels with a smooth learning curve.\Read level introductions for gameplay tips.\ \
+shot shot-easy/easy.jpg
+time_hs 36000 60000 180000
+coin_hs 1800 1200 0
+level map-easy/easy.sol
+level map-easy/peasy.sol
+...
+```
 
-It contains one line each containing a link to an existing set file. A new set may be established simply by making a new set file and typing it full name in the master set file.
+The set file must always be named `set-<id>.txt`. The set file must always have `version 2` as the first line.
 
-The format for each set file is as follows:
+You must specify a `name` and at least one `level` for your level set. The rest of the keys are optional.
 
-    {%SETNAME%}
-    {%DESCRIPTION%}
-    {%SETSHOT%}
-    {%HARD_TIMES%} {%MEDIUM_TIMES%} {%EASY_TIMES%} {%HARD_COINS%} {%MEDIUM_COINS%} {%EASY_COINS%}
+Choose your level set ID wisely. The game will read your set ID from the `<id>` portion of the set file name `set-<id>.txt`. The set ID will be used to write high-score files and identify your level set amongst others.
 
-Subsequent lines are following by a link to each level using the full name relative to the _data_ directory.
+If you want your level sets to appear side by side in-game, avoid using your level set name as the set ID. Instead, use your username or something else that's more permanent, for example, `set-guy1.txt`, `set-guy2.txt`, etc.
 
 ### Level shots
 
