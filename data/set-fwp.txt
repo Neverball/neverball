@@ -1,25 +1,25 @@
-Nevermania
-Difficulty: Expert through Impossible\\Assorted levels for advanced players.\Author: Florian Priester\\
-fwp
-shot-fwp/museum.png
-
-map-fwp/atrium.sol
-map-fwp/swarm.sol
-map-fwp/tennis.sol
-map-fwp/slope.sol
-map-fwp/oddities.sol
-map-fwp/tree.sol
-map-fwp/spacetime.sol
-map-fwp/museum.sol
-map-fwp/mountains.sol
-map-fwp/confetti.sol
-map-fwp/cargo.sol
-map-fwp/ramps.sol
-map-fwp/rails.sol
-map-fwp/discs.sol
-map-fwp/ufo.sol
-map-fwp/adventure.sol
-map-fwp/rings.sol
-map-fwp/ladybirds.sol
-map-fwp/buoys.sol
-map-fwp/inferno.sol
+version 2
+name Nevermania
+desc Difficulty: Expert through Impossible\\Assorted levels for advanced players.\Author: Florian Priester\\
+id fwp
+shot shot-fwp/museum.png
+level map-fwp/atrium.sol
+level map-fwp/swarm.sol
+level map-fwp/tennis.sol
+level map-fwp/slope.sol
+level map-fwp/oddities.sol
+level map-fwp/tree.sol
+level map-fwp/spacetime.sol
+level map-fwp/museum.sol
+level map-fwp/mountains.sol
+level map-fwp/confetti.sol
+level map-fwp/cargo.sol
+level map-fwp/ramps.sol
+level map-fwp/rails.sol
+level map-fwp/discs.sol
+level map-fwp/ufo.sol
+level map-fwp/adventure.sol
+level map-fwp/rings.sol
+level map-fwp/ladybirds.sol
+level map-fwp/buoys.sol
+level map-fwp/inferno.sol

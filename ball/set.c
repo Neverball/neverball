@@ -267,10 +267,142 @@ static void set_load_hs(void)
 
 static void set_free(struct set *s);
 
+static int set_load_v1(struct set *s, fs_file fin)
+{
+    char *scores, *level_name;
+
+    if (read_line(&s->name, fin) &&
+        read_line(&s->desc, fin) &&
+        read_line(&s->id,   fin) &&
+        read_line(&s->shot, fin) &&
+        read_line(&scores,  fin))
+    {
+        sscanf(scores, "%d %d %d %d %d %d",
+               &s->time_score.timer[RANK_HARD],
+               &s->time_score.timer[RANK_MEDM],
+               &s->time_score.timer[RANK_EASY],
+               &s->coin_score.coins[RANK_HARD],
+               &s->coin_score.coins[RANK_MEDM],
+               &s->coin_score.coins[RANK_EASY]);
+
+        free(scores);
+
+        while (s->count < MAXLVL && read_line(&level_name, fin))
+        {
+            strip_spaces(level_name);
+
+            if (*level_name)
+            {
+                s->level_name_v[s->count] = level_name;
+                s->count++;
+            }
+            else
+            {
+                free(level_name);
+                level_name = NULL;
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+static int set_load_v2(struct set *s, fs_file fin)
+{
+    char buf[512];
+
+    while (fs_gets(buf, sizeof (buf), fin))
+    {
+        int i = 0, j = 0, k = 0, n = 0;
+
+        strip_spaces(buf);
+
+        if (sscanf(buf, "name %n", &n) >= 0 && n > 0)
+        {
+            if (s->name)
+                free(s->name);
+
+            s->name = dupe_string(buf + n);
+        }
+        else if (sscanf(buf, "desc %n", &n) >= 0 && n > 0)
+        {
+            if (s->desc)
+                free(s->desc);
+
+            s->desc = dupe_string(buf + n);
+        }
+        else if (sscanf(buf, "id %n", &n) >= 0 && n > 0)
+        {
+            if (s->id)
+                free(s->id);
+
+            s->id = dupe_string(buf + n);
+        }
+        else if (sscanf(buf, "shot %n", &n) >= 0 && n > 0)
+        {
+            if (s->shot)
+                free(s->shot);
+
+            s->shot = dupe_string(buf + n);
+        }
+        else if ((n = sscanf(buf, "time_hs %d %d %d", &i, &j, &k)) >= 1)
+        {
+            s->time_score.timer[RANK_HARD] = i;
+
+            if (n > 1)
+                s->time_score.timer[RANK_MEDM] = j;
+    
+            if (n > 2)
+                s->time_score.timer[RANK_EASY] = k;
+        }
+        else if ((n = sscanf(buf, "coin_hs %d %d %d", &i, &j, &k)) >= 1)
+        {
+            s->coin_score.coins[RANK_HARD] = i;
+
+            if (n > 1)
+                s->coin_score.coins[RANK_MEDM] = j;
+
+            if (n > 2)
+                s->coin_score.coins[RANK_EASY] = k;
+        }
+        else if (sscanf(buf, "level %n", &n) >= 0 && n > 0)
+        {
+            if (s->count < MAXLVL)
+            {
+                s->level_name_v[s->count] = dupe_string(buf + n);
+                s->count++;
+            }
+            else
+                log_printf("%s has too many levels\n", s->file);
+        }
+    }
+
+    return (s->name && s->count > 0);
+}
+
+static const char *guess_set_id(const char *path)
+{
+    const char *base = base_name_sans(path, ".txt");
+
+    if (!base) {
+        return "IDNOTFOUND";
+    }
+
+    if (str_starts_with(base, "set-"))
+        base += 4;
+    
+    if (!*base)
+        return "IDNOTFOUND";
+
+    return base;
+}
+
 static int set_load(struct set *s, const char *filename)
 {
     fs_file fin;
-    char *scores, *level_name;
+    char buf[16];
 
     if (!s || !filename || !*filename)
         return 0;
@@ -297,48 +429,39 @@ static int set_load(struct set *s, const char *filename)
 
     SAFECPY(s->file, filename);
 
-    if (read_line(&s->name, fin) &&
-        read_line(&s->desc, fin) &&
-        read_line(&s->id,   fin) &&
-        read_line(&s->shot, fin) &&
-        read_line(&scores,  fin))
+    if (fs_gets(buf, sizeof (buf), fin))
     {
-        sscanf(scores, "%d %d %d %d %d %d",
-               &s->time_score.timer[RANK_HARD],
-               &s->time_score.timer[RANK_MEDM],
-               &s->time_score.timer[RANK_EASY],
-               &s->coin_score.coins[RANK_HARD],
-               &s->coin_score.coins[RANK_MEDM],
-               &s->coin_score.coins[RANK_EASY]);
+        fs_seek(fin, 0, SEEK_SET);
 
-        free(scores);
-
-        s->user_scores  = concat_string("Scores/", s->id, ".txt",       NULL);
-        s->cheat_scores = concat_string("Scores/", s->id, "-cheat.txt", NULL);
-
-        s->count = 0;
-
-        while (s->count < MAXLVL && read_line(&level_name, fin))
+        if (strcmp(buf, "version 2") == 0)
         {
-            strip_spaces(level_name);
-
-            if (*level_name)
-            {
-                s->level_name_v[s->count] = level_name;
-                s->count++;
-            }
-            else
-            {
-                free(level_name);
-                level_name = NULL;
-            }
+            if (!set_load_v2(s, fin))
+                goto fail;
         }
-
-        fs_close(fin);
-
-        return 1;
+        else
+        {
+            if (!set_load_v1(s, fin))
+                goto fail;
+        }
     }
+    else
+        goto fail;
 
+    if (!s->id)
+        s->id = dupe_string(guess_set_id(s->file));
+    
+    if (!s->desc)
+        s->desc = dupe_string("");
+
+    s->user_scores = concat_string("Scores/", s->id, ".txt", NULL);
+    s->cheat_scores = concat_string("Scores/", s->id, "-cheat.txt", NULL);
+
+    fs_close(fin);
+    fin = NULL;
+
+    return 1;
+
+fail:
     log_printf("Failure to load set file %s\n", filename);
 
     fs_close(fin);

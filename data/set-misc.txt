@@ -1,31 +1,31 @@
-Neverball Misc
-Unsorted levels\For testing purposes\\\\
-misc
-shot-misc/billiard.png
-
-map-misc/billiard.sol
-map-misc/checkers.sol
-map-misc/ocean.sol
-map-misc/grow_demo.sol
-map-misc/stairs.sol
-map-misc/elevator.sol
-map-misc/bigball-old.sol
-map-misc/thwomp1.sol
-map-misc/bounce.sol
-map-misc/bounce2.sol
-map-misc/freefall-old.sol
-map-misc/groweasy.sol
-map-misc/blockers.sol
-map-misc/texture-debug.sol
-map-misc/timer-test.sol
-map-misc/edge-test.sol
-map-misc/centrifuge.sol
-map-misc/timer-test_2.sol
-map-misc/timer_offset_bug.sol
-map-misc/clocks.sol
-map-misc/switches.sol
-map-misc/rotation.sol
-map-misc/rotation2.sol
-map-misc/hierarchical_paths_bug.sol
-map-misc/invisible_face2.sol
-map-misc/cube.sol
+version 2
+name Neverball Misc
+desc Unsorted levels\For testing purposes\\\\
+id misc
+shot shot-misc/billiard.png
+level map-misc/billiard.sol
+level map-misc/checkers.sol
+level map-misc/ocean.sol
+level map-misc/grow_demo.sol
+level map-misc/stairs.sol
+level map-misc/elevator.sol
+level map-misc/bigball-old.sol
+level map-misc/thwomp1.sol
+level map-misc/bounce.sol
+level map-misc/bounce2.sol
+level map-misc/freefall-old.sol
+level map-misc/groweasy.sol
+level map-misc/blockers.sol
+level map-misc/texture-debug.sol
+level map-misc/timer-test.sol
+level map-misc/edge-test.sol
+level map-misc/centrifuge.sol
+level map-misc/timer-test_2.sol
+level map-misc/timer_offset_bug.sol
+level map-misc/clocks.sol
+level map-misc/switches.sol
+level map-misc/rotation.sol
+level map-misc/rotation2.sol
+level map-misc/hierarchical_paths_bug.sol
+level map-misc/invisible_face2.sol
+level map-misc/cube.sol
