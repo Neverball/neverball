@@ -49,6 +49,7 @@ extern int CONFIG_NICE;
 extern int CONFIG_FPS;
 extern int CONFIG_SOUND_VOLUME;
 extern int CONFIG_MUSIC_VOLUME;
+extern int CONFIG_TRANSITIONS;
 extern int CONFIG_JOYSTICK;
 extern int CONFIG_JOYSTICK_RESPONSE;
 extern int CONFIG_JOYSTICK_AXIS_X0;

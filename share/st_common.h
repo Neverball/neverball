@@ -16,12 +16,14 @@ void conf_slider(int id, const char *text,
                  int token, int value,
                  int *ids, int num);
 int  conf_state (int id, const char *label, const char *text, int token);
-void conf_toggle(int id, const char *label, int token, int value,
+int  conf_toggle(int id, const char *label, int token, int value,
                  const char *text1, int value1,
                  const char *text0, int value0);
 void conf_header(int id, const char *text, int token);
 void conf_select(int id, const char *text, int token, int value,
                  const struct conf_option *opts, int num);
+
+void conf_set_toggle(int id, int value);
 
 /*---------------------------------------------------------------------------*/
 

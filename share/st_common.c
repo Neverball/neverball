@@ -67,11 +67,11 @@ int conf_state(int id, const char *label, const char *text, int token)
     return rd;
 }
 
-void conf_toggle(int id, const char *label, int token, int value,
+int conf_toggle(int id, const char *label, int token, int value,
                  const char *text1, int value1,
                  const char *text0, int value0)
 {
-    int jd, kd;
+    int jd = 0, kd = 0;
 
     if ((jd = gui_harray(id)) && (kd = gui_harray(jd)))
     {
@@ -84,6 +84,28 @@ void conf_toggle(int id, const char *label, int token, int value,
         gui_set_hilite(btn1, (value == value1));
 
         gui_label(jd, label, GUI_SML, 0, 0);
+    }
+
+    return kd;
+}
+
+void conf_set_toggle(int id, int value)
+{
+    int btn0 = gui_child(id, 0);
+    int btn1 = gui_child(id, 1);
+
+    if (value == 0)
+    {
+        gui_set_hilite(btn0, 1);
+        gui_set_hilite(btn1, 0);
+        gui_pulse(btn0, 1.2f);
+    }
+    
+    if (value == 1)
+    {
+        gui_set_hilite(btn0, 0);
+        gui_set_hilite(btn1, 1);
+        gui_pulse(btn1, 1.2f);
     }
 }
 
@@ -257,10 +279,13 @@ enum
     VIDEO_SHADOW,
     VIDEO_VSYNC,
     VIDEO_HMD,
-    VIDEO_MULTISAMPLE
+    VIDEO_MULTISAMPLE,
+    VIDEO_TRANSITIONS,
 };
 
 static struct state *video_back;
+
+static int transitions_id = 0;
 
 static int video_action(int tok, int val)
 {
@@ -330,6 +355,11 @@ static int video_action(int tok, int val)
         config_set_d(CONFIG_MULTISAMPLE, val);
         r = video_mode(f, w, h);
         goto_state(&st_video);
+        break;
+
+    case VIDEO_TRANSITIONS:
+        config_tgl_d(CONFIG_TRANSITIONS);
+        conf_set_toggle(transitions_id, (config_get_d(CONFIG_TRANSITIONS) == 1));
         break;
     }
 
@@ -405,6 +435,14 @@ static int video_gui(void)
         conf_toggle(id, _("Shadow"),       VIDEO_SHADOW,
                     config_get_d(CONFIG_SHADOW),     _("On"), 1, _("Off"), 0);
 
+        gui_space(id);
+
+        transitions_id = conf_toggle(
+            id, _("Transitions"),
+            VIDEO_TRANSITIONS, config_get_d(CONFIG_TRANSITIONS),
+            _("On"), 1, _("Off"), 0
+        );
+        
         gui_layout(id, 0, 0);
     }
 
