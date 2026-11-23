@@ -1,8 +1,9 @@
 # Neverball alpha release checklist
 
 ```sh
-TAG="1.7.0-alpha.3"
-BASENAME="neverball-${TAG}"
+VERSION="2026.1-alpha.1"
+TAG="neverball-${VERSION}"
+BASENAME="$TAG"
 ```
 
 ## Publish a tag
@@ -10,7 +11,7 @@ BASENAME="neverball-${TAG}"
 ```sh
 cd neverball
 git status
-git tag -a "$TAG" -m "Neverball "$TAG""
+git tag -a "$TAG" -m "Neverball $VERSION"
 git push origin tag "$TAG"
 ```
 
