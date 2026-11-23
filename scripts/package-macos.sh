@@ -105,10 +105,10 @@ fi
 
 case "$ARCH" in
     arm64)
-        ARCH_LABEL="apple"
+        ARCH_LABEL="macos-apple"
         ;;
     x86_64)
-        ARCH_LABEL="intel"
+        ARCH_LABEL="macos-intel"
         ;;
 esac
 
