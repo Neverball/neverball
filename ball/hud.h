@@ -11,6 +11,7 @@ void hud_free(void);
 void hud_paint(void);
 void hud_timer(float);
 void hud_update(int);
+void hud_lvlname(const char *);
 
 void hud_show(float delay);
 void hud_hide(void);
