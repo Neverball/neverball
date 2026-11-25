@@ -236,12 +236,12 @@ static void game_draw_flags(struct s_rend *rend, const struct s_base *fp)
 static void game_draw_beams(struct s_rend *rend, const struct s_base *bp,
                                                  const struct s_vary *vp)
 {
-    static const GLfloat jump_c[2][4]    =  {{ 0.7f, 0.5f, 1.0f, 0.5f },
-                                             { 0.7f, 0.5f, 1.0f, 0.8f }};
-    static const GLfloat swch_c[2][2][4] = {{{ 1.0f, 0.0f, 0.0f, 0.5f },
-                                             { 1.0f, 0.0f, 0.0f, 0.8f }},
-                                            {{ 0.0f, 1.0f, 0.0f, 0.5f },
-                                             { 0.0f, 1.0f, 0.0f, 0.8f }}};
+    static const GLfloat jump_c[2][4]    =  {{ 0.7f, 0.5f, 1.0f, 0.3f },
+                                             { 0.7f, 0.5f, 1.0f, 0.6f }};
+    static const GLfloat swch_c[2][2][4] = {{{ 1.0f, 0.0f, 0.0f, 0.3f },
+                                             { 1.0f, 0.0f, 0.0f, 0.6f }},
+                                            {{ 0.0f, 1.0f, 0.0f, 0.3f },
+                                             { 0.0f, 1.0f, 0.0f, 0.6f }}};
 
     int i;
 
