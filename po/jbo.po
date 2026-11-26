@@ -266,13 +266,13 @@ msgstr ""
 #: share/st_common.c:394 share/st_common.c:402 share/st_common.c:404
 #: share/st_common.c:406
 msgid "On"
-msgstr "nalcando"
+msgstr "katci"
 
 #: ball/st_conf.c:592 share/st_common.c:342 share/st_common.c:370
 #: share/st_common.c:388 share/st_common.c:394 share/st_common.c:402
 #: share/st_common.c:404 share/st_common.c:406
 msgid "Off"
-msgstr "cando"
+msgstr "ganda"
 
 #: ball/st_demo.c:223
 msgid "Time"
